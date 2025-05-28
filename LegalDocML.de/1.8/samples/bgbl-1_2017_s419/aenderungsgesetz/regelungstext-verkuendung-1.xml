@@ -135,7 +135,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="0d29f3dd-2ce7-4f14-b7ed-a033516ce4fe"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
+                  <akn:destination href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
                                    GUID="9f227f39-9b30-4e43-a532-4e91a9c87a10"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -233,7 +233,7 @@
                   <akn:intro GUID="392c7e8f-00f0-47c1-bb7d-d0e962085b11"
                              eId="art-z1_abs-z_untergl-n1_intro-n1">
                      <akn:p GUID="09564246-7319-447b-aa14-58944defb203"
-                            eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1"> Das <akn:affectedDocument href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+                            eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1"> Das <akn:affectedDocument href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
                                               GUID="b9722530-5f4b-4151-8072-07af6d2d1374"
                                               eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1">Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593), das zuletzt durch … geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:</akn:p>
                   </akn:intro>
@@ -249,7 +249,7 @@
                                eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                     GUID="677cfb13-07b7-4a8e-b8da-419ce5c632ec"
-                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
+                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
                                        GUID="77033f1e-44c3-4d08-ae11-6de933f8a80a"
                                        eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">§ 20 Absatz 1 Satz 2</akn:ref> wird die Angabe <akn:quotedText startQuote="„"
                                               endQuote="“"

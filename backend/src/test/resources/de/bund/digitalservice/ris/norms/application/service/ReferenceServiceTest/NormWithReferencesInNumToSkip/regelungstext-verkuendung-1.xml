@@ -120,7 +120,7 @@
                   <akn:source href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"
                               GUID="265d5973-c57e-434d-8e2b-996f55ae499b"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-3.xml"
+                  <akn:destination href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_buch-3.xml"
                                    GUID="61274d14-9640-4729-8489-d5390e888ca7"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2"
@@ -133,7 +133,7 @@
                   <akn:source href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1"
                               GUID="f20db698-a93d-4d2e-a50f-b5e0312e5076"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/hauptteil-1_buch-4_kapitel-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_buch-4_kapitel-1.xml"
                                    GUID="62533c27-7616-4f3f-bf77-1cfe37bdc4b2"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2"

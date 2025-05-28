@@ -37,7 +37,7 @@ describe("useElementService", () => {
 
     const result = useElementService(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
       "fake_eid",
     )
@@ -68,7 +68,7 @@ describe("useElementService", () => {
 
     const eli = ref<DokumentExpressionEli | undefined>(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
     )
     useElementService(eli, "fake_eid", {
@@ -92,7 +92,7 @@ describe("useElementService", () => {
     const eid = ref("")
     useElementService(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
       eid,
     )
@@ -110,7 +110,7 @@ describe("useElementService", () => {
     const eid = ref("fake_eid")
     useElementService(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
       eid,
       {
@@ -134,7 +134,7 @@ describe("useElementService", () => {
 
     const eli = ref(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
     )
     useElementService(eli, "fake_eid", {
@@ -144,7 +144,7 @@ describe("useElementService", () => {
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
     eli.value = DokumentExpressionEli.fromString(
-      "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
     )
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
   })
@@ -164,14 +164,14 @@ describe("useElementService", () => {
 
       useGetElement(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
         ),
         "fake_eid",
       )
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/elements/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/elements/fake_eid",
           expect.objectContaining({
             headers: {
               Accept: "application/json",
@@ -191,14 +191,14 @@ describe("useElementService", () => {
 
       const eli = ref(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
         ),
       )
       useGetElement(eli, "fake_eid")
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/elements/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/elements/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "application/json",
@@ -208,11 +208,11 @@ describe("useElementService", () => {
       })
 
       eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
       )
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1/elements/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1/elements/fake_eid",
           expect.any(Object),
         )
       })
@@ -234,14 +234,14 @@ describe("useElementService", () => {
 
       useGetElementHtml(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
         ),
         "fake_eid",
       )
 
       await vi.waitFor(() =>
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/elements/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/elements/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({ Accept: "text/html" }),
           }),
@@ -258,14 +258,14 @@ describe("useElementService", () => {
 
       const eli = ref(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
         ),
       )
       useGetElementHtml(eli, "fake_eid")
 
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1/elements/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/elements/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({
               Accept: "text/html",
@@ -275,11 +275,11 @@ describe("useElementService", () => {
       })
 
       eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
       )
       await vi.waitFor(() => {
         expect(fetchSpy).toHaveBeenCalledWith(
-          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1/elements/fake_eid",
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1/elements/fake_eid",
           expect.any(Object),
         )
       })

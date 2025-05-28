@@ -63,7 +63,7 @@ describe("risZielnormenList", () => {
             fna: "4711-1",
             expressions: [
               {
-                eli: "eli/bund/bgbl-1/2017/s1/2017-03-15/1/deu/regelungstext-1",
+                eli: "eli/bund/bgbl-1/2017/s1/2017-03-15/1/deu/regelungstext-verkuendung-1",
                 fna: "4711-1",
                 frbrDateVerkuendung: "2017-03-15",
                 frbrName: "BGBl. I",

@@ -8,7 +8,7 @@ describe("risRefEditor", () => {
   it("should render a a select for the refersTo and an input for the href", async () => {
     render(RisRefEditor, {
       props: {
-        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
+        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
       },
     })
 
@@ -22,7 +22,7 @@ describe("risRefEditor", () => {
     })
     expect(hrefInput).toBeInTheDocument()
     expect(hrefInput).toHaveValue(
-      "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml",
+      "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml",
     )
   })
 
@@ -31,7 +31,7 @@ describe("risRefEditor", () => {
 
     const { emitted } = render(RisRefEditor, {
       props: {
-        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml">§4 Abs. 3 StVO</akn:ref>`,
+        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml">§4 Abs. 3 StVO</akn:ref>`,
       },
     })
 
@@ -49,7 +49,7 @@ describe("risRefEditor", () => {
 
     await expect.poll(() => emitted("update:xmlSnippet")).toHaveLength(1)
     expect(emitted("update:xmlSnippet")[0]).toEqual([
-      '<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>',
+      '<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>',
     ])
   })
 
@@ -58,7 +58,7 @@ describe("risRefEditor", () => {
 
     const { emitted } = render(RisRefEditor, {
       props: {
-        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
+        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
       },
     })
 
@@ -69,19 +69,19 @@ describe("risRefEditor", () => {
     await user.clear(hrefInput)
     await user.type(
       hrefInput,
-      "eli/bund/bgbl-1/2001/s1/2022-12-19/1/deu/regelungstext-1/art-4_abs-3.xml",
+      "eli/bund/bgbl-1/2001/s1/2022-12-19/1/deu/regelungstext-verkuendung-1/art-4_abs-3.xml",
     )
 
     await expect.poll(() => emitted("update:xmlSnippet")).toHaveLength(1)
     expect(emitted("update:xmlSnippet")[0]).toEqual([
-      '<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/2001/s1/2022-12-19/1/deu/regelungstext-1/art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>',
+      '<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/2001/s1/2022-12-19/1/deu/regelungstext-verkuendung-1/art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>',
     ])
   })
 
   it("can send delete event", async () => {
     const { emitted } = render(RisRefEditor, {
       props: {
-        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
+        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
       },
     })
 
@@ -94,7 +94,7 @@ describe("risRefEditor", () => {
     const user = userEvent.setup()
     const { emitted } = render(RisRefEditor, {
       props: {
-        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
+        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
       },
     })
 
@@ -107,7 +107,7 @@ describe("risRefEditor", () => {
     const user = userEvent.setup()
     const { emitted } = render(RisRefEditor, {
       props: {
-        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
+        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
       },
     })
 
@@ -119,7 +119,7 @@ describe("risRefEditor", () => {
   it("focuses the input", async () => {
     const { rerender } = render(RisRefEditor, {
       props: {
-        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
+        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml" refersTo="zitierung">§4 Abs. 3 StVO</akn:ref>`,
         grabFocus: false,
       },
     })

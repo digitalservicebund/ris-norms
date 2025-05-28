@@ -121,7 +121,7 @@
          <akn:component GUID="2a4caadd-c102-4598-a84e-0641e18f3bf1"
                         eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="eb562105-a9c5-4cad-b68a-841a5e9319e2"
-                             href="regelungstext-1.xml"
+                             href="regelungstext-verkuendung-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
                              eId="rdokhauptteil-n1_tldokverweis-n1_verweis-n1"/>
          </akn:component>
