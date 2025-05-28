@@ -120,7 +120,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="6af94c2a-b087-40c0-8f42-b6355136b555"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1.xml"
                                    pos="after"
                                    GUID="ae11ef30-1b2c-4bf6-81b8-e5eecfa4ee63"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"/>
@@ -134,7 +134,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="ce50cf48-44f9-42df-ad1a-305919eb4aea"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-1_abs-2.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-2.xml"
                                    GUID="6a33fc6b-7c0b-4a11-bfe4-68659cd1e035"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -147,7 +147,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="67a0e3a8-cefb-40d4-beff-ade7af61bde0"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n3_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-1_abs-3_inhalt-1_text-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-3_inhalt-1_text-1.xml"
                                    pos="after"
                                    GUID="a953da4d-4a97-4463-b0d7-338cb96ef17e"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n3_destination-n1"/>
@@ -161,7 +161,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="5f7cf6cd-0fbb-4a86-b106-c9d921b1e851"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n4_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_untergl-1_intro-1_text-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1_untergl-1_intro-1_text-1.xml"
                                    pos="after"
                                    GUID="03edbb48-e01f-4642-ae93-65489e625331"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n4_destination-n1"/>
@@ -175,7 +175,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="49d9d32f-f49d-4406-a61a-8d423cf390b4"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n5_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-3_inhalt-1_text-1/66-70.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-3_inhalt-1_text-1/66-70.xml"
                                    GUID="4bf16510-107c-40f9-93b9-885b8f97137a"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n5_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -188,7 +188,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="b5b71293-ba92-4736-b618-0f10c3d40498"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n6_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_inhalt-1_text-1/51-53.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_inhalt-1_text-1/51-53.xml"
                                    GUID="41ea4571-6e50-4080-88b9-daf0acaf4d81"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n6_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -201,7 +201,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n2"
                               GUID="5dc0e572-a451-4c45-9f38-24b40f478a5c"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n7_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_inhalt-1_text-1/119-120.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_inhalt-1_text-1/119-120.xml"
                                    GUID="7e8c0636-69aa-40b9-89f3-db90fb0f142a"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n7_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -214,7 +214,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="ce2fd236-c2c3-49ad-9fdc-58b9771a06af"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n8_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-4.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-4.xml"
                                    pos="after"
                                    GUID="385c8c44-ca4c-4bf4-ac51-40360f28871a"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n8_destination-n1"/>
@@ -228,7 +228,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="e26be85d-cb39-47e6-a14d-96e8ac1758f0"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n9_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2_untergl-1_intro-1_text-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_untergl-1_intro-1_text-1.xml"
                                    pos="after"
                                    GUID="af8a2367-e791-436f-a9a0-7b7ea9847b30"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n9_destination-n1"/>
@@ -242,7 +242,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="eb50661b-3a45-4c8a-be91-8ea13d05b3bf"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n10_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-6.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-6.xml"
                                    GUID="cf74e0a8-512f-4a40-b187-a1c58f9ac4f9"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n10_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -255,7 +255,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="29a9cbb0-5f5e-499d-aa6a-5bd5c65cad88"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n11_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-8.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-8.xml"
                                    GUID="795178fe-cde3-4c58-9a99-985259bccc3c"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n11_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -268,7 +268,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="a7c41fe3-3c37-49a9-9971-14edb926f4e7"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n12_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-8.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-8.xml"
                                    pos="after"
                                    GUID="0c119e6c-cf1f-4f44-a8fc-3d1dc42a36c8"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n12_destination-n1"/>
@@ -282,7 +282,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n5_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="29761743-f8a9-40ef-97b4-a7a0bf19ed3b"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n13_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-15_inhalt-1_text-1/205-209.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-15_inhalt-1_text-1/205-209.xml"
                                    GUID="f3366fad-b7e5-4881-bf62-cd98ad50059f"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n13_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -295,7 +295,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n6_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="a7a2fdd9-59ab-4d09-bec0-a27065d317f2"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n14_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-16_inhalt-1_text-1/253-254.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-16_inhalt-1_text-1/253-254.xml"
                                    GUID="1b60a182-850a-4cb1-baef-29becb7b69f5"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n14_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -308,7 +308,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="7d8d8389-2317-4567-9ce1-dea7632f10f1"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n15_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-16.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-16.xml"
                                    pos="after"
                                    GUID="4d079fae-2ba0-4e05-bfb9-0e5ef0b3aadb"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n15_destination-n1"/>
@@ -322,7 +322,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="fccbcad5-ad0d-4ddc-a77a-5d95e27bf85b"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n16_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-3_untergl-1_listenelem-5.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-3_untergl-1_listenelem-5.xml"
                                    GUID="22cc4ca0-8dff-4e52-ae0d-0ccb8b9e0d1d"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n16_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -335,7 +335,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="b3bf7d9f-4232-4af9-afd8-2a313ac89337"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n17_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-5_inhalt-1_text-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-5_inhalt-1_text-1.xml"
                                    pos="before"
                                    GUID="46cd73ce-c049-47a7-9665-673ff9b58aa1"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n17_destination-n1"/>
@@ -349,7 +349,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="2584a017-44fb-4d2c-b1a7-1bd42335969c"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n18_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-5_inhalt-1_text-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-5_inhalt-1_text-1.xml"
                                    pos="before"
                                    GUID="85f4d9bb-bd39-4f79-b51f-6131615a5018"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n18_destination-n1"/>
@@ -363,7 +363,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="10d12f91-8115-409a-9d3e-f9676dd4d11f"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n19_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-5_inhalt-1_text-1/263-275.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-5_inhalt-1_text-1/263-275.xml"
                                    GUID="77749b99-7f6c-4622-ae06-e461414a394b"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n19_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -376,7 +376,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="c1840b95-675d-4200-b9d9-d86278ab0441"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n20_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-1_untergl-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-1_untergl-1.xml"
                                    pos="after"
                                    GUID="4f956515-d417-4e1b-bd66-f4532bacf022"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n20_destination-n1"/>
@@ -390,7 +390,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="c68f9234-5599-4b5b-b203-3f8b761907d6"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n21_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-1.xml"
                                    GUID="db99a4f1-be96-42b8-9ed1-4dfe076b9af0"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n21_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -403,7 +403,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="51fb697f-86c9-41f9-bc14-3751c724c64b"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n22_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-3_inhalt-1_text-1/14-52.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-3_inhalt-1_text-1/14-52.xml"
                                    GUID="2f64ed3e-c34c-4de8-ade5-71ece20a2c08"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n22_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -416,7 +416,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="d1e5c956-0981-4d2c-aa62-e02b4d63b5b4"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n23_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-4.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-4.xml"
                                    GUID="50b77cc2-323e-4a95-8373-701ee5bf8b50"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n23_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -429,7 +429,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="ef1d955e-3c5e-43fe-8280-829657069051"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n24_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-5_inhalt-1_text-1/15-35.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-5_inhalt-1_text-1/15-35.xml"
                                    GUID="6fe4f47d-d64f-4521-ac27-813d6f543f33"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n24_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -442,7 +442,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n5_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="0b219430-26ab-4af5-a3dd-f0e571d40801"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n25_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1.xml"
                                    pos="after"
                                    GUID="a1cd4c35-a102-4056-8b4d-37a6e8191fc1"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n25_destination-n1"/>
@@ -456,7 +456,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="51aa4f3e-e899-4ca9-88c5-06a1373107f8"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n26_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2.xml"
                                    pos="after"
                                    GUID="db78980d-9145-43ef-8c9a-62abeb1f391c"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n26_destination-n1"/>
@@ -470,8 +470,8 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="9b81194d-7fe7-4e02-82ed-8609ad6d9869"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n27_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-4.xml"
-                                   upTo="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-8.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-4.xml"
+                                   upTo="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-8.xml"
                                    GUID="e0cbb13f-51c7-4c84-8a85-f304eb1fd577"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n27_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -484,8 +484,8 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="8f9306a9-e7d5-4370-8f19-6c7072f42879"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n28_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-2.xml"
-                                   upTo="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-4.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-2.xml"
+                                   upTo="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-4.xml"
                                    GUID="7d093fe3-d318-42fa-9708-139e141f3a71"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n28_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -498,7 +498,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="d8202e8a-38af-4a51-b962-61a79a05238b"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n29_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-4_abs-2.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-4_abs-2.xml"
                                    GUID="84f2cf40-3779-45c1-aed4-d391a5c2fc5f"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n29_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -511,7 +511,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="823feb6e-7163-4b63-8a73-7b286e5b8d96"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n30_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-4_abs-2.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-4_abs-2.xml"
                                    pos="after"
                                    GUID="d5b4dca5-6495-4ce2-a610-22d255fd3244"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n30_destination-n1"/>
@@ -525,7 +525,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="c8a008d4-84fd-405f-acb7-d2f3832c1ecb"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n31_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-4_untergl-1_intro-1_text-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-4_untergl-1_intro-1_text-1.xml"
                                    pos="after"
                                    GUID="35a422b3-6ea8-4ab3-9a17-176f7560a612"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n31_destination-n1"/>
@@ -539,7 +539,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="082c0f2f-ed30-4364-be22-b900f3800eff"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n32_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-4_untergl-1_listenelem-1_inhalt-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-4_untergl-1_listenelem-1_inhalt-1.xml"
                                    pos="after"
                                    GUID="f2182bd7-e334-4fe2-bf1d-751e89b11849"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n32_destination-n1"/>
@@ -553,7 +553,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="4fa0ff7e-66a6-44b9-9613-b6368c82d0ce"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n33_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-5_inhalt-1_text-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-5_inhalt-1_text-1.xml"
                                    pos="after"
                                    GUID="809abf1e-aefb-4b79-b78b-fe2a01ced94b"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n33_destination-n1"/>
@@ -567,7 +567,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="f921a40f-80a5-429d-8d5f-bbf3642fb3c0"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n34_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-5_inhalt-1_text-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-5_inhalt-1_text-1.xml"
                                    GUID="5d7f4cc3-b8eb-4535-9c0a-2945c8d146c4"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n34_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -580,7 +580,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="f124eea9-d4f4-40e2-b93f-ae3627fb3e31"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n35_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-8.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-8.xml"
                                    pos="after"
                                    GUID="0e6c4722-d935-4704-96a0-4d285c3185c2"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n35_destination-n1"/>
@@ -594,7 +594,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="445a9c91-eb1c-4a65-acee-e09a1f5cc5d4"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n36_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-8.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-8.xml"
                                    pos="after"
                                    GUID="3fee1c45-8d7d-4fe6-9f20-2fd07e423ddb"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n36_destination-n1"/>
@@ -608,7 +608,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="71cd3c8e-eab9-4d3b-b3ec-da29310ea8d3"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n37_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-8.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-8.xml"
                                    pos="after"
                                    GUID="7b094472-9fab-406e-a4c7-5403991d24ae"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n37_destination-n1"/>
@@ -622,7 +622,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="bfa8e6db-e475-4c08-b69a-f4c1fb46f161"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n38_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-6_abs-1_inhalt-1_text-1/190-202.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-6_abs-1_inhalt-1_text-1/190-202.xml"
                                    GUID="7ff6a555-9c77-4b9a-9db9-c354018332ee"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n38_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -635,7 +635,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="f4f6fdfa-d6af-46c7-8369-f6926e3bd8ea"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n39_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-6_abs-2_inhalt-1_text-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-6_abs-2_inhalt-1_text-1.xml"
                                    GUID="b04d7314-a722-400d-8c77-44809c29efc5"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n39_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -648,7 +648,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="a35b4b09-9868-48a9-a646-7d7a1142512f"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n40_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-6_abs-3_inhalt-1_text-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-6_abs-3_inhalt-1_text-1.xml"
                                    GUID="2f3118a0-5d7d-45b3-a8dc-28cebcbb9ca3"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n40_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -661,7 +661,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n7_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="32745f40-9eaa-47be-b387-ccc0dae3c837"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n41_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-7_abs-1_untergl-1_listenelem-1_inhalt-1_text-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-7_abs-1_untergl-1_listenelem-1_inhalt-1_text-1.xml"
                                    pos="after"
                                    GUID="4686c0b0-1482-4c54-911a-c088649c2348"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n41_destination-n1"/>
@@ -675,7 +675,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n7_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n2"
                               GUID="3f407f89-49d4-4c1c-97e6-34cd60b350ed"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n42_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-7_abs-1_untergl-1_listenelem-1_inhalt-1_text-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-7_abs-1_untergl-1_listenelem-1_inhalt-1_text-1.xml"
                                    pos="after"
                                    GUID="e40dbeb7-d76e-4781-890c-394c7adf6400"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n42_destination-n1"/>
@@ -689,7 +689,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n7_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="e933d23a-2dd4-4a5b-b6df-49ddafda8f52"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n43_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-7_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/87-91.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-7_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/87-91.xml"
                                    GUID="2cb295a1-b0d3-4873-a38c-e2ea24d500f1"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n43_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -702,7 +702,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n7_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="d18279f9-b747-4303-bc0c-4882a5f25195"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n44_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-7_abs-1_untergl-1_listenelem-3.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-7_abs-1_untergl-1_listenelem-3.xml"
                                    pos="after"
                                    GUID="e9876f95-8d18-4ee4-8298-d50b15aa24a6"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n44_destination-n1"/>
@@ -716,7 +716,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n8_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="8080853a-c37f-48ba-805e-c4bf894ac3cf"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n45_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-8_abs-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-8_abs-1.xml"
                                    pos="after"
                                    GUID="45d5423f-8460-420e-b79d-7e28417dd477"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n45_destination-n1"/>
@@ -730,7 +730,7 @@
                   <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n9_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="671136f6-7eb7-4d14-9493-a8215ad5bb79"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n46_source-n1"/>
-                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-9_abs-1.xml"
+                  <akn:destination href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-9_abs-1.xml"
                                    GUID="4aa7f69b-939d-41cf-afed-020115d72e45"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n46_destination-n1"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -804,7 +804,7 @@
                   <akn:intro GUID="71966873-6636-4afc-839e-8f9839f27367"
                              eId="art-z1_abs-z_untergl-n1_intro-n1">
                      <akn:p GUID="23eec11e-6370-4695-a3b3-37cb09dd6b02"
-                            eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1">Das <akn:affectedDocument href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1"
+                            eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1">Das <akn:affectedDocument href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1"
                                               GUID="6a7b07b9-f398-4912-b990-83d52316721b"
                                               eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1">Lobbyregistergesetz vom 16. April 2021 (BGBl. I S. 818)</akn:affectedDocument> wird wie folgt geändert:</akn:p>
                   </akn:intro>
@@ -829,7 +829,7 @@
                                      eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                                  <akn:mod refersTo="aenderungsbefehl-einfuegen"
                                           GUID="52b14ba9-00f2-40ee-853b-f6e6cb7875c5"
-                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1.xml"
+                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1.xml"
                                              GUID="a8443596-d050-4bf4-9aa7-6bea712a5756"
                                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Absatz 1</akn:ref> wird nach den Wörtern <akn:quotedText startQuote="„"
                                                     endQuote="“"
@@ -852,7 +852,7 @@
                                  <akn:mod refersTo="aenderungsbefehl-neufassung"
                                           GUID="8b1b9f97-e7e4-46d4-8a16-f2377c6f599a"
                                           eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">
-                                    <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-1_abs-2.xml"
+                                    <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-2.xml"
                                              GUID="c1a16c5d-3642-417c-81e6-cfb3f584f14b"
                                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Absatz 2</akn:ref>
                         wird wie folgt gefasst:
@@ -885,7 +885,7 @@
                                      eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">
                                  <akn:mod refersTo="aenderungsbefehl-einfuegen"
                                           GUID="b2b6d720-4915-453b-b36c-386538aa05ce"
-                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-1_abs-3_inhalt-1_text-1.xml"
+                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-3_inhalt-1_text-1.xml"
                                              GUID="b060da7b-1a6b-4940-a80d-a88789dcf2dd"
                                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Absatz 3</akn:ref> wird nach den Wörtern <akn:quotedText startQuote="„"
                                                     endQuote="“"
@@ -909,7 +909,7 @@
                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_intro-n1">
                            <akn:p GUID="6e868de2-185b-40e2-90fa-ff427e4c7e12"
                                   eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_intro-n1_text-n1">
-                              <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2.xml"
+                              <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2.xml"
                                        GUID="0511af31-7dd8-413d-97eb-9dc8cb1af8c9"
                                        eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_intro-n1_text-n1_ref-n1">§ 2</akn:ref> wird wie folgt geändert:</akn:p>
                         </akn:intro>
@@ -923,7 +923,7 @@
                                          eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_intro-n1">
                                  <akn:p GUID="a5e3cdf6-f377-4a37-bd3e-303972fedc9d"
                                         eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1">
-                                    <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_untergl-1_intro-1_text-1.xml"
+                                    <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1_untergl-1_intro-1_text-1.xml"
                                              GUID="6bcd3097-5985-4fab-984c-451b35098cf4"
                                              eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1_ref-n1">Absatz 1 Satz 1</akn:ref> wird wie folgt geändert:</akn:p>
                               </akn:intro>
@@ -937,7 +937,7 @@
                                            eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                                        <akn:mod refersTo="aenderungsbefehl-einfuegen"
                                                 GUID="6613f4fe-d975-49ad-9cf9-0b150cd31d37"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In dem Teilsatz vor <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_untergl-1_intro-1_text-1.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In dem Teilsatz vor <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1_untergl-1_intro-1_text-1.xml"
                                                    GUID="f1146edc-bd92-4b05-8b6f-c94a6ab046b1"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 1</akn:ref> wird nach den Wörtern <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -959,7 +959,7 @@
                                            eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
                                        <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                                 GUID="84f9a5db-fc99-4e85-9189-39ee6f218e7a"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-3_inhalt-1_text-1/66-70.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-3_inhalt-1_text-1/66-70.xml"
                                                    GUID="7ce97ebe-460b-496d-bb5f-42a5ef17d0d6"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 3</akn:ref> wird das Wort <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -981,7 +981,7 @@
                                            eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">
                                        <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                                 GUID="c73802e7-22ba-40ab-90da-d7b2af5a6d98"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_inhalt-1_text-1/51-53.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_inhalt-1_text-1/51-53.xml"
                                                    GUID="238aa1f4-b7ab-4974-ba81-24e9b4b6d05f"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 4</akn:ref> wird die Angabe <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -994,7 +994,7 @@
                           <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                                 GUID="51f42260-43f6-4ffe-9171-d7a094681540"
                                                 eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n2">
-                                          <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_inhalt-1_text-1/119-120.xml"
+                                          <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-4_inhalt-1_text-1/119-120.xml"
                                                    GUID="3ab41616-4bee-4318-9400-4a7a0e84455a"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n2_ref-n1"/>wird der <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -1018,7 +1018,7 @@
                                                 GUID="ce9c5f02-bc24-438b-9b70-4462825d3e0b"
                                                 eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1">
                             Folgende
-                            <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-4.xml"
+                            <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1_untergl-1_listenelem-4.xml"
                                                    GUID="2858e091-c149-416b-bf34-c513f6d6607c"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 5</akn:ref>
                             wird angefügt:
@@ -1053,7 +1053,7 @@
                                          eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_intro-n1">
                                  <akn:p GUID="8cabbd57-1247-4fb8-b71d-c6bf00822c83"
                                         eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_intro-n1_text-n1">
-                                    <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2.xml"
+                                    <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2.xml"
                                              GUID="f8d8797c-f878-4822-b53e-ece08432ace2"
                                              eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_intro-n1_text-n1_ref-n1">Absatz 2</akn:ref> wird wie folgt geändert:</akn:p>
                               </akn:intro>
@@ -1067,7 +1067,7 @@
                                            eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                                        <akn:mod refersTo="aenderungsbefehl-einfuegen"
                                                 GUID="1792a2b7-2d92-439a-868c-37b951f68755"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In dem Satzteil vor <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2_untergl-1_intro-1_text-1.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In dem Satzteil vor <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_untergl-1_intro-1_text-1.xml"
                                                    GUID="84ad730a-07d2-4e5f-8867-c19e5360094f"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 1</akn:ref> wird nach den Wörtern <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -1099,7 +1099,7 @@
                                        <akn:mod refersTo="aenderungsbefehl-neufassung"
                                                 GUID="f7be833b-0538-4ff7-8e12-92eae1bff713"
                                                 eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">
-                                          <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-6.xml"
+                                          <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-6.xml"
                                                    GUID="beb391a8-4e9e-4759-8aa3-1280a45fbd8d"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 6</akn:ref> wird wie folgt gefasst: <akn:quotedStructure startQuote="„"
                                                                endQuote="“"
@@ -1130,7 +1130,7 @@
                                        <akn:mod refersTo="aenderungsbefehl-neufassung"
                                                 GUID="a8ea438d-7be5-48b0-970b-fd60c6db1b1f"
                                                 eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1">
-                                          <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-8.xml"
+                                          <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-8.xml"
                                                    GUID="5b1e7f79-96fb-42b0-81b5-8267e3c96554"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 8</akn:ref> wird wie folgt gefasst:<akn:quotedStructure startQuote="„"
                                                                endQuote="“"
@@ -1160,7 +1160,7 @@
                                            eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1_text-n1">
                                        <akn:mod refersTo="aenderungsbefehl-einfuegen"
                                                 GUID="48df3d19-7c06-4518-a4f9-62891dc41225"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-8.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-8.xml"
                                                    GUID="b477207d-1e9c-41fc-b96b-770426715014"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 9</akn:ref> werden nach dem Wort <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -1183,7 +1183,7 @@
                           <!-- <mod refersTo="ersetzen" force="#tg1">In Nummer 15 wird das Wort „oder“ am Ende durch ein Komma ersetzt.</mod> -->
                                        <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                                 GUID="fc0d6f90-687f-4c4a-a0e5-217aa1e55e08"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n5_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-15_inhalt-1_text-1/205-209.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n5_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-15_inhalt-1_text-1/205-209.xml"
                                                    GUID="153650c6-7406-460c-836e-df19731f959f"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n5_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 15 </akn:ref> wird das Wort <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -1206,7 +1206,7 @@
                           <!-- <mod refersTo="ersetzen" force="#tg1">In Nummer 16 wird der Punkt am Ende durch das Wort <quotedText>oder</quotedText> ersetzt.</mod> -->
                                        <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                                 GUID="e9644547-be63-45a5-9988-26bfb14bdd23"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n6_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-16_inhalt-1_text-1/253-254.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n6_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_untergl-1_listenelem-16_inhalt-1_text-1/253-254.xml"
                                                    GUID="3dd8783c-eec4-4abb-98a5-8309d2e52d4e"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_untergl-n1_listenelem-n6_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 16</akn:ref> wird der <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -1262,7 +1262,7 @@
                                        <akn:mod refersTo="aenderungsbefehl-streichen"
                                                 GUID="c3b3f318-75e3-47d6-a1ed-67b8f1549303"
                                                 eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">
-                                          <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-3_untergl-1_listenelem-5.xml"
+                                          <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-3_untergl-1_listenelem-5.xml"
                                                    GUID="d249f52c-effd-4ae0-abd5-aebf1ffb90ef"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 5</akn:ref> wird aufgehoben.</akn:mod>
                                     </akn:p>
@@ -1360,7 +1360,7 @@
                                            eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
                                        <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                                 GUID="9f9b4c9c-55dd-4c8e-a2a1-d2f87d46ccec"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"> In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-2_abs-5_inhalt-1_text-1/263-275.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"> In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-5_inhalt-1_text-1/263-275.xml"
                                                    GUID="cc6f737f-f010-48b6-b246-f86a63602c95"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Satz 2</akn:ref> wird die Angabe <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -1519,7 +1519,7 @@
                                                  eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
                                              <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                                       GUID="cfb64ae8-cd26-4dd9-b529-14892eac77af"
-                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-3_inhalt-1_text-1/14-52.xml"
+                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-3_inhalt-1_text-1/14-52.xml"
                                                          GUID="3b714653-b86b-4d5f-931b-eb8cde125939"
                                                          eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Buchstabe c</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
                                                                 endQuote="“"
@@ -1542,7 +1542,7 @@
                                              <akn:mod refersTo="aenderungsbefehl-neufassung"
                                                       GUID="53c4ffeb-4e32-4e2a-8c7a-d1c3a23cd84e"
                                                       eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1">
-                                                <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-4.xml"
+                                                <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-4.xml"
                                                          GUID="19bdb5b0-bf75-4bde-80e9-8472b65c3ed4"
                                                          eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Buchstabe d</akn:ref>
                                 wird wie folgt gefasst:
@@ -1576,7 +1576,7 @@
                                                  eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1_text-n1">
                                              <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                                       GUID="399f162f-e970-4254-884a-9d443b321bf0"
-                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-5_inhalt-1_text-1/15-35.xml"
+                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-5_inhalt-1_text-1/15-35.xml"
                                                          GUID="a3a585b8-ab17-461d-93a3-104ff6463a67"
                                                          eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Buchstabe e</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
                                                                 endQuote="“"
@@ -1642,7 +1642,7 @@
                                            eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">
                                        <akn:mod refersTo="aenderungsbefehl-einfuegen"
                                                 GUID="68a944b8-63ec-49de-99a7-c5db5daa53e7"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1">Nach <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1">Nach <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-2.xml"
                                                    GUID="e0e8c683-96b7-4c9a-b49e-fb2f089477eb"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 2</akn:ref> wird folgende Nummer 3 eingefügt: <akn:quotedStructure startQuote="„"
                                                                endQuote="“"
@@ -1756,8 +1756,8 @@
                                            eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_inhalt-n1_text-n1">
                                        <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                                 GUID="f8bbd487-12e0-4d2e-9b4b-381de0efa192"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1">Die bisherigen <akn:rref from="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-4.xml"
-                                                    upTo="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-8.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1">Die bisherigen <akn:rref from="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-4.xml"
+                                                    upTo="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-1_untergl-1_listenelem-8.xml"
                                                     GUID="3f1d2912-7eb8-4bd9-b45c-b888f291cdd2"
                                                     eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1_bref-n1">Nummern 4 bis 8</akn:rref> werden durch die folgenden Nummern 5 bis 8 ersetzt: <akn:quotedStructure startQuote="„"
                                                                endQuote="“"
@@ -2037,8 +2037,8 @@
                                      eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
                                  <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                           GUID="e685c10e-b30c-4c84-93ca-42206d8a54bc"
-                                          eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">Die <akn:rref from="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-2.xml"
-                                              upTo="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-3_abs-4.xml"
+                                          eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">Die <akn:rref from="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-2.xml"
+                                              upTo="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-3_abs-4.xml"
                                               GUID="d231c55c-4e1c-4f77-bb6f-b0ff080283fd"
                                               eId="art-z1_abs-z_untergl-n1_listenelem-n3_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_bref-n1">Absätze 2 bis 4</akn:rref> werden durch die folgenden Absätze 2 bis 5 ersetzt: <akn:quotedStructure startQuote="„"
                                                          endQuote="“"
@@ -2198,7 +2198,7 @@
                                  <akn:mod refersTo="aenderungsbefehl-neufassung"
                                           GUID="bce6f1f8-757d-4588-ac99-a61de2724295"
                                           eId="art-z1_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">
-                                    <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-4_abs-2.xml"
+                                    <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-4_abs-2.xml"
                                              GUID="02bf0a6b-fb75-4cc1-8a13-b70d3805d49e"
                                              eId="art-z1_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Absatz 2</akn:ref>
                         wird wie folgt gefasst:
@@ -2233,7 +2233,7 @@
                                           GUID="588ebeb6-be09-4b52-bdc9-41e8ee5063ab"
                                           eId="art-z1_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">
                         Nach
-                        <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-4_abs-2.xml"
+                        <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-4_abs-2.xml"
                                              GUID="1ce59b1b-2e74-48db-aa66-73d8e910aace"
                                              eId="art-z1_abs-z_untergl-n1_listenelem-n4_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Absatz 2</akn:ref>
                         wird folgender Absatz 3 eingefügt:
@@ -2343,7 +2343,7 @@
                                            eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                                        <akn:mod refersTo="aenderungsbefehl-einfuegen"
                                                 GUID="e50628bc-f535-4eef-a1eb-95cf1d441dce"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-4_untergl-1_intro-1_text-1.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-4_untergl-1_intro-1_text-1.xml"
                                                    GUID="5e0b3b2c-0993-47ff-b8b6-74c7646a62e4"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Satz 1</akn:ref> wird nach dem Wort <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -2365,7 +2365,7 @@
                                            eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
                                        <akn:mod refersTo="aenderungsbefehl-einfuegen"
                                                 GUID="9ebbdf80-9320-44a6-854e-4d26f6ad267c"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-4_untergl-1_listenelem-1_inhalt-1.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-4_untergl-1_listenelem-1_inhalt-1.xml"
                                                    GUID="28dc3048-901e-404e-a44f-38fcc57484c7"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Satz 2 Nummer 1</akn:ref> werden nach dem Wort <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -2400,7 +2400,7 @@
                                            eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                                        <akn:mod refersTo="aenderungsbefehl-einfuegen"
                                                 GUID="f48d519e-fa56-485c-ba2f-dc094f65966f"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-5_inhalt-1_text-1.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-5_inhalt-1_text-1.xml"
                                                    GUID="73372e1b-c413-4627-bcc2-88d09466706b"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Satz 1</akn:ref> wird nach dem Wort <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -2423,7 +2423,7 @@
                                        <akn:mod refersTo="aenderungsbefehl-streichen"
                                                 GUID="16f7fbec-5976-4373-8321-21f29fe57c5f"
                                                 eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">
-                                          <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-5_inhalt-1_text-1.xml"
+                                          <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-5_inhalt-1_text-1.xml"
                                                    GUID="0d9d1894-933c-46b8-b529-76049f236ed1"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Satz 2</akn:ref> wird aufgehoben.</akn:mod>
                                     </akn:p>
@@ -2452,7 +2452,7 @@
                                            eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                                        <akn:mod refersTo="aenderungsbefehl-einfuegen"
                                                 GUID="22755162-8053-4027-9662-8429745c137f"
-                                                eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-8.xml"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-8.xml"
                                                    GUID="806229e7-2963-45fe-8bc8-05c26d96a373"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Satz 1</akn:ref> werden nach dem Wort <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -2475,7 +2475,7 @@
                                        <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                                 GUID="3631670d-095b-45a7-94b1-00c939d946bd"
                                                 eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">
-                                          <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-8.xml"
+                                          <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-8.xml"
                                                    GUID="193b0f12-6c9b-4c66-b61b-c5773e83fa75"
                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Satz 2</akn:ref> wird durch die folgenden Sätze ersetzt: <akn:quotedText startQuote="„"
                                                           endQuote="“"
@@ -2499,7 +2499,7 @@
                                           GUID="bd5166af-b673-4777-99e5-e59d3c779f96"
                                           eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1">
                         Nach
-                        <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-5_abs-8.xml"
+                        <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-5_abs-8.xml"
                                              GUID="7aff87aa-ed65-4c6c-a720-cb8f8c012e80"
                                              eId="art-z1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Absatz 8</akn:ref>
                         wird folgender Absatz 9 eingefügt:
@@ -2553,7 +2553,7 @@
                                      eId="art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                                  <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                           GUID="1cb0fa77-2e0e-4144-ab53-0efe6182e21a"
-                                          eId="art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-6_abs-1_inhalt-1_text-1/190-202.xml"
+                                          eId="art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-6_abs-1_inhalt-1_text-1/190-202.xml"
                                              GUID="dfa24015-c537-48d8-8b02-27ae73afd4da"
                                              eId="art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Absatz 1 Satz 1</akn:ref> wird die Angabe <akn:quotedText startQuote="„"
                                                     endQuote="“"
@@ -2575,7 +2575,7 @@
                                      eId="art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
                                  <akn:mod refersTo="aenderungsbefehl-streichen"
                                           GUID="151497d8-38d9-47f4-a423-156a37f19020"
-                                          eId="art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-6_abs-2_inhalt-1_text-1.xml"
+                                          eId="art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-6_abs-2_inhalt-1_text-1.xml"
                                              GUID="2d1230fd-306a-4333-9162-3b129f6ab59f"
                                              eId="art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Absatz 2</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
                                                     endQuote="“"
@@ -2594,7 +2594,7 @@
                                      eId="art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n3_inhalt-n1_text-n1">
                                  <akn:mod refersTo="aenderungsbefehl-streichen"
                                           GUID="97a0fd6f-1916-4d2b-8af3-38a48b002135"
-                                          eId="art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-6_abs-3_inhalt-1_text-1.xml"
+                                          eId="art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-6_abs-3_inhalt-1_text-1.xml"
                                              GUID="dd02215f-fdf6-480c-8118-aaf2cd047973"
                                              eId="art-z1_abs-z_untergl-n1_listenelem-n6_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Absatz 2</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
                                                     endQuote="“"
@@ -2626,7 +2626,7 @@
                                      eId="art-z1_abs-z_untergl-n1_listenelem-n7_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                                  <akn:mod refersTo="aenderungsbefehl-einfuegen"
                                           GUID="5cec6e42-55fb-4898-8b27-169c2cda3b6c"
-                                          eId="art-z1_abs-z_untergl-n1_listenelem-n7_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-7_abs-1_untergl-1_listenelem-1_inhalt-1_text-1.xml"
+                                          eId="art-z1_abs-z_untergl-n1_listenelem-n7_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-7_abs-1_untergl-1_listenelem-1_inhalt-1_text-1.xml"
                                              GUID="d131feb3-0fb7-4e37-be88-a1172b273f38"
                                              eId="art-z1_abs-z_untergl-n1_listenelem-n7_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 1</akn:ref> werden nach den Wörtern <akn:quotedText startQuote="„"
                                                     endQuote="“"
@@ -2662,7 +2662,7 @@
                                      eId="art-z1_abs-z_untergl-n1_listenelem-n7_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
                                  <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                           GUID="3b44608c-8437-4773-897a-f2c941dae2f8"
-                                          eId="art-z1_abs-z_untergl-n1_listenelem-n7_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-7_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/87-91.xml"
+                                          eId="art-z1_abs-z_untergl-n1_listenelem-n7_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-7_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/87-91.xml"
                                              GUID="2b14584a-c2ea-4ae4-84ab-14ffedfe222c"
                                              eId="art-z1_abs-z_untergl-n1_listenelem-n7_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Nummer 2</akn:ref> wird das Wort <akn:quotedText startQuote="„"
                                                     endQuote="“"
@@ -2784,7 +2784,7 @@
                            <akn:mod refersTo="aenderungsbefehl-neufassung"
                                     GUID="818b84eb-4eb6-4b99-a30a-7aa5721f6eb8"
                                     eId="art-z1_abs-z_untergl-n1_listenelem-n9_inhalt-n1_text-n1_ändbefehl-n1">
-                              <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-1/hauptteil-1_art-9_abs-1.xml"
+                              <akn:ref href="eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-9_abs-1.xml"
                                        GUID="104b3704-3845-4760-a04e-0145fab4f9b3"
                                        eId="art-z1_abs-z_untergl-n1_listenelem-n9_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">§ 9 Absatz 1</akn:ref> wird wie folgt gefasst: <akn:quotedStructure startQuote="„"
                                                    endQuote="“"

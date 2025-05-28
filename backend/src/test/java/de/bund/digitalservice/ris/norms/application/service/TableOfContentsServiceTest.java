@@ -157,9 +157,7 @@ class TableOfContentsServiceTest {
 
     // Verify first article inside subtitle
     TableOfContentsItem article1 = subtitle1.children().getFirst();
-    assertThat(article1.id()).hasToString(
-      "hauptteil-n1_buch-n1_teil-n1_kapitel-n1_abschnitt-n1_uabschnitt-n1_titel-n1_utitel-n1_art-n1"
-    );
+    assertThat(article1.id()).hasToString("art-z1");
     assertThat(article1.marker()).isEqualTo("§ 1");
     assertThat(article1.heading()).isEqualTo("Anwendungsbereich");
     assertThat(article1.type()).isEqualTo("article");
@@ -167,9 +165,7 @@ class TableOfContentsServiceTest {
 
     // Verify article 2 inside subtitle
     TableOfContentsItem article2 = subtitle1.children().getLast();
-    assertThat(article2.id()).hasToString(
-      "hauptteil-n1_buch-n1_teil-n1_kapitel-n1_abschnitt-n1_uabschnitt-n1_titel-n1_utitel-n1_art-n2"
-    );
+    assertThat(article2.id()).hasToString("art-z2");
     assertThat(article2.marker()).isEqualTo("§ 2");
     assertThat(article2.heading()).isEqualTo("Paragrafenüberschrift");
     assertThat(article2.type()).isEqualTo("article");

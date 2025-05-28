@@ -12,7 +12,7 @@ test.describe("GUID redirect", () => {
     ).toBeVisible()
 
     expect(page.url()).toContain(
-      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1/metadata",
+      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1/metadata",
     )
   })
 

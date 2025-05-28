@@ -11,7 +11,7 @@ test.describe(
       page,
     }) => {
       await page.goto(
-        "./amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        "./amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       )
 
       await expect(
@@ -25,7 +25,7 @@ test.describe(
       await page.getByRole("button", { name: "Sign In" }).click()
 
       await page.waitForURL(
-        "/app/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        "/app/amending-laws/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       )
 
       const logoutLinkAfterLogin = page.getByRole("link", { name: "Abmelden" })

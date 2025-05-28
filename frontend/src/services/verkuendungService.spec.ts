@@ -12,7 +12,7 @@ describe("verkuendungService", () => {
     it("provides the data from the api", async () => {
       const mockData = [
         {
-          eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+          eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
           frbrName: "bgbl-1",
           frbrDateVerkuendung: "2017-03-15",
           frbrNumber: "s419",
@@ -53,7 +53,7 @@ describe("verkuendungService", () => {
 
       expect(data.length).toBe(1)
       expect(data[0].eli).toBe(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
       )
 
       const { useApiFetch } = await import("@/services/apiService")
@@ -64,7 +64,7 @@ describe("verkuendungService", () => {
   describe("useGetVerkuendungService()", () => {
     it("fetches a specific verkuendung by its ELI", async () => {
       const mockVerkuendung = {
-        eli: "eli/bund/bgbl-1/2025/s65/2025-02-27/1/deu/regelungstext-1",
+        eli: "eli/bund/bgbl-1/2025/s65/2025-02-27/1/deu/regelungstext-verkuendung-1",
         title: "Gesetz zur Anpassung des Mutterschutzgesetzes",
         frbrDateVerkuendung: "2025-02-27",
         dateAusfertigung: "2025-02-24",
@@ -89,7 +89,7 @@ describe("verkuendungService", () => {
       )
 
       const eliString =
-        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1"
       const eli = ref<NormExpressionEli>(
         NormExpressionEli.fromString(eliString),
       )
@@ -112,12 +112,12 @@ describe("verkuendungService", () => {
     it("fetches zielnormen for a specific verkuendung ELI", async () => {
       const mockZielnormen = [
         {
-          eli: "eli/bund/bgbl-1/2002/123/2002-05-15/1/deu/regelungstext-1",
+          eli: "eli/bund/bgbl-1/2002/123/2002-05-15/1/deu/regelungstext-verkuendung-1",
           status: "inForce",
           frbrDateVerkuendung: "2002-05-15",
         },
         {
-          eli: "eli/bund/bgbl-1/2004/789/2004-07-21/1/deu/regelungstext-1",
+          eli: "eli/bund/bgbl-1/2004/789/2004-07-21/1/deu/regelungstext-verkuendung-1",
           status: "outOfForce",
           frbrDateVerkuendung: "2004-07-21",
         },
@@ -141,7 +141,7 @@ describe("verkuendungService", () => {
 
       const eli = ref(
         NormExpressionEli.fromString(
-          "eli/bund/bgbl-1/2002/123/2002-05-15/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2002/123/2002-05-15/1/deu/regelungstext-verkuendung-1",
         ),
       )
 
@@ -150,7 +150,7 @@ describe("verkuendungService", () => {
       expect(data.value).toEqual(mockZielnormen)
       expect(data.value?.length).toBe(2)
       expect(data.value?.[0].eli).toBe(
-        "eli/bund/bgbl-1/2002/123/2002-05-15/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2002/123/2002-05-15/1/deu/regelungstext-verkuendung-1",
       )
       expect(data.value?.[1].status).toBe("outOfForce")
       expect(useApiFetch).toHaveBeenCalledTimes(1)

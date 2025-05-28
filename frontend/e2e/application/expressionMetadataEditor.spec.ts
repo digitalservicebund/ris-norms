@@ -10,7 +10,7 @@ test.describe("navigate to page", { tag: ["@RISDEV-6266"] }, () => {
     page,
   }) => {
     await page.goto(
-      "./eli/bund/bgbl-1/0000/000/0000-00-00/1/deu/regelungstext-1/metadata",
+      "./eli/bund/bgbl-1/0000/000/0000-00-00/1/deu/regelungstext-verkuendung-1/metadata",
     )
 
     await expect(page.getByText("404")).toBeVisible()
@@ -20,7 +20,7 @@ test.describe("navigate to page", { tag: ["@RISDEV-6266"] }, () => {
 test.describe("table of contents", { tag: ["@RISDEV-6266"] }, () => {
   test("shows the elements affected by this expression", async ({ page }) => {
     await page.goto(
-      "./eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/metadata",
+      "./eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/metadata",
     )
 
     const nav = page.getByRole("complementary", { name: "Inhaltsverzeichnis" })
@@ -54,7 +54,7 @@ test.describe("table of contents", { tag: ["@RISDEV-6266"] }, () => {
     })
 
     await page.goto(
-      "./eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/metadata",
+      "./eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/metadata",
     )
 
     await expect(
@@ -70,7 +70,7 @@ test.describe("table of contents", { tag: ["@RISDEV-6266"] }, () => {
     })
 
     await page.goto(
-      "./eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-1/metadata",
+      "./eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/metadata",
     )
 
     await expect(page.getByText("Keine Artikel gefunden.")).toBeVisible()

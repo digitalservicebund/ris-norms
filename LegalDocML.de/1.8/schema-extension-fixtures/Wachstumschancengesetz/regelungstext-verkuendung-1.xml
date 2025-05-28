@@ -143,7 +143,7 @@
                               href="#art-z%c2%a71_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="c42641b3-e987-4013-b713-52017ca0ca78"/>
                   <akn:destination eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"
-                                   href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-26_bezeichnung-1_zaehlbez-1/284-449.xml"
+                                   href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-26_bezeichnung-1_zaehlbez-1/284-449.xml"
                                    GUID="e99747be-63b9-4729-adf3-b4b4299e188b"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2"
                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_gelzeitnachw-n1"
@@ -156,7 +156,7 @@
                               href="#art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="c509c75e-4813-491a-a973-9b23e2b8be03"/>
                   <akn:destination eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_destination-n1"
-                                   href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-71_abs-2.xml"
+                                   href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-71_abs-2.xml"
                                    GUID="e1d7e59f-5c59-4834-847d-3dc1dbc26259"/>
                   <akn:force period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2"
                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_gelzeitnachw-n1"
@@ -255,7 +255,7 @@
                      <akn:p GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5"
                             eId="art-z%c2%a71_abs-z1_untergl-n1_intro-n1_text-n1"> Das <akn:affectedDocument GUID="e9e5ceb0-c831-45da-8fa4-aaaa16572bee"
                                               eId="art-z%c2%a71_abs-z1_untergl-n1_intro-n1_text-n1_bezugsdoc-n1"
-                                              href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1">Einkommensteuergesetz in der Fassung der Bekanntmachung vom 8. Oktober 2009 (BGBl. I S. 3366, 3862),
+                                              href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-verkuendung-1">Einkommensteuergesetz in der Fassung der Bekanntmachung vom 8. Oktober 2009 (BGBl. I S. 3366, 3862),
                             das zuletzt durch Artikel 20 des Gesetzes vom 22. Dezember 2023 (BGBl. 2023 I Nr. 411) geändert worden ist</akn:affectedDocument>, wird
                             wie folgt geändert:</akn:p>
                   </akn:intro>
@@ -272,7 +272,7 @@
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                     eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                                     GUID="a8786a31-bf59-41f9-b945-7785ed93861b">
-                              In <akn:ref href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-26_bezeichnung-1_zaehlbez-1/284-449.xml"
+                              In <akn:ref href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-26_bezeichnung-1_zaehlbez-1/284-449.xml"
                                        eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1"
                                        GUID="a8786a31-bf59-41f9-b945-7785ed93861c">§ 6b Absatz 6 Satz 2</akn:ref> werden die Wörter „<akn:quotedText startQuote="„"
                                               endQuote="“"
@@ -296,7 +296,7 @@
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                     GUID="58161d8d-b02e-4d54-a362-25a734c5e79b"
                                     eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">
-                              <akn:ref href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-71_abs-2"
+                              <akn:ref href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-71_abs-2"
                                        GUID="88c21ccc-f528-4dd1-ab38-48c562daf53c"
                                        eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">
                                  § 19 Absatz 2 Satz 3 wird wie folgt gefasst:</akn:ref>
