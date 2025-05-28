@@ -8,7 +8,8 @@
          <akn:identification eId="meta-n1_ident-n1"
                              GUID="9b4dab1a-4549-4e32-9302-46f6fc36b095"
                              source="attributsemantik-noch-undefiniert">
-            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1" GUID="7f274f35-1421-4b07-b007-16130a6a7662">
+            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1"
+                          GUID="7f274f35-1421-4b07-b007-16130a6a7662">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
                              GUID="653afc92-a6ff-422e-9346-eb19032304d7"
                              value="eli/bund/bgbl-1/1002/10/rechtsetzungsdokument-1"/>
@@ -43,7 +44,8 @@
                                 GUID="3a4d2d63-2d4c-413e-b166-f8b3ff8336a2"
                                 value="rechtsetzungsdokument-1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="b936f1b2-2ae1-4969-b20f-9da7a526be38">
+            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1"
+                                GUID="b936f1b2-2ae1-4969-b20f-9da7a526be38">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
                              GUID="8992e6d8-fc36-4b57-99fc-e8ddb329fdc7"
                              value="eli/bund/bgbl-1/1002/10/1002-01-10/1/deu/rechtsetzungsdokument-1"/>
@@ -94,7 +96,8 @@
          </akn:identification>
       </akn:meta>
       <akn:collectionBody GUID="e1dbe4c2-fae1-40fd-a60b-bfa07245133a" eId="rdokhauptteil-n1">
-         <akn:component GUID="56db8b10-d25f-4c00-81c9-a3b33f524007" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="56db8b10-d25f-4c00-81c9-a3b33f524007"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="6290676a-ed94-4ab0-a5bd-611815adb5fa"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
