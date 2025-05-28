@@ -20,7 +20,7 @@ test.describe(
       // Prepare Zeitgrenzen
       const zeitgrenzenIds = await setZeitgrenzen(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
         ),
         [
           { id: "", date: "2017-03-16", art: "INKRAFT" },
@@ -48,7 +48,7 @@ test.describe(
 
     test("opens the page and shows the data", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/expressionen-erzeugen",
       )
 
       await page
@@ -92,7 +92,7 @@ test.describe(
       )
 
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/expressionen-erzeugen",
       )
 
       await expect(
@@ -114,7 +114,7 @@ test.describe(
       )
 
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/expressionen-erzeugen",
       )
 
       await expect(
@@ -137,7 +137,7 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
     // Prepare Zeitgrenzen
     const zeitgrenzenIds = await setZeitgrenzen(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
       ),
       [
         { id: "", date: "2017-03-16", art: "INKRAFT" },
@@ -165,7 +165,7 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
 
   test("creates expressions for the first time", async ({ page }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/expressionen-erzeugen",
     )
 
     await page
@@ -263,7 +263,7 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
       },
     )
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/expressionen-erzeugen",
     )
 
     await page
@@ -288,7 +288,7 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
     page,
   }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/expressionen-erzeugen",
     )
 
     await page
@@ -350,7 +350,7 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/expressionen-erzeugen",
     )
 
     await page
@@ -376,7 +376,7 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
 
   test("re-creates expressions", async ({ page }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/expressionen-erzeugen",
     )
 
     await page

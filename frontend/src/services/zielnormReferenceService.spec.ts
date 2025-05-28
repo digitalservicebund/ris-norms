@@ -86,7 +86,7 @@ describe("useZielnormReferencesService", () => {
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
     eli.value = NormExpressionEli.fromString(
-      "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
     )
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
   })
@@ -150,7 +150,7 @@ describe("useGetZielnormReferences", () => {
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
     eli.value = NormExpressionEli.fromString(
-      "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
     )
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
   })
@@ -175,7 +175,7 @@ describe("usePostZielnormReferences", () => {
     const { execute } = usePostZielnormReferences(
       data,
       NormExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
     )
 
@@ -231,7 +231,7 @@ describe("useDeleteZielnormReferences", async () => {
     const { execute } = useDeleteZielnormReferences(
       data,
       NormExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
     )
 

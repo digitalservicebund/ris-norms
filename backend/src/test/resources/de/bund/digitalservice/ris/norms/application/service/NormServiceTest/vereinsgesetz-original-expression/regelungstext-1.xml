@@ -20,7 +20,7 @@
     <akn:meta GUID="e4e9224c-a2ff-46af-b390-eef666ee6706" eId="meta-1">
       <akn:identification source="attributsemantik-noch-undefiniert" GUID="1376c800-fdb8-4453-b639-eb0cc643f2a1" eId="meta-1_ident-1">
         <akn:FRBRWork GUID="e54cd6ad-77fe-4b34-ab01-0caed4232c79" eId="meta-1_ident-1_frbrwork-1">
-          <akn:FRBRthis value="eli/bund/bgbl-1/1964/s593/regelungstext-1" GUID="c2453919-5318-4700-b157-b4056d562d03" eId="meta-1_ident-1_frbrwork-1_frbrthis-1"/>
+          <akn:FRBRthis value="eli/bund/bgbl-1/1964/s593/regelungstext-verkuendung-1" GUID="c2453919-5318-4700-b157-b4056d562d03" eId="meta-1_ident-1_frbrwork-1_frbrthis-1"/>
           <akn:FRBRuri value="eli/bund/bgbl-1/1964/s593" GUID="4ee0c19e-ac74-48d0-9d2f-14afa746ae9f" eId="meta-1_ident-1_frbrwork-1_frbruri-1"/>
           <akn:FRBRalias name="übergreifende-id" value="3e61d5e0-3e99-46ab-b328-ad880d9c9a4a" GUID="84613506-2f8d-4f76-81d7-8ada58f55f5c" eId="meta-1_ident-1_frbrwork-1_frbralias-1"/>
           <akn:FRBRdate name="verkuendungsfassung" date="1964-08-05" GUID="82367bb7-e9d4-4022-80b3-a54f78c8ad48" eId="meta-1_ident-1_frbrwork-1_frbrdate-1"/>
@@ -28,10 +28,10 @@
           <akn:FRBRcountry value="de" GUID="27ea99b4-2ece-45ec-92e2-14a6a3be52b5" eId="meta-1_ident-1_frbrwork-1_frbrcountry-1"/>
           <akn:FRBRnumber value="s593" GUID="4b9547eb-436b-4c36-ad7e-d1eafb060068" eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"/>
           <akn:FRBRname value="bgbl-1" GUID="02b00ee4-9736-4eb0-87ab-bde4552362ac" eId="meta-1_ident-1_frbrwork-1_frbrname-1"/>
-          <akn:FRBRsubtype value="regelungstext-1" GUID="330cdb26-d13e-4c68-b8aa-a4bb390edd3d" eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1"/>
+          <akn:FRBRsubtype value="regelungstext-verkuendung-1" GUID="330cdb26-d13e-4c68-b8aa-a4bb390edd3d" eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1"/>
         </akn:FRBRWork>
         <akn:FRBRExpression GUID="3342438f-d645-46bc-b636-8ff93339040e" eId="meta-1_ident-1_frbrexpression-1">
-          <akn:FRBRthis value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" GUID="34ce9521-41a7-46c7-8bb2-b77a0e140307" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"/>
+          <akn:FRBRthis value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" GUID="34ce9521-41a7-46c7-8bb2-b77a0e140307" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"/>
           <akn:FRBRuri value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu" GUID="38417cc3-ce84-4a4b-ac19-e9b80ae0c13f" eId="meta-1_ident-1_frbrexpression-1_frbruri-1"/>
           <akn:FRBRalias name="aktuelle-version-id" value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151" GUID="32bd238d-e176-473b-a86c-1be978ccc905" eId="meta-1_ident-1_frbrexpression-1_frbralias-1"/>
           <akn:FRBRalias name="nachfolgende-version-id" value="0c009fb2-cc37-47cb-bbd4-168fb1ee38c7" GUID="38a1a0b5-8291-4b91-8ca0-8d12bf990a12" eId="meta-1_ident-1_frbrexpression-1_frbralias-2"/>
@@ -41,8 +41,8 @@
           <akn:FRBRversionNumber value="1" GUID="ffe56bfc-2e61-43e4-8415-3489690736a6" eId="meta-1_ident-1_frbrexpression-1_frbrversionnumber-1"/>
         </akn:FRBRExpression>
         <akn:FRBRManifestation GUID="5f065d15-4927-417d-82d9-cf0ee3a671d1" eId="meta-1_ident-1_frbrmanifestation-1">
-          <akn:FRBRthis value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml" GUID="30296030-d46d-4a53-8146-04e7035b20a6" eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"/>
-          <akn:FRBRuri value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml" GUID="01653b47-2a85-4902-a6ea-b538df135ea4" eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"/>
+          <akn:FRBRthis value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml" GUID="30296030-d46d-4a53-8146-04e7035b20a6" eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"/>
+          <akn:FRBRuri value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml" GUID="01653b47-2a85-4902-a6ea-b538df135ea4" eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"/>
           <akn:FRBRdate name="generierung" date="1964-08-05" GUID="5873cf64-9760-46c3-be8a-369bb012fbd1" eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"/>
           <akn:FRBRauthor href="recht.bund.de" GUID="af66d7d4-ea9f-4e76-9fb9-772d81303737" eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"/>
           <akn:FRBRformat value="xml" GUID="4a91792a-6937-4646-a135-5f381c6a380a" eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"/>

@@ -42,7 +42,7 @@ test(
     await page.getByRole("button", { name: "Hochladen" }).click()
 
     await page.waitForURL(
-      "/app/verkuendungen/eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/regelungstext-1",
+      "/app/verkuendungen/eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/regelungstext-verkuendung-1",
     )
 
     await expect(
@@ -214,7 +214,7 @@ test(
         buffer: fs.readFileSync(
           path.resolve(
             samplesDirectory,
-            "bgbl-1_1000_3_invalid_xsd_01/regelungstext-1.xml",
+            "bgbl-1_1000_3_invalid_xsd_01/regelungstext-verkuendung-1.xml",
           ),
         ),
         mimeType: "text/xml",
@@ -243,7 +243,7 @@ test(
         buffer: fs.readFileSync(
           path.resolve(
             samplesDirectory,
-            "bgbl-1_1000_4_invalid_schematron_01/regelungstext-1.xml",
+            "bgbl-1_1000_4_invalid_schematron_01/regelungstext-verkuendung-1.xml",
           ),
         ),
         mimeType: "text/xml",
