@@ -11,7 +11,7 @@ public enum Namespace {
   METADATEN("http://Metadaten.LegalDocML.de/1.7.2/", "meta"),
   METADATEN_RIS("http://MetadatenRIS.LegalDocML.de/1.7.2/", "ris"),
   METADATEN_BUNDESREGIERUNG("http://MetadatenBundesregierung.LegalDocML.de/1.7.2/", "meta"),
-  METADATEN_NORMS_APPLICATION_MODS("http://MetadatenMods.LegalDocML.de/1.7.2/", "norms");
+  METADATEN_NORMS_APPLICATION_MODS("http://MetadatenMods.LegalDocML.de/1.8/", "norms");
 
   /**
    * The namespace uri of the namespace
