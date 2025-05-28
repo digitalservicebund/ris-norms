@@ -51,7 +51,7 @@ class NormManifestationControllerIntegrationTest extends BaseIntegrationTest {
         .perform(get("/api/v1/norms/{eli}", eli).accept(MediaType.APPLICATION_XML))
         .andExpect(status().isOk())
         .andExpect(
-          xpath("//*[@eId='meta-1_ident-1_frbrmanifestation-1_frbrthis-1']/@value").string(eli)
+          xpath("//*[@eId='meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1']/@value").string(eli)
         );
     }
 

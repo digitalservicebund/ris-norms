@@ -63,9 +63,9 @@ class ArticleControllerTest {
         // Then
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-1"))
+        .andExpect(jsonPath("$[0].eid").value("art-z1"))
         .andExpect(jsonPath("$[1]").exists())
-        .andExpect(jsonPath("$[1].eid").value("hauptteil-1_art-2"))
+        .andExpect(jsonPath("$[1].eid").value("art-z3"))
         .andExpect(jsonPath("$[2]").doesNotExist());
 
       verify(loadArticlesFromDokumentUseCase, times(1)).loadArticlesFromDokument(
@@ -152,12 +152,12 @@ class ArticleControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles/art-z1"
           ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
         .andExpect(status().isOk())
-        .andExpect(jsonPath("eid").value("hauptteil-1_art-1"));
+        .andExpect(jsonPath("eid").value("art-z1"));
 
       verify(loadRegelungstextUseCase, times(1)).loadRegelungstext(
         argThat(argument ->
@@ -185,7 +185,7 @@ class ArticleControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-4523"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles/art-z4523"
           ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
@@ -222,7 +222,7 @@ class ArticleControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles/art-z1"
           ).accept(MediaType.TEXT_HTML)
         )
         // Then

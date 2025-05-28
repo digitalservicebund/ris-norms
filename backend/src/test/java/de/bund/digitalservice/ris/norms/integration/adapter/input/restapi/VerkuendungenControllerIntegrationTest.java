@@ -498,14 +498,14 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
             equalTo("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000")
           )
         )
-        .andExpect(jsonPath("errors[1].eId", equalTo("meta-1_geltzeiten-1")))
+        .andExpect(jsonPath("errors[1].eId", equalTo("meta-n1_geltzeiten-n1")))
         .andExpect(
           jsonPath(
             "errors[2].type",
             equalTo("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000")
           )
         )
-        .andExpect(jsonPath("errors[2].eId", equalTo("meta-1_geltzeiten-1_geltungszeitgr-1")))
+        .andExpect(jsonPath("errors[2].eId", equalTo("meta-n1_geltzeiten-n1_geltungszeitgr-n1")))
         .andExpect(
           jsonPath(
             "errors[3].type",
@@ -515,7 +515,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           )
         )
         .andExpect(
-          jsonPath("errors[3].eId", equalTo("meta-1_ident-1_frbrexpression-1_frbrauthor-1"))
+          jsonPath("errors[3].eId", equalTo("meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"))
         );
     }
 

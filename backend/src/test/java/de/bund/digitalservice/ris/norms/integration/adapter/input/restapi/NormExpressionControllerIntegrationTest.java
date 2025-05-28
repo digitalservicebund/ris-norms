@@ -98,7 +98,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(
-          xpath("//*[@eId='einleitung-1_doktitel-1_text-1_doctitel-1']").string(
+          xpath("//*[@eId='einleitung-n1_doktitel-n1_text-n1_doctitel-n1']").string(
             "Gesetz zur Regelung des öffentlichen Vereinsrechts"
           )
         );
@@ -127,7 +127,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
           content()
             .node(
               hasXPath(
-                "//h1//*[@data-eId=\"einleitung-1_doktitel-1_text-1_doctitel-1\"]",
+                "//h1//*[@data-eId=\"einleitung-n1_doktitel-n1_text-n1_doctitel-n1\"]",
                 equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
               )
             )
@@ -163,7 +163,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
           content()
             .node(
               hasXPath(
-                "//h1//*[@data-eId=\"einleitung-1_doktitel-1_text-1_doctitel-1\"]",
+                "//h1//*[@data-eId=\"einleitung-n1_doktitel-n1_text-n1_doctitel-n1\"]",
                 equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
               )
             )
@@ -319,7 +319,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
           content()
             .node(
               hasXPath(
-                "//*[@eId=\"einleitung-1_doktitel-1_text-1_doctitel-1\"]",
+                "//*[@eId=\"einleitung-n1_doktitel-n1_text-n1_doctitel-n1\"]",
                 equalTo("Neuer Title")
               )
             )
