@@ -136,12 +136,12 @@ describe("risCodeEditor", () => {
     }
 
     const editorView = textbox.cmView.view
-
-    editorView.scrollDOM.scrollTo = vi.fn()
+    editorView.scrollDOM.scrollTo = () => {}
+    const scrollSpy = vi.spyOn(editorView.scrollDOM, "scrollTo")
 
     editorRef.value?.scrollToText(`eId="art-1"`)
     await nextTick()
 
-    expect(editorView.scrollDOM.scrollTo).toHaveBeenCalled()
+    expect(scrollSpy).toHaveBeenCalled()
   })
 })
