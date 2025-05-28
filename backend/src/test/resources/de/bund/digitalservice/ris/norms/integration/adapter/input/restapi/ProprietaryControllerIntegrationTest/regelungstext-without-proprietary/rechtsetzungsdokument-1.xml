@@ -20,7 +20,8 @@
          <akn:identification eId="meta-n1_ident-n1"
                              GUID="f36857bf-72ce-4b56-910b-5bf01ac233a0"
                              source="attributsemantik-noch-undefiniert">
-            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1" GUID="02e3f088-030f-453a-a6e2-b4c2a24ccaef">
+            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1"
+                          GUID="02e3f088-030f-453a-a6e2-b4c2a24ccaef">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
                              GUID="a0d349f6-08d4-4e55-bba3-2da6b8c6820e"
                              value="eli/bund/bgbl-1/2002/s1181/rechtsetzungsdokument-1"/>
@@ -55,7 +56,8 @@
                                 GUID="627517e4-f547-4d01-878f-9b92989acf0e"
                                 value="rechtsetzungsdokument-1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="e837a530-eb6b-4555-aa02-e2c1b2aba776">
+            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1"
+                                GUID="e837a530-eb6b-4555-aa02-e2c1b2aba776">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
                              GUID="fc0d70d2-ee22-4675-8929-8e6ee9511910"
                              value="eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"/>
@@ -110,7 +112,8 @@
          </akn:identification>
       </akn:meta>
       <akn:collectionBody GUID="03b15579-8e68-4c61-aec4-6a2b942eaebb" eId="rdokhauptteil-n1">
-         <akn:component GUID="a6f049c3-a481-4069-86d7-82aa886569d7" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="a6f049c3-a481-4069-86d7-82aa886569d7"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="9c89e59f-4c1d-4d2e-ad1b-464dbfa3a847"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"

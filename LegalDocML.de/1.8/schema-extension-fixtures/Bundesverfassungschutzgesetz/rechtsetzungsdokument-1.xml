@@ -8,7 +8,8 @@
          <akn:identification eId="meta-n1_ident-n1"
                              GUID="c238f32c-c785-48ed-8b4e-ebc94de25101"
                              source="attributsemantik-noch-undefiniert">
-            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1" GUID="7341e7ee-d188-4292-a747-cd2f8c44c994">
+            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1"
+                          GUID="7341e7ee-d188-4292-a747-cd2f8c44c994">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
                              GUID="fb3d9915-fab5-40d3-b5a1-56a652a8ccb6"
                              value="eli/bund/bgbl-1/1990/s2954/rechtsetzungsdokument-1"/>
@@ -43,7 +44,8 @@
                                 GUID="9b9e678a-e167-4309-b1e9-a92e420ab198"
                                 value="rechtsetzungsdokument-1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="a95b831c-3bd3-422a-bd34-772a81d39ae6">
+            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1"
+                                GUID="a95b831c-3bd3-422a-bd34-772a81d39ae6">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
                              GUID="6bf2681a-10a0-47c4-8d1a-8b58b0248d92"
                              value="eli/bund/bgbl-1/1990/s2954/2023-12-29/1/deu/rechtsetzungsdokument-1"/>
@@ -101,7 +103,8 @@
                           eId="meta-n1_proprietary-n1"/>
       </akn:meta>
       <akn:collectionBody GUID="ff4f9787-7e58-4be2-bcd4-fb87872c90cf" eId="rdokhauptteil-n1">
-         <akn:component GUID="4d575c79-ce0a-4b3c-9449-792ebf84fdc4" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="4d575c79-ce0a-4b3c-9449-792ebf84fdc4"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="d909017a-23b4-4d89-98e8-cce6b59158d7"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"

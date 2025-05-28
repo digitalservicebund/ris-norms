@@ -141,10 +141,9 @@
          <akn:proprietary eId="meta-n1_proprietary-n1"
                           GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                           source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
-               <meta:form>stammform</meta:form>
-            </meta:legalDocML.de_metadaten>
-            
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+               <regtxt:form>stammform</regtxt:form>
+            </regtxt:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <!-- Dokumentenkopf Regelungstext -->
