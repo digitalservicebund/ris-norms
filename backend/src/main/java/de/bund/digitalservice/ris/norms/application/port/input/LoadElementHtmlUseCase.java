@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
-import de.bund.digitalservice.ris.norms.domain.entity.EId;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 
 /** Use case for getting a single element as an HTML string from a dokument. */

@@ -1,7 +1,7 @@
 package de.bund.digitalservice.ris.norms.utils;
 
-import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Href;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

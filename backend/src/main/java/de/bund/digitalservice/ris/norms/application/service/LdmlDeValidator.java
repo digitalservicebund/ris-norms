@@ -5,11 +5,11 @@ import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidExce
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.domain.entity.Bekanntmachung;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
-import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.OffeneStruktur;
 import de.bund.digitalservice.ris.norms.domain.entity.Rechtsetzungsdokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;

@@ -2,7 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ElementResponseSchema;
 import de.bund.digitalservice.ris.norms.application.service.ElementService;
-import de.bund.digitalservice.ris.norms.domain.entity.EId;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Map;
 import java.util.Set;

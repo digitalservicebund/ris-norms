@@ -1,8 +1,8 @@
 package de.bund.digitalservice.ris.norms.utils;
 
-import de.bund.digitalservice.ris.norms.domain.entity.EId;
-import de.bund.digitalservice.ris.norms.domain.entity.EIdPart;
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EIdPart;
 import java.util.UUID;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

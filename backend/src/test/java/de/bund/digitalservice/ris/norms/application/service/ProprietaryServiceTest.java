@@ -12,10 +12,10 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietary
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadDokumentPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateDokumentPort;
-import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import java.time.LocalDate;
 import java.util.Optional;

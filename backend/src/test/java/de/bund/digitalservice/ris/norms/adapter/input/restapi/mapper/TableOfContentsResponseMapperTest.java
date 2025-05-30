@@ -3,8 +3,8 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TableOfContentsResponseSchema;
-import de.bund.digitalservice.ris.norms.domain.entity.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.TableOfContentsItem;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;

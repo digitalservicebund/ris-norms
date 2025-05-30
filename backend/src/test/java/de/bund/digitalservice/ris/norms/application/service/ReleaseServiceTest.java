@@ -20,7 +20,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
@@ -93,9 +92,7 @@ class ReleaseServiceTest {
     verify(deleteQueuedReleasesPort, times(1)).deleteQueuedReleases(
       new DeleteQueuedReleasesPort.Options(norm.getExpressionEli())
     );
-    verify(ldmlDeValidator, times(1)).parseAndValidateRegelungstext(
-      XmlMapper.toString(manifestationOfNormToQueue.getRegelungstext1().getDocument())
-    );
+    verify(ldmlDeValidator, times(1)).validateXSDSchema(manifestationOfNormToQueue);
     verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfNormToQueue);
     verify(updateOrSaveNormPort, times(1)).updateOrSave(
       new UpdateOrSaveNormPort.Options(manifestationOfNormToQueue)
@@ -169,9 +166,9 @@ class ReleaseServiceTest {
     when(
       createNewVersionOfNormService.createNewManifestation(any(), eq(LocalDate.now().plusDays(1)))
     ).thenReturn(newNewestUnpublishedManifestationOfNorm);
-    when(ldmlDeValidator.parseAndValidateRegelungstext(any())).thenThrow(
-      new LdmlDeNotValidException(List.of())
-    );
+    doThrow(new LdmlDeNotValidException(List.of()))
+      .when(ldmlDeValidator)
+      .validateXSDSchema(manifestationOfNormToQueue);
 
     var query = new ReleaseNormExpressionUseCase.Options(norm.getExpressionEli());
 
@@ -182,9 +179,7 @@ class ReleaseServiceTest {
 
     // Then
     verify(createNewVersionOfNormService, times(1)).createNewManifestation(norm);
-    verify(ldmlDeValidator, times(1)).parseAndValidateRegelungstext(
-      XmlMapper.toString(manifestationOfNormToQueue.getRegelungstext1().getDocument())
-    );
+    verify(ldmlDeValidator, times(1)).validateXSDSchema(manifestationOfNormToQueue);
     verify(ldmlDeValidator, times(0)).validateSchematron(any(Norm.class));
     verify(createNewVersionOfNormService, times(0)).createNewManifestation(
       norm,
@@ -234,9 +229,7 @@ class ReleaseServiceTest {
 
     // Then
     verify(createNewVersionOfNormService, times(1)).createNewManifestation(norm);
-    verify(ldmlDeValidator, times(1)).parseAndValidateRegelungstext(
-      XmlMapper.toString(manifestationOfNormToQueue.getRegelungstext1().getDocument())
-    );
+    verify(ldmlDeValidator, times(1)).validateXSDSchema(manifestationOfNormToQueue);
     verify(ldmlDeValidator, times(1)).validateSchematron(manifestationOfNormToQueue);
     verify(createNewVersionOfNormService, times(0)).createNewManifestation(
       norm,
