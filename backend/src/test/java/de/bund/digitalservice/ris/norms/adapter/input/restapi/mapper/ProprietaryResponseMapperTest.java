@@ -37,7 +37,7 @@ class ProprietaryResponseMapperTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
@@ -67,7 +67,7 @@ class ProprietaryResponseMapperTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
@@ -95,7 +95,7 @@ class ProprietaryResponseMapperTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
@@ -121,7 +121,7 @@ class ProprietaryResponseMapperTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">

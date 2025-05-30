@@ -21,7 +21,7 @@ class LdmlDeElementSorterTest {
   void itSortsElements() {
     var elementNode =
       """
-          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="art-z1"
+          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="art-z1"
                       GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
                       period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
                       refersTo="hauptaenderung">
@@ -40,7 +40,7 @@ class LdmlDeElementSorterTest {
     final Diff diff = DiffBuilder.compare(
       Input.from(
         """
-            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="art-z1"
+            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="art-z1"
                         GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
                         period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
                         refersTo="hauptaenderung">

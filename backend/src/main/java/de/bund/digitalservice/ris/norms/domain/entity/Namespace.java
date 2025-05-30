@@ -7,7 +7,7 @@ import lombok.Getter;
  */
 @Getter
 public enum Namespace {
-  INHALTSDATEN("http://Inhaltsdaten.LegalDocML.de/1.7.2/", "akn"),
+  INHALTSDATEN("http://Inhaltsdaten.LegalDocML.de/1.8/", "akn"),
   METADATEN("http://Metadaten.LegalDocML.de/1.7.2/", "meta"),
   METADATEN_RIS("http://MetadatenRIS.LegalDocML.de/1.8/", "ris"),
   METADATEN_BUNDESREGIERUNG("http://MetadatenBundesregierung.LegalDocML.de/1.8/", "meta"),

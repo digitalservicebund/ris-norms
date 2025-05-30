@@ -481,7 +481,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath(
             "errors[0].xPath",
             equalTo(
-              "/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act[1]"
+              "/Q{http://Inhaltsdaten.LegalDocML.de/1.8/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8/}act[1]"
             )
           )
         )

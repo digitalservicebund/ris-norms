@@ -76,9 +76,9 @@ class RegelungstextTest {
     final String xml =
       """
                       <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                          xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                             http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                                             http://Inhaltsdaten.LegalDocML.de/1.8/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
                      <akn:act name="regelungstext">
                      </akn:act>
                   </akn:akomaNtoso>
@@ -216,9 +216,9 @@ class RegelungstextTest {
     final String xml =
       """
           <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                 http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                                 http://Inhaltsdaten.LegalDocML.de/1.8/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
          <akn:act name="regelungstext">
          </akn:act>
       </akn:akomaNtoso>
@@ -265,9 +265,9 @@ class RegelungstextTest {
     final String xml =
       """
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+                                   http://Inhaltsdaten.LegalDocML.de/1.8/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
            <akn:act name="regelungstext">
               <akn:body eId="hauptteil-n1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
               </akn:body>

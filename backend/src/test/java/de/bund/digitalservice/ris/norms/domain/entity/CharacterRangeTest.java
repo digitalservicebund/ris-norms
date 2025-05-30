@@ -102,7 +102,7 @@ public class CharacterRangeTest {
       var textInRange = new CharacterRange("9-13").findTextInNode(
         XmlMapper.toElement(
           """
-              <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="text-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-n1_lebzykl-n1_ereignis-n2">A simple text of which we want to find a part.</akn:p>
+              <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="text-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-n1_lebzykl-n1_ereignis-n2">A simple text of which we want to find a part.</akn:p>
           """
         )
       );
@@ -117,7 +117,7 @@ public class CharacterRangeTest {
       var textInRange = new CharacterRange("9-13").findTextInNode(
         XmlMapper.toElement(
           """
-              <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="text-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-n1_lebzykl-n1_ereignis-n2">A simple <akn:ref eId="text-n1_ref-n1">text</akn:ref> of which we want to find a part.</akn:p>
+              <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="text-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-n1_lebzykl-n1_ereignis-n2">A simple <akn:ref eId="text-n1_ref-n1">text</akn:ref> of which we want to find a part.</akn:p>
           """
         )
       );
@@ -132,7 +132,7 @@ public class CharacterRangeTest {
       var textInRange = new CharacterRange("2-16").findTextInNode(
         XmlMapper.toElement(
           """
-              <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="text-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-n1_lebzykl-n1_ereignis-n2">A simple <akn:ref eId="text-n1_ref-n1">text</akn:ref> of which we want to find a part.</akn:p>
+              <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="text-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-n1_lebzykl-n1_ereignis-n2">A simple <akn:ref eId="text-n1_ref-n1">text</akn:ref> of which we want to find a part.</akn:p>
           """
         )
       );
@@ -150,7 +150,7 @@ public class CharacterRangeTest {
       // given //when
       var node = XmlMapper.toElement(
         """
-            <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="text-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple text of which we want to find a part.</akn:p>
+            <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="text-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple text of which we want to find a part.</akn:p>
         """
       );
       var nodesInRange = new CharacterRange("9-13").getNodesInRange(node);
@@ -163,7 +163,7 @@ public class CharacterRangeTest {
 
       assertThat(XmlMapper.toString(node)).isEqualToIgnoringWhitespace(
         """
-            <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" eId="text-n1">A simple foo of which we want to find a part.</akn:p>
+            <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" eId="text-n1">A simple foo of which we want to find a part.</akn:p>
         """
       );
     }
@@ -195,7 +195,7 @@ public class CharacterRangeTest {
       // given //when
       var node = XmlMapper.toElement(
         """
-            <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="text-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple <akn:ref eId="text-n1_ref-n1">text</akn:ref> of which we want to find a part.</akn:p>
+            <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="text-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple <akn:ref eId="text-n1_ref-n1">text</akn:ref> of which we want to find a part.</akn:p>
         """
       );
       var nodesInRange = new CharacterRange("9-13").getNodesInRange(node);
@@ -211,7 +211,7 @@ public class CharacterRangeTest {
 
       assertThat(XmlMapper.toString(node)).isEqualToIgnoringWhitespace(
         """
-            <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" eId="text-n1">A simple foo of which we want to find a part.</akn:p>
+            <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" eId="text-n1">A simple foo of which we want to find a part.</akn:p>
         """
       );
     }
@@ -221,7 +221,7 @@ public class CharacterRangeTest {
       // given //when
       var document = XmlMapper.toElement(
         """
-            <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="text-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple <akn:ref eId="text-n1_ref-n1">text</akn:ref> of which we want to find a part.</akn:p>
+            <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="text-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179">A simple <akn:ref eId="text-n1_ref-n1">text</akn:ref> of which we want to find a part.</akn:p>
         """
       );
       var nodesInRange = new CharacterRange("2-16").getNodesInRange(document);
@@ -240,7 +240,7 @@ public class CharacterRangeTest {
 
       assertThat(XmlMapper.toString(document)).isEqualToIgnoringWhitespace(
         """
-            <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" eId="text-n1">A new text which we want to find a part.</akn:p>
+            <?xml version="1.0" encoding="UTF-8"?><akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" eId="text-n1">A new text which we want to find a part.</akn:p>
         """
       );
     }
