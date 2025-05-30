@@ -27,7 +27,7 @@ public class NormResponseMapper {
       .shortTitle(norm.getShortTitle().orElse(null))
       .fna(
         norm
-          .getRegelungstext1()
+          .getRechtsetzungsdokument()
           .getMeta()
           .getOrCreateProprietary()
           .getMetadataValue(Metadata.FNA)
