@@ -64,7 +64,7 @@ class EIdPositionTest {
     @Test
     void ordinalEIdPosition() {
       var node = XmlMapper.toElement(
-        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7.2/\" />"
+        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8/\" />"
       );
 
       assertThat(EIdPosition.findEIdPosition(node, EIdPartType.AENDBEFEHL))

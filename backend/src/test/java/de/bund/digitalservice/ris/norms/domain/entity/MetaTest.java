@@ -14,7 +14,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
             <akn:identification eId="meta-n1_ident-n1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
                <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                   <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
@@ -36,7 +36,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
             <akn:identification eId="meta-n1_ident-n1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
                <akn:FRBRManifestation eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                   <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
@@ -58,7 +58,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
             <akn:identification eId="meta-n1_ident-n1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
                <akn:FRBRManifestation eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                   <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
@@ -80,7 +80,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
             <akn:identification eId="meta-n1_ident-n1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
                <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                   <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
@@ -104,7 +104,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
             <akn:identification eId="meta-n1_ident-n1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
                    <akn:FRBRWork eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                       <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
@@ -126,7 +126,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
             <akn:identification eId="meta-n1_ident-n1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
                    <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                       <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
@@ -148,7 +148,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                  <akn:temporalData eId="meta-n1_geltzeiten-n1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
                      <akn:temporalGroup eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1" GUID="ee45119b-2485-4115-b587-da54b95e3ebd">
                         <akn:timeInterval eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1_gelzeitintervall-n1" GUID="a43d0287-920d-4fbb-91d1-42fd7e03fe16"
@@ -172,7 +172,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                 <akn:identification eId="meta-n1_ident-n1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
                    <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                       <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
@@ -194,7 +194,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                 <akn:identification eId="meta-n1_ident-n1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
                    <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                       <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
@@ -217,7 +217,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
               <akn:lifecycle eId="meta-n1_lebzykl-n1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
                  <akn:eventRef eId="meta-n1_lebzykl-n1_ereignis-n1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
                     source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
@@ -237,7 +237,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
                 <akn:identification eId="meta-n1_ident-n1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
                    <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                       <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
@@ -259,7 +259,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+              <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
               <akn:lifecycle eId="meta-n1_lebzykl-n1" GUID="4b31c2c4-6ecc-4f29-9f79-18149603114b" source="attributsemantik-noch-undefiniert">
                  <akn:eventRef eId="meta-n1_lebzykl-n1_ereignis-n1" GUID="44e782b4-63ae-4ef0-bb0d-53e42696dd06" date="2023-12-29"
                     source="attributsemantik-noch-undefiniert" type="generation" refersTo="ausfertigung" />
@@ -282,7 +282,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-         <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+         <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
            <akn:identification eId="meta-n1_ident-n1" GUID="100a364a-4680-4c7a-91ad-1b0ad9b68e7f" source="attributsemantik-noch-undefiniert">
               <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                  <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
@@ -323,7 +323,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-        <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+        <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
           <akn:proprietary eId="meta-n1_proprietary-n1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
             <meta:typ>gesetz</meta:typ>
@@ -345,7 +345,7 @@ class MetaTest {
     var xml =
       """
       <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                       xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
         <akn:act name="regelungstext">
@@ -369,7 +369,7 @@ class MetaTest {
     final Meta meta = new Meta(
       XmlMapper.toElement(
         """
-        <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
+        <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
           <akn:proprietary eId="meta-n1_proprietary-n1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
             <meta:typ>gesetz</meta:typ>
@@ -391,7 +391,7 @@ class MetaTest {
     var xml =
       """
       <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
                       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                       xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
         <akn:act name="regelungstext">
