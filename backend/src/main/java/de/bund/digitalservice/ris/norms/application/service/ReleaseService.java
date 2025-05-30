@@ -10,7 +10,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.util.List;
@@ -94,13 +93,7 @@ public class ReleaseService
     );
 
     // Validate all resulting versions
-    manifestationToPublish
-      .getRegelungstexte()
-      .forEach(regelungstext ->
-        ldmlDeValidator.parseAndValidateRegelungstext(
-          XmlMapper.toString(regelungstext.getDocument())
-        )
-      );
+    ldmlDeValidator.validateXSDSchema(manifestationToPublish);
     ldmlDeValidator.validateSchematron(manifestationToPublish);
 
     manifestationToPublish.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
