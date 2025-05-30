@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.BinaryFileMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormManifestationMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
@@ -328,7 +329,7 @@ public class Fixtures {
     );
   }
 
-  public static void loadAndSaveNormFixture(
+  public static Norm loadAndSaveNormFixture(
     DokumentRepository dokumentRepository,
     BinaryFileRepository binaryFileRepository,
     NormManifestationRepository normManifestationRepository,
@@ -336,7 +337,7 @@ public class Fixtures {
     NormPublishState publishState
   ) {
     final Norm norm = Fixtures.loadNormFromDisk(folderName);
-    saveNormFixture(
+    return saveNormFixture(
       dokumentRepository,
       binaryFileRepository,
       normManifestationRepository,
@@ -345,7 +346,7 @@ public class Fixtures {
     );
   }
 
-  public static void loadAndSaveNormFixture(
+  public static Norm loadAndSaveNormFixture(
     DokumentRepository dokumentRepository,
     BinaryFileRepository binaryFileRepository,
     NormManifestationRepository normManifestationRepository,
@@ -354,7 +355,7 @@ public class Fixtures {
     NormPublishState publishState
   ) {
     final Norm norm = Fixtures.loadNormFromDisk(clazz, folderName);
-    saveNormFixture(
+    return saveNormFixture(
       dokumentRepository,
       binaryFileRepository,
       normManifestationRepository,
@@ -363,7 +364,7 @@ public class Fixtures {
     );
   }
 
-  private static void saveNormFixture(
+  private static Norm saveNormFixture(
     DokumentRepository dokumentRepository,
     BinaryFileRepository binaryFileRepository,
     NormManifestationRepository normManifestationRepository,
@@ -384,6 +385,7 @@ public class Fixtures {
       .findByManifestationEli(norm.getManifestationEli().toString())
       .orElseThrow();
     normDto.setPublishState(publishState);
-    normManifestationRepository.save(normDto);
+    var savedNormDto = normManifestationRepository.save(normDto);
+    return NormManifestationMapper.mapToDomain(savedNormDto);
   }
 }
