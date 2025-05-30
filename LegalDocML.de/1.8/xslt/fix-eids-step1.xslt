@@ -1036,6 +1036,13 @@
         </xsl:call-template>
     </xsl:template>
 
+    <xsl:template mode="step1" match="akn:notes">
+        <xsl:param name="parentEId" required="no"/>
+        <xsl:call-template name="noEIdParentEIdPassthrough">
+            <xsl:with-param name="parentEId" select="$parentEId"/>
+        </xsl:call-template>
+    </xsl:template>
+
     <!-- MISSING (as it is not important for the files we are converting): "Im Fall von akn:article wird die Positionsangabe in diesem Fall allerdings im Kontext des beinhaltenden Elternelements ermittelt, sondern innerhalb des gesamten Dokuments." -->
 
     <xsl:template name="updateEIdOrdinal">
@@ -1063,6 +1070,19 @@
 
             <xsl:apply-templates mode="step1" select='node()'>
                 <xsl:with-param name="parentEId" select="$newEId"/>
+            </xsl:apply-templates>
+        </xsl:copy>
+    </xsl:template>
+
+    <!-- The element itself does not get an eId, but it has child elements that should use the eid of the surrounding element as parentEId. -->
+    <xsl:template name="noEIdParentEIdPassthrough">
+        <xsl:param name="parentEId" required="no"/>
+
+        <xsl:copy>
+            <xsl:apply-templates mode="step1" select='@*'/>
+
+            <xsl:apply-templates mode="step1" select='node()'>
+                <xsl:with-param name="parentEId" select="$parentEId"/>
             </xsl:apply-templates>
         </xsl:copy>
     </xsl:template>
