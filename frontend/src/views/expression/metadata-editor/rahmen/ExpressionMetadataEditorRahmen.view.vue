@@ -7,7 +7,6 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useElementId } from "@/composables/useElementId"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import { useErrorToast } from "@/lib/errorToast"
 import Checkbox from "primevue/checkbox"
 import type { DocumentTypeValue } from "@/lib/proprietary"
 import {
@@ -29,7 +28,7 @@ import type { RahmenProprietary } from "@/types/proprietary"
 import { produce } from "immer"
 import Button from "primevue/button"
 import InputText from "primevue/inputtext"
-import { useToast } from "primevue/usetoast"
+import { useToast } from "@/composables/useToast"
 import { computed, ref, watch } from "vue"
 import Select from "primevue/select"
 
@@ -287,8 +286,7 @@ const {
 } = useGetNormHtml(dokumentExpressionEli)
 
 const sentryTraceId = useSentryTraceId()
-const { add: addToast } = useToast()
-const { addErrorToast } = useErrorToast()
+const { add: addToast, addError: addErrorToast } = useToast()
 
 function showToast() {
   if (saveError.value) {

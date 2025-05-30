@@ -1,13 +1,11 @@
 <script setup lang="ts">
-import RisErrorToast from "@/components/RisErrorToast.vue"
 import RisNavbar from "@/components/RisNavbar.vue"
-import Toast from "primevue/toast"
+import RisToast from "@/components/RisToast.vue"
 import { RouterView } from "vue-router"
 </script>
 
 <template>
-  <Toast />
-  <RisErrorToast />
+  <RisToast />
 
   <RisNavbar class="fixed inset-x-0 top-0 z-10" />
 
