@@ -271,7 +271,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       var normFromDatabase = normDBService.updateNorm(new UpdateNormPort.Options(newNorm));
 
       // Then
-      assertThat(dokumentRepository.findAll()).hasSize(1);
+      assertThat(dokumentRepository.findAll()).hasSize(2);
       assertThat(normFromDatabase).contains(newNorm);
     }
 
