@@ -27,13 +27,13 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-              <meta:typ>gesetz</meta:typ>
-              <meta:fna>754-28-1</meta:fna>
-              <meta:gesta>i am gesta</meta:gesta>
-              <meta:fassung>verkuendungsfassung</meta:fassung>
-              <meta:art>rechtsetzungsdokument</meta:art>
-            </meta:legalDocML.de_metadaten>
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+              <redok:fna>754-28-1</redok:fna>
+              <redok:gesta>i am gesta</redok:gesta>
+            </redok:legalDocML.de_metadaten>
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+              <regtxt:typ>gesetz</regtxt:typ>
+            </regtxt:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
               <ris:subtyp>new-subtyp</ris:subtyp>
               <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
@@ -50,8 +50,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("gesetz");
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("754-28-1");
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).contains("i am gesta");
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains("verkuendungsfassung");
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
         "new-bezeichnungInVorlage"
@@ -76,10 +74,12 @@ class ProprietaryTest {
                 eId="meta-n1_proprietary-n1"
                 GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                 source="attributsemantik-noch-undefiniert">
-                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-                </meta:legalDocML.de_metadaten>
+                <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+                </redok:legalDocML.de_metadaten>
+                <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+                </regtxt:legalDocML.de_metadaten>
                 <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
-                 </ris:legalDocML.de_metadaten>
+                </ris:legalDocML.de_metadaten>
               </akn:proprietary>
           """
         )
@@ -88,8 +88,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).isEmpty();
@@ -329,13 +327,13 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-              <meta:typ>gesetz</meta:typ>
-              <meta:fna>754-28-1</meta:fna>
-              <meta:gesta>i am gesta</meta:gesta>
-              <meta:fassung>verkuendungsfassung</meta:fassung>
-              <meta:art>rechtsetzungsdokument</meta:art>
-            </meta:legalDocML.de_metadaten>
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+              <redok:fna>754-28-1</redok:fna>
+              <redok:gesta>i am gesta</redok:gesta>
+            </redok:legalDocML.de_metadaten>
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+              <regtxt:typ>gesetz</regtxt:typ>
+            </regtxt:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
               <ris:subtyp>new-subtyp</ris:subtyp>
               <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
@@ -352,8 +350,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("gesetz");
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("754-28-1");
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).contains("i am gesta");
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains("verkuendungsfassung");
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
         "new-bezeichnungInVorlage"
@@ -368,12 +364,10 @@ class ProprietaryTest {
         "Andere Organisationseinheit"
       );
 
-      proprietary.setMetadataValue(Metadata.FNA, "new-fna");
       proprietary.setMetadataValue(Metadata.TYP, "new-gesetz");
       proprietary.setMetadataValue(Metadata.FNA, "new-fna");
       proprietary.setMetadataValue(Metadata.GESTA, "new-gesta");
       proprietary.setMetadataValue(Metadata.FASSUNG, "new-verkuendungsfassung");
-      proprietary.setMetadataValue(Metadata.ART, "new-rechtsetzungsdokument");
       proprietary.setMetadataValue(Metadata.SUBTYP, "new-subtyp-updated");
       proprietary.setMetadataValue(
         Metadata.BEZEICHNUNG_IN_VORLAGE,
@@ -391,10 +385,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-gesetz");
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).contains("new-gesta");
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains(
-        "new-verkuendungsfassung"
-      );
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp-updated");
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
         "new-bezeichnungInVorlage-updated"
@@ -421,8 +411,10 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-            </meta:legalDocML.de_metadaten>
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+            </redok:legalDocML.de_metadaten>
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+            </regtxt:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
              </ris:legalDocML.de_metadaten>
           </akn:proprietary>
@@ -433,8 +425,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).isEmpty();
@@ -447,8 +437,6 @@ class ProprietaryTest {
       proprietary.setMetadataValue(Metadata.TYP, "new-gesetz");
       proprietary.setMetadataValue(Metadata.FNA, "new-fna");
       proprietary.setMetadataValue(Metadata.GESTA, "new-gesta");
-      proprietary.setMetadataValue(Metadata.FASSUNG, "new-verkuendungsfassung");
-      proprietary.setMetadataValue(Metadata.ART, "new-rechtsetzungsdokument");
       proprietary.setMetadataValue(Metadata.SUBTYP, "new-subtyp-updated");
       proprietary.setMetadataValue(
         Metadata.BEZEICHNUNG_IN_VORLAGE,
@@ -466,10 +454,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-gesetz");
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).contains("new-gesta");
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains(
-        "new-verkuendungsfassung"
-      );
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp-updated");
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
         "new-bezeichnungInVorlage-updated"
@@ -504,8 +488,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).isEmpty();
@@ -518,8 +500,6 @@ class ProprietaryTest {
       proprietary.setMetadataValue(Metadata.TYP, "new-gesetz");
       proprietary.setMetadataValue(Metadata.FNA, "new-fna");
       proprietary.setMetadataValue(Metadata.GESTA, "new-gesta");
-      proprietary.setMetadataValue(Metadata.FASSUNG, "new-verkuendungsfassung");
-      proprietary.setMetadataValue(Metadata.ART, "new-rechtsetzungsdokument");
       proprietary.setMetadataValue(Metadata.SUBTYP, "new-subtyp-updated");
       proprietary.setMetadataValue(
         Metadata.BEZEICHNUNG_IN_VORLAGE,
@@ -537,10 +517,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-gesetz");
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).contains("new-gesta");
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains(
-        "new-verkuendungsfassung"
-      );
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp-updated");
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
         "new-bezeichnungInVorlage-updated"
@@ -567,13 +543,13 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-              <meta:typ>gesetz</meta:typ>
-              <meta:fna>754-28-1</meta:fna>
-              <meta:gesta>i am gesta</meta:gesta>
-              <meta:fassung>verkuendungsfassung</meta:fassung>
-              <meta:art>rechtsetzungsdokument</meta:art>
-            </meta:legalDocML.de_metadaten>
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+              <redok:fna>754-28-1</redok:fna>
+              <redok:gesta>i am gesta</redok:gesta>
+            </redok:legalDocML.de_metadaten>
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+              <regtxt:typ>gesetz</regtxt:typ>
+            </regtxt:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
               <ris:subtyp>new-subtyp</ris:subtyp>
               <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
@@ -590,8 +566,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("gesetz");
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("754-28-1");
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).contains("i am gesta");
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains("verkuendungsfassung");
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
         "new-bezeichnungInVorlage"
@@ -609,8 +583,6 @@ class ProprietaryTest {
       proprietary.setMetadataValue(Metadata.TYP, "");
       proprietary.setMetadataValue(Metadata.FNA, "");
       proprietary.setMetadataValue(Metadata.GESTA, "");
-      proprietary.setMetadataValue(Metadata.FASSUNG, "");
-      proprietary.setMetadataValue(Metadata.ART, "");
       proprietary.setMetadataValue(Metadata.SUBTYP, "");
       proprietary.setMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE, "");
       proprietary.setMetadataValue(Metadata.ART_DER_NORM, "");
@@ -622,8 +594,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).isEmpty();
@@ -642,13 +612,13 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-              <meta:typ>gesetz</meta:typ>
-              <meta:fna>754-28-1</meta:fna>
-              <meta:gesta>i am gesta</meta:gesta>
-              <meta:fassung>verkuendungsfassung</meta:fassung>
-              <meta:art>rechtsetzungsdokument</meta:art>
-            </meta:legalDocML.de_metadaten>
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+              <redok:fna>754-28-1</redok:fna>
+              <redok:gesta>i am gesta</redok:gesta>
+            </redok:legalDocML.de_metadaten>
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+              <regtxt:typ>gesetz</regtxt:typ>
+            </regtxt:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
               <ris:subtyp>new-subtyp</ris:subtyp>
               <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
@@ -665,8 +635,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("gesetz");
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("754-28-1");
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).contains("i am gesta");
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).contains("verkuendungsfassung");
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("rechtsetzungsdokument");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
         "new-bezeichnungInVorlage"
@@ -684,8 +652,6 @@ class ProprietaryTest {
       proprietary.setMetadataValue(Metadata.TYP, null);
       proprietary.setMetadataValue(Metadata.FNA, null);
       proprietary.setMetadataValue(Metadata.GESTA, null);
-      proprietary.setMetadataValue(Metadata.FASSUNG, null);
-      proprietary.setMetadataValue(Metadata.ART, null);
       proprietary.setMetadataValue(Metadata.SUBTYP, null);
       proprietary.setMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE, null);
       proprietary.setMetadataValue(Metadata.ART_DER_NORM, null);
@@ -697,8 +663,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).isEmpty();
@@ -723,7 +687,7 @@ class ProprietaryTest {
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
-                  <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
+                  <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                       <ris:artDerNorm>SN</ris:artDerNorm>
                    </ris:einzelelement>
               </ris:legalDocML.de_metadaten>
@@ -752,7 +716,7 @@ class ProprietaryTest {
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
-                  <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
+                  <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                    </ris:einzelelement>
               </ris:legalDocML.de_metadaten>
           </akn:proprietary>
@@ -1196,9 +1160,9 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-              <meta:gegenstandlos seit="2020-01-01" />
-            </meta:legalDocML.de_metadaten>
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+              <redok:gegenstandlos seit="2020-01-01" />
+            </redok:legalDocML.de_metadaten>
           </akn:proprietary>
           """
         )
@@ -1216,9 +1180,8 @@ class ProprietaryTest {
         XmlMapper.toElement(
           """
           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-
-            </meta:legalDocML.de_metadaten>
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+            </redok:legalDocML.de_metadaten>
           </akn:proprietary>
           """
         )
