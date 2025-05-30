@@ -16,7 +16,7 @@ class FRBRManifestationTest {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
       XmlMapper.toElement(
         """
-         <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+         <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                    <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2020-01-01/regelungstext-verkuendung-1.xml"/>
                <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorherige-version-id" value="123577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
                <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f"/>
@@ -36,7 +36,7 @@ class FRBRManifestationTest {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
       XmlMapper.toElement(
         """
-        <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+        <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                      <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
                      <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorherige-version-id" value="123577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                      <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
@@ -62,7 +62,7 @@ class FRBRManifestationTest {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
       XmlMapper.toElement(
         """
-         <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+         <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"/>
                <akn:FRBRuri GUID="ad94eb82-1a61-4210-939f-7e423fbc78d4" eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"/>
                <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorherige-version-id" value="123577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
@@ -83,7 +83,7 @@ class FRBRManifestationTest {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
       XmlMapper.toElement(
         """
-         <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+         <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"/>
                <akn:FRBRuri GUID="ad94eb82-1a61-4210-939f-7e423fbc78d4" eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"/>
                <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorherige-version-id" value="123577e5-66ba-48f5-a6eb-db40bcfd6b87"/>
@@ -106,7 +106,7 @@ class FRBRManifestationTest {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
       XmlMapper.toElement(
         """
-        <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+        <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                      <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
                      <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorherige-version-id" value="123577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                      <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
@@ -125,7 +125,7 @@ class FRBRManifestationTest {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
       XmlMapper.toElement(
         """
-        <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+        <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                     <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
                     <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorherige-version-id" value="123577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                     <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
@@ -144,7 +144,7 @@ class FRBRManifestationTest {
     final FRBRManifestation frbrManifestation = new FRBRManifestation(
       XmlMapper.toElement(
         """
-        <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
+        <akn:FRBRManifestation xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4cce38bb-236b-4947-bee1-e90f3b6c2b8d">
                      <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1" GUID="c01334e2-f12b-4055-ac82-15ac03c74c78" value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1" />
                      <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2" GUID="2c2df2b6-31ce-4876-9fbb-fe38102aeb37" name="vorherige-version-id" value="123577e5-66ba-48f5-a6eb-db40bcfd6b87" />
                      <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1" GUID="6c99101d-6bca-41ae-9794-250bd096fead" name="aktuelle-version-id" value="ba44d2ae-0e73-44ba-850a-932ab2fa553f" />
