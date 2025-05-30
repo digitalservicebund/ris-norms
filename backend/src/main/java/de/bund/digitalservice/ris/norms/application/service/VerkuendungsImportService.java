@@ -229,9 +229,6 @@ public class VerkuendungsImportService
 
       Norm norm = findParseAndValidateFilesAsNorm(files);
       ldmlDeValidator.validateSchematron(norm);
-      if (!norm.getRechtsetzungsdokument().isVerkuendungsfassung()) {
-        throw new RechtsetzungsdokumentNotAVerkuendungsfassungException();
-      }
 
       if (norm.getRegelungstexte().isEmpty() && norm.getBekanntmachungen().isEmpty()) {
         throw new NoRegelungstextOrBekanntmachungstextException();
