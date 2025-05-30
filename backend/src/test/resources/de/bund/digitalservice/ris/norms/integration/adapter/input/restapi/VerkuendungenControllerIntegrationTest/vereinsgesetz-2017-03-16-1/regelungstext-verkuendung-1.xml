@@ -139,11 +139,11 @@
          </akn:temporalData>
          <akn:notes source="attributsemantik-noch-undefiniert">
             <akn:note GUID="62ef7b71-c670-4639-ba9e-7216f237e9c1"
-                      eId="editfnote-n1"
+                      eId="meta-n1_editfnote-n1"
                       marker="#"
                       placement="bottom"
                       refersTo="kommentierende-fussnote">
-               <akn:p GUID="ad2edab0-725d-4459-9731-6c28173ea10b" eId="editfnote-n1_text-n1">*T (+++ Textnachweis ab: 1.1.1999 +++)</akn:p>
+               <akn:p GUID="ad2edab0-725d-4459-9731-6c28173ea10b" eId="meta-n1_editfnote-n1_text-n1">*T (+++ Textnachweis ab: 1.1.1999 +++)</akn:p>
             </akn:note>
          </akn:notes>
          <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung besitzen keine fachliche Korrektheit. -->
