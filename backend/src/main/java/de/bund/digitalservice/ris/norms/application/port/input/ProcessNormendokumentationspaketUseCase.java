@@ -236,34 +236,6 @@ public interface ProcessNormendokumentationspaketUseCase {
   }
 
   /**
-   * The uploaded Rechtsetzungsdokument is not a Verkündungsfassung
-   */
-  class RechtsetzungsdokumentNotAVerkuendungsfassungException
-    extends NormendokumentationspaketImportFailedException {
-
-    public RechtsetzungsdokumentNotAVerkuendungsfassungException() {
-      super("The rechtsetzungsdokument is not a verkuendungsfassung");
-    }
-
-    @Override
-    public URI getType() {
-      return URI.create(
-        "/errors/normendokumentationspaket-import-failed/rechtsetzungsdokument-not-verkuendungsfassung"
-      );
-    }
-
-    @Override
-    public String getTitle() {
-      return "The rechtsetzungsdokument is not a verkuendungsfassung";
-    }
-
-    @Override
-    public Map<String, Object> getProperties() {
-      return Map.of();
-    }
-  }
-
-  /**
    * The Rechtsetzungsdokument does not reference any Regelungstext or Bekanntmachung
    */
   class NoRegelungstextOrBekanntmachungstextException
