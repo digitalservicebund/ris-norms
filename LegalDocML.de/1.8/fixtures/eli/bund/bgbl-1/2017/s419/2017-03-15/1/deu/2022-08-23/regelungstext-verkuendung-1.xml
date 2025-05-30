@@ -165,17 +165,17 @@
                <meta:typ>gesetz</meta:typ>
                <meta:form>mantelform</meta:form>
             </meta:legalDocML.de_metadaten>
-            
-            
+
+
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/">
                   <norms:geltungszeiten>
-                     <norms:geltungszeit id="gz-1" art="inkraft">2017-03-16</norms:geltungszeit>
+                     <norms:geltungszeit id="5e2f4f78-a0a1-4c55-9ef7-ad2821161915" art="inkraft">2017-03-16</norms:geltungszeit>
                   </norms:geltungszeiten>
                   <norms:zielnorm-references>
                      <norms:zielnorm-reference>
                         <norms:typ>Änderungsvorschrift</norms:typ>
-                        <norms:geltungszeit>gz-1</norms:geltungszeit>
+                        <norms:geltungszeit>5e2f4f78-a0a1-4c55-9ef7-ad2821161915</norms:geltungszeit>
                         <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
                         <norms:zielnorm>eli/bund/bgbl-1/1964/s593</norms:zielnorm>
                      </norms:zielnorm-reference>
