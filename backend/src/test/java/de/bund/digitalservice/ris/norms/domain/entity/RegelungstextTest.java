@@ -75,13 +75,10 @@ class RegelungstextTest {
     // given
     final String xml =
       """
-                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                             http://Inhaltsdaten.LegalDocML.de/1.8/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                     <akn:act name="regelungstext">
-                     </akn:act>
-                  </akn:akomaNtoso>
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
+         <akn:act name="regelungstext">
+         </akn:act>
+      </akn:akomaNtoso>
       """.strip();
 
     final var regelungstext = new Regelungstext(XmlMapper.toDocument(xml));
@@ -215,10 +212,7 @@ class RegelungstextTest {
     // given
     final String xml =
       """
-          <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                 http://Inhaltsdaten.LegalDocML.de/1.8/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
          <akn:act name="regelungstext">
          </akn:act>
       </akn:akomaNtoso>
@@ -264,15 +258,12 @@ class RegelungstextTest {
     // given
     final String xml =
       """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.8/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <akn:body eId="hauptteil-n1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-              </akn:body>
-           </akn:act>
-        </akn:akomaNtoso>
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
+         <akn:act name="regelungstext">
+            <akn:body eId="hauptteil-n1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
+            </akn:body>
+         </akn:act>
+      </akn:akomaNtoso>
       """;
 
     final var regelungstext = new Regelungstext(XmlMapper.toDocument(xml));
