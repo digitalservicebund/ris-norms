@@ -18,7 +18,9 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.util.pattern.PathPatternRouteMatcher;
 
 /**
  * Configuration class for defining security settings in the application. This class is annotated
@@ -63,7 +65,7 @@ public class SecurityConfig {
       .exceptionHandling(configurer ->
         configurer.defaultAuthenticationEntryPointFor(
           new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED),
-          new AntPathRequestMatcher("/api/**")
+          PathPatternRequestMatcher.withDefaults().matcher("/api/**")
         )
       )
       .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
