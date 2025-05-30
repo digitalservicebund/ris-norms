@@ -82,8 +82,8 @@
         <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
           <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
             <norms:geltungszeiten>
-              <norms:geltungszeit id="gz-1" art="inkraft">2023-12-30</norms:geltungszeit>
-              <norms:geltungszeit id="gz-2" art="inkraft">2024-06-01</norms:geltungszeit>
+              <norms:geltungszeit id="a25e58bd-20a2-445e-885a-7fe7aa86f669" art="inkraft">2023-12-30</norms:geltungszeit>
+              <norms:geltungszeit id="93c45b53-7019-4699-805e-b9d9ae44e4a3" art="inkraft">2024-06-01</norms:geltungszeit>
             </norms:geltungszeiten>
           </norms:legalDocML.de_metadaten>
         </ris:legalDocML.de_metadaten>
