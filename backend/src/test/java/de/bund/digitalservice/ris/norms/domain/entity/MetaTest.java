@@ -292,11 +292,9 @@ class MetaTest {
               </akn:FRBRExpression>
           </akn:identification>
           <akn:proprietary eId="meta-n1_proprietary-n1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-           <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-           <meta:typ>gesetz</meta:typ>
-           <meta:fna>754-28-1</meta:fna>
-           <meta:fassung>verkuendungsfassung</meta:fassung>
-           </meta:legalDocML.de_metadaten>
+           <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+             <redok:fna>754-28-1</redok:fna>
+           </redok:legalDocML.de_metadaten>
          </akn:proprietary>
         </akn:meta>
         """
@@ -325,11 +323,9 @@ class MetaTest {
         """
         <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
           <akn:proprietary eId="meta-n1_proprietary-n1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-            <meta:typ>gesetz</meta:typ>
-            <meta:fna>754-28-1</meta:fna>
-            <meta:fassung>verkuendungsfassung</meta:fassung>
-            </meta:legalDocML.de_metadaten>
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+             <redok:fna>754-28-1</redok:fna>
+           </redok:legalDocML.de_metadaten>
           </akn:proprietary>
         </akn:meta>
         """
@@ -344,10 +340,7 @@ class MetaTest {
     // Given
     var xml =
       """
-      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
-                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                      xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
         <akn:act name="regelungstext">
           <!-- Metadaten -->
           <akn:meta eId="meta-n1" GUID="000"></akn:meta>
@@ -371,11 +364,9 @@ class MetaTest {
         """
         <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1" GUID="82a65581-0ea7-4525-9190-35ff86c977af">
           <akn:proprietary eId="meta-n1_proprietary-n1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-            <meta:typ>gesetz</meta:typ>
-            <meta:fna>754-28-1</meta:fna>
-            <meta:fassung>verkuendungsfassung</meta:fassung>
-            </meta:legalDocML.de_metadaten>
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/">
+             <redok:fna>754-28-1</redok:fna>
+           </redok:legalDocML.de_metadaten>
           </akn:proprietary>
         </akn:meta>
         """
@@ -390,10 +381,7 @@ class MetaTest {
     // Given
     var xml =
       """
-      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
-                      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                      xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd">
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
         <akn:act name="regelungstext">
           <!-- Metadaten -->
           <akn:meta eId="meta-n1" GUID="000"></akn:meta>

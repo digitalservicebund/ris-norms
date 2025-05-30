@@ -64,7 +64,8 @@ public class PrototypeCleanupService {
   }
 
   private void cleanRegularMetaData(Dokument dokument) {
-    deleteMetaData(dokument, Namespace.METADATEN.getNamespaceUri());
+    deleteMetaData(dokument, Namespace.METADATEN_REGELUNGSTEXT.getNamespaceUri());
+    deleteMetaData(dokument, Namespace.METADATEN_RECHTSETZUNGSDOKUMENT.getNamespaceUri());
   }
 
   private void cleanBundesRegierungMetaData(Dokument dokument) {
