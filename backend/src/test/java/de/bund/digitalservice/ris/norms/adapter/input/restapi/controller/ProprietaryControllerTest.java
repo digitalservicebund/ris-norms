@@ -48,7 +48,7 @@ class ProprietaryControllerTest {
     void returns404IfNormNotFound() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
@@ -68,10 +68,10 @@ class ProprietaryControllerTest {
     void returnsProprietaryResponseSchema() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var proprietary = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       )
         .getMeta()
         .getOrCreateProprietary();
@@ -105,12 +105,13 @@ class ProprietaryControllerTest {
     void returnsEmptyValuesIfSpecificProprietaryDataIsNotFound() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var proprietary = Fixtures.loadRegelungstextFromDisk(
+      var proprietary = Fixtures.loadNormFromDisk(
         ProprietaryControllerTest.class,
-        "vereinsgesetz-with-invalid-proprietary-metadata.xml"
+        "vereinsgesetz-with-invalid-proprietary-metadata"
       )
+        .getRegelungstext1()
         .getMeta()
         .getOrCreateProprietary();
       when(
@@ -143,12 +144,12 @@ class ProprietaryControllerTest {
     void returnsEmptyValuesIfProprietaryIsEmpty() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert"></akn:proprietary>
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1_proprietary-n1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert"></akn:proprietary>
           """
         )
       );
@@ -185,13 +186,13 @@ class ProprietaryControllerTest {
     @Test
     void updatesProprietarySuccess() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
-               eId="meta-1_proprietary-1"
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+               eId="meta-n1_proprietary-n1"
                GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                source="attributsemantik-noch-undefiniert">
                <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
@@ -199,12 +200,12 @@ class ProprietaryControllerTest {
                    <meta:fna>new-fna</meta:fna>
                    <meta:art>new-art</meta:art>
                </meta:legalDocML.de_metadaten>
-               <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
+               <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8/">
                    <meta:federfuehrung>
                        <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">new ressort</meta:federfuehrend>
                    </meta:federfuehrung>
                </meta:legalDocML.de_metadaten>
-               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                    <ris:subtyp>new-subtyp</ris:subtyp>
                    <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
                    <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
@@ -264,7 +265,7 @@ class ProprietaryControllerTest {
             query
               .dokumentExpressionEli()
               .toString()
-              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1") &&
+              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1") &&
             query.inputMetadata().fna().equals("new-fna") &&
             query.inputMetadata().art().equals("new-art") &&
             query.inputMetadata().typ().equals("new-typ") &&
@@ -283,7 +284,7 @@ class ProprietaryControllerTest {
     @Test
     void itReturnsNotFoundIfNormIsNotFound() throws Exception {
       // given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       when(
         updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(any())
@@ -321,9 +322,9 @@ class ProprietaryControllerTest {
     void returns404IfNormNotFound() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = "hauptteil-1_abschnitt-0_art-1";
+      var eid = "hauptteil-n1_abschnitt-n0_art-n1";
       when(
         loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
           new LoadProprietaryFromDokumentUseCase.Options(eli)
@@ -344,12 +345,12 @@ class ProprietaryControllerTest {
     void returnsProprietaryResponseSchema() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = "hauptteil-1_art-1";
+      var eid = "art-z1";
 
       var proprietary = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       )
         .getMeta()
         .getOrCreateProprietary();
@@ -375,14 +376,15 @@ class ProprietaryControllerTest {
     void returnsEmptyValuesIfSpecificProprietaryDataIsNotFound() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = "hauptteil-1_art-1";
+      var eid = "art-z1";
 
-      var proprietary = Fixtures.loadRegelungstextFromDisk(
+      var proprietary = Fixtures.loadNormFromDisk(
         ProprietaryControllerTest.class,
-        "vereinsgesetz-with-invalid-proprietary-metadata.xml"
+        "vereinsgesetz-with-invalid-proprietary-metadata"
       )
+        .getRegelungstext1()
         .getMeta()
         .getOrCreateProprietary();
       when(
@@ -407,12 +409,12 @@ class ProprietaryControllerTest {
     void returnsEmptyValuesIfProprietaryDoesNotExist() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = "hauptteil-1_art-1";
+      var eid = "art-z1";
 
       var proprietary = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
       )
         .getMeta()
         .getOrCreateProprietary();
@@ -441,16 +443,16 @@ class ProprietaryControllerTest {
     @Test
     void updatesProprietarySuccess() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
-      var eid = new EId("hauptteil-1_abschnitt-0_art-1");
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
+      var eid = new EId("hauptteil-n1_abschnitt-n0_art-n1");
 
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
-                               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1_proprietary-n1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert">
+                               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                                    <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
-                                           <ris:einzelelement href="#hauptteil-1_abschnitt-0_art-1">
+                                           <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                                        <ris:artDerNorm>SN</ris:artDerNorm>
                                    </ris:einzelelement>
                                </ris:legalDocML.de_metadaten>
@@ -486,7 +488,7 @@ class ProprietaryControllerTest {
             query
               .dokumentExpressionEli()
               .toString()
-              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1") &&
+              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1") &&
             query.eid().equals(eid) &&
             query.inputMetadata().artDerNorm().equals("SN")
         )
@@ -496,8 +498,8 @@ class ProprietaryControllerTest {
     @Test
     void itReturnsNotFoundIfNormIsNotFound() throws Exception {
       // given
-      var eid = "hauptteil-1_abschnitt-0_art-1";
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      var eid = "hauptteil-n1_abschnitt-n0_art-n1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       when(
         updateProprietarySingleElementFromDokumentUseCase.updateProprietarySingleElementFromDokument(

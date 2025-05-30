@@ -5,12 +5,12 @@ import { expect } from "@playwright/test"
 test.describe("articles page", () => {
   test("navigate to articles overview", async ({ page }) => {
     await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
     )
     await page.getByRole("link", { name: "Artikelübersicht" }).click()
 
     await expect(page).toHaveURL(
-      "/app/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles",
+      "/app/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles",
     )
     await expect(
       page.getByRole("heading", { name: "Enthaltene Artikel" }),

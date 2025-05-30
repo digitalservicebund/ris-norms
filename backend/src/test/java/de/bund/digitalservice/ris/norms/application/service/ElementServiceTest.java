@@ -34,12 +34,12 @@ class ElementServiceTest {
     void itLoadsAnElement() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = new EId("meta-1");
+      var eid = new EId("meta-n1");
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(
         loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
@@ -58,9 +58,9 @@ class ElementServiceTest {
     void itThrowsIfDokumentIsNotFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-1"
+        "eli/bund/notfound/2000/s1/1970-01-01/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = new EId("meta-1");
+      var eid = new EId("meta-n1");
       var query = new LoadElementUseCase.Options(eli, eid);
 
       when(
@@ -79,13 +79,13 @@ class ElementServiceTest {
     void itThrowsIfNoElementIsFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = new EId("meta-1000");
+      var eid = new EId("meta-n1000");
       var query = new LoadElementUseCase.Options(eli, eid);
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(
         loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
@@ -107,12 +107,12 @@ class ElementServiceTest {
     void itLoadsTheElementHtml() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = new EId("meta-1");
+      var eid = new EId("meta-n1");
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(
         loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
@@ -133,9 +133,9 @@ class ElementServiceTest {
     void itThrowsIfNoRegelungstextIsFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = new EId("meta-1");
+      var eid = new EId("meta-n1");
       var query = new LoadElementHtmlUseCase.Options(eli, eid);
 
       when(
@@ -154,13 +154,13 @@ class ElementServiceTest {
     void itThrowsIfNoElementIsFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = new EId("meta-1000");
+      var eid = new EId("meta-n1000");
       var query = new LoadElementHtmlUseCase.Options(eli, eid);
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(
         loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))

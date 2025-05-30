@@ -16,11 +16,11 @@ import lombok.Getter;
 @Getter
 public enum Metadata {
   // MetadatenDe
-  FNA(Namespace.METADATEN, "./fna", "fna"),
-  ART(Namespace.METADATEN, "./art", "art"),
-  TYP(Namespace.METADATEN, "./typ", "typ"),
-  GESTA(Namespace.METADATEN, "./gesta", "gesta"),
-  FASSUNG(Namespace.METADATEN, "./fassung", "fassung"),
+  FNA(Namespace.METADATEN_RECHTSETZUNGSDOKUMENT, "./fna", "fna"),
+  ART(Namespace.METADATEN, "./art", "art"), // TODO: (Malte Laukötter, 2025-05-30) remove
+  TYP(Namespace.METADATEN_REGELUNGSTEXT, "./typ", "typ"),
+  GESTA(Namespace.METADATEN_RECHTSETZUNGSDOKUMENT, "./gesta", "gesta"),
+  FASSUNG(Namespace.METADATEN, "./fassung", "fassung"), // TODO: (Malte Laukötter, 2025-05-30) remove
 
   // MetadatenBund
   FEDERFUEHRUNG(

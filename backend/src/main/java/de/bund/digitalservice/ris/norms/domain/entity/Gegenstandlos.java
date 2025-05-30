@@ -10,8 +10,7 @@ import org.w3c.dom.Element;
 @AllArgsConstructor
 public class Gegenstandlos {
 
-  // TODO: (Malte Laukötter, 2025-05-13) ldml_de 1.8 -> the namespace will change
-  public static final Namespace NAMESPACE = Namespace.METADATEN;
+  public static final Namespace NAMESPACE = Namespace.METADATEN_RECHTSETZUNGSDOKUMENT;
   public static final String TAG_NAME = "gegenstandlos";
 
   private final Element element;

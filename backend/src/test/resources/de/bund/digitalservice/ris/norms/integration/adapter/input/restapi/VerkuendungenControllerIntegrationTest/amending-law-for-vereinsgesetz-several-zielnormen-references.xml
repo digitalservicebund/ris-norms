@@ -28,7 +28,7 @@
                               GUID="d4f77434-7c1f-4496-917a-262a82a7070c">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrwork-1_frbrthis-1"
                                   GUID="ad47b5be-0012-447a-90db-71438b38650e"
-                                  value="eli/bund/bgbl-1/2017/s419/regelungstext-1"/>
+                                  value="eli/bund/bgbl-1/2017/s419/regelungstext-verkuendung-1"/>
                     <akn:FRBRuri eId="meta-1_ident-1_frbrwork-1_frbruri-1"
                                  GUID="a739e012-fe1d-4411-91b8-58e0de76fc28"
                                  value="eli/bund/bgbl-1/2017/s419"/>
@@ -54,13 +54,13 @@
                                   value="bgbl-1"/>
                     <akn:FRBRsubtype eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1"
                                      GUID="c5bc9d46-575f-4808-90e8-a354a227d701"
-                                     value="regelungstext-1"/>
+                                     value="regelungstext-verkuendung-1"/>
                 </akn:FRBRWork>
                 <akn:FRBRExpression eId="meta-1_ident-1_frbrexpression-1"
                                     GUID="4c69a6d2-8988-4581-bfa9-df9e8e24f321">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"
                                   GUID="f3805314-bbb6-4def-b82b-8b7f0b126197"
-                                  value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"/>
+                                  value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"/>
                     <akn:FRBRuri eId="meta-1_ident-1_frbrexpression-1_frbruri-1"
                                  GUID="5a2c4542-56cc-4c70-8b80-e2041b5b75e1"
                                  value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"/>
@@ -90,10 +90,10 @@
                                        GUID="ea61dfec-d89c-442a-9f6d-cb65d8ed2dc3">
                     <akn:FRBRthis eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"
                                   GUID="d74e4be8-c15d-4a9f-8ae6-781e522dc7a4"
-                                  value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"/>
+                                  value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"/>
                     <akn:FRBRuri eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"
                                  GUID="6e12c94c-f206-4144-bedf-dcab30867f4c"
-                                 value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"/>
+                                 value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"/>
                     <akn:FRBRdate eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"
                                   GUID="791a8124-d12e-45e1-9c80-5f0438e4d046"
                                   date="2022-08-23"
@@ -135,7 +135,7 @@
                                     href="#hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1"/>
                         <akn:destination eId="meta-1_analysis-1_activemod-1_textualmod-1_destination-1"
                                          GUID="83a4e169-ec57-4981-b191-84afe42130c8"
-                                         href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"/>
+                                         href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"/>
                         <akn:force eId="meta-1_analysis-1_activemod-1_textualmod-1_gelzeitnachw-1"
                                    GUID="9180eb9f-9da2-4fa4-b57f-803d4ddcdbc9"
                                    period="#meta-1_geltzeiten-1_geltungszeitgr-1"/>
@@ -282,7 +282,7 @@
                                    GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5">Das <akn:affectedDocument
                                     eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1_bezugsdoc-1"
                                     GUID="88b3b9f3-e4a8-49c6-9320-b5b42150bcc5"
-                                    href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1">Vereinsgesetz vom
+                                    href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1">Vereinsgesetz vom
                                 5. August 1964 (BGBl. I S. 593), das zuletzt durch … geändert worden
                                 ist</akn:affectedDocument>, wird wie folgt geändert:
                             </akn:p>
@@ -305,7 +305,7 @@
                                             refersTo="aenderungsbefehl-ersetzen">In <akn:ref
                                             eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1"
                                             GUID="61d3036a-d7d9-4fa5-b181-c3345caa3206"
-                                            href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml">
+                                            href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml">
                                         § 20 Absatz 1 Satz 2
                                     </akn:ref> wird die Angabe <akn:quotedText
                                             eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-1"
