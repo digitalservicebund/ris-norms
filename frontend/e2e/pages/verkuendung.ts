@@ -18,10 +18,14 @@ export async function setZeitgrenzen(
   zeitgrenzen: Zeitgrenze[],
   request: APIRequestContext,
 ): Promise<string[]> {
-  return await request
-    .put(`/api/v1/norms/${eli}/zeitgrenzen`, { data: zeitgrenzen })
-    .then((response) => response.json())
-    .then((zeitgrenzen: Zeitgrenze[]) => zeitgrenzen.map((i) => i.id))
+  const response = await request.put(`/api/v1/norms/${eli}/zeitgrenzen`, {
+    data: zeitgrenzen,
+  })
+  if (!response.ok()) {
+    return []
+  }
+  const json = await response.json()
+  return json.map((i: Zeitgrenze) => i.id)
 }
 
 /**
