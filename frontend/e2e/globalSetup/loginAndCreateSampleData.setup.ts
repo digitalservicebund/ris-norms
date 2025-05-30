@@ -1,4 +1,4 @@
-import { samplesDirectory } from "@e2e/utils/samplesDirectory"
+import { samplesDirectory } from "@e2e/utils/dataDirectories"
 import { test as setup } from "@e2e/utils/testWithAuth"
 import fs from "fs"
 import path from "node:path"

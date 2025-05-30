@@ -1,5 +1,5 @@
 /* eslint-disable playwright/no-raw-locators */
-import { samplesDirectory } from "@e2e/utils/samplesDirectory"
+import { samplesDirectory } from "@e2e/utils/dataDirectories"
 import { test } from "@e2e/utils/testWithAuth"
 import { uploadAmendingLaw } from "@e2e/utils/uploadWithForce"
 import { expect } from "@playwright/test"

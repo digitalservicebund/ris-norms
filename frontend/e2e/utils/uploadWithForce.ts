@@ -1,4 +1,4 @@
-import { samplesDirectory } from "@e2e/utils/samplesDirectory"
+import { samplesDirectory } from "@e2e/utils/dataDirectories"
 import type { APIRequestContext } from "@playwright/test"
 import * as fs from "node:fs/promises"
 import * as path from "node:path"
@@ -6,8 +6,9 @@ import * as path from "node:path"
 export async function uploadAmendingLaw(
   request: APIRequestContext,
   filename: string,
+  directory: string = samplesDirectory,
 ) {
-  const filePath = path.join(samplesDirectory, filename)
+  const filePath = path.join(directory, filename)
   const fileContent = await fs.readFile(filePath)
 
   const response = await request.post("/api/v1/verkuendungen", {
