@@ -1000,7 +1000,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       );
       assertThat(gegenstandslosNorm.isGegenstandlos()).isTrue();
 
-      // Gegenstandlos and new replacing expressiond should have different current GUID but same previous GUID
+      // Gegenstandlos and new replacing expression should have different current GUID
       final Optional<NormManifestationDto> replacingNewExpressionDto =
         normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
           "eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"
@@ -1011,19 +1011,38 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       );
       assertThat(replacingNewExpression.isGegenstandlos()).isFalse();
       assertThat(replacingNewExpression.getGuid()).isNotEqualTo(gegenstandslosNorm.getGuid());
+
+      // The new expression should have the previous id of the preceding expression (that can actually differ from the previous-id of the gegenstandslos)
+      final Optional<NormManifestationDto> updatedPrecedingExpressionOptional =
+        normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"
+        );
+      assertThat(updatedPrecedingExpressionOptional).isPresent();
+      final Norm updatedPrecedingExpression = NormManifestationMapper.mapToDomain(
+        updatedPrecedingExpressionOptional.get()
+      );
       assertThat(
         replacingNewExpression
           .getRegelungstext1()
           .getMeta()
           .getFRBRExpression()
           .getFRBRaliasPreviousVersionId()
-      ).isEqualTo(
-        gegenstandslosNorm
+      ).contains(
+        updatedPrecedingExpression
           .getRegelungstext1()
           .getMeta()
           .getFRBRExpression()
-          .getFRBRaliasPreviousVersionId()
+          .getFRBRaliasCurrentVersionId()
       );
+
+      // The preceding expression should have an updated next-id, set to the replacing expression
+      assertThat(
+        updatedPrecedingExpression
+          .getRegelungstext1()
+          .getMeta()
+          .getFRBRExpression()
+          .getFRBRaliasNextVersionId()
+      ).contains(replacingNewExpression.getGuid());
     }
   }
 }

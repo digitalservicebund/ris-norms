@@ -97,7 +97,11 @@ class ZeitgrenzeServiceTest {
         .hasSize(1)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactly(
-          tuple(new Zeitgrenze.Id("gz-1"), LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT)
+          tuple(
+            new Zeitgrenze.Id("5e2f4f78-a0a1-4c55-9ef7-ad2821161915"),
+            LocalDate.parse("2017-03-16"),
+            Zeitgrenze.Art.INKRAFT
+          )
         );
     }
 

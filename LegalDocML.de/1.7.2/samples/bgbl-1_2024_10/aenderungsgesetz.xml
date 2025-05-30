@@ -290,6 +290,49 @@
             <meta-breg:federfuehrend ab="2024-01-15" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta-breg:federfuehrend>
           </meta-breg:federfuehrung>
         </meta-breg:legalDocML.de_metadaten>
+        <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+          <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+            <norms:geltungszeiten>
+              <norms:geltungszeit art="inkraft" id="4a3437ee-b2c3-478a-b02a-ce02fbee87f4">2022-02-02</norms:geltungszeit>
+              <norms:geltungszeit art="inkraft" id="ab30456b-3ed7-4334-96c7-6948623732fb">2023-03-03</norms:geltungszeit>
+              <norms:geltungszeit art="inkraft" id="aa441e1d-9102-43ec-92f1-ca9917ecf37a">2024-04-04</norms:geltungszeit>
+              <norms:geltungszeit art="inkraft" id="329b6e29-3fda-4195-a2bf-35c0c31d83ce">2025-05-05</norms:geltungszeit>
+              <norms:geltungszeit art="inkraft" id="7ddcc9f6-de07-4d63-a646-1495c331f6c1">2026-06-06</norms:geltungszeit>
+            </norms:geltungszeiten>
+            <norms:zielnorm-references>
+              <norms:zielnorm-reference>
+                <norms:typ>Änderungsvorschrift</norms:typ>
+                <norms:geltungszeit>4a3437ee-b2c3-478a-b02a-ce02fbee87f4</norms:geltungszeit>
+                <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-1</norms:eid>
+                <norms:zielnorm>eli/bund/bgbl-1/2021/s818</norms:zielnorm>
+              </norms:zielnorm-reference>
+              <norms:zielnorm-reference>
+                <norms:typ>Änderungsvorschrift</norms:typ>
+                <norms:geltungszeit>ab30456b-3ed7-4334-96c7-6948623732fb</norms:geltungszeit>
+                <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1_quotstruct-1_abs-1</norms:eid>
+                <norms:zielnorm>eli/bund/bgbl-1/2021/s818</norms:zielnorm>
+              </norms:zielnorm-reference>
+              <norms:zielnorm-reference>
+                <norms:typ>Änderungsvorschrift</norms:typ>
+                <norms:geltungszeit>aa441e1d-9102-43ec-92f1-ca9917ecf37a</norms:geltungszeit>
+                <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_untergl-1_listenelem-3</norms:eid>
+                <norms:zielnorm>eli/bund/bgbl-1/2021/s818</norms:zielnorm>
+              </norms:zielnorm-reference>
+              <norms:zielnorm-reference>
+                <norms:typ>Änderungsvorschrift</norms:typ>
+                <norms:geltungszeit>329b6e29-3fda-4195-a2bf-35c0c31d83ce</norms:geltungszeit>
+                <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-1_untergl-1_listenelem-1</norms:eid>
+                <norms:zielnorm>eli/bund/bgbl-1/2021/s818</norms:zielnorm>
+              </norms:zielnorm-reference>
+              <norms:zielnorm-reference>
+                <norms:typ>Änderungsvorschrift</norms:typ>
+                <norms:geltungszeit>7ddcc9f6-de07-4d63-a646-1495c331f6c1</norms:geltungszeit>
+                <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_untergl-1_listenelem-1_untergl-1_listenelem-2</norms:eid>
+                <norms:zielnorm>eli/bund/bgbl-1/2021/s818</norms:zielnorm>
+              </norms:zielnorm-reference>
+            </norms:zielnorm-references>
+          </norms:legalDocML.de_metadaten>
+        </ris:legalDocML.de_metadaten>
       </akn:proprietary>
     </akn:meta>
     <akn:preface GUID="8c4ba7fb-5573-4fb1-8e67-c16d3d10079b" eId="einleitung-1">

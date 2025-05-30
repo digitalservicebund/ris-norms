@@ -88,14 +88,21 @@
         <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
           <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
             <norms:geltungszeiten>
-              <norms:geltungszeit id="gz-1" art="inkraft">2017-03-16</norms:geltungszeit>
+              <norms:geltungszeit art="inkraft" id="8c5b166b-ee37-4185-9b7a-96fc16031e62">2023-03-03</norms:geltungszeit>
+              <norms:geltungszeit art="inkraft" id="b2010ac3-908e-4cd4-ac11-870ec30ee1fc">2025-05-05</norms:geltungszeit>
             </norms:geltungszeiten>
             <norms:zielnorm-references>
               <norms:zielnorm-reference>
                 <norms:typ>Änderungsvorschrift</norms:typ>
-                <norms:geltungszeit>gz-1</norms:geltungszeit>
+                <norms:geltungszeit>8c5b166b-ee37-4185-9b7a-96fc16031e62</norms:geltungszeit>
+                <norms:eid>hauptteil-1_art-1_abs-1</norms:eid>
+                <norms:zielnorm>eli/bund/bgbl-1/2021/s818</norms:zielnorm>
+              </norms:zielnorm-reference>
+              <norms:zielnorm-reference>
+                <norms:typ>Änderungsvorschrift</norms:typ>
+                <norms:geltungszeit>b2010ac3-908e-4cd4-ac11-870ec30ee1fc</norms:geltungszeit>
                 <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
-                <norms:zielnorm>eli/bund/bgbl-1/1964/s593</norms:zielnorm>
+                <norms:zielnorm>eli/bund/bgbl-1/2021/s818</norms:zielnorm>
               </norms:zielnorm-reference>
             </norms:zielnorm-references>
           </norms:legalDocML.de_metadaten>

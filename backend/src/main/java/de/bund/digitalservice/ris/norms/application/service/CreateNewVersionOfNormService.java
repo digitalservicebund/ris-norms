@@ -41,6 +41,19 @@ public class CreateNewVersionOfNormService {
   ) {}
 
   /**
+   * Result object for creating a new expression, containing the new expression, the new manifestation of the
+   * preciding expression as well as the new manifestation for the gegenstandslos expression
+   * @param newExpression the new expression
+   * @param newManifestationOfPrecidingExpression the new manifestation of the preciding expression (with the updated "nachfolgende-version-id")
+   * @param newManifestationOfGegenstandslosExpression the new manifestation of the old expression (with the metadata gegenstandslos)
+   */
+  public record CreateNewExpressionResultIncludingGegenstandslos(
+    Norm newExpression,
+    Norm newManifestationOfPrecidingExpression,
+    Norm newManifestationOfGegenstandslosExpression
+  ) {}
+
+  /**
    * Creates a new expression of the given norm for the given date. Also creates a new manifestation of the old
    * expression with the updated "nachfolgende-version-id".
    *
@@ -107,6 +120,59 @@ public class CreateNewVersionOfNormService {
     );
 
     return new CreateNewExpressionResult(newExpression, newManifestationOfOldExpression);
+  }
+
+  /**
+   * Creates a new expression taking into consideration that it will "replace" an already existing expression that is becoming gegenstandslos,
+   * meaning it produces a new completely expression cloned from the expression becoming gegenstandslos, it sets the one becoming gegenstandslos
+   * as that (by creating a new manifestation) and also creates a new manifestation of the expression that was preceding the one that became gegenstandslos,
+   * so that the nachfolgende-version-id is corrected so that it points to the new non-gegenstandslos expression
+   *
+   * @param gegenstandslosExpression - the expression becoming gegenstandslos
+   * @param precedingExpression - the expression that was preceding the one becoming gegenstandslos
+   * @param date - the date for the new expression
+   * @param verkuendungDate - the announcement date of the verkuendung, used for the meta:gegenstandslos@seit
+   * @return result containing the new expression, the new manifestation for the gegenstandslos and the new manifestation of the preceding expression pointing to the new created expression
+   */
+  public CreateNewExpressionResultIncludingGegenstandslos createNewExpression(
+    Norm gegenstandslosExpression,
+    Norm precedingExpression,
+    LocalDate date,
+    String verkuendungDate
+  ) {
+    // We create 1 new expression and 2 new manifestations
+
+    //  1. the new expression, creating a clone of the one becoming gegenstandslos, using counter +1 and keeping the same vorherige-version-id (because both elis have the same point-in-time)
+    var newExpression = createOnlyNewExpression(gegenstandslosExpression, date);
+    // Set vorherige-version-id by getting the akuelle-version-id of the preceding expression, because it can have varied to the one the becoming gegenstandslos had
+    newExpression
+      .getDokumente()
+      .forEach(dokument ->
+        dokument
+          .getMeta()
+          .getFRBRExpression()
+          .setFRBRaliasPreviousVersionId(precedingExpression.getGuid())
+      );
+
+    //  2. new manifestation for the one becoming gegenstandslos (keeping all GUIDs is fine)
+    final Norm newManifestationForGegenstandslosExpression = createNewManifestation(
+      gegenstandslosExpression
+    );
+    newManifestationForGegenstandslosExpression.setGegenstandlos(verkuendungDate);
+
+    //  3. new manifestation for the preceding expression for setting nachfolgende-version.id
+    final Norm newManifestationOfPrecedingExpression = createNewManifestation(precedingExpression);
+    newManifestationOfPrecedingExpression
+      .getDokumente()
+      .forEach(dokument ->
+        dokument.getMeta().getFRBRExpression().setFRBRaliasNextVersionId(newExpression.getGuid())
+      );
+
+    return new CreateNewExpressionResultIncludingGegenstandslos(
+      newExpression,
+      newManifestationOfPrecedingExpression,
+      newManifestationForGegenstandslosExpression
+    );
   }
 
   /**

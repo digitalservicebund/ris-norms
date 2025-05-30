@@ -90,7 +90,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .perform(get("/api/v1/norms/{eli}/zeitgrenzen", eli).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(1)))
-        .andExpect(jsonPath("$[0].id", is("gz-1")))
+        .andExpect(jsonPath("$[0].id", is("5e2f4f78-a0a1-4c55-9ef7-ad2821161915")))
         .andExpect(jsonPath("$[0].date", is("2017-03-16")))
         .andExpect(jsonPath("$[0].art", is("INKRAFT")))
         .andExpect(jsonPath("$[0].inUse", is(true)));
@@ -330,7 +330,11 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .hasSize(1)
         .extracting(Zeitgrenze::getId, Zeitgrenze::getDate, Zeitgrenze::getArt)
         .containsExactlyInAnyOrder(
-          tuple(new Zeitgrenze.Id("gz-1"), LocalDate.parse("2017-03-16"), Zeitgrenze.Art.INKRAFT)
+          tuple(
+            new Zeitgrenze.Id("5e2f4f78-a0a1-4c55-9ef7-ad2821161915"),
+            LocalDate.parse("2017-03-16"),
+            Zeitgrenze.Art.INKRAFT
+          )
         );
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
 
@@ -351,7 +355,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(3)))
-        .andExpect(jsonPath("$[0].id", is("gz-1")))
+        .andExpect(jsonPath("$[0].id", is("5e2f4f78-a0a1-4c55-9ef7-ad2821161915")))
         .andExpect(jsonPath("$[0].date", is("2017-03-16")))
         .andExpect(jsonPath("$[0].art", is("INKRAFT")))
         .andExpect(jsonPath("$[1].date", is("2024-01-01")))
@@ -371,7 +375,9 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(zeitgrenzen).hasSize(3);
       assertThat(zeitgrenzen.getFirst().getDate()).isEqualTo(LocalDate.parse("2017-03-16"));
       assertThat(zeitgrenzen.getFirst().getArt()).isEqualTo(Zeitgrenze.Art.INKRAFT);
-      assertThat(zeitgrenzen.getFirst().getId()).isEqualTo(new Zeitgrenze.Id("gz-1"));
+      assertThat(zeitgrenzen.getFirst().getId()).isEqualTo(
+        new Zeitgrenze.Id("5e2f4f78-a0a1-4c55-9ef7-ad2821161915")
+      );
       assertThat(zeitgrenzen.get(1).getDate()).isEqualTo(LocalDate.parse("2024-01-01"));
       assertThat(zeitgrenzen.get(1).getArt()).isEqualTo(Zeitgrenze.Art.AUSSERKRAFT);
       assertThat(zeitgrenzen.get(2).getDate()).isEqualTo(LocalDate.parse("2025-01-01"));
