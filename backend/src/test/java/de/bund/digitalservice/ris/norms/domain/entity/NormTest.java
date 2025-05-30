@@ -337,7 +337,7 @@ class NormTest {
       assertThat(norm.isGegenstandlos()).isTrue();
 
       final Optional<Gegenstandlos> gegenstandlos = norm
-        .getRegelungstext1()
+        .getRechtsetzungsdokument()
         .getMeta()
         .getOrCreateProprietary()
         .getGegenstandlos();
@@ -352,7 +352,7 @@ class NormTest {
     void getGegenstandlosModify() {
       Norm norm = Fixtures.loadNormFromDisk(NormTest.class, "vereinsgesetz-gegenstandlos");
       final Optional<Gegenstandlos> gegenstandlos = norm
-        .getRegelungstext1()
+        .getRechtsetzungsdokument()
         .getMeta()
         .getOrCreateProprietary()
         .getGegenstandlos();
