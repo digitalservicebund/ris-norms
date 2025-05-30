@@ -43,13 +43,6 @@ public class Fixtures {
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-regelungstext.xsd"
-          )
-      )
-    ),
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(
             LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd"
           )
       )
@@ -84,14 +77,35 @@ public class Fixtures {
     ),
     new UrlResource(
       Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(LDMLDE_RESOURCE_FOLDER + "/schema-extension/metadata.xsd")
+        LdmlDeValidator.class.getResource(
+            LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-bundesregierung.xsd"
+          )
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/schema-extension/norms-application-only-metadata.xsd"
+            LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-regelungstext.xsd"
           )
+      )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource(
+            LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-rechtsetzungsdokument.xsd"
+          )
+      )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+          LdmlDeValidator.class.getResource(LDMLDE_RESOURCE_FOLDER + "/schema-extension/metadata.xsd")
+      )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+          LdmlDeValidator.class.getResource(
+          LDMLDE_RESOURCE_FOLDER + "/schema-extension/norms-application-only-metadata.xsd"
+        )
       )
     )
   );
