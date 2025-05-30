@@ -22,12 +22,19 @@ public class DokumentMapper {
    */
   public static Dokument mapToDomain(final DokumentDto dokumentDto) {
     return switch (dokumentDto.getSubtype()) {
-      case "regelungstext" -> new Regelungstext(XmlMapper.toDocument(dokumentDto.getXml()));
-      case "offene-struktur" -> new OffeneStruktur(XmlMapper.toDocument(dokumentDto.getXml()));
-      case "rechtsetzungsdokument-verkuendungsfassung" -> new Rechtsetzungsdokument(
+      // TODO: (Malte Laukötter, 2025-05-30) add a domain class / enum or so for the document types
+      case "/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung" -> new Regelungstext(
         XmlMapper.toDocument(dokumentDto.getXml())
       );
-      case "bekanntmachungstext" -> new Bekanntmachung(XmlMapper.toDocument(dokumentDto.getXml()));
+      case "/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext" -> new OffeneStruktur(
+        XmlMapper.toDocument(dokumentDto.getXml())
+      );
+      case "/akn/ontology/de/concept/documenttype/bund/rechtsetzungsdokument" -> new Rechtsetzungsdokument(
+        XmlMapper.toDocument(dokumentDto.getXml())
+      );
+      case "/akn/ontology/de/concept/documenttype/bund/bekanntmachungstext" -> new Bekanntmachung(
+        XmlMapper.toDocument(dokumentDto.getXml())
+      );
       default -> throw new IllegalArgumentException(
         "Dokument subtype " + dokumentDto.getSubtype() + " not supported"
       );
