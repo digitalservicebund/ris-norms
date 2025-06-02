@@ -4,7 +4,7 @@ import RisModForm from "@/views/amending-law/articles/editor/single-mods/RisModF
 import { userEvent } from "@testing-library/user-event"
 
 const add = vi.fn()
-vi.mock("primevue/usetoast", () => {
+vi.mock("primevue", () => {
   return {
     useToast: () => ({
       add: add,

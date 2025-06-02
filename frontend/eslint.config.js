@@ -97,6 +97,26 @@ export default defineConfigWithVueTs([
         "error",
         { prefer: "type-imports" },
       ],
+
+      "no-restricted-imports": [
+        "error",
+        {
+          paths: [
+            // We implement our own toast service, require usage of that to avoid
+            // inconsistencies
+            {
+              name: "primevue",
+              importNames: ["useToast"],
+              message: "Use `useToast` from `@/composables/useToast` instead.",
+            },
+            {
+              name: "primevue/usetoast",
+              importNames: ["useToast"],
+              message: "Use `useToast` from `@/composables/useToast` instead.",
+            },
+          ],
+        },
+      ],
     },
   },
 

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import RisDokumentExplorer from "@/components/RisDokumentExplorer.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import { type HeaderBreadcrumb } from "@/components/RisHeader.vue"
@@ -8,33 +9,24 @@ import RisPropertyValue from "@/components/RisPropertyValue.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
+import { useToast } from "@/composables/useToast"
 import { useZeitgrenzenHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
 import {
   useZielnormReferences,
   type EditableZielnormReference,
 } from "@/composables/useZielnormReferences"
 import { formatDate } from "@/lib/dateTime"
-import { useErrorToast } from "@/lib/errorToast"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
 import {
   useGeltungszeitenHtml,
   useGetZeitgrenzen,
 } from "@/services/zeitgrenzenService"
-import {
-  ConfirmDialog,
-  Splitter,
-  SplitterPanel,
-  useConfirm,
-  useToast,
-} from "primevue"
+import { ConfirmDialog, Splitter, SplitterPanel, useConfirm } from "primevue"
 import { computed, ref, watch } from "vue"
-import RisDokumentExplorer from "@/components/RisDokumentExplorer.vue"
 import RisZielnormForm from "./RisZielnormForm.vue"
 
-const { addErrorToast } = useErrorToast()
-
-const { add: addToast } = useToast()
+const { add: addToast, addError: addErrorToast } = useToast()
 
 const eli = useDokumentExpressionEliPathParameter()
 
