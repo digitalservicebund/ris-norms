@@ -75,6 +75,10 @@ watch(
       extensions: [
         basicSetup,
         xml(),
+        EditorView.contentAttributes.of({
+          "aria-label": "XML-Editor",
+          tabindex: "0",
+        }),
         EditorView.updateListener.of((viewUpdate) => {
           if (viewUpdate.docChanged) {
             model.value = viewUpdate.state.doc.toString()

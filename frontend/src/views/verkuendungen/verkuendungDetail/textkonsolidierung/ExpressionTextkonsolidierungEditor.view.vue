@@ -36,6 +36,8 @@ import IcBaselineArrowForward from "~icons/ic/baseline-arrow-forward"
 import { useGroupedZielnormen } from "@/views/verkuendungen/verkuendungDetail/useGroupedZielnormen"
 import { RouterLink } from "vue-router"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { useGetZielnormPreview } from "@/services/zielnormExpressionsService"
+import Message from "primevue/message"
 
 const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
 const expressionEli = useDokumentExpressionEliPathParameter("expression")
@@ -124,6 +126,11 @@ function formatDate(dateString: string | undefined): string {
 
 const formattedDate = computed(() => formatDate(pointInTime.value))
 
+const { data: zielnormen } = useGetZielnormReferences(
+  announcementNormExpressionEli,
+)
+const groupedZielnormen = useGroupedZielnormen(zielnormen)
+
 // NAVIGATION
 const currentEli = computed(() => expressionEli.value.toString())
 const currentZielnormGroup = computed(() => {
@@ -131,11 +138,20 @@ const currentZielnormGroup = computed(() => {
     group.expressions.some((expr) => expr.eli === currentEli.value),
   )
 })
-const sequence = computed(() =>
-  currentZielnormGroup.value
-    ? currentZielnormGroup.value.expressions.map((expr) => expr.eli)
-    : [],
-)
+
+const sequence = computed(() => {
+  if (!currentZielnormGroup.value) return []
+
+  return currentZielnormGroup.value.expressions
+    .filter((expr) => {
+      const match = previewData.value
+        ?.flatMap((d) => d.expressions)
+        .find((e) => e.normExpressionEli.toString() === expr.eli)
+      return !match?.isGegenstandslos
+    })
+    .map((expr) => expr.eli)
+})
+
 const currentIndex = computed(() => sequence.value.indexOf(currentEli.value))
 const hasPrev = computed(() => currentIndex.value > 0)
 const hasNext = computed(
@@ -207,12 +223,6 @@ const { zielnormReferences, zielnormReferencesForEid } = useZielnormReferences(
   () => verkuendungEli.value.asNormEli(),
 )
 
-const { data: zielnormen } = useGetZielnormReferences(
-  announcementNormExpressionEli,
-)
-
-const groupedZielnormen = useGroupedZielnormen(zielnormen)
-
 const colorIndex = computed(() => {
   const expressionEliStr = expressionEli.value.toString()
 
@@ -239,6 +249,24 @@ const highlightClasses = useZeitgrenzenHighlightClasses(
 watch(eIdsToEdit, (val) => {
   if (!val?.length) editedZielnormReference.value = undefined
   else editedZielnormReference.value = zielnormReferencesForEid(...val)
+})
+
+const { data: previewData } = useGetZielnormPreview(() =>
+  verkuendungEli.value.asNormEli(),
+)
+
+const isGegenstandslosExpression = computed(() => {
+  if (!previewData.value || !Array.isArray(previewData.value)) return false
+
+  for (const item of previewData.value) {
+    const found = item.expressions.find(
+      (expr) =>
+        expr.normExpressionEli.toString() === expressionEli.value.toString(),
+    )
+    if (found?.isGegenstandslos) return true
+  }
+
+  return false
 })
 </script>
 
@@ -362,7 +390,13 @@ watch(eIdsToEdit, (val) => {
         >
           <RisLoadingSpinner />
         </div>
-
+        <Message
+          v-if="isGegenstandslosExpression"
+          severity="warn"
+          class="mb-16"
+        >
+          Diese Expression ist gegenstandslos und deshalb nicht bearbeitbar.
+        </Message>
         <RisEmptyState
           v-else-if="!currentXml"
           text-content="Keine Artikel gefunden."
@@ -372,6 +406,7 @@ watch(eIdsToEdit, (val) => {
           ref="codeEditorRef"
           v-model="currentXml"
           class="h-full border-2 border-blue-800"
+          :readonly="isGegenstandslosExpression"
         />
       </SplitterPanel>
 
@@ -389,7 +424,7 @@ watch(eIdsToEdit, (val) => {
     <template #headerAction>
       <Button
         label="Speichern"
-        :disabled="isSaving || !currentXml"
+        :disabled="isSaving || !currentXml || isGegenstandslosExpression"
         :loading="isSaving"
         @click="handleSave(currentXml)"
       >
