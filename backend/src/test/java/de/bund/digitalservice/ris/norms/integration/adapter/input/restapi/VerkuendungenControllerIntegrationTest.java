@@ -84,12 +84,12 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       var verkuendung = Verkuendung.builder()
         .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
         .build();
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
       verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung));
 
@@ -121,22 +121,26 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsVerkuendung() throws Exception {
       // Given
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
-      var normEli = regelungstext.getExpressionEli().asNormEli();
       var verkuendung = Verkuendung.builder()
-        .eli(normEli)
+        .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
         .importTimestamp(Instant.parse("2025-03-13T15:00:00Z"))
         .build();
 
-      dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
       verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung));
 
       // When
       mockMvc
         .perform(
-          get("/api/v1/verkuendungen/{eli}", normEli.toString()).accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/verkuendungen/{eli}", "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu").accept(
+            MediaType.APPLICATION_JSON
+          )
         )
         // Then
         .andExpect(status().isOk())
@@ -175,19 +179,19 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       var verkuendung = Verkuendung.builder()
         .eli(NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"))
         .build();
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
       );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15",
+        NormPublishState.UNPUBLISHED
       );
       verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung));
 
