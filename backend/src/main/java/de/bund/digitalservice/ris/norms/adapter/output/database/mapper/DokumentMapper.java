@@ -3,10 +3,12 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.mapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
 import de.bund.digitalservice.ris.norms.domain.entity.Bekanntmachung;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
+import de.bund.digitalservice.ris.norms.domain.entity.DokumentType;
 import de.bund.digitalservice.ris.norms.domain.entity.OffeneStruktur;
 import de.bund.digitalservice.ris.norms.domain.entity.Rechtsetzungsdokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.Arrays;
 
 /** Mapper class for converting between {@link DokumentDto} and {@link Regelungstext} or {@link OffeneStruktur}. */
 public class DokumentMapper {
@@ -21,24 +23,31 @@ public class DokumentMapper {
    * @return A new {@link Dokument} mapped from the input {@link DokumentDto}.
    */
   public static Dokument mapToDomain(final DokumentDto dokumentDto) {
-    return switch (dokumentDto.getSubtype()) {
-      // TODO: (Malte Laukötter, 2025-05-30) add a domain class / enum or so for the document types
-      case "/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung" -> new Regelungstext(
+    return switch (mapToDokumentTypeToDomain(dokumentDto.getSubtype())) {
+      case DokumentType.REGELUNGSTEXT_VERKUENDUNG -> new Regelungstext(
         XmlMapper.toDocument(dokumentDto.getXml())
       );
-      case "/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext" -> new OffeneStruktur(
+      case DokumentType.ANLAGE_REGELUNGSTEXT -> new OffeneStruktur(
         XmlMapper.toDocument(dokumentDto.getXml())
       );
-      case "/akn/ontology/de/concept/documenttype/bund/rechtsetzungsdokument" -> new Rechtsetzungsdokument(
+      case DokumentType.RECHTSETZUNGSDOKUMENT -> new Rechtsetzungsdokument(
         XmlMapper.toDocument(dokumentDto.getXml())
       );
-      case "/akn/ontology/de/concept/documenttype/bund/bekanntmachungstext" -> new Bekanntmachung(
+      case DokumentType.BEKANNTMACHUNGSTEXT -> new Bekanntmachung(
         XmlMapper.toDocument(dokumentDto.getXml())
-      );
-      default -> throw new IllegalArgumentException(
-        "Dokument subtype " + dokumentDto.getSubtype() + " not supported"
       );
     };
+  }
+
+  private static DokumentType mapToDokumentTypeToDomain(final String dokumentType) {
+    var lowerCaseDokumentType = dokumentType.toLowerCase();
+
+    return Arrays.stream(DokumentType.values())
+      .filter(type -> lowerCaseDokumentType.equals(type.ontologyUri))
+      .findFirst()
+      .orElseThrow(() ->
+        new IllegalArgumentException("Dokument type " + dokumentType + " not supported")
+      );
   }
 
   /**
