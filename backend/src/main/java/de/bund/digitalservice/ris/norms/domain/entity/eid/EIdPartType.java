@@ -99,7 +99,7 @@ public enum EIdPartType {
   ORT("ort", List.of("akn:location")),
   PASMOD("pasmod", List.of("akn:passiveModifications")),
   PERSON("person", List.of("akn:person")),
-  PREAMBEL("preambel", List.of("akn:preamble")),
+  PREAMBEL("präambel", List.of("akn:preamble")),
   PROPRIETARY("proprietary", List.of("akn:proprietary")),
   PRAEAMBELINH("präambelinh", List.of("akn:recital")),
   PRAEAMBELN("präambeln", List.of("akn:recitals")),
