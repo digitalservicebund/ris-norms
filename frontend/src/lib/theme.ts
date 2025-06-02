@@ -3,7 +3,11 @@
 // to RIS UI eventually.
 
 import { RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
-import type { BadgePassThroughOptions, TreePassThroughOptions } from "primevue"
+import type {
+  BadgePassThroughOptions,
+  ToastPassThroughOptions,
+  TreePassThroughOptions,
+} from "primevue"
 import type { AccordionPassThroughOptions } from "primevue/accordion"
 import type { AccordionContentPassThroughOptions } from "primevue/accordioncontent"
 import type { AccordionHeaderPassThroughOptions } from "primevue/accordionheader"
@@ -58,6 +62,16 @@ const badge: BadgePassThroughOptions = {
   },
 }
 
+const toast: ToastPassThroughOptions = {
+  transition: {
+    enterFromClass: tw`opacity-0 translate-y-1/12`,
+    enterActiveClass: tw`transition-all duration-150`,
+    leaveFromClass: tw`max-h-[1000px]`,
+    leaveActiveClass: tw`transition-all duration-150`,
+    leaveToClass: tw`max-h-0 opacity-0 mb-0 overflow-hidden`,
+  },
+}
+
 export default usePassThrough(
   RisUiTheme,
   {
@@ -66,6 +80,7 @@ export default usePassThrough(
     accordionContent,
     badge,
     tree,
+    toast,
   },
   { mergeProps: false, mergeSections: true },
 )
