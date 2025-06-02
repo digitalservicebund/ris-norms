@@ -75,7 +75,7 @@
       </xsl:element>
   </xsl:template>
 
-  <xsl:template match="akn_old:doc[@name='bekanntmachung']/@name">
+  <xsl:template match="akn_old:doc[@name='bekanntmachungstext']/@name">
     <xsl:attribute name="name">/akn/ontology/de/concept/documenttype/bund/bekanntmachungstext</xsl:attribute>
   </xsl:template>
   <xsl:template match="akn_old:doc[@name='offene-struktur']/@name"><xsl:attribute name="name">/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext</xsl:attribute></xsl:template>
