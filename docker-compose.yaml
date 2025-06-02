@@ -24,7 +24,7 @@ services:
       dockerfile: Dockerfile
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
-      - SPRING_PROFILES_ACTIVE=local-docker
+      - SPRING_PROFILES_ACTIVE=local,local-docker${RUN_E2E_TESTS:+,e2e}
     network_mode: "service:localhost"
     depends_on:
       postgres14:

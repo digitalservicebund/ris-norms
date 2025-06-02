@@ -24,7 +24,7 @@ jobs:
       - name: Start PostgreSQL
         run: docker compose -f docker-compose-services.yaml up --detach
       - name: Start backend # GitHub actions automatically keep the process running and output is streamed to pipeline logs
-        run: ./gradlew bootRun &
+        run: ./gradlew bootRun --args='--spring.profiles.active=local,e2e' &
         working-directory: ./backend
       - name: Wait for backend to be fully up
         timeout-minutes: 5

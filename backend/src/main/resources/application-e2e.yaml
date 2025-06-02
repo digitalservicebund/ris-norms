@@ -1,0 +1,3 @@
+spring:
+  flyway:
+    locations: classpath:db/migration,classpath:db/data # Includes seed for e2e tests

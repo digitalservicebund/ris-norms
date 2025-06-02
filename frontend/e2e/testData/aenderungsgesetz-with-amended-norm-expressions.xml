@@ -19,20 +19,20 @@
     <akn:meta GUID="599dcc30-4397-424b-802f-2703eea6aa7e" eId="meta-1">
       <akn:identification source="attributsemantik-noch-undefiniert" GUID="fd9c5e83-508b-4f01-a566-621fbb70c20b" eId="meta-1_ident-1">
         <akn:FRBRWork GUID="3c3b02ef-ab41-4d38-89a6-f2bd5295426a" eId="meta-1_ident-1_frbrwork-1">
-          <akn:FRBRthis value="eli/bund/bgbl-1/2017/s419/regelungstext-1" GUID="9a607bba-27c3-4de9-a809-3de5aff9392a" eId="meta-1_ident-1_frbrwork-1_frbrthis-1"/>
-          <akn:FRBRuri value="eli/bund/bgbl-1/2017/s419" GUID="b61a01dd-6a30-4fcf-b8c2-0b8e7d4b7e6c" eId="meta-1_ident-1_frbrwork-1_frbruri-1"/>
+          <akn:FRBRthis value="eli/bund/bgbl-1/2017/123/regelungstext-1" GUID="9a607bba-27c3-4de9-a809-3de5aff9392a" eId="meta-1_ident-1_frbrwork-1_frbrthis-1"/>
+          <akn:FRBRuri value="eli/bund/bgbl-1/2017/123" GUID="b61a01dd-6a30-4fcf-b8c2-0b8e7d4b7e6c" eId="meta-1_ident-1_frbrwork-1_frbruri-1"/>
           <akn:FRBRalias name="übergreifende-id" value="c53036e4-14ac-420f-b01a-bae05a0a9756" GUID="c2ef67f2-6c3d-4311-bf97-aa64cca5f171" eId="meta-1_ident-1_frbrwork-1_frbralias-1"/>
           <akn:FRBRdate name="verkuendungsfassung" date="2017-03-15" GUID="08812c5e-5893-4710-afe0-fd0eb6a95523" eId="meta-1_ident-1_frbrwork-1_frbrdate-1"/>
           <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung" GUID="adf802a2-afc5-4849-903c-8c2a0fe38f60" eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"/>
           <akn:FRBRcountry value="de" GUID="5f39c60b-aac0-4a14-af8d-b0808a8cca33" eId="meta-1_ident-1_frbrwork-1_frbrcountry-1"/>
-          <akn:FRBRnumber value="s419" GUID="2f8ca08d-4d6d-443a-9b2d-c8f0f9a6834b" eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"/>
+          <akn:FRBRnumber value="123" GUID="2f8ca08d-4d6d-443a-9b2d-c8f0f9a6834b" eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"/>
           <akn:FRBRname value="bgbl-1" GUID="7e14c129-7629-4129-a4b1-ec2bd0f60225" eId="meta-1_ident-1_frbrwork-1_frbrname-1"/>
           <akn:FRBRsubtype value="regelungstext-1" GUID="b9862715-d45e-40be-91b6-2b141519224d" eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1"/>
         </akn:FRBRWork>
         <akn:FRBRExpression GUID="9790b91c-8985-4618-827b-108f80f70086" eId="meta-1_ident-1_frbrexpression-1">
-          <akn:FRBRthis value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1" GUID="8f8b3256-4dd7-4a39-be08-6a8ccde04b2f" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"/>
-          <akn:FRBRuri value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu" GUID="a28d3485-5e17-4c3d-a658-873f591c707f" eId="meta-1_ident-1_frbrexpression-1_frbruri-1"/>
-          <akn:FRBRalias name="aktuelle-version-id" value="e47a5106-c153-4da4-8d94-8cc2ebf9b232" GUID="f0bcd7a7-4e8a-4195-bb38-9f85a5609152" eId="meta-1_ident-1_frbrexpression-1_frbralias-1"/>
+          <akn:FRBRthis value="eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1" GUID="8f8b3256-4dd7-4a39-be08-6a8ccde04b2f" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"/>
+          <akn:FRBRuri value="eli/bund/bgbl-1/2017/123/2017-03-15/1/deu" GUID="a28d3485-5e17-4c3d-a658-873f591c707f" eId="meta-1_ident-1_frbrexpression-1_frbruri-1"/>
+          <akn:FRBRalias name="aktuelle-version-id" value="01277172-3ecb-49ec-8491-8f34d3dc4b86" GUID="f0bcd7a7-4e8a-4195-bb38-9f85a5609152" eId="meta-1_ident-1_frbrexpression-1_frbralias-1"/>
           <akn:FRBRalias name="nachfolgende-version-id" value="931577e5-66ba-48f5-a6eb-db40bcfd6b87" GUID="3a7dc79d-bb48-4c43-aff8-c75578e32fd6" eId="meta-1_ident-1_frbrexpression-1_frbralias-2"/>
           <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung" GUID="a67b8049-56a9-42e6-aeab-72d0264c1d96" eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"/>
           <akn:FRBRdate name="verkuendung" date="2017-03-15" GUID="56044989-5fd0-4bbe-ac3b-18285c01d70a" eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"/>
@@ -40,9 +40,9 @@
           <akn:FRBRversionNumber value="1" GUID="1ac0a774-6f71-471e-85e9-9f2b3c3990b4" eId="meta-1_ident-1_frbrexpression-1_frbrversionnumber-1"/>
         </akn:FRBRExpression>
         <akn:FRBRManifestation GUID="31e64727-db7c-469b-9d10-41aa4c989b82" eId="meta-1_ident-1_frbrmanifestation-1">
-          <akn:FRBRthis value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2999-12-31/regelungstext-1.xml" GUID="f2fe0e70-6fe5-44fb-b4a6-f85f15590461" eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"/>
-          <akn:FRBRuri value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2999-12-31/regelungstext-1.xml" GUID="870b699d-738d-4c34-9200-7a102395731a" eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"/>
-          <akn:FRBRdate name="generierung" date="2999-12-31" GUID="87122d00-a03e-4efb-b825-6fafa3d98263" eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"/>
+          <akn:FRBRthis value="eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/2025-06-02/regelungstext-1.xml" GUID="f2fe0e70-6fe5-44fb-b4a6-f85f15590461" eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"/>
+          <akn:FRBRuri value="eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/2025-06-02/regelungstext-1.xml" GUID="870b699d-738d-4c34-9200-7a102395731a" eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"/>
+          <akn:FRBRdate name="generierung" date="2025-06-02" GUID="87122d00-a03e-4efb-b825-6fafa3d98263" eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"/>
           <akn:FRBRauthor href="recht.bund.de" GUID="13112f04-f384-4d8a-ae91-ef51a72dc210" eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"/>
           <akn:FRBRformat value="xml" GUID="e1ab451a-189a-4eff-b21a-b93ab7637496" eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"/>
         </akn:FRBRManifestation>
@@ -95,11 +95,11 @@
                 <norms:typ>Änderungsvorschrift</norms:typ>
                 <norms:geltungszeit>8c5b166b-ee37-4185-9b7a-96fc16031e62</norms:geltungszeit>
                 <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
-                <norms:zielnorm>eli/bund/bgbl-1/1964/s593</norms:zielnorm>
+                <norms:zielnorm>eli/bund/bgbl-1/1964/321</norms:zielnorm>
               </norms:zielnorm-reference>
             </norms:zielnorm-references>
             <norms:amended-norm-expressions>
-              <norms:norm-expression>eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu</norms:norm-expression>
+              <norms:norm-expression>eli/bund/bgbl-1/2017/321/2017-03-16/1/deu</norms:norm-expression>
             </norms:amended-norm-expressions>
           </norms:legalDocML.de_metadaten>
         </ris:legalDocML.de_metadaten>

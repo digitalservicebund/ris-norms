@@ -23,8 +23,11 @@ When running the application locally, use the following test user credentials:
 # Run Docker containers (working dir: project root)
 docker compose -f docker-compose-services.yaml up -d
 
-# Run backend (working dir: `./backend`)
+# Run backend (working dir: `./backend`) with 2 modes:
+# 1. For local development (without E2E seeds)
 ./gradlew bootRun
+# 2. For running the E2E tests (including the seeds for them)
+./gradlew bootRun --args='--spring.profiles.active=local,e2e'
 
 # Install frontend dependencies and run frontend (working dir: `./frontend`)
 npm install
@@ -41,6 +44,12 @@ docker compose up -d
 ```
 
 You can open the frontend at <http://localhost:8080>.
+
+When wanting to run the e2e tests:
+```sh
+# (working dir: project root)
+RUN_E2E_TESTS=true docker compose up -d
+```
 
 ### Testing
 
