@@ -10,7 +10,7 @@ services:
   #  - https://github.com/keycloak/keycloak/issues/24252
   #  - https://medium.com/@kostapchuk/integrating-keycloak-with-spring-boot-in-a-dockerized-environment-813eab1f140c
   localhost:
-    image: alpine:3.21
+    image: alpine:3.22
     command: sleep infinity
     ports:
       - "8443:8443" # Keycloak port
