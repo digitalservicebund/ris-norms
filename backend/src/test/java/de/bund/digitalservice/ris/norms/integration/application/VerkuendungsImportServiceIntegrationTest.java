@@ -202,7 +202,7 @@ class VerkuendungsImportServiceIntegrationTest extends BaseS3MockIntegrationTest
     );
     assertThat(finishedProcess.get().getDetails()).contains("/errors/ldml-de-not-schematron-valid");
     assertThat(finishedProcess.get().getDetails()).contains(
-      "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00071-005"
+      "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00450-000"
     );
 
     assertThat(dokumentRepository.findAll()).isEmpty();
