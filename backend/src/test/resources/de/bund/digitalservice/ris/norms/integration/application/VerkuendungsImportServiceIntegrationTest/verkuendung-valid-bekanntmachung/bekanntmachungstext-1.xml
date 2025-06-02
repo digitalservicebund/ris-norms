@@ -13,7 +13,7 @@
 -->
 <?xml-model href="/LegalDocML.de/1.8/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
-   <akn:doc name="bekanntmachungstext">
+   <akn:doc name="/akn/ontology/de/concept/documenttype/bund/bekanntmachungstext">
 <!-- Metadaten -->
       <akn:meta GUID="2e87a5de-4012-34c2-bbdb-be297bc1147d" eId="meta-n1">
          <akn:identification GUID="6f903d61-f4c1-377a-b4e3-2e9d53e53b6e"
@@ -140,9 +140,9 @@
          <akn:proprietary GUID="59bc62af-39ce-3736-b50c-a9c690e5a8db"
                           eId="meta-n1_proprietary-n1"
                           source="attributsemantik-noch-undefiniert">
-            
-            
-            
+
+
+
          </akn:proprietary>
       </akn:meta>
       <!-- Einleitung -->
