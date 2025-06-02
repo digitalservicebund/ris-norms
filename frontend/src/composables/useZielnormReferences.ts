@@ -203,7 +203,9 @@ export function useZielnormReferences(
     await execUpdate()
   }
 
-  watch(referencesAfterUpdate, (newVal) => {
+  watch(referencesAfterUpdate, (newVal, oldVal) => {
+    // null in this case means the request failed, keep old data in that case
+    if (oldVal && newVal === null) return
     references.value = newVal
   })
 
@@ -223,7 +225,9 @@ export function useZielnormReferences(
     await execDelete()
   }
 
-  watch(referencesAfterDelete, (newVal) => {
+  watch(referencesAfterDelete, (newVal, oldVal) => {
+    // null in this case means the request failed, keep old data in that case
+    if (oldVal && newVal === null) return
     references.value = newVal
   })
 

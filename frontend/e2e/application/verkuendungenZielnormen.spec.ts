@@ -723,6 +723,7 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
         ],
       },
     )
+
     await page.goto(
       "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
     )
@@ -752,13 +753,21 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
     ).toBeVisible()
   })
 
-  test("shows an error when saving fails", async ({ page }) => {
-    await page.route(
+  test("shows an error when saving fails", async ({
+    page,
+    authenticatedRequest: request,
+  }) => {
+    await request.post(
       "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnorm-references",
-      async (route) => {
-        if (route.request().method() === "POST") {
-          await route.fulfill({ status: 500, json: {} })
-        } else await route.continue()
+      {
+        data: [
+          {
+            geltungszeit: zeitgrenzenIds[0],
+            zielnorm: "eli/bund/bgbl-1/2021/123",
+            typ: "Änderungsvorschrift",
+            eId: "hauptteil-1_art-1_abs-1",
+          },
+        ],
       },
     )
 
@@ -773,10 +782,19 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
     })
 
     await article.click()
+
+    await page
+      .getByRole("textbox", { name: "ELI Zielnormenkomplex" })
+      .fill("invalid/eli")
+
     await page.getByRole("button", { name: "Speichern" }).click()
 
+    await expect(page.getByText("Fehler: Invalide ELI")).toBeVisible()
+
     await expect(
-      page.getByText("Fehler: Ein unbekannter Fehler ist aufgetreten"),
+      page.getByRole("button", {
+        name: /Das Vereinsgesetz vom 5\. August 1964/,
+      }),
     ).toBeVisible()
   })
 
