@@ -20,7 +20,6 @@ public enum Metadata {
   ART(Namespace.METADATEN, "./art", "art"), // TODO: (Malte Laukötter, 2025-05-30) remove
   TYP(Namespace.METADATEN_REGELUNGSTEXT, "./typ", "typ"),
   GESTA(Namespace.METADATEN_RECHTSETZUNGSDOKUMENT, "./gesta", "gesta"),
-  FASSUNG(Namespace.METADATEN, "./fassung", "fassung"), // TODO: (Malte Laukötter, 2025-05-30) remove
 
   // MetadatenBund
   FEDERFUEHRUNG(
