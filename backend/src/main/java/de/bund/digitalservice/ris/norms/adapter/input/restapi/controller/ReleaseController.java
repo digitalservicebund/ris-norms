@@ -3,12 +3,14 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ReleaseResponseMapper;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ExpressionsStatusResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadReleasesByNormExpressionEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseNormExpressionUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -71,5 +73,24 @@ public class ReleaseController {
       new ReleaseNormExpressionUseCase.Options(eli)
     );
     return ResponseEntity.ok(ReleaseResponseMapper.fromRelease(release));
+  }
+
+  /**
+   * Retrieves the status of expressions to a target norm that will be changed by the verkuendung.
+   *
+   * @param zielnormEli the work eli of the Verkündung
+   * @return A {@link ResponseEntity} containing the response schema for a list of {@link ExpressionsStatusResponseSchema}s.
+   *     <p>Returns HTTP 200 (OK) and list of {@link ExpressionsStatusResponseSchema}s.
+   *     <p>Returns HTTP 404 (Not Found) if the verkuendung is not found.
+   */
+  @SuppressWarnings("java:S6856") // reliability issue because missing @PathVariable annotations. But we don't need it. Spring is automatically binding all path variables to our class NormExpressionEli
+  @GetMapping(
+    value = "/api/v1/eli/bund/{agent}/{year}/{naturalIdentifier}/expressions/release",
+    produces = APPLICATION_JSON_VALUE
+  )
+  public ResponseEntity<ExpressionsStatusResponseSchema> getZielnormExpressionsStatus(
+    NormWorkEli zielnormEli
+  ) {
+    throw new UnsupportedOperationException("Not yet implemented");
   }
 }
