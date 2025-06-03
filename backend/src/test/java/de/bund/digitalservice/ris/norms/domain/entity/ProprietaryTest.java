@@ -114,7 +114,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.FASSUNG)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.ART)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
@@ -367,7 +366,6 @@ class ProprietaryTest {
       proprietary.setMetadataValue(Metadata.TYP, "new-gesetz");
       proprietary.setMetadataValue(Metadata.FNA, "new-fna");
       proprietary.setMetadataValue(Metadata.GESTA, "new-gesta");
-      proprietary.setMetadataValue(Metadata.FASSUNG, "new-verkuendungsfassung");
       proprietary.setMetadataValue(Metadata.SUBTYP, "new-subtyp-updated");
       proprietary.setMetadataValue(
         Metadata.BEZEICHNUNG_IN_VORLAGE,
