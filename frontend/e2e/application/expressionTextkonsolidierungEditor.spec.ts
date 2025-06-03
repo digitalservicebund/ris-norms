@@ -1,11 +1,20 @@
 import { test } from "@e2e/utils/testWithAuth"
 import { expect } from "@playwright/test"
+import { uploadAmendingLaw } from "@e2e/utils/uploadWithForce"
+import { frontendTestDataDirectory } from "@e2e/utils/dataDirectories"
 
 test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
   test.describe("Textkonsolidierung Editor loading and saving", () => {
-    test.skip("navigates from expression list", async ({ page }) => {
+    test.beforeAll(async ({ authenticatedRequest }) => {
+      await uploadAmendingLaw(
+        authenticatedRequest,
+        "aenderungsgesetz-with-amended-norm-expressions.xml",
+        frontendTestDataDirectory,
+      )
+    })
+    test("navigates from expression list", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1",
       )
 
       const zielnormenSection = page.getByRole("region", {
@@ -24,16 +33,16 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
         })
         .click()
 
-      const eliText = "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu"
+      const eliText = "eli/bund/bgbl-1/2017/321/2017-03-16/1/deu"
       await zielnormenSection.getByText(eliText).click()
       await expect(page).toHaveURL(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
       )
     })
 
     test("loads TOC", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
       )
 
       const nav = page.getByRole("complementary", { name: "Inhaltsübersicht" })
@@ -48,7 +57,7 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
 
     test("loads editor", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
       )
 
       const editor = page.getByRole("textbox")
@@ -56,14 +65,14 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
 
       await expect(
         page.getByText(
-          '<akn:meta GUID="82a65581-0ea7-4525-9190-35ff86c977af" eId="meta-1">',
+          '<akn:meta GUID="e4e9224c-a2ff-46af-b390-eef666ee6706" eId="meta-1">',
         ),
       ).toBeVisible()
     })
 
     test("loads explorer", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
       )
 
       const explorer = page.getByRole("complementary", {
@@ -74,7 +83,7 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
 
     test("loads TOC and clicking node scrolls to element", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
       )
 
       const toc = page.getByRole("complementary", { name: "Inhaltsübersicht" })
@@ -88,7 +97,7 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
 
     test("clicking explorer does NOT allow editing", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
       )
 
       const explorer = page.getByRole("complementary", {
@@ -112,9 +121,9 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
       ).not.toHaveClass("selected")
     })
 
-    test.skip("edit text and verifies on reload", async ({ page }) => {
+    test("edit text and verifies on reload", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
       )
 
       const editor = page.getByRole("textbox")
