@@ -18,9 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /** Controller for release-related actions. */
 @RestController
-@RequestMapping(
-  "/api/v1/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/releases"
-)
+@RequestMapping("/api/v1/eli/bund/{agent}/{year}/{naturalIdentifier}")
 public class ReleaseController {
 
   private final LoadReleasesByNormExpressionEliUseCase loadReleasesByNormExpressionEliUseCase;
@@ -42,7 +40,11 @@ public class ReleaseController {
    *     <p>Returns HTTP 200 (OK) and the release if found.
    *     <p>Returns HTTP 404 (Not Found) if no release is found.
    */
-  @GetMapping(produces = { APPLICATION_JSON_VALUE })
+  @SuppressWarnings("java:S6856")
+  @GetMapping(
+    path = "/{pointInTime}/{version}/{language}/releases",
+    produces = { APPLICATION_JSON_VALUE }
+  )
   public ResponseEntity<List<ReleaseResponseSchema>> getReleases(final NormExpressionEli eli) {
     var releases = loadReleasesByNormExpressionEliUseCase.loadReleasesByNormExpressionEli(
       new LoadReleasesByNormExpressionEliUseCase.Options(eli)
@@ -59,7 +61,11 @@ public class ReleaseController {
    *     <p>Returns HTTP 200 (OK) and the release was successful.
    *     <p>Returns HTTP 404 (Not Found) if no {@link Verkuendung} is found.
    */
-  @PostMapping(produces = { APPLICATION_JSON_VALUE })
+  @SuppressWarnings("java:S6856")
+  @PostMapping(
+    path = "/{pointInTime}/{version}/{language}/releases",
+    produces = { APPLICATION_JSON_VALUE }
+  )
   public ResponseEntity<ReleaseResponseSchema> postReleases(final NormExpressionEli eli) {
     var release = releaseNormExpressionUseCase.releaseNormExpression(
       new ReleaseNormExpressionUseCase.Options(eli)
