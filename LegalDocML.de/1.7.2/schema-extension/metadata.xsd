@@ -39,6 +39,7 @@
         <xs:element name="vollzitat" type="xs:string" minOccurs="0" maxOccurs="1"/>
         <xs:element name="standangabe" type="StandangabeType" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="bedingtesInkrafttreten" type="EmptyType" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="stand" type="Stand" minOccurs="0" maxOccurs="1"/>
         <xs:any minOccurs="0" namespace="http://MetadatenMods.LegalDocML.de/1.7.2/"/>
       </xs:sequence>
     </xs:complexType>
@@ -82,6 +83,13 @@
     <xs:restriction base="xs:string">
       <xs:pattern
         value="(SN|ÄN|ÜN|SN,ÄN|SN,ÜN|ÄN,SN|ÄN,ÜN|ÜN,SN|ÜN,ÄN|ÄN,SN,ÜN|ÄN,ÜN,SN|SN,ÄN,ÜN|SN,ÜN,ÄN|ÜN,SN,ÄN|ÜN,ÄN,SN)"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="Stand">
+    <xs:restriction base="xs:string">
+      <xs:pattern
+        value="(praetext|volldokumentation)"/>
     </xs:restriction>
   </xs:simpleType>
 
