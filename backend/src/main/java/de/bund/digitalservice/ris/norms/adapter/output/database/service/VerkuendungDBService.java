@@ -51,7 +51,8 @@ public class VerkuendungDBService
       .stream()
       .map(VerkuendungMapper::mapToDomain)
       .sorted(
-        Comparator.comparing((Verkuendung verkuendung) -> verkuendung.getEli().getPointInTime()
+        Comparator.comparing((Verkuendung verkuendung) ->
+          verkuendung.getEli().getPointInTime()
         ).reversed()
       )
       .toList();

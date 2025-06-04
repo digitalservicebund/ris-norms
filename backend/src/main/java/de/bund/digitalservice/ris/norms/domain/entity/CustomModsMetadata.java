@@ -65,7 +65,8 @@ public class CustomModsMetadata {
     return getZielnormenReferences()
       .stream()
       .flatMap(ZielnormReferences::stream)
-      .anyMatch(zielnormReference -> zielnormReference.getGeltungszeit().equals(zeitgrenze.getId())
+      .anyMatch(zielnormReference ->
+        zielnormReference.getGeltungszeit().equals(zeitgrenze.getId())
       );
   }
 

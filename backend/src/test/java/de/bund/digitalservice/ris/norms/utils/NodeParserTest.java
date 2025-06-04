@@ -102,7 +102,8 @@ class NodeParserTest {
     void throwWhenNoNodeIsFound() {
       Node node = XmlMapper.toDocument("<test>testValue</test>");
       String expression = "/bla";
-      assertThatThrownBy(() -> NodeParser.getMandatoryNodeFromExpression(expression, node)
+      assertThatThrownBy(() ->
+        NodeParser.getMandatoryNodeFromExpression(expression, node)
       ).isInstanceOf(MandatoryNodeNotFoundException.class);
     }
   }
@@ -122,7 +123,8 @@ class NodeParserTest {
     void throwWhenNoElementIsFound() {
       Node node = XmlMapper.toDocument("<test>testValue</test>");
       String expression = "/test/text()";
-      assertThatThrownBy(() -> NodeParser.getMandatoryElementFromExpression(expression, node)
+      assertThatThrownBy(() ->
+        NodeParser.getMandatoryElementFromExpression(expression, node)
       ).isInstanceOf(MandatoryNodeNotFoundException.class);
     }
   }

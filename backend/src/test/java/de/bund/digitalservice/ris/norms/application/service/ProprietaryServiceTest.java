@@ -45,7 +45,8 @@ class ProprietaryServiceTest {
       // when
       when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
       // then
-      assertThatThrownBy(() -> proprietaryService.loadProprietaryFromDokument(options)
+      assertThatThrownBy(() ->
+        proprietaryService.loadProprietaryFromDokument(options)
       ).isInstanceOf(
         // then
         DokumentNotFoundException.class
@@ -124,7 +125,8 @@ class ProprietaryServiceTest {
         );
       // when
       when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
-      assertThatThrownBy(() -> proprietaryService.updateProprietaryFrameFromDokument(options)
+      assertThatThrownBy(() ->
+        proprietaryService.updateProprietaryFrameFromDokument(options)
       ).isInstanceOf(DokumentNotFoundException.class); // then
     }
 
