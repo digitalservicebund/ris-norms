@@ -1,9 +1,9 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsWorkingCopiesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.util.*;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * Service class with bundling functionality only relevant to a Zielnorm.
  */
 @Service
-public class ZielnormService {
+public class ZielnormService implements LoadNormExpressionsWorkingCopiesUseCase {
 
   private final LoadNormPort loadNormPort;
   private final LoadNormExpressionElisPort loadNormExpressionElisPort;
@@ -26,12 +26,13 @@ public class ZielnormService {
 
   /**
    * Loads all working copies of a given Zielnorm.
-   * @param eli the ELI of the Zielnorm
+   * @param options containing the ELI of the Zielnorm
    * @return a list of working copies of the Zielnorm
    */
-  public List<Norm> loadZielnormWorkingCopies(final NormWorkEli eli) {
+  @Override
+  public List<Norm> loadZielnormWorkingCopies(final Options options) {
     List<NormExpressionEli> expressionElis = loadNormExpressionElisPort.loadNormExpressionElis(
-      new LoadNormExpressionElisPort.Options(eli)
+      new LoadNormExpressionElisPort.Options(options.eli())
     );
     return expressionElis
       .stream()

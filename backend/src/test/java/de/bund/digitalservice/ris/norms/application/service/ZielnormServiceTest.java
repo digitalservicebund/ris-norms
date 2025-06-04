@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsWorkingCopiesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
@@ -55,7 +56,9 @@ class ZielnormServiceTest {
       ).thenReturn(Optional.of(publishedNorm));
 
       // When
-      var result = service.loadZielnormWorkingCopies(workEli);
+      var result = service.loadZielnormWorkingCopies(
+        new LoadNormExpressionsWorkingCopiesUseCase.Options(workEli)
+      );
 
       // Then
       assertThat(result).hasSize(1);
@@ -105,7 +108,9 @@ class ZielnormServiceTest {
       ).thenReturn(Optional.of(publishedNorm2));
 
       // When
-      var result = service.loadZielnormWorkingCopies(workEli);
+      var result = service.loadZielnormWorkingCopies(
+        new LoadNormExpressionsWorkingCopiesUseCase.Options(workEli)
+      );
 
       // Then
       assertThat(result).isEmpty();
@@ -131,7 +136,9 @@ class ZielnormServiceTest {
       when(loadNormExpressionElisPort.loadNormExpressionElis(any())).thenReturn(List.of());
 
       // When
-      var result = service.loadZielnormWorkingCopies(workEli);
+      var result = service.loadZielnormWorkingCopies(
+        new LoadNormExpressionsWorkingCopiesUseCase.Options(workEli)
+      );
 
       // Then
       assertThat(result).isEmpty();
@@ -158,7 +165,9 @@ class ZielnormServiceTest {
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When
-      var result = service.loadZielnormWorkingCopies(workEli);
+      var result = service.loadZielnormWorkingCopies(
+        new LoadNormExpressionsWorkingCopiesUseCase.Options(workEli)
+      );
 
       // Then
       assertThat(result).isEmpty();
@@ -213,7 +222,9 @@ class ZielnormServiceTest {
       ).thenReturn(Optional.of(publishedNorm));
 
       // When
-      var result = service.loadZielnormWorkingCopies(workEli);
+      var result = service.loadZielnormWorkingCopies(
+        new LoadNormExpressionsWorkingCopiesUseCase.Options(workEli)
+      );
 
       // Then
       assertThat(result).hasSize(1);
