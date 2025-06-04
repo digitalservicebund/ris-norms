@@ -2,9 +2,11 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ExpressionsStatusResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ReleaseResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ExpressionsStatusResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsWorkingCopiesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadReleasesByNormExpressionEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseNormExpressionUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -25,13 +27,16 @@ public class ReleaseController {
 
   private final LoadReleasesByNormExpressionEliUseCase loadReleasesByNormExpressionEliUseCase;
   private final ReleaseNormExpressionUseCase releaseNormExpressionUseCase;
+  private final LoadNormExpressionsWorkingCopiesUseCase loadNormExpressionsWorkingCopiesUseCase;
 
   public ReleaseController(
     LoadReleasesByNormExpressionEliUseCase loadReleasesByNormExpressionEliUseCase,
-    ReleaseNormExpressionUseCase releaseNormExpressionUseCase
+    ReleaseNormExpressionUseCase releaseNormExpressionUseCase,
+    LoadNormExpressionsWorkingCopiesUseCase loadNormExpressionsWorkingCopiesUseCase
   ) {
     this.loadReleasesByNormExpressionEliUseCase = loadReleasesByNormExpressionEliUseCase;
     this.releaseNormExpressionUseCase = releaseNormExpressionUseCase;
+    this.loadNormExpressionsWorkingCopiesUseCase = loadNormExpressionsWorkingCopiesUseCase;
   }
 
   /**
@@ -84,13 +89,13 @@ public class ReleaseController {
    *     <p>Returns HTTP 404 (Not Found) if the verkuendung is not found.
    */
   @SuppressWarnings("java:S6856") // reliability issue because missing @PathVariable annotations. But we don't need it. Spring is automatically binding all path variables to our class NormExpressionEli
-  @GetMapping(
-    value = "/api/v1/eli/bund/{agent}/{year}/{naturalIdentifier}/expressions/release",
-    produces = APPLICATION_JSON_VALUE
-  )
+  @GetMapping(value = "/expressions/release", produces = APPLICATION_JSON_VALUE)
   public ResponseEntity<ExpressionsStatusResponseSchema> getZielnormExpressionsStatus(
     NormWorkEli zielnormEli
   ) {
-    throw new UnsupportedOperationException("Not yet implemented");
+    var workingCopies = loadNormExpressionsWorkingCopiesUseCase.loadZielnormWorkingCopies(
+      new LoadNormExpressionsWorkingCopiesUseCase.Options(zielnormEli)
+    );
+    return ResponseEntity.ok(ExpressionsStatusResponseMapper.fromNorms(workingCopies));
   }
 }
