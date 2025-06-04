@@ -47,7 +47,8 @@ public enum Metadata {
   AUSSERKRAFT(Namespace.METADATEN_RIS, "./ausserkraft/@date", "date", true),
   INKRAFT(Namespace.METADATEN_RIS, "./inkraft/@date", "date", true),
   STANDANGABE(Namespace.METADATEN_RIS, "./standangabe", "standangabe"),
-  VOLLZITAT(Namespace.METADATEN_RIS, "./vollzitat", "vollzitat");
+  VOLLZITAT(Namespace.METADATEN_RIS, "./vollzitat", "vollzitat"),
+  STAND(Namespace.METADATEN_RIS, "./stand", "stand");
 
   private final Namespace namespace;
   private final String xpath;
