@@ -497,7 +497,7 @@ public class NormService
           updateOrSaveNormPort.updateOrSave(
             new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
           );
-        } else {
+        } else if (!expression.isCreated()) {
           // If it is not created yet, so take the previous closest expression, which can be on the same day (for the case of same day, leading to a gegenstandslos version)
           final Norm previousClosestExpression = findPreviousAndSameDayClosestExistingExpression(
             zielnorm.normWorkEli(),
