@@ -3,8 +3,8 @@ import { expect } from "@playwright/test"
 import { uploadAmendingLaw } from "@e2e/utils/uploadWithForce"
 import { frontendTestDataDirectory } from "@e2e/utils/dataDirectories"
 
-test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
-  test.describe("Textkonsolidierung Editor loading and saving", () => {
+test.describe("Textkonsolidierung editor", { tag: ["@RISDEV-6833"] }, () => {
+  test.describe("loading and saving", () => {
     test.beforeAll(async ({ authenticatedRequest }) => {
       await uploadAmendingLaw(
         authenticatedRequest,
@@ -12,6 +12,7 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
         frontendTestDataDirectory,
       )
     })
+
     test("navigates from expression list", async ({ page }) => {
       await page.goto(
         "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1",
@@ -33,16 +34,16 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
         })
         .click()
 
-      const eliText = "eli/bund/bgbl-1/2017/321/2017-03-16/1/deu"
+      const eliText = "eli/bund/bgbl-1/1964/321/2017-03-16/1/deu"
       await zielnormenSection.getByText(eliText).click()
       await expect(page).toHaveURL(
-        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-1",
       )
     })
 
     test("loads TOC", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-1",
       )
 
       const nav = page.getByRole("complementary", { name: "Inhaltsübersicht" })
@@ -57,7 +58,7 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
 
     test("loads editor", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-1",
       )
 
       const editor = page.getByRole("textbox")
@@ -72,7 +73,7 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
 
     test("loads explorer", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-1",
       )
 
       const explorer = page.getByRole("complementary", {
@@ -83,7 +84,7 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
 
     test("loads TOC and clicking node scrolls to element", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-1",
       )
 
       const toc = page.getByRole("complementary", { name: "Inhaltsübersicht" })
@@ -97,7 +98,7 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
 
     test("clicking explorer does NOT allow editing", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-1",
       )
 
       const explorer = page.getByRole("complementary", {
@@ -123,7 +124,7 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
 
     test("edit text and verifies on reload", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/321/2017-03-16/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-1",
       )
 
       const editor = page.getByRole("textbox")
@@ -142,7 +143,7 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
     })
   })
 
-  test.describe("Textkonsolidierung Editor - 404 redirects", () => {
+  test.describe("404 redirects", () => {
     const expressionUrl =
       "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1"
 
@@ -217,17 +218,21 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
       await page.goto(expressionUrl)
       await expect(page.getByText("404 - Seite nicht gefunden")).toBeVisible()
     })
+  })
 
-    test.skip("navigates to next expression version via arrow and updates content", async ({
+  test.describe("navigating between expressions", () => {
+    test("navigates to next expression version via arrow and updates content", async ({
       page,
     }) => {
       const initialUrl =
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1"
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-1"
       const expectedNextUrl =
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/2017/s593/2025-05-26/1/deu/regelungstext-1"
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/1964/321/2017-05-01/1/deu/regelungstext-1"
 
       await page.goto(initialUrl)
-      const nav = page.getByRole("complementary", { name: "Inhaltsübersicht" })
+      const nav = page.getByRole("complementary", {
+        name: "Inhaltsübersicht",
+      })
 
       const nextArrow = nav.getByRole("link", {
         name: /Nächste Version/,
@@ -239,8 +244,39 @@ test.describe("Textkonsolidierung Editor", { tag: ["@RISDEV-6833"] }, () => {
       await expect(
         page
           .getByLabel("Zeitpunkt der Gültigkeit dieser Fassung")
-          .getByText("26.05.2025"),
+          .getByText("01.05.2017"),
       ).toBeVisible()
+
+      await expect(nextArrow).toBeDisabled()
+    })
+
+    test("navigates to previous expression version via arrow and updates content", async ({
+      page,
+    }) => {
+      const initialUrl =
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/1964/321/2017-05-01/1/deu/regelungstext-1"
+      const expectedNextUrl =
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-1"
+
+      await page.goto(initialUrl)
+      const nav = page.getByRole("complementary", {
+        name: "Inhaltsübersicht",
+      })
+
+      const previousArrow = nav.getByRole("link", {
+        name: /Vorherige Version/,
+      })
+
+      await previousArrow.click()
+
+      await expect(page).toHaveURL(expectedNextUrl)
+      await expect(
+        page
+          .getByLabel("Zeitpunkt der Gültigkeit dieser Fassung")
+          .getByText("16.03.2017"),
+      ).toBeVisible()
+
+      await expect(previousArrow).toBeDisabled()
     })
   })
 })

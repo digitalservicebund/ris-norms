@@ -96,7 +96,7 @@ const treeNodes = computed<TreeNode[]>(() =>
       }))
     : [],
 )
-const { tocHeadingId } = useElementId()
+const { tocHeadingId, expressionPointInTimeLabelId } = useElementId()
 
 const expandedKeys = ref<Record<string, boolean>>({})
 const selectionKeys = ref<Record<string, boolean>>({})
@@ -307,9 +307,9 @@ const isGegenstandslosExpression = computed(() => {
             text-content="Keine Artikel gefunden."
             class="m-16 mt-8"
           />
-          <div v-else class="flex-1 overflow-auto p-10">
+          <div v-else class="flex-1 overflow-auto">
             <div
-              class="sticky top-0 z-10 flex justify-between border-b border-gray-400 px-10 pt-10 pb-20"
+              class="sticky top-0 z-10 flex items-center justify-between gap-8 border-b border-gray-400 p-16"
             >
               <RouterLink
                 :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${previousGuid}`"
@@ -324,12 +324,14 @@ const isGegenstandslosExpression = computed(() => {
                 <IcBaselineArrowBack />
                 <span class="sr-only">Vorherige Version</span>
               </RouterLink>
-              <span id="expression-point-in-time-label" class="sr-only">
+
+              <span :id="expressionPointInTimeLabelId" class="sr-only">
                 Zeitpunkt der Gültigkeit dieser Fassung
               </span>
+
               <div
                 class="flex items-center gap-6"
-                aria-labelledby="expression-point-in-time-label"
+                :aria-labelledby="expressionPointInTimeLabelId"
               >
                 <span
                   >Gültig ab:
@@ -352,7 +354,7 @@ const isGegenstandslosExpression = computed(() => {
                 <span class="sr-only">Nächste Version</span>
               </RouterLink>
             </div>
-            <h2 :id="tocHeadingId" class="ris-body1-bold mb-10 pt-10 pl-20">
+            <h2 :id="tocHeadingId" class="ris-body1-bold mx-20 mt-16 mb-10">
               Inhaltsübersicht
             </h2>
             <Tree
