@@ -180,7 +180,7 @@ test.describe("shows Zielnormen", { tag: ["@RISDEV-6941"] }, () => {
 
       await expect(
         zielnormenSection.getByText(
-          "eli/bund/bgbl-1/2017/321/2017-03-16/1/deu",
+          "eli/bund/bgbl-1/1964/321/2017-03-16/1/deu",
         ),
       ).toBeVisible()
       await expect(zielnormenSection.getByText("16.03.2017")).toBeVisible()
