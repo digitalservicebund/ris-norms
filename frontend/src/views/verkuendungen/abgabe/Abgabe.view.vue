@@ -4,90 +4,30 @@ import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
-// import { useGetZielnormReleaseStatus } from "@/services/zielnormExpressionsService"
-import type { ZielnormReleaseStatusDomain } from "@/services/zielnormExpressionsService"
+import { useGetZielnormReleaseStatus } from "@/services/zielnormExpressionsService"
 import { ConfirmDialog, Badge, Column, DataTable, useConfirm } from "primevue"
 import { ref, computed } from "vue"
 import Button from "primevue/button"
 import { useElementId } from "@/composables/useElementId"
-import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import IcBaselineCheckCircle from "~icons/ic/baseline-check-circle"
 import IcBaselineContrast from "~icons/ic/baseline-contrast"
 import IcBaselineErrorOutline from "~icons/ic/baseline-error-outline"
 import IcBaselinePanoramaFishEye from "~icons/ic/baseline-panorama-fish-eye"
 import IcBaselineReadMore from "~icons/ic/baseline-read-more"
 import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
-import { NormWorkEli } from "@/lib/eli/NormWorkEli"
-// import { useNormWorkEliPathParameter } from "@/composables/useNormWorkEliPathParameter"
-import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import { useToast } from "@/composables/useToast"
+import { useNormWorkEliPathParameter } from "@/composables/useNormWorkEliPathParameter"
 
-// const zielnormEli = useNormWorkEliPathParameter("zielnorm")
+const zielnormEli = useNormWorkEliPathParameter("zielnorm")
 const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
 
 const confirm = useConfirm()
-const traceId = useSentryTraceId()
-const { add: addToast, addError: addErrorToast } = useToast()
 
-// const { data: releaseStatus } = useGetZielnormReleaseStatus(
-//   () => zielnormEli.value,
-// )
+const { data: releaseStatus, error: releaseStatusError } =
+  useGetZielnormReleaseStatus(() => zielnormEli.value)
 
-const releaseStatus = ref<ZielnormReleaseStatusDomain>({
-  normWorkEli: NormWorkEli.fromString("eli/bund/bgbl-1/2010/s1885"),
-  title: "Luftverkehrsteuergesetz",
-  shortTitle: "LuftVStG",
-  expressions: [
-    {
-      normExpressionEli: new NormExpressionEli(
-        "bgbl-1",
-        "2010",
-        "s1885",
-        "2023-01-01",
-        1,
-        "deu",
-      ),
-      isGegenstandslos: false,
-      currentStatus: "NOT_RELEASED",
-    },
-    {
-      normExpressionEli: new NormExpressionEli(
-        "bgbl-1",
-        "2010",
-        "s1885",
-        "2023-02-01",
-        1,
-        "deu",
-      ),
-      isGegenstandslos: false,
-      currentStatus: "PRAETEXT_RELEASED",
-    },
-    {
-      normExpressionEli: new NormExpressionEli(
-        "bgbl-1",
-        "2010",
-        "s1885",
-        "2024-02-01",
-        2,
-        "deu",
-      ),
-      isGegenstandslos: false,
-      currentStatus: "VOLLDOKUMENTATION_RELEASED",
-    },
-    {
-      normExpressionEli: new NormExpressionEli(
-        "bgbl-1",
-        "2010",
-        "s1885",
-        "2024-05-01",
-        1,
-        "deu",
-      ),
-      isGegenstandslos: true,
-      currentStatus: "NOT_RELEASED",
-    },
-  ],
-})
+const { data: verkuendung } = useGetVerkuendungService(() =>
+  verkuendungEli.value.asNormEli(),
+)
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -105,12 +45,7 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
   { key: "Abgabe", title: "Abgabe" },
 ])
 
-const { data: verkuendung } = useGetVerkuendungService(() =>
-  verkuendungEli.value.asNormEli(),
-)
-
 const { abgabeHeadingId } = useElementId()
-
 function formatDate(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString("de-DE", {
     year: "numeric",
@@ -141,10 +76,44 @@ const internalZielnormExpressions = computed(() => {
     }
   })
 })
+
+function handlePraetextSubmit() {
+  confirm.require({
+    header: "Expressionen als Prätext abgeben",
+    message:
+      "Sind sie sicher, dass sie die angezeigten Expressionen als Prätext abgeben möchten?",
+    acceptLabel: "Abgeben",
+    rejectLabel: "Abbrechen",
+    rejectProps: { text: true },
+    defaultFocus: "accept",
+    acceptClass: "w-full",
+    rejectClass: "w-full",
+    accept: () => {
+      // call backend
+    },
+  })
+}
+
+function handleVolldokumentationSubmit() {
+  confirm.require({
+    header: "Expressionen als Volldokumentation abgeben",
+    message:
+      "Sind sie sicher, dass sie die angezeigten Expressionen als Volldokumentation abgeben möchten?",
+    acceptLabel: "Abgeben",
+    rejectLabel: "Abbrechen",
+    rejectProps: { text: true },
+    defaultFocus: "accept",
+    acceptClass: "w-full",
+    rejectClass: "w-full",
+    accept: () => {
+      // call backend
+    },
+  })
+}
 </script>
 
 <template>
-  <RisViewLayout :breadcrumbs>
+  <RisViewLayout :breadcrumbs :errors="[releaseStatusError]">
     <section :aria-labelledby="abgabeHeadingId">
       <h1 :id="abgabeHeadingId" class="ris-subhead-bold mb-24">Abgabe</h1>
       <template v-if="internalZielnormExpressions?.length">
@@ -184,7 +153,7 @@ const internalZielnormExpressions = computed(() => {
               </template>
             </Column>
 
-            <Column>
+            <Column header="Status" header-class="sr-only">
               <template #body="{ data }">
                 <div class="flex justify-end">
                   <Badge v-if="data.isGegenstandslos">
@@ -219,8 +188,17 @@ const internalZielnormExpressions = computed(() => {
             </Column>
           </DataTable>
           <div class="flex gap-16 p-14">
-            <Button label="Prätexte abgeben" severity="secondary" disabled />
-            <Button label="Volldokumentationen abgeben" disabled />
+            <Button
+              label="Prätexte abgeben"
+              severity="secondary"
+              disabled
+              @click="handlePraetextSubmit"
+            />
+            <Button
+              label="Volldokumentationen abgeben"
+              disabled
+              @click="handleVolldokumentationSubmit"
+            />
           </div>
         </div>
       </template>
