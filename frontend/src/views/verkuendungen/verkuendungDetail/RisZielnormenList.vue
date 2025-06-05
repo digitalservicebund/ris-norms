@@ -97,7 +97,7 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
         <Accordion class="border-none">
           <AccordionPanel value="textkonsolidierung">
             <AccordionHeader>
-              <div class="ris-link1-bold">Textkonsolidierung</div>
+              <div class="ris-link1-bold">TextkonsolidierungTEST</div>
             </AccordionHeader>
             <AccordionContent>
               <DataTable
@@ -146,12 +146,16 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
             <AccordionContent class="pl-24"></AccordionContent>
           </AccordionPanel>
 
-          <AccordionPanel value="publishing" disabled>
-            <AccordionHeader>
-              <div class="ris-link1-bold text-gray-600">Abgabe</div>
-            </AccordionHeader>
-            <AccordionContent class="pl-24"></AccordionContent>
-          </AccordionPanel>
+          <div
+            class="group flex w-full cursor-pointer justify-start px-12 py-8 pl-40 text-left hover:bg-gray-200"
+          >
+            <RouterLink
+              :to="`/verkuendungen/${verkuendungEli}/zielnorm/${item.eli}/abgabe`"
+              class="ris-link1-bold"
+            >
+              Abgabe
+            </RouterLink>
+          </div>
         </Accordion>
       </AccordionContent>
     </AccordionPanel>
