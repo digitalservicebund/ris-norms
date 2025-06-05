@@ -8,7 +8,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
 import java.util.Optional;
 
-/** Mapper class for converting between List<{@link Norm}> and {@link ExpressionsStatusResponseSchema}. */
+/** Mapper class for converting between List of {@link Norm}s and {@link ExpressionsStatusResponseSchema}. */
 public class ExpressionsStatusResponseMapper {
 
   // Private constructor to hide the implicit public one and prevent instantiation

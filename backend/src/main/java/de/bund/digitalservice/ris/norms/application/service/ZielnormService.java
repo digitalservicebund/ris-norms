@@ -30,7 +30,9 @@ public class ZielnormService implements LoadNormExpressionsWorkingCopiesUseCase 
    * @return a list of working copies of the Zielnorm
    */
   @Override
-  public List<Norm> loadZielnormWorkingCopies(final Options options) {
+  public List<Norm> loadZielnormWorkingCopies(
+    final LoadNormExpressionsWorkingCopiesUseCase.Options options
+  ) {
     List<NormExpressionEli> expressionElis = loadNormExpressionElisPort.loadNormExpressionElis(
       new LoadNormExpressionElisPort.Options(options.eli())
     );
