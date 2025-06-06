@@ -68,7 +68,6 @@ const debouncedLoading = ref(loading)
 watchDebounced(
   () => loading,
   (newVal) => {
-    console.log(newVal)
     debouncedLoading.value = newVal
   },
   { debounce: 300 },
