@@ -176,19 +176,44 @@ public class NormDBService
   }
 
   @Override
-  public void deleteNorm(DeleteNormPort.Options options) {
-    var normDto = normManifestationRepository.findByManifestationEli(options.eli().toString());
-
-    if (normDto.isEmpty()) {
-      return;
-    }
-
-    if (!normDto.get().getPublishState().equals(options.publishState())) {
-      return;
-    }
-
-    dokumentRepository.deleteAll(normDto.get().getDokumente());
-    normManifestationRepository.delete(normDto.get());
+  public boolean deleteNorm(DeleteNormPort.Options options) {
+    return switch (options.eli()) {
+      case NormExpressionEli expressionEli -> {
+        var manifestations = normManifestationRepository.findAllByExpressionEli(
+          expressionEli.toString()
+        );
+        boolean hasConflictingState = manifestations
+          .stream()
+          .anyMatch(f -> !f.getPublishState().equals(options.publishState()));
+        if (hasConflictingState) {
+          yield false;
+        }
+        for (var normDto : manifestations) {
+          dokumentRepository.deleteAll(normDto.getDokumente());
+          binaryFileRepository.deleteAll(normDto.getBinaryFiles());
+          normManifestationRepository.delete(normDto);
+        }
+        yield true;
+      }
+      case NormManifestationEli manifestationEli -> {
+        var normDto = normManifestationRepository.findByManifestationEli(
+          manifestationEli.toString()
+        );
+        if (normDto.isEmpty()) {
+          yield true;
+        }
+        if (!normDto.get().getPublishState().equals(options.publishState())) {
+          yield false;
+        }
+        dokumentRepository.deleteAll(normDto.get().getDokumente());
+        binaryFileRepository.deleteAll(normDto.get().getBinaryFiles());
+        normManifestationRepository.delete(normDto.get());
+        yield true;
+      }
+      case NormWorkEli workEli -> throw new UnsupportedOperationException(
+        "Deleting by work ELI (%s) is not supported.".formatted(workEli)
+      );
+    };
   }
 
   @Override

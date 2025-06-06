@@ -1044,5 +1044,259 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           .getFRBRaliasNextVersionId()
       ).contains(replacingNewExpression.getGuid());
     }
+
+    @Test
+    void itShouldRemoveOrphanExpressionBeforeFirstGeltungszeit() throws Exception {
+      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-orphan-before-first-geltungszeit.xml"
+      );
+      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
+
+      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-original-expression.xml"
+      );
+
+      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
+
+      final Regelungstext alreadyExistingFutureExpressionToBeDeleted = Fixtures.loadNormFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2017-03-16-1"
+      ).getRegelungstext1();
+
+      dokumentRepository.save(DokumentMapper.mapToDto(alreadyExistingFutureExpressionToBeDeleted));
+
+      final String orphanExpressionEli = "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu";
+      // Expressions to be created not yet existent
+      final List<String> futureExpressionElis = List.of(
+        "eli/bund/bgbl-1/1964/s593/2021-04-23/1/deu",
+        "eli/bund/bgbl-1/1964/s593/2024-05-30/1/deu"
+      );
+      assertThat(
+        normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+          orphanExpressionEli
+        )
+      ).isPresent();
+      futureExpressionElis.forEach(f ->
+        assertThat(
+          normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(f)
+        ).isEmpty()
+      );
+
+      final List<String> expressionElis = normManifestationRepository.findExpressionElisByWorkEli(
+        "eli/bund/bgbl-1/1964/s593"
+      );
+      assertThat(expressionElis).hasSize(2);
+
+      mockMvc
+        .perform(
+          post(
+            String.format(
+              "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
+              amendingLaw.getExpressionEli().asNormEli(),
+              targetLaw.getWorkEli().asNormEli()
+            )
+          ).accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("normWorkEli").value("eli/bund/bgbl-1/1964/s593"))
+        .andExpect(jsonPath("title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
+        .andExpect(jsonPath("shortTitle").value("Vereinsgesetz"))
+        .andExpect(
+          jsonPath("expressions[0].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2021-04-23/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[0].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[0].isCreated").value(true))
+        .andExpect(jsonPath("expressions[0].createdBy").value("diese Verkündung"))
+        .andExpect(
+          jsonPath("expressions[1].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2024-05-30/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[1].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[1].isCreated").value(true))
+        .andExpect(jsonPath("expressions[1].createdBy").value("diese Verkündung"));
+
+      // Orphan was deleted
+      assertThat(
+        normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(
+          orphanExpressionEli
+        )
+      ).isEmpty();
+
+      // New expressions created
+      futureExpressionElis.forEach(f ->
+        assertThat(
+          normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(f)
+        ).isPresent()
+      );
+
+      final List<String> expressionsEliAfter =
+        normManifestationRepository.findExpressionElisByWorkEli("eli/bund/bgbl-1/1964/s593");
+      assertThat(expressionsEliAfter).hasSize(3);
+
+      assertTimeLine(expressionsEliAfter);
+    }
+
+    @Test
+    void itShouldRemoveOrphanExpressionAfterFirstGeltungszeit() throws Exception {
+      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-orphan-after-first-geltungszeit.xml"
+      );
+      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
+
+      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-original-expression.xml"
+      );
+
+      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
+
+      final Regelungstext alreadyExistingFutureExpressionToBeOverriden = Fixtures.loadNormFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2021-04-23"
+      ).getRegelungstext1();
+
+      dokumentRepository.save(
+        DokumentMapper.mapToDto(alreadyExistingFutureExpressionToBeOverriden)
+      );
+
+      final String orphanEli = "eli/bund/bgbl-1/1964/s593/2021-04-23/1/deu";
+      // Expressions to be created not yet existent
+      final List<String> futureExpressionElis = List.of(
+        "eli/bund/bgbl-1/1964/s593/2016-03-16/1/deu",
+        "eli/bund/bgbl-1/1964/s593/2024-05-30/1/deu"
+      );
+      assertThat(
+        normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(orphanEli)
+      ).isPresent();
+      futureExpressionElis.forEach(f ->
+        assertThat(
+          normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(f)
+        ).isEmpty()
+      );
+
+      final List<String> expressionElis = normManifestationRepository.findExpressionElisByWorkEli(
+        "eli/bund/bgbl-1/1964/s593"
+      );
+      assertThat(expressionElis).hasSize(2);
+
+      mockMvc
+        .perform(
+          post(
+            String.format(
+              "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
+              amendingLaw.getExpressionEli().asNormEli(),
+              targetLaw.getWorkEli().asNormEli()
+            )
+          ).accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("normWorkEli").value("eli/bund/bgbl-1/1964/s593"))
+        .andExpect(jsonPath("title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
+        .andExpect(jsonPath("shortTitle").value("Vereinsgesetz"))
+        .andExpect(
+          jsonPath("expressions[0].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2016-03-16/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[0].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[0].isCreated").value(true))
+        .andExpect(jsonPath("expressions[0].createdBy").value("diese Verkündung"))
+        .andExpect(
+          jsonPath("expressions[1].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2024-05-30/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[1].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[1].isCreated").value(true))
+        .andExpect(jsonPath("expressions[1].createdBy").value("diese Verkündung"));
+
+      // Orphan was deleted
+      assertThat(
+        normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(orphanEli)
+      ).isEmpty();
+
+      // New expressions created
+      futureExpressionElis.forEach(f ->
+        assertThat(
+          normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(f)
+        ).isPresent()
+      );
+
+      final List<String> expressionsEliAfter =
+        normManifestationRepository.findExpressionElisByWorkEli("eli/bund/bgbl-1/1964/s593");
+      assertThat(expressionsEliAfter).hasSize(3);
+
+      assertTimeLine(expressionsEliAfter);
+    }
+
+    /**
+     * This method tests the timeline for the given expressions ELIs (that should belong to the same work), meaning checks
+     * if the previous/current/next GUIDs are properly set
+     * @param expressionElis the list of the expression eli in string format
+     */
+    private void assertTimeLine(final List<String> expressionElis) {
+      if (expressionElis.isEmpty()) {
+        throw new IllegalArgumentException("List must not be empty");
+      }
+      final List<NormExpressionEli> normExpressionElis = expressionElis
+        .stream()
+        .map(NormExpressionEli::fromString)
+        .toList();
+
+      if (normExpressionElis.stream().map(NormExpressionEli::asWorkEli).distinct().count() > 1) {
+        throw new IllegalArgumentException("Expressions do not belong to the same work");
+      }
+
+      final List<String> sortedElis = normExpressionElis
+        .stream()
+        .sorted()
+        .map(NormExpressionEli::toString)
+        .toList();
+
+      final List<FRBRExpression> frbrExpressions = sortedElis
+        .stream()
+        .map(eli -> {
+          final Optional<NormManifestationDto> optionalDto =
+            normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(eli);
+          assertThat(optionalDto).isPresent();
+          final Norm norm = NormManifestationMapper.mapToDomain(optionalDto.get());
+          return norm.getRegelungstext1().getMeta().getFRBRExpression();
+        })
+        .toList();
+
+      for (int i = 0; i < frbrExpressions.size(); i++) {
+        FRBRExpression current = frbrExpressions.get(i);
+
+        if (i == 0 && frbrExpressions.size() > 1) {
+          // First entry
+          FRBRExpression next = frbrExpressions.get(i + 1);
+          assertThat(current.getFRBRaliasNextVersionId()).contains(
+            next.getFRBRaliasCurrentVersionId()
+          );
+        } else if (i == frbrExpressions.size() - 1 && frbrExpressions.size() > 1) {
+          // Last entry
+          FRBRExpression previous = frbrExpressions.get(i - 1);
+          assertThat(current.getFRBRaliasPreviousVersionId()).contains(
+            previous.getFRBRaliasCurrentVersionId()
+          );
+        } else if (i > 0 && i < frbrExpressions.size() - 1) {
+          // Middle entries
+          FRBRExpression previous = frbrExpressions.get(i - 1);
+          FRBRExpression next = frbrExpressions.get(i + 1);
+          assertThat(current.getFRBRaliasPreviousVersionId()).contains(
+            previous.getFRBRaliasCurrentVersionId()
+          );
+          assertThat(current.getFRBRaliasNextVersionId()).contains(
+            next.getFRBRaliasCurrentVersionId()
+          );
+        }
+      }
+    }
   }
 }
