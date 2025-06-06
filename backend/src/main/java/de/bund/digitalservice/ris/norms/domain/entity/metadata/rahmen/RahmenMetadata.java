@@ -23,11 +23,13 @@ public class RahmenMetadata {
   }
 
   public Optional<String> getFna() {
-    return getRegelungstextRahmenMetadata().findAny().flatMap(RegelungstextRahmenMetadata::getFna);
+    return getRechtsetzungsdokumentRahmenMetadata()
+      .findAny()
+      .flatMap(RechtsetzungsdokumentRahmenMetadata::getFna);
   }
 
   public void setFna(@Nullable String fna) {
-    getRegelungstextRahmenMetadata().forEach(m -> m.setFna(fna));
+    getRechtsetzungsdokumentRahmenMetadata().forEach(m -> m.setFna(fna));
   }
 
   public Optional<String> getTyp() {
@@ -104,13 +106,13 @@ public class RahmenMetadata {
   }
 
   public Optional<String> getRessort() {
-    return getRegelungstextRahmenMetadata()
+    return getRechtsetzungsdokumentRahmenMetadata()
       .findAny()
-      .flatMap(RegelungstextRahmenMetadata::getRessort);
+      .flatMap(RechtsetzungsdokumentRahmenMetadata::getRessort);
   }
 
   public void setRessort(@Nullable String ressort) {
-    getRegelungstextRahmenMetadata().forEach(m -> m.setRessort(ressort));
+    getRechtsetzungsdokumentRahmenMetadata().forEach(m -> m.setRessort(ressort));
   }
 
   public Optional<String> getOrganisationsEinheit() {
@@ -128,5 +130,12 @@ public class RahmenMetadata {
       .stream()
       .filter(RegelungstextRahmenMetadata.class::isInstance)
       .map(RegelungstextRahmenMetadata.class::cast);
+  }
+
+  private Stream<RechtsetzungsdokumentRahmenMetadata> getRechtsetzungsdokumentRahmenMetadata() {
+    return dokumentRahmenMetadata
+      .stream()
+      .filter(RechtsetzungsdokumentRahmenMetadata.class::isInstance)
+      .map(RechtsetzungsdokumentRahmenMetadata.class::cast);
   }
 }
