@@ -7,16 +7,16 @@ import { useNormGuidService } from "@/services/normGuidService"
 
 /**
  * The regular expressions for the eId is based on the definitions from
- * LDML.de 1.7.2 (Section 9.2.12.67, eIdLiterals.einzelvorschrift)
+ * LDML.de 1.8 (Section 9.2.12.64, eIdLiterals.einzelvorschrift)
  *
- * The expression only matches eIds that represent articles or paragraphs.
+ * The expression only matches eIds that represent articles.
  *
  * All groups have been converted to non-capturing groups and all closing ")"
  * have been escaped. This is as the vue-router otherwise has problems parsing
  * the RegEx.
  */
 const ARTICLE_EID_ROUTE_PATH =
-  ":eid((?:[a-zäöüß0-9]+-[1-9]{1}[0-9]*_\\)*(?:art\\)-[1-9]{1}[0-9]*)"
+  ":eid((?:[a-zäöüß0-9]+-(?:n[1-9]{1}[0-9]*|z[0-9a-zäöüß~%]*\\)_\\)*art-(?:n[1-9]{1}[0-9]*|z[0-9a-zäöüß~%]*\\))"
 
 const GUID_ROUTE_PATH = `:guid([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})`
 
