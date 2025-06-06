@@ -16,18 +16,6 @@ public final class RegelungstextRahmenMetadata extends DokumentRahmenMetadata {
     super(meta);
   }
 
-  public Optional<String> getFna() {
-    return meta.getProprietary().flatMap(p -> p.getMetadataValue(Metadata.FNA));
-  }
-
-  /**
-   * Sets the "Sachgebiet" metadatum
-   * @param fna the new value for the metadatum or null to remove it
-   */
-  public void setFna(@Nullable String fna) {
-    meta.getOrCreateProprietary().setMetadataValue(Metadata.FNA, fna);
-  }
-
   public Optional<String> getTyp() {
     return meta.getProprietary().flatMap(p -> p.getMetadataValue(Metadata.TYP));
   }
@@ -114,26 +102,6 @@ public final class RegelungstextRahmenMetadata extends DokumentRahmenMetadata {
         Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR,
         qualifizierteMehrheit != null ? qualifizierteMehrheit.toString() : ""
       );
-  }
-
-  /**
-   * Gets the ressort metadatum
-   * @return the value of the metadatum or null if it isn't set
-   */
-  public Optional<String> getRessort() {
-    return meta
-      .getProprietary()
-      .flatMap(p -> p.getRessort(meta.getFRBRExpression().getEli().getPointInTime()));
-  }
-
-  /**
-   * Sets the ressort metadatum
-   * @param ressort the new value for the metadatum or null to remove it
-   */
-  public void setRessort(@Nullable String ressort) {
-    meta
-      .getOrCreateProprietary()
-      .setRessort(ressort, meta.getFRBRExpression().getEli().getPointInTime());
   }
 
   public Optional<String> getOrganisationsEinheit() {
