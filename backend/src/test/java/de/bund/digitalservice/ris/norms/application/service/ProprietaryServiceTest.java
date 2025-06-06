@@ -124,7 +124,6 @@ class ProprietaryServiceTest {
             null,
             null,
             null,
-            null,
             null
           )
         );
@@ -158,7 +157,6 @@ class ProprietaryServiceTest {
           eli,
           new UpdateProprietaryFrameFromDokumentUseCase.InputMetadata(
             "dummyFna",
-            "dummyArt",
             "dummyTyp",
             "dummySubtyp",
             "dummyBezeichnung",
@@ -175,7 +173,6 @@ class ProprietaryServiceTest {
       // then
       assertThat(result.getFna()).contains("754-28-1");
       assertThat(result.getTyp()).contains("gesetz");
-      assertThat(result.getArt()).contains("regelungstext");
       assertThat(result.getSubtyp()).contains("rechtsverordnung");
       assertThat(result.getBezeichnungInVorlage()).contains("Bezeichnung gemäß Vorlage");
       assertThat(result.getArtDerNorm()).contains("SN,ÄN,ÜN");

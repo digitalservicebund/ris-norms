@@ -61,7 +61,6 @@ public class ProprietaryService
 
     final RahmenMetadata rahmenMetadata = norm.getRahmenMetadata();
     rahmenMetadata.setFna(options.inputMetadata().fna());
-    rahmenMetadata.setArt(options.inputMetadata().art());
     rahmenMetadata.setTyp(options.inputMetadata().typ());
     rahmenMetadata.setSubtyp(options.inputMetadata().subtyp());
     rahmenMetadata.setBezeichnungInVorlage(options.inputMetadata().bezeichnungInVorlage());
