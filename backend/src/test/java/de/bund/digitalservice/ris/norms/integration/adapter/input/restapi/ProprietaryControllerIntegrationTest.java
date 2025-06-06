@@ -6,11 +6,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormManifestationMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RahmenMetadata;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
 import org.junit.jupiter.api.AfterEach;
@@ -82,13 +84,13 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
       );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            ProprietaryControllerIntegrationTest.class,
-            "regelungstext-without-proprietary.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        ProprietaryControllerIntegrationTest.class,
+        "regelungstext-without-proprietary",
+        NormPublishState.UNPUBLISHED
       );
 
       // when
@@ -116,13 +118,13 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            ProprietaryControllerIntegrationTest.class,
-            "vereinsgesetz-with-invalid-proprietary-metadata.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        ProprietaryControllerIntegrationTest.class,
+        "vereinsgesetz-with-invalid-proprietary-metadata",
+        NormPublishState.UNPUBLISHED
       );
 
       // when
@@ -150,12 +152,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // when
@@ -226,13 +228,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void updatesAll() throws Exception {
       // given
       final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
-
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // when
@@ -266,42 +267,71 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"))
         .andExpect(jsonPath("ressort").value("new ressort"));
 
-      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
-        dokumentRepository
-          .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
+      final Norm normLoaded = NormManifestationMapper.mapToDomain(
+        normManifestationRepository
+          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           .get()
       );
 
-      final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
-      assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
-      assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-typ");
-      assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
-        "new-bezeichnungInVorlage"
+      final RahmenMetadata metadata = normLoaded.getRahmenMetadata();
+      assertThat(metadata.getFna()).contains("new-fna");
+      assertThat(metadata.getTyp()).contains("new-typ");
+      assertThat(metadata.getSubtyp()).contains("new-subtyp");
+      assertThat(metadata.getBezeichnungInVorlage()).contains("new-bezeichnungInVorlage");
+      assertThat(metadata.getArtDerNorm()).contains("ÄN,ÜN");
+      assertThat(metadata.getStaat()).contains("DDR");
+      assertThat(metadata.getBeschliessendesOrgan()).contains("LT");
+      assertThat(metadata.getQualifizierteMehrheit()).contains(false);
+      assertThat(metadata.getRessort()).contains("new ressort");
+      assertThat(metadata.getOrganisationsEinheit()).contains("Andere Organisationseinheit");
+
+      // also check that the metadata is set correctly in the proprietary elements
+      final Proprietary proprietaryRegelungstext1 = normLoaded
+        .getRegelungstext1()
+        .getMeta()
+        .getOrCreateProprietary();
+      final Proprietary proprietaryRechtsetzungsdokument = normLoaded
+        .getRechtsetzungsdokument()
+        .getMeta()
+        .getOrCreateProprietary();
+      assertThat(proprietaryRechtsetzungsdokument.getMetadataValue(Metadata.FNA)).contains(
+        "new-fna"
       );
-      assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("ÄN,ÜN");
-      assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("DDR");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains("LT");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains(
-        "false"
+      assertThat(proprietaryRegelungstext1.getMetadataValue(Metadata.TYP)).contains("new-typ");
+      assertThat(proprietaryRegelungstext1.getMetadataValue(Metadata.SUBTYP)).contains(
+        "new-subtyp"
       );
-      assertThat(proprietary.getRessort(LocalDate.parse("2019-11-22"))).contains("new ressort");
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
-        "Andere Organisationseinheit"
+      assertThat(
+        proprietaryRegelungstext1.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)
+      ).contains("new-bezeichnungInVorlage");
+      assertThat(proprietaryRegelungstext1.getMetadataValue(Metadata.ART_DER_NORM)).contains(
+        "ÄN,ÜN"
       );
+      assertThat(proprietaryRegelungstext1.getMetadataValue(Metadata.STAAT)).contains("DDR");
+      assertThat(
+        proprietaryRegelungstext1.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)
+      ).contains("LT");
+      assertThat(
+        proprietaryRegelungstext1.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)
+      ).contains("false");
+      assertThat(
+        proprietaryRechtsetzungsdokument.getRessort(LocalDate.parse("2019-11-22"))
+      ).contains("new ressort");
+      assertThat(
+        proprietaryRegelungstext1.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)
+      ).contains("Andere Organisationseinheit");
     }
 
     @Test
     void doesResetAllFieldsBySendingNull() throws Exception {
       // given
       final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
-
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // when
@@ -336,36 +366,35 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("ressort").isEmpty())
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
-      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
-        dokumentRepository
-          .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
+      final Norm normLoaded = NormManifestationMapper.mapToDomain(
+        normManifestationRepository
+          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           .get()
       );
 
-      final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
-      assertThat(proprietary.getMetadataValue(Metadata.FNA)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.TYP)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.STAAT)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).isEmpty();
-      assertThat(proprietary.getRessort(LocalDate.parse("1964-08-05"))).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).isEmpty();
+      final RahmenMetadata metadata = normLoaded.getRahmenMetadata();
+      assertThat(metadata.getFna()).isEmpty();
+      assertThat(metadata.getTyp()).isEmpty();
+      assertThat(metadata.getSubtyp()).isEmpty();
+      assertThat(metadata.getBezeichnungInVorlage()).isEmpty();
+      assertThat(metadata.getArtDerNorm()).isEmpty();
+      assertThat(metadata.getStaat()).isEmpty();
+      assertThat(metadata.getBeschliessendesOrgan()).isEmpty();
+      assertThat(metadata.getQualifizierteMehrheit()).isEmpty();
+      assertThat(metadata.getRessort()).isEmpty();
+      assertThat(metadata.getOrganisationsEinheit()).isEmpty();
     }
 
     @Test
     void doesResetAllFieldsBySendingEmptyString() throws Exception {
       // given
       final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
-
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // when
@@ -400,36 +429,35 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("ressort").isEmpty())
         .andExpect(jsonPath("organisationsEinheit").isEmpty());
 
-      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
-        dokumentRepository
-          .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
+      final Norm normLoaded = NormManifestationMapper.mapToDomain(
+        normManifestationRepository
+          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           .get()
       );
 
-      final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
-      assertThat(proprietary.getMetadataValue(Metadata.FNA)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.TYP)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.STAAT)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).isEmpty();
-      assertThat(proprietary.getRessort(LocalDate.parse("1964-08-05"))).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).isEmpty();
+      final RahmenMetadata metadata = normLoaded.getRahmenMetadata();
+      assertThat(metadata.getFna()).isEmpty();
+      assertThat(metadata.getTyp()).isEmpty();
+      assertThat(metadata.getSubtyp()).isEmpty();
+      assertThat(metadata.getBezeichnungInVorlage()).isEmpty();
+      assertThat(metadata.getArtDerNorm()).isEmpty();
+      assertThat(metadata.getStaat()).isEmpty();
+      assertThat(metadata.getBeschliessendesOrgan()).isEmpty();
+      assertThat(metadata.getQualifizierteMehrheit()).isEmpty();
+      assertThat(metadata.getRessort()).isEmpty();
+      assertThat(metadata.getOrganisationsEinheit()).isEmpty();
     }
 
     @Test
     void doesRemoveQualifizierteMehrheitFromBeschliessendesOrganWhenNull() throws Exception {
       // given
       final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
-
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // when
@@ -464,40 +492,35 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("qualifizierteMehrheit").isEmpty()) // meaning json "qualifizierteMehrheit":null
         .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
 
-      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
-        dokumentRepository
-          .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
+      final Norm normLoaded = NormManifestationMapper.mapToDomain(
+        normManifestationRepository
+          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           .get()
       );
 
-      final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
-      assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
-      assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-typ");
-      assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
-        "new-bezeichnungInVorlage"
-      );
-      assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("ÄN,ÜN");
-      assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("DDR");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
-        "Andere Organisationseinheit"
-      );
+      final RahmenMetadata metadata = normLoaded.getRahmenMetadata();
+      assertThat(metadata.getFna()).contains("new-fna");
+      assertThat(metadata.getTyp()).contains("new-typ");
+      assertThat(metadata.getSubtyp()).contains("new-subtyp");
+      assertThat(metadata.getBezeichnungInVorlage()).contains("new-bezeichnungInVorlage");
+      assertThat(metadata.getArtDerNorm()).contains("ÄN,ÜN");
+      assertThat(metadata.getStaat()).contains("DDR");
+      assertThat(metadata.getBeschliessendesOrgan()).isEmpty();
+      assertThat(metadata.getQualifizierteMehrheit()).isEmpty();
+      assertThat(metadata.getOrganisationsEinheit()).contains("Andere Organisationseinheit");
     }
 
     @Test
     void createsProprietaryAndMetadatenDsAndUpdatesFna() throws Exception {
       // given
       final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            ProprietaryControllerIntegrationTest.class,
-            "regelungstext-without-proprietary.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        ProprietaryControllerIntegrationTest.class,
+        "regelungstext-without-proprietary",
+        NormPublishState.UNPUBLISHED
       );
 
       // when
@@ -529,30 +552,22 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("qualifizierteMehrheit").value(true))
         .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
 
-      final Regelungstext regelungstextLoaded = (Regelungstext) DokumentMapper.mapToDomain(
-        dokumentRepository
-          .findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(eli)
+      final Norm normLoaded = NormManifestationMapper.mapToDomain(
+        normManifestationRepository
+          .findByManifestationEli("eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/2022-08-23")
           .get()
       );
 
-      final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
-      assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
-      assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-typ");
-      assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
-      assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
-        "new-bezeichnungInVorlage"
-      );
-      assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).contains("SN,ÄN,ÜN");
-      assertThat(proprietary.getMetadataValue(Metadata.STAAT)).contains("DEU");
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains(
-        "Bundestag"
-      );
-      assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains(
-        "true"
-      );
-      assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
-        "Organisationseinheit"
-      );
+      final RahmenMetadata metadata = normLoaded.getRahmenMetadata();
+      assertThat(metadata.getFna()).contains("new-fna");
+      assertThat(metadata.getTyp()).contains("new-typ");
+      assertThat(metadata.getSubtyp()).contains("new-subtyp");
+      assertThat(metadata.getBezeichnungInVorlage()).contains("new-bezeichnungInVorlage");
+      assertThat(metadata.getArtDerNorm()).contains("SN,ÄN,ÜN");
+      assertThat(metadata.getStaat()).contains("DEU");
+      assertThat(metadata.getBeschliessendesOrgan()).contains("Bundestag");
+      assertThat(metadata.getQualifizierteMehrheit()).contains(true);
+      assertThat(metadata.getOrganisationsEinheit()).contains("Organisationseinheit");
     }
   }
 
@@ -728,7 +743,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void createsProprietaryAndMetadatenDsAndEinzelelementAndSetsValue() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/regelungstext-verkuendung-1"
       );
       var eid = "hauptteil-n1_abschnitt-n0_art-n1";
 
