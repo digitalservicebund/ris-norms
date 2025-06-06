@@ -200,11 +200,11 @@ describe("createDokumentExpressionEliPathParameter", () => {
         "eli/:eliJurisdiction(bund)" +
           "/:eliAgent(bgbl-1|bgbl-2|banz-at)" +
           "/:eliYear([12][0-9]{3})" +
-          "/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)" +
+          "/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)" +
           "/:eliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})" +
           "/:eliVersion([0-9]+)" +
           "/:eliLanguage(deu)" +
-          "/:eliSubtype(regelungstext-[0-9]+|offenestruktur-[0-9]+|vereinbarung-[0-9]+|bekanntmachungstext-[0-9]+|externesdokument-[0-9]+|rechtsetzungsdokument-[0-9]+)",
+          "/:eliSubtype(regelungstext-verkuendung-[0-9]+|anlage-regelungstext-[0-9]+|bekanntmachungstext-[0-9]+|rechtsetzungsdokument-[0-9]+)",
       )
 
     vi.doMock("@/services/normService", () => ({
@@ -220,11 +220,11 @@ describe("createDokumentExpressionEliPathParameter", () => {
       "eli/:eliJurisdiction(bund)" +
       "/:eliAgent(bgbl-1|bgbl-2|banz-at)" +
       "/:eliYear([12][0-9]{3})" +
-      "/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)" +
+      "/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)" +
       "/:eliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})" +
       "/:eliVersion([0-9]+)" +
       "/:eliLanguage(deu)" +
-      "/:eliSubtype(regelungstext-[0-9]+|offenestruktur-[0-9]+|vereinbarung-[0-9]+|bekanntmachungstext-[0-9]+|externesdokument-[0-9]+|rechtsetzungsdokument-[0-9]+)"
+      "/:eliSubtype(regelungstext-verkuendung-[0-9]+|anlage-regelungstext-[0-9]+|bekanntmachungstext-[0-9]+|rechtsetzungsdokument-[0-9]+)"
 
     expect(path).toBe(expectedPath)
   })
@@ -235,11 +235,11 @@ describe("createDokumentExpressionEliPathParameter", () => {
         `eli/:${prefix}EliJurisdiction(bund)` +
           `/:${prefix}EliAgent(bgbl-1|bgbl-2|banz-at)` +
           `/:${prefix}EliYear([12][0-9]{3})` +
-          `/:${prefix}EliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)` +
+          `/:${prefix}EliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)` +
           `/:${prefix}EliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})` +
           `/:${prefix}EliVersion([0-9]+)` +
           `/:${prefix}EliLanguage(deu)` +
-          `/:${prefix}EliSubtype(regelungstext-[0-9]+|offenestruktur-[0-9]+|vereinbarung-[0-9]+|bekanntmachungstext-[0-9]+|externesdokument-[0-9]+|rechtsetzungsdokument-[0-9]+)`,
+          `/:${prefix}EliSubtype(regelungstext-verkuendung-[0-9]+|anlage-regelungstext-[0-9]+|bekanntmachungstext-[0-9]+|rechtsetzungsdokument-[0-9]+)`,
       ),
     )
 
@@ -256,11 +256,11 @@ describe("createDokumentExpressionEliPathParameter", () => {
       "eli/:testEliJurisdiction(bund)" +
       "/:testEliAgent(bgbl-1|bgbl-2|banz-at)" +
       "/:testEliYear([12][0-9]{3})" +
-      "/:testEliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)" +
+      "/:testEliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)" +
       "/:testEliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})" +
       "/:testEliVersion([0-9]+)" +
       "/:testEliLanguage(deu)" +
-      "/:testEliSubtype(regelungstext-[0-9]+|offenestruktur-[0-9]+|vereinbarung-[0-9]+|bekanntmachungstext-[0-9]+|externesdokument-[0-9]+|rechtsetzungsdokument-[0-9]+)"
+      "/:testEliSubtype(regelungstext-verkuendung-[0-9]+|anlage-regelungstext-[0-9]+|bekanntmachungstext-[0-9]+|rechtsetzungsdokument-[0-9]+)"
 
     expect(path).toEqual(expectedPath)
   })

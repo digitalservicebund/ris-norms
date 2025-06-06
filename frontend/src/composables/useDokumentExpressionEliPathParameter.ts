@@ -17,7 +17,7 @@ export function createDokumentExpressionEliPathParameter(prefix?: string) {
   const name = prefix ? `${prefix}Eli` : "eli"
 
   // The regular expressions for the parts of the ELI are based on the definitions
-  // from LDML.de 1.7.2 for ELIs for "Verkündungsfassungen und Neufassungen". It was
+  // from LDML.de 1.8 for ELIs for "Verkündungsfassungen und Neufassungen". It was
   // not possible to put the ELI in just one combined path parameter as vue-router
   // replaces slashes in path parameters automatically by %2F when routing to a new
   // route.
@@ -26,11 +26,11 @@ export function createDokumentExpressionEliPathParameter(prefix?: string) {
     `:${name}Jurisdiction(bund)`,
     `:${name}Agent(bgbl-1|bgbl-2|banz-at)`,
     `:${name}Year([12][0-9]{3})`,
-    `:${name}NaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)`,
+    `:${name}NaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)`,
     `:${name}PointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})`,
     `:${name}Version([0-9]+)`,
     `:${name}Language(deu)`,
-    `:${name}Subtype(regelungstext-[0-9]+|offenestruktur-[0-9]+|vereinbarung-[0-9]+|bekanntmachungstext-[0-9]+|externesdokument-[0-9]+|rechtsetzungsdokument-[0-9]+)`,
+    `:${name}Subtype(regelungstext-verkuendung-[0-9]+|anlage-regelungstext-[0-9]+|bekanntmachungstext-[0-9]+|rechtsetzungsdokument-[0-9]+)`,
   ].join("/")
 }
 

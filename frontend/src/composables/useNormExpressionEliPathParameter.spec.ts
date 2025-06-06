@@ -173,7 +173,7 @@ describe("createNormExpressionEliPathParameter", () => {
         "eli/:eliJurisdiction(bund)" +
           "/:eliAgent(bgbl-1|bgbl-2|banz-at)" +
           "/:eliYear([12][0-9]{3})" +
-          "/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)" +
+          "/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)" +
           "/:eliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})" +
           "/:eliVersion([0-9]+)" +
           "/:eliLanguage(deu)",
@@ -192,7 +192,7 @@ describe("createNormExpressionEliPathParameter", () => {
       "eli/:eliJurisdiction(bund)" +
       "/:eliAgent(bgbl-1|bgbl-2|banz-at)" +
       "/:eliYear([12][0-9]{3})" +
-      "/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)" +
+      "/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)" +
       "/:eliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})" +
       "/:eliVersion([0-9]+)" +
       "/:eliLanguage(deu)"
@@ -206,7 +206,7 @@ describe("createNormExpressionEliPathParameter", () => {
         `eli/:${prefix}EliJurisdiction(bund)` +
           `/:${prefix}EliAgent(bgbl-1|bgbl-2|banz-at)` +
           `/:${prefix}EliYear([12][0-9]{3})` +
-          `/:${prefix}EliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)` +
+          `/:${prefix}EliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)` +
           `/:${prefix}EliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})` +
           `/:${prefix}EliVersion([0-9]+)` +
           `/:${prefix}EliLanguage(deu)`,
@@ -226,7 +226,7 @@ describe("createNormExpressionEliPathParameter", () => {
       "eli/:testEliJurisdiction(bund)" +
       "/:testEliAgent(bgbl-1|bgbl-2|banz-at)" +
       "/:testEliYear([12][0-9]{3})" +
-      "/:testEliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)" +
+      "/:testEliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)" +
       "/:testEliPointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})" +
       "/:testEliVersion([0-9]+)" +
       "/:testEliLanguage(deu)"
