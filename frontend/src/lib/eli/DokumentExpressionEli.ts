@@ -1,6 +1,9 @@
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { NormWorkEli } from "@/lib/eli/NormWorkEli"
 
+/**
+ * European legislation identifier on expression level for a Dokument of a Norm
+ */
 export class DokumentExpressionEli {
   readonly agent: string
   readonly year: string
@@ -28,6 +31,12 @@ export class DokumentExpressionEli {
     this.subtype = subtype
   }
 
+  /**
+   * Create an expression level ELI from a string representation
+   *
+   * @param eli the string representation of the ELI
+   * @return the eli
+   */
   static fromString(eli: string): DokumentExpressionEli {
     const match =
       /eli\/bund\/(?<agent>[^/]+)\/(?<year>[^/]+)\/(?<naturalIdentifier>[^/]+)\/(?<pointInTime>[^/]+)\/(?<version>[^/]+)\/(?<language>[^/]+)\/(?<subtype>[^/.]+)/.exec(
@@ -49,6 +58,11 @@ export class DokumentExpressionEli {
     )
   }
 
+  /**
+   * Create a NormExpressionEli that contains the parts of this ELI
+   *
+   * @return a norm ELI
+   */
   asNormEli(): NormExpressionEli {
     return new NormExpressionEli(
       this.agent,
@@ -60,6 +74,11 @@ export class DokumentExpressionEli {
     )
   }
 
+  /**
+   * Create a NormWorkEli that contains the parts of this ELI
+   *
+   * @return a norm ELI
+   */
   asNormWorkEli(): NormWorkEli {
     return new NormWorkEli(this.agent, this.year, this.naturalIdentifier)
   }

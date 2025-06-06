@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
+import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import type { AknElementClickEvent } from "@/components/RisLawPreview.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import { useAknTextSelection } from "@/composables/useAknTextSelection"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { useNormRenderHtml } from "@/composables/useNormRender"
 import { htmlRenderRangeToLdmlDeRange } from "@/lib/htmlRangeToLdmlDeRange"
-import { createNewRefElement, deleteRef } from "@/lib/ref"
 import { getNodeByEid } from "@/lib/ldmlde"
+import { createNewRefElement, deleteRef } from "@/lib/ref"
 import {
   evaluateXPathOnce,
   xmlNodeToString,
@@ -15,12 +15,13 @@ import {
 import { useDebounce } from "@vueuse/core"
 import { computed, ref, triggerRef, watch } from "vue"
 import CloseIcon from "~icons/ic/close"
-import RisErrorCallout from "../../../../components/RisErrorCallout.vue"
+import { useAknTextSelection } from "./useAknTextSelection"
 
 /**
  * The eId of the currently selected akn:ref element.
  */
 const selectedRef = defineModel<string>("selectedRef")
+
 /**
  * The XML-String (LDML.de) of the akn:quotedText or akn:quotedStructure element in which akn:ref's should be displayed.
  */
@@ -31,6 +32,7 @@ const {
   isFetching: renderLoading,
   error: renderError,
 } = useNormRenderHtml(xmlSnippet, { snippet: true })
+
 /**
  * Debounced render loading.
  *

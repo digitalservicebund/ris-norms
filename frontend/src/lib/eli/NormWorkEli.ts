@@ -1,3 +1,6 @@
+/**
+ * European legislation identifier on work level for a Norm
+ */
 export class NormWorkEli {
   readonly agent: string
   readonly year: string
@@ -9,6 +12,12 @@ export class NormWorkEli {
     this.naturalIdentifier = naturalIdentifier
   }
 
+  /**
+   * Create an work level ELI from a string representation
+   *
+   * @param eli the string representation of the ELI
+   * @return the eli
+   */
   static fromString(eli: string): NormWorkEli {
     const match =
       /eli\/bund\/(?<agent>[^/]+)\/(?<year>[^/]+)\/(?<naturalIdentifier>[^/]+)/.exec(

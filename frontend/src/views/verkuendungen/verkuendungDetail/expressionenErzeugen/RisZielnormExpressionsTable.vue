@@ -12,9 +12,13 @@ import IcBaselineReadMore from "~icons/ic/baseline-read-more"
 
 /** Input data to the table. */
 export type RisZielnormExpressionsTableItem = {
+  /** Expression ELI of the norm */
   normExpressionEli: NormExpressionEli
+  /** Whether the expression is gegenstandslos */
   isGegenstandslos: boolean
+  /** Source of the expression */
   createdBy: string
+  /** Whether the expression already exists */
   isCreated: boolean
 }
 
@@ -25,7 +29,10 @@ type InternalRisZielnormExpressionsTableItem =
     colorIndex: number | undefined
   }
 
-const { items } = defineProps<{ items: RisZielnormExpressionsTableItem[] }>()
+const { items } = defineProps<{
+  /** List of items to show in the table */
+  items: RisZielnormExpressionsTableItem[]
+}>()
 
 function itemIsCreatedByThisVerkuendung(
   item: RisZielnormExpressionsTableItem,

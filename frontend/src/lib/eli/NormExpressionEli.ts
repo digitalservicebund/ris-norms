@@ -1,5 +1,8 @@
 import { NormWorkEli } from "@/lib/eli/NormWorkEli"
 
+/**
+ * European legislation identifier on expression level for a Norm
+ */
 export class NormExpressionEli {
   readonly agent: string
   readonly year: string
@@ -24,6 +27,12 @@ export class NormExpressionEli {
     this.language = language
   }
 
+  /**
+   * Create an expression level ELI from a string representation
+   *
+   * @param eli the string representation of the ELI
+   * @return the eli
+   */
   static fromString(eli: string): NormExpressionEli {
     const match =
       /eli\/bund\/(?<agent>[^/]+)\/(?<year>[^/]+)\/(?<naturalIdentifier>[^/]+)\/(?<pointInTime>[^/]+)\/(?<version>[^/]+)\/(?<language>[^/]+)/.exec(
@@ -44,6 +53,11 @@ export class NormExpressionEli {
     )
   }
 
+  /**
+   * Create a NormWorkEli that contains the parts of this ELI
+   *
+   * @return a norm ELI
+   */
   asNormWorkEli(): NormWorkEli {
     return new NormWorkEli(this.agent, this.year, this.naturalIdentifier)
   }
