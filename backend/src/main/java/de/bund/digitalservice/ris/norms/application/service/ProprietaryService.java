@@ -1,14 +1,18 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.DokumentNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadDokumentPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateDokumentPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
+import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RahmenMetadata;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import org.springframework.stereotype.Service;
 
@@ -22,10 +26,19 @@ public class ProprietaryService
 
   final LoadDokumentPort loadDokumentPort;
   final UpdateDokumentPort updateDokumentPort;
+  private final LoadNormPort loadNormPort;
+  private final NormService normService;
 
-  ProprietaryService(LoadDokumentPort loadDokumentPort, UpdateDokumentPort updateDokumentPort) {
+  ProprietaryService(
+    LoadDokumentPort loadDokumentPort,
+    UpdateDokumentPort updateDokumentPort,
+    LoadNormPort loadNormPort,
+    NormService normService
+  ) {
     this.loadDokumentPort = loadDokumentPort;
     this.updateDokumentPort = updateDokumentPort;
+    this.loadNormPort = loadNormPort;
+    this.normService = normService;
   }
 
   @Override
@@ -39,43 +52,27 @@ public class ProprietaryService
   }
 
   @Override
-  public Proprietary updateProprietaryFrameFromDokument(
+  public RahmenMetadata updateProprietaryFrameFromDokument(
     UpdateProprietaryFrameFromDokumentUseCase.Options options
   ) {
-    final Dokument dokument = loadDokumentPort
-      .loadDokument(new LoadDokumentPort.Options(options.dokumentExpressionEli()))
-      .orElseThrow(() -> new DokumentNotFoundException(options.dokumentExpressionEli().toString()));
+    final Norm norm = loadNormPort
+      .loadNorm(new LoadNormPort.Options(options.dokumentExpressionEli().asNormEli()))
+      .orElseThrow(() -> new NormNotFoundException(options.dokumentExpressionEli().asNormEli()));
 
-    final Proprietary proprietary = dokument.getMeta().getOrCreateProprietary();
-    proprietary.setMetadataValue(Metadata.FNA, options.inputMetadata().fna());
-    proprietary.setMetadataValue(Metadata.ART, options.inputMetadata().art());
-    proprietary.setMetadataValue(Metadata.TYP, options.inputMetadata().typ());
-    proprietary.setMetadataValue(Metadata.SUBTYP, options.inputMetadata().subtyp());
-    proprietary.setMetadataValue(
-      Metadata.BEZEICHNUNG_IN_VORLAGE,
-      options.inputMetadata().bezeichnungInVorlage()
-    );
-    proprietary.setMetadataValue(Metadata.ART_DER_NORM, options.inputMetadata().artDerNorm());
-    proprietary.setMetadataValue(Metadata.STAAT, options.inputMetadata().staat());
-    proprietary.setMetadataValue(
-      Metadata.BESCHLIESSENDES_ORGAN,
-      options.inputMetadata().beschliessendesOrgan()
-    );
-    proprietary.setMetadataValue(
-      Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR,
-      options.inputMetadata().qualifizierterMehrheit() != null
-        ? options.inputMetadata().qualifizierterMehrheit().toString()
-        : ""
-    );
-    proprietary.setRessort(
-      options.inputMetadata().ressort(),
-      options.dokumentExpressionEli().getPointInTime()
-    );
-    proprietary.setMetadataValue(
-      Metadata.ORGANISATIONS_EINHEIT,
-      options.inputMetadata().organisationsEinheit()
-    );
-    return updateDokument(dokument);
+    final RahmenMetadata rahmenMetadata = norm.getRahmenMetadata();
+    rahmenMetadata.setFna(options.inputMetadata().fna());
+    rahmenMetadata.setArt(options.inputMetadata().art());
+    rahmenMetadata.setTyp(options.inputMetadata().typ());
+    rahmenMetadata.setSubtyp(options.inputMetadata().subtyp());
+    rahmenMetadata.setBezeichnungInVorlage(options.inputMetadata().bezeichnungInVorlage());
+    rahmenMetadata.setArtDerNorm(options.inputMetadata().artDerNorm());
+    rahmenMetadata.setStaat(options.inputMetadata().staat());
+    rahmenMetadata.setBeschliessendesOrgan(options.inputMetadata().beschliessendesOrgan());
+    rahmenMetadata.setQualifizierterMehrheit(options.inputMetadata().qualifizierterMehrheit());
+    rahmenMetadata.setRessort(options.inputMetadata().ressort());
+    rahmenMetadata.setOrganisationsEinheit(options.inputMetadata().organisationsEinheit());
+
+    return normService.updateNorm(norm).getRahmenMetadata();
   }
 
   @Override

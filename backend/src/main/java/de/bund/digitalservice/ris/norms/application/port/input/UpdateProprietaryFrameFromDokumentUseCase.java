@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RahmenMetadata;
 
 /** Use case for updating metadata within the {@link Proprietary} node of a {@link Dokument}. */
 public interface UpdateProprietaryFrameFromDokumentUseCase {
@@ -10,9 +11,9 @@ public interface UpdateProprietaryFrameFromDokumentUseCase {
    * Updates specific metadata from a {@link Dokument}.
    *
    * @param options Options used for identifying the {@link Dokument} as well as the metadata themselves.
-   * @return Proprietary node of the {@link Dokument} with the updated metadata.
+   * @return The updated metadata.
    */
-  Proprietary updateProprietaryFrameFromDokument(Options options);
+  RahmenMetadata updateProprietaryFrameFromDokument(Options options);
 
   /**
    * Contains the parameters needed for loading proprietary metadata from a {@link Dokument}.

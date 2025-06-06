@@ -199,12 +199,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             )
         )
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/dokument-not-found"))
-        .andExpect(jsonPath("title").value("Dokument not found"))
+        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+        .andExpect(jsonPath("title").value("Norm not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+            "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu does not exist"
           )
         )
         .andExpect(
@@ -212,11 +212,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary"
           )
         )
-        .andExpect(
-          jsonPath("eli").value(
-            "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
-          )
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu"));
     }
 
     @Test

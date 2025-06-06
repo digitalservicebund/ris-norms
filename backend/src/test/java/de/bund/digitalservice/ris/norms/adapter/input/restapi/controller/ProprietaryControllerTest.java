@@ -20,6 +20,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -172,39 +173,13 @@ class ProprietaryControllerTest {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
 
-      final Proprietary proprietary = new Proprietary(
-        XmlMapper.toElement(
-          """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
-               eId="meta-1_proprietary-1"
-               GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
-               source="attributsemantik-noch-undefiniert">
-               <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
-                   <meta:typ>new-typ</meta:typ>
-                   <meta:fna>new-fna</meta:fna>
-                   <meta:art>new-art</meta:art>
-               </meta:legalDocML.de_metadaten>
-               <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
-                   <meta:federfuehrung>
-                       <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">new ressort</meta:federfuehrend>
-                   </meta:federfuehrung>
-               </meta:legalDocML.de_metadaten>
-               <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-                   <ris:subtyp>new-subtyp</ris:subtyp>
-                   <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
-                   <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
-                   <ris:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
-                   <ris:normgeber>DEU</ris:normgeber>
-                   <ris:organisationsEinheit>Andere Organisationseinheit</ris:organisationsEinheit>
-               </ris:legalDocML.de_metadaten>
-           </akn:proprietary>
-          """
-        )
-      );
-
       when(
         updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(any())
-      ).thenReturn(proprietary);
+      ).thenReturn(
+        Fixtures.loadNormFromDisk(
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
+        ).getRahmenMetadata()
+      );
 
       // When // Then
       mockMvc
@@ -228,17 +203,17 @@ class ProprietaryControllerTest {
             )
         )
         .andExpect(status().isOk())
-        .andExpect(jsonPath("fna").value("new-fna"))
-        .andExpect(jsonPath("art").value("new-art"))
-        .andExpect(jsonPath("typ").value("new-typ"))
-        .andExpect(jsonPath("subtyp").value("new-subtyp"))
-        .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
+        .andExpect(jsonPath("fna").value("754-28-1"))
+        .andExpect(jsonPath("art").value("regelungstext"))
+        .andExpect(jsonPath("typ").value("gesetz"))
+        .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
+        .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
         .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
         .andExpect(jsonPath("staat").value("DEU"))
         .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
         .andExpect(jsonPath("qualifizierteMehrheit").value(true))
-        .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"))
-        .andExpect(jsonPath("ressort").value("new ressort"));
+        .andExpect(jsonPath("organisationsEinheit").value("Aktuelle Organisationseinheit"))
+        .andExpect(jsonPath("ressort").value("Bundesministerium der Justiz"));
 
       verify(
         updateProprietaryFrameFromDokumentUseCase,
@@ -272,7 +247,11 @@ class ProprietaryControllerTest {
 
       when(
         updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(any())
-      ).thenThrow(new DokumentNotFoundException("Document not found"));
+      ).thenThrow(
+        new NormNotFoundException(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu")
+        )
+      );
 
       // When // Then
       mockMvc

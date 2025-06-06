@@ -79,28 +79,27 @@ public class ProprietaryController {
     final DokumentExpressionEli dokumentExpressionEli,
     @RequestBody ProprietaryFrameSchema proprietaryFrameSchema
   ) {
-    var proprietary = updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(
-      new UpdateProprietaryFrameFromDokumentUseCase.Options(
-        dokumentExpressionEli,
-        new UpdateProprietaryFrameFromDokumentUseCase.InputMetadata(
-          proprietaryFrameSchema.getFna(),
-          proprietaryFrameSchema.getArt(),
-          proprietaryFrameSchema.getTyp(),
-          proprietaryFrameSchema.getSubtyp(),
-          proprietaryFrameSchema.getBezeichnungInVorlage(),
-          proprietaryFrameSchema.getArtDerNorm(),
-          proprietaryFrameSchema.getStaat(),
-          proprietaryFrameSchema.getBeschliessendesOrgan(),
-          proprietaryFrameSchema.getQualifizierteMehrheit(),
-          proprietaryFrameSchema.getRessort(),
-          proprietaryFrameSchema.getOrganisationsEinheit()
+    var rahmenMetadata =
+      updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(
+        new UpdateProprietaryFrameFromDokumentUseCase.Options(
+          dokumentExpressionEli,
+          new UpdateProprietaryFrameFromDokumentUseCase.InputMetadata(
+            proprietaryFrameSchema.getFna(),
+            proprietaryFrameSchema.getArt(),
+            proprietaryFrameSchema.getTyp(),
+            proprietaryFrameSchema.getSubtyp(),
+            proprietaryFrameSchema.getBezeichnungInVorlage(),
+            proprietaryFrameSchema.getArtDerNorm(),
+            proprietaryFrameSchema.getStaat(),
+            proprietaryFrameSchema.getBeschliessendesOrgan(),
+            proprietaryFrameSchema.getQualifizierteMehrheit(),
+            proprietaryFrameSchema.getRessort(),
+            proprietaryFrameSchema.getOrganisationsEinheit()
+          )
         )
-      )
-    );
+      );
 
-    return ResponseEntity.ok(
-      ProprietaryResponseMapper.fromProprietary(proprietary, dokumentExpressionEli.getPointInTime())
-    );
+    return ResponseEntity.ok(ProprietaryResponseMapper.fromRahmenMetadata(rahmenMetadata));
   }
 
   /**
