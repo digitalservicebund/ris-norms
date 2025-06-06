@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.DokumentRahmenMetadata;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Arrays;
 import java.util.List;
@@ -145,6 +146,10 @@ public abstract sealed class Dokument
         return value;
       })
       .toList();
+  }
+
+  public DokumentRahmenMetadata getRahmenMetadata() {
+    return new DokumentRahmenMetadata(getMeta());
   }
 
   @Override

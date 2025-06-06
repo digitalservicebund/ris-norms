@@ -121,7 +121,7 @@ public class NormService
     regelungstexte.add(regelungstextToBeUpdated);
     existingNorm.setRegelungstexte(regelungstexte);
 
-    var updatedNorm = updateNorm(existingNorm).get(options.eli().asNormEli());
+    var updatedNorm = updateNorm(existingNorm);
     var updatedRegelungstext = updatedNorm.getRegelungstextByEli(options.eli()).orElseThrow();
 
     return XmlMapper.toString(updatedRegelungstext.getDocument());
@@ -134,7 +134,7 @@ public class NormService
    * @return An {@link Map} containing the updated and saved {@link Norm}
    * @throws NormNotFoundException if the norm cannot be found
    */
-  public Map<NormExpressionEli, Norm> updateNorm(Norm normToBeUpdated) {
+  public Norm updateNorm(Norm normToBeUpdated) {
     normToBeUpdated
       .getDokumente()
       .forEach(dokument -> {
@@ -142,11 +142,9 @@ public class NormService
         EidConsistencyGuardian.correctEids(dokument.getDocument());
       });
 
-    Norm savedNorm = updateNormPort
+    return updateNormPort
       .updateNorm(new UpdateNormPort.Options(normToBeUpdated))
       .orElseThrow(() -> new NormNotFoundException(normToBeUpdated.getManifestationEli()));
-
-    return Map.of(normToBeUpdated.getExpressionEli(), savedNorm);
   }
 
   @Override

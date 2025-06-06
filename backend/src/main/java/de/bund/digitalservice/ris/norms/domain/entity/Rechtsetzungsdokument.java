@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
+import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RechtsetzungsdokumentRahmenMetadata;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import lombok.Getter;
 import org.w3c.dom.Document;
@@ -32,5 +33,10 @@ public non-sealed class Rechtsetzungsdokument extends Dokument {
       "//documentCollection/@name",
       getDocument()
     ).equals("rechtsetzungsdokument-verkuendungsfassung");
+  }
+
+  @Override
+  public RechtsetzungsdokumentRahmenMetadata getRahmenMetadata() {
+    return new RechtsetzungsdokumentRahmenMetadata(getMeta());
   }
 }
