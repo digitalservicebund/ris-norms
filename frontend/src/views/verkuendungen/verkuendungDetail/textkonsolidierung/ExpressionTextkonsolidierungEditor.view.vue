@@ -403,7 +403,7 @@ const isGegenstandslosExpression = computed(() => {
           <RisLoadingSpinner />
         </div>
         <Message
-          v-if="isGegenstandslosExpression"
+          v-else-if="isGegenstandslosExpression"
           severity="warn"
           class="mb-16"
         >
@@ -415,6 +415,7 @@ const isGegenstandslosExpression = computed(() => {
           class="m-16 mt-8"
         />
         <RisCodeEditor
+          v-else
           ref="codeEditorRef"
           v-model="currentXml"
           class="h-full border-2 border-blue-800"
