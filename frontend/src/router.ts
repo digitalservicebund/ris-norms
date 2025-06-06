@@ -1,4 +1,5 @@
 import { createDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
+import { createNormWorkEliPathParameter } from "@/composables/useNormWorkEliPathParameter"
 import type { RouteRecordRaw, NavigationGuardWithThis } from "vue-router"
 import { createRouter, createWebHistory } from "vue-router"
 import { toValue } from "vue"
@@ -59,6 +60,11 @@ const routes: readonly RouteRecordRaw[] = [
           import(
             "@/views/verkuendungen/verkuendungDetail/textkonsolidierung/ExpressionTextkonsolidierungEditor.view.vue"
           ),
+      },
+      {
+        path: `/verkuendungen/${createDokumentExpressionEliPathParameter("verkuendung")}/zielnorm/${createNormWorkEliPathParameter("zielnorm")}/abgabe`,
+        name: "Abgabe",
+        component: () => import("@/views/verkuendungen/abgabe/Abgabe.view.vue"),
       },
       {
         path: "upload",
