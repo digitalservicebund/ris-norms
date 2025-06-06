@@ -1,11 +1,11 @@
 SAXON_HE="$HOME/Downloads/SaxonHE12-7J/saxon-he-12.7.jar"
-SCHEMATRON_XSL_FILE="./legalDocML.de.xsl"
+SCHEMATRON_XSL_FILE="../../backend/build/resources/main/LegalDocML.de/1.8/schema/legalDocML.de.xsl"
 
 FOLDER_OLD="../1.7.2/fixtures"
 FOLDER_NEW="../1.8/fixtures"
 
-# FOLDER_OLD="../1.7.2/schema-extension-fixtures"
-# FOLDER_NEW="../1.8/schema-extension-fixtures"
+FOLDER_OLD="../1.7.2/schema-extension-fixtures"
+FOLDER_NEW="../1.8/schema-extension-fixtures"
 
 # FOLDER_OLD="../1.7.2/samples"
 # FOLDER_NEW="../1.8/samples"

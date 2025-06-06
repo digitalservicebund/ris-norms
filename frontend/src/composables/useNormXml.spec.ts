@@ -24,7 +24,7 @@ describe("useNormXml", () => {
 
     const { data } = useNormXml(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       ),
       undefined,
     )
@@ -55,7 +55,7 @@ describe("useNormXml", () => {
       update: { execute },
     } = useNormXml(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       ),
       newXml,
     )

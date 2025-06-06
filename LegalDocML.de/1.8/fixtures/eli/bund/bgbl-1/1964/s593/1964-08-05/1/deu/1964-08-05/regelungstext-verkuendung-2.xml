@@ -139,23 +139,21 @@
          </akn:temporalData>
          <akn:notes source="attributsemantik-noch-undefiniert">
             <akn:note GUID="62ef7b71-c670-4639-ba9e-7216f237e9c1"
-                      eId="editfnote-n1"
+                      eId="meta-n1_editfnote-n1"
                       marker="#"
                       placement="bottom"
                       refersTo="kommentierende-fussnote">
-               <akn:p GUID="ad2edab0-725d-4459-9731-6c28173ea10b" eId="editfnote-n1_text-n1">*T (+++ Textnachweis ab: 1.1.1999 +++)</akn:p>
+               <akn:p GUID="ad2edab0-725d-4459-9731-6c28173ea10b" eId="meta-n1_editfnote-n1_text-n1">*T (+++ Textnachweis ab: 1.1.1999 +++)</akn:p>
             </akn:note>
          </akn:notes>
          <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung besitzen keine fachliche Korrektheit. -->
          <akn:proprietary eId="meta-n1_proprietary-n1"
                           GUID="7bd9d0dd-6dfe-4307-a699-fcce5ea3f03c"
                           source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
-               <meta:typ>gesetz</meta:typ>
-               <meta:form>stammform</meta:form>
-            </meta:legalDocML.de_metadaten>
-            
-            
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+               <regtxt:typ>gesetz</regtxt:typ>
+               <regtxt:form>stammform</regtxt:form>
+            </regtxt:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                <ris:subtyp>rechtsverordnung</ris:subtyp>
                <ris:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>

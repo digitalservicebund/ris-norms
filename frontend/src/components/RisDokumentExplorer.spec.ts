@@ -32,7 +32,7 @@ describe("risDokumentExplorer", () => {
       render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
         },
       })
@@ -61,7 +61,7 @@ describe("risDokumentExplorer", () => {
       render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
         },
       })
@@ -89,7 +89,7 @@ describe("risDokumentExplorer", () => {
       render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
         },
       })
@@ -115,7 +115,7 @@ describe("risDokumentExplorer", () => {
       render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
         },
       })
@@ -149,7 +149,7 @@ describe("risDokumentExplorer", () => {
       const { emitted } = render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
         },
       })
@@ -191,7 +191,7 @@ describe("risDokumentExplorer", () => {
       render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
           eid: "example-eid",
         },
@@ -216,7 +216,7 @@ describe("risDokumentExplorer", () => {
       render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
           eid: "example-eid",
         },
@@ -243,7 +243,7 @@ describe("risDokumentExplorer", () => {
       render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
           eid: "example-eid",
         },
@@ -270,7 +270,7 @@ describe("risDokumentExplorer", () => {
       render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
           eid: "example-eid",
         },
@@ -299,7 +299,7 @@ describe("risDokumentExplorer", () => {
       const { emitted } = render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
           eid: "example-eid",
         },
@@ -335,7 +335,7 @@ describe("risDokumentExplorer", () => {
       render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
           eid: "example-eid",
           eidsToEdit: ["eid-1"],
@@ -374,7 +374,7 @@ describe("risDokumentExplorer", () => {
       const { emitted } = render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
           eid: "example-eid",
         },
@@ -411,7 +411,7 @@ describe("risDokumentExplorer", () => {
       const { emitted } = render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
           eid: "example-eid",
         },
@@ -453,7 +453,7 @@ describe("risDokumentExplorer", () => {
       const { emitted } = render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
           eid: "example-eid",
         },
@@ -495,7 +495,7 @@ describe("risDokumentExplorer", () => {
       const { emitted } = render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
           eid: "example-eid",
         },
@@ -537,7 +537,7 @@ describe("risDokumentExplorer", () => {
       render(RisDokumentExplorer, {
         props: {
           eli: DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
           eid: "example-eid",
           eIdClasses: { "eid-1": ["example"] },

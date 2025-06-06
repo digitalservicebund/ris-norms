@@ -361,12 +361,10 @@
          <akn:proprietary eId="meta-n1_proprietary-n1"
                           GUID="4d3855be-763f-4ebf-8ca6-8399b5fb86b7"
                           source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
-               <meta:typ>gesetz</meta:typ>
-               <meta:form>stammform</meta:form>
-            </meta:legalDocML.de_metadaten>
-            
-            
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+               <regtxt:typ>gesetz</regtxt:typ>
+               <regtxt:form>stammform</regtxt:form>
+            </regtxt:legalDocML.de_metadaten>
             <!-- Metadaten vom DS definiert -->
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8/">
                <ris:fna start="2023-12-30" end="unbestimmt">310-5</ris:fna>

@@ -5,18 +5,18 @@ import { expect } from "@playwright/test"
 test.describe("navigation", () => {
   test("navigate to publishing", async ({ page }) => {
     await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
     )
     await page.getByRole("link", { name: "Abgabe" }).click()
 
     await expect(page).toHaveURL(
-      "/app/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
+      "/app/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/publishing",
     )
   })
 
   test("see page title", async ({ page }) => {
     await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
+      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/publishing",
     )
 
     await expect(
@@ -35,7 +35,7 @@ test.describe(
       page,
     }) => {
       await page.goto(
-        "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
+        "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/publishing",
       )
 
       await expect(
@@ -50,7 +50,7 @@ test.describe(
 
     test("publishing a norm", async ({ page }) => {
       await page.goto(
-        "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
+        "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/publishing",
       )
 
       await page.getByRole("button", { name: "Jetzt abgeben" }).click()
@@ -70,7 +70,7 @@ test.describe(
       // Verify Links
       await expect(
         page.getByRole("link", {
-          name: `eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
+          name: `eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-verkuendung-1.xml`,
         }),
       ).toBeVisible()
     })
@@ -80,13 +80,13 @@ test.describe(
       authenticatedRequest: request,
     }) => {
       await page.goto(
-        "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
+        "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/publishing",
       )
 
       // We'll use a metadatum to check if something changed; first verify it's not there
       const expressionAtFirstTimeBoundaryBefore = await page.request
         .get(
-          `/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
+          `/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-verkuendung-1.xml`,
         )
         .then((response) => response.text())
       expect(expressionAtFirstTimeBoundaryBefore).not.toContain(
@@ -95,14 +95,14 @@ test.describe(
 
       // Submit metadata change (API)
       await request.put(
-        "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary/2017-03-16",
+        "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/proprietary/2017-03-16",
         { data: { beschliessendesOrgan: "AA - Auswärtiges Amt" } },
       )
 
       // Fetch same document again and ensure nothing has changed
       const expressionAtFirstTimeBoundaryAfter = await page.request
         .get(
-          `/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
+          `/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-verkuendung-1.xml`,
         )
         .then((response) => response.text())
       expect(expressionAtFirstTimeBoundaryAfter).toEqual(
@@ -115,13 +115,13 @@ test.describe(
       authenticatedRequest: request,
     }) => {
       await page.goto(
-        "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/publishing",
+        "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/publishing",
       )
 
       // We'll use a metadatum to check if something changed; first verify it's not there
       const expressionAtFirstTimeBoundaryBefore = await request
         .get(
-          `/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
+          `/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-verkuendung-1.xml`,
         )
         .then((response) => response.text())
       expect(expressionAtFirstTimeBoundaryBefore).not.toContain(
@@ -130,7 +130,7 @@ test.describe(
 
       // Submit metadata change (API)
       await request.put(
-        "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/proprietary",
+        "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/proprietary",
         { data: { beschliessendesOrgan: "AA - Auswärtiges Amt" } },
       )
 
@@ -151,7 +151,7 @@ test.describe(
       // Fetch same document again and ensure nothing has changed
       const expressionAtFirstTimeBoundaryAfter = await request
         .get(
-          `/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-1.xml`,
+          `/api/v1/norms/eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/${new Date().toISOString().substring(0, 10)}/regelungstext-verkuendung-1.xml`,
         )
         .then((response) => response.text())
       expect(expressionAtFirstTimeBoundaryAfter).toContain(

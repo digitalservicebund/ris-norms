@@ -432,11 +432,10 @@
          <akn:proprietary GUID="bc7b8473-540d-4948-94fe-d1ea83a384aa"
                           eId="meta-n1_proprietary-n1"
                           source="attributsemantik-noch-undefiniert">
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
-               <meta:typ>gesetz</meta:typ>
-               <meta:form>mantelform</meta:form>
-            </meta:legalDocML.de_metadaten>
-            
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/">
+               <regtxt:typ>gesetz</regtxt:typ>
+               <regtxt:form>mantelform</regtxt:form>
+            </regtxt:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:preface GUID="4b6b1f2a-b771-44e9-9c10-3aa795359b4c" eId="einleitung-n1">
@@ -578,7 +577,7 @@
             <akn:componentRef GUID="706c3b05-fead-41b3-bc26-ae0143cb7474"
                               eId="art-z_stfmverweis-n1"
                               showAs="regelungstext-eingebundene-stammform"
-                              src="eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/regelungstext-2.xml"/>
+                              src="eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/regelungstext-verkuendung-2.xml"/>
          </akn:article>
          <akn:article GUID="6035f46f-0598-4214-8a77-54a189855480"
                       eId="art-z2"

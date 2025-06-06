@@ -56,7 +56,7 @@ export class MetadataEditorRahmenPage {
 
   async goto() {
     await this.page.goto(
-      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata",
+      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/metadata",
     )
   }
 

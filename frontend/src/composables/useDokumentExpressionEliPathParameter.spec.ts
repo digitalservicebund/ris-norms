@@ -20,7 +20,7 @@ describe("useDokumentExpressionEliPathParameter", () => {
             eliPointInTime: "2017-03-15",
             eliVersion: "1",
             eliLanguage: "deu",
-            eliSubtype: "regelungstext-1",
+            eliSubtype: "regelungstext-verkuendung-1",
           },
         }),
       ),
@@ -33,7 +33,7 @@ describe("useDokumentExpressionEliPathParameter", () => {
 
     expect(eli.value).toEqual(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
       ),
     )
   })
@@ -50,7 +50,7 @@ describe("useDokumentExpressionEliPathParameter", () => {
             testEliPointInTime: "2017-03-15",
             testEliVersion: "1",
             testEliLanguage: "deu",
-            testEliSubtype: "regelungstext-1",
+            testEliSubtype: "regelungstext-verkuendung-1",
           },
         }),
       ),
@@ -63,7 +63,7 @@ describe("useDokumentExpressionEliPathParameter", () => {
 
     expect(eli.value).toEqual(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
       ),
     )
   })
@@ -78,7 +78,7 @@ describe("useDokumentExpressionEliPathParameter", () => {
         eliPointInTime: "2017-03-15",
         eliVersion: "1",
         eliLanguage: "deu",
-        eliSubtype: "regelungstext-1",
+        eliSubtype: "regelungstext-verkuendung-1",
       },
     })
 
@@ -93,7 +93,7 @@ describe("useDokumentExpressionEliPathParameter", () => {
 
     expect(eli.value).toEqual(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
       ),
     )
 
@@ -103,7 +103,7 @@ describe("useDokumentExpressionEliPathParameter", () => {
 
     expect(eli.value).toEqual(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       ),
     )
   })
@@ -118,7 +118,7 @@ describe("useDokumentExpressionEliPathParameter", () => {
         testEliPointInTime: "2017-03-15",
         testEliVersion: "1",
         testEliLanguage: "deu",
-        testEliSubtype: "regelungstext-1",
+        testEliSubtype: "regelungstext-verkuendung-1",
       },
     })
 
@@ -133,7 +133,7 @@ describe("useDokumentExpressionEliPathParameter", () => {
 
     expect(eli.value).toEqual(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
       ),
     )
 
@@ -143,7 +143,7 @@ describe("useDokumentExpressionEliPathParameter", () => {
 
     expect(eli.value).toEqual(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       ),
     )
   })

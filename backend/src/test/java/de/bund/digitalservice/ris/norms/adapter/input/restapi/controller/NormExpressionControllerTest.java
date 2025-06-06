@@ -57,14 +57,14 @@ class NormExpressionControllerTest {
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1").accept(
-            MediaType.APPLICATION_JSON
-          )
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
         .andExpect(
           jsonPath("eli").value(
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1")
           )
         )
         .andExpect(
@@ -95,9 +95,9 @@ class NormExpressionControllerTest {
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1").accept(
-            MediaType.APPLICATION_JSON
-          )
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isNotFound())
         .andExpect(jsonPath("type").value(equalTo("/errors/norm-not-found")))
@@ -110,7 +110,9 @@ class NormExpressionControllerTest {
         )
         .andExpect(
           jsonPath("instance").value(
-            equalTo("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+            equalTo(
+              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+            )
           )
         )
         .andExpect(jsonPath("eli").value(equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")));
@@ -123,7 +125,7 @@ class NormExpressionControllerTest {
     @Test
     void itCallsLoadNormXmlAndReturnsNormXml() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
       final String xml = "<target></target>";
 
       // When
@@ -143,7 +145,7 @@ class NormExpressionControllerTest {
     @Test
     void itCallsNormServiceAndReturnsNormRender() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
@@ -165,7 +167,7 @@ class NormExpressionControllerTest {
     @Test
     void itCallsNormServiceAndReturnsNormRenderWithMetadata() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
@@ -191,7 +193,7 @@ class NormExpressionControllerTest {
     @Test
     void itCallsNormServiceAndUpdatesNorm() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
       final String xml = "<akn:doc>new</akn:doc>";
 
       when(updateRegelungstextXmlUseCase.updateRegelungstextXml(any())).thenReturn(xml);
@@ -217,7 +219,7 @@ class NormExpressionControllerTest {
     @Test
     void itCallsNormServiceAndReturnsErrorMessage() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
       final String xml = "<akn:doc>new</akn:doc>";
 
       when(updateRegelungstextXmlUseCase.updateRegelungstextXml(any())).thenThrow(
@@ -240,7 +242,7 @@ class NormExpressionControllerTest {
         .andExpect(jsonPath("detail").value("Error Message"))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1"
           )
         );
 
@@ -252,7 +254,7 @@ class NormExpressionControllerTest {
     @Test
     void itCallsNormServiceAndReturnsUnprocessableWhenNodeIsMissing() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
       final String xml = "<akn:doc>new</akn:doc>";
 
       when(updateRegelungstextXmlUseCase.updateRegelungstextXml(any())).thenThrow(
@@ -285,9 +287,9 @@ class NormExpressionControllerTest {
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1").accept(
-            MediaType.APPLICATION_JSON
-          )
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isUnprocessableEntity())
         .andExpect(jsonPath("type").value(equalTo("/errors/necessary-value-missing")))
@@ -296,7 +298,9 @@ class NormExpressionControllerTest {
         .andExpect(jsonPath("detail").value(equalTo("ValueNotFound")))
         .andExpect(
           jsonPath("instance").value(
-            equalTo("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+            equalTo(
+              "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+            )
           )
         );
     }

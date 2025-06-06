@@ -22,7 +22,7 @@ test.describe(
       // Set initial Zeitgrenzen data
       await setZeitgrenzen(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
         ),
         [{ id: "gz-1", date: "2017-03-16", art: "INKRAFT" }],
         request,
@@ -31,7 +31,7 @@ test.describe(
 
     test("opens the page for a Verkündung", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
       )
 
       await page
@@ -51,7 +51,7 @@ test.describe(
 
     test("shows the details of the Verkündung", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       const details = page.getByRole("region", { name: "Verkündungsdaten" })
@@ -65,7 +65,7 @@ test.describe(
       page,
     }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       const details = page.getByRole("region", { name: "Verkündungsdaten" })
@@ -77,7 +77,7 @@ test.describe(
 
     test("lists the Zeitgrenzen of the Verkündung", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       const editor = page.getByRole("region", {
@@ -85,7 +85,7 @@ test.describe(
       })
 
       await page.waitForResponse(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       const loadedItems = await editor.getByRole("listitem").all()
@@ -108,7 +108,7 @@ test.describe(
       page,
     }) => {
       await page.route(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
         async (route) => {
           await route.fulfill({
             status: 200,
@@ -118,7 +118,7 @@ test.describe(
       )
 
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       await expect(
@@ -140,7 +140,7 @@ test.describe(
       )
 
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       await expect(
@@ -152,7 +152,7 @@ test.describe(
       page,
     }) => {
       await page.route(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
         async (route) => {
           await route.fulfill({
             status: 500,
@@ -162,7 +162,7 @@ test.describe(
       )
 
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       await expect(
@@ -172,7 +172,7 @@ test.describe(
 
     test("shows 404 if the Verkündung isn't found", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2099-12-31/1/deu/regelungstext-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2099-12-31/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       await expect(page.getByText("Seite nicht gefunden")).toBeVisible()
@@ -182,7 +182,7 @@ test.describe(
       page,
     }) => {
       await page.route(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel",
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel",
         async (route) => {
           await route.fulfill({
             status: 500,
@@ -192,7 +192,7 @@ test.describe(
       )
 
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       await expect(
@@ -204,7 +204,7 @@ test.describe(
 
     test("saves new Zeitgrenzen successfully", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       const editor = page.getByRole("region", {
@@ -244,7 +244,7 @@ test.describe(
       await page.getByRole("option", { name: "Inkrafttreten" }).click()
 
       const resposne = page.waitForResponse(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       // Save -> Success toast
@@ -276,7 +276,7 @@ test.describe(
 
     test("shows an error message when saving fails", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       const editor = page.getByRole("region", {
@@ -299,7 +299,7 @@ test.describe(
       page,
     }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       const editor = page.getByRole("region", {

@@ -106,7 +106,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath(
             "$[0].eli",
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1")
           )
         )
         .andExpect(jsonPath("$[0].frbrDateVerkuendung", equalTo("1964-08-05")))
@@ -145,7 +145,9 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         // Then
         .andExpect(status().isOk())
         .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          )
         )
         .andExpect(jsonPath("title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
         .andExpect(jsonPath("shortTitle").value("Vereinsgesetz"))
@@ -212,7 +214,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath(
             "$[0].eli",
-            equalTo("eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1")
+            equalTo("eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1")
           )
         )
         .andExpect(jsonPath("$[0].shortTitle").value("Vereinsgesetz"))
@@ -228,7 +230,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
     void itCreatesANewVerkuendung() throws Exception {
       // Given
       var xmlContent = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       var file = new MockMultipartFile(
         "file",
@@ -242,7 +244,10 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         .perform(multipart("/api/v1/verkuendungen").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(
-          jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
+          jsonPath(
+            "eli",
+            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1")
+          )
         )
         .andExpect(
           jsonPath(
@@ -257,7 +262,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       // Assert norms was created
       assertThat(
         dokumentRepository.findByEliDokumentManifestation(
-          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
         )
       ).isPresent();
     }
@@ -266,7 +271,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
     void itStoresTheImportTimestamp() throws Exception {
       // Given
       var xmlContent = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       var file = new MockMultipartFile(
         "file",
@@ -280,7 +285,10 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         .perform(multipart("/api/v1/verkuendungen").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isOk())
         .andExpect(
-          jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
+          jsonPath(
+            "eli",
+            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1")
+          )
         );
 
       // Then
@@ -342,20 +350,20 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
           )
         )
       );
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
 
       var xmlContent = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       var file = new MockMultipartFile(
         "file",
@@ -377,13 +385,13 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
 
       var regelungstextWithSameGuid = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       regelungstextWithSameGuid
         .getMeta()
@@ -410,14 +418,14 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
 
       var xmlContent = Fixtures.loadTextFromDisk(
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-xsd-invalid/regelungstext-1.xml"
+        "vereinsgesetz-xsd-invalid/regelungstext-verkuendung-1.xml"
       );
       var file = new MockMultipartFile(
         "file",
@@ -442,14 +450,14 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
 
       var xmlContent = Fixtures.loadTextFromDisk(
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-schematron-invalid/regelungstext-1.xml"
+        "vereinsgesetz-schematron-invalid/regelungstext-verkuendung-1.xml"
       );
       var file = new MockMultipartFile(
         "file",
@@ -473,7 +481,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath(
             "errors[0].xPath",
             equalTo(
-              "/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act[1]"
+              "/Q{http://Inhaltsdaten.LegalDocML.de/1.8/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8/}act[1]"
             )
           )
         )
@@ -490,14 +498,14 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
             equalTo("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000")
           )
         )
-        .andExpect(jsonPath("errors[1].eId", equalTo("meta-1_geltzeiten-1")))
+        .andExpect(jsonPath("errors[1].eId", equalTo("meta-n1_geltzeiten-n1")))
         .andExpect(
           jsonPath(
             "errors[2].type",
             equalTo("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000")
           )
         )
-        .andExpect(jsonPath("errors[2].eId", equalTo("meta-1_geltzeiten-1_geltungszeitgr-1")))
+        .andExpect(jsonPath("errors[2].eId", equalTo("meta-n1_geltzeiten-n1_geltungszeitgr-n1")))
         .andExpect(
           jsonPath(
             "errors[3].type",
@@ -507,7 +515,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           )
         )
         .andExpect(
-          jsonPath("errors[3].eId", equalTo("meta-1_ident-1_frbrexpression-1_frbrauthor-1"))
+          jsonPath("errors[3].eId", equalTo("meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"))
         );
     }
 
@@ -517,7 +525,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -528,7 +536,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung));
 
       var xmlContent = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       var file = new MockMultipartFile(
         "file",
@@ -546,19 +554,22 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(
-          jsonPath("eli", equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"))
+          jsonPath(
+            "eli",
+            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1")
+          )
         );
 
       assertThat(dokumentRepository.findAll()).hasSize(1);
       var dokumentDto = dokumentRepository.findByEliDokumentManifestation(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
       assertThat(dokumentDto).isPresent();
       final Diff diff = DiffBuilder.compare(Input.from(dokumentDto.get().getXml()))
         .withTest(
           Input.from(
             Fixtures.loadRegelungstextFromDisk(
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
             ).getDocument()
           )
         )
@@ -576,14 +587,14 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
           )
         )
       );
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -615,7 +626,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -706,18 +717,22 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itShouldCreateNewZielnormen() throws Exception {
-      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+      var amendingNorm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "amending-law-for-vereinsgesetz-several-zielnormen-references.xml"
+        "amending-law-for-vereinsgesetz-several-zielnormen-references",
+        NormPublishState.UNPUBLISHED
       );
-      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
-
-      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
+      var targetNorm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-original-expression.xml"
+        "vereinsgesetz-original-expression",
+        NormPublishState.UNPUBLISHED
       );
-
-      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
 
       // Expressions to be created not yet existent
       final List<String> futureExpressionElis = List.of(
@@ -738,8 +753,8 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           post(
             String.format(
               "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
-              amendingLaw.getExpressionEli().asNormEli(),
-              targetLaw.getWorkEli().asNormEli()
+              amendingNorm.getExpressionEli(),
+              targetNorm.getWorkEli()
             )
           ).accept(MediaType.APPLICATION_JSON)
         )
@@ -783,26 +798,29 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itShouldCreateNewZielnormenByRecreatingOne() throws Exception {
-      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+      var amendingNorm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-created.xml"
+        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-created",
+        NormPublishState.UNPUBLISHED
       );
-      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
-
-      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
+      var targetNorm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-original-expression.xml"
+        "vereinsgesetz-original-expression",
+        NormPublishState.UNPUBLISHED
       );
-
-      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
-
-      final Regelungstext alreadyExistingFutureExpressionToBeOverriden = Fixtures.loadNormFromDisk(
+      var alreadyExistingFutureExpressionToBeOverwritten = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2017-03-16-1"
-      ).getRegelungstext1();
-
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(alreadyExistingFutureExpressionToBeOverriden)
+        "vereinsgesetz-2017-03-16-1",
+        NormPublishState.UNPUBLISHED
       );
 
       // Expressions to be created not yet existent
@@ -837,8 +855,8 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           post(
             String.format(
               "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
-              amendingLaw.getExpressionEli().asNormEli(),
-              targetLaw.getWorkEli().asNormEli()
+              amendingNorm.getExpressionEli(),
+              targetNorm.getWorkEli()
             )
           ).accept(MediaType.APPLICATION_JSON)
         )
@@ -890,12 +908,12 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           recreated.get().getManifestationEli()
         ).getPointInTimeManifestation()
       ).isAfter(
-        alreadyExistingFutureExpressionToBeOverriden
+        alreadyExistingFutureExpressionToBeOverwritten
           .getManifestationEli()
           .getPointInTimeManifestation()
       );
       assertThat(recreated.get().getExpressionAktuelleVersionId()).isEqualTo(
-        alreadyExistingFutureExpressionToBeOverriden.getGuid()
+        alreadyExistingFutureExpressionToBeOverwritten.getGuid()
       );
 
       final List<String> expressionsEliAfter =
@@ -905,25 +923,30 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itShouldCreateNewZielnormenAndSetGegenstandslos() throws Exception {
-      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+      var amendingNorm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "amending-law-for-vereinsgesetz-several-zielnormen-references.xml"
+        "amending-law-for-vereinsgesetz-several-zielnormen-references",
+        NormPublishState.UNPUBLISHED
       );
-      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
-
-      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
+      var targetNorm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-original-expression.xml"
+        "vereinsgesetz-original-expression",
+        NormPublishState.UNPUBLISHED
       );
-
-      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
-
-      final Regelungstext alreadyExistingFutureExpression = Fixtures.loadNormFromDisk(
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2017-03-16-1"
-      ).getRegelungstext1();
-
-      dokumentRepository.save(DokumentMapper.mapToDto(alreadyExistingFutureExpression));
+        "vereinsgesetz-2017-03-16-1",
+        NormPublishState.UNPUBLISHED
+      );
 
       // Expressions to be created not yet existent
       final List<String> futureExpressionElis = List.of(
@@ -944,8 +967,8 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           post(
             String.format(
               "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
-              amendingLaw.getExpressionEli().asNormEli(),
-              targetLaw.getWorkEli().asNormEli()
+              amendingNorm.getExpressionEli(),
+              targetNorm.getWorkEli()
             )
           ).accept(MediaType.APPLICATION_JSON)
         )
@@ -1051,25 +1074,33 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itShouldRemoveOrphanExpressionBeforeFirstGeltungszeit() throws Exception {
-      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+      var amendingLaw = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-orphan-before-first-geltungszeit.xml"
-      );
-      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
-
-      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
-        VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-original-expression.xml"
+        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-orphan-before-first-geltungszeit",
+        NormPublishState.UNPUBLISHED
       );
 
-      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
-
-      final Regelungstext alreadyExistingFutureExpressionToBeDeleted = Fixtures.loadNormFromDisk(
+      var targetLaw = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2017-03-16-1"
-      ).getRegelungstext1();
+        "vereinsgesetz-original-expression",
+        NormPublishState.UNPUBLISHED
+      );
 
-      dokumentRepository.save(DokumentMapper.mapToDto(alreadyExistingFutureExpressionToBeDeleted));
+      // alreadyExistingFutureExpressionToBeOverwritten
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2017-03-16-1",
+        NormPublishState.UNPUBLISHED
+      );
 
       final String orphanExpressionEli = "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu";
       // Expressions to be created not yet existent
@@ -1098,8 +1129,8 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           post(
             String.format(
               "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
-              amendingLaw.getExpressionEli().asNormEli(),
-              targetLaw.getWorkEli().asNormEli()
+              amendingLaw.getExpressionEli(),
+              targetLaw.getWorkEli()
             )
           ).accept(MediaType.APPLICATION_JSON)
         )
@@ -1147,26 +1178,32 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itShouldRemoveOrphanExpressionAfterFirstGeltungszeit() throws Exception {
-      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+      var amendingLaw = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-orphan-after-first-geltungszeit.xml"
-      );
-      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
-
-      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
-        VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-original-expression.xml"
+        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-orphan-after-first-geltungszeit",
+        NormPublishState.UNPUBLISHED
       );
 
-      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
-
-      final Regelungstext alreadyExistingFutureExpressionToBeOverriden = Fixtures.loadNormFromDisk(
+      var targetLaw = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2021-04-23"
-      ).getRegelungstext1();
+        "vereinsgesetz-original-expression",
+        NormPublishState.UNPUBLISHED
+      );
 
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(alreadyExistingFutureExpressionToBeOverriden)
+      // alreadyExistingFutureExpressionToBeOverwritten
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2021-04-23",
+        NormPublishState.UNPUBLISHED
       );
 
       final String orphanEli = "eli/bund/bgbl-1/1964/s593/2021-04-23/1/deu";
@@ -1194,8 +1231,8 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           post(
             String.format(
               "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
-              amendingLaw.getExpressionEli().asNormEli(),
-              targetLaw.getWorkEli().asNormEli()
+              amendingLaw.getExpressionEli(),
+              targetLaw.getWorkEli()
             )
           ).accept(MediaType.APPLICATION_JSON)
         )

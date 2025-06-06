@@ -75,9 +75,9 @@ Example error response for NormNotFound:
 {
  "type": "/errors/norm-not-found",
  "title": "Norm not found.",
- "detail": "The requested norm (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1) could not be found.",
- "instance": "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
- "eli": "/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+ "detail": "The requested norm (eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1) could not be found.",
+ "instance": "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1"
+ "eli": "/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
 }
 ```
 
@@ -87,15 +87,15 @@ Example error response for validation:
 {
  "type": "/errors/norm-not-valid",
  "title": "Norm validation failed.",
- "instance": "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/mods/hauptteil-1_para-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1_rref-1"
+ "instance": "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/mods/hauptteil-1_para-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1_rref-1"
  "errors": [{
     "type": "/errors/norm-not-valid/quoted-structure/target-and-up-to-are-not-siblings"
     "title": "Target node und upTo node are not siblings",
-    "detail": "Target node with eid hauptteil-1_buch-2_kapitel-1_para-3_abs-2 and target upTo node with eid hauptteil-1_buch-2_kapitel-1_para-3_abs-3 are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1002/1/2024-03-05/1/deu/regelungstext-1.",
+    "detail": "Target node with eid hauptteil-1_buch-2_kapitel-1_para-3_abs-2 and target upTo node with eid hauptteil-1_buch-2_kapitel-1_para-3_abs-3 are not siblings in ZF0 norm with eli eli/bund/bgbl-1/1002/1/2024-03-05/1/deu/regelungstext-verkuendung-1.",
     "eid": "hauptteil-1_para-1_abs-1_untergl-1_listenelem-6_untergl-1_listenelem-a_inhalt-1_text-1_ändbefehl-1_rref-1",
     "hrefEid": "hauptteil-1_buch-2_kapitel-1_para-3_abs-2"
     "upToEid": "hauptteil-1_buch-2_kapitel-1_para-3_abs-3",
-    "zf0Eli": "eli/bund/bgbl-1/1002/1/2024-03-05/1/deu/regelungstext-1"
+    "zf0Eli": "eli/bund/bgbl-1/1002/1/2024-03-05/1/deu/regelungstext-verkuendung-1"
  }, {
     "type": "/errors/norm-not-valid/textual-mod/destination-href-empty",
     "title": "Destination Href is empty",
