@@ -198,7 +198,7 @@ paths:
 
   /{workEli}/expressions/releasestatus:
     get:
-      summary: Get statuses of expressions affected by a verkuendung
+      summary: Get status of expressions that are unpublished
       parameters:
         - name: workEli
           in: path
@@ -207,13 +207,13 @@ paths:
             $ref: "#/components/schemas/NormWorkEli"
       responses:
         "200":
-          description: List of expression statuses for the target norm.
+          description: List of expression status for the target norm.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/ExpressionsStatusResponseSchema"
         "404":
-          description: Verkuendung not found.
+          description: Norm not found.
 
   /norms/{expressionEli}:
     get:

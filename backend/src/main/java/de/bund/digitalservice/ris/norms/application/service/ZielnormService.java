@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsWorkingCopiesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
@@ -36,6 +37,9 @@ public class ZielnormService implements LoadNormExpressionsWorkingCopiesUseCase 
     List<NormExpressionEli> expressionElis = loadNormExpressionElisPort.loadNormExpressionElis(
       new LoadNormExpressionElisPort.Options(options.eli())
     );
+    if (expressionElis.isEmpty()) {
+      throw new NormNotFoundException(options.eli());
+    }
     return expressionElis
       .stream()
       // we assume the latest expression is the working copy

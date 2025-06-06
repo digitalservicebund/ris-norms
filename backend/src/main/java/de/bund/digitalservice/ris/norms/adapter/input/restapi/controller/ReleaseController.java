@@ -88,7 +88,6 @@ public class ReleaseController {
    *     <p>Returns HTTP 200 (OK) and list of {@link ExpressionsStatusResponseSchema}s.
    *     <p>Returns HTTP 404 (Not Found) if the verkuendung is not found.
    */
-  @SuppressWarnings("java:S6856") // reliability issue because missing @PathVariable annotations. But we don't need it. Spring is automatically binding all path variables to our class NormExpressionEli
   @GetMapping(value = "/expressions/releasestatus", produces = APPLICATION_JSON_VALUE)
   public ResponseEntity<ExpressionsStatusResponseSchema> getZielnormExpressionsStatus(
     NormWorkEli zielnormEli

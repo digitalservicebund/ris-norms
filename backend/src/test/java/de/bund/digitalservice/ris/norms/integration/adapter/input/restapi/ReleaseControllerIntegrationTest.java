@@ -10,12 +10,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormManifestationDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.ReleaseDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.ReleaseRepository;
-import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
-import de.bund.digitalservice.ris.norms.domain.entity.Roles;
+import de.bund.digitalservice.ris.norms.adapter.output.database.service.NormDBService;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -42,6 +42,12 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired
   private ReleaseRepository releaseRepository;
+
+  @Autowired
+  private BinaryFileRepository binaryFileRepository;
+
+  @Autowired
+  private NormDBService normDBService;
 
   @AfterEach
   void cleanUp() {
@@ -349,6 +355,89 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         .isNotEmpty()
         .map(NormManifestationDto::getPublishState)
         .contains(NormPublishState.UNPUBLISHED);
+    }
+  }
+
+  @Nested
+  class getZielnormExpressionsStatus {
+
+    @Test
+    void itReturnsStatusForOneExpression() throws Exception {
+      // Given
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
+      );
+
+      //when
+      mockMvc
+        .perform(
+          get("/api/v1/eli/bund/bgbl-1/1964/s593//expressions/releasestatus").accept(
+            MediaType.APPLICATION_JSON
+          )
+        )
+        //then
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.normWorkEli").value("eli/bund/bgbl-1/1964/s593"))
+        .andExpect(jsonPath("$.title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
+        .andExpect(jsonPath("$.shortTitle").value("Vereinsgesetz"))
+        .andExpect(jsonPath("$.expressions").isArray())
+        .andExpect(
+          jsonPath("$.expressions[0].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"
+          )
+        )
+        .andExpect(jsonPath("$.expressions[0].isGegenstandslos").value(false))
+        .andExpect(jsonPath("$.expressions[0].currentStatus").value("PRAETEXT_RELEASED"));
+    }
+
+    @Test
+    void itDoesNotReturnStatusIfNoUnpublished() throws Exception {
+      // Given
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.QUEUED_FOR_PUBLISH
+      );
+
+      //when
+      mockMvc
+        .perform(
+          get("/api/v1/eli/bund/bgbl-1/1964/s593/expressions/releasestatus").accept(
+            MediaType.APPLICATION_JSON
+          )
+        )
+        //then
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("[0]").doesNotExist());
+    }
+
+    @Test
+    void itReturns404WhenNormDoesntExist() throws Exception {
+      //when
+      mockMvc
+        .perform(
+          get("/api/v1/eli/bund/bgbl-1/1111/s593//expressions/releasestatus").accept(
+            MediaType.APPLICATION_JSON
+          )
+        )
+        //then
+        .andExpect(status().isNotFound())
+        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+        .andExpect(jsonPath("title").value("Norm not found"))
+        .andExpect(jsonPath("status").value(404))
+        .andExpect(
+          jsonPath("detail").value("Norm with eli eli/bund/bgbl-1/1111/s593 does not exist")
+        )
+        .andExpect(
+          jsonPath("instance").value("/api/v1/eli/bund/bgbl-1/1111/s593/expressions/releasestatus")
+        )
+        .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/1111/s593"));
     }
   }
 }
