@@ -11,6 +11,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.DokumentNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
@@ -33,6 +35,9 @@ class ProprietaryControllerTest {
   private MockMvc mockMvc;
 
   @MockitoBean
+  private LoadNormUseCase loadNormUseCase;
+
+  @MockitoBean
   private LoadProprietaryFromDokumentUseCase loadProprietaryFromDokumentUseCase;
 
   @MockitoBean
@@ -50,11 +55,9 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      when(
-        loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-          new LoadProprietaryFromDokumentUseCase.Options(eli)
-        )
-      ).thenThrow(new DokumentNotFoundException(eli.toString()));
+      when(loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli.asNormEli()))).thenThrow(
+        new NormNotFoundException(eli)
+      );
       // when
       mockMvc
         .perform(
@@ -70,16 +73,9 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var proprietary = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-      )
-        .getMeta()
-        .getOrCreateProprietary();
-      when(
-        loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-          new LoadProprietaryFromDokumentUseCase.Options(eli)
-        )
-      ).thenReturn(proprietary);
+      when(loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli.asNormEli()))).thenReturn(
+        Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+      );
 
       // when
       mockMvc
@@ -107,17 +103,12 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var proprietary = Fixtures.loadRegelungstextFromDisk(
-        ProprietaryControllerTest.class,
-        "vereinsgesetz-with-invalid-proprietary-metadata.xml"
-      )
-        .getMeta()
-        .getOrCreateProprietary();
-      when(
-        loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-          new LoadProprietaryFromDokumentUseCase.Options(eli)
+      when(loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli.asNormEli()))).thenReturn(
+        Fixtures.loadNormFromDisk(
+          ProprietaryControllerTest.class,
+          "vereinsgesetz-with-invalid-proprietary-metadata"
         )
-      ).thenReturn(proprietary);
+      );
 
       // when
       mockMvc
@@ -145,18 +136,12 @@ class ProprietaryControllerTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
       );
-      var proprietary = new Proprietary(
-        XmlMapper.toElement(
-          """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="meta-1_proprietary-1" GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c" source="attributsemantik-noch-undefiniert"></akn:proprietary>
-          """
+      when(loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli.asNormEli()))).thenReturn(
+        Fixtures.loadNormFromDisk(
+          ProprietaryControllerTest.class,
+          "vereinsgesetz-with-empty-proprietary-metadata"
         )
       );
-      when(
-        loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-          new LoadProprietaryFromDokumentUseCase.Options(eli)
-        )
-      ).thenReturn(proprietary);
 
       // when
       mockMvc
@@ -379,10 +364,11 @@ class ProprietaryControllerTest {
       );
       var eid = "hauptteil-1_art-1";
 
-      var proprietary = Fixtures.loadRegelungstextFromDisk(
+      var proprietary = Fixtures.loadNormFromDisk(
         ProprietaryControllerTest.class,
-        "vereinsgesetz-with-invalid-proprietary-metadata.xml"
+        "vereinsgesetz-with-invalid-proprietary-metadata"
       )
+        .getRegelungstext1()
         .getMeta()
         .getOrCreateProprietary();
       when(

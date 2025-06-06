@@ -5,6 +5,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ProprietaryResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietaryFrameSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySingleElementSchema;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
@@ -30,16 +31,19 @@ public class ProprietaryController {
   private final LoadProprietaryFromDokumentUseCase loadProprietaryFromDokumentUseCase;
   private final UpdateProprietaryFrameFromDokumentUseCase updateProprietaryFrameFromDokumentUseCase;
   private final UpdateProprietarySingleElementFromDokumentUseCase updateProprietarySingleElementFromDokumentUseCase;
+  private final LoadNormUseCase loadNormUseCase;
 
   public ProprietaryController(
     LoadProprietaryFromDokumentUseCase loadProprietaryFromDokumentUseCase,
     UpdateProprietaryFrameFromDokumentUseCase updateProprietaryFrameFromDokumentUseCase,
-    UpdateProprietarySingleElementFromDokumentUseCase updateProprietarySingleElementFromDokumentUseCase
+    UpdateProprietarySingleElementFromDokumentUseCase updateProprietarySingleElementFromDokumentUseCase,
+    LoadNormUseCase loadNormUseCase
   ) {
     this.loadProprietaryFromDokumentUseCase = loadProprietaryFromDokumentUseCase;
     this.updateProprietaryFrameFromDokumentUseCase = updateProprietaryFrameFromDokumentUseCase;
     this.updateProprietarySingleElementFromDokumentUseCase =
       updateProprietarySingleElementFromDokumentUseCase;
+    this.loadNormUseCase = loadNormUseCase;
   }
 
   /**
@@ -52,12 +56,12 @@ public class ProprietaryController {
   public ResponseEntity<ProprietaryFrameSchema> getProprietary(
     final DokumentExpressionEli dokumentExpressionEli
   ) {
-    var proprietary = loadProprietaryFromDokumentUseCase.loadProprietaryFromDokument(
-      new LoadProprietaryFromDokumentUseCase.Options(dokumentExpressionEli)
+    var norm = loadNormUseCase.loadNorm(
+      new LoadNormUseCase.EliOptions(dokumentExpressionEli.asNormEli())
     );
 
     return ResponseEntity.ok(
-      ProprietaryResponseMapper.fromProprietary(proprietary, dokumentExpressionEli.getPointInTime())
+      ProprietaryResponseMapper.fromRahmenMetadata(norm.getRahmenMetadata())
     );
   }
 

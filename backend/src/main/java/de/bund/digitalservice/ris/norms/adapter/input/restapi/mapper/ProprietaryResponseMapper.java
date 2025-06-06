@@ -5,6 +5,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.Proprietary
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
+import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RahmenMetadata;
 import java.time.LocalDate;
 
 /**
@@ -50,6 +51,28 @@ public class ProprietaryResponseMapper {
       .organisationsEinheit(
         proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT).orElse(null)
       )
+      .build();
+  }
+
+  /**
+   * Creates a {@link ProprietaryFrameSchema} from {@link RahmenMetadata}.
+   *
+   * @param rahmenMetadata Input data to be converted
+   * @return Converted data
+   */
+  public static ProprietaryFrameSchema fromRahmenMetadata(final RahmenMetadata rahmenMetadata) {
+    return ProprietaryFrameSchema.builder()
+      .fna(rahmenMetadata.getFna().orElse(null))
+      .art(rahmenMetadata.getArt().orElse(null))
+      .typ(rahmenMetadata.getTyp().orElse(null))
+      .subtyp(rahmenMetadata.getSubtyp().orElse(null))
+      .bezeichnungInVorlage(rahmenMetadata.getBezeichnungInVorlage().orElse(null))
+      .artDerNorm(rahmenMetadata.getArtDerNorm().orElse(null))
+      .staat(rahmenMetadata.getStaat().orElse(null))
+      .beschliessendesOrgan(rahmenMetadata.getBeschliessendesOrgan().orElse(null))
+      .qualifizierteMehrheit(rahmenMetadata.getQualifizierteMehrheit().orElse(null))
+      .ressort(rahmenMetadata.getRessort().orElse(null))
+      .organisationsEinheit(rahmenMetadata.getOrganisationsEinheit().orElse(null))
       .build();
   }
 
