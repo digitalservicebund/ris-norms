@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest"
 import {
   hasElementAsParentElement,
   limitSelectionToOneElement,
-} from "@/composables/useAknTextSelection"
+} from "@/views/amending-law/affected-documents/references/useAknTextSelection"
 
 describe("useAknTextSelection", () => {
   describe("hasElementAsParentElement", () => {
