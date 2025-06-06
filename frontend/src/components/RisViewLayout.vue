@@ -7,13 +7,15 @@ import type {
 import RisHeader from "@/components/RisHeader.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { use404Redirect } from "@/composables/use404Redirect"
-import { computed } from "vue"
+import { watchDebounced } from "@vueuse/core"
+import { computed, ref } from "vue"
 
 const {
   breadcrumbs = undefined,
   errors = [],
   headerBackDestination = undefined,
   redirectOn404 = true,
+  loading = false,
 } = defineProps<{
   /**
    * Destination of the back button of the header component. A header will be
@@ -60,6 +62,17 @@ const hasHeader = computed(
 const errorToShow = computed(() => errors.find((e) => !!e))
 
 if (redirectOn404) use404Redirect(() => errors)
+
+const debouncedLoading = ref(loading)
+
+watchDebounced(
+  () => loading,
+  (newVal) => {
+    console.log(newVal)
+    debouncedLoading.value = newVal
+  },
+  { debounce: 300 },
+)
 </script>
 
 <template>
@@ -67,7 +80,7 @@ if (redirectOn404) use404Redirect(() => errors)
     class="grid h-[calc(100dvh-5rem)] grid-cols-1 grid-rows-[5rem_1fr] overflow-hidden bg-gray-100 has-[[data-pc-name=splitter]]:bg-white"
   >
     <div
-      v-if="loading"
+      v-if="debouncedLoading"
       class="row-span-2 flex items-center justify-center p-24"
     >
       <RisLoadingSpinner />

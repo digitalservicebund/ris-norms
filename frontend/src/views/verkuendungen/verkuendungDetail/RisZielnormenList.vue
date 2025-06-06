@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
+import { formatDate } from "@/lib/dateTime"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import type { Norm } from "@/types/norm"
 import Accordion from "primevue/accordion"
@@ -39,16 +40,6 @@ const { items, verkuendungEli } = defineProps<{
   items: RisZielnormenListItem[]
   verkuendungEli: string
 }>()
-
-function formatDate(dateString: string | undefined): string {
-  return dateString
-    ? new Date(dateString).toLocaleDateString("de-DE", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      })
-    : ""
-}
 
 const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
   items.map<MappedRisZielnormenListItem>((item) => ({
