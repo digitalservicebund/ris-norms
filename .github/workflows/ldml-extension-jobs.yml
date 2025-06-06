@@ -12,10 +12,10 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install libxml2-utils -y
-      - name: Lint LDML.de 1.7.2 schema
-        working-directory: ./LegalDocML.de/1.7.2/
+      - name: Lint LDML.de 1.8 schema
+        working-directory: ./LegalDocML.de/1.8/
         run: |
-          xmllint --noout --schema legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd schema-extension-fixtures/SaatG_regelungstext.xml
+          xmllint --noout --schema legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd schema-extension-fixtures/SaatG_regelungstext/regelungstext-verkuendung-1.xml
       - name: Send status to Slack
         # Third-party action, pin to commit SHA!
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
