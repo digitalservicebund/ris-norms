@@ -86,7 +86,6 @@ class ProprietaryControllerTest {
         // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").value("754-28-1"))
-        .andExpect(jsonPath("art").value("regelungstext"))
         .andExpect(jsonPath("typ").value("gesetz"))
         .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
         .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
@@ -119,7 +118,6 @@ class ProprietaryControllerTest {
         // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").isEmpty())
-        .andExpect(jsonPath("art").isEmpty())
         .andExpect(jsonPath("typ").isEmpty())
         .andExpect(jsonPath("subtyp").isEmpty())
         .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
@@ -152,7 +150,6 @@ class ProprietaryControllerTest {
         // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").isEmpty())
-        .andExpect(jsonPath("art").isEmpty())
         .andExpect(jsonPath("typ").isEmpty())
         .andExpect(jsonPath("subtyp").isEmpty())
         .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
@@ -190,7 +187,6 @@ class ProprietaryControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"art\": \"new-art\"," +
               "\"typ\": \"new-typ\"," +
               "\"subtyp\": \"new-subtyp\"," +
               "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
@@ -204,7 +200,6 @@ class ProprietaryControllerTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").value("754-28-1"))
-        .andExpect(jsonPath("art").value("regelungstext"))
         .andExpect(jsonPath("typ").value("gesetz"))
         .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
         .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
@@ -226,7 +221,6 @@ class ProprietaryControllerTest {
               .toString()
               .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1") &&
             query.inputMetadata().fna().equals("new-fna") &&
-            query.inputMetadata().art().equals("new-art") &&
             query.inputMetadata().typ().equals("new-typ") &&
             query.inputMetadata().subtyp().equals("new-subtyp") &&
             query.inputMetadata().bezeichnungInVorlage().equals("new-bezeichnungInVorlage") &&
@@ -262,7 +256,6 @@ class ProprietaryControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"art\": \"new-art\"," +
               "\"typ\": \"new-typ\"," +
               "\"subtyp\": \"new-subtyp\"," +
               "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +

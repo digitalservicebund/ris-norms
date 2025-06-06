@@ -99,7 +99,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").isEmpty())
-        .andExpect(jsonPath("art").isEmpty())
         .andExpect(jsonPath("typ").isEmpty())
         .andExpect(jsonPath("subtyp").isEmpty())
         .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
@@ -134,7 +133,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").isEmpty())
-        .andExpect(jsonPath("art").isEmpty())
         .andExpect(jsonPath("typ").isEmpty())
         .andExpect(jsonPath("subtyp").isEmpty())
         .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
@@ -168,7 +166,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         // then
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").value("754-28-1"))
-        .andExpect(jsonPath("art").value("regelungstext"))
         .andExpect(jsonPath("typ").value("gesetz"))
         .andExpect(jsonPath("subtyp").value("rechtsverordnung"))
         .andExpect(jsonPath("bezeichnungInVorlage").value("Bezeichnung gemäß Vorlage"))
@@ -197,7 +194,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"art\": \"new-art\"," +
               "\"typ\": \"new-typ\"," +
               "\"subtyp\": \"new-subtyp\"," +
               "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
@@ -247,7 +243,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"art\": \"new-art\"," +
               "\"typ\": \"new-typ\"," +
               "\"subtyp\": \"new-subtyp\"," +
               "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
@@ -261,7 +256,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").value("new-fna"))
-        .andExpect(jsonPath("art").value("new-art"))
         .andExpect(jsonPath("typ").value("new-typ"))
         .andExpect(jsonPath("subtyp").value("new-subtyp"))
         .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
@@ -280,7 +274,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-art");
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-typ");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
@@ -320,7 +313,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": null," +
-              "\"art\": null," +
               "\"typ\": null," +
               "\"subtyp\": null," +
               "\"bezeichnungInVorlage\": null," +
@@ -334,7 +326,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").isEmpty())
-        .andExpect(jsonPath("art").isEmpty())
         .andExpect(jsonPath("typ").isEmpty())
         .andExpect(jsonPath("subtyp").isEmpty())
         .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
@@ -353,7 +344,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
@@ -387,7 +377,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"\"," +
-              "\"art\": \"\"," +
               "\"typ\": \"\"," +
               "\"subtyp\": \"\"," +
               "\"bezeichnungInVorlage\": \"\"," +
@@ -401,7 +390,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").isEmpty())
-        .andExpect(jsonPath("art").isEmpty())
         .andExpect(jsonPath("typ").isEmpty())
         .andExpect(jsonPath("subtyp").isEmpty())
         .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
@@ -420,7 +408,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
@@ -454,7 +441,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"art\": \"new-art\"," + // no change
               // no change
               "\"typ\": \"new-typ\"," + // no change
               "\"subtyp\": \"new-subtyp\"," + // no change
@@ -469,7 +455,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         // change
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").value("new-fna"))
-        .andExpect(jsonPath("art").value("new-art"))
         .andExpect(jsonPath("typ").value("new-typ"))
         .andExpect(jsonPath("subtyp").value("new-subtyp"))
         .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
@@ -487,7 +472,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-art");
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-typ");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
@@ -524,7 +508,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"art\": \"new-art\"," +
               "\"typ\": \"new-typ\"," +
               "\"subtyp\": \"new-subtyp\"," +
               "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
@@ -537,7 +520,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").value("new-fna"))
-        .andExpect(jsonPath("art").value("new-art"))
         .andExpect(jsonPath("typ").value("new-typ"))
         .andExpect(jsonPath("subtyp").value("new-subtyp"))
         .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
@@ -555,7 +537,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Proprietary proprietary = regelungstextLoaded.getMeta().getOrCreateProprietary();
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).contains("new-fna");
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).contains("new-art");
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).contains("new-typ");
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).contains("new-subtyp");
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(

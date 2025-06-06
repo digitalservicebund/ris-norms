@@ -114,7 +114,6 @@ class ProprietaryTest {
       assertThat(proprietary.getMetadataValue(Metadata.TYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.FNA)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.GESTA)).isEmpty();
-      assertThat(proprietary.getMetadataValue(Metadata.ART)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
       assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).isEmpty();
