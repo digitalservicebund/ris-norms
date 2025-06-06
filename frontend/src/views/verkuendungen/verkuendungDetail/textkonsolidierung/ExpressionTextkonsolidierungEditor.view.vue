@@ -17,6 +17,7 @@ import {
   useZielnormReferences,
   type EditableZielnormReference,
 } from "@/composables/useZielnormReferences"
+import { formatDate } from "@/lib/dateTime"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
@@ -126,16 +127,6 @@ const pointInTime = computed(() => {
   return NormExpressionEli.fromString(expressionEli.value.toString())
     .pointInTime
 })
-
-function formatDate(dateString: string | undefined): string {
-  return dateString
-    ? new Date(dateString).toLocaleDateString("de-DE", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      })
-    : ""
-}
 
 const formattedDate = computed(() => formatDate(pointInTime.value))
 

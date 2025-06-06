@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
+import { formatDate } from "@/lib/dateTime"
 import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import dayjs from "dayjs"
 import { Badge, Column, DataTable } from "primevue"
@@ -57,19 +58,7 @@ const internalItems = computed(() => {
 })
 
 function formatDateString(dateString: string | undefined): string {
-  return formatDate(dateString ? new Date(dateString) : undefined)
-}
-
-function formatDate(date: Date | undefined): string {
-  if (date === undefined) {
-    return ""
-  }
-
-  return date.toLocaleDateString("de-DE", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  })
+  return dateString ? formatDate(dateString) : ""
 }
 </script>
 
