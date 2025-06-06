@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RahmenMetadata;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -263,6 +264,10 @@ public class Norm {
     final Proprietary proprietary = getRegelungstext1().getMeta().getOrCreateProprietary();
     final Gegenstandlos gegenstandlos = proprietary.getOrCreateGegenstandlos();
     gegenstandlos.setSinceDate(date);
+  }
+
+  public RahmenMetadata getRahmenMetadata() {
+    return new RahmenMetadata(getDokumente().stream().map(Dokument::getRahmenMetadata).toList());
   }
 
   @Override
