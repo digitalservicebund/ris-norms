@@ -10,6 +10,7 @@ import AccordionPanel from "primevue/accordionpanel"
 import Column from "primevue/column"
 import DataTable from "primevue/datatable"
 import { computed } from "vue"
+import { RouterLink } from "vue-router"
 
 /** Input data to the Zielnormen list. */
 export type RisZielnormenListItem = {
