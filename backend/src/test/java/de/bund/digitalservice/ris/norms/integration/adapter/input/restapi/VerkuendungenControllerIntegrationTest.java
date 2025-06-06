@@ -1156,25 +1156,33 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itShouldRemoveOrphanExpressionBeforeFirstGeltungszeit() throws Exception {
-      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+      var amendingLaw = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-orphan-before-first-geltungszeit.xml"
-      );
-      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
-
-      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
-        VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-original-expression.xml"
+        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-orphan-before-first-geltungszeit",
+        NormPublishState.UNPUBLISHED
       );
 
-      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
-
-      final Regelungstext alreadyExistingFutureExpressionToBeDeleted = Fixtures.loadNormFromDisk(
+      var targetLaw = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2017-03-16-1"
-      ).getRegelungstext1();
+        "vereinsgesetz-original-expression",
+        NormPublishState.UNPUBLISHED
+      );
 
-      dokumentRepository.save(DokumentMapper.mapToDto(alreadyExistingFutureExpressionToBeDeleted));
+      // alreadyExistingFutureExpressionToBeOverwritten
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2017-03-16-1",
+        NormPublishState.UNPUBLISHED
+      );
 
       final String orphanExpressionEli = "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu";
       // Expressions to be created not yet existent
@@ -1203,8 +1211,8 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           post(
             String.format(
               "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
-              amendingLaw.getExpressionEli().asNormEli(),
-              targetLaw.getWorkEli().asNormEli()
+              amendingLaw.getExpressionEli(),
+              targetLaw.getWorkEli()
             )
           ).accept(MediaType.APPLICATION_JSON)
         )
@@ -1252,26 +1260,32 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itShouldRemoveOrphanExpressionAfterFirstGeltungszeit() throws Exception {
-      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+      var amendingLaw = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-orphan-after-first-geltungszeit.xml"
-      );
-      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
-
-      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
-        VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-original-expression.xml"
+        "amending-law-for-vereinsgesetz-several-zielnormen-references-and-one-orphan-after-first-geltungszeit",
+        NormPublishState.UNPUBLISHED
       );
 
-      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
-
-      final Regelungstext alreadyExistingFutureExpressionToBeOverriden = Fixtures.loadNormFromDisk(
+      var targetLaw = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
         VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-2021-04-23"
-      ).getRegelungstext1();
+        "vereinsgesetz-original-expression",
+        NormPublishState.UNPUBLISHED
+      );
 
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(alreadyExistingFutureExpressionToBeOverriden)
+      // alreadyExistingFutureExpressionToBeOverwritten
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2021-04-23",
+        NormPublishState.UNPUBLISHED
       );
 
       final String orphanEli = "eli/bund/bgbl-1/1964/s593/2021-04-23/1/deu";
@@ -1299,8 +1313,8 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           post(
             String.format(
               "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
-              amendingLaw.getExpressionEli().asNormEli(),
-              targetLaw.getWorkEli().asNormEli()
+              amendingLaw.getExpressionEli(),
+              targetLaw.getWorkEli()
             )
           ).accept(MediaType.APPLICATION_JSON)
         )
