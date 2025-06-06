@@ -1,43 +1,47 @@
 <script setup lang="ts">
+import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
+import RisDokumentExplorer from "@/components/RisDokumentExplorer.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import { type HeaderBreadcrumb } from "@/components/RisHeader.vue"
+import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
+import { useNormXml } from "@/composables/useNormXml"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
+import { useToast } from "@/composables/useToast"
 import { useZeitgrenzenHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
 import {
   useZielnormReferences,
   type EditableZielnormReference,
 } from "@/composables/useZielnormReferences"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { getFrbrDisplayText } from "@/lib/frbr"
+import { useGetNorm } from "@/services/normService"
+import { useGetNormToc } from "@/services/tocService"
 import {
   useGetVerkuendungService,
   useGetZielnormReferences,
 } from "@/services/verkuendungService"
-import IcBaselineCheck from "~icons/ic/baseline-check"
 import { useGetZeitgrenzen } from "@/services/zeitgrenzenService"
-import { ConfirmDialog, Splitter, SplitterPanel } from "primevue"
-import { computed, ref, watch } from "vue"
-import RisDokumentExplorer from "@/components/RisDokumentExplorer.vue"
-import Button from "primevue/button"
-import Tree from "primevue/tree"
-import { useGetNormToc } from "@/services/tocService"
+import { useGetZielnormPreview } from "@/services/zielnormExpressionsService"
+import { useGroupedZielnormen } from "@/views/verkuendungen/verkuendungDetail/useGroupedZielnormen"
+import {
+  Button,
+  ConfirmDialog,
+  Message,
+  Splitter,
+  SplitterPanel,
+  Tree,
+} from "primevue"
 import type { TreeNode } from "primevue/treenode"
-import { useGetNorm } from "@/services/normService"
-import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
-import { useNormXml } from "@/composables/useNormXml"
-import { useToast } from "@/composables/useToast"
-import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
+import { computed, ref, watch } from "vue"
+import { RouterLink } from "vue-router"
 import IcBaselineArrowBack from "~icons/ic/baseline-arrow-back"
 import IcBaselineArrowForward from "~icons/ic/baseline-arrow-forward"
-import { useGroupedZielnormen } from "@/views/verkuendungen/verkuendungDetail/useGroupedZielnormen"
-import { RouterLink } from "vue-router"
-import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
-import { useGetZielnormPreview } from "@/services/zielnormExpressionsService"
-import Message from "primevue/message"
+import IcBaselineCheck from "~icons/ic/baseline-check"
 
 const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
 const expressionEli = useDokumentExpressionEliPathParameter("expression")
@@ -96,15 +100,24 @@ const treeNodes = computed<TreeNode[]>(() =>
       }))
     : [],
 )
-const { tocHeadingId, expressionPointInTimeLabelId } = useElementId()
 
+const { tocHeadingId, expressionPointInTimeLabelId } = useElementId()
 const expandedKeys = ref<Record<string, boolean>>({})
 const selectionKeys = ref<Record<string, boolean>>({})
+
+watch(expressionEli, (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    expandedKeys.value = {}
+    selectionKeys.value = {}
+  }
+})
+
 const handleNodeSelect = (node: TreeNode) => {
   selectionKeys.value = { [node.key]: true }
   toggleNode(node)
   gotoEid(node.key)
 }
+
 function toggleNode(node: TreeNode) {
   expandedKeys.value[node.key] = !expandedKeys.value[node.key]
 }
@@ -133,6 +146,7 @@ const groupedZielnormen = useGroupedZielnormen(zielnormen)
 
 // NAVIGATION
 const currentEli = computed(() => expressionEli.value.toString())
+
 const currentZielnormGroup = computed(() => {
   return groupedZielnormen.value?.find((group) =>
     group.expressions.some((expr) => expr.eli === currentEli.value),
@@ -153,11 +167,14 @@ const sequence = computed(() => {
 })
 
 const currentIndex = computed(() => sequence.value.indexOf(currentEli.value))
+
 const hasPrev = computed(() => currentIndex.value > 0)
+
 const hasNext = computed(
   () =>
     currentIndex.value >= 0 && currentIndex.value < sequence.value.length - 1,
 )
+
 const previousGuid = computed(() => normExpression.value?.vorherigeVersionId)
 const nextGuid = computed(() => normExpression.value?.nachfolgendeVersionId)
 
@@ -169,6 +186,7 @@ const { add: addToast, addError: addErrorToast } = useToast()
 const gotoEid = (eid: string) => {
   codeEditorRef.value?.scrollToText(`eId="${eid}"`)
 }
+
 function showToast() {
   if (saveError.value) {
     addErrorToast(saveError, { traceId: sentryTraceId })
@@ -194,6 +212,7 @@ const {
 } = useNormXml(expressionEli, newExpressionXml)
 
 const currentXml = ref("")
+
 watch(xml, (xml) => {
   if (xml) {
     currentXml.value = xml
