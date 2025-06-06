@@ -24,7 +24,7 @@ public class LdmlDeSchematronException extends RuntimeException implements Norms
   public LdmlDeSchematronException(List<ValidationError> errors) {
     super(
       """
-      The provided xml is not a schematron-valid LDML.de 1.7.2 document:
+      The provided xml is not a schematron-valid LDML.de 1.8 document:
       %s
       """.formatted(
           errors.stream().map(ValidationError::toString).collect(Collectors.joining("\n"))
@@ -40,7 +40,7 @@ public class LdmlDeSchematronException extends RuntimeException implements Norms
 
   @Override
   public String getTitle() {
-    return "The provided xml is not a schematron-valid LDML.de 1.7.2 document";
+    return "The provided xml is not a schematron-valid LDML.de 1.8 document";
   }
 
   @Override

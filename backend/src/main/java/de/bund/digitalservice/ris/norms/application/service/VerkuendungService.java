@@ -86,7 +86,7 @@ public class VerkuendungService
       throw new NotLdmlDeXmlFileException(options.file().getOriginalFilename());
     }
 
-    // it throws an exception if the validation fails or the LDML.de Version is not 1.7.2
+    // it throws an exception if the validation fails or the LDML.de Version is not 1.8
     // we can at the moment not use the resulting norm as it is namespace-aware and our xPaths are
     // not yet.
     var validatedRegelungstext = ldmlDeValidator.parseAndValidateRegelungstext(regelungstextString);
