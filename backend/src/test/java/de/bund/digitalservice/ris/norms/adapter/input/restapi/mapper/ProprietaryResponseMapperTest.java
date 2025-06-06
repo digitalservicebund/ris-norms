@@ -18,7 +18,6 @@ class ProprietaryResponseMapperTest {
     var responseSchema = ProprietaryResponseMapper.fromRahmenMetadata(norm.getRahmenMetadata());
     assertThat(responseSchema.getTyp()).isEqualTo("gesetz");
     assertThat(responseSchema.getFna()).isEqualTo("754-28-1");
-    assertThat(responseSchema.getArt()).isEqualTo("regelungstext");
     assertThat(responseSchema.getRessort()).isEqualTo("Bundesministerium der Justiz");
     assertThat(responseSchema.getSubtyp()).isEqualTo("rechtsverordnung");
     assertThat(responseSchema.getBezeichnungInVorlage()).isEqualTo("Bezeichnung gemäß Vorlage");

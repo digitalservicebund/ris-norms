@@ -85,7 +85,6 @@ public class ProprietaryController {
           dokumentExpressionEli,
           new UpdateProprietaryFrameFromDokumentUseCase.InputMetadata(
             proprietaryFrameSchema.getFna(),
-            proprietaryFrameSchema.getArt(),
             proprietaryFrameSchema.getTyp(),
             proprietaryFrameSchema.getSubtyp(),
             proprietaryFrameSchema.getBezeichnungInVorlage(),

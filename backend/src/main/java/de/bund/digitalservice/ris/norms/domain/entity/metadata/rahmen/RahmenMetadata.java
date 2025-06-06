@@ -30,14 +30,6 @@ public class RahmenMetadata {
     getRegelungstextRahmenMetadata().forEach(m -> m.setFna(fna));
   }
 
-  public Optional<String> getArt() {
-    return getRegelungstextRahmenMetadata().findAny().flatMap(RegelungstextRahmenMetadata::getArt);
-  }
-
-  public void setArt(@Nullable String art) {
-    getRegelungstextRahmenMetadata().forEach(m -> m.setArt(art));
-  }
-
   public Optional<String> getTyp() {
     return getRegelungstextRahmenMetadata().findAny().flatMap(RegelungstextRahmenMetadata::getTyp);
   }

@@ -28,14 +28,6 @@ public final class RegelungstextRahmenMetadata extends DokumentRahmenMetadata {
     meta.getOrCreateProprietary().setMetadataValue(Metadata.FNA, fna);
   }
 
-  public Optional<String> getArt() {
-    return meta.getProprietary().flatMap(p -> p.getMetadataValue(Metadata.ART));
-  }
-
-  public void setArt(@Nullable String art) {
-    meta.getOrCreateProprietary().setMetadataValue(Metadata.ART, art);
-  }
-
   public Optional<String> getTyp() {
     return meta.getProprietary().flatMap(p -> p.getMetadataValue(Metadata.TYP));
   }
