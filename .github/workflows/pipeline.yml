@@ -437,6 +437,15 @@ jobs:
           filePath: tmp/backend-integration-test-report
           destinationDir: test-reports/ris-norms/backend/integration-tests
           reportIsDirectory: true
+      # ADRs
+      - name: add ADRs to report
+        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+        with:
+          filePath: doc/adr
+          destinationDir: adr/ris-norms
+          reportIsDirectory: true
+          keepAllVersions: false # don't need the timestamped snapshots of the whole folder
+
       # Push reports
       - name: Push reports
         run: |
