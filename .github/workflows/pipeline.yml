@@ -346,7 +346,13 @@ jobs:
         with:
           path: ris-norms
 
-      # Then checkout ris-reports
+      # Copy ADRs into tmp folder
+      - name: Copy ADRs
+        run: |
+          mkdir -p tmp/adr-source
+          cp -r ris-norms/doc/adr/* tmp/adr-source/
+
+      # Then checkout ris-reports (will override ris-norms check-out)
       - uses: actions/checkout@v4
         with:
           repository: ${{ env.reports-repo }}
@@ -457,7 +463,7 @@ jobs:
       - name: add ADRs to report
         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
         with:
-          filePath: ris-norms/doc/adr
+          filePath: tmp/adr-source
           destinationDir: adr/ris-norms
           reportIsDirectory: true
           keepAllVersions: false # don't need the timestamped snapshots of the whole folder
