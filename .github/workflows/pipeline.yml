@@ -340,17 +340,17 @@ jobs:
       - backend-jobs
     if: ${{ github.ref == 'refs/heads/main' }}
     steps:
-      # First checkout ris-norms because of ADRs
-      - name: Checkout ris-norms repository
-        uses: actions/checkout@v4
-        with:
-          path: ris-norms
-
-      # Copy ADRs into tmp folder
-      - name: Copy ADRs
-        run: |
-          mkdir -p tmp/adr-source
-          cp -r ris-norms/doc/adr/* tmp/adr-source/
+      #      # First checkout ris-norms because of ADRs
+      #      - name: Checkout ris-norms repository
+      #        uses: actions/checkout@v4
+      #        with:
+      #          path: ris-norms
+      #
+      #      # Copy ADRs into tmp folder
+      #      - name: Copy ADRs
+      #        run: |
+      #          mkdir -p tmp/adr-source
+      #          cp -r ris-norms/doc/adr/* tmp/adr-source/
 
       # Then checkout ris-reports (will override ris-norms check-out)
       - uses: actions/checkout@v4
@@ -459,14 +459,14 @@ jobs:
           destinationDir: test-reports/ris-norms/backend/integration-tests
           reportIsDirectory: true
 
-      # ADRs
-      - name: add ADRs to report
-        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
-        with:
-          filePath: tmp/adr-source
-          destinationDir: adr/ris-norms
-          reportIsDirectory: true
-          keepAllVersions: false # don't need the timestamped snapshots of the whole folder
+      #      # ADRs
+      #      - name: add ADRs to report
+      #        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+      #        with:
+      #          filePath: tmp/adr-source
+      #          destinationDir: adr/ris-norms
+      #          reportIsDirectory: true
+      #          keepAllVersions: false # don't need the timestamped snapshots of the whole folder
 
       # Push reports
       - name: Push reports
