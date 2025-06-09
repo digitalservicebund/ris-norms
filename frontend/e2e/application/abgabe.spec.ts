@@ -7,7 +7,7 @@ test.describe(
   () => {
     test("shows expressions in Abgabe view", async ({ page }) => {
       await page.route(
-        "**/api/v1/eli/bund/bgbl-1/1964/s593/expressions/release",
+        "**/api/v1/eli/bund/bgbl-1/1964/s593/expressions/releasestatus",
         async (route) => {
           await route.fulfill({
             status: 200,

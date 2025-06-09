@@ -4,7 +4,7 @@ import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
-import { useGetZielnormReleaseStatus } from "@/services/zielnormExpressionsService"
+import { useGetZielnormReleaseStatus } from "@/services/zielnormReleaseStatusService"
 import { ConfirmDialog, Badge, Column, DataTable, useConfirm } from "primevue"
 import { ref, computed } from "vue"
 import Button from "primevue/button"
@@ -16,6 +16,8 @@ import IcBaselinePanoramaFishEye from "~icons/ic/baseline-panorama-fish-eye"
 import IcBaselineReadMore from "~icons/ic/baseline-read-more"
 import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
 import { useNormWorkEliPathParameter } from "@/composables/useNormWorkEliPathParameter"
+import { formatDate } from "@/lib/dateTime"
+import dayjs from "dayjs"
 
 const zielnormEli = useNormWorkEliPathParameter("zielnorm")
 const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
@@ -46,13 +48,6 @@ const breadcrumbs = ref<HeaderBreadcrumb[]>([
 ])
 
 const { abgabeHeadingId } = useElementId()
-function formatDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString("de-DE", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  })
-}
 
 const internalZielnormExpressions = computed(() => {
   const expressions = releaseStatus.value?.expressions ?? []
@@ -66,11 +61,9 @@ const internalZielnormExpressions = computed(() => {
         index > 0 && expressions[index - 1].isGegenstandslos,
       untilDate:
         index < expressions.length - 1
-          ? new Date(
-              new Date(
-                expressions[index + 1].normExpressionEli.pointInTime,
-              ).getTime() - 86400000,
-            )
+          ? dayjs(expressions[index + 1].normExpressionEli.pointInTime)
+              .subtract(1, "day")
+              .toDate()
           : undefined,
       colorIndex,
     }
