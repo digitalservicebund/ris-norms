@@ -2,9 +2,9 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ExpressionsStatusResponseSchema;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ExpressionsStatusResponseSchema.Expression;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ExpressionsStatusResponseSchema.Expression.Status;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReleaseStatusResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReleaseStatusResponseSchema.Expression;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReleaseStatusResponseSchema.Expression.Status;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
@@ -18,7 +18,9 @@ class ExpressionsStatusResponseMapperTest {
     List<Norm> norms = List.of();
 
     // When
-    final ExpressionsStatusResponseSchema result = ExpressionsStatusResponseMapper.fromNorms(norms);
+    final ZielnormReleaseStatusResponseSchema result = ExpressionsStatusResponseMapper.fromNorms(
+      norms
+    );
 
     // Then
     assertThat(result).isNull();
@@ -30,7 +32,7 @@ class ExpressionsStatusResponseMapperTest {
     var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
 
     // When
-    final ExpressionsStatusResponseSchema result = ExpressionsStatusResponseMapper.fromNorms(
+    final ZielnormReleaseStatusResponseSchema result = ExpressionsStatusResponseMapper.fromNorms(
       List.of(norm)
     );
 

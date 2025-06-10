@@ -1,26 +1,26 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ExpressionsStatusResponseSchema;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ExpressionsStatusResponseSchema.Expression;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ExpressionsStatusResponseSchema.Expression.Status;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReleaseStatusResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReleaseStatusResponseSchema.Expression;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReleaseStatusResponseSchema.Expression.Status;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
 import java.util.Optional;
 
-/** Mapper class for converting between List of {@link Norm}s and {@link ExpressionsStatusResponseSchema}. */
+/** Mapper class for converting between List of {@link Norm}s and {@link ZielnormReleaseStatusResponseSchema}. */
 public class ExpressionsStatusResponseMapper {
 
   // Private constructor to hide the implicit public one and prevent instantiation
   private ExpressionsStatusResponseMapper() {}
 
   /**
-   * Creates a {@link ExpressionsStatusResponseSchema} instance from a List of {@link Norm} entities.
+   * Creates a {@link ZielnormReleaseStatusResponseSchema} instance from a List of {@link Norm} entities.
    *
    * @param norms The input List of {@link Norm} entities to be converted.
-   * @return A new {@link ExpressionsStatusResponseSchema} instance mapped from the input List of {@link Norm}.
+   * @return A new {@link ZielnormReleaseStatusResponseSchema} instance mapped from the input List of {@link Norm}.
    */
-  public static ExpressionsStatusResponseSchema fromNorms(final List<Norm> norms) {
+  public static ZielnormReleaseStatusResponseSchema fromNorms(final List<Norm> norms) {
     if (norms == null || norms.isEmpty()) {
       return null;
     }
@@ -28,7 +28,7 @@ public class ExpressionsStatusResponseMapper {
     // Assuming all norms in the list belong to the same work (Zielnorm)
     Norm firstNorm = norms.getFirst();
 
-    return new ExpressionsStatusResponseSchema(
+    return new ZielnormReleaseStatusResponseSchema(
       firstNorm.getWorkEli().toString(),
       firstNorm.getTitle().orElse(null),
       firstNorm.getShortTitle().orElse(null),

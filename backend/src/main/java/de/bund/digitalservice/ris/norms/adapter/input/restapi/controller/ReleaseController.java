@@ -4,8 +4,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ExpressionsStatusResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ReleaseResponseMapper;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ExpressionsStatusResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReleaseStatusResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsWorkingCopiesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadReleasesByNormExpressionEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseNormExpressionUseCase;
@@ -81,15 +81,15 @@ public class ReleaseController {
   }
 
   /**
-   * Retrieves the status of expressions to a target norm that will be changed by the verkuendung.
+   * Retrieves the list of all UNPUBLISHED expressions to a work eli.
    *
-   * @param zielnormEli the work eli of the Verkündung
-   * @return A {@link ResponseEntity} containing the response schema for a list of {@link ExpressionsStatusResponseSchema}s.
-   *     <p>Returns HTTP 200 (OK) and list of {@link ExpressionsStatusResponseSchema}s.
+   * @param zielnormEli the work eli of the Zielnorm
+   * @return A {@link ResponseEntity} containing the response schema for a list of {@link ZielnormReleaseStatusResponseSchema}s.
+   *     <p>Returns HTTP 200 (OK) and list of {@link ZielnormReleaseStatusResponseSchema}s.
    *     <p>Returns HTTP 404 (Not Found) if the verkuendung is not found.
    */
   @GetMapping(value = "/expressions/releasestatus", produces = APPLICATION_JSON_VALUE)
-  public ResponseEntity<ExpressionsStatusResponseSchema> getZielnormExpressionsStatus(
+  public ResponseEntity<ZielnormReleaseStatusResponseSchema> getZielnormExpressionsStatus(
     NormWorkEli zielnormEli
   ) {
     var workingCopies = loadNormExpressionsWorkingCopiesUseCase.loadZielnormWorkingCopies(

@@ -10,7 +10,7 @@ import java.util.List;
  * @param shortTitle the short title of the zielnorm
  * @param expressions the list of expressions that will either be set to gegenstandslos or be newly created when applying the zielnorm-references
  */
-public record ExpressionsStatusResponseSchema(
+public record ZielnormReleaseStatusResponseSchema(
   String normWorkEli,
   String title,
   String shortTitle,
