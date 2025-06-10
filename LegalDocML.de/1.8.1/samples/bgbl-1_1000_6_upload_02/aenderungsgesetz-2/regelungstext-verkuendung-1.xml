@@ -148,6 +148,14 @@
                                  start="#meta-n1_lebzykl-n1_ereignis-n2"/>
             </akn:temporalGroup>
          </akn:temporalData>
+        <akn:proprietary GUID="ed69c3bd-6063-4bb3-8267-5c2dfd021111"
+                         eId="meta-n1_proprietary-n1"
+                         source="attributsemantik-noch-undefiniert">
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+               <regtxt:typ>gesetz</regtxt:typ>
+               <regtxt:form>mantelform</regtxt:form>
+            </regtxt:legalDocML.de_metadaten>
+         </akn:proprietary>
       </akn:meta>
       <akn:preface GUID="7ec4fbf6-1aa6-487d-ab66-3d6c89fbe68c" eId="einleitung-n1">
          <akn:longTitle GUID="2193b2a4-d738-48d1-9d0b-eb499d20048e"

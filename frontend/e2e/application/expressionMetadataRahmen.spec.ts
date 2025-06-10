@@ -67,7 +67,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
   test.afterAll(async ({ authenticatedRequest }) => {
     await uploadAmendingLaw(
       authenticatedRequest,
-      "bgbl-1_2023_413/aenderungsgesetz.xml",
+      "bgbl-1_2023_413/aenderungsgesetz",
     )
   })
 
@@ -248,9 +248,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
               response,
               body: JSON.stringify({
                 ...body,
-                art: "dummy",
-                typ: "dummy",
-                subtyp: "",
+                subtyp: "dummy",
               }),
             })
           } else await route.fulfill()

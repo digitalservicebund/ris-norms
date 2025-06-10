@@ -189,7 +189,7 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
     page,
   }) => {
     await page.route(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/hauptteil-1_art-1",
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z1",
       async (route) => {
         if ((await route.request().headerValue("Accept")) === "text/html") {
           await route.fulfill({ status: 500, json: {} })
@@ -217,7 +217,7 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
     page,
   }) => {
     await page.route(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/hauptteil-1_art-1",
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z1",
       async (route) => {
         await route.fulfill({ status: 200, body: "" })
       },
@@ -472,13 +472,13 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
           geltungszeit: zeitgrenzenIds[0],
           zielnorm: "eli/bund/bgbl-1/2021/123",
           typ: "Änderungsvorschrift",
-          eId: "hauptteil-1_art-1_abs-1",
+          eId: "art-z1_abs-z",
         },
         {
           geltungszeit: zeitgrenzenIds[0],
           zielnorm: "eli/bund/bgbl-1/2021/123",
           typ: "Änderungsvorschrift",
-          eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+          eId: "art-z1_abs-z_untergl-n1_listenelem-n1",
         },
       ],
       request,
@@ -533,13 +533,13 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
             geltungszeit: zeitgrenzenIds[0],
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1",
+            eId: "art-z1_abs-z",
           },
           {
             geltungszeit: zeitgrenzenIds[1],
             zielnorm: "eli/bund/bgbl-1/2021/456",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+            eId: "art-z1_abs-z_untergl-n1_listenelem-n1",
           },
         ],
       },
@@ -599,13 +599,13 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
             geltungszeit: "gz-1",
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1",
+            eId: "art-z1_abs-z",
           },
           {
             geltungszeit: "gz-2",
             zielnorm: "eli/bund/bgbl-1/2021/456",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+            eId: "art-z1_abs-z_untergl-n1_listenelem-n1",
           },
         ],
       },
@@ -671,7 +671,7 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
             geltungszeit: "gz-1",
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1",
+            eId: "art-z1_abs-z",
           },
         ],
       },
@@ -712,13 +712,13 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
             geltungszeit: "gz-1",
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1",
+            eId: "art-z1_abs-z",
           },
           {
             geltungszeit: "gz-2",
             zielnorm: "eli/bund/bgbl-1/2021/456",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+            eId: "art-z1_abs-z_untergl-n1_listenelem-n1",
           },
         ],
       },
@@ -765,7 +765,7 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
             geltungszeit: zeitgrenzenIds[0],
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1",
+            eId: "art-z1_abs-z",
           },
         ],
       },

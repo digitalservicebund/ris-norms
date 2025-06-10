@@ -384,7 +384,7 @@
          </akn:formula>
       </akn:preamble>
       <akn:body GUID="920d4746-3dcd-4863-854e-ee5a66ee03cb" eId="hauptteil-n1">
-         <akn:article refersTo="eingebundene-stammform"
+         <akn:article refersTo="hauptaenderung"
                       GUID="9c11d0e5-e4f0-43b7-baa0-374e7888bf32"
                       eId="art-z%3e1"
                       period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2">
@@ -895,6 +895,7 @@
                                                  eId="art-z%3e1_abs-z_untergl-n1_listenelem-n10_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_buch-n1_überschrift-n1">Beispiele Teil I</akn:heading>
                                     <akn:article GUID="6811eca0-2e28-4ef4-af96-9475743f4d91"
                                                  eId="art-z%3e1_abs-z_untergl-n1_listenelem-n10_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_buch-n1_art-z6"
+                                                 refersTo="stammform"
                                                  period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2">
                                        <akn:num GUID="61f76984-2a7a-405e-9383-5062c78e5f9d"
                                                 eId="art-z%3e1_abs-z_untergl-n1_listenelem-n10_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_buch-n1_art-z6_bezeichnung-n1">§ 6</akn:num>
@@ -945,6 +946,7 @@
                                                  eId="art-z%3e1_abs-z_untergl-n1_listenelem-n11_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_kapitel-n1_überschrift-n1">Beispielkapitel (neu)</akn:heading>
                                     <akn:article GUID="b0e5fee4-952a-44eb-b8a8-3f1896a41217"
                                                  eId="art-z%3e1_abs-z_untergl-n1_listenelem-n11_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_kapitel-n1_art-z7"
+                                                 refersTo="stammform"
                                                  period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2">
                                        <akn:num GUID="c6d1dfdb-91ab-41ff-8cce-8df5f89cf0e1"
                                                 eId="art-z%3e1_abs-z_untergl-n1_listenelem-n11_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_kapitel-n1_art-z7_bezeichnung-n1">§ 7</akn:num>
@@ -1015,6 +1017,7 @@
                                                  eId="art-z%3e1_abs-z_untergl-n1_listenelem-n12_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_ukapitel-n1_überschrift-n1">Beispielunterkapitel 2.1 (neu)</akn:heading>
                                     <akn:article GUID="536fbd17-eb6c-42c4-8ae5-7853b6c888c3"
                                                  eId="art-z%3e1_abs-z_untergl-n1_listenelem-n12_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_ukapitel-n1_art-z7a"
+                                                 refersTo="stammform"
                                                  period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2">
                                        <akn:num GUID="c9dd5ce4-4873-477c-8c55-a803efd48a46"
                                                 eId="art-z%3e1_abs-z_untergl-n1_listenelem-n12_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_ukapitel-n1_art-z7a_bezeichnung-n1">§ 7a</akn:num>
@@ -1063,6 +1066,7 @@
                                                  eId="art-z%3e1_abs-z_untergl-n1_listenelem-n13_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_titel-n1_überschrift-n1">Beispieltitel 3.1.1 (neu)</akn:heading>
                                     <akn:article GUID="c017da15-cb4c-4f2d-b570-bacde80eae96"
                                                  eId="art-z%3e1_abs-z_untergl-n1_listenelem-n13_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_titel-n1_art-z7b"
+                                                 refersTo="stammform"
                                                  period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2">
                                        <akn:num GUID="f3c2cdbb-fb76-4834-8a31-1b2277fd2b4d"
                                                 eId="art-z%3e1_abs-z_untergl-n1_listenelem-n13_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_titel-n1_art-z7b_bezeichnung-n1">§ 7b</akn:num>
@@ -1111,6 +1115,7 @@
                                                  eId="art-z%3e1_abs-z_untergl-n1_listenelem-n14_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_utitel-n1_überschrift-n1">Beispieluntertitel 4.1.1.1 (neu)</akn:heading>
                                     <akn:article GUID="b32d2a04-daec-420f-bc4a-ca1ad3d389a9"
                                                  eId="art-z%3e1_abs-z_untergl-n1_listenelem-n14_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_utitel-n1_art-z7c"
+                                                 refersTo="stammform"
                                                  period="#meta-n1_geltzeiten-n1_geltungszeitgr-n2">
                                        <akn:num GUID="ea526c6e-3ea3-44d3-b7fd-19023de30a40"
                                                 eId="art-z%3e1_abs-z_untergl-n1_listenelem-n14_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_utitel-n1_art-z7c_bezeichnung-n1">§ 7c</akn:num>
