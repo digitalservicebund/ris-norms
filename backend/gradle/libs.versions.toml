@@ -1,9 +1,9 @@
 [versions]
-flyway = "11.8.2"
+flyway = "11.9.1"
 # @keep
 jacoco = "0.8.11"
-net-javacrumbs-shedlock = "6.8.0"
-org-bouncycastle = "1.80"
+net-javacrumbs-shedlock = "6.9.0"
+org-bouncycastle = "1.81"
 org-testcontainers = "1.21.1"
 spring-boot = "3.5.0"
 
@@ -26,7 +26,7 @@ lombok = "org.projectlombok:lombok:1.18.38"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.18.0"
 nullaway = "com.uber.nullaway:nullaway:0.12.7"
 postgresql = "org.postgresql:postgresql:42.7.6"
-prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.0"
+prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.1"
 saxon-he = "net.sf.saxon:Saxon-HE:12.7"
 schxslt = "name.dmaus.schxslt:schxslt:1.10.1"
 shedlock = { module = "net.javacrumbs.shedlock:shedlock-spring", version.ref = "net-javacrumbs-shedlock" }

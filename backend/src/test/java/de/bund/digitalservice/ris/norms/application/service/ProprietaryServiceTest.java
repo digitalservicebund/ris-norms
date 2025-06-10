@@ -7,17 +7,18 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.exception.DokumentNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadDokumentPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateDokumentPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
-import java.time.LocalDate;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,9 +27,13 @@ class ProprietaryServiceTest {
 
   final LoadDokumentPort loadDokumentPort = mock(LoadDokumentPort.class);
   final UpdateDokumentPort updateDokumentPort = mock(UpdateDokumentPort.class);
+  final LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  final NormService normService = mock(NormService.class);
   final ProprietaryService proprietaryService = new ProprietaryService(
     loadDokumentPort,
-    updateDokumentPort
+    updateDokumentPort,
+    loadNormPort,
+    normService
   );
 
   @Nested
@@ -45,7 +50,8 @@ class ProprietaryServiceTest {
       // when
       when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
       // then
-      assertThatThrownBy(() -> proprietaryService.loadProprietaryFromDokument(options)
+      assertThatThrownBy(() ->
+        proprietaryService.loadProprietaryFromDokument(options)
       ).isInstanceOf(
         // then
         DokumentNotFoundException.class
@@ -123,9 +129,10 @@ class ProprietaryServiceTest {
           )
         );
       // when
-      when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
-      assertThatThrownBy(() -> proprietaryService.updateProprietaryFrameFromDokument(options)
-      ).isInstanceOf(DokumentNotFoundException.class); // then
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+      assertThatThrownBy(() ->
+        proprietaryService.updateProprietaryFrameFromDokument(options)
+      ).isInstanceOf(NormNotFoundException.class); // then
     }
 
     @Test
@@ -134,20 +141,16 @@ class ProprietaryServiceTest {
       var eli = DokumentExpressionEli.fromString(
         "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-1"
       );
-      var regelungsTextWithoutProprietary = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      var normWithoutProprietary = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
-        Optional.of(regelungsTextWithoutProprietary)
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(eli.asNormEli()))).thenReturn(
+        Optional.of(normWithoutProprietary)
       );
-      var regelungsTextWithProprietary = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      var normWithProprietary = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
-      when(
-        updateDokumentPort.updateDokument(
-          new UpdateDokumentPort.Options(regelungsTextWithoutProprietary)
-        )
-      ).thenReturn(Optional.of(regelungsTextWithProprietary));
+      when(normService.updateNorm(normWithoutProprietary)).thenReturn(normWithProprietary);
 
       // when
       var result = proprietaryService.updateProprietaryFrameFromDokument(
@@ -170,24 +173,17 @@ class ProprietaryServiceTest {
       );
 
       // then
-      assertThat(result).isInstanceOf(Proprietary.class);
-      assertThat(result.getMetadataValue(Metadata.FNA)).contains("754-28-1");
-      assertThat(result.getMetadataValue(Metadata.TYP)).contains("gesetz");
-      assertThat(result.getMetadataValue(Metadata.ART)).contains("regelungstext");
-      assertThat(result.getMetadataValue(Metadata.SUBTYP)).contains("rechtsverordnung");
-      assertThat(result.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).contains(
-        "Bezeichnung gemäß Vorlage"
-      );
-      assertThat(result.getMetadataValue(Metadata.ART_DER_NORM)).contains("SN,ÄN,ÜN");
-      assertThat(result.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).contains("Bundestag");
-      assertThat(result.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN_QUALMEHR)).contains("true");
-      assertThat(result.getMetadataValue(Metadata.STAAT)).contains("DEU");
-      assertThat(result.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
-        "Aktuelle Organisationseinheit"
-      );
-      assertThat(result.getRessort(LocalDate.parse("2002-10-02"))).contains(
-        "Bundesministerium der Justiz"
-      );
+      assertThat(result.getFna()).contains("754-28-1");
+      assertThat(result.getTyp()).contains("gesetz");
+      assertThat(result.getArt()).contains("regelungstext");
+      assertThat(result.getSubtyp()).contains("rechtsverordnung");
+      assertThat(result.getBezeichnungInVorlage()).contains("Bezeichnung gemäß Vorlage");
+      assertThat(result.getArtDerNorm()).contains("SN,ÄN,ÜN");
+      assertThat(result.getBeschliessendesOrgan()).contains("Bundestag");
+      assertThat(result.getQualifizierteMehrheit()).contains(true);
+      assertThat(result.getStaat()).contains("DEU");
+      assertThat(result.getOrganisationsEinheit()).contains("Aktuelle Organisationseinheit");
+      assertThat(result.getRessort()).contains("Bundesministerium der Justiz");
     }
   }
 

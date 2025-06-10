@@ -4,10 +4,15 @@ import { formatDate, formatDateTime } from "@/lib/dateTime"
 import { computed } from "vue"
 
 const props = defineProps<{
+  /** Title of the Verkündung */
   title?: string
+  /** Publication date of the Verkündung in the format YYYY-MM-DD */
   veroeffentlichungsdatum?: string
+  /** Creation date of the Verkündung in the format YYYY-MM-DD */
   ausfertigungsdatum?: string
+  /** Import date of the Verkündung in the format YYYY-MM-DD */
   datenlieferungsdatum?: string
+  /** FNA of the Verkündung */
   fna?: string
 }>()
 

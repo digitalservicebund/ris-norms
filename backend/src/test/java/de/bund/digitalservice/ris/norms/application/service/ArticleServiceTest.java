@@ -205,7 +205,8 @@ class ArticleServiceTest {
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
       // When
-      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromDokument(query)
+      assertThatThrownBy(() ->
+        articleService.loadSpecificArticlesXmlFromDokument(query)
       ).isInstanceOf(NormNotFoundException.class); // Then
 
       verify(loadRegelungstextPort, times(1)).loadRegelungstext(
@@ -253,7 +254,8 @@ class ArticleServiceTest {
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromDokument(query)
+      assertThatThrownBy(() ->
+        articleService.loadSpecificArticlesXmlFromDokument(query)
       ).isInstanceOf(
         // Then
         LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class
@@ -279,7 +281,8 @@ class ArticleServiceTest {
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
-      assertThatThrownBy(() -> articleService.loadSpecificArticlesXmlFromDokument(query)
+      assertThatThrownBy(() ->
+        articleService.loadSpecificArticlesXmlFromDokument(query)
       ).isInstanceOf(
         // Then
         LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class

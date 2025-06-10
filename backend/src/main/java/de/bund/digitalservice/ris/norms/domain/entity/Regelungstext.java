@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 
 import static de.bund.digitalservice.ris.norms.utils.NodeParser.getElementsFromExpression;
 
+import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RegelungstextRahmenMetadata;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.List;
 import java.util.Optional;
@@ -71,5 +72,10 @@ public non-sealed class Regelungstext extends Dokument {
       .stream()
       .map(Article::new)
       .toList();
+  }
+
+  @Override
+  public RegelungstextRahmenMetadata getRahmenMetadata() {
+    return new RegelungstextRahmenMetadata(getMeta());
   }
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
+import { formatDate } from "@/lib/dateTime"
 import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import dayjs from "dayjs"
 import { Badge, Column, DataTable } from "primevue"
@@ -11,9 +12,13 @@ import IcBaselineReadMore from "~icons/ic/baseline-read-more"
 
 /** Input data to the table. */
 export type RisZielnormExpressionsTableItem = {
+  /** Expression ELI of the norm */
   normExpressionEli: NormExpressionEli
+  /** Whether the expression is gegenstandslos */
   isGegenstandslos: boolean
+  /** Source of the expression */
   createdBy: string
+  /** Whether the expression already exists */
   isCreated: boolean
 }
 
@@ -24,7 +29,10 @@ type InternalRisZielnormExpressionsTableItem =
     colorIndex: number | undefined
   }
 
-const { items } = defineProps<{ items: RisZielnormExpressionsTableItem[] }>()
+const { items } = defineProps<{
+  /** List of items to show in the table */
+  items: RisZielnormExpressionsTableItem[]
+}>()
 
 function itemIsCreatedByThisVerkuendung(
   item: RisZielnormExpressionsTableItem,
@@ -57,19 +65,7 @@ const internalItems = computed(() => {
 })
 
 function formatDateString(dateString: string | undefined): string {
-  return formatDate(dateString ? new Date(dateString) : undefined)
-}
-
-function formatDate(date: Date | undefined): string {
-  if (date === undefined) {
-    return ""
-  }
-
-  return date.toLocaleDateString("de-DE", {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  })
+  return dateString ? formatDate(dateString) : ""
 }
 </script>
 

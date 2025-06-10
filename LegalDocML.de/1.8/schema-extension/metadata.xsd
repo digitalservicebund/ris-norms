@@ -35,10 +35,12 @@
         <xs:element name="artDerNorm" type="ArtDerNormFrameType" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="einzelelement" type="EinzelelementType" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="inkraft" type="InkraftType" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="abkuerzung" type="AbkuerzungType" minOccurs="0" maxOccurs="1"/>
         <xs:element name="ausserkraft" type="AusserkraftType" minOccurs="0" maxOccurs="1"/>
         <xs:element name="vollzitat" type="xs:string" minOccurs="0" maxOccurs="1"/>
         <xs:element name="standangabe" type="StandangabeType" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="bedingtesInkrafttreten" type="EmptyType" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="verweise" type="Verweise" minOccurs="0" maxOccurs="1"/>
         <xs:any minOccurs="0" namespace="http://MetadatenMods.LegalDocML.de/1.8/"/>
       </xs:sequence>
     </xs:complexType>
@@ -131,6 +133,21 @@
     </xs:simpleContent>
   </xs:complexType>
 
+  <xs:complexType name="AbkuerzungType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute name="refersTo" use="required">
+          <xs:simpleType>
+            <xs:restriction base="xs:string">
+              <xs:enumeration value="interne-abkuerzung"/>
+              <xs:enumeration value="nicht-amtliche-abkuerzung"/>
+            </xs:restriction>
+          </xs:simpleType>
+        </xs:attribute>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+
   <xs:complexType name="InkraftType">
     <xs:attribute name="date" type="dateLiterals" use="required"/>
   </xs:complexType>
@@ -147,6 +164,39 @@
     </xs:simpleContent>
   </xs:complexType>
 
+  <xs:complexType name="Verweise">
+    <xs:sequence>
+      <xs:element name="verweis" type="Verweis" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Verweis">
+    <xs:choice maxOccurs="unbounded">
+      <xs:element type="xs:string" name="typ" minOccurs="0"/>
+      <xs:element type="xs:string" name="ausgangsnorm" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm1Jurabk" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm1Gliederung" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm1Einzelnormbezeichnung" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm1VorangehendeEinzelnorm" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm1NachfolgendeEinzelnorm" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm1Untergliederung" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm1ZitierdatumOrFassungsdatum" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm1Geltungsdatum" minOccurs="0"/>
+      <xs:element type="xs:string" name="anfangsdatum" minOccurs="0"/>
+      <xs:element type="xs:string" name="endedatum" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm2Jurabk" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm2Gliederung" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm2Einzelnormbezeichnung" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm2VorangehendeEinzelnorm" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm2NachfolgendeEinzelnorm" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm2Untergliederung" minOccurs="0"/>
+      <xs:element type="xs:string" name="bezugsnorm2ZitierdatumOrFassungsdatum" minOccurs="0"/>
+      <xs:element type="xs:string" name="ermaechtigungAdressat" minOccurs="0"/>
+      <xs:element type="xs:string" name="ermaechtigungMitwirkungArt" minOccurs="0"/>
+      <xs:element type="xs:string" name="ermaechtigungMitwirkendesOrgan" minOccurs="0"/>
+      <xs:element type="xs:string" name="ermaechtigungGegenstand" minOccurs="0"/>
+    </xs:choice>
+  </xs:complexType>
 
   <xs:simpleType name="standangabeTypeLiterals">
     <xs:annotation>

@@ -16,6 +16,7 @@ import RisEmptyState from "@/components/RisEmptyState.vue"
  * The eId of the currently selected akn:ref element.
  */
 const selectedRef = defineModel<string>("selectedRef")
+
 /**
  * The XML-String (LDML.de) of the element whose akn:ref's should be displayed.
  */

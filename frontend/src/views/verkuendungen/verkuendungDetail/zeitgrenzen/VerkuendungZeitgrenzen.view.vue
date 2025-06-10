@@ -63,7 +63,9 @@ const {
   isFetching: saveZeitgrenzenIsFetching,
 } = usePutZeitgrenzen(eli, zeitgrenzen)
 
-watch(updatedZeitgrenzen, (newVal) => {
+watch(updatedZeitgrenzen, (newVal, oldVal) => {
+  // null in this case means the request failed, keep old data in that case
+  if (oldVal && newVal === null) return
   zeitgrenzen.value = newVal
 })
 

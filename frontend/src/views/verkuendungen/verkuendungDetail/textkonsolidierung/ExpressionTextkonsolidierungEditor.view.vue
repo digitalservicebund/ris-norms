@@ -1,41 +1,48 @@
 <script setup lang="ts">
+import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
+import RisDokumentExplorer from "@/components/RisDokumentExplorer.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import { type HeaderBreadcrumb } from "@/components/RisHeader.vue"
+import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
+import { useNormXml } from "@/composables/useNormXml"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
+import { useToast } from "@/composables/useToast"
 import { useZeitgrenzenHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
 import {
   useZielnormReferences,
   type EditableZielnormReference,
 } from "@/composables/useZielnormReferences"
+import { formatDate } from "@/lib/dateTime"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { getFrbrDisplayText } from "@/lib/frbr"
+import { useGetNorm } from "@/services/normService"
+import { useGetNormToc } from "@/services/tocService"
 import {
   useGetVerkuendungService,
   useGetZielnormReferences,
 } from "@/services/verkuendungService"
-import IcBaselineCheck from "~icons/ic/baseline-check"
 import { useGetZeitgrenzen } from "@/services/zeitgrenzenService"
-import { ConfirmDialog, Splitter, SplitterPanel } from "primevue"
-import { computed, ref, watch } from "vue"
-import RisDokumentExplorer from "@/components/RisDokumentExplorer.vue"
-import Button from "primevue/button"
-import Tree from "primevue/tree"
-import { useGetNormToc } from "@/services/tocService"
+import { useGetZielnormPreview } from "@/services/zielnormExpressionsService"
+import { useGroupedZielnormen } from "@/views/verkuendungen/verkuendungDetail/useGroupedZielnormen"
+import {
+  Button,
+  ConfirmDialog,
+  Message,
+  Splitter,
+  SplitterPanel,
+  Tree,
+} from "primevue"
 import type { TreeNode } from "primevue/treenode"
-import { useGetNorm } from "@/services/normService"
-import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
-import { useNormXml } from "@/composables/useNormXml"
-import { useToast } from "@/composables/useToast"
-import { useSentryTraceId } from "@/composables/useSentryTraceId"
-import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
+import { computed, ref, watch } from "vue"
+import { RouterLink } from "vue-router"
 import IcBaselineArrowBack from "~icons/ic/baseline-arrow-back"
 import IcBaselineArrowForward from "~icons/ic/baseline-arrow-forward"
-import { useGroupedZielnormen } from "@/views/verkuendungen/verkuendungDetail/useGroupedZielnormen"
-import { RouterLink } from "vue-router"
-import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import IcBaselineCheck from "~icons/ic/baseline-check"
 
 const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
 const expressionEli = useDokumentExpressionEliPathParameter("expression")
@@ -94,15 +101,24 @@ const treeNodes = computed<TreeNode[]>(() =>
       }))
     : [],
 )
-const { tocHeadingId } = useElementId()
 
+const { tocHeadingId, expressionPointInTimeLabelId } = useElementId()
 const expandedKeys = ref<Record<string, boolean>>({})
 const selectionKeys = ref<Record<string, boolean>>({})
+
+watch(expressionEli, (newVal, oldVal) => {
+  if (newVal !== oldVal) {
+    expandedKeys.value = {}
+    selectionKeys.value = {}
+  }
+})
+
 const handleNodeSelect = (node: TreeNode) => {
   selectionKeys.value = { [node.key]: true }
   toggleNode(node)
   gotoEid(node.key)
 }
+
 function toggleNode(node: TreeNode) {
   expandedKeys.value[node.key] = !expandedKeys.value[node.key]
 }
@@ -112,36 +128,44 @@ const pointInTime = computed(() => {
     .pointInTime
 })
 
-function formatDate(dateString: string | undefined): string {
-  return dateString
-    ? new Date(dateString).toLocaleDateString("de-DE", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      })
-    : ""
-}
-
 const formattedDate = computed(() => formatDate(pointInTime.value))
+
+const { data: zielnormen } = useGetZielnormReferences(
+  announcementNormExpressionEli,
+)
+const groupedZielnormen = useGroupedZielnormen(zielnormen)
 
 // NAVIGATION
 const currentEli = computed(() => expressionEli.value.toString())
+
 const currentZielnormGroup = computed(() => {
   return groupedZielnormen.value?.find((group) =>
     group.expressions.some((expr) => expr.eli === currentEli.value),
   )
 })
-const sequence = computed(() =>
-  currentZielnormGroup.value
-    ? currentZielnormGroup.value.expressions.map((expr) => expr.eli)
-    : [],
-)
+
+const sequence = computed(() => {
+  if (!currentZielnormGroup.value) return []
+
+  return currentZielnormGroup.value.expressions
+    .filter((expr) => {
+      const match = previewData.value
+        ?.flatMap((d) => d.expressions)
+        .find((e) => e.normExpressionEli.toString() === expr.eli)
+      return !match?.isGegenstandslos
+    })
+    .map((expr) => expr.eli)
+})
+
 const currentIndex = computed(() => sequence.value.indexOf(currentEli.value))
+
 const hasPrev = computed(() => currentIndex.value > 0)
+
 const hasNext = computed(
   () =>
     currentIndex.value >= 0 && currentIndex.value < sequence.value.length - 1,
 )
+
 const previousGuid = computed(() => normExpression.value?.vorherigeVersionId)
 const nextGuid = computed(() => normExpression.value?.nachfolgendeVersionId)
 
@@ -153,6 +177,7 @@ const { add: addToast, addError: addErrorToast } = useToast()
 const gotoEid = (eid: string) => {
   codeEditorRef.value?.scrollToText(`eId="${eid}"`)
 }
+
 function showToast() {
   if (saveError.value) {
     addErrorToast(saveError, { traceId: sentryTraceId })
@@ -178,6 +203,7 @@ const {
 } = useNormXml(expressionEli, newExpressionXml)
 
 const currentXml = ref("")
+
 watch(xml, (xml) => {
   if (xml) {
     currentXml.value = xml
@@ -207,12 +233,6 @@ const { zielnormReferences, zielnormReferencesForEid } = useZielnormReferences(
   () => verkuendungEli.value.asNormEli(),
 )
 
-const { data: zielnormen } = useGetZielnormReferences(
-  announcementNormExpressionEli,
-)
-
-const groupedZielnormen = useGroupedZielnormen(zielnormen)
-
 const colorIndex = computed(() => {
   const expressionEliStr = expressionEli.value.toString()
 
@@ -239,6 +259,24 @@ const highlightClasses = useZeitgrenzenHighlightClasses(
 watch(eIdsToEdit, (val) => {
   if (!val?.length) editedZielnormReference.value = undefined
   else editedZielnormReference.value = zielnormReferencesForEid(...val)
+})
+
+const { data: previewData } = useGetZielnormPreview(() =>
+  verkuendungEli.value.asNormEli(),
+)
+
+const isGegenstandslosExpression = computed(() => {
+  if (!previewData.value || !Array.isArray(previewData.value)) return false
+
+  for (const item of previewData.value) {
+    const found = item.expressions.find(
+      (expr) =>
+        expr.normExpressionEli.toString() === expressionEli.value.toString(),
+    )
+    if (found?.isGegenstandslos) return true
+  }
+
+  return false
 })
 </script>
 
@@ -279,9 +317,9 @@ watch(eIdsToEdit, (val) => {
             text-content="Keine Artikel gefunden."
             class="m-16 mt-8"
           />
-          <div v-else class="flex-1 overflow-auto p-10">
+          <div v-else class="flex-1 overflow-auto">
             <div
-              class="sticky top-0 z-10 flex justify-between border-b border-gray-400 px-10 pt-10 pb-20"
+              class="sticky top-0 z-10 flex items-center justify-between gap-8 border-b border-gray-400 p-16"
             >
               <RouterLink
                 :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${previousGuid}`"
@@ -296,12 +334,14 @@ watch(eIdsToEdit, (val) => {
                 <IcBaselineArrowBack />
                 <span class="sr-only">Vorherige Version</span>
               </RouterLink>
-              <span id="expression-point-in-time-label" class="sr-only">
+
+              <span :id="expressionPointInTimeLabelId" class="sr-only">
                 Zeitpunkt der Gültigkeit dieser Fassung
               </span>
+
               <div
                 class="flex items-center gap-6"
-                aria-labelledby="expression-point-in-time-label"
+                :aria-labelledby="expressionPointInTimeLabelId"
               >
                 <span
                   >Gültig ab:
@@ -324,7 +364,7 @@ watch(eIdsToEdit, (val) => {
                 <span class="sr-only">Nächste Version</span>
               </RouterLink>
             </div>
-            <h2 :id="tocHeadingId" class="ris-body1-bold mb-10 pt-10 pl-20">
+            <h2 :id="tocHeadingId" class="ris-body1-bold mx-20 mt-16 mb-10">
               Inhaltsübersicht
             </h2>
             <Tree
@@ -362,16 +402,24 @@ watch(eIdsToEdit, (val) => {
         >
           <RisLoadingSpinner />
         </div>
-
+        <Message
+          v-else-if="isGegenstandslosExpression"
+          severity="warn"
+          class="mb-16"
+        >
+          Diese Expression ist gegenstandslos und deshalb nicht bearbeitbar.
+        </Message>
         <RisEmptyState
           v-else-if="!currentXml"
           text-content="Keine Artikel gefunden."
           class="m-16 mt-8"
         />
         <RisCodeEditor
+          v-else
           ref="codeEditorRef"
           v-model="currentXml"
           class="h-full border-2 border-blue-800"
+          :readonly="isGegenstandslosExpression"
         />
       </SplitterPanel>
 
@@ -389,7 +437,7 @@ watch(eIdsToEdit, (val) => {
     <template #headerAction>
       <Button
         label="Speichern"
-        :disabled="isSaving || !currentXml"
+        :disabled="isSaving || !currentXml || isGegenstandslosExpression"
         :loading="isSaving"
         @click="handleSave(currentXml)"
       >

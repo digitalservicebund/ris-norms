@@ -1,11 +1,35 @@
-import { describe, expect, it } from "vitest"
-import RisZielnormenList from "./RisZielnormenList.vue"
-import { render, screen, within } from "@testing-library/vue"
 import userEvent from "@testing-library/user-event"
+import { render, screen, within } from "@testing-library/vue"
+import { beforeAll, describe, expect, it } from "vitest"
+import { defineComponent } from "vue"
+import type { Router } from "vue-router"
+import { createRouter, createWebHashHistory } from "vue-router"
+import RisZielnormenList from "./RisZielnormenList.vue"
 
 describe("risZielnormenList", () => {
+  let global = {}
+  let router: Router
+
+  beforeAll(async () => {
+    const component = defineComponent({ template: "<div></div>" })
+
+    router = createRouter({
+      history: createWebHashHistory(),
+      routes: [
+        { path: "/", name: "Home", component },
+        { path: "/:pathMatch(.*)*", name: "CatchAll", component },
+      ],
+    })
+
+    await router.push({ name: "Home" })
+    await router.isReady()
+
+    global = { plugins: [router] }
+  })
+
   it("renders a Zielnorm's info", () => {
     render(RisZielnormenList, {
+      global,
       props: {
         items: [
           {
@@ -29,6 +53,7 @@ describe("risZielnormenList", () => {
     const user = userEvent.setup()
 
     render(RisZielnormenList, {
+      global,
       props: {
         items: [
           {
@@ -79,6 +104,7 @@ describe("risZielnormenList", () => {
 
   it("falls back to long title if short title is missing", () => {
     render(RisZielnormenList, {
+      global,
       props: {
         items: [
           {

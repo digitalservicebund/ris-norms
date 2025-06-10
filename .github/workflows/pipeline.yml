@@ -222,7 +222,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Run Trivy vulnerability scanner in repo mode
-        uses: aquasecurity/trivy-action@26d71e622b84d103f86fb33a5a42c558e11f4ae0
+        uses: aquasecurity/trivy-action@76071ef0d7ec797419534a183b498b4d6366cf37
         env:
           ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
@@ -340,15 +340,30 @@ jobs:
       - backend-jobs
     if: ${{ github.ref == 'refs/heads/main' }}
     steps:
+      #      # First checkout ris-norms because of ADRs
+      #      - name: Checkout ris-norms repository
+      #        uses: actions/checkout@v4
+      #        with:
+      #          path: ris-norms
+      #
+      #      # Copy ADRs into tmp folder
+      #      - name: Copy ADRs
+      #        run: |
+      #          mkdir -p tmp/adr-source
+      #          cp -r ris-norms/doc/adr/* tmp/adr-source/
+
+      # Then checkout ris-reports (will override ris-norms check-out)
       - uses: actions/checkout@v4
         with:
           repository: ${{ env.reports-repo }}
           ssh-key: ${{ secrets.REPORTS_DEPLOY_KEY }}
+
       - name: Setup git config
         run: |
           git config user.name "${{ github.repository }}"
           # This email identifies the commit as GitHub Actions - see https://github.com/orgs/community/discussions/26560
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       # Backend code documentation
       - name: Backend Code Documentation - Download
         uses: actions/download-artifact@v4
@@ -361,6 +376,7 @@ jobs:
           filePath: tmp/backend-code-documentation
           destinationDir: norms-code-documentation/java
           reportIsDirectory: true
+
       # Frontend unit test report
       - name: frontend unit test report - download artifact
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
@@ -373,6 +389,7 @@ jobs:
           filePath: tmp/frontend-unit-test-report
           destinationDir: test-reports/ris-norms/frontend/unit-tests
           reportIsDirectory: true
+
       # E2E test report
       - name: E2E test reports - Download
         uses: actions/download-artifact@v4
@@ -385,6 +402,7 @@ jobs:
           filePath: tmp/html-test-report/
           destinationDir: test-reports/ris-norms/frontend/e2e-tests
           reportIsDirectory: true
+
       # Licence reports
       - name: Licence reports - Download
         uses: actions/download-artifact@v4
@@ -402,6 +420,7 @@ jobs:
         with:
           filePath: tmp/licence-reports/backend-licence-report.csv
           destinationDir: licence-reports/backend/ris-norms
+
       # ER diagram
       - name: ER-diagram - Download artifact
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
@@ -413,6 +432,7 @@ jobs:
         with:
           filePath: tmp/erdiagram-reports/latest.mmd
           destinationDir: entity-relationship-diagrams/ris-norms
+
       # backend unit test report
       - name: unit test report - download artifact
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
@@ -425,6 +445,7 @@ jobs:
           filePath: tmp/backend-unit-test-report
           destinationDir: test-reports/ris-norms/backend/unit-tests
           reportIsDirectory: true
+
       # backend integration test report
       - name: integration test report - download artifact
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
@@ -437,6 +458,16 @@ jobs:
           filePath: tmp/backend-integration-test-report
           destinationDir: test-reports/ris-norms/backend/integration-tests
           reportIsDirectory: true
+
+      #      # ADRs
+      #      - name: add ADRs to report
+      #        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+      #        with:
+      #          filePath: tmp/adr-source
+      #          destinationDir: adr/ris-norms
+      #          reportIsDirectory: true
+      #          keepAllVersions: false # don't need the timestamped snapshots of the whole folder
+
       # Push reports
       - name: Push reports
         run: |

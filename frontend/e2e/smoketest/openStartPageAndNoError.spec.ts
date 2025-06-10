@@ -12,7 +12,7 @@ test.describe(
       await page.goto("./verkuendungen")
       await expect(page.getByText("Anmelden bei NeuRIS Staging")).toBeVisible()
       await page
-        .getByRole("textbox", { name: "E-Mailadresse" })
+        .getByRole("textbox", { name: "Benutzername oder E-Mail" })
         .fill(appCredentials.username)
 
       await page

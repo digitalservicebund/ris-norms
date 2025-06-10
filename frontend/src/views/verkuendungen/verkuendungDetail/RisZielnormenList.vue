@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
+import { formatDate } from "@/lib/dateTime"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import type { Norm } from "@/types/norm"
 import Accordion from "primevue/accordion"
@@ -9,6 +10,7 @@ import AccordionPanel from "primevue/accordionpanel"
 import Column from "primevue/column"
 import DataTable from "primevue/datatable"
 import { computed } from "vue"
+import { RouterLink } from "vue-router"
 
 /** Input data to the Zielnormen list. */
 export type RisZielnormenListItem = {
@@ -39,16 +41,6 @@ const { items, verkuendungEli } = defineProps<{
   items: RisZielnormenListItem[]
   verkuendungEli: string
 }>()
-
-function formatDate(dateString: string | undefined): string {
-  return dateString
-    ? new Date(dateString).toLocaleDateString("de-DE", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      })
-    : ""
-}
 
 const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
   items.map<MappedRisZielnormenListItem>((item) => ({
@@ -97,7 +89,7 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
         <Accordion class="border-none">
           <AccordionPanel value="textkonsolidierung">
             <AccordionHeader>
-              <div class="ris-link1-bold">Textkonsolidierung</div>
+              <div class="ris-body2-bold text-blue-800">Textkonsolidierung</div>
             </AccordionHeader>
             <AccordionContent>
               <DataTable
@@ -141,14 +133,14 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
 
           <AccordionPanel value="metadata" disabled>
             <AccordionHeader>
-              <div class="ris-link1-bold text-gray-600">Metadaten</div>
+              <div class="ris-body2-bold text-gray-600">Metadaten</div>
             </AccordionHeader>
             <AccordionContent class="pl-24"></AccordionContent>
           </AccordionPanel>
 
           <AccordionPanel value="publishing" disabled>
             <AccordionHeader>
-              <div class="ris-link1-bold text-gray-600">Abgabe</div>
+              <div class="ris-link2-bold text-gray-600">Abgabe</div>
             </AccordionHeader>
             <AccordionContent class="pl-24"></AccordionContent>
           </AccordionPanel>

@@ -48,6 +48,8 @@ describe("risZielnormenPreviewList", () => {
   })
 
   it("clicking on entry reveals table and button for creating new expressions", async () => {
+    const user = userEvent.setup()
+
     render(RisZielnormenPreviewList, {
       props: {
         items: [
@@ -70,11 +72,11 @@ describe("risZielnormenPreviewList", () => {
       },
     })
 
-    await screen
-      .getByRole("button", {
+    await user.click(
+      screen.getByRole("button", {
         name: "Luftverkehrsteuergesetz (LuftVStG)",
-      })
-      .click()
+      }),
+    )
 
     expect(screen.getByRole("table")).toBeInTheDocument()
     expect(

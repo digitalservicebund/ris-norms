@@ -79,4 +79,11 @@ public interface NormManifestationRepository extends JpaRepository<NormManifesta
     "SELECT DISTINCT n.expressionEli FROM NormManifestationDto n WHERE n.workEli = :normWorkEli"
   )
   List<String> findExpressionElisByWorkEli(@Param("normWorkEli") final String normWorkEli);
+
+  /**
+   * Retrieves all manifestations of a given expression
+   * @param expressionEli - the expression eli
+   * @return  a {@link List} of manifestations
+   */
+  List<NormManifestationDto> findAllByExpressionEli(final String expressionEli);
 }

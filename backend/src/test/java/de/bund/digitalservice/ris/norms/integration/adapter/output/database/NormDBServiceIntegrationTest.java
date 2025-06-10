@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.output.database;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.BinaryFileMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
@@ -8,11 +9,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Binar
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.service.NormDBService;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifestationElisByPublishStatePort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
@@ -395,6 +392,264 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
         .containsExactly(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
         );
+    }
+  }
+
+  @Nested
+  class deleteNorm {
+
+    @Test
+    void deleteNormByManifestationEli_shouldDeleteIfPublishStateMatches() {
+      final Norm norm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
+      );
+
+      boolean result = normDBService.deleteNorm(
+        new DeleteNormPort.Options(norm.getManifestationEli(), NormPublishState.UNPUBLISHED)
+      );
+
+      assertThat(result).isTrue();
+      assertThat(
+        normManifestationRepository.findByManifestationEli(norm.getManifestationEli().toString())
+      ).isEmpty();
+      norm
+        .getDokumente()
+        .forEach(dokument -> {
+          assertThat(
+            dokumentRepository.findByEliDokumentManifestation(
+              dokument.getManifestationEli().toString()
+            )
+          ).isEmpty();
+        });
+      norm
+        .getBinaryFiles()
+        .forEach(binaryFile -> {
+          assertThat(
+            binaryFileRepository.findByEliDokumentManifestation(
+              binaryFile.getDokumentManifestationEli().toString()
+            )
+          ).isEmpty();
+        });
+    }
+
+    @Test
+    void deleteNormByManifestationEli_shouldNotDeleteIfPublishStateNoMatch() {
+      final Norm norm = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.PUBLISHED
+      );
+
+      boolean result = normDBService.deleteNorm(
+        new DeleteNormPort.Options(norm.getManifestationEli(), NormPublishState.UNPUBLISHED)
+      );
+
+      assertThat(result).isFalse();
+      assertThat(
+        normManifestationRepository.findByManifestationEli(norm.getManifestationEli().toString())
+      ).isPresent();
+      norm
+        .getDokumente()
+        .forEach(dokument -> {
+          assertThat(
+            dokumentRepository.findByEliDokumentManifestation(
+              dokument.getManifestationEli().toString()
+            )
+          ).isPresent();
+        });
+      norm
+        .getBinaryFiles()
+        .forEach(binaryFile -> {
+          assertThat(
+            binaryFileRepository.findByEliDokumentManifestation(
+              binaryFile.getDokumentManifestationEli().toString()
+            )
+          ).isPresent();
+        });
+    }
+
+    @Test
+    void deleteNormByManifestationEli_shouldReturnTrueIfNormDoesNotExist() {
+      var options = new DeleteNormPort.Options(
+        NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"),
+        NormPublishState.UNPUBLISHED
+      );
+      boolean result = normDBService.deleteNorm(options);
+
+      assertThat(result).isTrue();
+    }
+
+    @Test
+    void deleteNormByExpressionEli_shouldReturnTrueIfNormDoesNotExist() {
+      var options = new DeleteNormPort.Options(
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"),
+        NormPublishState.UNPUBLISHED
+      );
+      boolean result = normDBService.deleteNorm(options);
+
+      assertThat(result).isTrue();
+    }
+
+    @Test
+    void deleteNormByWorkEli_shouldThrowUnsupportedOperationException() {
+      var workEli = NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593");
+      var options = new DeleteNormPort.Options(workEli, NormPublishState.UNPUBLISHED);
+
+      assertThatThrownBy(() -> normDBService.deleteNorm(options))
+        .isInstanceOf(UnsupportedOperationException.class)
+        .hasMessageContaining("Deleting by work ELI (eli/bund/bgbl-1/1964/s593) is not supported.");
+    }
+
+    @Test
+    void deleteNormByExpressionEli_shouldDeleteIfPublishStateMatches() {
+      final Norm firstManifestation = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
+      );
+      final Norm secondManifestation = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15",
+        NormPublishState.UNPUBLISHED
+      );
+
+      boolean result = normDBService.deleteNorm(
+        new DeleteNormPort.Options(
+          firstManifestation.getExpressionEli(),
+          NormPublishState.UNPUBLISHED
+        )
+      );
+
+      assertThat(result).isTrue();
+      assertThat(
+        normManifestationRepository.findByManifestationEli(
+          firstManifestation.getManifestationEli().toString()
+        )
+      ).isEmpty();
+      firstManifestation
+        .getDokumente()
+        .forEach(dokument -> {
+          assertThat(
+            dokumentRepository.findByEliDokumentManifestation(
+              dokument.getManifestationEli().toString()
+            )
+          ).isEmpty();
+        });
+      firstManifestation
+        .getBinaryFiles()
+        .forEach(binaryFile -> {
+          assertThat(
+            binaryFileRepository.findByEliDokumentManifestation(
+              binaryFile.getDokumentManifestationEli().toString()
+            )
+          ).isEmpty();
+        });
+      assertThat(
+        normManifestationRepository.findByManifestationEli(
+          secondManifestation.getManifestationEli().toString()
+        )
+      ).isEmpty();
+      secondManifestation
+        .getDokumente()
+        .forEach(dokument -> {
+          assertThat(
+            dokumentRepository.findByEliDokumentManifestation(
+              dokument.getManifestationEli().toString()
+            )
+          ).isEmpty();
+        });
+      secondManifestation
+        .getBinaryFiles()
+        .forEach(binaryFile -> {
+          assertThat(
+            binaryFileRepository.findByEliDokumentManifestation(
+              binaryFile.getDokumentManifestationEli().toString()
+            )
+          ).isEmpty();
+        });
+    }
+
+    @Test
+    void deleteNormByExpressionEli_shouldNotDeleteIfPublishStateNoMatch() {
+      final Norm firstManifestation = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
+      );
+      final Norm secondManifestation = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15",
+        NormPublishState.PUBLISHED
+      );
+
+      boolean result = normDBService.deleteNorm(
+        new DeleteNormPort.Options(
+          firstManifestation.getExpressionEli(),
+          NormPublishState.UNPUBLISHED
+        )
+      );
+
+      assertThat(result).isFalse();
+      assertThat(
+        normManifestationRepository.findByManifestationEli(
+          firstManifestation.getManifestationEli().toString()
+        )
+      ).isPresent();
+      firstManifestation
+        .getDokumente()
+        .forEach(dokument -> {
+          assertThat(
+            dokumentRepository.findByEliDokumentManifestation(
+              dokument.getManifestationEli().toString()
+            )
+          ).isPresent();
+        });
+      firstManifestation
+        .getBinaryFiles()
+        .forEach(binaryFile -> {
+          assertThat(
+            binaryFileRepository.findByEliDokumentManifestation(
+              binaryFile.getDokumentManifestationEli().toString()
+            )
+          ).isPresent();
+        });
+      assertThat(
+        normManifestationRepository.findByManifestationEli(
+          secondManifestation.getManifestationEli().toString()
+        )
+      ).isPresent();
+      secondManifestation
+        .getDokumente()
+        .forEach(dokument -> {
+          assertThat(
+            dokumentRepository.findByEliDokumentManifestation(
+              dokument.getManifestationEli().toString()
+            )
+          ).isPresent();
+        });
+      secondManifestation
+        .getBinaryFiles()
+        .forEach(binaryFile -> {
+          assertThat(
+            binaryFileRepository.findByEliDokumentManifestation(
+              binaryFile.getDokumentManifestationEli().toString()
+            )
+          ).isPresent();
+        });
     }
   }
 }

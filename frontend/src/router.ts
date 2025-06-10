@@ -26,7 +26,6 @@ const beforeRouteEnterGuidToEliRedirect: NavigationGuardWithThis<
   undefined
 > = async (to) => {
   const guid: string = to.params.guid as string
-  console.log(`Redirecting GUID to ELI: ${guid}`)
 
   const { data } = await useNormGuidService(guid)
   const eli = toValue(data)?.eli

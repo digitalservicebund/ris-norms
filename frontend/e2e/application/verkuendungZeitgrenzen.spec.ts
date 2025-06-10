@@ -290,6 +290,9 @@ test.describe(
 
       await page.getByRole("button", { name: "Speichern" }).click()
       await expect(page.getByText("Fehler: Eingabefehler")).toBeVisible()
+
+      const loadedItems = await editor.getByRole("listitem").all()
+      expect(loadedItems).toHaveLength(2)
     })
 
     test("updates the data on the page with the new data from the backend", async ({

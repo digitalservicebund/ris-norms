@@ -141,16 +141,10 @@ test.describe("shows Zielnormen", { tag: ["@RISDEV-6941"] }, () => {
         frontendTestDataDirectory,
       )
     })
-    test.afterAll(async ({ authenticatedRequest }) => {
-      await uploadAmendingLaw(
-        authenticatedRequest,
-        "bgbl-1_2017_s419/aenderungsgesetz.xml",
-      )
-    })
 
     test("should show Zielnormen", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1",
       )
 
       const zielnormenSection = page.getByRole("region", {
@@ -165,7 +159,7 @@ test.describe("shows Zielnormen", { tag: ["@RISDEV-6941"] }, () => {
       page,
     }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1",
       )
 
       const zielnormenSection = page.getByRole("region", {
@@ -186,10 +180,10 @@ test.describe("shows Zielnormen", { tag: ["@RISDEV-6941"] }, () => {
 
       await expect(
         zielnormenSection.getByText(
-          "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu",
+          "eli/bund/bgbl-1/1964/321/2017-03-16/1/deu",
         ),
       ).toBeVisible()
-      await expect(zielnormenSection.getByText("15.03.2017")).toBeVisible()
+      await expect(zielnormenSection.getByText("16.03.2017")).toBeVisible()
     })
   })
 })
