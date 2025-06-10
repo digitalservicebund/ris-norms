@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsWorkingCopiesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
@@ -135,16 +136,15 @@ class ZielnormServiceTest {
 
       when(loadNormExpressionElisPort.loadNormExpressionElis(any())).thenReturn(List.of());
 
-      // When
-      var result = service.loadZielnormWorkingCopies(
-        new LoadNormExpressionsWorkingCopiesUseCase.Options(workEli)
+      LoadNormExpressionsWorkingCopiesUseCase.Options options =
+        new LoadNormExpressionsWorkingCopiesUseCase.Options(workEli);
+      // When/Then
+      assertThatThrownBy(() -> service.loadZielnormWorkingCopies(options)).isInstanceOf(
+        NormNotFoundException.class
       );
 
-      // Then
-      assertThat(result).isEmpty();
-
       verify(loadNormExpressionElisPort, times(1)).loadNormExpressionElis(
-        argThat(options -> options.eli().equals(workEli))
+        argThat(inputOptions -> inputOptions.eli().equals(workEli))
       );
 
       verify(loadNormPort, never()).loadNorm(any());

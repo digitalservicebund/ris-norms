@@ -53,6 +53,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
   void cleanUp() {
     releaseRepository.deleteAll();
     dokumentRepository.deleteAll();
+    binaryFileRepository.deleteAll();
     normManifestationRepository.deleteAll();
   }
 
