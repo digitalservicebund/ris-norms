@@ -2,6 +2,7 @@ import { samplesDirectory } from "@e2e/utils/dataDirectories"
 import { test as setup } from "@e2e/utils/testWithAuth"
 import fs from "fs"
 import path from "node:path"
+import * as child_process from "node:child_process"
 
 setup("login", async ({ page, appCredentials }) => {
   await page.goto("./")
@@ -22,20 +23,36 @@ setup("login", async ({ page, appCredentials }) => {
   await page.waitForURL(/\/verkuendungen/)
 })
 
+function createTemporaryZipFromFolder(folderPath: string): Buffer {
+  const temporaryFileName = "norms-e2e-test-upload.tmp.zip"
+  console.log(`Creating new temporary zip file from ${folderPath}`)
+  child_process.execSync(`zip ./${temporaryFileName} *`, {
+    cwd: folderPath,
+  })
+  const buffer = fs.readFileSync(`${folderPath}/${temporaryFileName}`)
+  fs.rmSync(`${folderPath}/${temporaryFileName}`)
+  return buffer
+}
+
 setup("create sample data", async ({ authenticatedRequest: request }) => {
-  const files = [
-    "bgbl-1_1001_2_mods_01/aenderungsgesetz.xml",
-    "bgbl-1_1002_2_mods-subsitution_01/aenderungsgesetz.xml",
-    "bgbl-1_2017_s419/aenderungsgesetz.xml",
-    "bgbl-1_2023_413/aenderungsgesetz.xml",
+  const folders = [
+    "bgbl-1_1001_2_mods_01/aenderungsgesetz",
+    "bgbl-1_1002_2_mods-subsitution_01/aenderungsgesetz",
+    "bgbl-1_2017_s419/aenderungsgesetz",
+    "bgbl-1_2023_413/aenderungsgesetz",
   ]
 
-  for (const file of files) {
-    const filePath = path.join(samplesDirectory, file)
-    const fileContent = fs.readFileSync(filePath) // Read the file content
+  for (const folder of folders) {
+    const folderPath = path.join(samplesDirectory, folder)
+
+    const zipContent = createTemporaryZipFromFolder(folderPath)
 
     const formData = new FormData()
-    formData.append("file", new Blob([fileContent], { type: "text/xml" }), file)
+    formData.append(
+      "file",
+      new Blob([zipContent], { type: "application/zip" }),
+      folder,
+    )
     formData.append("force", String(true))
 
     const response = await request.post(`/api/v1/verkuendungen`, {
@@ -46,6 +63,6 @@ setup("create sample data", async ({ authenticatedRequest: request }) => {
       throw new Error(`Failed to set up test data: ${response.statusText()}`)
     }
 
-    console.log(`Imported ${file} successfully.`)
+    console.log(`Imported ${folder} successfully.`)
   }
 })
