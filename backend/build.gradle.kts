@@ -198,6 +198,8 @@ tasks {
     }
 
     processResources {
+        dependsOn("processDBFixtures")
+
         // include the ldml.de schema
         from("../LegalDocML.de") {
             includeEmptyDirs = false
@@ -254,6 +256,56 @@ tasks {
             include("**/*.gif")
             include("**/*.pdf")
             into("./LegalDocML.de")
+        }
+    }
+
+    register("processDBFixtures") {
+        var baseDir = fileTree("src/main/resources/db/data")
+        var norms =
+            baseDir.matching {
+                include("**/rechtsetzungsdokument-1.xml")
+            }
+
+        inputs.files(norms)
+
+        var outdir = layout.buildDirectory.dir("resources/main/db/data")
+        outputs.dir(outdir)
+
+        doLast {
+            norms.files.forEach { rechtsetzungsdokumentFile ->
+                var relativeNormFolder = rechtsetzungsdokumentFile.parentFile.relativeTo(baseDir.dir)
+                logger.info("Creating db migration for $relativeNormFolder")
+                var dbMigrationFile = file(outdir.get().file("$relativeNormFolder.sql"))
+
+                if (dbMigrationFile.exists()) {
+                    dbMigrationFile.delete()
+                }
+                dbMigrationFile.parentFile.mkdirs()
+                dbMigrationFile.createNewFile()
+
+                var rechtsetzungsdokumentContent = rechtsetzungsdokumentFile.readText(Charsets.UTF_8)
+                // we just look for the first thing looking like a norm expression eli as it should always be the one of the norm, and we don't need to parse the xml this way
+                var eliNormExpression =
+                    "eli/bund/[-a-z0-9]+/\\d{4}/(s[0-9]+[a-zäöüß]*|[0-9]+(-\\d+)?)/\\d{4}-\\d{2}-\\d{2}/\\d+/[a-z]{3}"
+                        .toRegex()
+                        .find(
+                            rechtsetzungsdokumentContent,
+                        )?.value
+                var publishState = "(?<=PUBLISH_STATE:)[A-Z]+".toRegex().find(rechtsetzungsdokumentContent)?.value ?: "PUBLISHED"
+
+                dbMigrationFile.appendText("DELETE FROM dokumente WHERE eli_norm_expression = '$eliNormExpression';\n")
+                dbMigrationFile.appendText("DELETE FROM norm_manifestation WHERE eli_norm_expression = '$eliNormExpression';\n")
+                dbMigrationFile.appendText("DELETE FROM norm_expression WHERE eli_norm_expression = '$eliNormExpression';\n")
+
+                // This can be used for sql-injections. So please do not include any sql or the character ' in the sample files ^^
+                rechtsetzungsdokumentFile.parentFile.listFiles { file -> file.name.endsWith(".xml") }!!.forEach { file ->
+                    dbMigrationFile.appendText("INSERT INTO dokumente (xml) VALUES ('${file.readText(Charsets.UTF_8)}');\n")
+                }
+
+                dbMigrationFile.appendText(
+                    "UPDATE norm_manifestation SET publish_state = '$publishState' WHERE eli_norm_expression = '$eliNormExpression';\n",
+                )
+            }
         }
     }
 }

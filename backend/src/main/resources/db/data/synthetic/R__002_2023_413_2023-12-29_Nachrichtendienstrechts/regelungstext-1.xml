@@ -1,11 +1,4 @@
--- REAPPLY
--- TARGET LAW
-DELETE FROM dokumente WHERE eli_norm_expression = 'eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu';
-DELETE FROM norm_manifestation WHERE eli_norm_expression = 'eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu';
-DELETE FROM norm_expression WHERE eli_norm_expression = 'eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu';
-
-INSERT INTO dokumente (xml)
-VALUES ('<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!-- NOTE: THIS FILES CONTAINS ERRORS AND SHOULD NOT BE USED ANYMORE. -->
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
   <akn:act name="regelungstext">
@@ -58,12 +51,12 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
           <meta:initiant>bundesregierung</meta:initiant>
           <meta:bearbeitendeInstitution>bundesregierung</meta:bearbeitendeInstitution>
           <meta:fna>210-5</meta:fna>
-          <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
-          <meta:gesta>nicht-vorhanden</meta:gesta>
+            <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+            <meta:gesta>nicht-vorhanden</meta:gesta>
         </meta:legalDocML.de_metadaten>
         <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/">
           <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
-          <meta-breg:federfuehrung>
+            <meta-breg:federfuehrung>
             <meta-breg:federfuehrend ab="2023-12-29" bis="unbestimmt">BMI - Bundesministerium des Innern und für Heimat</meta-breg:federfuehrend>
           </meta-breg:federfuehrung>
         </meta-breg:legalDocML.de_metadaten>
@@ -1763,6 +1756,4 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
       </akn:blockContainer>
     </akn:conclusions>
   </akn:act>
-</akn:akomaNtoso>');
-
-UPDATE norm_manifestation SET publish_state = 'PUBLISHED' WHERE eli_norm_expression = 'eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu';
+</akn:akomaNtoso>
