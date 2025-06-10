@@ -196,6 +196,25 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
+  /{workEli}/expressions/releasestatus:
+    get:
+      summary: Get status of expressions that are unpublished
+      parameters:
+        - name: workEli
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/NormWorkEli"
+      responses:
+        "200":
+          description: List of expression status for the target norm.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExpressionsStatusResponseSchema"
+        "404":
+          description: Norm not found.
+
   /norms/{expressionEli}:
     get:
       tags:
@@ -1068,6 +1087,41 @@ components:
           description: Nested children elements of the table of contents
           items:
             $ref: "#/components/schemas/TableOfContentsResponse"
+
+    ExpressionsStatusResponseSchema:
+      type: object
+      properties:
+        normWorkEli:
+          $ref: "#/components/schemas/NormWorkEli"
+        title:
+          type: string
+          description: The title of the zielnorm.
+        shortTitle:
+          type: string
+          description: Short title of the zielnorm.
+        expressions:
+          type: array
+          items:
+            $ref: "#/components/schemas/Expression"
+
+    Expression:
+      type: object
+      properties:
+        normExpressionEli:
+          $ref: "#/components/schemas/NormExpressionEli"
+        isGegenstandslos:
+          type: boolean
+          description: Set to true if the expression will become gegenstandslos.
+        currentStatus:
+          $ref: "#/components/schemas/Status"
+
+    Status:
+      type: string
+      enum:
+        - NOT_RELEASED
+        - PRAETEXT_RELEASED
+        - VOLLDOKUMENTATION_RELEASED
+      description: Release status of the expression.
 
   responses:
     NotFound:

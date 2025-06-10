@@ -41,6 +41,7 @@
         <xs:element name="standangabe" type="StandangabeType" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="bedingtesInkrafttreten" type="EmptyType" minOccurs="0" maxOccurs="1"/>
         <xs:element name="verweise" type="Verweise" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="stand" type="Stand" minOccurs="0" maxOccurs="1"/>
         <xs:any minOccurs="0" namespace="http://MetadatenMods.LegalDocML.de/1.8/"/>
       </xs:sequence>
     </xs:complexType>
@@ -197,6 +198,13 @@
       <xs:element type="xs:string" name="ermaechtigungGegenstand" minOccurs="0"/>
     </xs:choice>
   </xs:complexType>
+
+  <xs:simpleType name="Stand">
+    <xs:restriction base="xs:string">
+      <xs:pattern
+        value="(praetext|volldokumentation)"/>
+    </xs:restriction>
+  </xs:simpleType>
 
   <xs:simpleType name="standangabeTypeLiterals">
     <xs:annotation>
