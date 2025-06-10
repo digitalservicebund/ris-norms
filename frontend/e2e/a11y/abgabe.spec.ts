@@ -13,6 +13,8 @@ test.describe(
         "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnorm/eli/bund/bgbl-1/1964/s593/abgabe",
       )
 
+      await expect(page.getByRole("heading", { name: "Abgabe" })).toBeVisible()
+
       const accessibilityScanResults = await useAxeBuilder(page)
         // Disable empty-heading rule since the empty headings are generated
         // from backend content and cannot be modified at the frontend level.

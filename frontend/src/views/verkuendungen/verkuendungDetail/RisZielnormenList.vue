@@ -143,7 +143,7 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
               :to="`/verkuendungen/${verkuendungEli}/zielnorm/${item.eli}/abgabe`"
               class="group flex w-full cursor-pointer justify-start px-12 py-8 pl-40 text-left no-underline -outline-offset-4 outline-blue-800 hover:bg-gray-200 focus-visible:outline-4"
             >
-              <span class="ris-link1-bold">Abgabe</span>
+              <span class="ris-link2-bold">Abgabe</span>
             </RouterLink>
           </AccordionPanel>
         </Accordion>
