@@ -154,7 +154,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Options(processId)
+        new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
       );
 
       // Then
@@ -207,7 +207,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Options(processId)
+        new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
       );
 
       // Then
@@ -248,7 +248,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Options(processId)
+        new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
       );
 
       // Then
@@ -301,7 +301,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Options(processId)
+        new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
       );
 
       // Then
@@ -345,7 +345,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Options(processId)
+        new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
       );
 
       // Then
@@ -390,7 +390,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Options(processId)
+        new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
       );
 
       // Then
