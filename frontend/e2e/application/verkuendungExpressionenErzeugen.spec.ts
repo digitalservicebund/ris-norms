@@ -41,7 +41,7 @@ test.describe(
             geltungszeit: zeitgrenzenIds[0],
             zielnorm: "eli/bund/bgbl-1/1964/s593",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+            eId: "art-z1_abs-z_untergl-n1_listenelem-n1",
           },
         ],
         request,
@@ -420,14 +420,14 @@ test.describe("orphaned expressions", { tag: ["@RISDEV-8137"] }, () => {
   test.beforeAll(async ({ authenticatedRequest: request }) => {
     await uploadAmendingLaw(
       request,
-      "aenderungsgesetz-with-orphaned-amended-norm-expressions.xml",
+      "aenderungsgesetz-with-orphaned-amended-norm-expressions",
       frontendTestDataDirectory,
     )
   })
 
   test("deletes orphaned expressions", async ({ page }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/456/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/456/2017-03-15/1/deu/regelungstext-verkuendung-1/expressionen-erzeugen",
     )
 
     await page

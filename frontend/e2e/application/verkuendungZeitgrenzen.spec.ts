@@ -24,7 +24,13 @@ test.describe(
         DokumentExpressionEli.fromString(
           "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
         ),
-        [{ id: "gz-1", date: "2017-03-16", art: "INKRAFT" }],
+        [
+          {
+            id: "ac51684a-0d5c-4d8c-ae9e-bc6cbcaf038e",
+            date: "2017-03-16",
+            art: "INKRAFT",
+          },
+        ],
         request,
       )
     })

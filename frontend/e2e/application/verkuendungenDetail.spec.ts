@@ -137,7 +137,7 @@ test.describe("shows Zielnormen", { tag: ["@RISDEV-6941"] }, () => {
     test.beforeAll(async ({ authenticatedRequest }) => {
       await uploadAmendingLaw(
         authenticatedRequest,
-        "aenderungsgesetz-with-amended-norm-expressions.xml",
+        "aenderungsgesetz-with-amended-norm-expressions",
         frontendTestDataDirectory,
       )
     })
@@ -190,7 +190,7 @@ test.describe("shows Zielnormen", { tag: ["@RISDEV-6941"] }, () => {
       page,
     }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-verkuendung-1",
       )
 
       const zielnormenSection = page.getByRole("region", {

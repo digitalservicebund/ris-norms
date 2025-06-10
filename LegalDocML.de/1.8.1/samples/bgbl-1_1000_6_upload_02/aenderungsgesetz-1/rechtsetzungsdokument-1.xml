@@ -94,6 +94,21 @@
                                eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrformat-n1"/>
             </akn:FRBRManifestation>
          </akn:identification>
+         <akn:proprietary GUID="0491c95d-de17-4e38-bc97-a6a58a394297"
+                         eId="meta-n1_proprietary-n1"
+                         source="attributsemantik-noch-undefiniert">
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/">
+               <redok:initiant>nicht-vorhanden</redok:initiant>
+               <redok:bearbeitendeInstitution>nicht-vorhanden</redok:bearbeitendeInstitution>
+               <redok:fna>nicht-vorhanden</redok:fna>
+               <redok:gesta>nicht-vorhanden</redok:gesta>
+            </redok:legalDocML.de_metadaten>
+            <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+               <meta-breg:federfuehrung>
+                  <meta-breg:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta-breg:federfuehrend>
+               </meta-breg:federfuehrung>
+            </meta-breg:legalDocML.de_metadaten>
+         </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="f0023493-860a-4548-9a17-ac00e8e3b42b" eId="rdokhauptteil-n1">
          <akn:component GUID="395184c7-a289-4ed9-b141-82aefa6fd9ac"

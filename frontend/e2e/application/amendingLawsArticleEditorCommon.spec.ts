@@ -16,7 +16,7 @@ test.describe("navigation", () => {
     await page.getByText("Änderungsbefehl prüfen").first().click()
 
     await expect(page).toHaveURL(
-      "/app/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit",
+      "/app/amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/art-z1/edit",
     )
   })
 
@@ -24,7 +24,7 @@ test.describe("navigation", () => {
     page,
   }) => {
     await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit",
+      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/art-z1/edit",
     )
 
     await expect(
@@ -44,7 +44,7 @@ test.describe("navigation", () => {
 test.describe("mod selection and URL behaviour", () => {
   test("selecting mod updates url", async ({ page }) => {
     await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit",
+      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/art-z/edit",
     )
 
     const amendingLawSection = page.getByRole("region", {
@@ -54,13 +54,13 @@ test.describe("mod selection and URL behaviour", () => {
     await amendingLawSection.getByText("§ 1 Absatz 1 Satz 1").click()
 
     await expect(page).toHaveURL(
-      "/app/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+      "/app/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/art-z/edit/art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1",
     )
   })
 
   test("deselecting mod updates url", async ({ page }) => {
     await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/art-z/edit/art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1",
     )
 
     const amendingLawSection = page.getByRole("region", {
@@ -70,13 +70,13 @@ test.describe("mod selection and URL behaviour", () => {
     await amendingLawSection.getByText("wie folgt geändert").click()
 
     await expect(page).toHaveURL(
-      "/app/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit",
+      "/app/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/art-z/edit",
     )
   })
 
   test("selecting multiple mod updates url", async ({ page }) => {
     await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/art-z/edit/art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1",
     )
 
     const amendingLawSection = page.getByRole("region", {
@@ -95,13 +95,13 @@ test.describe("mod selection and URL behaviour", () => {
     ).toBeVisible()
 
     await expect(page).toHaveURL(
-      "/app/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit",
+      "/app/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/art-z/edit",
     )
   })
 
   test("deselecting some mod works", async ({ page }) => {
     await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/art-z/edit/art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1",
     )
 
     const amendingLawSection = page.getByRole("region", {
@@ -123,7 +123,7 @@ test.describe("mod selection and URL behaviour", () => {
     ).toBeVisible()
 
     await expect(page).toHaveURL(
-      "/app/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1_ändbefehl-1",
+      "/app/amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/art-z/edit/art-z_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1",
     )
   })
 
@@ -131,7 +131,7 @@ test.describe("mod selection and URL behaviour", () => {
     page,
   }) => {
     await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit",
+      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/art-z/edit",
     )
 
     const amendingLawSection = page.getByRole("region", {
@@ -153,7 +153,7 @@ test.describe("mod selection and URL behaviour", () => {
 
   test("selecting all mods using Ctrl+A works", async ({ page }) => {
     await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit/hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1",
+      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/art-z/edit/art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1",
     )
 
     const amendingLawSection = page.getByRole("region", {
@@ -176,7 +176,7 @@ test.describe("mod selection and URL behaviour", () => {
 
   test("apply 'selected' class when element is clicked", async ({ page }) => {
     await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit",
+      "./amending-laws/eli/bund/bgbl-1/1001/2/1001-02-01/1/deu/regelungstext-verkuendung-1/articles/art-z/edit",
     )
 
     const amendingLawSection = page.getByRole("region", {
@@ -200,7 +200,7 @@ test.describe("XML and HTML tabs", () => {
     page,
   }) => {
     await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit",
+      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/art-z1/edit",
     )
 
     const amendingLawSection = page.getByRole("region", {
@@ -246,7 +246,7 @@ test.describe("XML and HTML tabs", () => {
     )
 
     await page.goto(
-      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/hauptteil-1_art-1/edit",
+      "./amending-laws/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/art-z1/edit",
     )
 
     await expect(
