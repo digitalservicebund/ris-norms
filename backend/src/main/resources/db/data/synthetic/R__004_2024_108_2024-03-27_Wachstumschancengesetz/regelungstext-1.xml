@@ -1,11 +1,4 @@
--- REAPPLY
--- TARGET LAW
-DELETE FROM dokumente WHERE eli_norm_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu';
-DELETE FROM norm_manifestation WHERE eli_norm_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu';
-DELETE FROM norm_expression WHERE eli_norm_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu';
-
-INSERT INTO dokumente (xml)
-VALUES ('<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-model href="../../schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -102,25 +95,25 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
                         GUID="cef30a63-d738-4712-bac8-50fda44949e2"
                         source="attributsemantik-noch-undefiniert">
                 <!-- 1. Originales Gesetz -->
-            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1"
-                          GUID="65f3910d-4e79-45f8-a24d-44ef7523963a"
-                          date="2024-03-27"
-                          source="attributsemantik-noch-undefiniert"
-                          type="generation"
-                          refersTo="ausfertigung"/>
+             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-1"
+                           GUID="65f3910d-4e79-45f8-a24d-44ef7523963a"
+                           date="2024-03-27"
+                           source="attributsemantik-noch-undefiniert"
+                           type="generation"
+                           refersTo="ausfertigung"/>
             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-2"
                           GUID="22cfa201-1d32-4655-afae-4bf01e9ba75c"
                           date="2024-08-24"
                           source="attributsemantik-noch-undefiniert"
                           type="generation"
                           refersTo="inkrafttreten"/>
-            <!-- 2. -->
-            <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3"
-                          GUID="85e92fc8-b381-47bb-a476-c35fa2794336"
-                          date="2024-10-01"
-                          source="attributsemantik-noch-undefiniert"
-                          type="amendment"
-                          refersTo="inkrafttreten"/>
+             <!-- 2. -->
+             <akn:eventRef eId="meta-1_lebzykl-1_ereignis-3"
+                           GUID="85e92fc8-b381-47bb-a476-c35fa2794336"
+                           date="2024-10-01"
+                           source="attributsemantik-noch-undefiniert"
+                           type="amendment"
+                           refersTo="inkrafttreten"/>
          </akn:lifecycle>
          <akn:analysis source="attributsemantik-noch-undefiniert"
                        eId="meta-1_analysis-1"
@@ -174,10 +167,10 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
                                  refersTo="geltungszeit"/>
             </akn:temporalGroup>
          </akn:temporalData>
-         <!-- Diese Metadaten sind die Konstituenten für die Schematron&#x2D;Validierung. -->
-         <akn:proprietary eId="meta-1_proprietary-1"
-                          GUID="4d3855be-763f-4ebf-8ca6-8399b5fb86b7"
-                          source="attributsemantik-noch-undefiniert">
+          <!-- Diese Metadaten sind die Konstituenten für die Schematron&#x2D;Validierung. -->
+          <akn:proprietary eId="meta-1_proprietary-1"
+                           GUID="4d3855be-763f-4ebf-8ca6-8399b5fb86b7"
+                           source="attributsemantik-noch-undefiniert">
             <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
                <meta:typ>gesetz</meta:typ>
                <meta:form>mantelform</meta:form>
@@ -185,11 +178,11 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
                <meta:art>regelungstext</meta:art>
                <meta:initiant>nicht-vorhanden</meta:initiant>
                <meta:bearbeitendeInstitution>nicht-vorhanden</meta:bearbeitendeInstitution>
-               <!-- Die vorliegende Angabe von meta:fna stellt einen beliebigen, exemplarischen Fundstellennachweis dar und besitzt keine fachliche Korrektheit. -->
-               <meta:fna>754-28-1</meta:fna>
-               <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
-               <meta:gesta>nicht-vorhanden</meta:gesta>
-               <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
+                <!-- Die vorliegende Angabe von meta:fna stellt einen beliebigen, exemplarischen Fundstellennachweis dar und besitzt keine fachliche Korrektheit. -->
+                <meta:fna>754-28-1</meta:fna>
+                <!-- Die vorliegende Angabe von meta:gesta besitzt keine fachliche Korrektheit. -->
+                <meta:gesta>nicht-vorhanden</meta:gesta>
+                <!-- Die vorliegenden Angaben von meta:federfuehrung besitzen keine fachliche Korrektheit. -->
             </meta:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
@@ -201,12 +194,12 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
                <akn:docTitle eId="einleitung-1_doktitel-1_text-1_doctitel-1"
                              GUID="d6f256c3-cb1f-4b5f-ab97-bb73a6a4ba23">Gesetz zur Stärkung von Wachstumschancen, Investitionen und Innovation sowie Steuervereinfachung und Steuerfairness
 
-                        <!-- Fußnote -->
-                        <akn:authorialNote eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1"
-                                     GUID="9de7999f-a222-43ac-a648-f92c5a8ee927"
-                                     marker="*)"
-                                     placement="bottom"
-                                     placementBase="">
+                   <!-- Fußnote -->
+                   <akn:authorialNote eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1"
+                                      GUID="9de7999f-a222-43ac-a648-f92c5a8ee927"
+                                      marker="*)"
+                                      placement="bottom"
+                                      placementBase="">
                      <akn:p eId="einleitung-1_doktitel-1_text-1_doctitel-1_amtlfnote-1_text-1"
                             GUID="7c210663-00e0-48c1-b86d-d02f1c422de0">Artikel 31 dient der Umsetzung der Richtlinie (EU) 2021/514 des Rates vom 22. März 2021 zur Änderung der Richtlinie 2011/16/EU über die
                                 Zusammenarbeit der Verwaltungsbehörden im Bereich der Besteuerung (ABl. L 104 vom 25.3.2021, S. 1).
@@ -233,27 +226,27 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
                       name="attributsemantik-noch-undefiniert">
             <akn:p eId="preambel-1_formel-1_text-1"
                    GUID="7e0cf2ac-b45a-40b8-8369-c5013ada9f48"> Der <akn:organization eId="preambel-1_formel-1_text-1_org-1"
-                                 GUID="05004de4-44d4-4e59-a1ef-5912003a6f36"
-                                 refersTo="attributsemantik-noch-undefiniert"
-                                 title="Bundestag">Bundestag</akn:organization> hat
+                                                                                      GUID="05004de4-44d4-4e59-a1ef-5912003a6f36"
+                                                                                      refersTo="attributsemantik-noch-undefiniert"
+                                                                                      title="Bundestag">Bundestag</akn:organization> hat
                     das folgende Gesetz beschlossen:</akn:p>
          </akn:formula>
       </akn:preamble>
       <!-- Hauptteil -->
       <akn:body eId="hauptteil-1" GUID="ce0ac10d-510e-4148-8a8d-a4406a8b0a67">
             <!-- §1 -->
-         <akn:article eId="hauptteil-1_art-1"
-                      GUID="17e9c25e-251d-48a7-8e74-3f0bb4b93b6b"
-                      period="#meta-1_geltzeiten-1_geltungszeitgr-2"
-                      refersTo="hauptaenderung">
+          <akn:article eId="hauptteil-1_art-1"
+                       GUID="17e9c25e-251d-48a7-8e74-3f0bb4b93b6b"
+                       period="#meta-1_geltzeiten-1_geltungszeitgr-2"
+                       refersTo="hauptaenderung">
             <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
                      GUID="24f5f556-e005-4d10-8d7e-d92f141780d7">
                     §1</akn:num>
             <akn:heading eId="hauptteil-1_art-1_überschrift-1"
                          GUID="31b97e2a-1872-4a52-aba1-d075bae3c0d6">Änderung des Einkommensteuergesetzes</akn:heading>
-            <!-- Absatz 1 -->
-            <akn:paragraph eId="hauptteil-1_art-1_abs-1"
-                           GUID="58ea2242-386a-42b9-8f23-eaa1678159f1">
+              <!-- Absatz 1 -->
+              <akn:paragraph eId="hauptteil-1_art-1_abs-1"
+                             GUID="58ea2242-386a-42b9-8f23-eaa1678159f1">
                <akn:num eId="hauptteil-1_art-1_abs-1_bezeichnung-1"
                         GUID="c38a41af-4911-4b1a-9404-929912af983e">
                         (1)</akn:num>
@@ -263,8 +256,8 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
                              eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1">
                      <akn:p GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5"
                             eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1"> Das <akn:affectedDocument GUID="e9e5ceb0-c831-45da-8fa4-aaaa16572bee"
-                                              eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1_bezugsdoc-1"
-                                              href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1">Einkommensteuergesetz in der Fassung der Bekanntmachung vom 8. Oktober 2009 (BGBl. I S. 3366, 3862),
+                                                                                                              eId="hauptteil-1_art-1_abs-1_untergl-1_intro-1_text-1_bezugsdoc-1"
+                                                                                                              href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1">Einkommensteuergesetz in der Fassung der Bekanntmachung vom 8. Oktober 2009 (BGBl. I S. 3366, 3862),
                                 das zuletzt durch Artikel 20 des Gesetzes vom 22. Dezember 2023 (BGBl. 2023 I Nr. 411) geändert worden ist</akn:affectedDocument>, wird
                                 wie folgt geändert:</akn:p>
                   </akn:intro>
@@ -283,14 +276,14 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
                                     GUID="a8786a31-bf59-41f9-b945-7785ed93861b">
                                         In <akn:ref
                                    href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-1/hauptteil-1_art-27_abs-6_inhalt-1_text-1/302-338.xml"
-                                       eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1"
-                                       GUID="a8786a31-bf59-41f9-b945-7785ed93861c">§ 6b Absatz 6 Satz 2</akn:ref> werden die Wörter „<akn:quotedText startQuote="„"
-                                              endQuote="“"
-                                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-1"
-                                              GUID="a8786a31-bf59-41f9-b945-7785ed93861d">§ 7 Absatz 4 Satz 1, Absatz 5 und 5a</akn:quotedText>“ durch die Wörter „<akn:quotedText startQuote="„"
-                                              endQuote="“"
-                                              eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-2"
-                                              GUID="a8786a31-bf59-41f9-b945-7785ed93861f">§ 7 Absatz 4 Satz 1 und Absatz 5</akn:quotedText>“ ersetzt.
+                                   eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_ref-1"
+                                   GUID="a8786a31-bf59-41f9-b945-7785ed93861c">§ 6b Absatz 6 Satz 2</akn:ref> werden die Wörter „<akn:quotedText startQuote="„"
+                                                                                                                                                 endQuote="“"
+                                                                                                                                                 eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-1"
+                                                                                                                                                 GUID="a8786a31-bf59-41f9-b945-7785ed93861d">§ 7 Absatz 4 Satz 1, Absatz 5 und 5a</akn:quotedText>“ durch die Wörter „<akn:quotedText startQuote="„"
+                                                                                                                                                                                                                                                                                      endQuote="“"
+                                                                                                                                                                                                                                                                                      eId="hauptteil-1_art-1_abs-1_untergl-1_listenelem-1_inhalt-1_text-1_ändbefehl-1_quottext-2"
+                                                                                                                                                                                                                                                                                      GUID="a8786a31-bf59-41f9-b945-7785ed93861f">§ 7 Absatz 4 Satz 1 und Absatz 5</akn:quotedText>“ ersetzt.
                                     </akn:mod>
                         </akn:p>
                      </akn:content>
@@ -454,11 +447,11 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
                </akn:list>
             </akn:paragraph>
          </akn:article>
-         <!-- §2-->
-         <akn:article eId="hauptteil-1_art-2"
-                      GUID="1af21459-b9df-47aa-a084-435df14c546b"
-                      period="#meta-1_geltzeiten-1_geltungszeitgr-1"
-                      refersTo="geltungszeitregel">
+          <!-- §2-->
+          <akn:article eId="hauptteil-1_art-2"
+                       GUID="1af21459-b9df-47aa-a084-435df14c546b"
+                       period="#meta-1_geltzeiten-1_geltungszeitgr-1"
+                       refersTo="geltungszeitregel">
             <akn:num eId="hauptteil-1_art-2_bezeichnung-1"
                      GUID="518b00f3-3f1c-41b2-8075-3bc644ed58b4">
                     §2</akn:num>
@@ -615,9 +608,9 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
                <akn:location eId="schluss-1_blockcontainer-1_text-1_ort-1"
                              GUID="19ffc7e1-add6-40a4-b9af-2f0927e46e9c"
                              refersTo="attributsemantik-noch-undefiniert">Bonn</akn:location>, den <akn:date eId="schluss-1_blockcontainer-1_text-1_datum-1"
-                         GUID="34cf44aa-73a4-4dee-9827-4d890da7aac7"
-                         refersTo="ausfertigung-datum"
-                         date="1964-08-05">5. August 1964</akn:date>
+                                                                                                             GUID="34cf44aa-73a4-4dee-9827-4d890da7aac7"
+                                                                                                             refersTo="ausfertigung-datum"
+                                                                                                             date="1964-08-05">5. August 1964</akn:date>
             </akn:p>
             <akn:signature eId="schluss-1_blockcontainer-1_signatur-1"
                            GUID="b092cd1d-2f77-4fe6-a63d-5bcabeb410ad">
@@ -631,6 +624,4 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
          </akn:blockContainer>
       </akn:conclusions>
    </akn:act>
-</akn:akomaNtoso>');
-
-UPDATE norm_manifestation SET publish_state = 'PUBLISHED' WHERE eli_norm_expression = 'eli/bund/bgbl-1/2024/108/2024-03-27/1/deu';
+</akn:akomaNtoso>

@@ -1,11 +1,4 @@
--- REAPPLY
--- TARGET LAW
-DELETE FROM dokumente WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu';
-DELETE FROM norm_manifestation WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu' ;
-DELETE FROM norm_expression WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu';
-
-INSERT INTO dokumente (xml)
-VALUES ('<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
    This is a modified example from the LDML.de specification.
 -->
@@ -24,32 +17,32 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten.xsd http://MetadatenBundesregierung.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-metadaten-bundesregierung.xsd http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../schema/legalDocML.de-regelungstextverkuendungsfassung.xsd">
   <akn:act name="regelungstext">
     <!-- Metadaten -->
-    <akn:meta GUID="e4e9224c-a2ff-46af-b390-eef666ee6706" eId="meta-1">
+      <akn:meta GUID="e4e9224c-a2ff-46af-b390-eef666ee6706" eId="meta-1">
       <akn:identification source="attributsemantik-noch-undefiniert" GUID="1376c800-fdb8-4453-b639-eb0cc643f2a1" eId="meta-1_ident-1">
         <akn:FRBRWork GUID="e54cd6ad-77fe-4b34-ab01-0caed4232c79" eId="meta-1_ident-1_frbrwork-1">
-          <akn:FRBRthis value="eli/bund/bgbl-1/1964/s593/regelungstext-1" GUID="c2453919-5318-4700-b157-b4056d562d03" eId="meta-1_ident-1_frbrwork-1_frbrthis-1"/>
-          <akn:FRBRuri value="eli/bund/bgbl-1/1964/s593" GUID="4ee0c19e-ac74-48d0-9d2f-14afa746ae9f" eId="meta-1_ident-1_frbrwork-1_frbruri-1"/>
+          <akn:FRBRthis value="eli/bund/bgbl-1/1964/321/regelungstext-1" GUID="c2453919-5318-4700-b157-b4056d562d03" eId="meta-1_ident-1_frbrwork-1_frbrthis-1"/>
+          <akn:FRBRuri value="eli/bund/bgbl-1/1964/321" GUID="4ee0c19e-ac74-48d0-9d2f-14afa746ae9f" eId="meta-1_ident-1_frbrwork-1_frbruri-1"/>
           <akn:FRBRalias name="übergreifende-id" value="3e61d5e0-3e99-46ab-b328-ad880d9c9a4a" GUID="84613506-2f8d-4f76-81d7-8ada58f55f5c" eId="meta-1_ident-1_frbrwork-1_frbralias-1"/>
           <akn:FRBRdate name="verkuendungsfassung" date="1964-08-05" GUID="82367bb7-e9d4-4022-80b3-a54f78c8ad48" eId="meta-1_ident-1_frbrwork-1_frbrdate-1"/>
-          <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung" GUID="31437268-8ab9-4156-a464-a1ca68c40a75" eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"/>
+          <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung" GUID="31437268-expression8ab9-4156-a464-a1ca68c40a75" eId="meta-1_ident-1_frbrwork-1_frbrauthor-1"/>
           <akn:FRBRcountry value="de" GUID="27ea99b4-2ece-45ec-92e2-14a6a3be52b5" eId="meta-1_ident-1_frbrwork-1_frbrcountry-1"/>
-          <akn:FRBRnumber value="s593" GUID="4b9547eb-436b-4c36-ad7e-d1eafb060068" eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"/>
+          <akn:FRBRnumber value="321" GUID="4b9547eb-436b-4c36-ad7e-d1eafb060068" eId="meta-1_ident-1_frbrwork-1_frbrnumber-1"/>
           <akn:FRBRname value="bgbl-1" GUID="02b00ee4-9736-4eb0-87ab-bde4552362ac" eId="meta-1_ident-1_frbrwork-1_frbrname-1"/>
           <akn:FRBRsubtype value="regelungstext-1" GUID="330cdb26-d13e-4c68-b8aa-a4bb390edd3d" eId="meta-1_ident-1_frbrwork-1_frbrsubtype-1"/>
         </akn:FRBRWork>
-        <akn:FRBRExpression GUID="3342438f-d645-46bc-b636-8ff93339040e" eId="meta-1_ident-1_frbrexpression-1">
-          <akn:FRBRthis value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1" GUID="34ce9521-41a7-46c7-8bb2-b77a0e140307" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"/>
-          <akn:FRBRuri value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu" GUID="38417cc3-ce84-4a4b-ac19-e9b80ae0c13f" eId="meta-1_ident-1_frbrexpression-1_frbruri-1"/>
+        <akn:FRBRExpression GUID="3342438f-d645-46bc-b636-8ff93339040e" eId="meta-1_ident-1_frbr-1">
+          <akn:FRBRthis value="eli/bund/bgbl-1/1964/321/1964-09-21/1/deu/regelungstext-1" GUID="34ce9521-41a7-46c7-8bb2-b77a0e140307" eId="meta-1_ident-1_frbrexpression-1_frbrthis-1"/>
+          <akn:FRBRuri value="eli/bund/bgbl-1/1964/321/1964-09-21/1/deu" GUID="38417cc3-ce84-4a4b-ac19-e9b80ae0c13f" eId="meta-1_ident-1_frbrexpression-1_frbruri-1"/>
           <akn:FRBRalias name="aktuelle-version-id" value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151" GUID="32bd238d-e176-473b-a86c-1be978ccc905" eId="meta-1_ident-1_frbrexpression-1_frbralias-1"/>
-          <akn:FRBRalias name="nachfolgende-version-id" value="0c009fb2-cc37-47cb-bbd4-168fb1ee38c7" GUID="38a1a0b5-8291-4b91-8ca0-8d12bf990a12" eId="meta-1_ident-1_frbrexpression-1_frbralias-2"/>
+          <akn:FRBRalias name="nachfolgende-version-id" value="90d353f8-19dc-4d64-9c89-e21c1e90b2ac" GUID="38a1a0b5-8291-4b91-8ca0-8d12bf990a12" eId="meta-1_ident-1_frbrexpression-1_frbralias-2"/>
           <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung" GUID="b03544ab-bd92-48e3-8cd4-5f46e11536fc" eId="meta-1_ident-1_frbrexpression-1_frbrauthor-1"/>
           <akn:FRBRdate name="verkuendung" date="1964-08-05" GUID="d421ea74-0c09-4cd0-ad55-e305dee5535e" eId="meta-1_ident-1_frbrexpression-1_frbrdate-1"/>
           <akn:FRBRlanguage language="deu" GUID="36a30909-bcad-4823-aff1-c7c051236e81" eId="meta-1_ident-1_frbrexpression-1_frbrlanguage-1"/>
           <akn:FRBRversionNumber value="1" GUID="ffe56bfc-2e61-43e4-8415-3489690736a6" eId="meta-1_ident-1_frbrexpression-1_frbrversionnumber-1"/>
         </akn:FRBRExpression>
         <akn:FRBRManifestation GUID="5f065d15-4927-417d-82d9-cf0ee3a671d1" eId="meta-1_ident-1_frbrmanifestation-1">
-          <akn:FRBRthis value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml" GUID="30296030-d46d-4a53-8146-04e7035b20a6" eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"/>
-          <akn:FRBRuri value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml" GUID="01653b47-2a85-4902-a6ea-b538df135ea4" eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"/>
+          <akn:FRBRthis value="eli/bund/bgbl-1/1964/321/1964-09-21/1/deu/1964-08-05/regelungstext-1.xml" GUID="30296030-d46d-4a53-8146-04e7035b20a6" eId="meta-1_ident-1_frbrmanifestation-1_frbrthis-1"/>
+          <akn:FRBRuri value="eli/bund/bgbl-1/1964/321/1964-09-21/1/deu/1964-08-05/regelungstext-1.xml" GUID="01653b47-2a85-4902-a6ea-b538df135ea4" eId="meta-1_ident-1_frbrmanifestation-1_frbruri-1"/>
           <akn:FRBRdate name="generierung" date="1964-08-05" GUID="5873cf64-9760-46c3-be8a-369bb012fbd1" eId="meta-1_ident-1_frbrmanifestation-1_frbrdate-1"/>
           <akn:FRBRauthor href="recht.bund.de" GUID="af66d7d4-ea9f-4e76-9fb9-772d81303737" eId="meta-1_ident-1_frbrmanifestation-1_frbrauthor-1"/>
           <akn:FRBRformat value="xml" GUID="4a91792a-6937-4646-a135-5f381c6a380a" eId="meta-1_ident-1_frbrmanifestation-1_frbrformat-1"/>
@@ -64,8 +57,8 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
           <akn:timeInterval refersTo="geltungszeit" GUID="c348c8f9-c3dc-4197-9f7e-e79b3560f1b8" eId="meta-1_geltzeiten-1_geltungszeitgr-1_gelzeitintervall-1" start="#meta-1_lebzykl-1_ereignis-2"/>
         </akn:temporalGroup>
       </akn:temporalData>
-      <!-- Diese Metadaten sind die Konstituenten für die Schematron&#x2D;Validierung besitzen keine fachliche Korrektheit. -->
-      <akn:proprietary source="attributsemantik-noch-undefiniert" GUID="da72a3ac-309a-41e5-80ff-8cbbb385c0ac" eId="meta-1_proprietary-1">
+          <!-- Diese Metadaten sind die Konstituenten für die Schematron&#x2D;Validierung besitzen keine fachliche Korrektheit. -->
+          <akn:proprietary source="attributsemantik-noch-undefiniert" GUID="da72a3ac-309a-41e5-80ff-8cbbb385c0ac" eId="meta-1_proprietary-1">
         <meta:legalDocML.de_metadaten xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/">
           <meta:typ>gesetz</meta:typ>
           <meta:form>stammform</meta:form>
@@ -135,12 +128,12 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
           </akn:content>
         </akn:paragraph>
       </akn:article>
-      <!-- Artikel 34: Geltungszeitregel-->
-      <akn:article refersTo="geltungszeitregel" GUID="90a5a01e-c1f3-4b62-9216-3d351a8a33dc" eId="hauptteil-1_art-2" period="#meta-1_geltzeiten-1_geltungszeitgr-1">
+        <!-- Artikel 34: Geltungszeitregel-->
+        <akn:article refersTo="geltungszeitregel" GUID="90a5a01e-c1f3-4b62-9216-3d351a8a33dc" eId="hauptteil-1_art-2" period="#meta-1_geltzeiten-1_geltungszeitgr-1">
         <akn:num GUID="4fbff511-421c-4405-9721-6c442d001dd1" eId="hauptteil-1_art-2_bezeichnung-1"> Artikel 34</akn:num>
         <akn:heading GUID="c0105710-4a9e-4076-9db1-bc5c566473ae" eId="hauptteil-1_art-2_überschrift-1">Inkrafttreten</akn:heading>
-        <!-- Absatz (1) -->
-        <akn:paragraph GUID="2641f19a-3d41-4cde-95ee-10a23237d7ed" eId="hauptteil-1_art-2_abs-1">
+            <!-- Absatz (1) -->
+            <akn:paragraph GUID="2641f19a-3d41-4cde-95ee-10a23237d7ed" eId="hauptteil-1_art-2_abs-1">
           <akn:num GUID="62938ed6-9984-470d-ba36-70b4dee7d267" eId="hauptteil-1_art-2_abs-1_bezeichnung-1"/>
           <akn:content GUID="329c7f9a-451d-4549-957b-c50868186895" eId="hauptteil-1_art-2_abs-1_inhalt-1">
             <akn:p GUID="ff087a7f-645e-454f-b123-d562edf0b2de" eId="hauptteil-1_art-2_abs-1_inhalt-1_text-1">Dieses Gesetz tritt einen Monat nach seiner Verkündung in Kraft.</akn:p>
@@ -177,6 +170,4 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
       </akn:blockContainer>
     </akn:conclusions>
   </akn:act>
-</akn:akomaNtoso>');
-
-UPDATE norm_manifestation SET publish_state = 'PUBLISHED' WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu';
+</akn:akomaNtoso>
