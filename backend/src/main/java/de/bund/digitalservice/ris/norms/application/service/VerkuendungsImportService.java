@@ -122,7 +122,7 @@ public class VerkuendungsImportService
         .withName("Process Normendokumentationspaket")
         .<ProcessNormendokumentationspaketUseCase>withDetails(service ->
           service.processNormendokumentationspaket(
-            new ProcessNormendokumentationspaketUseCase.Options(processId)
+            new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
           )
         )
     );
@@ -141,9 +141,20 @@ public class VerkuendungsImportService
   }
 
   @Override
-  public void processNormendokumentationspaket(
+  public Verkuendung processNormendokumentationspaket(
     ProcessNormendokumentationspaketUseCase.Options options
   ) throws IOException {
+    return switch (options) {
+      case DirectProcessingOptions directProcessingOptions -> processNormendokumentationspaket(
+        directProcessingOptions
+      );
+      case ProcessOptions processOptions -> processNormendokumentationspaket(processOptions);
+    };
+  }
+
+  private Verkuendung processNormendokumentationspaket(
+    ProcessNormendokumentationspaketUseCase.ProcessOptions options
+  ) {
     log.info("Start processing Normendokumentationspaket: {}", options.processId());
 
     var process = loadVerkuendungImportProcessPort
@@ -159,6 +170,8 @@ public class VerkuendungsImportService
       )
     );
 
+    Verkuendung savedVerkuendung = null;
+
     try {
       var files = loadNormendokumentationspaketPort.loadNormendokumentationspaket(
         new LoadNormendokumentationspaketPort.Options(options.processId())
@@ -168,11 +181,11 @@ public class VerkuendungsImportService
 
       signatureValidator.validate(zipFile, signatureFile);
 
-      Norm norm = parseAndValidate(zipFile);
+      Norm norm = parseAndValidate(zipFile, false);
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm));
 
       Verkuendung verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
-      updateOrSaveVerkuendungPort.updateOrSaveVerkuendung(
+      savedVerkuendung = updateOrSaveVerkuendungPort.updateOrSaveVerkuendung(
         new UpdateOrSaveVerkuendungPort.Options(verkuendung)
       );
 
@@ -213,9 +226,23 @@ public class VerkuendungsImportService
     }
 
     log.info("Finished processing Normendokumentationspaket: {}", options.processId());
+
+    return savedVerkuendung;
   }
 
-  private Norm parseAndValidate(byte[] zipFile)
+  private Verkuendung processNormendokumentationspaket(
+    ProcessNormendokumentationspaketUseCase.DirectProcessingOptions options
+  ) throws IOException {
+    Norm norm = parseAndValidate(options.zipFile(), options.force());
+    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm));
+
+    Verkuendung verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
+    return updateOrSaveVerkuendungPort.updateOrSaveVerkuendung(
+      new UpdateOrSaveVerkuendungPort.Options(verkuendung)
+    );
+  }
+
+  private Norm parseAndValidate(byte[] zipFile, boolean ignoreExistingNorm)
     throws IOException, NormendokumentationspaketImportFailedException, LdmlDeNotValidException, LdmlDeSchematronException {
     try (ByteArrayInputStream zipInputStream = new ByteArrayInputStream(zipFile)) {
       validateFileIsZipArchive(zipInputStream);
@@ -242,7 +269,10 @@ public class VerkuendungsImportService
         throw new NoRegelungstextOrBekanntmachungstextException();
       }
 
-      if (loadNormPort.loadNorm(new LoadNormPort.Options(norm.getWorkEli())).isPresent()) {
+      if (
+        !ignoreExistingNorm &&
+        loadNormPort.loadNorm(new LoadNormPort.Options(norm.getWorkEli())).isPresent()
+      ) {
         throw new NormExistsAlreadyException(norm.getWorkEli().toString());
       }
 

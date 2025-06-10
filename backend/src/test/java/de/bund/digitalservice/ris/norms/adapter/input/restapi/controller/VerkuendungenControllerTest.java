@@ -54,6 +54,9 @@ class VerkuendungenControllerTest {
   @MockitoBean
   private CreateZielnormenExpressionsUseCase createZielnormenExpressionsUseCase;
 
+  @MockitoBean
+  private ProcessNormendokumentationspaketUseCase processNormendokumentationspaketUseCase;
+
   @Nested
   class getAllVerkuendungen {
 
@@ -279,7 +282,9 @@ class VerkuendungenControllerTest {
         .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
         .build();
 
-      when(createVerkuendungUseCase.createVerkuendung(any())).thenReturn(verkuendung);
+      when(
+        processNormendokumentationspaketUseCase.processNormendokumentationspaket(any())
+      ).thenReturn(verkuendung);
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
       // When // Then
@@ -313,7 +318,9 @@ class VerkuendungenControllerTest {
         .importTimestamp(Instant.parse("2025-03-13T16:00:00Z"))
         .build();
 
-      when(createVerkuendungUseCase.createVerkuendung(any())).thenReturn(verkuendung);
+      when(
+        processNormendokumentationspaketUseCase.processNormendokumentationspaket(any())
+      ).thenReturn(verkuendung);
       when(loadNormUseCase.loadNorm(any())).thenReturn(norm);
 
       // When // Then
@@ -344,7 +351,9 @@ class VerkuendungenControllerTest {
       );
       var verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
 
-      when(createVerkuendungUseCase.createVerkuendung(any())).thenReturn(verkuendung);
+      when(
+        processNormendokumentationspaketUseCase.processNormendokumentationspaket(any())
+      ).thenReturn(verkuendung);
       when(loadNormUseCase.loadNorm(any())).thenThrow(
         new RuntimeException("Should not be visible in the output")
       );

@@ -186,7 +186,7 @@ function resetUploadPage() {
 
     <div class="mx-auto flex w-full max-w-[640px] flex-col items-center gap-24">
       <span class="ris-body1-regular text-center">
-        Importieren Sie eine XML-Datei, um die Verkündung hinzuzufügen.
+        Importieren Sie eine ZIP-Datei, um die Verkündung hinzuzufügen.
       </span>
 
       <div
@@ -196,8 +196,8 @@ function resetUploadPage() {
           ref="fileUpload"
           :disabled="isLoading"
           :multiple="false"
-          accept="application/xml, text/xml"
-          invalid-file-type-message="{0} ist keine XML-Datei."
+          accept="application/zip"
+          invalid-file-type-message="{0} ist keine ZIP-Datei."
           mode="basic"
           name="file"
           url="/api/v1/verkuendungen"
