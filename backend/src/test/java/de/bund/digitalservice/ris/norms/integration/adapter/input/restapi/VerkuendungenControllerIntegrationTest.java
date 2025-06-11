@@ -17,13 +17,21 @@ import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
-import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
+import java.util.zip.CRC32;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 import org.assertj.core.data.TemporalUnitWithinOffset;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
@@ -229,14 +237,13 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCreatesANewVerkuendung() throws Exception {
       // Given
-      var xmlContent = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
-      );
       var file = new MockMultipartFile(
         "file",
-        "norm.xml",
-        "text/xml",
-        new ByteArrayInputStream(xmlContent.getBytes())
+        "norm.zip",
+        "application/zip",
+        loadFolderAsZip(
+          Fixtures.getResource("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23")
+        )
       );
 
       // When // Then
@@ -270,14 +277,13 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itStoresTheImportTimestamp() throws Exception {
       // Given
-      var xmlContent = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
-      );
       var file = new MockMultipartFile(
         "file",
-        "norm.xml",
-        "text/xml",
-        new ByteArrayInputStream(xmlContent.getBytes())
+        "norm.zip",
+        "application/zip",
+        loadFolderAsZip(
+          Fixtures.getResource("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23")
+        )
       );
 
       // When / Then
@@ -302,7 +308,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itFailsIfTheFileIsNotAnXmlFile() throws Exception {
+    void itFailsIfTheFileIsNotAnZipFile() throws Exception {
       // Given
       var file = new MockMultipartFile(
         "file",
@@ -315,33 +321,31 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(multipart("/api/v1/verkuendungen").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnprocessableEntity())
-        .andExpect(jsonPath("type", equalTo("/errors/not-a-xml-file")))
-        .andExpect(jsonPath("fileName", equalTo("norm.txt")))
-        .andExpect(jsonPath("contentType", equalTo("text/plain")));
+        .andExpect(
+          jsonPath(
+            "type",
+            equalTo("/errors/normendokumentationspaket-import-failed/not-a-zip-file")
+          )
+        );
     }
 
     @Test
     void itFailsIfTheXmlIsNotLdmlDe() throws Exception {
       //Given
-      var xmlContent =
-        """
-            <root>
-              <child>Sample content</child>
-            </root>
-        """;
       var file = new MockMultipartFile(
         "file",
-        "norm.xml",
-        "text/xml",
-        new ByteArrayInputStream(xmlContent.getBytes())
+        "norm.zip",
+        "application/zip",
+        loadFolderAsZip(
+          Fixtures.getResource(VerkuendungenControllerIntegrationTest.class, "non-ldml-de-content")
+        )
       );
 
       // When // Then
       mockMvc
         .perform(multipart("/api/v1/verkuendungen").file(file).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isUnprocessableEntity())
-        .andExpect(jsonPath("type", equalTo("/errors/not-a-ldml-de-xml-file")))
-        .andExpect(jsonPath("fileName", equalTo("norm.xml")));
+        .andExpect(jsonPath("type", equalTo("/errors/ldml-de-not-valid")));
     }
 
     @Test
@@ -362,14 +366,13 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var xmlContent = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
-      );
       var file = new MockMultipartFile(
         "file",
-        "norm.xml",
-        "text/xml",
-        new ByteArrayInputStream(xmlContent.getBytes())
+        "norm.zip",
+        "application/zip",
+        loadFolderAsZip(
+          Fixtures.getResource("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23")
+        )
       );
 
       // When // Then
@@ -382,27 +385,24 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itFailsIfANormWithSameGuidAlreadyExist() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
-      var regelungstextWithSameGuid = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
-      );
-      regelungstextWithSameGuid
-        .getMeta()
-        .getFRBRExpression()
-        .setFRBRaliasCurrentVersionId(UUID.fromString("d04791fc-dcdc-47e6-aefb-bc2f7aaee151"));
-      var xmlContent = XmlMapper.toString(regelungstextWithSameGuid.getDocument());
       var file = new MockMultipartFile(
         "file",
-        "norm.xml",
-        "text/xml",
-        new ByteArrayInputStream(xmlContent.getBytes())
+        "norm.zip",
+        "application/zip",
+        loadFolderAsZip(
+          Fixtures.getResource(
+            VerkuendungenControllerIntegrationTest.class,
+            "vereinsgesetz-same-guid-different-eli"
+          )
+        )
       );
 
       // When // Then
@@ -423,15 +423,16 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var xmlContent = Fixtures.loadTextFromDisk(
-        VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-xsd-invalid/regelungstext-verkuendung-1.xml"
-      );
       var file = new MockMultipartFile(
         "file",
-        "norm.xml",
-        "text/xml",
-        new ByteArrayInputStream(xmlContent.getBytes())
+        "norm.zip",
+        "application/zip",
+        loadFolderAsZip(
+          Fixtures.getResource(
+            VerkuendungenControllerIntegrationTest.class,
+            "vereinsgesetz-xsd-invalid"
+          )
+        )
       );
 
       // When // Then
@@ -455,15 +456,16 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         )
       );
 
-      var xmlContent = Fixtures.loadTextFromDisk(
-        VerkuendungenControllerIntegrationTest.class,
-        "vereinsgesetz-schematron-invalid/regelungstext-verkuendung-1.xml"
-      );
       var file = new MockMultipartFile(
         "file",
-        "norm.xml",
-        "text/xml",
-        new ByteArrayInputStream(xmlContent.getBytes())
+        "norm.zip",
+        "application/zip",
+        loadFolderAsZip(
+          Fixtures.getResource(
+            VerkuendungenControllerIntegrationTest.class,
+            "vereinsgesetz-schematron-invalid"
+          )
+        )
       );
 
       // When // Then
@@ -474,60 +476,25 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath(
             "errors[0].type",
-            equalTo("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00050-005")
-          )
-        )
-        .andExpect(
-          jsonPath(
-            "errors[0].xPath",
-            equalTo(
-              "/Q{http://Inhaltsdaten.LegalDocML.de/1.8/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8/}act[1]"
-            )
-          )
-        )
-        .andExpect(
-          jsonPath(
-            "errors[0].details",
-            equalTo("Für ein Gesetz muss eine Eingangsformel verwendet werden.")
-          )
-        )
-        .andExpect(jsonPath("errors[0].eId", equalTo("")))
-        .andExpect(
-          jsonPath(
-            "errors[1].type",
-            equalTo("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000")
-          )
-        )
-        .andExpect(jsonPath("errors[1].eId", equalTo("meta-n1_geltzeiten-n1")))
-        .andExpect(
-          jsonPath(
-            "errors[2].type",
-            equalTo("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000")
-          )
-        )
-        .andExpect(jsonPath("errors[2].eId", equalTo("meta-n1_geltzeiten-n1_geltungszeitgr-n1")))
-        .andExpect(
-          jsonPath(
-            "errors[3].type",
             equalTo(
               "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-VERKF-hrefLiterals.expression.FRBRauthor"
             )
           )
         )
         .andExpect(
-          jsonPath("errors[3].eId", equalTo("meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"))
+          jsonPath("errors[0].eId", equalTo("meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"))
         );
     }
 
     @Test
     void ifCreatesVerkuendungWithForce() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
       );
 
       var verkuendung = Verkuendung.builder()
@@ -535,14 +502,13 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         .build();
       verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung));
 
-      var xmlContent = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
-      );
       var file = new MockMultipartFile(
         "file",
-        "norm.xml",
-        "text/xml",
-        new ByteArrayInputStream(xmlContent.getBytes())
+        "norm.zip",
+        "application/zip",
+        loadFolderAsZip(
+          Fixtures.getResource("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23")
+        )
       );
 
       // When // Then
@@ -560,12 +526,14 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           )
         );
 
-      assertThat(dokumentRepository.findAll()).hasSize(1);
-      var dokumentDto = dokumentRepository.findByEliDokumentManifestation(
+      assertThat(dokumentRepository.findAll()).hasSize(2);
+      var regelungstextDto = dokumentRepository.findByEliDokumentManifestation(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
-      assertThat(dokumentDto).isPresent();
-      final Diff diff = DiffBuilder.compare(Input.from(dokumentDto.get().getXml()))
+      assertThat(regelungstextDto).isPresent();
+      final Diff regelungstextDiff = DiffBuilder.compare(
+        Input.from(regelungstextDto.get().getXml())
+      )
         .withTest(
           Input.from(
             Fixtures.loadRegelungstextFromDisk(
@@ -575,7 +543,25 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         )
         .ignoreWhitespace()
         .build();
-      assertThat(diff.hasDifferences()).isFalse();
+      assertThat(regelungstextDiff.hasDifferences()).isFalse();
+
+      var rechtsetzungsDokumentDto = dokumentRepository.findByEliDokumentManifestation(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/rechtsetzungsdokument-1.xml"
+      );
+      assertThat(rechtsetzungsDokumentDto).isPresent();
+      final Diff rechtsetzungsDokumentDiff = DiffBuilder.compare(
+        Input.from(rechtsetzungsDokumentDto.get().getXml())
+      )
+        .withTest(
+          Input.from(
+            Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23")
+              .getRechtsetzungsdokument()
+              .getDocument()
+          )
+        )
+        .ignoreWhitespace()
+        .build();
+      assertThat(rechtsetzungsDokumentDiff.hasDifferences()).isFalse();
     }
   }
 
@@ -1421,5 +1407,40 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         }
       }
     }
+  }
+
+  private InputStream loadFolderAsZip(URL resource) throws IOException {
+    var folder = new File(resource.getFile());
+
+    var outputStream = new ByteArrayOutputStream();
+    var zipOutputStream = new ZipOutputStream(outputStream);
+
+    for (File file : Objects.requireNonNull(folder.listFiles())) {
+      var zipEntry = new ZipEntry(file.getName());
+      // setting size, compressed size, crc and method manually so they are actually included in the zip file
+      // and ZipEntry::getSize works within our methods.
+      zipEntry.setSize(file.length());
+      zipEntry.setCompressedSize(file.length());
+      var crc32 = new CRC32();
+      var crc32FileInputStream = new FileInputStream(file);
+      crc32.update(crc32FileInputStream.readAllBytes());
+      crc32FileInputStream.close();
+      zipEntry.setCrc(crc32.getValue());
+      zipEntry.setMethod(ZipEntry.STORED);
+      zipOutputStream.putNextEntry(zipEntry);
+
+      var fileInputStream = new FileInputStream(file);
+      byte[] bytes = new byte[1024];
+      int length;
+      while ((length = fileInputStream.read(bytes)) >= 0) {
+        zipOutputStream.write(bytes, 0, length);
+      }
+      zipOutputStream.closeEntry();
+      fileInputStream.close();
+    }
+
+    zipOutputStream.close();
+
+    return new ByteArrayInputStream(outputStream.toByteArray());
   }
 }

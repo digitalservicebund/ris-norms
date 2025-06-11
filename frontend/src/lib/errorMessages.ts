@@ -115,11 +115,9 @@ export const errorMessages = {
     message: `Die Zielnorm "${e.destinationEli}" für die Norm "${e.eli}" wurde nicht gefunden.`,
   }),
 
-  "/errors/not-a-xml-file": (
-    e: ErrorResponse<{ fileName: string; contentType: string }>,
-  ) => ({
+  "/errors/normendokumentationspaket-import-failed/not-a-zip-file": () => ({
     title: "Ungültige Datei",
-    message: `Die Datei "${e.fileName}" ist keine XML-Datei. Der Inhaltstyp ist "${e.contentType}".`,
+    message: `Die Datei ist kein ZIP-Archiv.`,
   }),
 
   "/errors/not-a-ldml-de-xml-file": (
