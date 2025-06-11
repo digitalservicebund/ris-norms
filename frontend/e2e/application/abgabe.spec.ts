@@ -39,4 +39,32 @@ test.describe("Abgabe view with expressions", { tag: ["@RISDEV-7186"] }, () => {
       await expect(row).toContainText(status)
     }
   })
+
+  test("shows empty state when no expressions exist", async ({ page }) => {
+    await page.route(
+      "**/api/v1/eli/bund/bgbl-1/1964/0000/expressions/releasestatus",
+      async (route) => {
+        await route.fulfill({
+          status: 200,
+          contentType: "application/json",
+          body: JSON.stringify({
+            title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
+            shortTitle: "Vereinsgesetz",
+            normWorkEli: "eli/bund/bgbl-1/1964/0000",
+            expressions: [],
+          }),
+        })
+      },
+    )
+
+    await page.goto(
+      "./verkuendungen/eli/bund/bgbl-1/2025/9999/2025-06-11/1/deu/regelungstext-1/zielnorm/eli/bund/bgbl-1/1964/0000/abgabe",
+    )
+
+    await expect(
+      page.getByText(
+        "Es sind keine unveröffentlichten Expressionen für diese Norm vorhanden.",
+      ),
+    ).toBeVisible()
+  })
 })

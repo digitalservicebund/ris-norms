@@ -18,6 +18,7 @@ import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
 import { useNormWorkEliPathParameter } from "@/composables/useNormWorkEliPathParameter"
 import { formatDate } from "@/lib/dateTime"
 import dayjs from "dayjs"
+import RisEmptyState from "@/components/RisEmptyState.vue"
 
 const zielnormEli = useNormWorkEliPathParameter("zielnorm")
 const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
@@ -109,7 +110,7 @@ function handleVolldokumentationSubmit() {
   <RisViewLayout :breadcrumbs :errors="[releaseStatusError]">
     <section :aria-labelledby="abgabeHeadingId">
       <h1 :id="abgabeHeadingId" class="ris-subhead-bold mb-24">Abgabe</h1>
-      <template v-if="internalZielnormExpressions?.length">
+      <template v-if="releaseStatus && internalZielnormExpressions.length">
         <div class="flex flex-col bg-white">
           <DataTable
             :value="internalZielnormExpressions"
@@ -194,6 +195,11 @@ function handleVolldokumentationSubmit() {
             />
           </div>
         </div>
+      </template>
+      <template v-else>
+        <RisEmptyState
+          text-content="Es sind keine unveröffentlichten Expressionen für diese Norm vorhanden."
+        />
       </template>
     </section>
   </RisViewLayout>
