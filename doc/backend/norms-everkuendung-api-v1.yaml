@@ -264,6 +264,7 @@ components:
         | URI                                                                             | Beschreibung                                                                                  |
         |---------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
         | `/errors/norm-with-eli-exists-already`                                          | Es wurde bereits ein Normendokumentationspaket mit der selben ELI hochgeladen                 |
+        | `/errors/norm-with-guid-exists-already`                                         | Es wurde bereits ein Normendokumentationspaket mit der selben GUID hochgeladen                |
         | `/errors/process-id-not-found`                                                  | Die Prozess-ID wurde nicht gefunden.                                                          |
         | `/errors/invalid-signature`                                                     | Die übermittelte Signatur ist ungültig oder passt nicht zu den Daten.                         |
         | `/errors/ldml-de-not-schematron-valid`                                          | Eine oder mehrere LDML.de-Dateien weisen Schematron-Fehler auf (Warnungen werden akzeptiert). |
