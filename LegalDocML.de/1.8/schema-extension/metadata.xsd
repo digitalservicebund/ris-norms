@@ -34,8 +34,8 @@
                     maxOccurs="unbounded"/>
         <xs:element name="artDerNorm" type="ArtDerNormFrameType" minOccurs="0" maxOccurs="unbounded"/>
         <xs:element name="einzelelement" type="EinzelelementType" minOccurs="0" maxOccurs="unbounded"/>
-        <xs:element name="inkraft" type="InkraftType" minOccurs="0" maxOccurs="1"/>
         <xs:element name="abkuerzung" type="AbkuerzungType" minOccurs="0" maxOccurs="1"/>
+        <xs:element name="inkraft" type="InkraftType" minOccurs="0" maxOccurs="1"/>
         <xs:element name="ausserkraft" type="AusserkraftType" minOccurs="0" maxOccurs="1"/>
         <xs:element name="vollzitat" type="xs:string" minOccurs="0" maxOccurs="1"/>
         <xs:element name="standangabe" type="StandangabeType" minOccurs="0" maxOccurs="unbounded"/>
