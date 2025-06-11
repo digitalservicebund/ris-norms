@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.exception;
 import de.bund.digitalservice.ris.norms.application.exception.*;
 import de.bund.digitalservice.ris.norms.application.port.input.CreateVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.ProcessNormendokumentationspaketUseCase;
 import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidEliException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
@@ -269,6 +270,22 @@ public class NormsAppExceptionHandler {
   @ExceptionHandler(VerkuendungWithoutNormException.class)
   public ProblemDetail handleException(final VerkuendungWithoutNormException e) {
     log.error("VerkuendungWithoutNormException: {}", e.getMessage(), e);
+    return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
+  }
+
+  /**
+   * Exception handler method for handling {@link ProcessNormendokumentationspaketUseCase.NormendokumentationspaketImportFailedException}.
+   *
+   * @param e The exception that occurred.
+   * @return A {@link ResponseEntity} with an HTTP 422 status and the exception message.
+   */
+  @ExceptionHandler(
+    ProcessNormendokumentationspaketUseCase.NormendokumentationspaketImportFailedException.class
+  )
+  public ProblemDetail handleException(
+    final ProcessNormendokumentationspaketUseCase.NormendokumentationspaketImportFailedException e
+  ) {
+    log.error("NormendokumentationspaketImportFailedException: {}", e.getMessage(), e);
     return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 
