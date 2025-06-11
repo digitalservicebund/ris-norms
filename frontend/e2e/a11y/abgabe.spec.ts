@@ -10,7 +10,7 @@ test.describe(
       page,
     }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnorm/eli/bund/bgbl-1/1964/s593/abgabe",
+        "./verkuendungen/eli/bund/bgbl-1/2025/9999/2025-06-11/1/deu/regelungstext-1/zielnorm/eli/bund/bgbl-1/1964/1234/abgabe",
       )
 
       await expect(page.getByRole("heading", { name: "Abgabe" })).toBeVisible()
