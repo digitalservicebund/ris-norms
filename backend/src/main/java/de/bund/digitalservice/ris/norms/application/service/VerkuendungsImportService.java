@@ -4,9 +4,11 @@ import de.bund.digitalservice.ris.norms.application.exception.ImportProcessNotFo
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.application.exception.NormExistsAlreadyException;
+import de.bund.digitalservice.ris.norms.application.exception.NormWithGuidAlreadyExistsException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormendokumentationspacketProcessingStatusUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ProcessNormendokumentationspaketUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.StoreNormendokumentationspaketUseCase;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormendokumentationspaketPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungImportProcessPort;
@@ -74,6 +76,7 @@ public class VerkuendungsImportService
   );
 
   static final String RECHTSETZUNGSDOKUMENT_FILENAME = "rechtsetzungsdokument-1.xml";
+  private final LoadNormByGuidPort loadNormByGuidPort;
 
   public VerkuendungsImportService(
     LoadNormPort loadNormPort,
@@ -86,7 +89,8 @@ public class VerkuendungsImportService
     LdmlDeValidator ldmlDeValidator,
     JobScheduler jobScheduler,
     MediaTypeService mediaTypeService,
-    SignatureValidator signatureValidator
+    SignatureValidator signatureValidator,
+    LoadNormByGuidPort loadNormByGuidPort
   ) {
     this.loadNormPort = loadNormPort;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
@@ -99,6 +103,7 @@ public class VerkuendungsImportService
     this.jobScheduler = jobScheduler;
     this.mediaTypeService = mediaTypeService;
     this.signatureValidator = signatureValidator;
+    this.loadNormByGuidPort = loadNormByGuidPort;
   }
 
   @Override
@@ -266,6 +271,15 @@ public class VerkuendungsImportService
         loadNormPort.loadNorm(new LoadNormPort.Options(norm.getWorkEli())).isPresent()
       ) {
         throw new NormExistsAlreadyException(norm.getWorkEli().toString());
+      }
+
+      if (
+        !ignoreExistingNorm &&
+        loadNormByGuidPort
+          .loadNormByGuid(new LoadNormByGuidPort.Options(norm.getGuid()))
+          .isPresent()
+      ) {
+        throw new NormWithGuidAlreadyExistsException(norm.getGuid());
       }
 
       log.info(
