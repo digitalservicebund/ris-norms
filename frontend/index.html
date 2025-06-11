@@ -23,6 +23,7 @@
         justify-content: center;
         width: 100%;
       }
+
       #error-container {
         font-family: ui-sans-serif, system-ui, sans-serif;
         border-left: 8px solid #991b1b; /* red-800 */
@@ -31,13 +32,19 @@
         max-width: 600px;
         margin: 20px auto;
       }
+
       #error-title {
         font-weight: 400;
         font-size: 18px;
-        margin-bottom: 8px;
       }
+
       #error-details {
+        margin-top: 8px;
         font-size: 16px;
+
+        &:empty {
+          display: none;
+        }
       }
     </style>
   </head>
