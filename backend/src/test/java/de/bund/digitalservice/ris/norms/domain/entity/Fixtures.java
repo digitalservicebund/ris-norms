@@ -28,7 +28,7 @@ import org.springframework.core.io.UrlResource;
  */
 public class Fixtures {
 
-  private static final String LDMLDE_RESOURCE_FOLDER = "/LegalDocML.de/1.8";
+  private static final String LDMLDE_RESOURCE_FOLDER = "/LegalDocML.de/1.8.1";
 
   private static final String FIXTURES_RESOURCE_FOLDER = LDMLDE_RESOURCE_FOLDER + "/fixtures";
 

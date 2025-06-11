@@ -14,7 +14,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" GUID="000" eId="art-z1" refersTo="stammform">
+      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" GUID="000" eId="art-z1" refersTo="stammform">
         <akn:num GUID="000" eId="hauptteil-n1_bezeichnung-n1">
 
               § 1
@@ -41,7 +41,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" GUID="000" eId="art-z1" refersTo="stammform">
+      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" GUID="000" eId="art-z1" refersTo="stammform">
         <akn:heading GUID="000" eId="hauptteil-1_überschrift-1">
           Überschrift des Artikels
         </akn:heading>
@@ -64,7 +64,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" GUID="000" eId="art-z1" refersTo="stammform">
+      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" GUID="000" eId="art-z1" refersTo="stammform">
         <akn:num GUID="000" eId="hauptteil-n1_bezeichnung-n1">
 
               § 1
@@ -88,7 +88,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" GUID="000" eId="art-z1" refersTo="stammform">
+      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" GUID="000" eId="art-z1" refersTo="stammform">
         <akn:paragraph GUID="000" eId="hauptteil-n1_abs-n1"></akn:paragraph>
       </akn:article>
       """
@@ -108,7 +108,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:book xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="hauptteil-n1_buch-n1" GUID="3c36aeed-d116-47c1-b475-a5e8bdfefe63">
+      <akn:book xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="hauptteil-n1_buch-n1" GUID="3c36aeed-d116-47c1-b475-a5e8bdfefe63">
         <akn:num
           eId="hauptteil-n1_buch-n1_bezeichnung-n1"
           GUID="5b8320d2-2ed9-4652-aa5a-147da381f87c"
@@ -142,7 +142,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:part xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+      <akn:part xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
         eId="hauptteil-n1_buch-n1_teil-n1"
         GUID="8afdae9b-dcf4-48c8-ba38-31f24526bcf0"
       >
@@ -179,7 +179,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:chapter xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+      <akn:chapter xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
         eId="hauptteil-n1_buch-n1_teil-n1_kapitel-n1"
         GUID="d4b23c42-acab-4220-af45-faa22820d588"
       >
@@ -216,7 +216,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:section xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+      <akn:section xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
         eId="hauptteil-n1_abschnitt-n1"
         GUID="f1474e45-57fe-4ba4-983e-efef589d31f3"
       >
@@ -253,7 +253,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:subsection xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+      <akn:subsection xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
         eId="hauptteil-n1_abschnitt-n1_uabschnitt-n1"
         GUID="18F63BE0-B9AB-4464-92A0-8469EE5CE8A0"
       >
@@ -290,7 +290,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:title xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+      <akn:title xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
         eId="hauptteil-n1_buch-n1_teil-n1_kapitel-n1_abschnitt-n1_uabschnitt-n1_titel-n1"
         GUID="564b7bae-affe-42db-a82a-957727e75da3"
       >
@@ -322,7 +322,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:subtitle xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
+      <akn:subtitle xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
         eId="hauptteil-n1_buch-n1_teil-n1_kapitel-n1_abschnitt-n1_uabschnitt-n1_titel-n1_utitel-n1"
         GUID="bdcbfaa4-faa7-48e1-89e1-951fe3181c05"
       >
@@ -361,7 +361,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:preface xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="einleitung-n1" GUID="000">
+      <akn:preface xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="einleitung-n1" GUID="000">
         <akn:longTitle></akn:longTitle>
         <akn:block></akn:block>
       </akn:preface>
@@ -382,7 +382,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:preamble xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="preambel-n1" GUID="000">
+      <akn:preamble xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="preambel-n1" GUID="000">
         <akn:formula></akn:formula>
       </akn:preamble>
       """
@@ -402,7 +402,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:conclusions xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="schluss-n1" GUID="000">
+      <akn:conclusions xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="schluss-n1" GUID="000">
         <akn:formula></akn:formula>
         <akn:blockContainer></akn:blockContainer>
       </akn:conclusions>
@@ -423,7 +423,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:someRandomNode xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="random-n1" GUID="000">
+      <akn:someRandomNode xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="random-n1" GUID="000">
       </akn:someRandomNode>
       """
     );
@@ -442,7 +442,7 @@ class ElementResponseMapperTest {
     // Given
     var node = XmlMapper.toElement(
       """
-      <akn:preface xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" GUID="000">
+      <akn:preface xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" GUID="000">
         <akn:longTitle></akn:longTitle>
         <akn:block></akn:block>
       </akn:preface>

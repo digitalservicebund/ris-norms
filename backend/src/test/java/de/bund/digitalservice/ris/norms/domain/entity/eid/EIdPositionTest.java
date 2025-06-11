@@ -15,7 +15,7 @@ class EIdPositionTest {
     void article() {
       var node = XmlMapper.toElement(
         """
-        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
+        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
             <akn:num>Artikel 2</akn:num>
         </akn:article>
         """
@@ -28,7 +28,7 @@ class EIdPositionTest {
     void paragraph() {
       var node = XmlMapper.toElement(
         """
-        <akn:paragraph xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
+        <akn:paragraph xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
             <akn:num>(2)</akn:num>
         </akn:paragraph>
         """
@@ -41,7 +41,7 @@ class EIdPositionTest {
     void articleWithRefersTo() {
       var node = XmlMapper.toElement(
         """
-        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
+        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
             <akn:num refersTo="ordinale-zaehlung-eid" />
         </akn:article>
         """
@@ -53,7 +53,7 @@ class EIdPositionTest {
     void paragraphWithRefersTo() {
       var node = XmlMapper.toElement(
         """
-        <akn:paragraph xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
+        <akn:paragraph xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
             <akn:num refersTo="ordinale-zaehlung-eid" />
         </akn:paragraph>
         """
@@ -64,7 +64,7 @@ class EIdPositionTest {
     @Test
     void ordinalEIdPosition() {
       var node = XmlMapper.toElement(
-        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8/\" />"
+        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.1/\" />"
       );
 
       assertThat(EIdPosition.findEIdPosition(node, EIdPartType.AENDBEFEHL))

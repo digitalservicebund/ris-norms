@@ -17,7 +17,7 @@ class CustomModsMetadataTest {
       var customModsMetadata = new CustomModsMetadata(
         toElement(
           """
-          <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/">
+          <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
               <norms:amended-norm-expressions>
                   <norms:norm-expression>eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
                   <norms:norm-expression>eli/bund/bgbl-1/2023/413/2024-01-11/2/deu</norms:norm-expression>
@@ -45,7 +45,7 @@ class CustomModsMetadataTest {
     var customModsMetadata = new CustomModsMetadata(
       toElement(
         """
-        <norms:legalDocML.de_metadaten xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8/'>
+        <norms:legalDocML.de_metadaten xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
              <norms:zielnorm-references>
                  <norms:zielnorm-reference>
                      <norms:typ>Änderungsvorschrift</norms:typ>
@@ -85,7 +85,7 @@ class CustomModsMetadataTest {
       var customModsMetadata = new CustomModsMetadata(
         toElement(
           """
-          <norms:legalDocML.de_metadaten xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8/'></norms:legalDocML.de_metadaten>
+          <norms:legalDocML.de_metadaten xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'></norms:legalDocML.de_metadaten>
           """
         )
       );
@@ -99,7 +99,7 @@ class CustomModsMetadataTest {
       var customModsMetadata = new CustomModsMetadata(
         toElement(
           """
-          <norms:legalDocML.de_metadaten xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8/'>
+          <norms:legalDocML.de_metadaten xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
                <norms:zielnorm-references>
                    <norms:zielnorm-reference>
                        <norms:typ>Änderungsvorschrift</norms:typ>
@@ -140,7 +140,7 @@ class CustomModsMetadataTest {
       var customModsMetadata = new CustomModsMetadata(
         toElement(
           """
-          <norms:legalDocML.de_metadaten xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8/'>
+          <norms:legalDocML.de_metadaten xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
                <norms:geltungszeiten>
                  <norms:geltungszeit id="gz-1" art="inkraft">2020-01-01</norms:geltungszeit>
                </norms:geltungszeiten>
@@ -166,7 +166,7 @@ class CustomModsMetadataTest {
       var customModsMetadata = new CustomModsMetadata(
         toElement(
           """
-          <norms:legalDocML.de_metadaten xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8/'>
+          <norms:legalDocML.de_metadaten xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
                <norms:geltungszeiten>
                  <norms:geltungszeit id="gz-1" art="inkraft">2020-01-01</norms:geltungszeit>
                  <norms:geltungszeit id="gz-2" art="inkraft">2022-01-01</norms:geltungszeit>

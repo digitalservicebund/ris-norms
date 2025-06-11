@@ -75,7 +75,7 @@ class RegelungstextTest {
     // given
     final String xml =
       """
-      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
          <akn:act name="regelungstext">
          </akn:act>
       </akn:akomaNtoso>
@@ -212,7 +212,7 @@ class RegelungstextTest {
     // given
     final String xml =
       """
-      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
          <akn:act name="regelungstext">
          </akn:act>
       </akn:akomaNtoso>
@@ -258,7 +258,7 @@ class RegelungstextTest {
     // given
     final String xml =
       """
-      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
          <akn:act name="regelungstext">
             <akn:body eId="hauptteil-n1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
             </akn:body>

@@ -13,7 +13,7 @@ class GegenstandlosTest {
     var gegenstandslos = new Gegenstandlos(
       XmlMapper.toElement(
         """
-        <redok:gegenstandslos xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/" seit="2024-01-01"/>
+        <redok:gegenstandslos xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/" seit="2024-01-01"/>
         """
       )
     );

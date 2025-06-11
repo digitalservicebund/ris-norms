@@ -14,7 +14,7 @@ class ZielnormReferencesTest {
     var zielnormReferences = new ZielnormReferences(
       XmlMapper.toElement(
         """
-         <norms:zielnorm-references xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8/'>
+         <norms:zielnorm-references xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
               <norms:zielnorm-reference>
                   <norms:typ>Änderungsvorschrift</norms:typ>
                   <norms:geltungszeit>gz-1</norms:geltungszeit>
@@ -44,7 +44,7 @@ class ZielnormReferencesTest {
     var zielnormReferences = new ZielnormReferences(
       XmlMapper.toElement(
         """
-         <norms:zielnorm-references xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8/'>
+         <norms:zielnorm-references xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
               <norms:zielnorm-reference>
                   <norms:typ>Änderungsvorschrift</norms:typ>
                   <norms:geltungszeit>gz-1</norms:geltungszeit>

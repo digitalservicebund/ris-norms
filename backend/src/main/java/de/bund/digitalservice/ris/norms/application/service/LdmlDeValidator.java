@@ -48,7 +48,7 @@ public class LdmlDeValidator {
   private final XsdSchemaService xsdSchemaService;
 
   public LdmlDeValidator(
-    @Value("classpath:/LegalDocML.de/1.8/schema/legalDocML.de.xsl") Resource schematronXslt,
+    @Value("classpath:/LegalDocML.de/1.8.1/schema/legalDocML.de.xsl") Resource schematronXslt,
     XsdSchemaService xsdSchemaService
   ) {
     this.xsdSchemaService = xsdSchemaService;

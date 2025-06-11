@@ -7,7 +7,7 @@ import { useNormGuidService } from "@/services/normGuidService"
 
 /**
  * The regular expressions for the eId is based on the definitions from
- * LDML.de 1.8 (Section 9.2.12.64, eIdLiterals.einzelvorschrift)
+ * LDML.de 1.8.1 (Section 9.2.12.64, eIdLiterals.einzelvorschrift)
  *
  * The expression only matches eIds that represent articles.
  *

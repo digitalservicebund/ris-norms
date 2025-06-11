@@ -17,7 +17,7 @@ class ZeitgrenzeTest {
     var zeitgrenze = new Zeitgrenze(
       XmlMapper.toElement(
         """
-        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/" art="inkraft">2020-01-01</norms:geltungszeit>
+        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" art="inkraft">2020-01-01</norms:geltungszeit>
         """
       ),
       mock()
@@ -33,7 +33,7 @@ class ZeitgrenzeTest {
     var zeitgrenze = new Zeitgrenze(
       XmlMapper.toElement(
         """
-        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/" id="gz-1">2020-01-01</norms:geltungszeit>
+        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" id="gz-1">2020-01-01</norms:geltungszeit>
         """
       ),
       mock()
@@ -51,7 +51,7 @@ class ZeitgrenzeTest {
     var zeitgrenze = new Zeitgrenze(
       XmlMapper.toElement(
         """
-        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/" id="gz-1" art="unknown">2020-01-01</norms:geltungszeit>
+        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" id="gz-1" art="unknown">2020-01-01</norms:geltungszeit>
         """
       ),
       mock()
@@ -67,7 +67,7 @@ class ZeitgrenzeTest {
     var zeitgrenze = new Zeitgrenze(
       XmlMapper.toElement(
         """
-        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/" id="gz-1" art="inkraft"></norms:geltungszeit>
+        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" id="gz-1" art="inkraft"></norms:geltungszeit>
         """
       ),
       mock()
@@ -83,7 +83,7 @@ class ZeitgrenzeTest {
     var zeitgrenze = new Zeitgrenze(
       XmlMapper.toElement(
         """
-        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/" id="gz-1" art="inkraft">2020-01-32</norms:geltungszeit>
+        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" id="gz-1" art="inkraft">2020-01-32</norms:geltungszeit>
         """
       ),
       mock()
@@ -99,7 +99,7 @@ class ZeitgrenzeTest {
     var zeitgrenze = new Zeitgrenze(
       XmlMapper.toElement(
         """
-        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/" id="gz-1" art="inkraft">2020-01-30</norms:geltungszeit>
+        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" id="gz-1" art="inkraft">2020-01-30</norms:geltungszeit>
         """
       ),
       mock()
@@ -113,7 +113,7 @@ class ZeitgrenzeTest {
     var zeitgrenze = new Zeitgrenze(
       XmlMapper.toElement(
         """
-        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/" id="gz-1" art="inkraft">2020-01-30</norms:geltungszeit>
+        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" id="gz-1" art="inkraft">2020-01-30</norms:geltungszeit>
         """
       ),
       mock()
@@ -127,7 +127,7 @@ class ZeitgrenzeTest {
     var zeitgrenze = new Zeitgrenze(
       XmlMapper.toElement(
         """
-        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/" id="gz-1" art="inkraft">2020-01-30</norms:geltungszeit>
+        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" id="gz-1" art="inkraft">2020-01-30</norms:geltungszeit>
         """
       ),
       mock()
@@ -145,7 +145,7 @@ class ZeitgrenzeTest {
     var zeitgrenze = new Zeitgrenze(
       XmlMapper.toElement(
         """
-        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8/" id="gz-1" art="inkraft">2020-01-30</norms:geltungszeit>
+        <norms:geltungszeit xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" id="gz-1" art="inkraft">2020-01-30</norms:geltungszeit>
         """
       ),
       isInUse

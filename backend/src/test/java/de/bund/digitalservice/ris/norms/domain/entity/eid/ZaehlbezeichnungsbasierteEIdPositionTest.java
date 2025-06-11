@@ -16,7 +16,7 @@ class ZaehlbezeichnungsbasierteEIdPositionTest {
     void artikel() {
       var node = XmlMapper.toElement(
         """
-        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
+        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
             <akn:num>Artikel 1</akn:num>
         </akn:article>
         """
@@ -31,7 +31,7 @@ class ZaehlbezeichnungsbasierteEIdPositionTest {
     void parenthesis() {
       var node = XmlMapper.toElement(
         """
-        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
+        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
             <akn:num>(1)</akn:num>
         </akn:article>
         """
@@ -46,7 +46,7 @@ class ZaehlbezeichnungsbasierteEIdPositionTest {
     void emptyNum() {
       var node = XmlMapper.toElement(
         """
-        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
+        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
             <akn:num></akn:num>
         </akn:article>
         """
@@ -61,7 +61,7 @@ class ZaehlbezeichnungsbasierteEIdPositionTest {
     void missingNum() {
       var node = XmlMapper.toElement(
         """
-        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"></akn:article>
+        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"></akn:article>
         """
       );
 
@@ -74,7 +74,7 @@ class ZaehlbezeichnungsbasierteEIdPositionTest {
     void complexContent() {
       var node = XmlMapper.toElement(
         """
-        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/">
+        <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
             <akn:num>Artik. 1-1?</akn:num>
         </akn:article>
         """

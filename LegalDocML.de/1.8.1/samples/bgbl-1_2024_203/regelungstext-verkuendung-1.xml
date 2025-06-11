@@ -1,0 +1,407 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="/LegalDocML.de/1.8.1/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<!-- Es handelt sich hier um eine inoffizielle und automatische Konvertierung der Verkündung BGBl. 2024 I Nr. 203 vom 21.06.2024. (https://www.recht.bund.de/eli/bund/bgbl-1/2024/203) -->
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd">
+   <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
+      <akn:meta GUID="38cc4117-c671-4f78-bf23-eb83a0b2781f" eId="meta-n1">
+         <akn:identification GUID="e49972f6-baae-4c9b-9a43-f7cc98f8d5f8"
+                             eId="meta-n1_ident-n1"
+                             source="attributsemantik-noch-undefiniert">
+            <akn:FRBRWork GUID="a1f22523-6b21-4269-bdec-aa252ffc40b3"
+                          eId="meta-n1_ident-n1_frbrwork-n1">
+               <akn:FRBRthis GUID="99932d2a-dfdd-49ac-ac64-f85a5f176b76"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2024/203/regelungstext-verkuendung-1"/>
+               <akn:FRBRuri GUID="350a15d2-e0ee-4531-ba90-75387608e6d3"
+                            eId="meta-n1_ident-n1_frbrwork-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2024/203"/>
+               <akn:FRBRalias GUID="e0fb1f46-cbe9-4070-963f-59175828e2e9"
+                              eId="meta-n1_ident-n1_frbrwork-n1_frbralias-n1"
+                              name="übergreifende-id"
+                              value="e0fb1f46-cbe9-4070-963f-59175828e2e9"/>
+               <akn:FRBRdate GUID="dbc4aaad-32a5-498d-b194-d7cf983abedf"
+                             date="2024-06-21"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
+                             name="verkuendungsfassung-ausfertigungsdatum"/>
+               <akn:FRBRdate GUID="fcbce299-f1c2-4ead-aa03-7e6cc6a65ca4"
+                             date="2024-06-21"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
+                             name="verkuendungsfassung-verkuendungsdatum"/>
+               <akn:FRBRauthor GUID="3d5fe02f-f1ad-4595-9c9f-c248f8a10f33"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRcountry GUID="f8759ee8-cede-4653-a165-83dc04a25527"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrcountry-n1"
+                                value="de"/>
+               <akn:FRBRnumber GUID="2721a55d-a95b-41b6-b830-0d7da6bde564"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrnumber-n1"
+                               value="203"/>
+               <akn:FRBRname GUID="16bfead1-073d-45b0-b2c6-2925744bdd12"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrname-n1"
+                             value="bgbl-1"/>
+               <akn:FRBRsubtype GUID="8dcd8dd6-e541-463d-82fe-db2d840c6624"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"
+                                value="regelungstext-verkuendung-1"/>
+            </akn:FRBRWork>
+            <akn:FRBRExpression GUID="9061423e-5a40-4629-93bb-c0a9fddbc4d9"
+                                eId="meta-n1_ident-n1_frbrexpression-n1">
+               <akn:FRBRthis GUID="3777051c-ec24-473e-acb2-6a6eeac01600"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/regelungstext-verkuendung-1"/>
+               <akn:FRBRuri GUID="e48a3027-b063-4fb1-af7f-7560d1b2a5c3"
+                            eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu"/>
+               <akn:FRBRalias GUID="ad7bd26f-d7a4-423d-ad05-2347c346685a"
+                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1"
+                              name="aktuelle-version-id"
+                              value="ad7bd26f-d7a4-423d-ad05-2347c346685a"/>
+               <akn:FRBRauthor GUID="deffe3e2-0ffa-40a0-969b-9d9e0dccc327"
+                               eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRdate GUID="5f28dc1f-17aa-43a9-a8f5-2a6a7b9ad1bb"
+                             date="2024-06-21"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"
+                             name="verkuendung"/>
+               <akn:FRBRlanguage GUID="fde413f0-481a-411b-b5e6-03ce6b21c7f0"
+                                 eId="meta-n1_ident-n1_frbrexpression-n1_frbrlanguage-n1"
+                                 language="deu"/>
+               <akn:FRBRversionNumber GUID="00cfa77d-b628-44a3-ae87-c99e915ea092"
+                                      eId="meta-n1_ident-n1_frbrexpression-n1_frbrversionnumber-n1"
+                                      value="1"/>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation GUID="ff2849fa-2f45-4b2f-81ee-154bbdea95c6"
+                                   eId="meta-n1_ident-n1_frbrmanifestation-n1">
+               <akn:FRBRthis GUID="a095d041-c3f8-44c5-ad63-57f20a03a948"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/2024-06-21/regelungstext-verkuendung-1.xml"/>
+               <akn:FRBRuri GUID="af0fbbfc-e81e-42a2-b825-35f9181e8594"
+                            eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/2024-06-21/regelungstext-verkuendung-1.xml"/>
+               <akn:FRBRdate GUID="0c900549-904b-43c0-861d-362b6e40584c"
+                             date="2024-06-21"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"
+                             name="generierung"/>
+               <akn:FRBRauthor GUID="a85935af-6900-495b-bd29-bd3cfdd3f8be"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrauthor-n1"
+                               href="recht.bund.de"/>
+               <akn:FRBRformat GUID="cf880b7f-c25b-44c1-9be4-352890adcb59"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrformat-n1"
+                               value="xml"/>
+            </akn:FRBRManifestation>
+         </akn:identification>
+         <akn:lifecycle GUID="916d226f-2f17-4ad7-a0a6-8d15f53ff2df"
+                        eId="meta-n1_lebzykl-n1"
+                        source="attributsemantik-noch-undefiniert">
+            <akn:eventRef GUID="6b32eae2-712d-42c8-bd30-b6687e877ae8"
+                          date="2024-06-21"
+                          eId="meta-n1_lebzykl-n1_ereignis-n1"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"/>
+            <akn:eventRef GUID="15a30830-8a11-4bc9-9c7a-03bf230eca94"
+                          date="1001-01-01"
+                          eId="meta-n1_lebzykl-n1_ereignis-n2"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"/>
+         </akn:lifecycle>
+         <akn:analysis GUID="eb5d5067-8af1-46c6-99f4-42235ea9b1f3"
+                       eId="meta-n1_analysis-n1"
+                       source="attributsemantik-noch-undefiniert">
+            <akn:activeModifications GUID="9ba332b5-0012-4d3e-b7d7-d048cac639c8"
+                                     eId="meta-n1_analysis-n1_activemod-n1">
+               <akn:textualMod GUID="face2417-31bf-4244-b21e-541eaff615f5"
+                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1"
+                               type="substitution">
+                  <akn:source GUID="4f1548dc-5130-4b1e-bd36-896cf12b99b6"
+                              eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"
+                              href="#art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"/>
+                  <akn:destination GUID="7daf52ed-e0c5-4458-8eff-ac5a8c857702"
+                                   eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"
+                                   href="#"/>
+                  <akn:force GUID="d3978759-2179-4df6-a727-bdec7b995a3b"
+                             eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_gelzeitnachw-n1"
+                             period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"/>
+               </akn:textualMod>
+            </akn:activeModifications>
+         </akn:analysis>
+         <akn:temporalData GUID="c16cb25b-ebe8-4b02-af92-9ad992736199"
+                           eId="meta-n1_geltzeiten-n1"
+                           source="attributsemantik-noch-undefiniert">
+            <akn:temporalGroup GUID="a41a91af-ec9d-426e-9c59-8bc02a7bb67c"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1">
+               <akn:timeInterval GUID="7f9cb138-a120-4e2c-afce-6fb8aaa6f531"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1_gelzeitintervall-n1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n2"/>
+            </akn:temporalGroup>
+         </akn:temporalData>
+         <akn:proprietary GUID="32f3c20c-13fe-4091-bde8-47be7a1e3ec6"
+                          eId="meta-n1_proprietary-n1"
+                          source="attributsemantik-noch-undefiniert">
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+               <regtxt:typ>verordnung</regtxt:typ>
+               <regtxt:form>mantelform</regtxt:form>
+            </regtxt:legalDocML.de_metadaten>
+         </akn:proprietary>
+      </akn:meta>
+      <akn:preface GUID="a403560e-38bc-4556-911d-2a363c2e0a12" eId="einleitung-n1">
+         <akn:longTitle GUID="a8e12557-b696-497a-8482-6ed382ac39ee"
+                        eId="einleitung-n1_doktitel-n1">
+            <akn:p GUID="ce96c060-0791-4146-b6d3-f1f9d98cdab2"
+                   eId="einleitung-n1_doktitel-n1_text-n1">
+               <akn:docTitle GUID="f1c7fd9b-54c8-43a1-a4f9-e63258445f2b"
+                             eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1">Zweite Verordnung <akn:br GUID="c53bf41f-bdc7-49fb-ae11-b337b5c65d15"
+                          eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1_br-n1"/>zur Änderung der Zwangsvollstreckungsformular-Verordnung</akn:docTitle>
+            </akn:p>
+         </akn:longTitle>
+         <akn:block GUID="00337024-4a41-47c7-b79e-a872ce803008"
+                    eId="einleitung-n1_block-n1"
+                    name="attributsemantik-noch-undefiniert">
+            <akn:date GUID="d5634e90-edac-4508-b1a9-cc2cdeb0d12d"
+                      date="2024-06-17"
+                      eId="einleitung-n1_block-n1_datum-n1"
+                      refersTo="ausfertigung-datum">Vom 17. Juni 2024</akn:date>
+         </akn:block>
+      </akn:preface>
+      <akn:preamble GUID="f1fae953-1959-444c-b191-d6e49e757919" eId="präambel-n1">
+         <akn:citations GUID="f09c5f7d-f539-45b5-962d-b8ac3844daae"
+                        eId="präambel-n1_ernormen-n1">
+            <akn:citation GUID="b5e2c9c6-231f-4a40-965f-ec17befdcee6"
+                          eId="präambel-n1_ernormen-n1_ernorm-n1">
+               <akn:p GUID="e17e5fc3-7b2c-4a39-b685-b23b348f878c"
+                      eId="präambel-n1_ernormen-n1_ernorm-n1_text-n1">Auf Grund des § 753 Absatz 3, des § 758a Absatz 6 Satz 1 und 3 und des § 829 Absatz 4 Satz 1 und 3 der Zivilprozessordnung, von denen § 753 Absatz 3 zuletzt durch Artikel 1 Nummer 4 Buchstabe b des Gesetzes vom 21. November 2016 (BGBl. I S. 2591) geändert worden ist und § 758a Absatz 6 Satz 1 und § 829 Absatz 4 Satz 1 durch Artikel 145 Nummer 4 der Verordnung vom 31. August 2015 (BGBl. I S. 1474) geändert worden sind, in Verbindung mit § 1 Absatz 2 des Zuständigkeitsanpassungsgesetzes vom 16. August 2002 (BGBl. I S. 3165) und mit dem Organisationserlass vom 8. Dezember 2021 (BGBl. I S. 5176) verordnet das Bundesministerium der Justiz:</akn:p>
+            </akn:citation>
+         </akn:citations>
+      </akn:preamble>
+      <akn:body GUID="2365c58a-7989-4bcc-880b-aa4bb07e9a30" eId="hauptteil-n1">
+         <akn:article GUID="25f6037a-26c6-47d6-b969-b701c37e9a16"
+                      eId="art-z1"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                      refersTo="hauptaenderung">
+            <akn:num GUID="7c983fd8-052a-48a6-b1cf-24aa976346fa" eId="art-z1_bezeichnung-n1">Artikel 1</akn:num>
+            <akn:heading GUID="1a1ae662-90a0-42a8-9666-1be10367a946" eId="art-z1_überschrift-n1">Änderung der Zwangsvollstreckungsformular-Verordnung</akn:heading>
+            <akn:paragraph GUID="6c8b3206-4c3f-4144-aed5-7630a2958a6c" eId="art-z1_abs-z">
+               <akn:num GUID="16556b49-9279-4160-bf60-f83a923994c3"
+                        eId="art-z1_abs-z_bezeichnung-n1"/>
+               <akn:list GUID="c2c7f24e-9f14-4c0a-8618-0775a99defc6"
+                         eId="art-z1_abs-z_untergl-n1">
+                  <akn:intro GUID="4f8ad690-712c-4d9b-a217-96cc45c6e2bf"
+                             eId="art-z1_abs-z_untergl-n1_intro-n1">
+                     <akn:p GUID="70179e01-82ce-4e61-ac00-6a6b4a7df72a"
+                            eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1">Die Zwangsvollstreckungsformular-Verordnung vom 16. Dezember 2022 (BGBl. I S. 2368), die durch Artikel 1 der Verordnung vom 24. November 2023 (BGBl. 2023 I Nr. 320) geändert worden ist, wird wie folgt geändert:</akn:p>
+                  </akn:intro>
+                  <akn:point GUID="03bf1973-5228-4ee1-bd69-4b16d036bac9"
+                             eId="art-z1_abs-z_untergl-n1_listenelem-n1">
+                     <akn:num GUID="c2827068-ec3e-475a-9ac6-9eea7b2a9678"
+                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                     <akn:content GUID="82ccfec8-32d6-4f39-8557-2f102309181e"
+                                  eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1">
+                        <akn:p GUID="d38eafb8-116b-4c1b-85e5-204710deafc7"
+                               eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                           <akn:mod GUID="dde7933b-32da-4990-96e8-c73e8a0a41ec"
+                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                                    refersTo="aenderungsbefehl-neufassung">§ 6 wird wie folgt gefasst: <akn:quotedStructure GUID="a0ea7123-58e2-4b7b-99fe-411c8c1c8f5f"
+                                                   eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                   endQuote="“"
+                                                   startQuote="„">
+                                 <akn:article GUID="54c6147c-f50b-4fee-a237-e158b471a4c6"
+                                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6"
+                                              period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                                              refersTo="stammform">
+                                    <akn:num GUID="99ab1283-2e8e-4383-a3aa-67df496b0195"
+                                             eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_bezeichnung-n1">§ 6</akn:num>
+                                    <akn:heading GUID="cd36af73-2af4-4029-abeb-4109a6aeb010"
+                                                 eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_überschrift-n1">Übergangsregelung</akn:heading>
+                                    <akn:paragraph GUID="41225d07-8aa5-4da2-b46a-9ae365511e91"
+                                                   eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1">
+                                       <akn:num GUID="48112be5-52a1-4d0f-bfc4-88cb85fe473b"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_bezeichnung-n1">(1)</akn:num>
+                                       <akn:list GUID="802daef0-ac1a-46fa-b536-a53c26ad5171"
+                                                 eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1">
+                                          <akn:intro GUID="d99ea42f-368e-483e-9a88-c9eeeab51a8b"
+                                                     eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_intro-n1">
+                                             <akn:p GUID="07288383-ef20-4a7d-829c-f9b602a3023f"
+                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_intro-n1_text-n1">Für bis einschließlich 30. September 2025 gestellte</akn:p>
+                                          </akn:intro>
+                                          <akn:point GUID="e191ea00-1f1a-404e-a05d-a7b470c43edc"
+                                                     eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n1">
+                                             <akn:num GUID="fa165127-2ed4-4c45-bdcd-e9cd352c001b"
+                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                                             <akn:content GUID="c0ee0c02-59f0-44b0-9c5d-8309327afcde"
+                                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n1_inhalt-n1">
+                                                <akn:p GUID="cbb71ad4-25b2-450c-a32d-813a3b8f5ac4"
+                                                       eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">Vollstreckungsaufträge an Gerichtsvollzieher zur Zwangsvollstreckung wegen privatrechtlicher Geldforderungen,</akn:p>
+                                             </akn:content>
+                                          </akn:point>
+                                          <akn:point GUID="87a7f7ea-1379-4ebf-8294-0842516c1c97"
+                                                     eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n2">
+                                             <akn:num GUID="f4862cbf-6cf4-43bd-8c99-c8af5f92ffe6"
+                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                                             <akn:content GUID="de2164e8-8df9-4c67-a258-5c8847b01e08"
+                                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
+                                                <akn:p GUID="b36ea54b-a63b-4bcd-9b12-6667322a450b"
+                                                       eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Anträge auf Erlass einer richterlichen Durchsuchungsanordnung nach § 758a Absatz 1 der Zivilprozessordnung,</akn:p>
+                                             </akn:content>
+                                          </akn:point>
+                                          <akn:point GUID="ba743977-61d5-4f3e-9a6a-d76ae959b9f9"
+                                                     eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n3">
+                                             <akn:num GUID="ca83d4a8-8a25-4bdc-b05f-5dbc35ce614a"
+                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                                             <akn:content GUID="ab30f130-4370-421e-a3e9-be86e6a27a1c"
+                                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n3_inhalt-n1">
+                                                <akn:p GUID="9161aee5-cfd2-43b7-a5db-07182dcd2bf8"
+                                                       eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">Anträge auf Erlass eines Pfändungsbeschlusses nach § 829 der Zivilprozessordnung und</akn:p>
+                                             </akn:content>
+                                          </akn:point>
+                                          <akn:point GUID="369ddd24-5a50-4a50-bcd5-85eef60ffb48"
+                                                     eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n4">
+                                             <akn:num GUID="f2716379-0009-48bd-9463-8cfe2f62004a"
+                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
+                                             <akn:content GUID="3a300ee8-fa40-4a59-a8df-b8637077bd6c"
+                                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n4_inhalt-n1">
+                                                <akn:p GUID="149f71d6-e2a0-4290-a896-78fc5618fe2f"
+                                                       eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n4_inhalt-n1_text-n1">Anträge auf Erlass eines Pfändungs- und Überweisungsbeschlusses nach den §§ 829 und 835 der Zivilprozessordnung</akn:p>
+                                             </akn:content>
+                                          </akn:point>
+                                          <akn:wrapUp GUID="c8808ffe-4e32-4423-89be-716579bc8dc4"
+                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_schlusstext-n1">
+                                             <akn:p GUID="ac5e4897-42a4-4ab4-90a9-a7794b66af62"
+                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_schlusstext-n1_text-n1">dürfen diejenigen Formulare weiter genutzt werden, die durch diese Verordnung in der Fassung vom 24. November 2023 für solche Aufträge und Anträge bestimmt sind.</akn:p>
+                                          </akn:wrapUp>
+                                       </akn:list>
+                                    </akn:paragraph>
+                                    <akn:paragraph GUID="0726bf36-1b07-4c23-9084-63975b1e2a75"
+                                                   eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z2">
+                                       <akn:num GUID="70ee5f1c-6eea-48a9-a4c4-8dab2bbdcff8"
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z2_bezeichnung-n1">(2)</akn:num>
+                                       <akn:content GUID="208387e5-bf1b-4f52-8144-f7d54250d819"
+                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z2_inhalt-n1">
+                                          <akn:p GUID="04bbcc1e-32d2-44f2-ad79-2c977d196a0d"
+                                                 eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z2_inhalt-n1_text-n1">Ist für Vollstreckungsaufträge an Gerichtsvollzieher zur Zwangsvollstreckung wegen öffentlich-rechtlicher Geldforderungen die Nutzung der Formulare der Anlagen 1 und 6 verbindlich, so müssen diese Formulare erst für solche Vollstreckungsaufträge genutzt werden, die ab dem 1. Oktober 2025 gestellt werden.</akn:p>
+                                       </akn:content>
+                                    </akn:paragraph>
+                                 </akn:article>
+                              </akn:quotedStructure>
+                           </akn:mod>
+                        </akn:p>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="effcbfc0-6cbf-455c-89e9-fbbbd7bb6a90"
+                             eId="art-z1_abs-z_untergl-n1_listenelem-n2">
+                     <akn:num GUID="2d3198dc-3c3f-4354-ac3d-23ef76a29324"
+                              eId="art-z1_abs-z_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                     <akn:content GUID="3f3fed7f-19aa-48da-8dbf-e7fe967cedf9"
+                                  eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1">
+                        <akn:p GUID="08de2488-2d0a-4587-a3f6-bf663a1d8b78"
+                               eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Die Anlagen 1 bis 8 erhalten jeweils die aus dem Anhang zu dieser Verordnung ersichtliche Fassung.</akn:p>
+                     </akn:content>
+                  </akn:point>
+               </akn:list>
+            </akn:paragraph>
+         </akn:article>
+         <akn:article GUID="136d956e-3a2f-479c-be6c-a028b3f247bb"
+                      eId="art-z2"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                      refersTo="geltungszeitregel">
+            <akn:num GUID="3fe29a4e-39d9-46a4-a51a-054c595dfcd2" eId="art-z2_bezeichnung-n1">Artikel 2</akn:num>
+            <akn:heading GUID="336c430b-16cc-41a0-acdb-bf7dad070879" eId="art-z2_überschrift-n1">Inkrafttreten</akn:heading>
+            <akn:paragraph GUID="56cb8e72-0bb9-4964-a77f-d97ea290f9fe" eId="art-z2_abs-z">
+               <akn:num GUID="a653fada-1a44-4fcb-bc97-834c4d928194"
+                        eId="art-z2_abs-z_bezeichnung-n1"/>
+               <akn:content GUID="60243a05-5cec-47dc-ba63-643284bf8028"
+                            eId="art-z2_abs-z_inhalt-n1">
+                  <akn:p GUID="1d4d01b0-860f-4b8b-8660-3097e7666a95"
+                         eId="art-z2_abs-z_inhalt-n1_text-n1">Diese Verordnung tritt am 1. September 2024 in Kraft.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+         </akn:article>
+      </akn:body>
+      <akn:conclusions GUID="c909b87b-a6f9-4be3-a6d3-f1cdd6be4dde" eId="schluss-n1">
+         <akn:formula GUID="613b45ba-9659-48bb-95b1-eca5ed2d4060"
+                      eId="schluss-n1_formel-n1"
+                      name="attributsemantik-noch-undefiniert"
+                      refersTo="schlussformel">
+            <akn:p GUID="dc3dbd1b-feab-4618-9b94-48a55dec1ad9"
+                   eId="schluss-n1_formel-n1_text-n1">Der Bundesrat hat zugestimmt.</akn:p>
+         </akn:formula>
+         <akn:blockContainer GUID="fc84a8e6-cbad-4c09-a70d-44217e712d8b"
+                             eId="schluss-n1_blockcontainer-n1">
+            <akn:p GUID="636a9841-9dab-46a2-8011-41ce2272bbad"
+                   eId="schluss-n1_blockcontainer-n1_text-n1">
+               <akn:location GUID="87452fa9-08c2-41fc-b24b-1c50d6abc3d8"
+                             eId="schluss-n1_blockcontainer-n1_text-n1_ort-n1"
+                             refersTo="attributsemantik-noch-undefiniert">Berlin, den</akn:location>
+               <akn:date GUID="c8d2b906-f0e8-46d0-b2ac-533ee5d895c7"
+                         date="2024-06-17"
+                         eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1"
+                         refersTo="ausfertigung-datum">17. Juni 2024</akn:date>
+            </akn:p>
+            <akn:p GUID="1dd7d345-1bf0-49bd-97af-c7d92598dbc6"
+                   eId="schluss-n1_blockcontainer-n1_text-n2">
+               <akn:signature GUID="060605a8-0105-4ca6-b729-dc6c787dc463"
+                              eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1">
+                  <akn:role GUID="57da3780-c489-4e80-98ac-d5e5d203d191"
+                            eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1_fktbez-n1"
+                            refersTo="attributsemantik-noch-undefiniert">Der Bundesminister der Justiz</akn:role>
+                  <akn:person GUID="d59e45f5-01ee-4589-bb7f-ba00bdb0d5e9"
+                              eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1_person-n1"
+                              refersTo="attributsemantik-noch-undefiniert">Marco Buschmann</akn:person>
+               </akn:signature>
+            </akn:p>
+         </akn:blockContainer>
+      </akn:conclusions>
+      <akn:attachments GUID="366e1a39-4c9b-43bd-8cc6-128e5c5b8712" eId="anlagen-n1">
+         <akn:attachment GUID="5362c36c-7894-4700-ad88-629af141e3df" eId="anlagen-n1_anlage-n1">
+            <akn:documentRef GUID="9fa19e66-d778-4634-896d-90251ba94280"
+                             eId="anlagen-n1_anlage-n1_verweis-n1"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-1.xml"
+                             showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
+         </akn:attachment>
+         <akn:attachment GUID="a15f6c16-3ce9-4c92-91e6-d024be07596a" eId="anlagen-n1_anlage-n2">
+            <akn:documentRef GUID="7818373d-2ff3-416d-b956-8d1554dcae81"
+                             eId="anlagen-n1_anlage-n2_verweis-n1"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-2.xml"
+                             showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
+         </akn:attachment>
+         <akn:attachment GUID="09bc36e1-bbd7-48a3-a4d7-531aa8bbe91c" eId="anlagen-n1_anlage-n3">
+            <akn:documentRef GUID="0b0bbc4d-40a4-40f4-aea7-76a71385e488"
+                             eId="anlagen-n1_anlage-n3_verweis-n1"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-3.xml"
+                             showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
+         </akn:attachment>
+         <akn:attachment GUID="edb20bff-f118-4a0f-a841-0449bc37ffbc" eId="anlagen-n1_anlage-n4">
+            <akn:documentRef GUID="4f5d5d7f-23bf-4a8b-8c24-9ae4553fed98"
+                             eId="anlagen-n1_anlage-n4_verweis-n1"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-4.xml"
+                             showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
+         </akn:attachment>
+         <akn:attachment GUID="7bae9a6e-573e-49a0-b9a9-15ca4198022b" eId="anlagen-n1_anlage-n5">
+            <akn:documentRef GUID="edcb51c9-3ff2-4031-8cad-41040a8b42e6"
+                             eId="anlagen-n1_anlage-n5_verweis-n1"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-5.xml"
+                             showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
+         </akn:attachment>
+         <akn:attachment GUID="8c2fcdc6-c13a-4aff-b80a-383e04df790e" eId="anlagen-n1_anlage-n6">
+            <akn:documentRef GUID="7385771b-d85d-4a5f-8112-17957d5e7b04"
+                             eId="anlagen-n1_anlage-n6_verweis-n1"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-6.xml"
+                             showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
+         </akn:attachment>
+         <akn:attachment GUID="e0fc84cf-65a7-4fcf-b745-d2386c6a2ac0" eId="anlagen-n1_anlage-n7">
+            <akn:documentRef GUID="1c65b650-de68-47f6-9f50-e5d3c2017847"
+                             eId="anlagen-n1_anlage-n7_verweis-n1"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-7.xml"
+                             showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
+         </akn:attachment>
+         <akn:attachment GUID="39b1b18c-f532-4374-9ad2-40544f0c0550" eId="anlagen-n1_anlage-n8">
+            <akn:documentRef GUID="bf314ae9-83f2-4d7a-bb18-713c9c20103b"
+                             eId="anlagen-n1_anlage-n8_verweis-n1"
+                             href="eli/bund/bgbl-1/2024/203/2024-06-21/1/deu/anlage-regelungstext-8.xml"
+                             showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"/>
+         </akn:attachment>
+      </akn:attachments>
+   </akn:act>
+</akn:akomaNtoso>
