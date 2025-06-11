@@ -301,16 +301,14 @@ public class NormService
     NormWorkEli zielnormWorkEli
   ) {
     var geltungszeiten = findGeltungszeitenForZielnorm(verkuendungNorm, zielnormWorkEli);
-
     var earliestGeltungszeit = geltungszeiten.stream().sorted().findFirst();
 
-    if (earliestGeltungszeit.isEmpty()) {
-      return List.of();
-    }
+    if (earliestGeltungszeit.isEmpty()) return List.of();
 
     var existingExpressionElis = loadNormExpressionElisPort.loadNormExpressionElis(
       new LoadNormExpressionElisPort.Options(zielnormWorkEli)
     );
+
     var previousPossibleOrphanExpressions = collectPreviousExpressionsThatMayBeOrphans(
       existingExpressionElis,
       earliestGeltungszeit.get()
@@ -320,58 +318,46 @@ public class NormService
       earliestGeltungszeit.get()
     );
 
-    List<Zielnorm.Expression> expressions = new ArrayList<>();
-
-    final Optional<AmendedNormExpressions> affectedExpressionElis = verkuendungNorm
+    var affectedExpressionElis = verkuendungNorm
       .getRegelungstext1()
       .getMeta()
       .getProprietary()
       .flatMap(Proprietary::getCustomModsMetadata)
       .flatMap(CustomModsMetadata::getAmendedNormExpressions);
 
-    previousPossibleOrphanExpressions.forEach(expression -> {
-      if (
-        affectedExpressionElis.isPresent() &&
-        affectedExpressionElis.get().contains(expression) &&
-        !geltungszeiten.contains(expression.getPointInTime())
-      ) {
+    final List<Zielnorm.Expression> expressions = new ArrayList<>();
+    previousPossibleOrphanExpressions
+      .stream()
+      .filter(
+        expr ->
+          affectedExpressionElis.isPresent() &&
+          affectedExpressionElis.get().contains(expr) &&
+          !geltungszeiten.contains(expr.getPointInTime())
+      )
+      .forEach(expr ->
+        expressions.add(
+          new Zielnorm.Expression(expr, false, true, true, Zielnorm.CreatedBy.THIS_VERKUENDUNG)
+        )
+      );
+
+    relevantExistingExpressions.forEach(expression -> {
+      boolean wasAlreadyCreatedByThisVerkuendung =
+        affectedExpressionElis.isPresent() && affectedExpressionElis.get().contains(expression);
+      var date = expression.getPointInTime();
+      if (wasAlreadyCreatedByThisVerkuendung) {
+        boolean isNotWithinGeltungszeiten = !geltungszeiten.contains(date);
+        // If it was already created by this verkuendung, present under "amended-norm-expressions", could be an override or actually an orphan (if !isNotWithinGeltungszeiten)
         expressions.add(
           new Zielnorm.Expression(
             expression,
             false,
             true,
-            true,
+            isNotWithinGeltungszeiten,
             Zielnorm.CreatedBy.THIS_VERKUENDUNG
           )
         );
-      }
-    });
-
-    relevantExistingExpressions.forEach(expression -> {
-      if (affectedExpressionElis.isPresent() && affectedExpressionElis.get().contains(expression)) {
-        if (!geltungszeiten.contains(expression.getPointInTime())) {
-          expressions.add(
-            new Zielnorm.Expression(
-              expression,
-              false,
-              true,
-              true,
-              Zielnorm.CreatedBy.THIS_VERKUENDUNG
-            )
-          );
-        } else {
-          // Otherwise it will be an override
-          expressions.add(
-            new Zielnorm.Expression(
-              expression,
-              false,
-              true,
-              false,
-              Zielnorm.CreatedBy.THIS_VERKUENDUNG
-            )
-          );
-        }
       } else {
+        // If it was not created by this verkuendung, it will be set to gegenstandslos and a new SYSTEM one replacing it will be created
         expressions.add(
           new Zielnorm.Expression(
             expression,
@@ -381,18 +367,13 @@ public class NormService
             Zielnorm.CreatedBy.OTHER_VERKUENDUNG
           )
         );
+        var nextEli = eliService.findNextExpressionEli(
+          expression.asWorkEli(),
+          date,
+          expression.getLanguage()
+        );
         expressions.add(
-          new Zielnorm.Expression(
-            eliService.findNextExpressionEli(
-              expression.asWorkEli(),
-              expression.getPointInTime(),
-              expression.getLanguage()
-            ),
-            false,
-            false,
-            false,
-            Zielnorm.CreatedBy.SYSTEM
-          )
+          new Zielnorm.Expression(nextEli, false, false, false, Zielnorm.CreatedBy.SYSTEM)
         );
       }
     });
@@ -400,25 +381,23 @@ public class NormService
     geltungszeiten
       .stream()
       .sorted()
-      .forEach(date -> {
-        // find a possible already created entry that was created as a replacement for an
-        // existing expression. If we also created such an entry for a Geltungszeitregel we
-        // need to change the createdBy to "diese Verkündung"
-        var existingEntry = expressions
+      .forEach(geltungszeit -> {
+        // find a possible already created entry that was created as a replacement for an existing expression. If we also
+        // created such an entry for a Geltungszeitregel we need to change the createdBy to "diese Verkündung"
+        var replacement = expressions
           .stream()
           .filter(
-            expression ->
-              expression.normExpressionEli().getPointInTime().equals(date) &&
-              expression.normExpressionEli().getLanguage().equals("deu") &&
-              expression.createdBy().equals(Zielnorm.CreatedBy.SYSTEM)
+            expr ->
+              expr.normExpressionEli().getPointInTime().equals(geltungszeit) &&
+              expr.normExpressionEli().getLanguage().equals("deu") &&
+              expr.createdBy() == Zielnorm.CreatedBy.SYSTEM
           )
           .findFirst();
-
-        if (existingEntry.isPresent()) {
-          expressions.remove(existingEntry.get());
+        if (replacement.isPresent()) {
+          expressions.remove(replacement.get());
           expressions.add(
             new Zielnorm.Expression(
-              existingEntry.get().normExpressionEli(),
+              replacement.get().normExpressionEli(),
               false,
               false,
               false,
@@ -427,24 +406,18 @@ public class NormService
           );
         } else {
           // Only add new not-yet-created expressions if they are really not yet created
-          var alreadyCreated = expressions
+          boolean alreadyExists = expressions
             .stream()
-            .filter(
-              expression ->
-                expression.normExpressionEli().getPointInTime().equals(date) &&
-                expression.normExpressionEli().getLanguage().equals("deu") &&
-                expression.createdBy().equals(Zielnorm.CreatedBy.THIS_VERKUENDUNG)
-            )
-            .findFirst();
-          if (alreadyCreated.isEmpty()) {
+            .anyMatch(
+              expr ->
+                expr.normExpressionEli().getPointInTime().equals(geltungszeit) &&
+                expr.normExpressionEli().getLanguage().equals("deu") &&
+                expr.createdBy() == Zielnorm.CreatedBy.THIS_VERKUENDUNG
+            );
+          if (!alreadyExists) {
+            var eli = eliService.findNextExpressionEli(zielnormWorkEli, geltungszeit, "deu");
             expressions.add(
-              new Zielnorm.Expression(
-                eliService.findNextExpressionEli(zielnormWorkEli, date, "deu"),
-                false,
-                false,
-                false,
-                Zielnorm.CreatedBy.THIS_VERKUENDUNG
-              )
+              new Zielnorm.Expression(eli, false, false, false, Zielnorm.CreatedBy.THIS_VERKUENDUNG)
             );
           }
         }
@@ -547,135 +520,19 @@ public class NormService
       .stream()
       // Don't include those that should become gegenstandslos because they will me mark as gegenstandslos when the replacing new expression is created
       .filter(f -> !f.isGegenstandslos())
-      .forEach(expression -> {
-        if (
-          expression.isCreated() && amendedNormExpressions.contains(expression.normExpressionEli())
-        ) {
-          if (geltungszeiten.contains(expression.normExpressionEli().getPointInTime())) {
-            // Expression is already created, and it is contained in the amended-norm-expressions, meaning needs to be overriden
-            final Norm norm = loadNormPort
-              .loadNorm(new LoadNormPort.Options(expression.normExpressionEli()))
-              .orElseThrow(() ->
-                new IllegalStateException(
-                  String.format("Norm %s must exist", expression.normExpressionEli())
-                )
-              );
-            // Build new expression by taking the previous closest one (meaning not cloning the one being overriden)
-            final Norm previousClosestExpression =
-              findPreviousNotSameDayThanClosestExistingExpression(
-                zielnorm.normWorkEli(),
-                expression.normExpressionEli().getPointInTime()
-              ).orElseThrow(() ->
-                new IllegalStateException("Previous closest expression (not same day) not found")
-              );
-            final CreateNewVersionOfNormService.CreateNewExpressionResult result =
-              createNewVersionOfNormService.createNewOverridenExpression(
-                previousClosestExpression,
-                norm
-              );
-            // Result is a new expression with the same eli but content based on the previous closest expression, which can be different from the one used to create the overriden expression
-            updateOrSaveNormPort.updateOrSave(
-              new UpdateOrSaveNormPort.Options(result.newExpression())
-            );
-            // We also need to create new manifestation of expression on which the new expression was based, in case it differs from the one that was used to create the overriden expression
-            updateOrSaveNormPort.updateOrSave(
-              new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
-            );
-          } else {
-            // It is an orphan, retrieved from DB because first time boundary for work eli was before this orphan
-            final boolean deleted = removeOrphan(expression.normExpressionEli());
-            if (deleted) {
-              amendedNormExpressions.remove(expression.normExpressionEli());
-              removedOrphans.add(expression.normExpressionEli());
-            }
-          }
-        } else if (!expression.isCreated()) {
-          // If it is not created yet, so take the previous closest expression, which can be on the same day (for the case of same day, leading to a gegenstandslos version)
-          final Norm previousClosestExpression = findPreviousAndSameDayClosestExistingExpression(
-            zielnorm.normWorkEli(),
-            expression.normExpressionEli().getPointInTime()
-          ).orElseThrow(() ->
-            new IllegalStateException("Previous closest expression (including same day) not found")
-          );
+      .forEach(expression ->
+        processExpression(
+          expression,
+          zielnorm,
+          amendedNormExpressions,
+          geltungszeiten,
+          removedOrphans,
+          verkuendungNorm
+        )
+      );
 
-          // Check if the previous closest is actually one that should be set to gegenstandslos (by checking our zielnormen preview list)
-          boolean previousShouldBecomeGegenstandslos = zielnorm
-            .expressions()
-            .stream()
-            .anyMatch(
-              f ->
-                f.normExpressionEli().equals(previousClosestExpression.getExpressionEli()) &&
-                f.isGegenstandslos()
-            );
-          if (previousShouldBecomeGegenstandslos) {
-            // If the one retrieved should become gegenstandslos we need to create three 3 manifestations, for that we need to preceding expression of the one becoming gegenstandslos
-            final Norm precedingClosestExpression =
-              findPreviousNotSameDayThanClosestExistingExpression(
-                zielnorm.normWorkEli(),
-                previousClosestExpression.getExpressionEli().getPointInTime()
-              ).orElseThrow(() ->
-                new IllegalStateException(
-                  "Previous closest expression (preceding a becoming gegentstandslos one) not found"
-                )
-              );
+    cleanUpOrphanAmendedExpressions(zielnorm, amendedNormExpressions, removedOrphans);
 
-            final CreateNewVersionOfNormService.CreateNewExpressionResultIncludingGegenstandslos result =
-              createNewVersionOfNormService.createNewExpression(
-                previousClosestExpression,
-                precedingClosestExpression,
-                expression.normExpressionEli().getPointInTime(),
-                verkuendungNorm.getRegelungstext1().getMeta().getFRBRWork().getFBRDate()
-              );
-            updateOrSaveNormPort.updateOrSave(
-              new UpdateOrSaveNormPort.Options(result.newExpression())
-            );
-            updateOrSaveNormPort.updateOrSave(
-              new UpdateOrSaveNormPort.Options(result.newManifestationOfGegenstandslosExpression())
-            );
-            updateOrSaveNormPort.updateOrSave(
-              new UpdateOrSaveNormPort.Options(result.newManifestationOfPrecidingExpression())
-            );
-            // Add expression eli of new expression into amended-expressions
-            amendedNormExpressions.add(result.newExpression().getExpressionEli());
-          } else {
-            // If the previous one is not to become gegenstandslos, is just a normal new creation of expression, including new manifestation this previous expression
-            final CreateNewVersionOfNormService.CreateNewExpressionResult result =
-              createNewVersionOfNormService.createNewExpression(
-                previousClosestExpression,
-                expression.normExpressionEli().getPointInTime()
-              );
-            updateOrSaveNormPort.updateOrSave(
-              new UpdateOrSaveNormPort.Options(result.newExpression())
-            );
-            updateOrSaveNormPort.updateOrSave(
-              new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
-            );
-            // Add expression eli of new expression into amended-expressions
-            amendedNormExpressions.add(result.newExpression().getExpressionEli());
-          }
-        }
-      });
-    // remove orphan entries of amended-expressions
-    amendedNormExpressions
-      .stream()
-      .filter(f ->
-        !zielnorm
-          .expressions()
-          .stream()
-          .map(Zielnorm.Expression::normExpressionEli)
-          .toList()
-          .contains(f)
-      )
-      .forEach(normExpressionEli -> {
-        final boolean deleted = removeOrphan(normExpressionEli);
-        if (deleted) {
-          amendedNormExpressions.remove(normExpressionEli);
-          removedOrphans.add(normExpressionEli);
-          fixTimeline(normExpressionEli);
-        }
-      });
-
-    // Save Verkündung because of updated amended-expressions
     updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(verkuendungNorm));
 
     return new Zielnorm(
@@ -697,6 +554,152 @@ public class NormService
         )
         .toList()
     );
+  }
+
+  private void processExpression(
+    Zielnorm.Expression expression,
+    Zielnorm zielnorm,
+    AmendedNormExpressions amendedNormExpressions,
+    List<LocalDate> geltungszeiten,
+    List<NormExpressionEli> removedOrphans,
+    Norm verkuendungNorm
+  ) {
+    final NormExpressionEli expressionEli = expression.normExpressionEli();
+    if (expression.isCreated() && amendedNormExpressions.contains(expressionEli)) {
+      handleCreatedExpression(
+        expressionEli,
+        zielnorm,
+        amendedNormExpressions,
+        geltungszeiten,
+        removedOrphans
+      );
+    } else if (!expression.isCreated()) {
+      handleUncreatedExpression(expressionEli, zielnorm, amendedNormExpressions, verkuendungNorm);
+    }
+  }
+
+  private void handleCreatedExpression(
+    NormExpressionEli expressionEli,
+    Zielnorm zielnorm,
+    AmendedNormExpressions amendedNormExpressions,
+    List<LocalDate> geltungszeiten,
+    List<NormExpressionEli> removedOrphans
+  ) {
+    // Expression is already created, and it is contained in the amended-norm-expressions, meaning needs to be overriden
+    if (geltungszeiten.contains(expressionEli.getPointInTime())) {
+      Norm norm = loadNormPort
+        .loadNorm(new LoadNormPort.Options(expressionEli))
+        .orElseThrow(() ->
+          new IllegalStateException(String.format("Norm %s must exist", expressionEli))
+        );
+      // Build new expression by taking the previous closest one (meaning not cloning the one being overriden)
+      Norm previous = findPreviousNotSameDayThanClosestExistingExpression(
+        zielnorm.normWorkEli(),
+        expressionEli.getPointInTime()
+      ).orElseThrow(() ->
+        new IllegalStateException("Previous closest expression (not same day) not found")
+      );
+      var result = createNewVersionOfNormService.createNewOverridenExpression(previous, norm);
+      // Result is a new expression with the same eli but content based on the previous closest expression, which can be different from the one used to create the overriden expression
+      // We also need to create new manifestation of expression on which the new expression was based, in case it differs from the one that was used to create the overriden expression
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(result.newExpression()));
+      updateOrSaveNormPort.updateOrSave(
+        new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
+      );
+    } else {
+      // It is an orphan, retrieved from DB because first time boundary for work eli was before this orphan
+      boolean deleted = removeOrphan(expressionEli);
+      if (deleted) {
+        amendedNormExpressions.remove(expressionEli);
+        removedOrphans.add(expressionEli);
+      }
+    }
+  }
+
+  private void handleUncreatedExpression(
+    NormExpressionEli expressionEli,
+    Zielnorm zielnorm,
+    AmendedNormExpressions amendedNormExpressions,
+    Norm verkuendungNorm
+  ) {
+    // If it is not created yet, so take the previous closest expression, which can be on the same day (for the case of same day, leading to a gegenstandslos version)
+    Norm previous = findPreviousAndSameDayClosestExistingExpression(
+      zielnorm.normWorkEli(),
+      expressionEli.getPointInTime()
+    ).orElseThrow(() ->
+      new IllegalStateException("Previous closest expression (including same day) not found")
+    );
+
+    // Check if the previous closest is actually one that should be set to gegenstandslos (by checking our zielnormen preview list)
+    boolean shouldBeGegenstandslos = zielnorm
+      .expressions()
+      .stream()
+      .anyMatch(
+        f -> f.normExpressionEli().equals(previous.getExpressionEli()) && f.isGegenstandslos()
+      );
+
+    if (shouldBeGegenstandslos) {
+      // If the one retrieved should become gegenstandslos we need to create three 3 manifestations, for that we need to preceding expression of the one becoming gegenstandslos
+      Norm preceding = findPreviousNotSameDayThanClosestExistingExpression(
+        zielnorm.normWorkEli(),
+        expressionEli.getPointInTime()
+      ).orElseThrow(() ->
+        new IllegalStateException(
+          "Previous closest expression (preceding a becoming gegentstandslos one) not found"
+        )
+      );
+      var result = createNewVersionOfNormService.createNewExpression(
+        previous,
+        preceding,
+        expressionEli.getPointInTime(),
+        verkuendungNorm.getRegelungstext1().getMeta().getFRBRWork().getFBRDate()
+      );
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(result.newExpression()));
+      updateOrSaveNormPort.updateOrSave(
+        new UpdateOrSaveNormPort.Options(result.newManifestationOfGegenstandslosExpression())
+      );
+      updateOrSaveNormPort.updateOrSave(
+        new UpdateOrSaveNormPort.Options(result.newManifestationOfPrecidingExpression())
+      );
+      // Add expression eli of new expression into amended-expressions
+      amendedNormExpressions.add(result.newExpression().getExpressionEli());
+    } else {
+      // If the previous one is not to become gegenstandslos, is just a normal new creation of expression, including new manifestation this previous expression
+      var result = createNewVersionOfNormService.createNewExpression(
+        previous,
+        expressionEli.getPointInTime()
+      );
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(result.newExpression()));
+      updateOrSaveNormPort.updateOrSave(
+        new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
+      );
+      // Add expression eli of new expression into amended-expressions
+      amendedNormExpressions.add(result.newExpression().getExpressionEli());
+    }
+  }
+
+  private void cleanUpOrphanAmendedExpressions(
+    Zielnorm zielnorm,
+    AmendedNormExpressions amendedNormExpressions,
+    List<NormExpressionEli> removedOrphans
+  ) {
+    amendedNormExpressions
+      .stream()
+      .filter(f ->
+        zielnorm
+          .expressions()
+          .stream()
+          .map(Zielnorm.Expression::normExpressionEli)
+          .noneMatch(f::equals)
+      )
+      .forEach(normExpressionEli -> {
+        boolean deleted = removeOrphan(normExpressionEli);
+        if (deleted) {
+          amendedNormExpressions.remove(normExpressionEli);
+          removedOrphans.add(normExpressionEli);
+          fixTimeline(normExpressionEli);
+        }
+      });
   }
 
   /**
