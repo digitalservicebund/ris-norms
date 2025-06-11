@@ -939,6 +939,9 @@ components:
               isCreated:
                 type: boolean
                 description: Does this expression already exist in the system?
+              isOrphan:
+                type: boolean
+                description: Would this expression be deleted if the Verkuendung is applied?
               createdBy:
                 type: string
                 description: >
