@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.exception;
 
 import de.bund.digitalservice.ris.norms.application.exception.*;
-import de.bund.digitalservice.ris.norms.application.port.input.CreateVerkuendungUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadSpecificArticlesXmlFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ProcessNormendokumentationspaketUseCase;
 import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidEliException;
@@ -193,19 +192,6 @@ public class NormsAppExceptionHandler {
   @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
   public ProblemDetail handleException(final NotAXmlFileException e) {
     log.error("NotAXmlFileException: {}", e.getMessage(), e);
-    return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
-  }
-
-  /**
-   * Exception handler method for handling {@link CreateVerkuendungUseCase.NotLdmlDeXmlFileException}.
-   *
-   * @param e The exception that occurred.
-   * @return A {@link ResponseEntity} with an HTTP 422 status code and the exception message.
-   */
-  @ExceptionHandler(CreateVerkuendungUseCase.NotLdmlDeXmlFileException.class)
-  @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-  public ProblemDetail handleException(final CreateVerkuendungUseCase.NotLdmlDeXmlFileException e) {
-    log.error("NotLdmlDeXmlFileException: {}", e.getMessage(), e);
     return createProblemDetail(e, HttpStatus.UNPROCESSABLE_ENTITY);
   }
 

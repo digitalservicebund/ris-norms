@@ -29,7 +29,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class VerkuendungenController {
 
   private final LoadAllVerkuendungenUseCase loadAllVerkuendungenUseCase;
-  private final CreateVerkuendungUseCase createVerkuendungUseCase;
   private final LoadNormUseCase loadNormUseCase;
   private final LoadVerkuendungUseCase loadVerkuendungUseCase;
   private final LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase;
@@ -39,7 +38,6 @@ public class VerkuendungenController {
 
   public VerkuendungenController(
     LoadAllVerkuendungenUseCase loadAllVerkuendungenUseCase,
-    CreateVerkuendungUseCase createVerkuendungUseCase,
     LoadNormUseCase loadNormUseCase,
     LoadVerkuendungUseCase loadVerkuendungUseCase,
     LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase,
@@ -48,7 +46,6 @@ public class VerkuendungenController {
     ProcessNormendokumentationspaketUseCase processNormendokumentationspaketUseCase
   ) {
     this.loadAllVerkuendungenUseCase = loadAllVerkuendungenUseCase;
-    this.createVerkuendungUseCase = createVerkuendungUseCase;
     this.loadNormUseCase = loadNormUseCase;
     this.loadVerkuendungUseCase = loadVerkuendungUseCase;
     this.loadNormExpressionsAffectedByVerkuendungUseCase =

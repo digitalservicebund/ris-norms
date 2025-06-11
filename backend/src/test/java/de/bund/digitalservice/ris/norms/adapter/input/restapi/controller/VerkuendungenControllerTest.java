@@ -43,9 +43,6 @@ class VerkuendungenControllerTest {
   private LoadNormUseCase loadNormUseCase;
 
   @MockitoBean
-  private CreateVerkuendungUseCase createVerkuendungUseCase;
-
-  @MockitoBean
   private LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase;
 
   @MockitoBean
