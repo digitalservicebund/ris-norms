@@ -10,6 +10,7 @@ type ZielnormPreviewExpressionResponse = {
   normExpressionEli: string
   isGegenstandslos: boolean
   isCreated: boolean
+  isOrphan: boolean
   createdBy: "diese Verkündung" | "andere Verkündung" | "System"
 }
 
@@ -32,6 +33,7 @@ function mapResponseToDomain(
       createdBy: i.createdBy,
       isCreated: i.isCreated,
       isGegenstandslos: i.isGegenstandslos,
+      isOrphan: i.isOrphan,
     })),
   }
 

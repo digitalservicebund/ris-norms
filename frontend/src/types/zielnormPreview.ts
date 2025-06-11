@@ -14,6 +14,9 @@ export type ZielnormPreviewExpression = {
   /** Does this expression already exist in the system? */
   isCreated: boolean
 
+  /** Is this expression an orphan? */
+  isOrphan: boolean
+
   /**
    * Explanation for the reason that this expression will be set to gegenstandslos
    * or be created:
