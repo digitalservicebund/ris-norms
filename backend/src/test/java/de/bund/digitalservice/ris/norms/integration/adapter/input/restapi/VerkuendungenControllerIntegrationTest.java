@@ -476,14 +476,10 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath(
             "errors[0].type",
-            equalTo(
-              "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-VERKF-hrefLiterals.expression.FRBRauthor"
-            )
+            equalTo("/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000")
           )
         )
-        .andExpect(
-          jsonPath("errors[0].eId", equalTo("meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"))
-        );
+        .andExpect(jsonPath("errors[0].eId", equalTo("meta-n1_geltzeiten-n1")));
     }
 
     @Test

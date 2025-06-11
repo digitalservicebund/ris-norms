@@ -28,7 +28,7 @@ import org.springframework.core.io.UrlResource;
  */
 public class Fixtures {
 
-  private static final String LDMLDE_RESOURCE_FOLDER = "/LegalDocML.de/1.8";
+  private static final String LDMLDE_RESOURCE_FOLDER = "/LegalDocML.de/1.8.1";
 
   private static final String FIXTURES_RESOURCE_FOLDER = LDMLDE_RESOURCE_FOLDER + "/fixtures";
 
@@ -98,14 +98,14 @@ public class Fixtures {
     ),
     new UrlResource(
       Objects.requireNonNull(
-          LdmlDeValidator.class.getResource(LDMLDE_RESOURCE_FOLDER + "/schema-extension/metadata.xsd")
+        LdmlDeValidator.class.getResource(LDMLDE_RESOURCE_FOLDER + "/schema-extension/metadata.xsd")
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
-          LdmlDeValidator.class.getResource(
-          LDMLDE_RESOURCE_FOLDER + "/schema-extension/norms-application-only-metadata.xsd"
-        )
+        LdmlDeValidator.class.getResource(
+            LDMLDE_RESOURCE_FOLDER + "/schema-extension/norms-application-only-metadata.xsd"
+          )
       )
     )
   );

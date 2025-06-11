@@ -2,11 +2,11 @@
 <xsl:stylesheet
         version="2.0"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/"
-        xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8/"
-        xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8/"
-        xmlns:meta-ds="http://MetadatenRIS.LegalDocML.de/1.8/"
-        xmlns:meta-bund="http://MetadatenBundesregierung.LegalDocML.de/1.8/"
+        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+        xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/"
+        xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/"
+        xmlns:meta-ds="http://MetadatenRIS.LegalDocML.de/1.8.1/"
+        xmlns:meta-bund="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/"
         exclude-result-prefixes="#all"
 >
 

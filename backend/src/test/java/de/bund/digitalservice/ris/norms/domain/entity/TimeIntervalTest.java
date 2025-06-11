@@ -14,7 +14,7 @@ class TimeIntervalTest {
     final TimeInterval timeInterval = new TimeInterval(
       XmlMapper.toElement(
         """
-         <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1_gelzeitintervall-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-n1_lebzykl-n1_ereignis-n2" />
+         <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1_gelzeitintervall-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" start="#meta-n1_lebzykl-n1_ereignis-n2" />
         """
       )
     );
@@ -28,7 +28,7 @@ class TimeIntervalTest {
     final TimeInterval timeInterval = new TimeInterval(
       XmlMapper.toElement(
         """
-        <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1_gelzeitintervall-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" />
+        <akn:timeInterval xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1_gelzeitintervall-n1" GUID="ca9f53aa-d374-4bec-aca3-fff4e3485179" refersTo="geltungszeit" />
                        """
       )
     );
@@ -42,7 +42,7 @@ class TimeIntervalTest {
     TemporalGroup temporalGroup = new TemporalGroup(
       XmlMapper.toElement(
         """
-        <akn:temporalGroup xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
+        <akn:temporalGroup xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1" GUID="ac311ee1-33d3-4b9b-a974-776e55a88396">
         </akn:temporalGroup>
         """
       )

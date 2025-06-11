@@ -55,7 +55,7 @@ class NodeCreatorTest {
 
     // Then
     final Node childTestNode = NodeParser.getMandatoryNodeFromExpression(
-      "//test/Q{http://MetadatenRIS.LegalDocML.de/1.8/}childTest",
+      "//test/Q{http://MetadatenRIS.LegalDocML.de/1.8.1/}childTest",
       document
     );
     assertThat(childTestNode).isEqualTo(newElement);
@@ -68,7 +68,7 @@ class NodeCreatorTest {
     final Document document = XmlMapper.toDocument(
       """
                                     <root>
-      <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8/" eId="text-n1">test value</akn:p>
+      <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="text-n1">test value</akn:p>
                                     </root>"""
     );
     final Node testNode = NodeParser.getMandatoryNodeFromExpression("//*/p", document);

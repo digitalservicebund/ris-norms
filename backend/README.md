@@ -111,4 +111,4 @@ For local development the following key pair is used:
 │       └── certificate.pem
 ```
 
-For how to create the signature refer to the README of [LegalDocML.de](../LegalDocML.de/1.8/README.md)
+For how to create the signature refer to the README of [LegalDocML.de](../LegalDocML.de/1.8.1/README.md)

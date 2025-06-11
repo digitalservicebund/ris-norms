@@ -12,7 +12,7 @@ class ZielnormReferenceTest {
     var zielnormReference = new ZielnormReference(
       toElement(
         """
-        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8/'>
+        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
            <norms:typ>Änderungsvorschrift</norms:typ>
            <norms:geltungszeit>gz-1</norms:geltungszeit>
            <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
@@ -30,7 +30,7 @@ class ZielnormReferenceTest {
     var zielnormReference = new ZielnormReference(
       toElement(
         """
-        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8/'>
+        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
            <norms:typ>Änderungsvorschrift</norms:typ>
            <norms:geltungszeit>gz-1</norms:geltungszeit>
            <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
@@ -48,7 +48,7 @@ class ZielnormReferenceTest {
     var zielnormReference = new ZielnormReference(
       toElement(
         """
-        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8/'>
+        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
            <norms:typ>Änderungsvorschrift</norms:typ>
            <norms:geltungszeit>gz-1</norms:geltungszeit>
            <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
@@ -66,7 +66,7 @@ class ZielnormReferenceTest {
     var zielnormReference = new ZielnormReference(
       toElement(
         """
-        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8/'>
+        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
            <norms:typ>Änderungsvorschrift</norms:typ>
            <norms:geltungszeit>gz-1</norms:geltungszeit>
            <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
