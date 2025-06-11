@@ -569,6 +569,7 @@ class NormServiceTest {
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
             false,
             false,
+            false,
             Zielnorm.CreatedBy.THIS_VERKUENDUNG
           )
         );
@@ -687,10 +688,12 @@ class NormServiceTest {
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
             true,
             true,
+            false,
             Zielnorm.CreatedBy.OTHER_VERKUENDUNG
           ),
           new Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
+            false,
             false,
             false,
             Zielnorm.CreatedBy.THIS_VERKUENDUNG
@@ -699,10 +702,12 @@ class NormServiceTest {
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"),
             true,
             true,
+            false,
             Zielnorm.CreatedBy.OTHER_VERKUENDUNG
           ),
           new Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"),
+            false,
             false,
             false,
             Zielnorm.CreatedBy.SYSTEM
@@ -798,10 +803,12 @@ class NormServiceTest {
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
             false,
             true,
+            false,
             Zielnorm.CreatedBy.THIS_VERKUENDUNG
           ),
           new Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2018-04-17/1/deu"),
+            false,
             false,
             false,
             Zielnorm.CreatedBy.THIS_VERKUENDUNG
@@ -856,6 +863,7 @@ class NormServiceTest {
       expressionen.add(
         new Zielnorm.Expression(
           amendedExpression.getExpressionEli(),
+          false,
           false,
           false,
           Zielnorm.CreatedBy.THIS_VERKUENDUNG

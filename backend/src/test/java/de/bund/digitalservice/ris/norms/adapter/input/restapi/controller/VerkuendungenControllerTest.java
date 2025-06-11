@@ -381,10 +381,12 @@ class VerkuendungenControllerTest {
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
                 true,
                 true,
+                false,
                 Zielnorm.CreatedBy.OTHER_VERKUENDUNG
               ),
               new Zielnorm.Expression(
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
+                false,
                 false,
                 false,
                 Zielnorm.CreatedBy.THIS_VERKUENDUNG
@@ -393,10 +395,12 @@ class VerkuendungenControllerTest {
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"),
                 true,
                 true,
+                false,
                 Zielnorm.CreatedBy.OTHER_VERKUENDUNG
               ),
               new Zielnorm.Expression(
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"),
+                false,
                 false,
                 false,
                 Zielnorm.CreatedBy.SYSTEM
@@ -480,22 +484,26 @@ class VerkuendungenControllerTest {
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
                 true,
                 true,
+                false,
                 Zielnorm.CreatedBy.OTHER_VERKUENDUNG
               ),
               new Zielnorm.Expression(
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
                 false,
                 false,
+                true,
                 Zielnorm.CreatedBy.THIS_VERKUENDUNG
               ),
               new Zielnorm.Expression(
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"),
                 true,
                 true,
+                false,
                 Zielnorm.CreatedBy.OTHER_VERKUENDUNG
               ),
               new Zielnorm.Expression(
                 NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"),
+                false,
                 false,
                 false,
                 Zielnorm.CreatedBy.SYSTEM
@@ -526,6 +534,7 @@ class VerkuendungenControllerTest {
         )
         .andExpect(jsonPath("$[0].expressions[0].isGegenstandslos").value(true))
         .andExpect(jsonPath("$[0].expressions[0].isCreated").value(true))
+        .andExpect(jsonPath("$[0].expressions[0].isOrphan").value(false))
         .andExpect(jsonPath("$[0].expressions[0].createdBy").value("andere Verkündung"))
         .andExpect(
           jsonPath("$[0].expressions[1].normExpressionEli").value(
@@ -534,6 +543,7 @@ class VerkuendungenControllerTest {
         )
         .andExpect(jsonPath("$[0].expressions[1].isGegenstandslos").value(false))
         .andExpect(jsonPath("$[0].expressions[1].isCreated").value(false))
+        .andExpect(jsonPath("$[0].expressions[1].isOrphan").value(true))
         .andExpect(jsonPath("$[0].expressions[1].createdBy").value("diese Verkündung"))
         .andExpect(
           jsonPath("$[0].expressions[2].normExpressionEli").value(
@@ -542,6 +552,7 @@ class VerkuendungenControllerTest {
         )
         .andExpect(jsonPath("$[0].expressions[2].isGegenstandslos").value(true))
         .andExpect(jsonPath("$[0].expressions[2].isCreated").value(true))
+        .andExpect(jsonPath("$[0].expressions[2].isOrphan").value(false))
         .andExpect(jsonPath("$[0].expressions[2].createdBy").value("andere Verkündung"))
         .andExpect(
           jsonPath("$[0].expressions[3].normExpressionEli").value(
@@ -550,6 +561,7 @@ class VerkuendungenControllerTest {
         )
         .andExpect(jsonPath("$[0].expressions[3].isGegenstandslos").value(false))
         .andExpect(jsonPath("$[0].expressions[3].isCreated").value(false))
+        .andExpect(jsonPath("$[0].expressions[3].isOrphan").value(false))
         .andExpect(jsonPath("$[0].expressions[3].createdBy").value("System"))
         .andExpect(jsonPath("$[0].expressions[4]").doesNotExist())
         .andExpect(jsonPath("$[1]").doesNotExist());
@@ -578,24 +590,28 @@ class VerkuendungenControllerTest {
               NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
               true,
               true,
+              false,
               Zielnorm.CreatedBy.OTHER_VERKUENDUNG
             ),
             new Zielnorm.Expression(
               NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
               false,
               true,
+              false,
               Zielnorm.CreatedBy.THIS_VERKUENDUNG
             ),
             new Zielnorm.Expression(
               NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"),
               true,
               true,
+              false,
               Zielnorm.CreatedBy.OTHER_VERKUENDUNG
             ),
             new Zielnorm.Expression(
               NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"),
               false,
               true,
+              false,
               Zielnorm.CreatedBy.SYSTEM
             )
           )

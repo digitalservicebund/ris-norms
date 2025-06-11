@@ -20,12 +20,14 @@ public record ZielnormenPreviewResponseSchema(
    * @param normExpressionEli the eli of the expression
    * @param isGegenstandslos will the expression be gegenstandslos once the zielnorm-references are applied
    * @param isCreated does this expression already exist in the system
+   * @param isOrphan was the expression created as a result of a verkuendung but the zielnorm reference was deleted afterwards
    * @param createdBy the thing that initially created this expression ("System", "diese Verkündung" or "andere Verkündung")
    */
   public record Expression(
     String normExpressionEli,
     boolean isGegenstandslos,
     boolean isCreated,
+    boolean isOrphan,
     String createdBy
   ) {}
 }

@@ -32,6 +32,7 @@ public class ZielnormenPreviewResponseMapper {
       zielnormPreviewExpression.normExpressionEli().toString(),
       zielnormPreviewExpression.isGegenstandslos(),
       zielnormPreviewExpression.isCreated(),
+      zielnormPreviewExpression.isOrphan(),
       fromUseCaseData(zielnormPreviewExpression.createdBy())
     );
   }

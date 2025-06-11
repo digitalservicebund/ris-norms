@@ -23,12 +23,14 @@ public record Zielnorm(
    * @param normExpressionEli the eli of the expression
    * @param isGegenstandslos will the expression be gegenstandslos
    * @param isCreated did this expression already exist in the database before this run
+   * @param isOrphan was the expression created as a result of a verkuendung but the zielnorm reference was deleted afterwards
    * @param createdBy the thing that created or creates this expression
    */
   public record Expression(
     NormExpressionEli normExpressionEli,
     boolean isGegenstandslos,
     boolean isCreated,
+    boolean isOrphan,
     Zielnorm.CreatedBy createdBy
   ) {}
 

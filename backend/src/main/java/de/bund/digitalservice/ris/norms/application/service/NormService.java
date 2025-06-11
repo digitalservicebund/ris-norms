@@ -283,9 +283,14 @@ public class NormService
 
   /**
    * Generate the preview list of expressions for a specific Zielnorm <br>
-   * This list includes the expressions that needs to be created for the dates of the changes of the
-   * Verkündung, as well as the existing expression that need to be set to gegenstandlos and the
-   * expressions replacing these. <br>
+   * This list includes:
+   * <ul>
+   *    <li>the expressions that are orphans, meaning those that were already created by the Verkündung but the zielnorm
+   *     reference was removed afterward. These orphans can be before the first geltungszeitregel or after it</li>
+   *    <li>the expressions that needs to be created for the dates of the changes of the Verkündung</li>
+   *    <li>the existing expression that need to be set to gegenstandlos and the expressions replacing these</li>
+   * </ul>
+   * <br>
    * Every existing expression of a date after the first change to the Zielnorm needs to be set to
    * gegenstandlos and a new expression needs to be created as this expression than needs to include
    * the changes of the now gegenstandlose expression as well as the once from the previous changes
@@ -303,8 +308,15 @@ public class NormService
       return List.of();
     }
 
+    var existingExpressionElis = loadNormExpressionElisPort.loadNormExpressionElis(
+      new LoadNormExpressionElisPort.Options(zielnormWorkEli)
+    );
+    var previousPossibleOrphanExpressions = collectPreviousExpressionsThatMayBeOrphans(
+      existingExpressionElis,
+      earliestGeltungszeit.get()
+    );
     var relevantExistingExpressions = collectRelevantExistingExpressions(
-      zielnormWorkEli,
+      existingExpressionElis,
       earliestGeltungszeit.get()
     );
 
@@ -317,14 +329,57 @@ public class NormService
       .flatMap(Proprietary::getCustomModsMetadata)
       .flatMap(CustomModsMetadata::getAmendedNormExpressions);
 
+    previousPossibleOrphanExpressions.forEach(expression -> {
+      if (
+        affectedExpressionElis.isPresent() &&
+        affectedExpressionElis.get().contains(expression) &&
+        !geltungszeiten.contains(expression.getPointInTime())
+      ) {
+        expressions.add(
+          new Zielnorm.Expression(
+            expression,
+            false,
+            true,
+            true,
+            Zielnorm.CreatedBy.THIS_VERKUENDUNG
+          )
+        );
+      }
+    });
+
     relevantExistingExpressions.forEach(expression -> {
       if (affectedExpressionElis.isPresent() && affectedExpressionElis.get().contains(expression)) {
-        expressions.add(
-          new Zielnorm.Expression(expression, false, true, Zielnorm.CreatedBy.THIS_VERKUENDUNG)
-        );
+        if (!geltungszeiten.contains(expression.getPointInTime())) {
+          expressions.add(
+            new Zielnorm.Expression(
+              expression,
+              false,
+              true,
+              true,
+              Zielnorm.CreatedBy.THIS_VERKUENDUNG
+            )
+          );
+        } else {
+          // Otherwise it will be an override
+          expressions.add(
+            new Zielnorm.Expression(
+              expression,
+              false,
+              true,
+              false,
+              Zielnorm.CreatedBy.THIS_VERKUENDUNG
+            )
+          );
+        }
       } else {
         expressions.add(
-          new Zielnorm.Expression(expression, true, true, Zielnorm.CreatedBy.OTHER_VERKUENDUNG)
+          new Zielnorm.Expression(
+            expression,
+            true,
+            true,
+            false,
+            Zielnorm.CreatedBy.OTHER_VERKUENDUNG
+          )
         );
         expressions.add(
           new Zielnorm.Expression(
@@ -333,6 +388,7 @@ public class NormService
               expression.getPointInTime(),
               expression.getLanguage()
             ),
+            false,
             false,
             false,
             Zielnorm.CreatedBy.SYSTEM
@@ -365,6 +421,7 @@ public class NormService
               existingEntry.get().normExpressionEli(),
               false,
               false,
+              false,
               Zielnorm.CreatedBy.THIS_VERKUENDUNG
             )
           );
@@ -383,6 +440,7 @@ public class NormService
             expressions.add(
               new Zielnorm.Expression(
                 eliService.findNextExpressionEli(zielnormWorkEli, date, "deu"),
+                false,
                 false,
                 false,
                 Zielnorm.CreatedBy.THIS_VERKUENDUNG
@@ -432,14 +490,33 @@ public class NormService
    * geltungszeitgrenze.
    */
   private List<NormExpressionEli> collectRelevantExistingExpressions(
-    NormWorkEli zielnormWorkEli,
+    List<NormExpressionEli> expressionElis,
     LocalDate earliestGeltungszeit
   ) {
-    return loadNormExpressionElisPort
-      .loadNormExpressionElis(new LoadNormExpressionElisPort.Options(zielnormWorkEli))
+    return expressionElis
       .stream()
       .filter(normExpressionEli ->
         normExpressionEli.getPointInTime().isAfter(earliestGeltungszeit.minusDays(1))
+      )
+      .flatMap(normExpressionEli ->
+        loadNormPort.loadNorm(new LoadNormPort.Options(normExpressionEli)).stream()
+      )
+      .filter(Predicate.not(Norm::isGegenstandlos))
+      .map(Norm::getExpressionEli)
+      .toList();
+  }
+
+  /**
+   * Collect all expressions before the first geltungszeitgrenze (to then check if some of them are orphans)
+   */
+  private List<NormExpressionEli> collectPreviousExpressionsThatMayBeOrphans(
+    List<NormExpressionEli> expressionElis,
+    LocalDate earliestGeltungszeit
+  ) {
+    return expressionElis
+      .stream()
+      .filter(normExpressionEli ->
+        normExpressionEli.getPointInTime().isBefore(earliestGeltungszeit)
       )
       .flatMap(normExpressionEli ->
         loadNormPort.loadNorm(new LoadNormPort.Options(normExpressionEli)).stream()
@@ -614,6 +691,7 @@ public class NormService
             expr.normExpressionEli(),
             expr.isGegenstandslos(),
             true,
+            false,
             expr.createdBy()
           )
         )

@@ -699,6 +699,78 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("$[0].expressions[4]").doesNotExist())
         .andExpect(jsonPath("$[1]").doesNotExist());
     }
+
+    @Test
+    void itShouldReturnZielnormenPreviewContainingOrphans() throws Exception {
+      final Regelungstext amendingLaw = Fixtures.loadRegelungstextFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "amending-law-for-vereinsgesetz-with-two-orphans.xml"
+      );
+      dokumentRepository.save(DokumentMapper.mapToDto(amendingLaw));
+
+      final Regelungstext targetLaw = Fixtures.loadRegelungstextFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-original-expression.xml"
+      );
+
+      dokumentRepository.save(DokumentMapper.mapToDto(targetLaw));
+
+      final Regelungstext orphanBeforeFirstGeltungszeitregel = Fixtures.loadNormFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2017-03-16-1"
+      ).getRegelungstext1();
+
+      dokumentRepository.save(DokumentMapper.mapToDto(orphanBeforeFirstGeltungszeitregel));
+
+      final Regelungstext orphanAfterFirstGeltungszeitregel = Fixtures.loadNormFromDisk(
+        VerkuendungenControllerIntegrationTest.class,
+        "vereinsgesetz-2024-05-30"
+      ).getRegelungstext1();
+
+      dokumentRepository.save(DokumentMapper.mapToDto(orphanAfterFirstGeltungszeitregel));
+
+      mockMvc
+        .perform(
+          get(
+            "/api/v1/verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen/expressions/preview"
+          ).accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].normWorkEli").value("eli/bund/bgbl-1/1964/s593"))
+        .andExpect(
+          jsonPath("$[0].title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts")
+        )
+        .andExpect(jsonPath("$[0].shortTitle").value("Vereinsgesetz"))
+        .andExpect(
+          jsonPath("$[0].expressions[0].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"
+          )
+        )
+        .andExpect(jsonPath("$[0].expressions[0].isGegenstandslos").value(false))
+        .andExpect(jsonPath("$[0].expressions[0].isCreated").value(true))
+        .andExpect(jsonPath("$[0].expressions[0].isOrphan").value(true))
+        .andExpect(jsonPath("$[0].expressions[0].createdBy").value("diese Verkündung"))
+        .andExpect(
+          jsonPath("$[0].expressions[1].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2021-04-23/1/deu"
+          )
+        )
+        .andExpect(jsonPath("$[0].expressions[1].isGegenstandslos").value(false))
+        .andExpect(jsonPath("$[0].expressions[1].isCreated").value(false))
+        .andExpect(jsonPath("$[0].expressions[1].isOrphan").value(false))
+        .andExpect(jsonPath("$[0].expressions[1].createdBy").value("diese Verkündung"))
+        .andExpect(
+          jsonPath("$[0].expressions[2].normExpressionEli").value(
+            "eli/bund/bgbl-1/1964/s593/2024-05-30/1/deu"
+          )
+        )
+        .andExpect(jsonPath("$[0].expressions[2].isGegenstandslos").value(false))
+        .andExpect(jsonPath("$[0].expressions[2].isCreated").value(true))
+        .andExpect(jsonPath("$[0].expressions[2].isOrphan").value(true))
+        .andExpect(jsonPath("$[0].expressions[2].createdBy").value("diese Verkündung"))
+        .andExpect(jsonPath("$[0].expressions[4]").doesNotExist())
+        .andExpect(jsonPath("$[1]").doesNotExist());
+    }
   }
 
   @Nested
