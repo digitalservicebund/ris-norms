@@ -364,7 +364,7 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
 </akn:akomaNtoso>
 ');
 
-UPDATE norm_manifestation SET publish_state = 'PUBLISHED' WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/321/2017-03-16/1/deu';
+UPDATE norm_manifestation SET publish_state = 'UNPUBLISHED' WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/321/2017-03-16/1/deu';
 
 -- Future expression of target law for 2017-05-01
 DELETE FROM dokumente WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/321/2017-05-01/1/deu';
@@ -547,5 +547,5 @@ VALUES ('<?xml version="1.0" encoding="UTF-8"?>
 </akn:akomaNtoso>
 ');
 
-UPDATE norm_manifestation SET publish_state = 'PUBLISHED' WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/321/2017-05-01/1/deu';
+UPDATE norm_manifestation SET publish_state = 'UNPUBLISHED' WHERE eli_norm_expression = 'eli/bund/bgbl-1/1964/321/2017-05-01/1/deu';
 
