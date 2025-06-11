@@ -346,9 +346,6 @@ jobs:
         with:
           path: ris-norms
 
-      # Debug
-      - run: ls -R ris-norms
-
       # Copy ADRs into tmp folder
       - name: Copy ADRs
         run: |
@@ -361,12 +358,14 @@ jobs:
         with:
           repository: ${{ env.reports-repo }}
           ssh-key: ${{ secrets.REPORTS_DEPLOY_KEY }}
+          path: ris-reports
 
       - name: Setup git config
         run: |
           git config user.name "${{ github.repository }}"
           # This email identifies the commit as GitHub Actions - see https://github.com/orgs/community/discussions/26560
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        working-directory: ris-reports
 
       # Backend code documentation
       - name: Backend Code Documentation - Download
@@ -378,7 +377,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
         with:
           filePath: tmp/backend-code-documentation
-          destinationDir: norms-code-documentation/java
+          destinationDir: ris-reports/norms-code-documentation/java
           reportIsDirectory: true
 
       # Frontend unit test report
@@ -391,7 +390,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
         with:
           filePath: tmp/frontend-unit-test-report
-          destinationDir: test-reports/ris-norms/frontend/unit-tests
+          destinationDir: ris-reports/test-reports/ris-norms/frontend/unit-tests
           reportIsDirectory: true
 
       # E2E test report
@@ -404,7 +403,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
         with:
           filePath: tmp/html-test-report/
-          destinationDir: test-reports/ris-norms/frontend/e2e-tests
+          destinationDir: ris-reports/test-reports/ris-norms/frontend/e2e-tests
           reportIsDirectory: true
 
       # Licence reports
@@ -418,12 +417,12 @@ jobs:
         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
         with:
           filePath: tmp/licence-reports/frontend-licence-report.csv
-          destinationDir: licence-reports/frontend/ris-norms
+          destinationDir: ris-reports/licence-reports/frontend/ris-norms
       - name: Backend licence report - git add report
         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
         with:
           filePath: tmp/licence-reports/backend-licence-report.csv
-          destinationDir: licence-reports/backend/ris-norms
+          destinationDir: ris-reports/licence-reports/backend/ris-norms
 
       # ER diagram
       - name: ER-diagram - Download artifact
@@ -435,7 +434,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
         with:
           filePath: tmp/erdiagram-reports/latest.mmd
-          destinationDir: entity-relationship-diagrams/ris-norms
+          destinationDir: ris-reports/entity-relationship-diagrams/ris-norms
 
       # backend unit test report
       - name: unit test report - download artifact
@@ -447,7 +446,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
         with:
           filePath: tmp/backend-unit-test-report
-          destinationDir: test-reports/ris-norms/backend/unit-tests
+          destinationDir: ris-reports/test-reports/ris-norms/backend/unit-tests
           reportIsDirectory: true
 
       # backend integration test report
@@ -460,7 +459,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
         with:
           filePath: tmp/backend-integration-test-report
-          destinationDir: test-reports/ris-norms/backend/integration-tests
+          destinationDir: ris-reports/test-reports/ris-norms/backend/integration-tests
           reportIsDirectory: true
 
       # ADRs
@@ -468,7 +467,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
         with:
           filePath: tmp/adr-source
-          destinationDir: adr/ris-norms
+          destinationDir: ris-reports/adr/ris-norms
           reportIsDirectory: true
           keepAllVersions: false # don't need the timestamped snapshots of the whole folder
 
