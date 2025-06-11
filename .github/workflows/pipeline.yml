@@ -354,7 +354,7 @@ jobs:
         run: |
           mkdir -p tmp/adr-source
           cp -r ris-norms/doc/adr/* tmp/adr-source/
-          ls -l tmp/adr-source/adr
+          ls -l tmp/adr-source
 
       # Then checkout ris-reports (will override ris-norms check-out)
       - uses: actions/checkout@v4
