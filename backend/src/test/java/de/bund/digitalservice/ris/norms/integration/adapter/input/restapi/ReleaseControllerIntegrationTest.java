@@ -415,7 +415,10 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         )
         //then
         .andExpect(status().isOk())
-        .andExpect(jsonPath("[0]").doesNotExist());
+        .andExpect(jsonPath("$.normWorkEli").value("eli/bund/bgbl-1/1964/s593"))
+        .andExpect(jsonPath("$.title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
+        .andExpect(jsonPath("$.shortTitle").value("Vereinsgesetz"))
+        .andExpect(jsonPath("$.expressions").isEmpty());
     }
 
     @Test

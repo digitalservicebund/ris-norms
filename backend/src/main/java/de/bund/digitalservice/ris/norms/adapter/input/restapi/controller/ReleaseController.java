@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ReleaseResp
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReleaseStatusResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsWorkingCopiesUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadReleasesByNormExpressionEliUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseNormExpressionUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
@@ -28,15 +29,18 @@ public class ReleaseController {
   private final LoadReleasesByNormExpressionEliUseCase loadReleasesByNormExpressionEliUseCase;
   private final ReleaseNormExpressionUseCase releaseNormExpressionUseCase;
   private final LoadNormExpressionsWorkingCopiesUseCase loadNormExpressionsWorkingCopiesUseCase;
+  private final LoadNormUseCase loadNormUseCase;
 
   public ReleaseController(
     LoadReleasesByNormExpressionEliUseCase loadReleasesByNormExpressionEliUseCase,
     ReleaseNormExpressionUseCase releaseNormExpressionUseCase,
-    LoadNormExpressionsWorkingCopiesUseCase loadNormExpressionsWorkingCopiesUseCase
+    LoadNormExpressionsWorkingCopiesUseCase loadNormExpressionsWorkingCopiesUseCase,
+    LoadNormUseCase loadNormUseCase
   ) {
     this.loadReleasesByNormExpressionEliUseCase = loadReleasesByNormExpressionEliUseCase;
     this.releaseNormExpressionUseCase = releaseNormExpressionUseCase;
     this.loadNormExpressionsWorkingCopiesUseCase = loadNormExpressionsWorkingCopiesUseCase;
+    this.loadNormUseCase = loadNormUseCase;
   }
 
   /**
@@ -95,6 +99,11 @@ public class ReleaseController {
     var workingCopies = loadNormExpressionsWorkingCopiesUseCase.loadZielnormWorkingCopies(
       new LoadNormExpressionsWorkingCopiesUseCase.Options(zielnormEli)
     );
-    return ResponseEntity.ok(ExpressionsStatusResponseMapper.fromNorms(workingCopies));
+    if (workingCopies.isEmpty()) {
+      Norm norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(zielnormEli));
+      return ResponseEntity.ok(ExpressionsStatusResponseMapper.fromPublishedNorm(norm));
+    } else {
+      return ResponseEntity.ok(ExpressionsStatusResponseMapper.fromNorms(workingCopies));
+    }
   }
 }

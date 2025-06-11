@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import java.util.List;
 import java.util.Optional;
+import org.jspecify.annotations.NonNull;
 
 /** Mapper class for converting between List of {@link Norm}s and {@link ZielnormReleaseStatusResponseSchema}. */
 public class ExpressionsStatusResponseMapper {
@@ -33,6 +34,21 @@ public class ExpressionsStatusResponseMapper {
       firstNorm.getTitle().orElse(null),
       firstNorm.getShortTitle().orElse(null),
       mapExpressions(norms)
+    );
+  }
+
+  /**
+   * Creates a {@link ZielnormReleaseStatusResponseSchema} instance from a Single {@link Norm}.
+   *
+   * @param norm The published {@link Norm} since no UNPUBLISHED norms exist.
+   * @return A new {@link ZielnormReleaseStatusResponseSchema} instance mapped the {@link Norm}.
+   */
+  public static ZielnormReleaseStatusResponseSchema fromPublishedNorm(@NonNull final Norm norm) {
+    return new ZielnormReleaseStatusResponseSchema(
+      norm.getWorkEli().toString(),
+      norm.getTitle().orElse(null),
+      norm.getShortTitle().orElse(null),
+      List.of()
     );
   }
 
