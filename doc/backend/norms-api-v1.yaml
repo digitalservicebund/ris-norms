@@ -215,6 +215,27 @@ paths:
         "404":
           description: Norm not found.
 
+  /{workEli}/releases:
+    post:
+      summary: Publish expressions of this norm
+      parameters:
+        - name: workEli
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/NormWorkEli"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReleaseRequest"
+      responses:
+        "200":
+          description: Success
+        "404":
+          description: Norm not found.
+
   /norms/{expressionEli}:
     get:
       tags:
@@ -1125,6 +1146,15 @@ components:
         - PRAETEXT_RELEASED
         - VOLLDOKUMENTATION_RELEASED
       description: Release status of the expression.
+
+    ReleaseRequest:
+      type: object
+      properties:
+        releasetype:
+          type: string
+          enum: ["praetext", "volldokumentation"]
+      required:
+        - releasetype
 
   responses:
     NotFound:
