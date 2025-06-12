@@ -232,7 +232,11 @@ paths:
               $ref: "#/components/schemas/ReleaseRequest"
       responses:
         "200":
-          description: Success
+          description: List of expression status for the target norm.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ExpressionsStatusResponseSchema"
         "404":
           description: Norm not found.
 
