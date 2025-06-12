@@ -48,6 +48,7 @@ const badge: BadgePassThroughOptions = {
     const success = tw`bg-green-100 text-green-800`
     const info = tw`bg-blue-300 text-blue-800`
     const warn = tw`bg-yellow-300`
+    const danger = tw`bg-red-200 text-red-800`
 
     const base = tw`rounded-full flex py-2 pl-4 pr-8 gap-4 items-center text-center whitespace-nowrap`
 
@@ -58,6 +59,7 @@ const badge: BadgePassThroughOptions = {
         [success]: props.severity === "success",
         [info]: props.severity === "info",
         [warn]: props.severity === "warn",
+        [danger]: props.severity === "danger",
       },
     }
   },

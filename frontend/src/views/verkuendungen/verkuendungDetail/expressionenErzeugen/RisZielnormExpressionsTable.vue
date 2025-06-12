@@ -20,6 +20,8 @@ export type RisZielnormExpressionsTableItem = {
   createdBy: string
   /** Whether the expression already exists */
   isCreated: boolean
+  /** Whether the expression will be deleted */
+  isOrphan: boolean
 }
 
 type InternalRisZielnormExpressionsTableItem =
@@ -139,6 +141,11 @@ function formatDateString(dateString: string | undefined): string {
           <Badge v-if="data.isGegenstandslos">
             <IcBaselineErrorOutline />
             Gegenstandslos
+          </Badge>
+
+          <Badge v-else-if="data.isOrphan" severity="danger">
+            <IcBaselineErrorOutline />
+            Wird gelöscht
           </Badge>
 
           <Badge v-else-if="data.isCreated" severity="success">

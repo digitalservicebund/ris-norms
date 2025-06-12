@@ -1,7 +1,9 @@
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { setZeitgrenzen, setZielnormReferences } from "@e2e/pages/verkuendung"
+import { frontendTestDataDirectory } from "@e2e/utils/dataDirectories"
 import { test } from "@e2e/utils/testWithAuth"
+import { uploadAmendingLaw } from "@e2e/utils/uploadWithForce"
 import { expect } from "@playwright/test"
 
 test.describe(
@@ -411,5 +413,63 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
     ).toBeVisible()
 
     await expect(row.getByText("Expression erzeugt")).toBeVisible()
+  })
+})
+
+test.describe("orphaned expressions", { tag: ["@RISDEV-8137"] }, () => {
+  test.beforeAll(async ({ authenticatedRequest: request }) => {
+    await uploadAmendingLaw(
+      request,
+      "aenderungsgesetz-with-orphaned-amended-norm-expressions.xml",
+      frontendTestDataDirectory,
+    )
+  })
+
+  test("deletes orphaned expressions", async ({ page }) => {
+    await page.goto(
+      "./verkuendungen/eli/bund/bgbl-1/2017/456/2017-03-15/1/deu/regelungstext-1/expressionen-erzeugen",
+    )
+
+    await page
+      .getByRole("button", {
+        name: "Gesetz zur Regelung des öffentlichen Vereinsrechts (Vereinsgesetz)",
+      })
+      .click()
+
+    const row = page.getByRole("row")
+
+    // Assert that the expression has already been created
+    await expect(row.getByText("Expression erzeugt")).toBeVisible()
+    expect(await row.getByText("Wird gelöscht").all()).toHaveLength(2)
+
+    await page.getByRole("button", { name: "Expressionen erzeugen" }).click()
+
+    await expect(
+      page.getByText(
+        "Sind Sie sicher, dass Sie die Expressionen erneut erzeugen und damit bereits erzeugte Expressionen überschrieben möchten?",
+      ),
+    ).toBeVisible()
+
+    await page
+      .getByRole("button", { name: "Erneut erzeugen", exact: true })
+      .click()
+
+    await expect(
+      page.getByText("Expressionen erfolgreich erzeugt"),
+    ).toBeVisible()
+
+    await expect(
+      row.getByText("eli/bund/bgbl-1/1964/654/2017-03-16/1/deu"),
+    ).toBeVisible()
+
+    await expect(row.getByText("Expression erzeugt")).toBeVisible()
+
+    await expect(
+      row.getByText("eli/bund/bgbl-1/1964/654/2017-01-01/1/deu"),
+    ).toBeHidden()
+
+    await expect(
+      row.getByText("eli/bund/bgbl-1/1964/654/2017-05-01/1/deu"),
+    ).toBeHidden()
   })
 })
