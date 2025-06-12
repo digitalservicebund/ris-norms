@@ -1,13 +1,9 @@
 import { describe, expect, it } from "vitest"
 import {
   DocumentTypeValues,
-  MetaArtValues,
   MetaSubtypValues,
-  MetaTypValues,
   getDocumentTypeFromMetadata,
-  isMetaArtValue,
   isMetaSubtypValue,
-  isMetaTypValue,
   udpateArtNorm,
   isArtNormTypePresent,
   UNKNOWN_DOCUMENT_TYPE,
@@ -18,53 +14,21 @@ describe("getDocumentTypeFromMetadata", () => {
     const combinations = Object.entries(DocumentTypeValues)
 
     combinations.forEach(([expectedResult, input]) => {
-      expect(
-        getDocumentTypeFromMetadata(input.art, input.typ, input.subtyp),
-      ).toBe(expectedResult)
+      expect(getDocumentTypeFromMetadata(input.subtyp)).toBe(expectedResult)
     })
   })
 
   it("returns unknown if no combination matches", () => {
-    expect(
-      getDocumentTypeFromMetadata(
-        "regelungstext",
-        "verwaltungsvorschrift",
-        "Satzung",
-      ),
-    ).toBe(UNKNOWN_DOCUMENT_TYPE)
+    expect(getDocumentTypeFromMetadata("Satzung oder so")).toBe(
+      UNKNOWN_DOCUMENT_TYPE,
+    )
   })
 
   it("returns unknown if all inputs are empty", () => {
     // @ts-expect-error breaking on purpose for testing
-    expect(getDocumentTypeFromMetadata(undefined, undefined, undefined)).toBe(
-      UNKNOWN_DOCUMENT_TYPE,
-    )
+    expect(getDocumentTypeFromMetadata(undefined)).toBe(UNKNOWN_DOCUMENT_TYPE)
 
-    expect(getDocumentTypeFromMetadata("", "", "")).toBe(UNKNOWN_DOCUMENT_TYPE)
-  })
-})
-
-describe("isMetaArtValue", () => {
-  it("identifies valid values", () => {
-    MetaArtValues.forEach((value) => {
-      expect(isMetaArtValue(value)).toBe(true)
-    })
-  })
-
-  it("does not identify undefined as a valid value", () => {
-    expect(isMetaArtValue(undefined)).toBe(false)
-  })
-})
-
-describe("isMetaTypValue", () => {
-  it("identifies valid values", () => {
-    MetaTypValues.forEach((value) => {
-      expect(isMetaTypValue(value)).toBe(true)
-    })
-  })
-
-  it("does not identify undefined as a valid value", () => {
-    expect(isMetaTypValue(undefined)).toBe(false)
+    expect(getDocumentTypeFromMetadata("")).toBe(UNKNOWN_DOCUMENT_TYPE)
   })
 })
 
