@@ -88,7 +88,6 @@
           <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
             <norms:geltungszeiten>
               <norms:geltungszeit art="inkraft" id="8c5b166b-ee37-4185-9b7a-96fc16031e62">2017-03-16</norms:geltungszeit>
-              <norms:geltungszeit art="inkraft" id="e2420f07-c155-41d5-8c11-76a3e357a261">2017-05-01</norms:geltungszeit>
             </norms:geltungszeiten>
             <norms:zielnorm-references>
               <norms:zielnorm-reference>
@@ -99,6 +98,7 @@
               </norms:zielnorm-reference>
             </norms:zielnorm-references>
             <norms:amended-norm-expressions>
+              <norms:norm-expression>eli/bund/bgbl-1/1964/654/2017-01-01/1/deu</norms:norm-expression>
               <norms:norm-expression>eli/bund/bgbl-1/1964/654/2017-03-16/1/deu</norms:norm-expression>
               <norms:norm-expression>eli/bund/bgbl-1/1964/654/2017-05-01/1/deu</norms:norm-expression>
             </norms:amended-norm-expressions>

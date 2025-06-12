@@ -440,7 +440,7 @@ test.describe("orphaned expressions", { tag: ["@RISDEV-8137"] }, () => {
 
     // Assert that the expression has already been created
     await expect(row.getByText("Expression erzeugt")).toBeVisible()
-    await expect(row.getByText("Wird gelöscht")).toBeVisible()
+    expect(await row.getByText("Wird gelöscht").all()).toHaveLength(2)
 
     await page.getByRole("button", { name: "Expressionen erzeugen" }).click()
 
@@ -464,6 +464,12 @@ test.describe("orphaned expressions", { tag: ["@RISDEV-8137"] }, () => {
 
     await expect(row.getByText("Expression erzeugt")).toBeVisible()
 
-    await expect(row.getByText("Wird gelöscht")).toBeHidden()
+    await expect(
+      row.getByText("eli/bund/bgbl-1/1964/654/2017-01-01/1/deu"),
+    ).toBeHidden()
+
+    await expect(
+      row.getByText("eli/bund/bgbl-1/1964/654/2017-05-01/1/deu"),
+    ).toBeHidden()
   })
 })
