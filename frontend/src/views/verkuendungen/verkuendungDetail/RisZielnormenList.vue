@@ -138,11 +138,13 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
             <AccordionContent class="pl-24"></AccordionContent>
           </AccordionPanel>
 
-          <AccordionPanel value="publishing" disabled>
-            <AccordionHeader>
-              <div class="ris-link2-bold text-gray-600">Abgabe</div>
-            </AccordionHeader>
-            <AccordionContent class="pl-24"></AccordionContent>
+          <AccordionPanel value="abgabe">
+            <RouterLink
+              :to="`/verkuendungen/${verkuendungEli}/zielnorm/${item.eli}/abgabe`"
+              class="group flex w-full cursor-pointer justify-start px-12 py-8 pl-40 text-left no-underline -outline-offset-4 outline-blue-800 hover:bg-gray-200 focus-visible:outline-4"
+            >
+              <span class="ris-link2-bold">Abgabe</span>
+            </RouterLink>
           </AccordionPanel>
         </Accordion>
       </AccordionContent>
