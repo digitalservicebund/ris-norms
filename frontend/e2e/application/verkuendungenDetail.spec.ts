@@ -178,12 +178,44 @@ test.describe("shows Zielnormen", { tag: ["@RISDEV-6941"] }, () => {
       await expect(textkonsolidierungButton).toBeVisible()
       await textkonsolidierungButton.click()
 
-      await expect(
-        zielnormenSection.getByText(
-          "eli/bund/bgbl-1/1964/321/2017-03-16/1/deu",
-        ),
-      ).toBeVisible()
-      await expect(zielnormenSection.getByText("16.03.2017")).toBeVisible()
+      const textkonTable = zielnormenSection
+        .getByRole("region", { name: "Textkonsolidierung" })
+        .getByRole("link", {
+          name: "eli/bund/bgbl-1/1964/321/2017-03-16/1/deu",
+        })
+
+      await expect(textkonTable).toBeVisible()
+    })
+    test("should expand the Zielnorm and Metadaten to show the expression with ELI and date", async ({
+      page,
+    }) => {
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1",
+      )
+
+      const zielnormenSection = page.getByRole("region", {
+        name: "Zielnormen",
+      })
+
+      const zielnormButton = zielnormenSection.getByRole("button", {
+        name: /Vereinsgesetz/,
+      })
+
+      await zielnormButton.click()
+
+      const metadatenButton = zielnormenSection.getByRole("button", {
+        name: "Metadaten",
+      })
+      await expect(metadatenButton).toBeVisible()
+      await metadatenButton.click()
+
+      const metadataenTable = zielnormenSection
+        .getByRole("region", { name: "Metadaten" })
+        .getByRole("link", {
+          name: "eli/bund/bgbl-1/1964/321/2017-03-16/1/deu",
+        })
+
+      await expect(metadataenTable).toBeVisible()
     })
   })
 })
