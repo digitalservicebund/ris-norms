@@ -128,11 +128,10 @@ test.describe("Textkonsolidierung editor", { tag: ["@RISDEV-6833"] }, () => {
       )
 
       const editor = page.getByRole("textbox")
-      await editor.click()
-      await editor.click({ position: { x: 10, y: 10 } })
-      await page.keyboard.press("ArrowDown")
-      await page.keyboard.press("End")
-      await page.keyboard.type(" TESTING")
+      await editor.focus()
+      await editor.press("ArrowDown")
+      await editor.press("End")
+      await editor.pressSequentially(" TESTING")
 
       await page.getByRole("button", { name: "Speichern" }).click()
       await expect(page.getByRole("alert")).toHaveText("Gespeichert!")
