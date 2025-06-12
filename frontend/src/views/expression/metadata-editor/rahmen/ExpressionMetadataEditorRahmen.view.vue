@@ -99,24 +99,14 @@ const documentType = computed<
   DocumentTypeValue | typeof UNKNOWN_DOCUMENT_TYPE | ""
 >({
   get() {
-    if (
-      [
-        localData.value?.art,
-        localData.value?.typ,
-        localData.value?.subtyp,
-      ].every((i) => !i)
-    ) {
+    if (!localData.value?.subtyp) {
       // None of the relevant values are set means that the document type
       // intentionally has no value
       return ""
     } else {
       // If any value is set, we'll check if the combination of values
       // corresponds to a known type, otherwise the type will be unknown
-      return getDocumentTypeFromMetadata(
-        localData.value?.art ?? "",
-        localData.value?.typ ?? "",
-        localData.value?.subtyp ?? "",
-      )
+      return getDocumentTypeFromMetadata(localData.value?.subtyp ?? "")
     }
   },
 
@@ -128,16 +118,10 @@ const documentType = computed<
       return
     }
 
-    const {
-      art = "",
-      typ = "",
-      subtyp = "",
-    } = value ? DocumentTypeValues[value] : {}
+    const { subtyp = "" } = value ? DocumentTypeValues[value] : {}
 
     localData.value = produce(localData.value, (draft) => {
       if (!draft) return
-      draft.art = art
-      draft.typ = typ
       draft.subtyp = subtyp
     })
   },
