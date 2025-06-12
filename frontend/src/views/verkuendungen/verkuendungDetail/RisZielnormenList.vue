@@ -87,11 +87,22 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
 
       <AccordionContent>
         <Accordion class="border-none">
-          <AccordionPanel value="textkonsolidierung">
+          <AccordionPanel
+            v-for="section in ['textkonsolidierung', 'metadata']"
+            :key="section"
+            :value="section"
+          >
             <AccordionHeader>
-              <div class="ris-body2-bold text-blue-800">Textkonsolidierung</div>
+              <div class="ris-body2-bold text-blue-800">
+                {{
+                  section === "textkonsolidierung"
+                    ? "Textkonsolidierung"
+                    : "Metadaten"
+                }}
+              </div>
             </AccordionHeader>
-            <AccordionContent>
+
+            <AccordionContent :class="{ 'pl-24': section === 'metadata' }">
               <DataTable
                 v-if="item.expressions.length"
                 :show-headers="false"
@@ -101,7 +112,11 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
                 <Column field="normExpressionEli" header="ELI">
                   <template #body="{ data }">
                     <RouterLink
-                      :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${data.documentExpressionEli}`"
+                      :to="
+                        section === 'textkonsolidierung'
+                          ? `/verkuendungen/${verkuendungEli}/textkonsolidierung/${data.documentExpressionEli}`
+                          : `/${data.documentExpressionEli}/metadata`
+                      "
                       class="ris-link2-regular"
                     >
                       {{ data.normExpressionEli }}
@@ -130,14 +145,6 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
               </div>
             </AccordionContent>
           </AccordionPanel>
-
-          <AccordionPanel value="metadata" disabled>
-            <AccordionHeader>
-              <div class="ris-body2-bold text-gray-600">Metadaten</div>
-            </AccordionHeader>
-            <AccordionContent class="pl-24"></AccordionContent>
-          </AccordionPanel>
-
           <AccordionPanel value="abgabe">
             <RouterLink
               :to="`/verkuendungen/${verkuendungEli}/zielnorm/${item.eli}/abgabe`"
