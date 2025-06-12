@@ -307,7 +307,7 @@ watch(hasSaved, (finished) => {
 </script>
 
 <template>
-  <div class="flex flex-col overflow-hidden p-24">
+  <div class="flex h-full flex-col overflow-hidden p-24">
     <div class="flex gap-16">
       <div class="grow">
         <h2 class="ris-label2-bold">{{ normData?.shortTitle ?? "Rahmen" }}</h2>
@@ -315,7 +315,7 @@ watch(hasSaved, (finished) => {
     </div>
     <div class="gap grid min-h-0 grow grid-cols-2 grid-rows-1 gap-16">
       <section
-        class="mt-16 flex flex-col gap-8 overflow-hidden"
+        class="mt-16 flex min-h-0 grow flex-col gap-8"
         aria-label="Vorschau"
       >
         <div v-if="renderIsLoading" class="my-16 flex justify-center">
@@ -328,6 +328,7 @@ watch(hasSaved, (finished) => {
           v-else
           class="h-full grow overflow-auto p-2"
           :content="render ?? ''"
+          :arrow-focus="false"
         />
       </section>
 

@@ -35,7 +35,13 @@ test.describe("Textkonsolidierung editor", { tag: ["@RISDEV-6833"] }, () => {
         .click()
 
       const eliText = "eli/bund/bgbl-1/1964/321/2017-03-16/1/deu"
-      await zielnormenSection.getByText(eliText).click()
+
+      const textkonRegion = zielnormenSection.getByRole("region", {
+        name: "Textkonsolidierung",
+      })
+
+      await textkonRegion.getByRole("link", { name: eliText }).click()
+
       await expect(page).toHaveURL(
         "./verkuendungen/eli/bund/bgbl-1/2017/123/2017-03-15/1/deu/regelungstext-1/textkonsolidierung/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-1",
       )

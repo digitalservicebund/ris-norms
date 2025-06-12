@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import RisEmptyState from "@/components/RisEmptyState.vue"
-import RisHeader from "@/components/RisHeader.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import type { ComputedRef } from "vue"
@@ -14,10 +13,14 @@ import { useGetNormToc } from "@/services/tocService"
 import type { TocItem } from "@/types/toc"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import { useRouter } from "vue-router"
+import { useElementId } from "@/composables/useElementId"
+import RisViewLayout from "@/components/RisViewLayout.vue"
+import { Splitter, SplitterPanel } from "primevue"
 
 const router = useRouter()
 const expressionEli = useDokumentExpressionEliPathParameter()
 const selectedEid = useEidPathParameter()
+const { sidebarNavigationId } = useElementId()
 
 const {
   data: tocItems,
@@ -111,16 +114,20 @@ const resetSelectionKeys = () => {
 </script>
 
 <template>
-  <div class="h-[calc(100dvh-5rem)] bg-gray-100">
-    <div
-      class="grid h-full grid-cols-[16rem_1fr] grid-rows-[5rem_1fr] bg-gray-100"
-    >
-      <RisHeader class="col-span-2">
+  <RisViewLayout header-back-destination="history-back" :errors="[tocError]">
+    <Splitter class="h-full" layout="horizontal">
+      <SplitterPanel
+        :size="20"
+        :min-size="20"
+        class="h-full overflow-auto bg-white"
+      >
         <aside
-          class="col-span-1 flex h-[calc(100dvh-5rem-5rem)] w-full flex-col overflow-x-auto overflow-y-auto border-r border-gray-400 bg-white px-8 pt-16"
-          aria-labelledby="sidebarNavigation"
+          class="w-full flex-1 overflow-auto px-8 pt-16"
+          :aria-labelledby="sidebarNavigationId"
         >
-          <span id="sidebarNavigation" class="sr-only">Inhaltsverzeichnis</span>
+          <span :id="sidebarNavigationId" class="sr-only"
+            >Inhaltsverzeichnis</span
+          >
 
           <!-- Frame link -->
           <router-link
@@ -203,9 +210,14 @@ const resetSelectionKeys = () => {
             </Tree>
           </div>
         </aside>
-
+      </SplitterPanel>
+      <SplitterPanel
+        :size="80"
+        :min-size="20"
+        class="h-full overflow-hidden bg-gray-100"
+      >
         <RouterView />
-      </RisHeader>
-    </div>
-  </div>
+      </SplitterPanel>
+    </Splitter>
+  </RisViewLayout>
 </template>
