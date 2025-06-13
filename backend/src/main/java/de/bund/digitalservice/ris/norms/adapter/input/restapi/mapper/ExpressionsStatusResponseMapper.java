@@ -31,8 +31,8 @@ public class ExpressionsStatusResponseMapper {
 
     return new ZielnormReleaseStatusResponseSchema(
       firstNorm.getWorkEli().toString(),
-      firstNorm.getTitle().orElse(null),
-      firstNorm.getShortTitle().orElse(null),
+      firstNorm.getTitle().orElse(""),
+      firstNorm.getShortTitle().orElse(""),
       mapExpressions(norms)
     );
   }

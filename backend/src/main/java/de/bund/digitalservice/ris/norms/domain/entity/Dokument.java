@@ -82,6 +82,18 @@ public abstract sealed class Dokument
   }
 
   /**
+   * Sets the current version GUID as {@link UUID} in the {@link Dokument}.
+   *
+   * @param guid An GUID of the norm
+   */
+  public void setGuid(UUID guid) {
+    NodeParser.getMandatoryElementFromExpression(
+      "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']",
+      document
+    ).setAttribute("value", guid.toString());
+  }
+
+  /**
    * Returns a {@link Meta} instance from a {@link Document} in a {@link Dokument}.
    *
    * @return the meta node as {@link Meta}
