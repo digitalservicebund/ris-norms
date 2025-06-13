@@ -38,7 +38,9 @@ public record ZaehlbezeichnungsbasierteEIdPosition(String value) implements EIdP
    */
   public static ZaehlbezeichnungsbasierteEIdPosition fromString(String string) {
     if (!string.startsWith(PREFIX)) {
-      throw new IllegalArgumentException("OrdinalEIdPosition must start with '" + PREFIX + "'");
+      throw new IllegalArgumentException(
+        "ZaehlbezeichnungsbasierteEIdPosition must start with '" + PREFIX + "'"
+      );
     }
 
     return new ZaehlbezeichnungsbasierteEIdPosition(string.substring(1));
