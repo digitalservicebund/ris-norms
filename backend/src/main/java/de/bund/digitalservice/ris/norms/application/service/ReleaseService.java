@@ -1,18 +1,16 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.port.input.*;
-import de.bund.digitalservice.ris.norms.application.port.output.DeleteNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.DeleteQueuedReleasesPort;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadReleasesByNormExpressionEliPort;
-import de.bund.digitalservice.ris.norms.application.port.output.SaveReleasePort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
-import de.bund.digitalservice.ris.norms.domain.entity.Release;
-import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
+import de.bund.digitalservice.ris.norms.application.port.output.*;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,35 +21,35 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class ReleaseService
-  implements ReleaseNormExpressionUseCase, LoadReleasesByNormExpressionEliUseCase {
+  implements ReleaseAllNormExpressionsUseCase, LoadReleasesByNormExpressionEliUseCase {
 
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final NormService normService;
   private final CreateNewVersionOfNormService createNewVersionOfNormService;
   private final DeleteNormPort deleteNormPort;
-  private final SaveReleasePort saveReleasePort;
-  private final DeleteQueuedReleasesPort deleteQueuedReleasesPort;
   private final LdmlDeValidator ldmlDeValidator;
   private final LoadReleasesByNormExpressionEliPort loadReleasesByNormExpressionEliPort;
+  private final LoadNormExpressionElisPort loadNormExpressionElisPort;
+  private final LdmlDeElementSorter ldmlDeElementSorter;
 
   public ReleaseService(
     UpdateOrSaveNormPort updateOrSaveNormPort,
     NormService normService,
     CreateNewVersionOfNormService createNewVersionOfNormService,
     DeleteNormPort deleteNormPort,
-    SaveReleasePort saveReleasePort,
-    DeleteQueuedReleasesPort deleteQueuedReleasesPort,
     LdmlDeValidator ldmlDeValidator,
-    LoadReleasesByNormExpressionEliPort loadReleasesByNormExpressionEliPort
+    LoadReleasesByNormExpressionEliPort loadReleasesByNormExpressionEliPort,
+    LoadNormExpressionElisPort loadNormExpressionElisPort,
+    LdmlDeElementSorter ldmlDeElementSorter
   ) {
     this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.normService = normService;
     this.createNewVersionOfNormService = createNewVersionOfNormService;
     this.deleteNormPort = deleteNormPort;
-    this.saveReleasePort = saveReleasePort;
-    this.deleteQueuedReleasesPort = deleteQueuedReleasesPort;
     this.ldmlDeValidator = ldmlDeValidator;
     this.loadReleasesByNormExpressionEliPort = loadReleasesByNormExpressionEliPort;
+    this.loadNormExpressionElisPort = loadNormExpressionElisPort;
+    this.ldmlDeElementSorter = ldmlDeElementSorter;
   }
 
   /**
@@ -67,57 +65,117 @@ public class ReleaseService
    */
   @Override
   @Transactional
-  public Release releaseNormExpression(ReleaseNormExpressionUseCase.Options options) {
-    var normToPublish = normService.loadNorm(new LoadNormUseCase.EliOptions(options.eli()));
-
-    // Delete the files from a previous release of the same norm if they are still queued for publishing.
-    var deletedReleases = deleteQueuedReleasesPort.deleteQueuedReleases(
-      new DeleteQueuedReleasesPort.Options(options.eli())
+  public Release release(ReleaseAllNormExpressionsUseCase.@NonNull Options options) {
+    // all expression elis of the norm to publish
+    List<NormExpressionEli> allExpressionElis = loadNormExpressionElisPort.loadNormExpressionElis(
+      new LoadNormExpressionElisPort.Options(options.eli())
     );
-    deletedReleases
+
+    List<Norm> manifestationsToPublish = allExpressionElis
       .stream()
-      .flatMap(release -> release.getPublishedNorms().stream())
-      .forEach(queuedNorm ->
+      // we assume the latest expression is the working copy
+      .map(expressionEli -> normService.loadNorm(new LoadNormUseCase.EliOptions(expressionEli)))
+      .filter(norm -> NormPublishState.UNPUBLISHED.equals(norm.getPublishState()))
+      .toList();
+
+    manifestationsToPublish.forEach(manifestationToPublish -> {
+      final NormManifestationEli oldManifestationEli = manifestationToPublish.getManifestationEli();
+      setNewStandDerBearbeitung(options.releaseType(), manifestationToPublish);
+      //TODO next iteration: Generate new GUID for FRBRExpression/FRBRalias/aktuelle-version-id/@value and set it as nachfolgende-version-id in the previous expression
+      final Norm workingCopy = createNewVersionOfNormService.createNewManifestation(
+        manifestationToPublish,
+        LocalDate.of(2999, 12, 31)
+      );
+      ldmlDeElementSorter.sortElements(
+        workingCopy.getRegelungstext1().getDocument().getDocumentElement()
+      );
+      ldmlDeValidator.validateXSDSchema(workingCopy);
+      ldmlDeValidator.validateSchematron(workingCopy);
+      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(workingCopy));
+
+      if (manifestationToPublish.getReleaseType() == ReleaseType.PRAETEXT_RELEASED) {} // TODO Clean metadata
+      setManifestationDateToCurrentDate(manifestationToPublish);
+      ldmlDeElementSorter.sortElements(
+        manifestationToPublish.getRegelungstext1().getDocument().getDocumentElement()
+      );
+      ldmlDeValidator.validateXSDSchema(manifestationToPublish);
+      ldmlDeValidator.validateSchematron(manifestationToPublish);
+      manifestationToPublish.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
+      // The manifestationToPublish might create a new point-in-time-manifestation thus a new norm might be created.
+      final Norm updatedNorm = updateOrSaveNormPort.updateOrSave(
+        new UpdateOrSaveNormPort.Options(manifestationToPublish)
+      );
+      final boolean newManifestationWasCreatedOnSave =
+        !updatedNorm.getManifestationEli().equals(oldManifestationEli) &&
+        oldManifestationEli
+          .getPointInTimeManifestation()
+          .isBefore(workingCopy.getManifestationEli().getPointInTimeManifestation());
+      if (newManifestationWasCreatedOnSave) {
         deleteNormPort.deleteNorm(
-          new DeleteNormPort.Options(
-            queuedNorm.getManifestationEli(),
-            NormPublishState.QUEUED_FOR_PUBLISH
+          new DeleteNormPort.Options(oldManifestationEli, NormPublishState.UNPUBLISHED)
+        );
+      }
+    });
+
+    return Release.builder()
+      .publishedNorms(manifestationsToPublish)
+      .releasedAt(Instant.now())
+      .build();
+  }
+
+  // TODO this is just a copy from CreateNewVersionOfNormService might this be moved to Norm?
+  private void setManifestationDateToCurrentDate(Norm manifestationToPublish) {
+    var newManifestationEli = NormManifestationEli.fromExpressionEli(
+      manifestationToPublish.getExpressionEli(),
+      LocalDate.now()
+    );
+    manifestationToPublish
+      .getDokumente()
+      .forEach(dokument ->
+        setNewManifestationMetadata(
+          dokument,
+          DokumentManifestationEli.fromNormEli(
+            newManifestationEli,
+            dokument.getManifestationEli().getSubtype(),
+            dokument.getManifestationEli().getFormat()
           )
         )
       );
+  }
 
-    // We need to publish the manifestation of the norm with the correct "nachfolgende-version-id", therefore we
-    // use the manifestation created from createNewExpression of the next time boundary if it exists
-    Norm manifestationToPublish = createNewVersionOfNormService.createNewManifestation(
-      normToPublish
+  /**
+   * Sets the metadata for a new manifestation based on the eli.
+   * @param dokument a dokument of the new manifestation
+   * @param manifestationEli the new eli for the manifestation
+   */
+  private void setNewManifestationMetadata(
+    Dokument dokument,
+    DokumentManifestationEli manifestationEli
+  ) {
+    var manifestation = dokument.getMeta().getFRBRManifestation();
+    manifestation.setEli(manifestationEli);
+    manifestation.setURI(manifestationEli.toUri());
+    manifestation.setFBRDate(
+      manifestationEli.getPointInTimeManifestation().format(DateTimeFormatter.ISO_LOCAL_DATE),
+      "generierung"
     );
+  }
 
-    // Validate all resulting versions
-    ldmlDeValidator.validateXSDSchema(manifestationToPublish);
-    ldmlDeValidator.validateSchematron(manifestationToPublish);
+  private static void setNewStandDerBearbeitung(ReleaseType targetReleaseType, Norm norm) {
+    ReleaseType currentReleaseType = norm.getReleaseType();
 
-    manifestationToPublish.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
-    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(manifestationToPublish));
+    // PRAETEXT_RELEASED and VOLLDOKUMENTATION_RELEASED are not relevant as they remain unchanged.
+    if (
+      targetReleaseType == ReleaseType.PRAETEXT_RELEASED &&
+      currentReleaseType == ReleaseType.NOT_RELEASED
+    ) {
+      norm.setReleaseType(ReleaseType.PRAETEXT_RELEASED);
+    }
 
-    // We need the new manifestations to use tomorrow's date so they do have a different eli to the once just
-    // published. When they are published the manifestation eli will be updated again anyway so the date is not really
-    // important as long as it is the newest date of any manifestation of the same expression.
-    var nextManifestationOfNorm = createNewVersionOfNormService.createNewManifestation(
-      normToPublish,
-      LocalDate.now().plusDays(1)
-    );
-    // delete the old unpublished manifestation so no residual data remains in the database
-    deleteNormPort.deleteNorm(
-      new DeleteNormPort.Options(normToPublish.getManifestationEli(), NormPublishState.UNPUBLISHED)
-    );
-    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(nextManifestationOfNorm));
-
-    var release = Release.builder()
-      .publishedNorms(List.of(manifestationToPublish))
-      .releasedAt(Instant.now())
-      .build();
-
-    return saveReleasePort.saveRelease(new SaveReleasePort.Options(release));
+    // in all cases set to VOLLDOKUMENTATION_RELEASED
+    if (targetReleaseType == ReleaseType.VOLLDOKUMENTATION_RELEASED) {
+      norm.setReleaseType(ReleaseType.VOLLDOKUMENTATION_RELEASED);
+    }
   }
 
   @Override
