@@ -106,6 +106,24 @@ class RegelungstextTest {
   }
 
   @Test
+  void setGuid() {
+    // given
+    final var regelungstext = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+    );
+    final UUID previousGuid = regelungstext.getGuid();
+    assertThat(previousGuid).isEqualTo(UUID.fromString("d04791fc-dcdc-47e6-aefb-bc2f7aaee151"));
+
+    // when
+    String newGuid = "12345678-1234-1234-1234-123456789012";
+    regelungstext.setGuid(UUID.fromString(newGuid));
+
+    // then
+    assertThat(regelungstext.getGuid()).isEqualTo(UUID.fromString(newGuid));
+    assertThat(previousGuid).isNotEqualTo(UUID.fromString(newGuid));
+  }
+
+  @Test
   void getTitle() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
