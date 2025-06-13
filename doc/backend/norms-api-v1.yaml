@@ -1,8 +1,14 @@
 openapi: 3.0.0
 info:
-  title: RIS-Norms API
+  title: RIS Norms API
   version: 1.0.0
-  description: API for managing norms and verkuendungen
+  description: API for managing Normen and Verkündungen.
+servers:
+  - url: /api/v1
+    description: Backend
+
+security:
+  - bearerAuth: []
 
 paths:
   /verkuendungen:
@@ -53,6 +59,7 @@ paths:
           $ref: "#/components/responses/ValidationError"
         "500":
           $ref: "#/components/responses/InternalServerError"
+
   /verkuendungen/{expressionEli}:
     get:
       tags:
@@ -156,6 +163,8 @@ paths:
 
   /{expressionEli}/releases:
     get:
+      tags:
+        - Releases
       summary: Get the releases of a specific norm expression
       parameters:
         - name: expressionEli
@@ -177,6 +186,8 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
     post:
+      tags:
+        - Releases
       summary: Release the norm expression
       parameters:
         - name: expressionEli
@@ -198,6 +209,8 @@ paths:
 
   /{workEli}/expressions/releasestatus:
     get:
+      tags:
+        - Releases
       summary: Get status of expressions that are unpublished
       parameters:
         - name: workEli
@@ -217,6 +230,8 @@ paths:
 
   /{workEli}/releases:
     post:
+      tags:
+        - Releases
       summary: Publish expressions of this norm
       parameters:
         - name: workEli
@@ -773,6 +788,7 @@ paths:
   /environment:
     get:
       summary: Return configuration for the frontend specific to the current environment
+      security: []
       responses:
         "200":
           description: Configuration for the frontend specific to the current environment
@@ -816,6 +832,12 @@ paths:
           $ref: "#/components/responses/InternalServerError"
 
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
   schemas:
     DokumentExpressionEli:
       type: string
