@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -11,7 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsWorkingCopiesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadReleasesByNormExpressionEliUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.ReleaseNormExpressionUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAllNormExpressionsUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import java.time.Instant;
@@ -33,7 +33,7 @@ class ReleaseControllerTest {
   private LoadReleasesByNormExpressionEliUseCase loadReleasesByNormExpressionEliUseCase;
 
   @MockitoBean
-  private ReleaseNormExpressionUseCase releaseNormExpressionUseCase;
+  private ReleaseAllNormExpressionsUseCase releaseAllNormExpressionsUseCase;
 
   @MockitoBean
   private LoadNormExpressionsWorkingCopiesUseCase loadNormExpressionsWorkingCopiesUseCase;
@@ -95,7 +95,7 @@ class ReleaseControllerTest {
   }
 
   @Nested
-  class putRelease {
+  class postRelease {
 
     @Test
     void itReleaseANormExpression() throws Exception {
@@ -111,34 +111,47 @@ class ReleaseControllerTest {
         .publishedNorms(List.of(norm1, norm2))
         .build();
 
-      when(releaseNormExpressionUseCase.releaseNormExpression(any())).thenReturn(release);
+      when(releaseAllNormExpressionsUseCase.release(any())).thenReturn(release);
 
       // When // Then
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/releases")
+          post("/api/v1/eli/bund/bgbl-1/2023/413/releases")
+            .content(
+              """
+              {"releasetype": "praetext"}
+              """
+            )
+            .contentType(MediaType.APPLICATION_JSON)
             .accept(MediaType.APPLICATION_JSON)
             .with(csrf())
         )
         .andExpect(status().isOk())
-        .andExpect(jsonPath("releaseAt", equalTo("2024-01-02T10:20:30Z")))
-        .andExpect(jsonPath("norms[2]").doesNotExist())
+        .andExpect(jsonPath("normWorkEli", equalTo("eli/bund/bgbl-1/2017/s419")))
         .andExpect(
           jsonPath(
-            "norms[0]",
-            equalTo(
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
-            )
+            "title",
+            equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
           )
         )
+        .andExpect(jsonPath("shortTitle", equalTo("")))
+        .andExpect(jsonPath("expressions", hasSize(2)))
         .andExpect(
           jsonPath(
-            "norms[1]",
-            equalTo(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-            )
+            "expressions[0].normExpressionEli",
+            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
           )
-        );
+        )
+        .andExpect(jsonPath("expressions[0].isGegenstandslos", equalTo(false)))
+        .andExpect(jsonPath("expressions[0].currentStatus", equalTo("NOT_RELEASED")))
+        .andExpect(
+          jsonPath(
+            "expressions[1].normExpressionEli",
+            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+          )
+        )
+        .andExpect(jsonPath("expressions[1].isGegenstandslos", equalTo(false)))
+        .andExpect(jsonPath("expressions[1].currentStatus", equalTo("PRAETEXT_RELEASED")));
     }
   }
 }

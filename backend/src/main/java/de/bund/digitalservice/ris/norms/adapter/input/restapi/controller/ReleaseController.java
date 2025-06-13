@@ -5,21 +5,19 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ExpressionsStatusResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ReleaseResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseTypeRequestSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReleaseStatusResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsWorkingCopiesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadReleasesByNormExpressionEliUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.ReleaseNormExpressionUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAllNormExpressionsUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Verkuendung;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /** Controller for release-related actions. */
 @RestController
@@ -27,18 +25,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReleaseController {
 
   private final LoadReleasesByNormExpressionEliUseCase loadReleasesByNormExpressionEliUseCase;
-  private final ReleaseNormExpressionUseCase releaseNormExpressionUseCase;
+  private final ReleaseAllNormExpressionsUseCase releaseAllNormExpressionsUseCase;
   private final LoadNormExpressionsWorkingCopiesUseCase loadNormExpressionsWorkingCopiesUseCase;
   private final LoadNormUseCase loadNormUseCase;
 
   public ReleaseController(
     LoadReleasesByNormExpressionEliUseCase loadReleasesByNormExpressionEliUseCase,
-    ReleaseNormExpressionUseCase releaseNormExpressionUseCase,
+    ReleaseAllNormExpressionsUseCase releaseAllNormExpressionsUseCase,
     LoadNormExpressionsWorkingCopiesUseCase loadNormExpressionsWorkingCopiesUseCase,
     LoadNormUseCase loadNormUseCase
   ) {
     this.loadReleasesByNormExpressionEliUseCase = loadReleasesByNormExpressionEliUseCase;
-    this.releaseNormExpressionUseCase = releaseNormExpressionUseCase;
+    this.releaseAllNormExpressionsUseCase = releaseAllNormExpressionsUseCase;
     this.loadNormExpressionsWorkingCopiesUseCase = loadNormExpressionsWorkingCopiesUseCase;
     this.loadNormUseCase = loadNormUseCase;
   }
@@ -68,20 +66,25 @@ public class ReleaseController {
    * Releases a new release of the norm.
    *
    * @param eli Eli of the request
+   * @param requestBody the request body containing the release type
    * @return A {@link ResponseEntity} containing the created release.
    *     <p>Returns HTTP 200 (OK) and the release was successful.
    *     <p>Returns HTTP 404 (Not Found) if no {@link Verkuendung} is found.
    */
-  @SuppressWarnings("java:S6856")
-  @PostMapping(
-    path = "/{pointInTime}/{version}/{language}/releases",
-    produces = { APPLICATION_JSON_VALUE }
-  )
-  public ResponseEntity<ReleaseResponseSchema> postReleases(final NormExpressionEli eli) {
-    var release = releaseNormExpressionUseCase.releaseNormExpression(
-      new ReleaseNormExpressionUseCase.Options(eli)
-    );
-    return ResponseEntity.ok(ReleaseResponseMapper.fromRelease(release));
+  @PostMapping(path = "/releases", produces = { APPLICATION_JSON_VALUE })
+  public ResponseEntity<ZielnormReleaseStatusResponseSchema> postReleasesForNorm(
+    final NormWorkEli eli,
+    @RequestBody ReleaseTypeRequestSchema requestBody
+  ) {
+    var publishedNorms = releaseAllNormExpressionsUseCase
+      .release(new ReleaseAllNormExpressionsUseCase.Options(eli, requestBody.releaseType()))
+      .getPublishedNorms();
+    if (publishedNorms.isEmpty()) {
+      Norm norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli));
+      return ResponseEntity.ok(ExpressionsStatusResponseMapper.fromPublishedNorm(norm));
+    } else {
+      return ResponseEntity.ok(ExpressionsStatusResponseMapper.fromNorms(publishedNorms));
+    }
   }
 
   /**
