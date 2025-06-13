@@ -98,7 +98,7 @@ test.describe("Geltungszeiten-Artikel", { tag: ["@RISDEV-6946"] }, () => {
     page,
   }) => {
     await page.route(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel",
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten",
       async (route) => {
         await route.fulfill({ status: 500, json: {} })
       },

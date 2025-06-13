@@ -10,11 +10,11 @@ export const errorMessages = {
     message: `Paragraph mit eId "${e.eid}" in Norm "${e.eli}" existiert nicht.`,
   }),
 
-  "/errors/article-of-type-not-found": (
-    e: ErrorResponse<{ eli: string; articleType: string }>,
+  "/errors/no-articles-of-types-found": (
+    e: ErrorResponse<{ eli: string; articleTypes: string[] }>,
   ) => ({
     title: "Paragraph nicht gefunden",
-    message: `Paragraph vom Typ "${e.articleType}" in der Norm "${e.eli}" existiert nicht.`,
+    message: `In der Norm "${e.eli}" existieren keine Paragraphen der Typen "${e.articleTypes?.join(", ")}".`,
   }),
 
   "/errors/norm-not-found": (e: ErrorResponse<{ eli: string }>) => ({
