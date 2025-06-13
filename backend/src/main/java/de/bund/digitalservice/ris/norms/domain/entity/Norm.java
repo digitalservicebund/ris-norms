@@ -270,6 +270,32 @@ public class Norm {
     return new RahmenMetadata(getDokumente().stream().map(Dokument::getRahmenMetadata).toList());
   }
 
+  /**
+   * Set the release type of the norm
+   * @param releaseType - the release type to set
+   */
+  public void setReleaseType(ReleaseType releaseType) {
+    // TODO might change in 1.8 -> for now this will be stored exclusively in the rechtsetzungsdokument
+    getRegelungstext1()
+      .getMeta()
+      .getOrCreateProprietary()
+      .setMetadataValue(Metadata.STAND, releaseType.getValue());
+  }
+
+  /**
+   * Get the release type of the norm
+   * @return the release type
+   */
+  public ReleaseType getReleaseType() {
+    return ReleaseType.fromString(
+      getRegelungstext1()
+        .getMeta()
+        .getOrCreateProprietary()
+        .getMetadataValue(Metadata.STAND)
+        .orElse("")
+    );
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) return true;
