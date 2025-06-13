@@ -43,7 +43,7 @@ spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-start
 spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.3.0"
 spring-security-test = { module = "org.springframework.security:spring-security-test"}
 # CVE-2023-3635
-squareup-okio-jvm = "com.squareup.okio:okio-jvm:3.12.0"
+squareup-okio-jvm = "com.squareup.okio:okio-jvm:3.13.0"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
