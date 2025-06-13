@@ -15,14 +15,14 @@ class TableOfContentsResponseMapperTest {
   void shouldMapTableOfContentsItemsToResponseSchema() {
     // Given
     final TableOfContentsItem childItem = new TableOfContentsItem(
-      new EId("child-1"),
+      new EId("child-n1"),
       "child-marker",
       "child-heading",
       "child-type",
       Collections.emptyList()
     );
     final TableOfContentsItem parentItem = new TableOfContentsItem(
-      new EId("parent-1"),
+      new EId("parent-n1"),
       "parent-marker",
       "parent-heading",
       "parent-type",
@@ -38,14 +38,14 @@ class TableOfContentsResponseMapperTest {
     // Then
     assertThat(response).hasSize(1);
     final TableOfContentsResponseSchema parentResponse = response.getFirst();
-    assertThat(parentResponse.getId()).hasToString("parent-1");
+    assertThat(parentResponse.getId()).hasToString("parent-n1");
     assertThat(parentResponse.getMarker()).isEqualTo("parent-marker");
     assertThat(parentResponse.getHeading()).isEqualTo("parent-heading");
     assertThat(parentResponse.getType()).isEqualTo("parent-type");
     assertThat(parentResponse.getChildren()).hasSize(1);
 
     final TableOfContentsResponseSchema childResponse = parentResponse.getChildren().getFirst();
-    assertThat(childResponse.getId()).hasToString("child-1");
+    assertThat(childResponse.getId()).hasToString("child-n1");
     assertThat(childResponse.getMarker()).isEqualTo("child-marker");
     assertThat(childResponse.getHeading()).isEqualTo("child-heading");
     assertThat(childResponse.getType()).isEqualTo("child-type");

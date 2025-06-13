@@ -26,36 +26,39 @@ public interface LoadSpecificArticlesXmlFromDokumentUseCase {
    * @param eli The ELI (European Legislation Identifier) used to identify the dokument.
    * @param refersTo Specifies the type of article.
    */
-  record Options(DokumentExpressionEli eli, String refersTo) {}
+  record Options(DokumentExpressionEli eli, List<String> refersTo) {}
 
-  /** Indicates that the Dokument was found but does not include articles of that type. */
+  /** Indicates that the Dokument was found but does not include articles of the specified types. */
   @Getter
-  class ArticleOfTypeNotFoundException extends RuntimeException implements NormsAppException {
+  class NoArticlesOfTypesFoundException extends RuntimeException implements NormsAppException {
 
     private final String eli;
-    private final String articleType;
+    private final List<String> articleTypes;
 
-    public ArticleOfTypeNotFoundException(final String eli, final String articleType) {
+    public NoArticlesOfTypesFoundException(final String eli, final List<String> articleTypes) {
       super(
-        "Dokument with eli %s does not contain articles of type %s".formatted(eli, articleType)
+        "Dokument with eli %s does not contain articles of any of the types %s".formatted(
+            eli,
+            String.join(", ", articleTypes)
+          )
       );
       this.eli = eli;
-      this.articleType = articleType;
+      this.articleTypes = articleTypes;
     }
 
     @Override
     public URI getType() {
-      return URI.create("/errors/article-of-type-not-found");
+      return URI.create("/errors/no-articles-of-types-found");
     }
 
     @Override
     public String getTitle() {
-      return "Article of specific type not found";
+      return "No articles of specific types found";
     }
 
     @Override
     public Map<String, Object> getProperties() {
-      return Map.of("eli", getEli(), "articleType", getArticleType());
+      return Map.of("eli", getEli(), "articleTypes", getArticleTypes());
     }
   }
 }

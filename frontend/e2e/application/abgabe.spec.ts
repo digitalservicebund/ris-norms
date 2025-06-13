@@ -7,14 +7,14 @@ test.describe("Abgabe view with expressions", { tag: ["@RISDEV-7186"] }, () => {
   test.beforeAll(async ({ authenticatedRequest }) => {
     await uploadAmendingLaw(
       authenticatedRequest,
-      "aenderungsgesetz-abgabe.xml",
+      "aenderungsgesetz-abgabe",
       frontendTestDataDirectory,
     )
   })
 
   test("shows expressions in Abgabe view", async ({ page }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2025/9999/2025-06-11/1/deu/regelungstext-1/zielnorm/eli/bund/bgbl-1/1964/1234/abgabe",
+      "./verkuendungen/eli/bund/bgbl-1/2025/9999/2025-06-11/1/deu/regelungstext-verkuendung-1/zielnorm/eli/bund/bgbl-1/1964/1234/abgabe",
     )
 
     const rows = page.getByRole("row")
@@ -58,7 +58,7 @@ test.describe("Abgabe view with expressions", { tag: ["@RISDEV-7186"] }, () => {
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2025/9999/2025-06-11/1/deu/regelungstext-1/zielnorm/eli/bund/bgbl-1/1964/0000/abgabe",
+      "./verkuendungen/eli/bund/bgbl-1/2025/9999/2025-06-11/1/deu/regelungstext-verkuendung-1/zielnorm/eli/bund/bgbl-1/1964/0000/abgabe",
     )
 
     await expect(

@@ -21,7 +21,7 @@ public class LdmlDeNotValidException extends RuntimeException implements NormsAp
   public LdmlDeNotValidException(List<ValidationError> errors) {
     super(
       """
-      The provided xml is not a valid LDML.de 1.7.2 document:
+      The provided xml is not a valid LDML.de 1.8.1 document:
       %s
       """.formatted(
           errors.stream().map(ValidationError::toString).collect(Collectors.joining("\n"))
@@ -37,7 +37,7 @@ public class LdmlDeNotValidException extends RuntimeException implements NormsAp
 
   @Override
   public String getTitle() {
-    return "The provided xml is not a valid LDML.de 1.7.2 document";
+    return "The provided xml is not a valid LDML.de 1.8.1 document";
   }
 
   @Override

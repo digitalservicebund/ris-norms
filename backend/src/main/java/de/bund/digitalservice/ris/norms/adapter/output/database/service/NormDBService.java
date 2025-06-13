@@ -94,6 +94,7 @@ public class NormDBService
       return Optional.empty();
     }
 
+    // TODO: (Malte Laukötter, 2025-06-10) this does not work when the Dokumente or BinaryFiles of a norm change (eg. a new offenestruktur is added)
     var dokumentDtos = dokumentRepository.saveAll(
       options
         .norm()

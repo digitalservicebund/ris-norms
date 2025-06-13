@@ -25,7 +25,6 @@ public class ProprietaryResponseMapper {
   public static ProprietaryFrameSchema fromRahmenMetadata(final RahmenMetadata rahmenMetadata) {
     return ProprietaryFrameSchema.builder()
       .fna(rahmenMetadata.getFna().orElse(null))
-      .art(rahmenMetadata.getArt().orElse(null))
       .typ(rahmenMetadata.getTyp().orElse(null))
       .subtyp(rahmenMetadata.getSubtyp().orElse(null))
       .bezeichnungInVorlage(rahmenMetadata.getBezeichnungInVorlage().orElse(null))

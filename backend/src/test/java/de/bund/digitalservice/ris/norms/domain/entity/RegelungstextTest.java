@@ -24,7 +24,7 @@ class RegelungstextTest {
   void getWorkEli() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -32,7 +32,7 @@ class RegelungstextTest {
 
     // then
     assertThat(actualEli).isEqualTo(
-      DokumentWorkEli.fromString("eli/bund/bgbl-1/1964/s593/regelungstext-1")
+      DokumentWorkEli.fromString("eli/bund/bgbl-1/1964/s593/regelungstext-verkuendung-1")
     );
   }
 
@@ -40,10 +40,10 @@ class RegelungstextTest {
   void getExpressionEli() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     DokumentExpressionEli expectedEli = DokumentExpressionEli.fromString(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
     );
 
     // when
@@ -57,10 +57,10 @@ class RegelungstextTest {
   void getManifestationEli() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     DokumentManifestationEli expectedEli = DokumentManifestationEli.fromString(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -75,13 +75,10 @@ class RegelungstextTest {
     // given
     final String xml =
       """
-                      <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-                      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                         xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                             http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-                     <akn:act name="regelungstext">
-                     </akn:act>
-                  </akn:akomaNtoso>
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
+         <akn:act name="regelungstext">
+         </akn:act>
+      </akn:akomaNtoso>
       """.strip();
 
     final var regelungstext = new Regelungstext(XmlMapper.toDocument(xml));
@@ -95,7 +92,7 @@ class RegelungstextTest {
   void getGuid() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -109,7 +106,7 @@ class RegelungstextTest {
   void getTitle() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final String expectedTitle = "Gesetz zur Regelung des öffentlichen Vereinsrechts";
 
@@ -124,7 +121,7 @@ class RegelungstextTest {
   void getShortTitle() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -138,7 +135,7 @@ class RegelungstextTest {
   void getDateAusfertigung() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -152,7 +149,7 @@ class RegelungstextTest {
   void getFRBRname() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final String expectedFRBRname = "BGBl. I";
 
@@ -167,7 +164,7 @@ class RegelungstextTest {
   void getFRBRnumber() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final String expectedFRBRname = "s593";
 
@@ -186,7 +183,7 @@ class RegelungstextTest {
   void getPublishingDate() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -200,7 +197,7 @@ class RegelungstextTest {
   void getMeta() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
@@ -215,10 +212,7 @@ class RegelungstextTest {
     // given
     final String xml =
       """
-          <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-          <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                 http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
          <akn:act name="regelungstext">
          </akn:act>
       </akn:akomaNtoso>
@@ -233,7 +227,7 @@ class RegelungstextTest {
   void getArticles() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
     );
     final var expectedNumberOfArticles = 2;
     final var firstExpectedHeading = "Änderung des Vereinsgesetzes";
@@ -246,14 +240,16 @@ class RegelungstextTest {
     assertThat(actualArticles).hasSize(expectedNumberOfArticles);
     assertThat(actualArticles.getFirst().getHeading()).contains(firstExpectedHeading);
     assertThat(actualArticles.getFirst().getEnumeration()).contains("Artikel 1");
-    assertThat(actualArticles.get(0).getEid()).hasToString("hauptteil-1_art-1");
+    assertThat(actualArticles.get(0).getEid()).hasToString("art-z1");
     assertThat(actualArticles.get(0).getAffectedDocumentEli()).contains(
-      DokumentExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+      DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+      )
     );
 
     assertThat(actualArticles.get(1).getHeading()).contains(secondExpectedHeading);
     assertThat(actualArticles.get(1).getEnumeration()).contains("Artikel 3");
-    assertThat(actualArticles.get(1).getEid()).hasToString("hauptteil-1_art-2");
+    assertThat(actualArticles.get(1).getEid()).hasToString("art-z3");
     assertThat(actualArticles.get(1).getAffectedDocumentEli()).isNotPresent();
   }
 
@@ -262,15 +258,12 @@ class RegelungstextTest {
     // given
     final String xml =
       """
-        <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-            <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-               xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd
-                                   http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
-           <akn:act name="regelungstext">
-              <akn:body eId="hauptteil-1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
-              </akn:body>
-           </akn:act>
-        </akn:akomaNtoso>
+      <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
+         <akn:act name="regelungstext">
+            <akn:body eId="hauptteil-n1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">
+            </akn:body>
+         </akn:act>
+      </akn:akomaNtoso>
       """;
 
     final var regelungstext = new Regelungstext(XmlMapper.toDocument(xml));
@@ -286,10 +279,10 @@ class RegelungstextTest {
   void equalsShouldEqualWithSameXml() {
     // given
     final var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // then
@@ -300,10 +293,10 @@ class RegelungstextTest {
   void equalsShouldNotEqualWithDifferentXml() {
     // given
     final var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
     );
 
     // then
@@ -314,10 +307,10 @@ class RegelungstextTest {
   void hashCodeShouldBeTheSameWithSameXml() {
     // given
     final var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // then
@@ -328,10 +321,10 @@ class RegelungstextTest {
   void hashCodeShouldBeDifferentWithDifferentXml() {
     // given
     final var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
     );
 
     // then
@@ -345,7 +338,7 @@ class RegelungstextTest {
     void itShouldCreatesANewElement() {
       // given
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       final Node parentNode = NodeParser.getNodeFromExpression(
         "//act/meta",
@@ -360,7 +353,7 @@ class RegelungstextTest {
         NodeParser.getNodeFromExpression("//act/meta/analysis", regelungstext.getDocument())
       ).contains(createdNode);
       assertThat(NodeParser.getValueFromExpression("@eId", createdNode)).contains(
-        "meta-1_analysis-1"
+        "meta-n1_analysis-n1"
       );
     }
   }
@@ -372,7 +365,7 @@ class RegelungstextTest {
     void itShouldCreatesTheTemporalDataNodeIfItDoesNotExist() {
       // given
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
 
       // when
@@ -389,7 +382,7 @@ class RegelungstextTest {
     void itShouldFindTheTemporalDataNodeIfItExist() {
       // given
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
 
       // when
@@ -410,12 +403,12 @@ class RegelungstextTest {
     void itShouldDeleteTheNodeOfTheEId() {
       // given
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
 
       // when
-      regelungstext.deleteByEId("meta-1_ident-1_frbrexpression-1_frbrthis-1");
-      regelungstext.deleteByEId("meta-1_ident-1_frbrmanifestation-1_frbrthis-1");
+      regelungstext.deleteByEId("meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1");
+      regelungstext.deleteByEId("meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1");
 
       // then
       assertThatThrownBy(regelungstext::getExpressionEli).isInstanceOf(
@@ -428,11 +421,13 @@ class RegelungstextTest {
   void getElementByEId() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // when
-    final Optional<Element> element = regelungstext.getElementByEId("einleitung-1_block-1_datum-1");
+    final Optional<Element> element = regelungstext.getElementByEId(
+      "einleitung-n1_block-n1_datum-n1"
+    );
 
     // then
     assertThat(element).isPresent();

@@ -5,7 +5,7 @@ import { getFrbrDisplayText } from "./frbr"
 describe("getFrbrDisplayText", () => {
   it("formats the name of a printed announced law", () => {
     const norm: Norm = {
-      eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+      eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
       frbrName: "BGBl. I",
       frbrDateVerkuendung: "2017-03-15",
       frbrNumber: "s419",
@@ -17,7 +17,7 @@ describe("getFrbrDisplayText", () => {
 
   it("formats the name of a digitally announced law", () => {
     const norm: Norm = {
-      eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       frbrName: "BGBl. I",
       frbrDateVerkuendung: "2023-12-29",
       frbrNumber: "413",
@@ -33,7 +33,7 @@ describe("getFrbrDisplayText", () => {
 
   it("returns undefined if some necessary properties are missing", () => {
     const normWithoutName: Norm = {
-      eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       frbrName: undefined,
       frbrDateVerkuendung: "2023-12-29",
       frbrNumber: "413",
@@ -41,7 +41,7 @@ describe("getFrbrDisplayText", () => {
     }
 
     const normWithoutNumber: Norm = {
-      eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+      eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       frbrName: "BGBl. I",
       frbrDateVerkuendung: "2023-12-29",
       frbrNumber: undefined,

@@ -4,9 +4,11 @@ import de.bund.digitalservice.ris.norms.application.exception.ImportProcessNotFo
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.application.exception.NormExistsAlreadyException;
+import de.bund.digitalservice.ris.norms.application.exception.NormWithGuidAlreadyExistsException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormendokumentationspacketProcessingStatusUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ProcessNormendokumentationspaketUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.StoreNormendokumentationspaketUseCase;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormendokumentationspaketPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungImportProcessPort;
@@ -74,6 +76,7 @@ public class VerkuendungsImportService
   );
 
   static final String RECHTSETZUNGSDOKUMENT_FILENAME = "rechtsetzungsdokument-1.xml";
+  private final LoadNormByGuidPort loadNormByGuidPort;
 
   public VerkuendungsImportService(
     LoadNormPort loadNormPort,
@@ -86,7 +89,8 @@ public class VerkuendungsImportService
     LdmlDeValidator ldmlDeValidator,
     JobScheduler jobScheduler,
     MediaTypeService mediaTypeService,
-    SignatureValidator signatureValidator
+    SignatureValidator signatureValidator,
+    LoadNormByGuidPort loadNormByGuidPort
   ) {
     this.loadNormPort = loadNormPort;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
@@ -99,6 +103,7 @@ public class VerkuendungsImportService
     this.jobScheduler = jobScheduler;
     this.mediaTypeService = mediaTypeService;
     this.signatureValidator = signatureValidator;
+    this.loadNormByGuidPort = loadNormByGuidPort;
   }
 
   @Override
@@ -122,7 +127,7 @@ public class VerkuendungsImportService
         .withName("Process Normendokumentationspaket")
         .<ProcessNormendokumentationspaketUseCase>withDetails(service ->
           service.processNormendokumentationspaket(
-            new ProcessNormendokumentationspaketUseCase.Options(processId)
+            new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
           )
         )
     );
@@ -141,9 +146,20 @@ public class VerkuendungsImportService
   }
 
   @Override
-  public void processNormendokumentationspaket(
+  public Verkuendung processNormendokumentationspaket(
     ProcessNormendokumentationspaketUseCase.Options options
   ) throws IOException {
+    return switch (options) {
+      case DirectProcessingOptions directProcessingOptions -> processNormendokumentationspaket(
+        directProcessingOptions
+      );
+      case ProcessOptions processOptions -> processNormendokumentationspaket(processOptions);
+    };
+  }
+
+  private Verkuendung processNormendokumentationspaket(
+    ProcessNormendokumentationspaketUseCase.ProcessOptions options
+  ) {
     log.info("Start processing Normendokumentationspaket: {}", options.processId());
 
     var process = loadVerkuendungImportProcessPort
@@ -159,6 +175,8 @@ public class VerkuendungsImportService
       )
     );
 
+    Verkuendung savedVerkuendung = null;
+
     try {
       var files = loadNormendokumentationspaketPort.loadNormendokumentationspaket(
         new LoadNormendokumentationspaketPort.Options(options.processId())
@@ -168,11 +186,11 @@ public class VerkuendungsImportService
 
       signatureValidator.validate(zipFile, signatureFile);
 
-      Norm norm = parseAndValidate(zipFile);
+      Norm norm = parseAndValidate(zipFile, false);
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm));
 
       Verkuendung verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
-      updateOrSaveVerkuendungPort.updateOrSaveVerkuendung(
+      savedVerkuendung = updateOrSaveVerkuendungPort.updateOrSaveVerkuendung(
         new UpdateOrSaveVerkuendungPort.Options(verkuendung)
       );
 
@@ -213,9 +231,23 @@ public class VerkuendungsImportService
     }
 
     log.info("Finished processing Normendokumentationspaket: {}", options.processId());
+
+    return savedVerkuendung;
   }
 
-  private Norm parseAndValidate(byte[] zipFile)
+  private Verkuendung processNormendokumentationspaket(
+    ProcessNormendokumentationspaketUseCase.DirectProcessingOptions options
+  ) throws IOException {
+    Norm norm = parseAndValidate(options.zipFile(), options.force());
+    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm));
+
+    Verkuendung verkuendung = Verkuendung.builder().eli(norm.getExpressionEli()).build();
+    return updateOrSaveVerkuendungPort.updateOrSaveVerkuendung(
+      new UpdateOrSaveVerkuendungPort.Options(verkuendung)
+    );
+  }
+
+  private Norm parseAndValidate(byte[] zipFile, boolean ignoreExistingNorm)
     throws IOException, NormendokumentationspaketImportFailedException, LdmlDeNotValidException, LdmlDeSchematronException {
     try (ByteArrayInputStream zipInputStream = new ByteArrayInputStream(zipFile)) {
       validateFileIsZipArchive(zipInputStream);
@@ -229,21 +261,25 @@ public class VerkuendungsImportService
 
       Norm norm = findParseAndValidateFilesAsNorm(files);
       ldmlDeValidator.validateSchematron(norm);
-      if (
-        !norm
-          .getRechtsetzungsdokument()
-          .orElseThrow(MissingRechtsetzungsdokumentException::new)
-          .isVerkuendungsfassung()
-      ) {
-        throw new RechtsetzungsdokumentNotAVerkuendungsfassungException();
-      }
 
       if (norm.getRegelungstexte().isEmpty() && norm.getBekanntmachungen().isEmpty()) {
         throw new NoRegelungstextOrBekanntmachungstextException();
       }
 
-      if (loadNormPort.loadNorm(new LoadNormPort.Options(norm.getWorkEli())).isPresent()) {
+      if (
+        !ignoreExistingNorm &&
+        loadNormPort.loadNorm(new LoadNormPort.Options(norm.getWorkEli())).isPresent()
+      ) {
         throw new NormExistsAlreadyException(norm.getWorkEli().toString());
+      }
+
+      if (
+        !ignoreExistingNorm &&
+        loadNormByGuidPort
+          .loadNormByGuid(new LoadNormByGuidPort.Options(norm.getGuid()))
+          .isPresent()
+      ) {
+        throw new NormWithGuidAlreadyExistsException(norm.getGuid());
       }
 
       log.info(

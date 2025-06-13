@@ -15,7 +15,7 @@ describe("xml", () => {
       const document =
         xmlStringToDocument(`<?xml version="1.0" encoding="UTF-8"?>
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                        http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
           <akn:act name="regelungstext">
 
           </akn:act>
@@ -34,7 +34,7 @@ describe("xml", () => {
       const document =
         xmlStringToDocument(`<?xml version="1.0" encoding="UTF-8"?>
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                        http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
           <akn:act name="regelungstext">
 
           </akn:act>
@@ -52,7 +52,7 @@ describe("xml", () => {
       const document =
         xmlStringToDocument(`<?xml version="1.0" encoding="UTF-8"?>
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                        http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
           <akn:act name="regelungstext">
           </akn:act>
         </akn:akomaNtoso>
@@ -68,10 +68,10 @@ describe("xml", () => {
       const document =
         xmlStringToDocument(`<?xml version="1.0" encoding="UTF-8"?>
         <?xml-model href="../../../Grammatiken/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://Metadaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-metadaten.xsd                        http://Inhaltsdaten.LegalDocML.de/1.7.2/ ../../../Grammatiken/legalDocML.de-regelungstextverkuendungsfassung.xsd">
+        <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
           <akn:act name="regelungstext">
           </akn:act>
-          <akn:act name="regelungstext-2">
+          <akn:act name="regelungstext-verkuendung-2">
           </akn:act>
         </akn:akomaNtoso>
       `)
@@ -79,7 +79,7 @@ describe("xml", () => {
       const result = evaluateXPath("//akn:act/@name", document)
       expect(result).toHaveLength(2)
       expect(result[0].nodeValue).toBe("regelungstext")
-      expect(result[1].nodeValue).toBe("regelungstext-2")
+      expect(result[1].nodeValue).toBe("regelungstext-verkuendung-2")
     })
   })
 })

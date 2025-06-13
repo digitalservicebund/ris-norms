@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EIdPart;
+import de.bund.digitalservice.ris.norms.domain.entity.eid.OrdinalEIdPosition;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Document;
@@ -54,7 +55,7 @@ class NodeCreatorTest {
 
     // Then
     final Node childTestNode = NodeParser.getMandatoryNodeFromExpression(
-      "//test/Q{http://MetadatenRIS.LegalDocML.de/1.7.2/}childTest",
+      "//test/Q{http://MetadatenRIS.LegalDocML.de/1.8.1/}childTest",
       document
     );
     assertThat(childTestNode).isEqualTo(newElement);
@@ -67,7 +68,7 @@ class NodeCreatorTest {
     final Document document = XmlMapper.toDocument(
       """
                                     <root>
-      <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="text-1">test value</akn:p>
+      <akn:p xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="text-n1">test value</akn:p>
                                     </root>"""
     );
     final Node testNode = NodeParser.getMandatoryNodeFromExpression("//*/p", document);
@@ -79,7 +80,7 @@ class NodeCreatorTest {
     final Element childTestNode = NodeParser.getMandatoryElementFromExpression("//p/ref", document);
     assertThat(childTestNode).isEqualTo(newElement);
     assertThat(childTestNode.getAttribute("GUID")).isNotEmpty();
-    assertThat(childTestNode.getAttribute("eId")).isEqualTo("text-1_ref-1");
+    assertThat(childTestNode.getAttribute("eId")).isEqualTo("text-n1_ref-n1");
   }
 
   @Test
@@ -88,7 +89,7 @@ class NodeCreatorTest {
     final Document document = XmlMapper.toDocument(
       """
       <root>
-          <test eId="test-1">test value</test>
+          <test eId="test-n1">test value</test>
       </root>"""
     );
     final Node testNode = NodeParser.getMandatoryNodeFromExpression("//test", document);
@@ -96,7 +97,7 @@ class NodeCreatorTest {
     // when
     final Element newElement = NodeCreator.createElementWithStaticEidAndGuidNoAppend(
       "childTest",
-      new EIdPart("child-test", "1"),
+      new EIdPart("child-test", new OrdinalEIdPosition(1)),
       testNode
     );
 
@@ -107,6 +108,6 @@ class NodeCreatorTest {
     );
     assertThat(childTestNode).isEmpty();
     assertThat(newElement.getAttribute("GUID")).isNotEmpty();
-    assertThat(newElement.getAttribute("eId")).isEqualTo("test-1_child-test-1");
+    assertThat(newElement.getAttribute("eId")).isEqualTo("test-n1_child-test-n1");
   }
 }

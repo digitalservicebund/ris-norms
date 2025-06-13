@@ -42,14 +42,14 @@ class RenderingControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_XML)
             .content(
               Fixtures.loadTextFromDisk(
-                "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+                "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
               )
             )
         )
         .andExpect(status().isOk())
         .andExpect(
           xpath(
-            "//*[@data-eId='hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1']"
+            "//*[@data-eId='art-z20_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1']"
           ).string(containsString("§ 9 Abs. 1 Satz 2, Abs. 2"))
         );
     }

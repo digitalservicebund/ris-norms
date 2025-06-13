@@ -78,13 +78,17 @@ class ReleaseControllerTest {
         .andExpect(
           jsonPath(
             "[0].norms[0]",
-            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml")
+            equalTo(
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
+            )
           )
         )
         .andExpect(
           jsonPath(
             "[0].norms[1]",
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml")
+            equalTo(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
+            )
           )
         );
     }
@@ -122,13 +126,17 @@ class ReleaseControllerTest {
         .andExpect(
           jsonPath(
             "norms[0]",
-            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml")
+            equalTo(
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
+            )
           )
         )
         .andExpect(
           jsonPath(
             "norms[1]",
-            equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml")
+            equalTo(
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
+            )
           )
         );
     }

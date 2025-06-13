@@ -5,7 +5,7 @@ const baseDir = path.dirname(fileURLToPath(import.meta.url))
 
 export const samplesDirectory = path.resolve(
   baseDir,
-  "../../../LegalDocML.de/1.7.2/samples",
+  "../../../LegalDocML.de/1.8.1/samples",
 )
 
 export const frontendTestDataDirectory = path.resolve(baseDir, "../testData")

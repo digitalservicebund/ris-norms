@@ -5,10 +5,11 @@ import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Roles;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.hamcrest.core.IsNot;
@@ -30,11 +31,15 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
   private DokumentRepository dokumentRepository;
 
   @Autowired
+  private BinaryFileRepository binaryFileRepository;
+
+  @Autowired
   private NormManifestationRepository normManifestationRepository;
 
   @AfterEach
   void cleanUp() {
     dokumentRepository.deleteAll();
+    binaryFileRepository.deleteAll();
     normManifestationRepository.deleteAll();
   }
 
@@ -43,47 +48,47 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
 
     @Test
     void itReturnsArticles() throws Exception {
-      // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      // Give
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles"
           ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-1"))
+        .andExpect(jsonPath("$[0].eid").value("art-z1"))
         .andExpect(jsonPath("$[1]").exists())
-        .andExpect(jsonPath("$[1].eid").value("hauptteil-1_art-2"))
+        .andExpect(jsonPath("$[1].eid").value("art-z3"))
         .andExpect(jsonPath("$[2]").doesNotExist());
     }
 
     @Test
     void itReturnsEmptyListWhenTheNormHasNoArticles() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            ArticleControllerIntegrationTest.class,
-            "vereinsgesetz-without-articles.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        ArticleControllerIntegrationTest.class,
+        "vereinsgesetz-without-articles",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles"
           ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
@@ -99,7 +104,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles"
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/articles"
           ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
@@ -109,16 +114,18 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Regelungstext with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1 does not exist"
+            "Regelungstext with eli eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1 does not exist"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles"
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/articles"
           )
         )
         .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1"
+          )
         );
     }
   }
@@ -129,19 +136,19 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsTheXmlOfArticles() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles"
           ).accept(MediaType.TEXT_HTML_VALUE)
         )
         .andExpect(status().isOk())
@@ -149,7 +156,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
           content()
             .node(
               hasXPath(
-                "//span[@data-eId=\"hauptteil-1_art-1_überschrift-1\"]",
+                "//span[@data-eId=\"art-z1_überschrift-n1\"]",
                 equalTo("Änderung des Vereinsgesetzes")
               )
             ),
@@ -157,35 +164,30 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
             .node(
               hasXPath(
                 "//span/@data-href",
-                equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1")
               )
             ),
           content()
-            .node(
-              hasXPath(
-                "//span[@data-eId=\"hauptteil-1_art-2_überschrift-1\"]",
-                equalTo("Inkrafttreten")
-              )
-            )
+            .node(hasXPath("//span[@data-eId=\"art-z3_überschrift-n1\"]", equalTo("Inkrafttreten")))
         );
     }
 
     @Test
-    void itReturnsTheXmlOfTheArticleInkrafttreten() throws Exception {
+    void itReturnsTheXmlOfTheGeltungszeitregelArticles() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel"
+            "/api/v1/norms/eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten"
           ).accept(MediaType.TEXT_HTML_VALUE)
         )
         .andExpect(status().isOk())
@@ -194,7 +196,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
             .node(
               IsNot.not(
                 hasXPath(
-                  "//span[@data-eId=\"hauptteil-1_art-1_überschrift-1\"]",
+                  "//span[@data-eId=\"art-z1_überschrift-n1\"]",
                   equalTo("Änderung des Vereinsgesetzes")
                 )
               )
@@ -204,17 +206,16 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
               IsNot.not(
                 hasXPath(
                   "//span/@data-href",
-                  equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+                  equalTo("eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-verkuendung-1")
                 )
               )
             ),
           content()
             .node(
-              hasXPath(
-                "//span[@data-eId=\"hauptteil-1_art-2_überschrift-1\"]",
-                equalTo("Inkrafttreten")
-              )
-            )
+              hasXPath("//span[@data-eId=\"art-z3_überschrift-n1\"]", equalTo("Außerkrafttreten"))
+            ),
+          content()
+            .node(hasXPath("//span[@data-eId=\"art-z4_überschrift-n1\"]", equalTo("Inkrafttreten")))
         );
     }
 
@@ -227,7 +228,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles"
+            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles"
           ).accept(MediaType.TEXT_HTML_VALUE)
         )
         .andExpect(status().isNotFound())
@@ -236,95 +237,103 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist"
+            "Norm with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1 does not exist"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles"
+            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles"
           )
         )
         .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1"
+          )
         );
     }
 
     @Test
     void itReturnsNotFoundIfNoArticleOfTypeExist() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            ArticleControllerIntegrationTest.class,
-            "vereinsgestz-without-geltungszeit-article.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        ArticleControllerIntegrationTest.class,
+        "vereinsgestz-without-geltungszeit-article",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten"
           ).accept(MediaType.TEXT_HTML_VALUE)
         )
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/article-of-type-not-found"))
-        .andExpect(jsonPath("title").value("Article of specific type not found"))
+        .andExpect(jsonPath("type").value("/errors/no-articles-of-types-found"))
+        .andExpect(jsonPath("title").value("No articles of specific types found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Dokument with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 does not contain articles of type geltungszeitregel"
+            "Dokument with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1 does not contain articles of any of the types geltungszeitregel, geltungszeitregel-inkrafttreten, geltungszeitregel-ausserkrafttreten"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles"
           )
         )
         .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          )
         )
-        .andExpect(jsonPath("articleType").value("geltungszeitregel"));
+        .andExpect(jsonPath("articleTypes[0]").value("geltungszeitregel"))
+        .andExpect(jsonPath("articleTypes[1]").value("geltungszeitregel-inkrafttreten"))
+        .andExpect(jsonPath("articleTypes[2]").value("geltungszeitregel-ausserkrafttreten"));
     }
 
     @Test
     void itReturnsNotFoundIfTheNormHasNoArticles() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            ArticleControllerIntegrationTest.class,
-            "vereinsgesetz-without-articles.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        ArticleControllerIntegrationTest.class,
+        "vereinsgesetz-without-articles",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten"
           ).accept(MediaType.TEXT_HTML_VALUE)
         )
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/article-of-type-not-found"))
-        .andExpect(jsonPath("title").value("Article of specific type not found"))
+        .andExpect(jsonPath("type").value("/errors/no-articles-of-types-found"))
+        .andExpect(jsonPath("title").value("No articles of specific types found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Dokument with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1 does not contain articles of type geltungszeitregel"
+            "Dokument with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1 does not contain articles of any of the types geltungszeitregel, geltungszeitregel-inkrafttreten, geltungszeitregel-ausserkrafttreten"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles"
           )
         )
         .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          )
         )
-        .andExpect(jsonPath("articleType").value("geltungszeitregel"));
+        .andExpect(jsonPath("articleTypes[0]").value("geltungszeitregel"));
     }
   }
 
@@ -334,23 +343,23 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsArticle() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/art-z1"
           ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
-        .andExpect(jsonPath("eid").value("hauptteil-1_art-1"));
+        .andExpect(jsonPath("eid").value("art-z1"));
     }
 
     @Test
@@ -362,7 +371,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles/art-z1"
           ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isNotFound())
@@ -371,35 +380,37 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Regelungstext with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1 does not exist"
+            "Regelungstext with eli eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1 does not exist"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles/art-z1"
           )
         )
         .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1"
+          )
         );
     }
 
     @Test
     void itReturnsNothingIfArticleDoesNotExist() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/art-z9999"
           ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isNotFound())
@@ -408,18 +419,20 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Article with eid hauptteil-1_art-9999 does not exist in norm with eli eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+            "Article with eid art-z9999 does not exist in norm with eli eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/art-z9999"
           )
         )
         .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
+          )
         )
-        .andExpect(jsonPath("eid").value("hauptteil-1_art-9999"));
+        .andExpect(jsonPath("eid").value("art-z9999"));
     }
   }
 
@@ -429,24 +442,24 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsArticleRender() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles/art-z1"
           ).accept(MediaType.TEXT_HTML)
         )
         .andExpect(status().isOk())
         .andExpect(
-          xpath("//span[@data-eId=\"hauptteil-1_art-1_überschrift-1\"]").string(
+          xpath("//span[@data-eId=\"art-z1_überschrift-n1\"]").string(
             equalToCompressingWhiteSpace("Änderung des Vereinsgesetzes")
           )
         )
@@ -456,19 +469,19 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsNotFoundIfArticleDoesntExist() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // When / Then
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles/art-z9999"
           ).accept(MediaType.TEXT_HTML)
         )
         .andExpect(status().isNotFound())
@@ -477,18 +490,20 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Article with eid hauptteil-1_art-9999 does not exist in norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+            "Article with eid art-z9999 does not exist in norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles/hauptteil-1_art-9999"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles/art-z9999"
           )
         )
         .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          )
         )
-        .andExpect(jsonPath("eid").value("hauptteil-1_art-9999"));
+        .andExpect(jsonPath("eid").value("art-z9999"));
     }
   }
 }

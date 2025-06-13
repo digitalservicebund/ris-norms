@@ -77,7 +77,7 @@ public class ArticleController {
   @GetMapping(produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getArticlesRender(
     final DokumentExpressionEli eli,
-    @RequestParam(required = false, name = "refersTo") final String refersTo
+    @RequestParam(required = false, name = "refersTo") final List<String> refersTo
   ) {
     String articles = loadSpecificArticlesXmlFromDokumentUseCase
       .loadSpecificArticlesXmlFromDokument(

@@ -13,7 +13,7 @@ Verkündungs-Detailseite with information about these.
 
 ## Decision
 
-We will use a new section in the custom metadata namespace `http://MetadatenMods.LegalDocML.de/1.7.2/` introduced in
+We will use a new section in the custom metadata namespace `http://MetadatenMods.LegalDocML.de/1.8.1/` introduced in
 ADR-0015.
 
 This section uses the new element `<norms:amended-norm-expressions>` in which the expression elis of the expressions
@@ -21,7 +21,7 @@ changed by the Verkündung are listed as `<norms:norm-expression>` elements.
 
 Example:
 ```
-<norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+<norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
     <norms:amended-norm-expressions>
         <norms:norm-expression>eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
         <norms:norm-expression>eli/bund/bgbl-1/2023/413/2024-01-11/2/deu</norms:norm-expression>

@@ -1,9 +1,14 @@
 /* eslint-disable playwright/no-raw-locators */
-import { samplesDirectory } from "@e2e/utils/dataDirectories"
+import {
+  samplesDirectory,
+  frontendTestDataDirectory,
+} from "@e2e/utils/dataDirectories"
 import { test } from "@e2e/utils/testWithAuth"
-import { uploadAmendingLaw } from "@e2e/utils/uploadWithForce"
+import {
+  uploadAmendingLaw,
+  createTemporaryZipFromFolder,
+} from "@e2e/utils/uploadWithForce"
 import { expect } from "@playwright/test"
-import fs from "fs"
 import path from "node:path"
 
 test(
@@ -28,13 +33,13 @@ test(
 
     await page.locator("input[type=file]").setInputFiles([
       {
-        buffer: fs.readFileSync(
+        buffer: await createTemporaryZipFromFolder(
           path.resolve(
             samplesDirectory,
-            "bgbl-1_1000_5_upload_01/aenderungsgesetz.xml",
+            "bgbl-1_1000_5_upload_01/aenderungsgesetz",
           ),
         ),
-        mimeType: "text/xml",
+        mimeType: "application/zip",
         name: "amendingLaw",
       },
     ])
@@ -42,7 +47,7 @@ test(
     await page.getByRole("button", { name: "Hochladen" }).click()
 
     await page.waitForURL(
-      "/app/verkuendungen/eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/regelungstext-1",
+      "/app/verkuendungen/eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/regelungstext-verkuendung-1",
     )
 
     await expect(
@@ -57,20 +62,20 @@ test(
   async ({ page, authenticatedRequest: request }) => {
     await uploadAmendingLaw(
       request,
-      "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
+      "bgbl-1_1000_6_upload_02/aenderungsgesetz-1",
     )
 
     await page.goto("./verkuendungen/upload")
 
     await page.locator("input[type=file]").setInputFiles([
       {
-        buffer: fs.readFileSync(
+        buffer: await createTemporaryZipFromFolder(
           path.resolve(
             samplesDirectory,
-            "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
+            "bgbl-1_1000_6_upload_02/aenderungsgesetz-1",
           ),
         ),
-        mimeType: "text/xml",
+        mimeType: "application/zip",
         name: "amendingLaw",
       },
     ])
@@ -87,20 +92,20 @@ test(
   async ({ page, authenticatedRequest: request }) => {
     await uploadAmendingLaw(
       request,
-      "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
+      "bgbl-1_1000_6_upload_02/aenderungsgesetz-1",
     )
 
     await page.goto("./verkuendungen/upload")
 
     await page.locator("input[type=file]").setInputFiles([
       {
-        buffer: fs.readFileSync(
+        buffer: await createTemporaryZipFromFolder(
           path.resolve(
             samplesDirectory,
-            "bgbl-1_1000_6_upload_02/aenderungsgesetz-2.xml",
+            "bgbl-1_1000_6_upload_02/aenderungsgesetz-2",
           ),
         ),
-        mimeType: "text/xml",
+        mimeType: "application/zip",
         name: "amendingLaw",
       },
     ])
@@ -127,20 +132,20 @@ test(
   async ({ page, authenticatedRequest: request }) => {
     await uploadAmendingLaw(
       request,
-      "bgbl-1_1000_6_upload_02/aenderungsgesetz-1.xml",
+      "bgbl-1_1000_6_upload_02/aenderungsgesetz-1",
     )
 
     await page.goto("./verkuendungen/upload")
 
     await page.locator("input[type=file]").setInputFiles([
       {
-        buffer: fs.readFileSync(
+        buffer: await createTemporaryZipFromFolder(
           path.resolve(
             samplesDirectory,
-            "bgbl-1_1000_6_upload_02/aenderungsgesetz-2.xml",
+            "bgbl-1_1000_6_upload_02/aenderungsgesetz-2",
           ),
         ),
-        mimeType: "text/xml",
+        mimeType: "application/zip",
         name: "amendingLaw",
       },
     ])
@@ -170,7 +175,7 @@ test(
     ])
 
     await expect(
-      page.getByText("amendingLaw ist keine XML-Datei."),
+      page.getByText("amendingLaw ist keine ZIP-Datei."),
     ).toBeVisible()
   },
 )
@@ -181,24 +186,20 @@ test(
   async ({ page }) => {
     await page.goto("./verkuendungen/upload")
 
-    const simpleXml = `
-    <root>
-      <child>Sample content</child>
-    </root>
-  `
-
     await page.locator("input[type=file]").setInputFiles([
       {
-        buffer: Buffer.from(simpleXml),
-        mimeType: "text/xml",
-        name: "test.xml",
+        buffer: await createTemporaryZipFromFolder(
+          path.resolve(frontendTestDataDirectory, "non-ldml-de-content"),
+        ),
+        mimeType: "application/zip",
+        name: "test.zip",
       },
     ])
 
     await page.getByRole("button", { name: "Hochladen" }).click()
 
     await expect(
-      page.getByText('Die XML-Datei "test.xml" ist keine LDML.de-Datei.'),
+      page.getByText("Das LDML.de 1.8.1-Dokument ist nicht gültig."),
     ).toBeVisible()
   },
 )
@@ -211,13 +212,10 @@ test(
 
     await page.locator("input[type=file]").setInputFiles([
       {
-        buffer: fs.readFileSync(
-          path.resolve(
-            samplesDirectory,
-            "bgbl-1_1000_3_invalid_xsd_01/regelungstext-1.xml",
-          ),
+        buffer: await createTemporaryZipFromFolder(
+          path.resolve(samplesDirectory, "bgbl-1_1000_3_invalid_xsd_01"),
         ),
-        mimeType: "text/xml",
+        mimeType: "application/zip",
         name: "amendingLaw",
       },
     ])
@@ -240,13 +238,10 @@ test(
 
     await page.locator("input[type=file]").setInputFiles([
       {
-        buffer: fs.readFileSync(
-          path.resolve(
-            samplesDirectory,
-            "bgbl-1_1000_4_invalid_schematron_01/regelungstext-1.xml",
-          ),
+        buffer: await createTemporaryZipFromFolder(
+          path.resolve(samplesDirectory, "bgbl-1_1000_4_invalid_schematron_01"),
         ),
-        mimeType: "text/xml",
+        mimeType: "application/zip",
         name: "amendingLaw",
       },
     ])

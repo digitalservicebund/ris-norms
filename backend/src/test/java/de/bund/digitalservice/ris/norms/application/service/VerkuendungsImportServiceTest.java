@@ -10,6 +10,7 @@ import ch.qos.logback.classic.Logger;
 import de.bund.digitalservice.ris.norms.application.exception.ImportProcessNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormendokumentationspacketProcessingStatusUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ProcessNormendokumentationspaketUseCase;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormendokumentationspaketPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadVerkuendungImportProcessPort;
@@ -42,6 +43,7 @@ import org.slf4j.LoggerFactory;
 class VerkuendungsImportServiceTest {
 
   private final LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  private final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   private final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
   private final LoadNormendokumentationspaketPort loadNormendokumentationspaketPort = mock(
     LoadNormendokumentationspaketPort.class
@@ -73,7 +75,8 @@ class VerkuendungsImportServiceTest {
     Fixtures.getLdmlDeValidator(),
     jobScheduler,
     new MediaTypeService(),
-    signatureValidator
+    signatureValidator,
+    loadNormByGuidPort
   );
 
   VerkuendungsImportServiceTest() throws TikaException, IOException {}
@@ -154,7 +157,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Options(processId)
+        new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
       );
 
       // Then
@@ -207,7 +210,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Options(processId)
+        new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
       );
 
       // Then
@@ -248,7 +251,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Options(processId)
+        new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
       );
 
       // Then
@@ -301,7 +304,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Options(processId)
+        new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
       );
 
       // Then
@@ -318,6 +321,55 @@ class VerkuendungsImportServiceTest {
       verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
       verify(loadNormPort).loadNorm(
         new LoadNormPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/2024/107"))
+      );
+    }
+
+    void itFailsIfNormWithGuidAlreadyExists() throws IOException {
+      // Given
+      var processId = UUID.randomUUID();
+      var process = VerkuendungImportProcess.builder()
+        .id(processId)
+        .createdAt(Instant.now())
+        .build();
+      when(loadVerkuendungImportProcessPort.loadVerkuendungImportProcess(any())).thenReturn(
+        Optional.of(process)
+      );
+      when(saveVerkuendungImportProcessPort.saveOrUpdateVerkuendungImportProcess(any())).thenReturn(
+        process
+      );
+
+      when(loadNormByGuidPort.loadNormByGuid(any())).thenReturn(
+        Optional.of(
+          Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+        )
+      );
+
+      when(loadNormendokumentationspaketPort.loadNormendokumentationspaket(any())).thenReturn(
+        new LoadNormendokumentationspaketPort.Result(
+          loadFolderAsZipResource("verkuendung-valid"),
+          null
+        )
+      );
+
+      // When
+      verkuendungsImportService.processNormendokumentationspaket(
+        new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
+      );
+
+      // Then
+      verify(saveVerkuendungImportProcessPort, times(1)).saveOrUpdateVerkuendungImportProcess(
+        argThat(command -> command.status().equals(VerkuendungImportProcess.Status.PROCESSING))
+      );
+      verify(saveVerkuendungImportProcessPort, times(1)).saveOrUpdateVerkuendungImportProcess(
+        argThat(
+          command ->
+            command.status().equals(VerkuendungImportProcess.Status.ERROR) &&
+            command.details().getType().getPath().equals("/errors/norm-with-guid-exists-already")
+        )
+      );
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
+      verify(loadNormByGuidPort).loadNormByGuid(
+        new LoadNormByGuidPort.Options(UUID.fromString("19a72406-143b-4d86-b7ae-9bf32a088702"))
       );
     }
 
@@ -345,7 +397,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Options(processId)
+        new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
       );
 
       // Then
@@ -390,7 +442,7 @@ class VerkuendungsImportServiceTest {
 
       // When
       verkuendungsImportService.processNormendokumentationspaket(
-        new ProcessNormendokumentationspaketUseCase.Options(processId)
+        new ProcessNormendokumentationspaketUseCase.ProcessOptions(processId)
       );
 
       // Then

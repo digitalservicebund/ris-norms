@@ -10,7 +10,7 @@ test.describe(
   () => {
     test("opens the page for a Verkündung", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
       )
 
       await page.getByRole("link", { name: "Zielnormen verknüpfen" }).click()
@@ -30,7 +30,7 @@ test.describe(
 
     test("shows the details of the Verkündung", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
       )
 
       const details = page.getByRole("region", { name: "Verkündungsdaten" })
@@ -51,7 +51,7 @@ test.describe(
       )
 
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
       )
 
       await expect(
@@ -61,7 +61,7 @@ test.describe(
 
     test("shows 404 if the Verkündung isn't found", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2099-12-31/1/deu/regelungstext-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2099-12-31/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       )
 
       await expect(page.getByText("Seite nicht gefunden")).toBeVisible()
@@ -71,7 +71,7 @@ test.describe(
       page,
     }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
       )
 
       await expect(
@@ -84,7 +84,7 @@ test.describe(
 test.describe("Geltungszeiten-Artikel", { tag: ["@RISDEV-6946"] }, () => {
   test("shows the preview of the Geltungszeiten-Artikel", async ({ page }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     const details = page.getByRole("region", { name: "Verkündungsdaten" })
@@ -98,14 +98,14 @@ test.describe("Geltungszeiten-Artikel", { tag: ["@RISDEV-6946"] }, () => {
     page,
   }) => {
     await page.route(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/articles?refersTo=geltungszeitregel",
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten",
       async (route) => {
         await route.fulfill({ status: 500, json: {} })
       },
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
     )
 
     await expect(
@@ -119,7 +119,7 @@ test.describe("Geltungszeiten-Artikel", { tag: ["@RISDEV-6946"] }, () => {
 test.describe("table of contents", { tag: ["@RISDEV-6946"] }, () => {
   test("shows the table of contents of the Verkündung", async ({ page }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     const toc = page.getByRole("tree", { name: "Inhaltsverzeichnis" })
@@ -134,14 +134,14 @@ test.describe("table of contents", { tag: ["@RISDEV-6946"] }, () => {
     page,
   }) => {
     await page.route(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/toc",
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/toc",
       async (route) => {
         await route.fulfill({ status: 500, json: {} })
       },
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await expect(
@@ -153,14 +153,14 @@ test.describe("table of contents", { tag: ["@RISDEV-6946"] }, () => {
     page,
   }) => {
     await page.route(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/toc",
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/toc",
       async (route) => {
         await route.fulfill({ status: 200, json: [] })
       },
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await expect(page.getByText("Keine Artikel gefunden.")).toBeVisible()
@@ -170,7 +170,7 @@ test.describe("table of contents", { tag: ["@RISDEV-6946"] }, () => {
 test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
   test("displays the preview of an Artikel", async ({ page }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page
@@ -189,7 +189,7 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
     page,
   }) => {
     await page.route(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1",
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z1",
       async (route) => {
         if ((await route.request().headerValue("Accept")) === "text/html") {
           await route.fulfill({ status: 500, json: {} })
@@ -198,7 +198,7 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page
@@ -217,14 +217,14 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
     page,
   }) => {
     await page.route(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1",
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z1",
       async (route) => {
         await route.fulfill({ status: 200, body: "" })
       },
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page
@@ -241,7 +241,7 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
 
   test("navigates back to the table of contents", async ({ page }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page
@@ -272,7 +272,7 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
     // Prepare Zeitgrenzen
     zeitgrenzenIds = await setZeitgrenzen(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
       ),
       [
         { id: "", date: "2017-03-16", art: "INKRAFT" },
@@ -297,14 +297,14 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
     page,
   }) => {
     await page.route(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       async (route) => {
         await route.fulfill({ status: 500, json: {} })
       },
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await expect(
@@ -316,14 +316,14 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
     page,
   }) => {
     await page.route(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zeitgrenzen",
+      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
       async (route) => {
         await route.fulfill({ status: 500, json: {} })
       },
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await expect(
@@ -333,7 +333,7 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
 
   test("shows the Zeitgrenzen", async ({ page }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page.getByRole("button", { name: /Artikel 1/ }).click()
@@ -362,7 +362,7 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
     page,
   }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page.getByRole("button", { name: /Artikel 1/ }).click()
@@ -405,7 +405,7 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
     page,
   }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page.getByRole("button", { name: /Artikel 1/ }).click()
@@ -472,20 +472,20 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
           geltungszeit: zeitgrenzenIds[0],
           zielnorm: "eli/bund/bgbl-1/2021/123",
           typ: "Änderungsvorschrift",
-          eId: "hauptteil-1_art-1_abs-1",
+          eId: "art-z1_abs-z",
         },
         {
           geltungszeit: zeitgrenzenIds[0],
           zielnorm: "eli/bund/bgbl-1/2021/123",
           typ: "Änderungsvorschrift",
-          eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+          eId: "art-z1_abs-z_untergl-n1_listenelem-n1",
         },
       ],
       request,
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page.getByRole("button", { name: /Artikel 1/ }).click()
@@ -533,20 +533,20 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
             geltungszeit: zeitgrenzenIds[0],
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1",
+            eId: "art-z1_abs-z",
           },
           {
             geltungszeit: zeitgrenzenIds[1],
             zielnorm: "eli/bund/bgbl-1/2021/456",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+            eId: "art-z1_abs-z_untergl-n1_listenelem-n1",
           },
         ],
       },
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page.getByRole("button", { name: /Artikel 1/ }).click()
@@ -599,20 +599,20 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
             geltungszeit: "gz-1",
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1",
+            eId: "art-z1_abs-z",
           },
           {
             geltungszeit: "gz-2",
             zielnorm: "eli/bund/bgbl-1/2021/456",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+            eId: "art-z1_abs-z_untergl-n1_listenelem-n1",
           },
         ],
       },
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page.getByRole("button", { name: /Artikel 1/ }).click()
@@ -671,14 +671,14 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
             geltungszeit: "gz-1",
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1",
+            eId: "art-z1_abs-z",
           },
         ],
       },
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page.getByRole("button", { name: /Artikel 1/ }).click()
@@ -712,20 +712,20 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
             geltungszeit: "gz-1",
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1",
+            eId: "art-z1_abs-z",
           },
           {
             geltungszeit: "gz-2",
             zielnorm: "eli/bund/bgbl-1/2021/456",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
+            eId: "art-z1_abs-z_untergl-n1_listenelem-n1",
           },
         ],
       },
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page.getByRole("button", { name: /Artikel 1/ }).click()
@@ -765,14 +765,14 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
             geltungszeit: zeitgrenzenIds[0],
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
-            eId: "hauptteil-1_art-1_abs-1",
+            eId: "art-z1_abs-z",
           },
         ],
       },
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page.getByRole("button", { name: /Artikel 1/ }).click()
@@ -809,7 +809,7 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
     )
 
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/zielnormen",
+      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zielnormen",
     )
 
     await page.getByRole("button", { name: /Artikel 1/ }).click()

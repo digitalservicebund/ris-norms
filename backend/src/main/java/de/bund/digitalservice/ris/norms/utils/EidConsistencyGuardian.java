@@ -56,7 +56,7 @@ public final class EidConsistencyGuardian {
       var currentNode = nodesToUpdate.removeFirst();
 
       if (currentNode instanceof Element currentElement) {
-        final var expectedEId = EId.forNode(currentNode);
+        final var expectedEId = EId.forNode(currentElement);
         final var currentEId = EId.fromNode(currentNode);
 
         if (expectedEId != currentEId) {

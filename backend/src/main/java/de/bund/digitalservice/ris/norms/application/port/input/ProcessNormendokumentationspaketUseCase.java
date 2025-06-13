@@ -6,9 +6,12 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import java.io.IOException;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
+import org.jspecify.annotations.NonNull;
 
 /** UseCase for processing a Normendokumentationspaket */
 public interface ProcessNormendokumentationspaketUseCase {
@@ -17,15 +20,52 @@ public interface ProcessNormendokumentationspaketUseCase {
    * {@link Verkuendung}
    *
    * @param options The options containing the processId for the Normendokumentationspaket
+   * @return the newly created Verkündung
    */
-  void processNormendokumentationspaket(Options options) throws IOException;
+  Verkuendung processNormendokumentationspaket(Options options) throws IOException;
 
   /**
-   * A record representing the options for processing a Normendokumentationspaket.
+   * The options for processing a Normendokumentationspaket.
+   */
+  sealed interface Options permits ProcessOptions, DirectProcessingOptions {}
+
+  /**
+   * The options for processing a Normendokumentationspaket that was previously uploaded into the bucket for the eVerkündung API.
+   * This also validates the signature of the uploaded archive.
    *
    * @param processId the processId for the Normendokumentationspaket that should be processed
    */
-  record Options(UUID processId) {}
+  record ProcessOptions(UUID processId) implements Options {}
+
+  /**
+   * The options for directly processing an unsigned Normendokumentationspaket, without having it stored in the bucket for the eVerkündung API.
+   *
+   * @param zipFile the Normendokumentationspaket that should be processed
+   * @param force in case a norm already exists, if set to true, the norm will be overwritten. Default: false
+   */
+  record DirectProcessingOptions(byte[] zipFile, boolean force) implements Options {
+    public DirectProcessingOptions(byte[] zipFile) {
+      this(zipFile, false);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (o == null || getClass() != o.getClass()) return false;
+      DirectProcessingOptions that = (DirectProcessingOptions) o;
+      return force == that.force && Objects.deepEquals(zipFile, that.zipFile);
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(Arrays.hashCode(zipFile), force);
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+      return "Options{" + "zipFile.length=" + zipFile.length + ", force=" + force + '}';
+    }
+  }
 
   /**
    * The import of a Normendokumentationspaket failed
@@ -192,34 +232,6 @@ public interface ProcessNormendokumentationspaketUseCase {
     @Override
     public Map<String, Object> getProperties() {
       return Map.of("fileName", fileName, "expectedSubtype", expectedSubtype, "subtype", subtype);
-    }
-  }
-
-  /**
-   * The uploaded Rechtsetzungsdokument is not a Verkündungsfassung
-   */
-  class RechtsetzungsdokumentNotAVerkuendungsfassungException
-    extends NormendokumentationspaketImportFailedException {
-
-    public RechtsetzungsdokumentNotAVerkuendungsfassungException() {
-      super("The rechtsetzungsdokument is not a verkuendungsfassung");
-    }
-
-    @Override
-    public URI getType() {
-      return URI.create(
-        "/errors/normendokumentationspaket-import-failed/rechtsetzungsdokument-not-verkuendungsfassung"
-      );
-    }
-
-    @Override
-    public String getTitle() {
-      return "The rechtsetzungsdokument is not a verkuendungsfassung";
-    }
-
-    @Override
-    public Map<String, Object> getProperties() {
-      return Map.of();
     }
   }
 

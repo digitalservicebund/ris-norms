@@ -17,7 +17,8 @@ export function useGeltungszeitenHtml(
   eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
 ): UseFetchReturn<string> {
   const url = computed(
-    () => `/norms/${toValue(eli)}/articles?refersTo=geltungszeitregel`,
+    () =>
+      `/norms/${toValue(eli)}/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten`,
   )
 
   return useApiFetch(

@@ -22,7 +22,7 @@ class LdmlDeValidatorTest {
   private final LdmlDeValidator ldmlDeValidator = new LdmlDeValidator(
     new UrlResource(
       Objects.requireNonNull(
-        LdmlDeValidator.class.getResource("/LegalDocML.de/1.7.2/schema/legalDocML.de.xsl")
+        LdmlDeValidator.class.getResource("/LegalDocML.de/1.8.1/schema/legalDocML.de.xsl")
       )
     ),
     Fixtures.getXsdSchemaService()
@@ -59,7 +59,7 @@ class LdmlDeValidatorTest {
     void itShouldParseAValidNorm() {
       // Given
       String xml = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
 
       // When
@@ -72,7 +72,9 @@ class LdmlDeValidatorTest {
           "//*[local-name()='FRBRManifestation']/*[local-name()='FRBRthis']/@value",
           regelungstext.getDocument()
         )
-      ).isEqualTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml");
+      ).isEqualTo(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
+      );
     }
 
     @Test
@@ -80,7 +82,7 @@ class LdmlDeValidatorTest {
       // Given
       String xml = Fixtures.loadTextFromDisk(
         LdmlDeValidatorTest.class,
-        "vereinsgesetz-xsd-invalid/regelungstext-1.xml"
+        "vereinsgesetz-xsd-invalid/regelungstext-verkuendung-1.xml"
       );
 
       // When // Then
@@ -209,42 +211,33 @@ class LdmlDeValidatorTest {
         .satisfies(e -> {
           if (e instanceof LdmlDeSchematronException ldmlDeSchematronException) {
             assertThat(ldmlDeSchematronException.getErrors())
-              .hasSize(4)
+              .hasSize(3)
               .contains(
                 new LdmlDeSchematronException.ValidationError(
-                  "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00050-005",
-                  "/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act[1]",
-                  "Für ein Gesetz muss eine Eingangsformel verwendet werden.",
-                  "",
-                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+                  "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000",
+                  "/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}temporalData[1]/@Q{}GUID",
+                  "GUIDs müssen einmalig sein; \"0b03ee18-0131-47ec-bd46-519d60209cc7\" kommt jedoch 2-mal im Dokument vor!",
+                  "meta-n1_geltzeiten-n1",
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
                 )
               )
               .contains(
                 new LdmlDeSchematronException.ValidationError(
                   "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000",
-                  "/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}temporalData[1]/@Q{}GUID",
+                  "/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}temporalData[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}temporalGroup[1]/@Q{}GUID",
                   "GUIDs müssen einmalig sein; \"0b03ee18-0131-47ec-bd46-519d60209cc7\" kommt jedoch 2-mal im Dokument vor!",
-                  "meta-1_geltzeiten-1",
-                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-                )
-              )
-              .contains(
-                new LdmlDeSchematronException.ValidationError(
-                  "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000",
-                  "/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}temporalData[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}temporalGroup[1]/@Q{}GUID",
-                  "GUIDs müssen einmalig sein; \"0b03ee18-0131-47ec-bd46-519d60209cc7\" kommt jedoch 2-mal im Dokument vor!",
-                  "meta-1_geltzeiten-1_geltungszeitgr-1",
-                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+                  "meta-n1_geltzeiten-n1_geltungszeitgr-n1",
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
                 )
               )
               .contains(
                 new LdmlDeSchematronException.ValidationError(
                   "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-VERKF-hrefLiterals.expression.FRBRauthor",
-                  "/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}identification[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}FRBRExpression[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}FRBRauthor[1]/@Q{}href",
+                  "/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}identification[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}FRBRExpression[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}FRBRauthor[1]/@Q{}href",
                   "In der Verkündungsfassung ist das Literal \"recht.bund.de/institution/bundestag\" an dieser Stelle nicht\n" +
                   "                                    zulässig. Erlaubt sind ausschließlich \"recht.bund.de/institution/bundesregierung\", \"recht.bund.de/institution/bundeskanzler\" sowie \"recht.bund.de/institution/bundespraesident\".",
-                  "meta-1_ident-1_frbrexpression-1_frbrauthor-1",
-                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+                  "meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1",
+                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
                 )
               );
           }

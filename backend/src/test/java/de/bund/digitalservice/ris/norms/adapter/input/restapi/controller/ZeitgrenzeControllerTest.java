@@ -39,12 +39,12 @@ class ZeitgrenzeControllerTest {
     @Test
     void getZeitgrenzenReturnsCorrectDataInOrder() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       var customModsMetadata = new CustomModsMetadata(
         toElement(
           """
-          <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+          <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
             <norms:geltungszeiten>
                 <norms:geltungszeit id="gz-1" art="inkraft">2020-01-01</norms:geltungszeit>
                 <norms:geltungszeit id="gz-2" art="ausserkraft">2024-01-01</norms:geltungszeit>
@@ -55,7 +55,7 @@ class ZeitgrenzeControllerTest {
                  <norms:zielnorm-reference>
                      <norms:typ>Änderungsvorschrift</norms:typ>
                      <norms:geltungszeit>gz-1</norms:geltungszeit>
-                     <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+                     <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
                      <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
                  </norms:zielnorm-reference>
              </norms:zielnorm-references>
@@ -98,7 +98,7 @@ class ZeitgrenzeControllerTest {
     @Test
     void getZeitgrenzenReturnsEmpty() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       when(loadZeitgrenzenUseCase.loadZeitgrenzenFromDokument(any())).thenReturn(
         Collections.emptyList()
@@ -122,12 +122,12 @@ class ZeitgrenzeControllerTest {
     @Test
     void updateZeitgrenzeReturnsSuccess() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       var customModsMetadata = new CustomModsMetadata(
         toElement(
           """
-          <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+          <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
             <norms:geltungszeiten>
                 <norms:geltungszeit id="gz-1" art="inkraft">2025-02-20</norms:geltungszeit>
                 <norms:geltungszeit id="gz-2" art="ausserkraft">2023-05-01</norms:geltungszeit>
@@ -171,7 +171,7 @@ class ZeitgrenzeControllerTest {
     @Test
     void updateZeitgrenzenWithEmptyList() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
       when(updateZeitgrenzenUseCase.updateZeitgrenzenOfDokument(any())).thenReturn(
         Collections.emptyList()
