@@ -8,7 +8,6 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstex
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
-import java.util.Objects;
 import org.springframework.stereotype.Service;
 
 /** Service for loading a norm's articles */
@@ -75,12 +74,12 @@ public class ArticleService
     if (options.refersTo() != null) {
       articles = articles
         .stream()
-        .filter(a -> Objects.equals(a.getRefersTo().orElse(""), options.refersTo()))
+        .filter(a -> options.refersTo().contains(a.getRefersTo().orElse("")))
         .toList();
     }
 
     if (articles.isEmpty()) {
-      throw new ArticleOfTypeNotFoundException(options.eli().toString(), options.refersTo());
+      throw new NoArticlesOfTypesFoundException(options.eli().toString(), options.refersTo());
     }
 
     return articles.stream().map(a -> XmlMapper.toString(a.getElement())).toList();

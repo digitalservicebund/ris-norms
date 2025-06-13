@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -123,13 +124,27 @@ class ArticleControllerTest {
       // When
       mockMvc
         .perform(
-          get("/api/v1/norms/{eli}/articles?refersTo=something", eli).accept(MediaType.TEXT_HTML)
+          get(
+            "/api/v1/norms/{eli}/articles?refersTo=geltungszeitregel-ausserkrafttreten&refersTo=geltungszeitregel-inkrafttreten",
+            eli
+          ).accept(MediaType.TEXT_HTML)
         )
         // Then
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
         .andExpect(content().string("<div>\n" + html + "\n</div>\n"));
 
+      verify(
+        loadSpecificArticlesXmlFromDokumentUseCase,
+        times(1)
+      ).loadSpecificArticlesXmlFromDokument(
+        assertArg(arg -> {
+          assertThat(arg.refersTo()).containsAll(
+            List.of("geltungszeitregel-inkrafttreten", "geltungszeitregel-ausserkrafttreten")
+          );
+          assertThat(arg.eli()).hasToString(eli);
+        })
+      );
       verify(transformLegalDocMlToHtmlUseCase, times(1)).transformLegalDocMlToHtml(
         argThat(query -> query.xml().equals(xml))
       );

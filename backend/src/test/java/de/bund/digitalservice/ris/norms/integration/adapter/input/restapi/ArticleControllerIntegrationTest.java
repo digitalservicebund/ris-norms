@@ -173,13 +173,13 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itReturnsTheXmlOfTheArticleInkrafttreten() throws Exception {
+    void itReturnsTheXmlOfTheGeltungszeitregelArticles() throws Exception {
       // Given
       Fixtures.loadAndSaveNormFixture(
         dokumentRepository,
         binaryFileRepository,
         normManifestationRepository,
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18",
         NormPublishState.UNPUBLISHED
       );
 
@@ -187,7 +187,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel"
+            "/api/v1/norms/eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten"
           ).accept(MediaType.TEXT_HTML_VALUE)
         )
         .andExpect(status().isOk())
@@ -206,12 +206,16 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
               IsNot.not(
                 hasXPath(
                   "//span/@data-href",
-                  equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1")
+                  equalTo("eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-verkuendung-1")
                 )
               )
             ),
           content()
-            .node(hasXPath("//span[@data-eId=\"art-z3_überschrift-n1\"]", equalTo("Inkrafttreten")))
+            .node(
+              hasXPath("//span[@data-eId=\"art-z3_überschrift-n1\"]", equalTo("Außerkrafttreten"))
+            ),
+          content()
+            .node(hasXPath("//span[@data-eId=\"art-z4_überschrift-n1\"]", equalTo("Inkrafttreten")))
         );
     }
 
@@ -264,16 +268,16 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten"
           ).accept(MediaType.TEXT_HTML_VALUE)
         )
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/article-of-type-not-found"))
-        .andExpect(jsonPath("title").value("Article of specific type not found"))
+        .andExpect(jsonPath("type").value("/errors/no-articles-of-types-found"))
+        .andExpect(jsonPath("title").value("No articles of specific types found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Dokument with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1 does not contain articles of type geltungszeitregel"
+            "Dokument with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1 does not contain articles of any of the types geltungszeitregel, geltungszeitregel-inkrafttreten, geltungszeitregel-ausserkrafttreten"
           )
         )
         .andExpect(
@@ -286,7 +290,9 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
           )
         )
-        .andExpect(jsonPath("articleType").value("geltungszeitregel"));
+        .andExpect(jsonPath("articleTypes[0]").value("geltungszeitregel"))
+        .andExpect(jsonPath("articleTypes[1]").value("geltungszeitregel-inkrafttreten"))
+        .andExpect(jsonPath("articleTypes[2]").value("geltungszeitregel-ausserkrafttreten"));
     }
 
     @Test
@@ -305,16 +311,16 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten"
           ).accept(MediaType.TEXT_HTML_VALUE)
         )
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/article-of-type-not-found"))
-        .andExpect(jsonPath("title").value("Article of specific type not found"))
+        .andExpect(jsonPath("type").value("/errors/no-articles-of-types-found"))
+        .andExpect(jsonPath("title").value("No articles of specific types found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Dokument with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1 does not contain articles of type geltungszeitregel"
+            "Dokument with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1 does not contain articles of any of the types geltungszeitregel, geltungszeitregel-inkrafttreten, geltungszeitregel-ausserkrafttreten"
           )
         )
         .andExpect(
@@ -327,7 +333,7 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
             "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
           )
         )
-        .andExpect(jsonPath("articleType").value("geltungszeitregel"));
+        .andExpect(jsonPath("articleTypes[0]").value("geltungszeitregel"));
     }
   }
 

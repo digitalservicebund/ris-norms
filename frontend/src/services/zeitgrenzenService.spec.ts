@@ -40,7 +40,7 @@ describe("zeitgrenzenService", () => {
       expect(data.value).toBe("<div></div>")
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel",
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten",
         expect.objectContaining({
           headers: expect.objectContaining({ Accept: "text/html" }),
         }),
@@ -75,12 +75,12 @@ describe("zeitgrenzenService", () => {
       expect(data.value).toBe("<div>2</div>")
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel",
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten",
         expect.anything(),
       )
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel",
+        "/api/v1/norms/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten",
         expect.anything(),
       )
     })

@@ -2738,19 +2738,35 @@
                </akn:content>
             </akn:paragraph>
          </akn:article>
-         <akn:article refersTo="geltungszeitregel"
+         <akn:article refersTo="geltungszeitregel-ausserkrafttreten"
                       GUID="d2528b8d-ba59-4770-a62a-2480fc40f03c"
                       eId="art-z3"
                       period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1">
             <akn:num GUID="8c2abdfd-307e-4159-b8a9-629dd67d542f" eId="art-z3_bezeichnung-n1">Artikel 3</akn:num>
-            <akn:heading GUID="8ea0708a-a1e8-435a-8152-2af4b4ef7d33" eId="art-z3_überschrift-n1">Inkrafttreten</akn:heading>
+            <akn:heading GUID="8ea0708a-a1e8-435a-8152-2af4b4ef7d33" eId="art-z3_überschrift-n1">Außerkrafttreten</akn:heading>
             <akn:paragraph GUID="c856c741-df58-4175-ba4e-6b3eab73537a" eId="art-z3_abs-z">
                <akn:num GUID="ce36c3aa-22c0-4769-83bc-89d871aeac23"
                         eId="art-z3_abs-z_bezeichnung-n1"/>
                <akn:content GUID="eb22c761-fe38-4d73-9c66-674a9be097bc"
                             eId="art-z3_abs-z_inhalt-n1">
                   <akn:p GUID="6b14d997-fb35-47f5-9661-4dc7faf185e0"
-                         eId="art-z3_abs-z_inhalt-n1_text-n1">Dieses Gesetz tritt am 1. März 2024 in Kraft.</akn:p>
+                         eId="art-z3_abs-z_inhalt-n1_text-n1">Dieses Gesetz tritt am 1. August 2098 außer Kraft.</akn:p>
+               </akn:content>
+            </akn:paragraph>
+         </akn:article>
+         <akn:article refersTo="geltungszeitregel-inkrafttreten"
+                      GUID="d2528b8d-ba59-4770-a62a-2480fc44f03c"
+                      eId="art-z4"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1">
+            <akn:num GUID="8c2abdfd-307e-4159-b8a9-629dd67d5424" eId="art-z4_bezeichnung-n1">Artikel 4</akn:num>
+            <akn:heading GUID="8ea0708a-a1e8-435a-8152-2af4b4ef7d34" eId="art-z4_überschrift-n1">Inkrafttreten</akn:heading>
+            <akn:paragraph GUID="c856c741-df58-4175-ba4e-6b3eab73547a" eId="art-z4_abs-z">
+               <akn:num GUID="ce36c3aa-22c0-4769-83bc-89d871aeac43"
+                        eId="art-z4_abs-z_bezeichnung-n1"/>
+               <akn:content GUID="eb22c761-fe38-4d73-9c66-674a9be097b4"
+                            eId="art-z4_abs-z_inhalt-n1">
+                  <akn:p GUID="6b14d997-fb35-47f5-9661-4dc7faf185e4"
+                         eId="art-z4_abs-z_inhalt-n1_text-n1">Dieses Gesetz tritt am 1. März 2024 in Kraft.</akn:p>
                </akn:content>
             </akn:paragraph>
          </akn:article>

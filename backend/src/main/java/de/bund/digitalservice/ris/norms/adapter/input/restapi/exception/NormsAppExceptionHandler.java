@@ -129,17 +129,19 @@ public class NormsAppExceptionHandler {
 
   /**
    * Exception handler method for handling {@link
-   * LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException}.
+   * LoadSpecificArticlesXmlFromDokumentUseCase.NoArticlesOfTypesFoundException}.
    *
    * @param e The exception that occurred.
    * @return A {@link ResponseEntity} with an HTTP 404 status and the exception message.
    */
-  @ExceptionHandler(LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class)
+  @ExceptionHandler(
+    LoadSpecificArticlesXmlFromDokumentUseCase.NoArticlesOfTypesFoundException.class
+  )
   @ResponseStatus(HttpStatus.NOT_FOUND)
   public ProblemDetail handleException(
-    final LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException e
+    final LoadSpecificArticlesXmlFromDokumentUseCase.NoArticlesOfTypesFoundException e
   ) {
-    log.error("ArticleOfTypeNotFoundException: {}", e.getMessage(), e);
+    log.error("NoArticlesOfTypesFoundException: {}", e.getMessage(), e);
     return createProblemDetail(e, HttpStatus.NOT_FOUND);
   }
 
