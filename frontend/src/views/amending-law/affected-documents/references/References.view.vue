@@ -94,7 +94,7 @@ watch(
         <RisRefsEditor
           v-if="normXml"
           :norm-xml="normXml"
-          e-id="hauptteil-1"
+          e-id="hauptteil-n1"
           :eli="normEli"
           class="col-span-2 grid grid-cols-subgrid"
           :has-saved="hasSaved"
