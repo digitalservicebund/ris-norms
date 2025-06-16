@@ -260,47 +260,55 @@ tasks {
     }
 
     register("processDBFixtures") {
-        var baseDir = fileTree("src/main/resources/db/data")
-        var norms =
+        val baseDir = fileTree("src/main/resources/db/data")
+        val norms =
             baseDir.matching {
                 include("**/rechtsetzungsdokument-1.xml")
             }
 
         inputs.files(norms)
 
-        var outdir = layout.buildDirectory.dir("resources/main/db/data")
+        val outdir = layout.buildDirectory.dir("resources/main/db/data")
         outputs.dir(outdir)
 
         doLast {
             norms.files.forEach { rechtsetzungsdokumentFile ->
-                var relativeNormFolder = rechtsetzungsdokumentFile.parentFile.relativeTo(baseDir.dir)
+                val relativeNormFolder = rechtsetzungsdokumentFile.parentFile.relativeTo(baseDir.dir)
                 logger.info("Creating db migration for $relativeNormFolder")
-                var dbMigrationFile = file(outdir.get().file("$relativeNormFolder.sql"))
+                val dbMigrationFile = file(outdir.get().file("$relativeNormFolder.sql"))
 
-                if (dbMigrationFile.exists()) {
-                    dbMigrationFile.delete()
-                }
                 dbMigrationFile.parentFile.mkdirs()
-                dbMigrationFile.createNewFile()
+                dbMigrationFile.writeText("")
 
-                var rechtsetzungsdokumentContent = rechtsetzungsdokumentFile.readText(Charsets.UTF_8)
+                val rechtsetzungsdokumentContent = rechtsetzungsdokumentFile.readText(Charsets.UTF_8)
                 // we just look for the first thing looking like a norm expression eli as it should always be the one of the norm, and we don't need to parse the xml this way
-                var eliNormExpression =
+                val eliNormExpression =
                     "eli/bund/[-a-z0-9]+/\\d{4}/(s[0-9]+[a-zäöüß]*|[0-9]+(-\\d+)?)/\\d{4}-\\d{2}-\\d{2}/\\d+/[a-z]{3}"
                         .toRegex()
                         .find(
                             rechtsetzungsdokumentContent,
                         )?.value
+
+                if (eliNormExpression == null) {
+                    throw GradleException("Could not find norm expression eli in ${rechtsetzungsdokumentFile.path}")
+                }
+
                 // To set the correct publish state the rechtsetzungsdokument can include a comment like "<!-- PUBLISH_STATE:UNPUBLISHED -->" that specifies which publish state should be set on the database.
-                var publishState = "(?<=PUBLISH_STATE:)[A-Z]+".toRegex().find(rechtsetzungsdokumentContent)?.value ?: "PUBLISHED"
+                val publishState = "(?<=PUBLISH_STATE:)[A-Z]+".toRegex().find(rechtsetzungsdokumentContent)?.value ?: "PUBLISHED"
 
                 dbMigrationFile.appendText("DELETE FROM dokumente WHERE eli_norm_expression = '$eliNormExpression';\n")
                 dbMigrationFile.appendText("DELETE FROM norm_manifestation WHERE eli_norm_expression = '$eliNormExpression';\n")
                 dbMigrationFile.appendText("DELETE FROM norm_expression WHERE eli_norm_expression = '$eliNormExpression';\n")
 
-                // This can be used for sql-injections. So please do not include any sql or the character ' in the sample files ^^
+                // This can be used for sql-injections. So please do not include any sql in the sample files, we only do some very simple checking for the '-character ^^
                 rechtsetzungsdokumentFile.parentFile.listFiles { file -> file.name.endsWith(".xml") }!!.forEach { file ->
-                    dbMigrationFile.appendText("INSERT INTO dokumente (xml) VALUES ('${file.readText(Charsets.UTF_8)}');\n")
+                    val fileContent = file.readText(Charsets.UTF_8)
+
+                    if (fileContent.contains("'")) {
+                        throw GradleException("Content of ${file.path} includes a '. This will not create a valid database migration.")
+                    }
+
+                    dbMigrationFile.appendText("INSERT INTO dokumente (xml) VALUES ('$fileContent');\n")
                 }
 
                 dbMigrationFile.appendText(
