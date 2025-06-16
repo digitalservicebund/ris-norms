@@ -346,11 +346,11 @@ jobs:
         with:
           path: ris-norms
 
-      # Copy ADRs into tmp folder
+      # Copy ADRs into tmp folder (excluding template)
       - name: Copy ADRs
         run: |
           mkdir -p tmp/adr-source
-          cp -r ris-norms/doc/adr/* tmp/adr-source/
+          find ris-norms/doc/adr/ -type f ! -name '0000-template.md' -exec cp {} tmp/adr-source/ \;
           ls -l tmp/adr-source
 
       # Then checkout ris-reports (will override ris-norms check-out)
