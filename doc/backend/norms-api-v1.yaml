@@ -1176,11 +1176,11 @@ components:
     ReleaseRequest:
       type: object
       properties:
-        releasetype:
+        releaseType:
           type: string
           enum: ["praetext", "volldokumentation"]
       required:
-        - releasetype
+        - releaseType
 
   responses:
     NotFound:
