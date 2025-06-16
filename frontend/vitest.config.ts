@@ -1,5 +1,4 @@
 import { defineConfig, mergeConfig } from "vitest/config"
-import { configDefaults } from "vitest/dist/config"
 import viteConfig from "./vite.config"
 
 export default defineConfig((context) =>
@@ -10,7 +9,7 @@ export default defineConfig((context) =>
         setupFiles: ["src/vitest-setup.ts"],
         globals: true,
         environment: "jsdom",
-        exclude: [...configDefaults.exclude, "e2e/**/*.spec.ts", "a11y/**/*"],
+        include: ["src/**/*.spec.ts"],
         css: {
           // Needed so we can reliably test for class names for CSS modules.
           // Otherwise scoped CSS classes would have an unreliable hash
