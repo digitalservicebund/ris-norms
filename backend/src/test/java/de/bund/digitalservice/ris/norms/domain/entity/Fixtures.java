@@ -81,6 +81,18 @@ public class Fixtures {
             LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-rechtsetzungsdokument.xsd"
           )
       )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource(LDMLDE_RESOURCE_FOLDER + "/schema-extension/metadata.xsd")
+      )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource(
+            LDMLDE_RESOURCE_FOLDER + "/schema-extension/norms-application-only-metadata.xsd"
+          )
+      )
     )
   );
 

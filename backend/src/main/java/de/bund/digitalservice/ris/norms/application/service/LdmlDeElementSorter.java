@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeElementSortingException;
+import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -94,7 +95,7 @@ public class LdmlDeElementSorter {
     return findTypeForElement(element).map(this::findElementOrderForType).orElse(List.of());
   }
 
-  private Optional<String> findTypeForElement(Element element) {
+  private Optional<SchemaType> findTypeForElement(Element element) {
     var tagName = element.getLocalName();
     var types = findPossibleTypesForTagName(tagName);
 
@@ -102,7 +103,7 @@ public class LdmlDeElementSorter {
       // If we can find no nested xs:element with the tagName as a name that have a @type there should be no
       // xs:complexType for this element. For some elements a global xs:element definition exists. This does not have a
       // @type attribute but can specify a sequence. To handle this case we return the tag name as the schema-type.
-      return Optional.of(tagName);
+      return Optional.of(new SchemaType(Namespace.getByUri(element.getNamespaceURI()), tagName));
     }
 
     if (types.size() == 1) {
@@ -122,18 +123,18 @@ public class LdmlDeElementSorter {
       // for us.
       case "p", "block", "signature" -> Optional.empty();
       // There are two types for formula elements but both allow the exact same content, so just default to one.
-      case "formula" -> Optional.of("schlussformel");
+      case "formula" -> Optional.of(new SchemaType(Namespace.INHALTSDATEN, "schlussformel"));
       // There are two types for blockContainer elements. Both can have different sequences.
       case "blockContainer" -> {
         if (
           element.getParentNode().getLocalName().equals("quotedStructure") ||
           element.getParentNode().getLocalName().equals("preamble")
         ) {
-          yield Optional.of("verzeichniscontainer");
+          yield Optional.of(new SchemaType(Namespace.INHALTSDATEN, "verzeichniscontainer"));
         }
 
         if (element.getParentNode().getLocalName().equals("conclusions")) {
-          yield Optional.of("signaturblock");
+          yield Optional.of(new SchemaType(Namespace.INHALTSDATEN, "signaturblock"));
         }
 
         logger.debug(
@@ -144,11 +145,13 @@ public class LdmlDeElementSorter {
       // There are two types for intro elements. Both can have different sequences.
       case "intro" -> {
         if (element.getParentNode().getLocalName().equals("citations")) {
-          yield Optional.of("ermaechtigungsnormEingangssatz");
+          yield Optional.of(
+            new SchemaType(Namespace.INHALTSDATEN, "ermaechtigungsnormEingangssatz")
+          );
         }
 
         if (element.getParentNode().getLocalName().equals("list")) {
-          yield Optional.of("textVorUntergliederung");
+          yield Optional.of(new SchemaType(Namespace.INHALTSDATEN, "textVorUntergliederung"));
         }
 
         logger.debug(
@@ -159,11 +162,13 @@ public class LdmlDeElementSorter {
       // There are two types for wrapUp elements. Both can have different sequences.
       case "wrapUp" -> {
         if (element.getParentNode().getLocalName().equals("citations")) {
-          yield Optional.of("ermaechtigungsnormSchlusssatz");
+          yield Optional.of(
+            new SchemaType(Namespace.INHALTSDATEN, "ermaechtigungsnormSchlusssatz")
+          );
         }
 
         if (element.getParentNode().getLocalName().equals("list")) {
-          yield Optional.of("textNachUntergliederung");
+          yield Optional.of(new SchemaType(Namespace.INHALTSDATEN, "textNachUntergliederung"));
         }
 
         logger.debug(
@@ -171,19 +176,25 @@ public class LdmlDeElementSorter {
         );
         yield Optional.empty();
       }
+      case "artDerNorm" -> Optional.of(
+        new SchemaType(Namespace.METADATEN_RIS, "ArtDerNormFrameType")
+      );
       default -> throw new LdmlDeElementSortingException(
-        "Too many possible types for %s (%s) in schema".formatted(tagName, String.join(", ", types))
+        "Too many possible types for %s (%s) in schema".formatted(
+            tagName,
+            types.stream().map(SchemaType::toString).collect(Collectors.joining(", "))
+          )
       );
     };
   }
 
   // Cache of possible types for every tag name. Helps a lot with the performance.
-  private final Map<String, Set<String>> typesByTag = new HashMap<>();
+  private final Map<String, Set<SchemaType>> typesByTag = new HashMap<>();
 
   /**
    * Finds the possible schema-types that an element tag name could represent.
    */
-  private Set<String> findPossibleTypesForTagName(String tagName) {
+  private Set<SchemaType> findPossibleTypesForTagName(String tagName) {
     if (typesByTag.containsKey(tagName)) {
       return typesByTag.get(tagName);
     }
@@ -196,7 +207,12 @@ public class LdmlDeElementSorter {
           schema
         )
           .stream()
-          .map(Node::getNodeValue)
+          .map(node -> {
+            var docElement = node.getOwnerDocument().getDocumentElement();
+            var targetNamespace = docElement.getAttribute("targetNamespace");
+
+            return new SchemaType(Namespace.getByUri(targetNamespace), node.getNodeValue());
+          })
           .collect(Collectors.toSet())
       )
       .filter(Predicate.not(Set::isEmpty))
@@ -207,55 +223,64 @@ public class LdmlDeElementSorter {
     return types;
   }
 
-  private final Map<String, List<String>> elementOrderByType = new HashMap<>();
+  private final Map<SchemaType, List<String>> elementOrderByType = new HashMap<>();
 
-  private List<String> findElementOrderForType(String typeName) {
-    if (elementOrderByType.containsKey(typeName)) {
-      return elementOrderByType.get(typeName);
+  private List<String> findElementOrderForType(SchemaType type) {
+    if (elementOrderByType.containsKey(type)) {
+      return elementOrderByType.get(type);
     }
 
-    var schemaType = findDefinitionForSchemaType(typeName);
+    var schemaType = findDefinitionForSchemaType(type);
 
     if (schemaType.isEmpty()) {
-      elementOrderByType.put(typeName, List.of());
+      elementOrderByType.put(type, List.of());
       return List.of();
     }
 
     // Skip sorting for mixed content as there can be text nodes in between the sequence which we therefore cannot
     // reliably reorder
     if (schemaType.get().getAttribute("mixed").equals("true")) {
-      elementOrderByType.put(typeName, List.of());
+      elementOrderByType.put(type, List.of());
       return List.of();
     }
 
-    var elements = NodeParser.getElementsFromExpression("./sequence/*", schemaType.get());
+    var elements = NodeParser.getElementsFromExpression(
+      "./sequence/* | ./complexType/sequence/*",
+      schemaType.get()
+    );
 
     var elementOrder = elements
       .stream()
       .flatMap(element ->
         switch (element.getTagName()) {
           case "xs:element" -> Stream.of(element.getAttribute("name"));
-          case "xs:group" -> findElementOrderForType(element.getAttribute("ref")).stream();
+          case "xs:group" -> findElementOrderForType(
+            new SchemaType(type.namespace, element.getAttribute("ref"))
+          ).stream();
           case "xs:choice" -> Stream.empty();
+          case "xs:any" -> Stream.empty();
           default -> throw new LdmlDeElementSortingException(
             "Unexpected element in schema sequence: %s".formatted(element.getTagName())
           );
         }
       )
       .toList();
-    elementOrderByType.put(typeName, elementOrder);
+    elementOrderByType.put(type, elementOrder);
     return elementOrder;
   }
 
   /**
    * Finds the element that holds the definition of a schema-type.
    */
-  private Optional<Element> findDefinitionForSchemaType(String typeName) {
+  private Optional<Element> findDefinitionForSchemaType(SchemaType type) {
     return schemas
       .stream()
       .map(schema ->
         NodeParser.getElementFromExpression(
-          "/schema/(complexType | group | element)[@name = \"%s\"]".formatted(typeName),
+          "/schema[@targetNamespace = \"%s\"]/(complexType | group | element)[@name = \"%s\"]".formatted(
+              type.namespace.getNamespaceUri(),
+              type.typeName
+            ),
           schema
         )
       )
@@ -263,4 +288,6 @@ public class LdmlDeElementSorter {
       .map(Optional::get)
       .findFirst();
   }
+
+  private record SchemaType(Namespace namespace, String typeName) {}
 }

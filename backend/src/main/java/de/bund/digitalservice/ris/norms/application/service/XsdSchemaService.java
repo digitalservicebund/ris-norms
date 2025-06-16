@@ -33,6 +33,8 @@ public class XsdSchemaService {
   Resource risNormsBekanntmachungXsdSchema;
   Resource risNormsOffeneStrukturXsdSchema;
   Resource risNormsRechtsetzungsdokumentXsdSchema;
+  Resource risNormsMetadataSchema;
+  Resource risNormsApplicationOnlyMetadataSchema;
 
   public XsdSchemaService(
     @Value(
@@ -55,7 +57,13 @@ public class XsdSchemaService {
     ) Resource risNormsOffeneStrukturXsdSchema,
     @Value(
       "classpath:/LegalDocML.de/1.7.2/legalDocML.de-risnorms-rechtsetzungsdokument.xsd"
-    ) Resource risNormsRechtsetzungsdokumentXsdSchema
+    ) Resource risNormsRechtsetzungsdokumentXsdSchema,
+    @Value(
+      "classpath:/LegalDocML.de/1.7.2/schema-extension/metadata.xsd"
+    ) Resource risNormsMetadataSchema,
+    @Value(
+      "classpath:/LegalDocML.de/1.7.2/schema-extension/norms-application-only-metadata.xsd"
+    ) Resource risNormsApplicationOnlyMetadataSchema
   ) {
     this.baukastenXsdSchema = baukastenXsdSchema;
     this.metadatenXsdSchema = metadatenXsdSchema;
@@ -65,6 +73,8 @@ public class XsdSchemaService {
     this.risNormsBekanntmachungXsdSchema = risNormsBekanntmachungXsdSchema;
     this.risNormsOffeneStrukturXsdSchema = risNormsOffeneStrukturXsdSchema;
     this.risNormsRechtsetzungsdokumentXsdSchema = risNormsRechtsetzungsdokumentXsdSchema;
+    this.risNormsMetadataSchema = risNormsMetadataSchema;
+    this.risNormsApplicationOnlyMetadataSchema = risNormsApplicationOnlyMetadataSchema;
   }
 
   /**
@@ -77,7 +87,9 @@ public class XsdSchemaService {
       metadatenXsdSchema,
       regelungstextVerkuendungsfassungXsdSchema,
       risNormsRegelungstextVerkuendungsfassungXsdSchema,
-      risNormsOffeneStrukturXsdSchema
+      risNormsOffeneStrukturXsdSchema,
+      risNormsMetadataSchema,
+      risNormsApplicationOnlyMetadataSchema
     )
       .map(this::loadDocumentForResource)
       .toList();

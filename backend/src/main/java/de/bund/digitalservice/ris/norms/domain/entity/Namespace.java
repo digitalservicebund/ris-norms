@@ -26,4 +26,19 @@ public enum Namespace {
     this.namespaceUri = namespaceUri;
     this.prefix = prefix;
   }
+
+  /**
+   * Find a namespace by its URI.
+   * @param uri the uri identifying the namespace
+   * @return the namespace
+   */
+  public static Namespace getByUri(String uri) {
+    for (Namespace namespace : Namespace.values()) {
+      if (namespace.getNamespaceUri().equals(uri)) {
+        return namespace;
+      }
+    }
+
+    throw new IllegalArgumentException("Namespace '" + uri + "' could not be found");
+  }
 }
