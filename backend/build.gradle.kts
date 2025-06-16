@@ -291,6 +291,7 @@ tasks {
                         .find(
                             rechtsetzungsdokumentContent,
                         )?.value
+                // To set the correct publish state the rechtsetzungsdokument can include a comment like "<!-- PUBLISH_STATE:UNPUBLISHED -->" that specifies which publish state should be set on the database.
                 var publishState = "(?<=PUBLISH_STATE:)[A-Z]+".toRegex().find(rechtsetzungsdokumentContent)?.value ?: "PUBLISHED"
 
                 dbMigrationFile.appendText("DELETE FROM dokumente WHERE eli_norm_expression = '$eliNormExpression';\n")
