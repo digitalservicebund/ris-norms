@@ -5,6 +5,8 @@ import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, ref, toValue, watch } from "vue"
 
+export type ReleaseType = "praetext" | "volldokumentation"
+
 type ZielnormReleaseStatus = {
   normWorkEli: string
   title: string
@@ -18,7 +20,7 @@ type ZielnormReleaseStatus = {
       | "VOLLDOKUMENTATION_RELEASED"
   }[]
 }
-type ZielnormReleaseStatusDomain = {
+export type ZielnormReleaseStatusDomain = {
   normWorkEli: NormWorkEli
   title: string
   shortTitle: string
@@ -85,4 +87,48 @@ export function useGetZielnormReleaseStatus(
   )
 
   return { ...rest, data: mappedData }
+}
+
+/**
+ * Posts a release request for the given Zielnorm with a releaseType
+ */
+export function usePostZielnormRelease(
+  eli: MaybeRefOrGetter<NormWorkEli | undefined>,
+) {
+  const url = computed(() => {
+    const eliVal = toValue(eli)
+    if (!eliVal) return INVALID_URL
+    return `/${eliVal}/releases`
+  })
+
+  const {
+    data: rawData,
+    post,
+    ...rest
+  } = useApiFetch(url, {
+    immediate: false,
+  }).json<ZielnormReleaseStatus>()
+
+  const mappedData = ref<ZielnormReleaseStatusDomain | null>(null)
+
+  watch(
+    rawData,
+    (newData) => {
+      mappedData.value = newData
+        ? mapReleaseStatusResponseToDomain(newData)
+        : null
+    },
+    { immediate: true },
+  )
+
+  const execute = async (releaseType: ReleaseType) => {
+    console.log(releaseType)
+    return await post({ releaseType }).execute()
+  }
+
+  return {
+    ...rest,
+    data: mappedData,
+    execute,
+  }
 }
