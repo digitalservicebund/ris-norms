@@ -122,7 +122,6 @@ export function usePostZielnormRelease(
   )
 
   const execute = async (releaseType: ReleaseType) => {
-    console.log(releaseType)
     return await post({ releaseType }).execute()
   }
 
