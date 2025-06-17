@@ -4,10 +4,7 @@
     "config:recommended",
     ":disableDependencyDashboard" // not have a GitHub issue listing the open updates
   ],
-  "timezone": "Europe/Berlin",
-  "automergeSchedule": [ "before 5:30am every weekday",
-        "after 7pm every weekday"], // branches are created, but not merged outside this schedule. Not in working hours because of rebases
-  "lockFileMaintenance": {
+ "lockFileMaintenance": {
     "enabled": true,
     "automerge": true
   },
