@@ -1,5 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.service;
 
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.BinaryFileDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormManifestationDto;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.BinaryFileMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
@@ -14,12 +16,17 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifest
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
+import de.bund.digitalservice.ris.norms.domain.entity.BinaryFile;
+import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -94,38 +101,13 @@ public class NormDBService
       return Optional.empty();
     }
 
-    var dokumentDtos = dokumentRepository.saveAll(
-      options
-        .norm()
-        .getDokumente()
-        .stream()
-        .map(regelungstext ->
-          dokumentRepository
-            .findByEliDokumentManifestation(regelungstext.getManifestationEli().toString())
-            .map(dokumentDto -> {
-              dokumentDto.setXml(XmlMapper.toString(regelungstext.getDocument()));
-              return dokumentDto;
-            })
-        )
-        .flatMap(Optional::stream)
-        .collect(Collectors.toSet())
+    var dokumentDtos = updateDokumente(
+      options.norm().getManifestationEli(),
+      options.norm().getDokumente()
     );
-
-    var binaryFileDtos = binaryFileRepository.saveAll(
-      options
-        .norm()
-        .getBinaryFiles()
-        .stream()
-        .map(binaryFile ->
-          binaryFileRepository
-            .findById(binaryFile.getDokumentManifestationEli().toString())
-            .map(binaryFileDto -> {
-              binaryFileDto.setContent(binaryFile.getContent());
-              return binaryFileDto;
-            })
-        )
-        .flatMap(Optional::stream)
-        .collect(Collectors.toSet())
+    var binaryFileDtos = updateBinaryFiles(
+      options.norm().getManifestationEli(),
+      options.norm().getBinaryFiles()
     );
 
     normManifestationDto.get().setDokumente(dokumentDtos);
@@ -137,6 +119,70 @@ public class NormDBService
         normManifestationRepository.save(normManifestationDto.get())
       )
     );
+  }
+
+  /**
+   * Update the saved {@link Dokument}e for the norm manifestation in the {@link DokumentRepository}. It removes additional existing Dokumente that are not provided.
+   */
+  private List<DokumentDto> updateDokumente(
+    NormManifestationEli normManifestationEli,
+    Collection<Dokument> dokumente
+  ) {
+    Map<DokumentManifestationEli, DokumentDto> existingDokumentDtos = dokumentRepository
+      .findAllByEliNormManifestation(normManifestationEli.toString())
+      .stream()
+      .collect(
+        Collectors.toMap(
+          dto -> DokumentManifestationEli.fromString(dto.getEliDokumentManifestation()),
+          dto -> dto
+        )
+      );
+    List<DokumentDto> updatedDokumentDtos = dokumente
+      .stream()
+      .map(dokument ->
+        Optional.ofNullable(existingDokumentDtos.remove(dokument.getManifestationEli()))
+          .map(dokumentDto -> {
+            dokumentDto.setXml(XmlMapper.toString(dokument.getDocument()));
+            return dokumentDto;
+          })
+          .orElseGet(() -> DokumentMapper.mapToDto(dokument))
+      )
+      .toList();
+
+    dokumentRepository.deleteAll(existingDokumentDtos.values());
+    return dokumentRepository.saveAll(updatedDokumentDtos);
+  }
+
+  /**
+   * Update the saved {@link BinaryFile}s for the norm manifestation in the {@link BinaryFileRepository}. It removes additional existing BinaryFiles that are not provided.
+   */
+  private List<BinaryFileDto> updateBinaryFiles(
+    NormManifestationEli normManifestationEli,
+    Collection<BinaryFile> binaryFiles
+  ) {
+    Map<DokumentManifestationEli, BinaryFileDto> existingBinaryFileDtos = binaryFileRepository
+      .findAllByEliNormManifestation(normManifestationEli.toString())
+      .stream()
+      .collect(
+        Collectors.toMap(
+          dto -> DokumentManifestationEli.fromString(dto.getEliDokumentManifestation()),
+          dto -> dto
+        )
+      );
+    List<BinaryFileDto> updatedBinaryFileDtos = binaryFiles
+      .stream()
+      .map(binaryFile ->
+        Optional.ofNullable(existingBinaryFileDtos.remove(binaryFile.getDokumentManifestationEli()))
+          .map(binaryFileDto -> {
+            binaryFileDto.setContent(binaryFile.getContent());
+            return binaryFileDto;
+          })
+          .orElseGet(() -> BinaryFileMapper.mapToDto(binaryFile))
+      )
+      .toList();
+
+    binaryFileRepository.deleteAll(existingBinaryFileDtos.values());
+    return binaryFileRepository.saveAll(updatedBinaryFileDtos);
   }
 
   @Override

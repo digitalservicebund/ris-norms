@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.BinaryFileDto;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -17,4 +18,6 @@ public interface BinaryFileRepository extends JpaRepository<BinaryFileDto, Strin
    * @return An {@link Optional} containing the found {@link BinaryFileDto} if exists, or empty if not found.
    */
   Optional<BinaryFileDto> findByEliDokumentManifestation(final String manifestationEli);
+
+  List<BinaryFileDto> findAllByEliNormManifestation(final String eliNormManifestation);
 }

@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,4 +31,6 @@ public interface DokumentRepository extends JpaRepository<DokumentDto, UUID> {
    * @return An {@link Optional} containing the found {@link DokumentDto} if exists, or empty if not found.
    */
   Optional<DokumentDto> findByEliDokumentManifestation(final String manifestationEli);
+
+  List<DokumentDto> findAllByEliNormManifestation(final String normManifestationEli);
 }
