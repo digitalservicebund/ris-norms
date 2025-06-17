@@ -93,13 +93,20 @@ async function onSaveZeitgrenzen() {
       <SplitterPanel
         :size="66"
         :min-size="33"
-        class="h-full overflow-auto bg-gray-100 p-24"
+        class="h-full overflow-hidden bg-gray-100 p-24"
       >
-        <section :aria-labelledby="geltungszeitenHeadingId">
-          <h1 :id="geltungszeitenHeadingId" class="ris-subhead-bold mb-24">
+        <section
+          :aria-labelledby="geltungszeitenHeadingId"
+          class="flex h-full flex-col gap-16"
+        >
+          <h1 :id="geltungszeitenHeadingId" class="ris-subhead-bold">
             Geltungszeitregeln anlegen
           </h1>
-          <RisZeitgrenzenList v-if="zeitgrenzen" v-model="zeitgrenzen" />
+          <RisZeitgrenzenList
+            v-if="zeitgrenzen"
+            v-model="zeitgrenzen"
+            class="min-h-0 flex-1"
+          />
         </section>
       </SplitterPanel>
 
