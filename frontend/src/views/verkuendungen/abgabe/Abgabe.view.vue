@@ -119,11 +119,13 @@ function handleVolldokumentationSubmit() {
           >
             <Column header="Expressions-ELI">
               <template #body="{ data }">
-                <IcBaselineReadMore
-                  v-if="data.isReplacingGegenstandslos"
-                  class="text-gray-600"
-                />
-                {{ data.normExpressionEli.toString() }}
+                <div class="flex items-center gap-8">
+                  <IcBaselineReadMore
+                    v-if="data.isReplacingGegenstandslos"
+                    class="text-gray-600"
+                  />
+                  {{ data.normExpressionEli.toString() }}
+                </div>
               </template>
             </Column>
 
