@@ -51,7 +51,7 @@ testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:3.7.0"
 tika-core = "org.apache.tika:tika-core:3.2.0"
 
 # CVE-2025-48988
-tomcat-core = "org.apache.tomcat.embed:tomcat-embed-core:10.1.42"
+tomcat-core = "org.apache.tomcat.embed:tomcat-embed-core:11.0.8"
 tomcat-el = "org.apache.tomcat.embed:tomcat-embed-el:10.1.42"
 tomcat-websocket = "org.apache.tomcat.embed:tomcat-embed-websocket:10.1.42"
 
