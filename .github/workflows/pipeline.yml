@@ -130,7 +130,7 @@ jobs:
   # ######################
 
   deploy-uat-job:
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' && false }} # Skip deployment to uat until abnahme-testing is done so the 1.8.1 update does not influence it. Remember to clear the database before running the update.
     needs:
       - smoketest
       - deploy-staging-job
@@ -144,7 +144,7 @@ jobs:
   # ######################
 
   deploy-production-job:
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' && false }} # Skip deployment to production until portal is ready for 1.8.1. Remember to clear the database before running the update.
     needs:
       - smoketest
       - deploy-uat-job
