@@ -50,6 +50,10 @@ testcontainers-postgres = { module = "org.testcontainers:postgresql", version.re
 testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:3.7.0"
 tika-core = "org.apache.tika:tika-core:3.2.0"
 
+# CVE-2025-48988
+tomcat-core = "org.apache.tomcat.embed:tomcat-embed-core:10.1.42"
+tomcat-el = "org.apache.tomcat.embed:tomcat-embed-el:10.1.42"
+tomcat-websocket = "org.apache.tomcat.embed:tomcat-embed-websocket:10.1.42"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.9"

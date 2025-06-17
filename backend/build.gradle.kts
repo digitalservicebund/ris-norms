@@ -77,6 +77,10 @@ dependencies {
     implementation(libs.squareup.okio.jvm)
     implementation(libs.tika.core)
     implementation(libs.jspecify)
+    implementation(libs.tomcat.core)
+    implementation(libs.tomcat.el)
+    implementation(libs.tomcat.websocket)
+
     errorprone(libs.nullaway)
     errorprone(libs.errorprone)
 
