@@ -14,7 +14,7 @@ class DokumentManifestationEliTest {
     @Test
     void itShouldBeTrueIfPointInTimeManifestationExists() {
       var eli = DokumentManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-verkuendung-1.xml"
       );
       assertThat(eli.hasPointInTimeManifestation()).isTrue();
     }
@@ -22,7 +22,7 @@ class DokumentManifestationEliTest {
     @Test
     void itShouldBeFalseIfPointInTimeManifestationDoesNotExists() {
       var eli = DokumentManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1.xml"
       );
       assertThat(eli.hasPointInTimeManifestation()).isFalse();
     }
@@ -34,19 +34,21 @@ class DokumentManifestationEliTest {
     @Test
     void itShouldBeCorrectWithPointInTimeManifestation() {
       var eli = DokumentManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-verkuendung-1.xml"
       );
       assertThat(eli).hasToString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-verkuendung-1.xml"
       );
     }
 
     @Test
     void itShouldBeCorrectWithoutPointInTimeManifestation() {
       var eli = DokumentManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1.xml"
       );
-      assertThat(eli).hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml");
+      assertThat(eli).hasToString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1.xml"
+      );
     }
   }
 
@@ -56,20 +58,20 @@ class DokumentManifestationEliTest {
     @Test
     void itShouldBeCorrectWithPointInTimeManifestation() {
       var eli = DokumentManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-verkuendung-1.xml"
       );
       assertThat(eli.toUri()).hasToString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-verkuendung-1.xml"
       );
     }
 
     @Test
     void itShouldBeCorrectWithoutPointInTimeManifestation() {
       var eli = DokumentManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1.xml"
       );
       assertThat(eli.toUri()).hasToString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1.xml"
       );
     }
   }
@@ -80,7 +82,7 @@ class DokumentManifestationEliTest {
     @Test
     void itShouldBeCorrectWithPointInTimeManifestation() {
       var eli = DokumentManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-verkuendung-1.xml"
       );
       assertThat(eli.getAgent()).isEqualTo("bgbl-1");
       assertThat(eli.getYear()).isEqualTo("2021");
@@ -89,14 +91,14 @@ class DokumentManifestationEliTest {
       assertThat(eli.getVersion()).isEqualTo(1);
       assertThat(eli.getLanguage()).isEqualTo("deu");
       assertThat(eli.getPointInTimeManifestation()).isEqualTo("2021-03-03");
-      assertThat(eli.getSubtype()).isEqualTo("regelungstext-1");
+      assertThat(eli.getSubtype()).isEqualTo("regelungstext-verkuendung-1");
       assertThat(eli.getFormat()).isEqualTo("xml");
     }
 
     @Test
     void itShouldBeCorrectWithoutPointInTimeManifestation() {
       var eli = DokumentManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1.xml"
       );
       assertThat(eli.getAgent()).isEqualTo("bgbl-1");
       assertThat(eli.getYear()).isEqualTo("2021");
@@ -105,7 +107,7 @@ class DokumentManifestationEliTest {
       assertThat(eli.getVersion()).isEqualTo(1);
       assertThat(eli.getLanguage()).isEqualTo("deu");
       assertThat(eli.getPointInTimeManifestation()).isNull();
-      assertThat(eli.getSubtype()).isEqualTo("regelungstext-1");
+      assertThat(eli.getSubtype()).isEqualTo("regelungstext-verkuendung-1");
       assertThat(eli.getFormat()).isEqualTo("xml");
     }
   }
@@ -116,10 +118,10 @@ class DokumentManifestationEliTest {
     @Test
     void itShouldRemovePointInTimeManifestation() {
       var eli = DokumentManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-verkuendung-1.xml"
       );
       assertThat(eli.withoutPointInTimeManifestation()).hasToString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1.xml"
       );
     }
   }
@@ -130,10 +132,10 @@ class DokumentManifestationEliTest {
     @Test
     void itShouldConvertToAExpressionEli() {
       var eli = DokumentManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-verkuendung-1.xml"
       );
       assertThat(eli.asExpressionEli()).hasToString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1"
       );
     }
   }
@@ -144,9 +146,11 @@ class DokumentManifestationEliTest {
     @Test
     void itShouldConvertToAExpressionEli() {
       var eli = DokumentManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-verkuendung-1.xml"
       );
-      assertThat(eli.asWorkEli()).hasToString("eli/bund/bgbl-1/2021/s4/regelungstext-1");
+      assertThat(eli.asWorkEli()).hasToString(
+        "eli/bund/bgbl-1/2021/s4/regelungstext-verkuendung-1"
+      );
     }
   }
 
@@ -157,13 +161,13 @@ class DokumentManifestationEliTest {
     void itShouldCreateFromExpressionEliAndPointInTimeManifestation() {
       var eli = DokumentManifestationEli.fromExpressionEli(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1"
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1"
         ),
         LocalDate.parse("2022-01-01"),
         "xml"
       );
       assertThat(eli).hasToString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01/regelungstext-verkuendung-1.xml"
       );
     }
   }
@@ -172,18 +176,18 @@ class DokumentManifestationEliTest {
   void fromNormEli() {
     var eli = DokumentManifestationEli.fromNormEli(
       NormManifestationEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01"),
-      "regelungstext-1",
+      "regelungstext-verkuendung-1",
       "xml"
     );
     assertThat(eli).hasToString(
-      "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01/regelungstext-verkuendung-1.xml"
     );
   }
 
   @Test
   void asNormEli() {
     var eli = DokumentManifestationEli.fromString(
-      "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-1.xml"
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03/regelungstext-verkuendung-1.xml"
     );
     assertThat(eli.asNormEli()).hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03");
   }

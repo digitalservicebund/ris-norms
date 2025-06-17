@@ -10,11 +10,11 @@ export const errorMessages = {
     message: `Paragraph mit eId "${e.eid}" in Norm "${e.eli}" existiert nicht.`,
   }),
 
-  "/errors/article-of-type-not-found": (
-    e: ErrorResponse<{ eli: string; articleType: string }>,
+  "/errors/no-articles-of-types-found": (
+    e: ErrorResponse<{ eli: string; articleTypes: string[] }>,
   ) => ({
     title: "Paragraph nicht gefunden",
-    message: `Paragraph vom Typ "${e.articleType}" in der Norm "${e.eli}" existiert nicht.`,
+    message: `In der Norm "${e.eli}" existieren keine Paragraphen der Typen "${e.articleTypes?.join(", ")}".`,
   }),
 
   "/errors/norm-not-found": (e: ErrorResponse<{ eli: string }>) => ({
@@ -115,11 +115,9 @@ export const errorMessages = {
     message: `Die Zielnorm "${e.destinationEli}" für die Norm "${e.eli}" wurde nicht gefunden.`,
   }),
 
-  "/errors/not-a-xml-file": (
-    e: ErrorResponse<{ fileName: string; contentType: string }>,
-  ) => ({
+  "/errors/normendokumentationspaket-import-failed/not-a-zip-file": () => ({
     title: "Ungültige Datei",
-    message: `Die Datei "${e.fileName}" ist keine XML-Datei. Der Inhaltstyp ist "${e.contentType}".`,
+    message: `Die Datei ist kein ZIP-Archiv.`,
   }),
 
   "/errors/not-a-ldml-de-xml-file": (
@@ -131,12 +129,12 @@ export const errorMessages = {
 
   "/errors/ldml-de-not-valid": () => ({
     title: "Invalide LDML.de-Datei",
-    message: "Das LDML.de 1.7.2-Dokument ist nicht gültig.",
+    message: "Das LDML.de 1.8.1-Dokument ist nicht gültig.",
   }),
 
   "/errors/ldml-de-not-schematron-valid": () => ({
     title: "Invalide LDML.de-Datei",
-    message: "Das LDML.de 1.7.2-Dokument ist nicht gültig.",
+    message: "Das LDML.de 1.8.1-Dokument ist nicht gültig.",
   }),
 
   "/errors/invalid-eli": (

@@ -11,7 +11,6 @@ import lombok.experimental.SuperBuilder;
 public class ProprietaryFrameSchema {
 
   private String fna;
-  private String art;
   private String typ;
   private String subtyp;
   private String bezeichnungInVorlage;

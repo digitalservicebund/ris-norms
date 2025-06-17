@@ -66,7 +66,7 @@ describe("useGetNormToc", () => {
 
     const result = useGetNormToc(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
     )
     expect(result.data.value).toEqual(fixture)
@@ -96,14 +96,14 @@ describe("useGetNormToc", () => {
 
     const eli = ref(
       DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
     )
     useGetNormToc(eli, { immediate: true, refetch: true })
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
     eli.value = DokumentExpressionEli.fromString(
-      "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
     )
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(2))
   })

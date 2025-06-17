@@ -21,14 +21,14 @@ class LdmlDeElementSorterTest {
   void itSortsElements() {
     var elementNode =
       """
-          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="hauptteil-1_art-1"
+          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1"
                       GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
-                      period="#meta-1_geltzeiten-1_geltungszeitgr-1"
+                      period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
                       refersTo="hauptaenderung">
-                      <akn:heading eId="hauptteil-1_art-1_überschrift-1"
+                      <akn:heading eId="art-z1_überschrift-n1"
                           GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes
                       </akn:heading>
-                      <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
+                      <akn:num eId="art-z1_bezeichnung-n1"
                           GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
                               Artikel 1 </akn:num>
                   </akn:article>
@@ -40,14 +40,14 @@ class LdmlDeElementSorterTest {
     final Diff diff = DiffBuilder.compare(
       Input.from(
         """
-            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="hauptteil-1_art-1"
+            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1"
                         GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
-                        period="#meta-1_geltzeiten-1_geltungszeitgr-1"
+                        period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
                         refersTo="hauptaenderung">
-                        <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
+                        <akn:num eId="art-z1_bezeichnung-n1"
                             GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
                                 Artikel 1 </akn:num>
-                        <akn:heading eId="hauptteil-1_art-1_überschrift-1"
+                        <akn:heading eId="art-z1_überschrift-n1"
                             GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes
                         </akn:heading>
                     </akn:article>
@@ -64,16 +64,16 @@ class LdmlDeElementSorterTest {
   void itSortsElementsWithDifferentNamespaces() {
     var elementNode =
       """
-      <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/">
-         <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
-            <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+      <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
+         <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+            <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
                <norms:geltungszeiten>
                   <norms:geltungszeit id="cd95811a-63ac-4710-b8aa-fdae33131399" art="inkraft">2017-03-16</norms:geltungszeit>
                </norms:geltungszeiten>
             </norms:legalDocML.de_metadaten>
             <ris:fna>310-5</ris:fna>
          </ris:legalDocML.de_metadaten>
-         <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://Metadaten.LegalDocML.de/1.7.2/">
+         <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
             <regtxt:form>stammform</regtxt:form>
             <regtxt:typ>gesetz</regtxt:typ>
          </regtxt:legalDocML.de_metadaten>
@@ -86,16 +86,16 @@ class LdmlDeElementSorterTest {
     final Diff diff = DiffBuilder.compare(
       Input.from(
         """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/">
-             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/">
+            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
+             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
                 <ris:fna>310-5</ris:fna>
-                <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+                <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
                    <norms:geltungszeiten>
                       <norms:geltungszeit id="cd95811a-63ac-4710-b8aa-fdae33131399" art="inkraft">2017-03-16</norms:geltungszeit>
                    </norms:geltungszeiten>
                 </norms:legalDocML.de_metadaten>
              </ris:legalDocML.de_metadaten>
-             <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://Metadaten.LegalDocML.de/1.7.2/">
+             <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
                 <regtxt:typ>gesetz</regtxt:typ>
                 <regtxt:form>stammform</regtxt:form>
              </regtxt:legalDocML.de_metadaten>
@@ -112,9 +112,9 @@ class LdmlDeElementSorterTest {
   @ParameterizedTest
   @ValueSource(
     strings = {
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml",
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml",
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml",
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml",
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml",
     }
   )
   void correctlySortedNormsStayTheSame(String regelungstextFile) {

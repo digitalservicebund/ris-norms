@@ -112,11 +112,11 @@ class NormServiceTest {
     void itReturnsRegelungstext() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
@@ -136,7 +136,7 @@ class NormServiceTest {
     void itThrowsWhenNotFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var query = new LoadRegelungstextUseCase.Options(eli);
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
@@ -160,10 +160,10 @@ class NormServiceTest {
     void itCallsLoadRegelungstextAndReturnsXml() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
@@ -174,14 +174,14 @@ class NormServiceTest {
       verify(loadRegelungstextPort, times(1)).loadRegelungstext(
         argThat(argument -> Objects.equals(argument.eli(), eli))
       );
-      assertThat(xml).contains("eId=\"meta-1_ident-1_frbrexpression-1_frbrthis-1\"");
+      assertThat(xml).contains("eId=\"meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1\"");
     }
 
     @Test
     void itCallsLoadRegelungstextAndThrowsNotFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
       var query = new LoadRegelungstextXmlUseCase.Options(eli);
@@ -201,19 +201,19 @@ class NormServiceTest {
     void itUpdatesXml() throws InvalidUpdateException {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
 
       var newXml = Fixtures.loadTextFromDisk(
         NormServiceTest.class,
-        "vereinsgesetz-with-different-title/regelungstext-1.xml"
+        "vereinsgesetz-with-different-title/regelungstext-verkuendung-1.xml"
       );
 
       var oldNorm = Norm.builder()
         .dokumente(
           Set.of(
             Fixtures.loadRegelungstextFromDisk(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
             )
           )
         )
@@ -244,12 +244,12 @@ class NormServiceTest {
     void itThrowsNormNotFoundIfNormDoesNotExist() throws InvalidUpdateException {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
 
       var newXml = Fixtures.loadTextFromDisk(
         NormServiceTest.class,
-        "vereinsgesetz-with-different-title/regelungstext-1.xml"
+        "vereinsgesetz-with-different-title/regelungstext-verkuendung-1.xml"
       );
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
@@ -271,11 +271,11 @@ class NormServiceTest {
     void itThrowsIfEliChanges() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
 
       var newXml = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
       );
       var oldNorm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
@@ -300,12 +300,12 @@ class NormServiceTest {
     void itThrowsIfGuidChanges() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
 
       var newXml = Fixtures.loadTextFromDisk(
         NormServiceTest.class,
-        "vereinsgesetz-with-different-guid/regelungstext-1.xml"
+        "vereinsgesetz-with-different-guid/regelungstext-verkuendung-1.xml"
       );
       var oldNorm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
@@ -371,7 +371,7 @@ class NormServiceTest {
       "eli/bund/bgbl-1/1964/s593"
     );
     assertThat(zielnormReferences.getFirst().getEId()).hasToString(
-      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+      "art-z1_abs-z_untergl-n1_listenelem-n1"
     );
     assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString(
       "5e2f4f78-a0a1-4c55-9ef7-ad2821161915"
@@ -402,13 +402,13 @@ class NormServiceTest {
             new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
               "Änderungsvorschrift",
               new Zeitgrenze.Id("gz-2"),
-              new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"),
+              new EId("art-z1_abs-z_untergl-n1_listenelem-n1"),
               NormWorkEli.fromString("eli/bund/bgbl-1/2024/12")
             ),
             new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
               "Änderungsvorschrift",
               new Zeitgrenze.Id("gz-1"),
-              new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"),
+              new EId("art-z1_abs-z_untergl-n1_listenelem-n2"),
               NormWorkEli.fromString("eli/bund/bgbl-1/2023/22")
             )
           )
@@ -421,13 +421,13 @@ class NormServiceTest {
         "eli/bund/bgbl-1/2024/12"
       );
       assertThat(zielnormReferences.getFirst().getEId()).hasToString(
-        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+        "art-z1_abs-z_untergl-n1_listenelem-n1"
       );
       assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString("gz-2");
       assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
       assertThat(zielnormReferences.get(1).getZielnorm()).hasToString("eli/bund/bgbl-1/2023/22");
       assertThat(zielnormReferences.get(1).getEId()).hasToString(
-        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
+        "art-z1_abs-z_untergl-n1_listenelem-n2"
       );
       assertThat(zielnormReferences.get(1).getGeltungszeit()).hasToString("gz-1");
       assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
@@ -455,7 +455,7 @@ class NormServiceTest {
             new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
               "Änderungsvorschrift",
               new Zeitgrenze.Id("07fdc138-1509-4165-9ec7-f26f9d5c8cb8"),
-              new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"),
+              new EId("art-z1_abs-z_untergl-n1_listenelem-n2"),
               NormWorkEli.fromString("eli/bund/bgbl-1/2023/22")
             )
           )
@@ -468,7 +468,7 @@ class NormServiceTest {
         "eli/bund/bgbl-1/1964/s593"
       );
       assertThat(zielnormReferences.getFirst().getEId()).hasToString(
-        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
+        "art-z1_abs-z_untergl-n1_listenelem-n1"
       );
       assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString(
         "5e2f4f78-a0a1-4c55-9ef7-ad2821161915"
@@ -476,7 +476,7 @@ class NormServiceTest {
       assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
       assertThat(zielnormReferences.get(1).getZielnorm()).hasToString("eli/bund/bgbl-1/2023/22");
       assertThat(zielnormReferences.get(1).getEId()).hasToString(
-        "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2"
+        "art-z1_abs-z_untergl-n1_listenelem-n2"
       );
       assertThat(zielnormReferences.get(1).getGeltungszeit()).hasToString(
         "07fdc138-1509-4165-9ec7-f26f9d5c8cb8"
@@ -501,7 +501,7 @@ class NormServiceTest {
     var zielnormReferences = service.deleteZielnormReferences(
       new DeleteZielnormReferencesUseCase.Options(
         NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu"),
-        List.of(new EId("hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"))
+        List.of(new EId("art-z1_abs-z_untergl-n1_listenelem-n1"))
       )
     );
 

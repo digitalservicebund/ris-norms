@@ -264,6 +264,7 @@ components:
         | URI                                                                             | Beschreibung                                                                                  |
         |---------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
         | `/errors/norm-with-eli-exists-already`                                          | Es wurde bereits ein Normendokumentationspaket mit der selben ELI hochgeladen                 |
+        | `/errors/norm-with-guid-exists-already`                                         | Es wurde bereits ein Normendokumentationspaket mit der selben GUID hochgeladen                |
         | `/errors/process-id-not-found`                                                  | Die Prozess-ID wurde nicht gefunden.                                                          |
         | `/errors/invalid-signature`                                                     | Die übermittelte Signatur ist ungültig oder passt nicht zu den Daten.                         |
         | `/errors/ldml-de-not-schematron-valid`                                          | Eine oder mehrere LDML.de-Dateien weisen Schematron-Fehler auf (Warnungen werden akzeptiert). |
@@ -318,7 +319,7 @@ components:
         file:
           type: string
           description: Name der Datei, in der der Fehler gefunden wurde.
-          example: regelungstext-1.xml
+          example: regelungstext-verkuendung-1.xml
         details:
           type: string
           description: Die Fehlermeldung des XSD-Parsers.
@@ -347,7 +348,7 @@ components:
         eli:
           type: string
           description: Manifestation-ELI der Datei, in der der Fehler gefunden wurde.
-          example: eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2025-01-01/regelungstext-1.xml
+          example: eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2025-01-01/regelungstext-verkuendung-1.xml
         details:
           type: string
           description: Die vom Schematron ausgelöste Fehlermeldung.

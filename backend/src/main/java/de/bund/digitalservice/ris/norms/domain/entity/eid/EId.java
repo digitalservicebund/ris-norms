@@ -79,15 +79,13 @@ public record EId(String value) {
   /**
    * Creates the expected EId for the given node given that the eId of the parent node is correct.
    *
-   * <p>See LDML.de 1.7 Section 7.1.1 Syntax eines @eId-Attributs
+   * <p>See LDML.de 1.8.1 Section 7.1.1 Syntax eines @eId-Attributs
    *
-   * @param node the node for which the eId should be calculated
+   * @param element the node for which the eId should be calculated
    * @return the expected EId for that node
    */
-  public static Optional<EId> forNode(Node node) {
-    final Optional<EId> parentEId = EId.fromNode(node.getParentNode());
-
-    final Optional<EIdPartType> eIdPartType = EIdPartType.forAknElement(node);
+  public static Optional<EId> forNode(Element element) {
+    final Optional<EIdPartType> eIdPartType = EIdPartType.forAknElement(element);
 
     if (eIdPartType.isEmpty()) {
       return Optional.empty();
@@ -95,31 +93,21 @@ public record EId(String value) {
 
     var newEIdPart = new EIdPart(
       eIdPartType.get().getName(),
-      findEIdPosition(node, eIdPartType.get())
+      EIdPosition.findEIdPosition(element, eIdPartType.get())
     );
 
+    // articles not nested in quoted structures do not use their parents eIds as part of their own eIds.
+    if (eIdPartType.get().equals(EIdPartType.ART) && !isInQuotedStructure(element)) {
+      return Optional.of(new EId(newEIdPart.value()));
+    }
+
+    final Optional<EId> parentEId = EId.fromNode(element.getParentNode());
     return parentEId
       .map(eId -> eId.addPart(newEIdPart))
       .or(() -> Optional.of(new EId(newEIdPart.value())));
   }
 
-  private static String findEIdPosition(Node node, EIdPartType eIdPartType) {
-    var position = 1;
-    var previousSibling = node.getPreviousSibling();
-    while (previousSibling != null) {
-      var eId = EId.fromNode(previousSibling);
-
-      if (eId.isPresent()) {
-        var previousSiblingEIdType = eId.get().getParts().getLast().getType();
-
-        if (previousSiblingEIdType.equals(eIdPartType.getName())) {
-          position++;
-        }
-      }
-
-      previousSibling = previousSibling.getPreviousSibling();
-    }
-
-    return "%d".formatted(position);
+  private static boolean isInQuotedStructure(Node node) {
+    return NodeParser.getValueFromExpression("ancestor::quotedStructure", node).isPresent();
   }
 }

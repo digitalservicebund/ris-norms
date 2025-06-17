@@ -8,7 +8,7 @@ test.describe("preview", { tag: ["@RISDEV-6266"] }, () => {
   test("displays the title and preview", async ({ page }) => {
     // Given
     await page.goto(
-      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata",
+      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/metadata",
     )
 
     const preview = page.getByRole("region", { name: "Vorschau" })
@@ -33,14 +33,14 @@ test.describe("preview", { tag: ["@RISDEV-6266"] }, () => {
   }) => {
     // Given
     await page.route(
-      /api\/v1\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\/regelungstext-1\?/,
+      /api\/v1\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\/regelungstext-verkuendung-1\?/,
       async (route) => {
         await route.abort()
       },
     )
 
     await page.goto(
-      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/metadata",
+      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/metadata",
     )
 
     const previewRegion = page.getByRole("region", {
@@ -67,7 +67,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
   test.afterAll(async ({ authenticatedRequest }) => {
     await uploadAmendingLaw(
       authenticatedRequest,
-      "bgbl-1_2023_413/aenderungsgesetz.xml",
+      "bgbl-1_2023_413/aenderungsgesetz",
     )
   })
 
@@ -87,7 +87,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
     }
 
     await authenticatedRequest.put(
-      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/proprietary",
+      "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/proprietary",
       { data: testData },
     )
   })
@@ -238,7 +238,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
 
       // Given
       await page.route(
-        /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\/regelungstext-1\/proprietary$/,
+        /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\/regelungstext-verkuendung-1\/proprietary$/,
         async (route) => {
           if (route.request().method() === "GET") {
             const response = await route.fetch()
@@ -248,9 +248,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
               response,
               body: JSON.stringify({
                 ...body,
-                art: "dummy",
-                typ: "dummy",
-                subtyp: "",
+                subtyp: "dummy",
               }),
             })
           } else await route.fulfill()
@@ -267,7 +265,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
 
       // Given
       await page.route(
-        /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\/regelungstext-1\/proprietary$/,
+        /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\/regelungstext-verkuendung-1\/proprietary$/,
         async (route) => {
           if (route.request().method() === "GET") {
             const response = await route.fetch()
@@ -294,7 +292,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
 
     // Given
     await page.route(
-      /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\/regelungstext-1\/proprietary$/,
+      /\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\/regelungstext-verkuendung-1\/proprietary$/,
       (request) => {
         request.abort()
       },

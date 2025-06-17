@@ -16,9 +16,9 @@ To address this, we have decided to introduce a new approach for maintaining thi
 
 ## Decision
 
-We will use a custom metadata structure within the ris metadata node (`<ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.7.2/" />`) with the following characteristics:
+We will use a custom metadata structure within the ris metadata node (`<ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/" />`) with the following characteristics:
 
-- A new custom namespace with the URI identifier `http://MetadatenMods.LegalDocML.de/1.7.2/` and the prefix `norms`.
+- A new custom namespace with the URI identifier `http://MetadatenMods.LegalDocML.de/1.8.1/` and the prefix `norms`.
 - Two main sections:
   - **`<norms:geltungszeiten>`**: Defines time boundaries related to the validity of modifications and contains a list of `<norms:geltungszeit>` with:
     - An `id` attribute, serving as a reference for modifications (UUID).
@@ -32,7 +32,7 @@ We will use a custom metadata structure within the ris metadata node (`<ris:lega
 
 Example:
 ```
-<norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.7.2/">
+<norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
     <norms:geltungszeiten>
         <norms:geltungszeit id="3b8a6a6d-9bf8-4b53-90ce-3b4dcf07d6f4" art="inkraft">2020-01-01</norms:geltungszeit>
         <norms:geltungszeit id="141945d5-b518-4ebe-815e-916fa4e00951" art="ausserkraft">2024-12-12</norms:geltungszeit>

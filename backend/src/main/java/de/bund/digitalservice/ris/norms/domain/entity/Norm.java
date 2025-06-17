@@ -100,12 +100,14 @@ public class Norm {
    *
    * @return the {@link Rechtsetzungsdokument}, or an empty set if none exist
    */
-  public Optional<Rechtsetzungsdokument> getRechtsetzungsdokument() {
+  public Rechtsetzungsdokument getRechtsetzungsdokument() {
     return dokumente
       .stream()
       .filter(Rechtsetzungsdokument.class::isInstance)
       .map(Rechtsetzungsdokument.class::cast)
-      .findFirst();
+      .findFirst()
+      // TODO: (Malte Laukötter, 2025-05-27) create proper exception
+      .orElseThrow(() -> new RuntimeException("Missing Rechtsetzungsdokument"));
   }
 
   /**
@@ -247,8 +249,7 @@ public class Norm {
    * @return true if it is.
    */
   public boolean isGegenstandlos() {
-    // TODO: (Malte Laukötter, 2025-05-13) ldml_de 1.8 -> this will be stored exclusively in the rechtsetzungsdokument
-    return getRegelungstext1()
+    return getRechtsetzungsdokument()
       .getMeta()
       .getProprietary()
       .flatMap(Proprietary::getGegenstandlos)
@@ -260,8 +261,7 @@ public class Norm {
    * @param date - date to set as gegenstandslos with
    */
   public void setGegenstandlos(final String date) {
-    // TODO: (Victor del Campo, 2025-05-23) ldml_de 1.8 -> this will be stored exclusively in the rechtsetzungsdokument
-    final Proprietary proprietary = getRegelungstext1().getMeta().getOrCreateProprietary();
+    final Proprietary proprietary = getRechtsetzungsdokument().getMeta().getOrCreateProprietary();
     final Gegenstandlos gegenstandlos = proprietary.getOrCreateGegenstandlos();
     gegenstandlos.setSinceDate(date);
   }

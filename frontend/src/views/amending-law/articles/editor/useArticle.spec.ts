@@ -33,7 +33,7 @@ describe("useArticle", () => {
 
     const identifier = ref<LawElementIdentifier>({
       eli: DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       ),
       eid: "art_1",
     })
@@ -42,7 +42,7 @@ describe("useArticle", () => {
 
     expect(article.value?.eid).toBe("article eid 1")
     expect(fetchSpy).toHaveBeenCalledWith(
-      "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/art_1",
+      "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles/art_1",
       expect.anything(),
     )
   })
@@ -57,7 +57,7 @@ describe("useArticle", () => {
 
     identifier.value = {
       eli: DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
       eid: "1",
     }
@@ -65,7 +65,7 @@ describe("useArticle", () => {
 
     identifier.value = {
       eli: DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
       eid: "1",
     }

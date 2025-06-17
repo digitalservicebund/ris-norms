@@ -17,7 +17,7 @@ describe("findHtmlNodeInLdml", () => {
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-1">Test</div>`
 
     const ldmlDocument = xmlStringToDocument(
-      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
     )
 
     const result = findHtmlNodeInLdml(htmlElement.firstChild!, ldmlDocument)
@@ -31,7 +31,7 @@ describe("findHtmlNodeInLdml", () => {
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-1">Test</div>`
 
     const ldmlDocument = xmlStringToDocument(
-      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
     )
 
     const result = findHtmlNodeInLdml(
@@ -47,7 +47,7 @@ describe("findHtmlNodeInLdml", () => {
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-2">Test</div>`
 
     const ldmlDocument = xmlStringToDocument(
-      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
     )
 
     const result = findHtmlNodeInLdml(htmlElement.firstChild!, ldmlDocument)
@@ -59,7 +59,7 @@ describe("findHtmlNodeInLdml", () => {
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-2">Test</div>`
 
     const ldmlDocument = xmlStringToDocument(
-      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
     )
 
     const result = findHtmlNodeInLdml(
@@ -76,7 +76,7 @@ describe("findLdmlNodeInHtml", () => {
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-1">Test</div>`
 
     const ldmlDocument = xmlStringToDocument(
-      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
     )
 
     const result = findLdmlNodeInHtml(
@@ -92,7 +92,7 @@ describe("findLdmlNodeInHtml", () => {
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-1">Test</div>`
 
     const ldmlDocument = xmlStringToDocument(
-      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
     )
 
     const result = findLdmlNodeInHtml(
@@ -107,7 +107,7 @@ describe("findLdmlNodeInHtml", () => {
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-2">Test</div>`
 
     const ldmlDocument = xmlStringToDocument(
-      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
     )
 
     const result = findLdmlNodeInHtml(
@@ -122,7 +122,7 @@ describe("findLdmlNodeInHtml", () => {
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-2">Test</div>`
 
     const ldmlDocument = xmlStringToDocument(
-      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test</akn:ref></akn:quotedText>`,
     )
 
     const result = findLdmlNodeInHtml(
@@ -139,7 +139,7 @@ describe("findOffsetInOtherNode", () => {
         text with some     odd line breaks and   spaces</div>`
 
   const ldmlDocument = xmlStringToDocument(
-    `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test text     with some odd
+    `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test text     with some odd
 
             line breaks    and spaces
 </akn:ref></akn:quotedText>`,
@@ -167,7 +167,7 @@ describe("htmlRenderRangeToLdmlDeRange", () => {
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-1">Test text 123</div>`
 
     const ldmlDocument = xmlStringToDocument(
-      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test text    123</akn:ref></akn:quotedText>`,
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test text    123</akn:ref></akn:quotedText>`,
     )
 
     const range = new Range()
@@ -191,7 +191,7 @@ describe("htmlRenderRangeToLdmlDeRange", () => {
     htmlElement.innerHTML = `<div class="akn-quotedText" data-eId="quot-1">Test <span class="akn:ref" data-eId="quot-1_ref-1">text</span> 123</div>`
 
     const ldmlDocument = xmlStringToDocument(
-      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1">Test <akn:ref eId="quot-1_ref-1">text</akn:ref>    123</akn:quotedText>`,
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="quot-1">Test <akn:ref eId="quot-1_ref-1">text</akn:ref>    123</akn:quotedText>`,
     )
 
     const range = new Range()
@@ -220,7 +220,7 @@ describe("ldmlRenderRangeToHtmlRange", () => {
     htmlElement.innerHTML = `<div class="akn-ref" data-eId="quot-1_ref-1">Test text    123</div>`
 
     const ldmlDocument = xmlStringToDocument(
-      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test text 123</akn:ref></akn:quotedText>`,
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="quot-1"><akn:ref eId="quot-1_ref-1">Test text 123</akn:ref></akn:quotedText>`,
     )
 
     const range = new Range()
@@ -244,7 +244,7 @@ describe("ldmlRenderRangeToHtmlRange", () => {
     htmlElement.innerHTML = `<div class="akn-quotedText" data-eId="quot-1">Test <span class="akn:ref" data-eId="quot-1_ref-1">text</span>    123</div>`
 
     const ldmlDocument = xmlStringToDocument(
-      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="quot-1">Test <akn:ref eId="quot-1_ref-1">text</akn:ref> 123</akn:quotedText>`,
+      `<akn:quotedText xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="quot-1">Test <akn:ref eId="quot-1_ref-1">text</akn:ref> 123</akn:quotedText>`,
     )
 
     const range = new Range()

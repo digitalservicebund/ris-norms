@@ -33,7 +33,7 @@ describe("articleService", () => {
 
       const eli = ref<DokumentExpressionEli>(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1",
         ),
       )
       const { data: articles, isFinished } = useArticles(eli)
@@ -48,7 +48,7 @@ describe("articleService", () => {
       ])
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1/articles`,
+        `/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/articles`,
         expect.objectContaining({
           method: "GET",
           headers: {
@@ -66,7 +66,7 @@ describe("articleService", () => {
 
       const eli = ref<DokumentExpressionEli>(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
         ),
       )
       const { isFinished } = useArticles(eli)
@@ -74,13 +74,13 @@ describe("articleService", () => {
       await vi.waitFor(() => isFinished.value)
 
       eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
       )
       await nextTick()
       await vi.waitFor(() => isFinished.value)
 
       eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
       )
       await nextTick()
       await vi.waitFor(() => isFinished.value)

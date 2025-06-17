@@ -3,16 +3,17 @@ import { expect } from "@playwright/test"
 
 test.describe("GUID redirect", () => {
   test("should redirect guid to eli", async ({ page }) => {
-    await page.goto("./843fc77f-5886-488e-aa13-f3ad8198ad17/metadata")
+    await page.goto("./53d31e3c-5c46-4e96-8017-b0db064561a1/metadata")
 
     await expect(
       page.getByRole("heading", {
-        name: "Gesetz zur Regelung des öffentlichen Vereinsrechts\n",
+        name: "(Wachstumschancengesetz)",
+        exact: true,
       }),
     ).toBeVisible()
 
     expect(page.url()).toContain(
-      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-1/metadata",
+      "eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/regelungstext-verkuendung-1/metadata",
     )
   })
 

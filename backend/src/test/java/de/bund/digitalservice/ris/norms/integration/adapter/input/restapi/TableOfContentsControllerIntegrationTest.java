@@ -35,7 +35,7 @@ class TableOfContentsControllerIntegrationTest extends BaseIntegrationTest {
   void return404IfRegelungstextNotFound() throws Exception {
     // given no norm
     var eli = DokumentExpressionEli.fromString(
-      "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
     );
 
     // when
@@ -48,17 +48,17 @@ class TableOfContentsControllerIntegrationTest extends BaseIntegrationTest {
       .andExpect(jsonPath("status").value(404))
       .andExpect(
         jsonPath("detail").value(
-          "Regelungstext with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+          "Regelungstext with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1 does not exist"
         )
       )
       .andExpect(
         jsonPath("instance").value(
-          "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/toc"
+          "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/toc"
         )
       )
       .andExpect(
         jsonPath("eli").value(
-          "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
         )
       );
   }
@@ -67,12 +67,12 @@ class TableOfContentsControllerIntegrationTest extends BaseIntegrationTest {
   void returnsToc() throws Exception {
     // given
     var eli = DokumentExpressionEli.fromString(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
     );
     dokumentRepository.save(
       DokumentMapper.mapToDto(
         Fixtures.loadRegelungstextFromDisk(
-          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
         )
       )
     );
@@ -82,12 +82,12 @@ class TableOfContentsControllerIntegrationTest extends BaseIntegrationTest {
       .perform(get("/api/v1/norms/" + eli + "/toc").accept(MediaType.APPLICATION_JSON_VALUE))
       // then
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$[0].id").value("hauptteil-1_art-1"))
+      .andExpect(jsonPath("$[0].id").value("art-z20"))
       .andExpect(jsonPath("$[0].marker").value("§ 20"))
       .andExpect(jsonPath("$[0].heading").isEmpty())
       .andExpect(jsonPath("$[0].type").value("article"))
       .andExpect(jsonPath("$[0].children").isEmpty())
-      .andExpect(jsonPath("$[1].id").value("hauptteil-1_art-2"))
+      .andExpect(jsonPath("$[1].id").value("art-z34"))
       .andExpect(jsonPath("$[1].marker").value("Artikel 34"))
       .andExpect(jsonPath("$[1].heading").value("Inkrafttreten"))
       .andExpect(jsonPath("$[1].type").value("article"))

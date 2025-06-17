@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	##################################################################################
+	Projekt E-Gesetzgebung
+	Nicht-normative Exemplifikation für den Standard LegalDocML.de 1.7.2 (16.01.2025)
+
+	2025 Copyright (C) 2021-2025 Bundesministerium des Innern und für Heimat,
+	Referat DG II 6, Maßnahmen Enterprise Resource Management und Elektronische
+	Verwaltungsarbeit
+
+	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
+	##################################################################################
+-->
+<?xml-model href="/LegalDocML.de/1.8.1/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+                xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd">
+   <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
+<!-- Metadaten-->
+      <akn:meta GUID="ab2d39ae-1664-394f-b5d6-7674b2ba1c3a" eId="meta-n1">
+         <akn:identification GUID="bf4895ee-b153-3f4d-a793-76663c3f4194"
+                             eId="meta-n1_ident-n1"
+                             source="attributsemantik-noch-undefiniert">
+            <akn:FRBRWork GUID="d5788d0e-5439-3439-adc4-1600036eba1f"
+                          eId="meta-n1_ident-n1_frbrwork-n1">
+               <akn:FRBRthis GUID="e7d769bd-cb56-326d-b2ec-e6c9b2b927dd"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2004/s1673/regelungstext-verkuendung-1"/>
+               <akn:FRBRuri GUID="1c2f82c7-5988-3563-b988-a9a6a62c2ae2"
+                            eId="meta-n1_ident-n1_frbrwork-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2004/s1673"/>
+               <akn:FRBRalias GUID="0e304dc5-dbb9-3830-9924-3736f15b7dcb"
+                              eId="meta-n1_ident-n1_frbrwork-n1_frbralias-n1"
+                              name="übergreifende-id"
+                              value="2c1a6ec9-7161-4e2f-8999-91219180d994"/>
+               <akn:FRBRdate GUID="ed3f4ab4-83eb-356d-b99e-dbcaa50dc5ca"
+                             date="2004-07-16"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n1"
+                             name="neufassung-ausfertigungsdatum"/>
+               <akn:FRBRdate GUID="86f3a909-7270-4105-9248-d3f6f2b250f9"
+                             date="2004-07-16"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
+                             name="neufassung-verkuendungsdatum"/>
+               <akn:FRBRauthor GUID="c586fa74-c00f-36dc-9b62-ffe17ffbd44b"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRcountry GUID="edbfa224-c491-3ea0-90e1-0b532c369cce"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrcountry-n1"
+                                value="de"/>
+               <akn:FRBRnumber GUID="c37549b2-6011-33b9-a5ec-aec66b1ddbc1"
+                               eId="meta-n1_ident-n1_frbrwork-n1_frbrnumber-n1"
+                               value="s1673"/>
+               <akn:FRBRname GUID="3fab809c-48fa-3e42-b388-2e22dda596d4"
+                             eId="meta-n1_ident-n1_frbrwork-n1_frbrname-n1"
+                             value="bgbl-1"/>
+               <akn:FRBRsubtype GUID="27910fea-29a1-360c-ada7-d797f7772277"
+                                eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"
+                                value="regelungstext-verkuendung-1"/>
+            </akn:FRBRWork>
+            <akn:FRBRExpression GUID="3499c05e-ad9a-3468-a23b-560d45d88d10"
+                                eId="meta-n1_ident-n1_frbrexpression-n1">
+               <akn:FRBRthis GUID="ea561d5f-a1b1-3389-a060-d0bf2873bece"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu/regelungstext-verkuendung-1"/>
+               <akn:FRBRuri GUID="97570369-484e-3c21-bf75-1f2301cba0b5"
+                            eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu"/>
+               <akn:FRBRalias GUID="d7753a24-2636-3d5b-a13a-7526de078fcb"
+                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1"
+                              name="vorherige-version-id"
+                              value="398fc006-668a-4820-a3fa-81e21912f8b4"/>
+               <akn:FRBRalias GUID="021bd4bb-8e4b-3759-86d6-96bf06d07b44"
+                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2"
+                              name="aktuelle-version-id"
+                              value="53d31e3c-5c46-4e96-8017-b0db064561a1"/>
+               <akn:FRBRalias GUID="447f22c7-dfa6-321f-9ccc-650e821e733c"
+                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n3"
+                              name="nachfolgende-version-id"
+                              value="5d84cd1d-3575-4a03-bb6c-f17834e392fd"/>
+               <akn:FRBRauthor GUID="1880cb82-2874-39ee-8562-55df87bddea7"
+                               eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"
+                               href="recht.bund.de/institution/bundesregierung"/>
+               <akn:FRBRdate GUID="3bf3cf04-53fb-3caf-a738-52085e859e4c"
+                             date="2004-07-16"
+                             eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"
+                             name="verkuendung"/>
+               <akn:FRBRlanguage GUID="9648e148-3039-3cf9-b0d2-f1a19c47df6a"
+                                 eId="meta-n1_ident-n1_frbrexpression-n1_frbrlanguage-n1"
+                                 language="deu"/>
+               <akn:FRBRversionNumber GUID="82d43d69-213a-3a80-a353-a7bf75e1bea9"
+                                      eId="meta-n1_ident-n1_frbrexpression-n1_frbrversionnumber-n1"
+                                      value="1"/>
+            </akn:FRBRExpression>
+            <akn:FRBRManifestation GUID="045c9ff4-13d7-319d-ada7-cfc160dbce5b"
+                                   eId="meta-n1_ident-n1_frbrmanifestation-n1">
+               <akn:FRBRthis GUID="6b42f392-8b6e-36f5-b7e9-a7510dfb5654"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"
+                             value="eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"/>
+               <akn:FRBRuri GUID="17cabf7a-0d50-3a6f-8940-5450653252a8"
+                            eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"
+                            value="eli/bund/bgbl-1/2004/s1673/2004-07-16/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"/>
+               <akn:FRBRdate GUID="2f5124ff-7361-3ebf-8250-ee679d3a7a8c"
+                             date="2022-08-23"
+                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"
+                             name="generierung"/>
+               <akn:FRBRauthor GUID="b433bf00-a224-3d09-9978-15d77f21982e"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrauthor-n1"
+                               href="recht.bund.de"/>
+               <akn:FRBRformat GUID="a8fbd9fa-3a0b-391a-a22b-6d02e7aaf3cc"
+                               eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrformat-n1"
+                               value="xml"/>
+            </akn:FRBRManifestation>
+         </akn:identification>
+         <akn:lifecycle GUID="9b44d2dc-9c66-3559-a7d6-6ff3be2b5207"
+                        eId="meta-n1_lebzykl-n1"
+                        source="attributsemantik-noch-undefiniert">
+<!-- 1. Originales Gesetz -->
+            <akn:eventRef GUID="d1c3d2a6-5d1a-3650-b439-c07d57b6cab1"
+                          date="1985-08-20"
+                          eId="meta-n1_lebzykl-n1_ereignis-n1"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"/>
+            <akn:eventRef GUID="fb8f4655-2ea3-3715-8889-3861cec69faf"
+                          date="1985-08-24"
+                          eId="meta-n1_lebzykl-n1_ereignis-n2"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"/>
+            <!-- 2. -->
+            <akn:eventRef GUID="570d12e4-fb14-31a8-9368-de769f45435e"
+                          date="1990-06-28"
+                          eId="meta-n1_lebzykl-n1_ereignis-n3"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <akn:eventRef GUID="ad5db2a4-f687-3fb0-a2ac-1adcac05ea75"
+                          date="1990-07-01"
+                          eId="meta-n1_lebzykl-n1_ereignis-n4"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <!-- 3. -->
+            <akn:eventRef GUID="133224aa-7431-3029-a32c-2d74d549a1d0"
+                          date="1992-07-23"
+                          eId="meta-n1_lebzykl-n1_ereignis-n5"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <akn:eventRef GUID="5a1f177f-bffa-3d0c-a032-e93ac2cf4efc"
+                          date="1992-07-31"
+                          eId="meta-n1_lebzykl-n1_ereignis-n6"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <!-- 4. Aufhebung einer schwebenden Änderung | Umsetzung lt. HdR-Vorgabe -->
+            <akn:eventRef GUID="12447663-a2dc-3007-9ed2-c90ddf1ffbd4"
+                          date="1993-04-27"
+                          eId="meta-n1_lebzykl-n1_ereignis-n7"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <akn:eventRef GUID="b35f3e89-8d10-3fc5-a7b1-16dba8789629"
+                          date="1994-01-01"
+                          eId="meta-n1_lebzykl-n1_ereignis-n8"
+                          refersTo="entfernt"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <!-- Vor der Umstellung auf "entfernt" muss geprüft werden, ob dieses Event an anderer Stelle noch aktiv genutzt wird -->
+            <akn:eventRef GUID="37db3b80-5d70-39a2-8b32-5fae1475869f"
+                          date="1993-11-25"
+                          eId="meta-n1_lebzykl-n1_ereignis-n9"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <akn:eventRef GUID="8ab8f548-c8cd-3c57-885f-2cdee57a2c3b"
+                          date="1993-12-03"
+                          eId="meta-n1_lebzykl-n1_ereignis-n10"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <!-- 5. Daten bereits bei 4. angelegt, Doppelungen werden nicht erfasst -->
+            <!-- 6. -->
+            <akn:eventRef GUID="46c04d5c-9a8e-302e-831e-8b120695396e"
+                          date="1994-08-02"
+                          eId="meta-n1_lebzykl-n1_ereignis-n11"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <akn:eventRef GUID="fa047dbb-009e-3ee1-9d1b-1dcbb9560b0f"
+                          date="1995-01-01"
+                          eId="meta-n1_lebzykl-n1_ereignis-n12"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <!-- 7. Eintrag zum Inkrafttreten bereits angelegt bei 6., Doppelungen werden nicht erfasst -->
+            <akn:eventRef GUID="a7b24f40-308b-3c22-ad56-c6c0d6273b0e"
+                          date="1994-10-25"
+                          eId="meta-n1_lebzykl-n1_ereignis-n13"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <!-- 8. -->
+            <akn:eventRef GUID="4535511e-9772-31f0-8d6d-4c9528813e61"
+                          date="2001-06-25"
+                          eId="meta-n1_lebzykl-n1_ereignis-n14"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <akn:eventRef GUID="83965d44-c055-344b-8194-d1a24ff55854"
+                          date="2001-06-28"
+                          eId="meta-n1_lebzykl-n1_ereignis-n15"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <!-- 9. -->
+            <akn:eventRef GUID="d62e1eec-acba-38b3-8370-6c132bde3155"
+                          date="2001-11-26"
+                          eId="meta-n1_lebzykl-n1_ereignis-n16"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <akn:eventRef GUID="11644a38-5c40-3702-8d78-62d80ff510a9"
+                          date="2002-01-01"
+                          eId="meta-n1_lebzykl-n1_ereignis-n17"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <!-- 10. -->
+            <akn:eventRef GUID="6ec135bf-aa1c-3a13-ad96-39f6e2240108"
+                          date="2002-03-21"
+                          eId="meta-n1_lebzykl-n1_ereignis-n18"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <akn:eventRef GUID="b90614e4-65a1-394c-8c3a-8b6cd77b1228"
+                          date="2002-03-29"
+                          eId="meta-n1_lebzykl-n1_ereignis-n19"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <!-- 11. -->
+            <akn:eventRef GUID="f7d43c1c-ef26-34d8-9b23-3efd86e98937"
+                          date="2003-11-25"
+                          eId="meta-n1_lebzykl-n1_ereignis-n20"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <akn:eventRef GUID="f0d4a724-f366-36b0-8b00-be3a5ea258a4"
+                          date="2003-11-28"
+                          eId="meta-n1_lebzykl-n1_ereignis-n21"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <!-- Auslöser der Neufassung -->
+            <akn:eventRef GUID="e09a976d-391e-331a-a59f-c867e933b9ff"
+                          date="2004-01-30"
+                          eId="meta-n1_lebzykl-n1_ereignis-n22"
+                          refersTo="ausfertigung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <akn:eventRef GUID="d161aaaa-b5f2-390a-9ebb-826edc852c7f"
+                          date="2004-02-13"
+                          eId="meta-n1_lebzykl-n1_ereignis-n23"
+                          refersTo="inkrafttreten"
+                          source="attributsemantik-noch-undefiniert"
+                          type="amendment"/>
+            <!-- Neufassung des Dokuments -->
+            <akn:eventRef GUID="1d443b53-f4c8-3083-842e-4a0d0a77d440"
+                          date="2004-07-16"
+                          eId="meta-n1_lebzykl-n1_ereignis-n24"
+                          refersTo="neufassung"
+                          source="attributsemantik-noch-undefiniert"
+                          type="generation"/>
+         </akn:lifecycle>
+         <akn:temporalData GUID="d777161c-f8fd-3701-b264-bde5a77e3893"
+                           eId="meta-n1_geltzeiten-n1"
+                           source="attributsemantik-noch-undefiniert">
+            <akn:temporalGroup GUID="0c389017-2152-33ad-b20a-c38fecba6199"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1">
+               <akn:timeInterval GUID="ca24e780-dfd3-3451-9768-e95f60b4dee9"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1_gelzeitintervall-n1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n2"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="5b9053f0-0d23-36c4-9c61-98d702298650"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n2">
+               <akn:timeInterval GUID="f286f1dd-2ff2-32c0-add8-f0df3abaec24"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n2_gelzeitintervall-n1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n4"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="7790c970-2f0e-3864-a270-71568713b7e8"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n3">
+               <akn:timeInterval GUID="8373690d-09f9-3eb6-a70f-cd8d7f513200"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n3_gelzeitintervall-n1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n6"/>
+            </akn:temporalGroup>
+            <!-- Verweist auf deaktivierten Lifecycle-Eintrag ereignis-8, temporalGroup bleibt unbenutzt bestehen (kann bei Neufassung gelöscht werden) -->
+            <akn:temporalGroup GUID="cb1b7f4c-4579-3dbb-8a6a-0de92893dcc1"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n4">
+               <akn:timeInterval GUID="a796d198-3461-3ba7-b612-dc5a084be053"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n4_gelzeitintervall-n1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n8"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="1203c06f-2864-3790-8860-baf3b924dd57"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n5">
+               <akn:timeInterval GUID="6f0a44c3-236e-302f-82e0-03fbb5a2c157"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n5_gelzeitintervall-n1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n10"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="8cb2503c-ef7a-3272-bbf3-348065637e01"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n6">
+               <akn:timeInterval GUID="1fdf3af7-2795-3b05-ba9e-13b1cc17a31f"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n6_gelzeitintervall-n1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n12"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="d84a111f-4172-3e30-9a97-1bf5739af298"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n7">
+               <akn:timeInterval GUID="227aceb6-b3f7-3097-aa76-98da80333972"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n7_gelzeitintervall-n1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n15"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="56b41e49-582c-3a2f-a39f-59a696544fd0"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n8">
+               <akn:timeInterval GUID="082aad5f-6ecc-3b15-b07b-14934eedf409"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n8_gelzeitintervall-n1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n17"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="c73a7193-6fde-3850-b011-2508c88860a4"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n9">
+               <akn:timeInterval GUID="129294e7-23ed-3cd8-970b-750e549178a5"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n9_gelzeitintervall-n1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n19"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="6545c4e0-81d2-30af-afe8-dc19fd230854"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n10">
+               <akn:timeInterval GUID="32d2d41a-804a-3642-ad32-e8662846e98a"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n10_gelzeitintervall-n1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n21"/>
+            </akn:temporalGroup>
+            <akn:temporalGroup GUID="d0ae39bf-b0d9-3028-8d60-1893508a00bd"
+                               eId="meta-n1_geltzeiten-n1_geltungszeitgr-n11">
+               <akn:timeInterval GUID="a696ace0-7fea-3883-8233-f39c4cfbda6c"
+                                 eId="meta-n1_geltzeiten-n1_geltungszeitgr-n11_gelzeitintervall-n1"
+                                 refersTo="geltungszeit"
+                                 start="#meta-n1_lebzykl-n1_ereignis-n23"/>
+            </akn:temporalGroup>
+         </akn:temporalData>
+         <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung. -->
+         <akn:proprietary GUID="44c657d0-3411-3f72-bd25-5c1546d0a38f"
+                          eId="meta-n1_proprietary-n1"
+                          source="attributsemantik-noch-undefiniert">
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+               <regtxt:typ>gesetz</regtxt:typ>
+               <regtxt:form>stammform</regtxt:form>
+            </regtxt:legalDocML.de_metadaten>
+         </akn:proprietary>
+      </akn:meta>
+      <akn:preface GUID="29a68d89-5664-3a2c-9e7c-6cd12df2fbde" eId="einleitung-n1">
+         <akn:longTitle GUID="37f89471-07bd-3800-a7f8-36f64219705d"
+                        eId="einleitung-n1_doktitel-n1">
+            <akn:p GUID="1b24925d-ed3f-3722-a4d3-69de08fc6f5d"
+                   eId="einleitung-n1_doktitel-n1_text-n1">
+               <akn:docTitle GUID="6fa3cd51-dc15-35eb-933d-cafa69c9208b"
+                             eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1">Saatgutverkehrsgesetz
+                   <!-- Fußnote --><akn:authorialNote GUID="5301974f-807b-3e15-8bff-f94e5d2dfc9d"
+                                     eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1_amtlfnote-n1"
+                                     marker="*)"
+                                     placement="bottom"
+                                     placementBase="">
+                     <akn:p GUID="50e78dfe-8eec-3e6a-9adc-bec6bec16857"
+                            eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1_amtlfnote-n1_text-n1">Dieses Gesetz dient der Umsetzung folgender Richtlinien:</akn:p>
+                     <akn:ol GUID="002d7c8c-51f2-30c7-ba7e-2733a447b010"
+                             eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1_amtlfnote-n1_listegeor-n1">
+                        <akn:li GUID="0b8ef706-4d84-3cd6-bc92-f5475611afd5"
+                                eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1_amtlfnote-n1_listegeor-n1_listenelem-n1"
+                                value="1.">
+                           <akn:p GUID="74ba7cbf-7d8a-3dca-8c28-94b9fd30c851"
+                                  eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1_amtlfnote-n1_listegeor-n1_listenelem-n1_text-n1">Richtlinie 66/401/EWG des Rates vom 14. Juni 1966 über den Verkehr mit Futterpflanzensaatgut (ABl. EG Nr. 125 S. 2298/66), zuletzt geändert durch die Richtlinie 2004/55/EG (ABl. EU Nr. L 114 S. 18);</akn:p>
+                        </akn:li>
+                        <akn:li GUID="c669b6c1-693b-3ff0-a4c3-f4c1fae12b5f"
+                                eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1_amtlfnote-n1_listegeor-n1_listenelem-n2"
+                                value="2.">
+                           <akn:p GUID="51df052a-9b33-3c5a-95ed-e0fe79b53088"
+                                  eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1_amtlfnote-n1_listegeor-n1_listenelem-n2_text-n1">Richtlinie 66/402/EWG des Rates vom 14. Juni 1966 über den Verkehr mit Getreidesaatgut (ABl. EG Nr. 125 S. 2309/66), zuletzt geändert durch die Richtlinie 2003/61/EG (ABl. EU Nr. L 165 S. 23);</akn:p>
+                        </akn:li>
+                        <akn:li GUID="1f46970c-ba46-3c00-a542-8681441e07a6"
+                                eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1_amtlfnote-n1_listegeor-n1_listenelem-n3"
+                                value="3.">
+                           <akn:p GUID="0a0afade-d690-33fb-8477-545fd724e1f4"
+                                  eId="einleitung-n1_doktitel-n1_text-n1_doctitel-n1_amtlfnote-n1_listegeor-n1_listenelem-n3_text-n1">Richtlinie 68/193/EWG des Rates vom 9. April 1968 über den Verkehr mit vegetativem Vermehrungsgut von Reben (ABl. EG Nr. L 93 S. 15), zuletzt geändert durch die Verordnung (EG) Nr. 1829/2003 (ABl. EU Nr. L 268 S. 1);</akn:p>
+                        </akn:li>
+                        <!-- weitere Aufzählungen, die im Originaldokument vorkommen werden ausgelassen -->
+                     </akn:ol>
+                  </akn:authorialNote>
+               </akn:docTitle>
+               <akn:shortTitle GUID="b9bffd6c-a094-3e9c-9c88-bbd4e6dcc4cf"
+                               eId="einleitung-n1_doktitel-n1_text-n1_kurztitel-n1">(<akn:inline GUID="e2251500-244f-39d3-9e35-c3f94d019106"
+                              eId="einleitung-n1_doktitel-n1_text-n1_kurztitel-n1_inline-n1"
+                              name="attributsemantik-noch-undefiniert"
+                              refersTo="amtliche-abkuerzung">SaatG</akn:inline>)</akn:shortTitle>
+            </akn:p>
+         </akn:longTitle>
+      </akn:preface>
+      <!-- Hauptteil -->
+      <akn:body GUID="8096e287-ff40-3be1-84dc-a6d33d57266a" eId="hauptteil-n1">
+<!-- Abschnitt 1 -->
+         <akn:section GUID="d49e09a4-0363-3232-aec2-9b389cf9369b"
+                      eId="hauptteil-n1_abschnitt-n1">
+            <akn:num GUID="e90a3866-d2ab-36ec-89f7-45adc30c6f1d"
+                     eId="hauptteil-n1_abschnitt-n1_bezeichnung-n1">Abschnitt 1</akn:num>
+            <akn:heading GUID="d8246683-ff07-32f6-a98b-b7309f52dc72"
+                         eId="hauptteil-n1_abschnitt-n1_überschrift-n1">Saatgutordnung</akn:heading>
+            <!-- Unterabschnitt 1 -->
+            <akn:subsection GUID="7c2cf93c-836a-388b-a27e-56772362d2fe"
+                            eId="hauptteil-n1_abschnitt-n1_uabschnitt-n1">
+               <akn:num GUID="29384d17-d8ce-32cd-98d5-2c8f24a520ae"
+                        eId="hauptteil-n1_abschnitt-n1_uabschnitt-n1_bezeichnung-n1">Unterabschnitt 1</akn:num>
+               <akn:heading GUID="2e97265d-0dde-3660-b591-788ad7826a1c"
+                            eId="hauptteil-n1_abschnitt-n1_uabschnitt-n1_überschrift-n1">Allgemeine Vorschriften</akn:heading>
+               <!-- §1 -->
+               <akn:article GUID="b2aa427d-66d0-3d44-8fa2-a2055cab4ceb"
+                            eId="art-z%c2%a71"
+                            period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1">
+                  <akn:num GUID="0bbee884-3fdb-3dbb-83b1-d83e5a854ed6"
+                           eId="art-z%c2%a71_bezeichnung-n1">§1</akn:num>
+                  <akn:heading GUID="2014ec58-d132-3c8e-a585-e92d16c35d82"
+                               eId="art-z%c2%a71_überschrift-n1">Anwendungsbereich</akn:heading>
+                  <!-- Absatz 1 -->
+                  <akn:paragraph GUID="5bbf5724-becd-3fad-b388-096723ba3a3a" eId="art-z%c2%a71_abs-z1">
+                     <akn:num GUID="0992e2dd-fa0d-3cc2-a9a1-76634c5dce94"
+                              eId="art-z%c2%a71_abs-z1_bezeichnung-n1">(1)</akn:num>
+                     <akn:content GUID="d38e1768-3355-3d36-9117-27412dd5ef52"
+                                  eId="art-z%c2%a71_abs-z1_inhalt-n1">
+                        <akn:p GUID="1303a1a9-580e-370e-9fe9-e8cb6f55a554"
+                               eId="art-z%c2%a71_abs-z1_inhalt-n1_text-n1">Dieses Gesetz gilt vorbehaltlich der §§ 56 und 57 für Saatgut und Vermehrungsmaterial der im Artenverzeichnis zu diesem Gesetz aufgeführten Arten.</akn:p>
+                     </akn:content>
+                  </akn:paragraph>
+                  <!-- Absatz 2 -->
+                  <akn:paragraph GUID="2c657e35-2b7b-3a2f-a416-59ed64fde27c" eId="art-z%c2%a71_abs-z2">
+                     <akn:num GUID="dd63ac78-5d60-343d-a05c-10a5a5a34bbe"
+                              eId="art-z%c2%a71_abs-z2_bezeichnung-n1">(2)</akn:num>
+                     <akn:content GUID="77fd9f9f-46f0-38e6-875b-23ffe4271d5a"
+                                  eId="art-z%c2%a71_abs-z2_inhalt-n1">
+                        <akn:p GUID="ca084e5c-f2ed-3c5f-9ea0-2fd9d3e6492f"
+                               eId="art-z%c2%a71_abs-z2_inhalt-n1_text-n1">Das Bundesministerium für Verbraucherschutz, Ernährung und Landwirtschaft wird ermächtigt, durch Rechtsverordnung mit Zustimmung des Bundesrates das Artenverzeichnis zu diesem Gesetz aufzustellen. Eine Art darf in das Artenverzeichnis nur aufgenommen werden, wenn dies zur Durchführung von Rechtsakten der Europäischen Gemeinschaft oder zum Schutz des Verbrauchers erforderlich ist. Eine Art darf im Artenverzeichnis gestrichen werden, wenn der Schutz des Verbrauchers eine Regelung nach diesem Gesetz nicht mehr erfordert und Rechtsakte der Europäischen Gemeinschaft nicht entgegenstehen.</akn:p>
+                     </akn:content>
+                  </akn:paragraph>
+               </akn:article>
+               <!-- weitere Aufzählungen aus dem Originaldokument werden ausgelassen -->
+            </akn:subsection>
+            <!-- Unterabschnitt 2 -->
+            <akn:subsection GUID="b17f9602-8389-3e17-944e-be5ec3aefadc"
+                            eId="hauptteil-n1_abschnitt-n1_uabschnitt-n2">
+               <akn:num GUID="ae6b6248-1e3a-3efa-9881-35710da843d0"
+                        eId="hauptteil-n1_abschnitt-n1_uabschnitt-n2_bezeichnung-n1">Unterabschnitt 2</akn:num>
+               <akn:heading GUID="f2720914-b429-350b-8163-85d2dc657516"
+                            eId="hauptteil-n1_abschnitt-n1_uabschnitt-n2_überschrift-n1">Anerkanntes Saatgut</akn:heading>
+               <akn:article GUID="901724a3-4deb-393a-aacb-2049c663eca9"
+                            eId="art-z%c2%a74"
+                            period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1">
+                  <akn:num GUID="90de9a98-cd67-33b7-bbc1-5d102060024e"
+                           eId="art-z%c2%a74_bezeichnung-n1">§4</akn:num>
+                  <akn:heading GUID="a33bfd28-33c8-304c-9586-4b961eace579"
+                               eId="art-z%c2%a74_überschrift-n1">Voraussetzungen für die Anerkennung</akn:heading>
+                  <akn:paragraph GUID="e59e512f-da27-37e8-964b-4ac32625319e" eId="art-z%c2%a74_abs-z2">
+                     <akn:num GUID="04de4ee9-070e-3730-932c-08ee43fc4ec5"
+                              eId="art-z%c2%a74_abs-z2_bezeichnung-n1">(2)</akn:num>
+                     <akn:content GUID="08c6b426-6a42-347c-99f0-0acdcd9fd031"
+                                  eId="art-z%c2%a74_abs-z2_inhalt-n1">
+                        <akn:p GUID="7b3d0937-ba45-3d5c-b3f8-7089cc9414db"
+                               eId="art-z%c2%a74_abs-z2_inhalt-n1_text-n1">Saatgut einer Sorte, die ausschließlich in einem der Sortenliste entsprechenden amtlichen Verzeichnis außerhalb der Vertragsstaaten eingetragen ist, kann anerkannt werden, wenn eine ausreichende Sortenbeschreibung vorliegt und das Saatgut zur Ausfuhr in ein Gebiet außerhalb der Vertragsstaaten bestimmt ist.</akn:p>
+                     </akn:content>
+                  </akn:paragraph>
+               </akn:article>
+               <!-- Weitere Einzelvorschriften aus dem Originaldokument werden ausgelassen -->
+               <!-- Geltungszeitregel -->
+               <akn:article GUID="be3d46f2-a09d-3e92-ba3d-2aeceea4ff3d"
+                            eId="art-z%c2%a763"
+                            period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
+                            refersTo="geltungszeitregel">
+                  <akn:num GUID="77dd37b6-035d-3dd8-af31-1d73bb67e354"
+                           eId="art-z%c2%a763_bezeichnung-n1">§63</akn:num>
+                  <akn:heading GUID="b59bb612-f58a-31c3-8e59-0bb4f0e372da"
+                               eId="art-z%c2%a763_überschrift-n1">(Inkrafttreten)</akn:heading>
+                  <akn:paragraph GUID="dc0d3889-80c6-3c17-be4f-639a3346dd2b" eId="art-z%c2%a763_abs-z">
+                     <akn:num GUID="e95ff9c8-264d-3f5a-9730-422309b7657b"
+                              eId="art-z%c2%a763_abs-z_bezeichnung-n1">
+<!-- ohne Nummierung! --></akn:num>
+                     <akn:content GUID="61fa9e55-10cd-36d9-a1c2-9e47f4352b0f"
+                                  eId="art-z%c2%a763_abs-z_inhalt-n1">
+                        <akn:p GUID="57b44714-0383-3eac-a89c-8f58a017ac80"
+                               eId="art-z%c2%a763_abs-z_inhalt-n1_text-n1"/>
+                     </akn:content>
+                  </akn:paragraph>
+               </akn:article>
+            </akn:subsection>
+         </akn:section>
+      </akn:body>
+   </akn:act>
+</akn:akomaNtoso>

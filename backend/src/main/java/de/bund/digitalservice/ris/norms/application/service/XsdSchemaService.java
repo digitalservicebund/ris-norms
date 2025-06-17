@@ -27,52 +27,62 @@ import org.xml.sax.SAXException;
 public class XsdSchemaService {
 
   Resource baukastenXsdSchema;
-  Resource metadatenXsdSchema;
   Resource regelungstextVerkuendungsfassungXsdSchema;
   Resource risNormsRegelungstextVerkuendungsfassungXsdSchema;
   Resource risNormsBekanntmachungXsdSchema;
   Resource risNormsOffeneStrukturXsdSchema;
   Resource risNormsRechtsetzungsdokumentXsdSchema;
+  Resource metadatenBundesregierungXsdSchema;
+  Resource metadatenRegelungstextXsdSchema;
+  Resource metadatenRechtsetzungsdokumentSchema;
   Resource risNormsMetadataSchema;
   Resource risNormsApplicationOnlyMetadataSchema;
 
   public XsdSchemaService(
     @Value(
-      "classpath:/LegalDocML.de/1.7.2/schema/legalDocML.de-baukasten.xsd"
+      "classpath:/LegalDocML.de/1.8.1/schema/legalDocML.de-baukasten.xsd"
     ) Resource baukastenXsdSchema,
     @Value(
-      "classpath:/LegalDocML.de/1.7.2/schema/legalDocML.de-metadaten.xsd"
-    ) Resource metadatenXsdSchema,
-    @Value(
-      "classpath:/LegalDocML.de/1.7.2/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd"
+      "classpath:/LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd"
     ) Resource regelungstextVerkuendungsfassungXsdSchema,
     @Value(
-      "classpath:/LegalDocML.de/1.7.2/legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd"
+      "classpath:/LegalDocML.de/1.8.1/legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd"
     ) Resource risNormsRegelungstextVerkuendungsfassungXsdSchema,
     @Value(
-      "classpath:/LegalDocML.de/1.7.2/legalDocML.de-risnorms-bekanntmachung.xsd"
+      "classpath:/LegalDocML.de/1.8.1/legalDocML.de-risnorms-bekanntmachung.xsd"
     ) Resource risNormsBekanntmachungXsdSchema,
     @Value(
-      "classpath:/LegalDocML.de/1.7.2/legalDocML.de-risnorms-offenestruktur.xsd"
+      "classpath:/LegalDocML.de/1.8.1/legalDocML.de-risnorms-offenestruktur.xsd"
     ) Resource risNormsOffeneStrukturXsdSchema,
     @Value(
-      "classpath:/LegalDocML.de/1.7.2/legalDocML.de-risnorms-rechtsetzungsdokument.xsd"
+      "classpath:/LegalDocML.de/1.8.1/legalDocML.de-risnorms-rechtsetzungsdokument.xsd"
     ) Resource risNormsRechtsetzungsdokumentXsdSchema,
     @Value(
-      "classpath:/LegalDocML.de/1.7.2/schema-extension/metadata.xsd"
+      "classpath:/LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd"
+    ) Resource metadatenBundesregierungXsdSchema,
+    @Value(
+      "classpath:/LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd"
+    ) Resource metadatenRegelungstextXsdSchema,
+    @Value(
+      "classpath:/LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-rechtsetzungsdokument.xsd"
+    ) Resource metadatenRechtsetzungsdokumentSchema,
+    @Value(
+      "classpath:/LegalDocML.de/1.8.1/schema-extension/metadata.xsd"
     ) Resource risNormsMetadataSchema,
     @Value(
-      "classpath:/LegalDocML.de/1.7.2/schema-extension/norms-application-only-metadata.xsd"
+      "classpath:/LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd"
     ) Resource risNormsApplicationOnlyMetadataSchema
   ) {
     this.baukastenXsdSchema = baukastenXsdSchema;
-    this.metadatenXsdSchema = metadatenXsdSchema;
     this.regelungstextVerkuendungsfassungXsdSchema = regelungstextVerkuendungsfassungXsdSchema;
     this.risNormsRegelungstextVerkuendungsfassungXsdSchema =
       risNormsRegelungstextVerkuendungsfassungXsdSchema;
     this.risNormsBekanntmachungXsdSchema = risNormsBekanntmachungXsdSchema;
     this.risNormsOffeneStrukturXsdSchema = risNormsOffeneStrukturXsdSchema;
     this.risNormsRechtsetzungsdokumentXsdSchema = risNormsRechtsetzungsdokumentXsdSchema;
+    this.metadatenBundesregierungXsdSchema = metadatenBundesregierungXsdSchema;
+    this.metadatenRegelungstextXsdSchema = metadatenRegelungstextXsdSchema;
+    this.metadatenRechtsetzungsdokumentSchema = metadatenRechtsetzungsdokumentSchema;
     this.risNormsMetadataSchema = risNormsMetadataSchema;
     this.risNormsApplicationOnlyMetadataSchema = risNormsApplicationOnlyMetadataSchema;
   }
@@ -84,10 +94,14 @@ public class XsdSchemaService {
   public List<Document> loadLdmlDeSchemaDocuments() {
     return Stream.of(
       baukastenXsdSchema,
-      metadatenXsdSchema,
       regelungstextVerkuendungsfassungXsdSchema,
       risNormsRegelungstextVerkuendungsfassungXsdSchema,
+      risNormsBekanntmachungXsdSchema,
       risNormsOffeneStrukturXsdSchema,
+      risNormsRechtsetzungsdokumentXsdSchema,
+      metadatenBundesregierungXsdSchema,
+      metadatenRegelungstextXsdSchema,
+      metadatenRechtsetzungsdokumentSchema,
       risNormsMetadataSchema,
       risNormsApplicationOnlyMetadataSchema
     )

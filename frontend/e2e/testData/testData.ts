@@ -5,7 +5,7 @@ export const amendingLaws: (Norm & {
   articles: Article[]
 })[] = [
   {
-    eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1",
+    eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
     frbrName: "BGBl. I",
     frbrDateVerkuendung: "2017-03-15",
     frbrNumber: "s419",
@@ -19,7 +19,7 @@ export const amendingLaws: (Norm & {
     ],
   },
   {
-    eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+    eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
     frbrName: "BGBl. I",
     frbrDateVerkuendung: "2023-12-29",
     frbrNumber: "413",

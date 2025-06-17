@@ -32,17 +32,17 @@ class TableOfContentsControllerTest {
   void itReturnsTableOfContents() throws Exception {
     // Given
     var eli = DokumentExpressionEli.fromString(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
     );
     final TableOfContentsItem childItem = new TableOfContentsItem(
-      new EId("child-1"),
+      new EId("child-n1"),
       "child-marker",
       "child-heading",
       "child-type",
       Collections.emptyList()
     );
     final TableOfContentsItem parentItem = new TableOfContentsItem(
-      new EId("parent-1"),
+      new EId("parent-n1"),
       "parent-marker",
       "parent-heading",
       "parent-type",
@@ -56,11 +56,11 @@ class TableOfContentsControllerTest {
     mockMvc
       .perform(get("/api/v1/norms/" + eli + "/toc").accept(MediaType.APPLICATION_JSON))
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$[0].id").value("parent-1"))
+      .andExpect(jsonPath("$[0].id").value("parent-n1"))
       .andExpect(jsonPath("$[0].marker").value("parent-marker"))
       .andExpect(jsonPath("$[0].heading").value("parent-heading"))
       .andExpect(jsonPath("$[0].type").value("parent-type"))
-      .andExpect(jsonPath("$[0].children[0].id").value("child-1"))
+      .andExpect(jsonPath("$[0].children[0].id").value("child-n1"))
       .andExpect(jsonPath("$[0].children[0].marker").value("child-marker"))
       .andExpect(jsonPath("$[0].children[0].heading").value("child-heading"))
       .andExpect(jsonPath("$[0].children[0].type").value("child-type"));
@@ -70,7 +70,7 @@ class TableOfContentsControllerTest {
   void itReturnsEmptyListWhenNoTableOfContentsExists() throws Exception {
     // Given
     var eli = DokumentExpressionEli.fromString(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
     );
     when(loadTocFromRegelungstextUseCase.loadTocFromRegelungstext(any())).thenReturn(List.of());
 
@@ -85,7 +85,7 @@ class TableOfContentsControllerTest {
   void return404IfRegelungstextNotFound() throws Exception {
     // given no norm
     var eli = DokumentExpressionEli.fromString(
-      "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+      "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
     );
 
     when(loadTocFromRegelungstextUseCase.loadTocFromRegelungstext(any())).thenThrow(
@@ -102,17 +102,17 @@ class TableOfContentsControllerTest {
       .andExpect(jsonPath("status").value(404))
       .andExpect(
         jsonPath("detail").value(
-          "Regelungstext with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1 does not exist"
+          "Regelungstext with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1 does not exist"
         )
       )
       .andExpect(
         jsonPath("instance").value(
-          "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1/toc"
+          "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/toc"
         )
       )
       .andExpect(
         jsonPath("eli").value(
-          "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-1"
+          "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
         )
       );
   }

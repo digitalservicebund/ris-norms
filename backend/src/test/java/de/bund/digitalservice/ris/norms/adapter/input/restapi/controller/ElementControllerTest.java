@@ -40,7 +40,7 @@ class ElementControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z1"
           ).accept(MediaType.TEXT_HTML)
         )
         // then
@@ -51,7 +51,7 @@ class ElementControllerTest {
         .andExpect(jsonPath("detail").value("Error message"))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z1"
           )
         );
     }
@@ -64,9 +64,9 @@ class ElementControllerTest {
         loadElementHtmlUseCase.loadElementHtml(
           new LoadElementHtmlUseCase.Options(
             DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
             ),
-            new EId("hauptteil-1_art-1")
+            new EId("art-z1")
           )
         )
       ).thenReturn(elementHtml);
@@ -75,7 +75,7 @@ class ElementControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z1"
           ).accept(MediaType.TEXT_HTML)
         )
         // then
@@ -92,14 +92,14 @@ class ElementControllerTest {
       // given
       var elementNode =
         """
-            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/" eId="hauptteil-1_art-1"
+            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1"
                         GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
-                        period="#meta-1_geltzeiten-1_geltungszeitgr-1"
+                        period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
                         refersTo="hauptaenderung">
-                        <akn:num eId="hauptteil-1_art-1_bezeichnung-1"
+                        <akn:num eId="art-z1_bezeichnung-n1"
                             GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
                                 Artikel 1 </akn:num>
-                        <akn:heading eId="hauptteil-1_art-1_überschrift-1"
+                        <akn:heading eId="art-z1_überschrift-n1"
                             GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes
                         </akn:heading>
                     </akn:article>
@@ -108,9 +108,9 @@ class ElementControllerTest {
         loadElementUseCase.loadElement(
           new LoadElementUseCase.Options(
             DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+              "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
             ),
-            new EId("hauptteil-1_art-1")
+            new EId("art-z1")
           )
         )
       ).thenReturn(XmlMapper.toElement(elementNode));
@@ -119,12 +119,12 @@ class ElementControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1/elements/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z1"
           ).accept(MediaType.APPLICATION_JSON)
         )
         // then
         .andExpect(status().isOk())
-        .andExpect(jsonPath("eid").value("hauptteil-1_art-1"))
+        .andExpect(jsonPath("eid").value("art-z1"))
         .andExpect(jsonPath("type").value("article"))
         .andExpect(jsonPath("title").value("Artikel 1 Änderung des Vereinsgesetzes"));
     }

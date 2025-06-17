@@ -83,13 +83,13 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
     void itFindsAllDokumenteOfNormOnDB() {
       // Given
       var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-2.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-2.xml"
       );
       var offenestruktur = Fixtures.loadOffeneStrukturFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
       );
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext1));
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext2));
@@ -271,7 +271,36 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       var normFromDatabase = normDBService.updateNorm(new UpdateNormPort.Options(newNorm));
 
       // Then
-      assertThat(dokumentRepository.findAll()).hasSize(1);
+      assertThat(dokumentRepository.findAll()).hasSize(2);
+      assertThat(normFromDatabase).contains(newNorm);
+    }
+
+    @Test
+    void itUpdatesNormWhenDokumenteAreRemoved() {
+      // Given
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
+      );
+
+      assertThat(dokumentRepository.findAll()).hasSize(4);
+      assertThat(binaryFileRepository.findAll()).hasSize(1);
+
+      var newNorm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
+      );
+      newNorm.setBinaryFiles(Set.of());
+      newNorm.setDokumente(Set.of(newNorm.getRechtsetzungsdokument(), newNorm.getRegelungstext1()));
+
+      // When
+      var normFromDatabase = normDBService.updateNorm(new UpdateNormPort.Options(newNorm));
+
+      // Then
+      assertThat(dokumentRepository.findAll()).hasSize(2);
+      assertThat(binaryFileRepository.findAll()).isEmpty();
       assertThat(normFromDatabase).contains(newNorm);
     }
 
@@ -279,10 +308,10 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
     void itUpdatesNormWithMultipleRegelungstexte() {
       // Given
       var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-2.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-2.xml"
       );
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext1));
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext2));
@@ -312,7 +341,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -325,7 +354,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16/regelungstext-1.xml"
+            "eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -358,7 +387,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -371,7 +400,7 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16/regelungstext-1.xml"
+            "eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16/regelungstext-verkuendung-1.xml"
           )
         )
       );

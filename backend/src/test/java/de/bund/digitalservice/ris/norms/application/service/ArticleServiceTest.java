@@ -18,6 +18,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstex
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.jupiter.api.Nested;
@@ -40,12 +41,12 @@ class ArticleServiceTest {
     void returnResult() {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2000/s1/1970-01-01/1/deu/regelungstext-verkuendung-1"
       );
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
-      var eid = new EId("hauptteil-1_art-1");
+      var eid = new EId("art-z1");
       when(
         loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
       ).thenReturn(Optional.of(regelungstext));
@@ -62,9 +63,9 @@ class ArticleServiceTest {
     void throwsIfNormNotFound() {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1"
+        "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = new EId("meta-1");
+      var eid = new EId("meta-n1");
       var query = new LoadArticleHtmlUseCase.Options(eli, eid);
       when(
         loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
@@ -81,12 +82,12 @@ class ArticleServiceTest {
     void throwsIfArticleNotFound() {
       // given
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-1"
+        "eli/bund/DOES_NOT_EXIST/2000/s1/1970-01-01/1/deu/regelungstext-verkuendung-1"
       );
-      var eid = new EId("eid-1_not-1_in-1_norm-1");
+      var eid = new EId("eid-n1_not-n1_in-n1_norm-n1");
       var query = new LoadArticleHtmlUseCase.Options(eli, eid);
       when(
         loadRegelungstextPort.loadRegelungstext(new LoadRegelungstextPort.Options(eli))
@@ -110,10 +111,10 @@ class ArticleServiceTest {
     void itReturnsArticlesFromNorm() {
       // Given
       final var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       final var query = new LoadArticlesFromDokumentUseCase.Options(eli);
 
@@ -124,15 +125,15 @@ class ArticleServiceTest {
 
       // Then
       assertThat(articles).hasSize(2);
-      assertThat(articles.get(0).getEid()).hasToString("hauptteil-1_art-1");
-      assertThat(articles.get(1).getEid()).hasToString("hauptteil-1_art-2");
+      assertThat(articles.get(0).getEid()).hasToString("art-z20");
+      assertThat(articles.get(1).getEid()).hasToString("art-z34");
     }
 
     @Test
     void itThrowsWhenTheDokumentIsNotFound() {
       // Given
       final var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1"
       );
       final var query = new LoadArticlesFromDokumentUseCase.Options(eli);
 
@@ -148,11 +149,11 @@ class ArticleServiceTest {
     void itReturnsEmptyListWhenTheNormHasNoArticles() {
       // Given
       final var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
         ArticleServiceTest.class,
-        "vereinsgesetz-without-articles.xml"
+        "vereinsgesetz-without-articles/regelungstext-verkuendung-1.xml"
       );
       final var query = new LoadArticlesFromDokumentUseCase.Options(eli);
 
@@ -173,10 +174,10 @@ class ArticleServiceTest {
     void loadAllArticles() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
       );
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
 
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
@@ -191,17 +192,20 @@ class ArticleServiceTest {
         argThat(argument -> Objects.equals(argument.eli(), eli))
       );
       assertThat(xmls).isNotEmpty();
-      assertThat(xmls.getFirst()).contains("hauptteil-1_art-1");
-      assertThat(xmls.get(1)).contains("hauptteil-1_art-2");
+      assertThat(xmls.getFirst()).contains("art-z1");
+      assertThat(xmls.get(1)).contains("art-z3");
     }
 
     @Test
     void itCallsLoadDokumentAndThrowsIfNotFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, "geltungszeitregel");
+      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Options(
+        eli,
+        List.of("geltungszeitregel")
+      );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
       // When
@@ -218,38 +222,45 @@ class ArticleServiceTest {
     void loadSpecificArticles() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-verkuendung-1"
       );
       final var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/2024-01-18/regelungstext-verkuendung-1.xml"
       );
 
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
       // When
       var xmls = articleService.loadSpecificArticlesXmlFromDokument(
-        new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, "geltungszeitregel")
+        new LoadSpecificArticlesXmlFromDokumentUseCase.Options(
+          eli,
+          List.of("geltungszeitregel-inkrafttreten", "geltungszeitregel-ausserkrafttreten")
+        )
       );
 
       // Then
       verify(loadRegelungstextPort, times(1)).loadRegelungstext(
         argThat(argument -> Objects.equals(argument.eli(), eli))
       );
-      assertThat(xmls).isNotEmpty();
-      assertThat(xmls.getFirst()).contains("hauptteil-1_art-2");
+      assertThat(xmls).hasSize(2);
+      assertThat(xmls.getFirst()).contains("art-z3");
+      assertThat(xmls.get(1)).contains("art-z4");
     }
 
     @Test
     void itThrowsWhenNoArticlesOfTypeAreFound() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, "geltungszeitregel");
+      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Options(
+        eli,
+        List.of("geltungszeitregel-inkrafttreten", "geltungszeitregel-ausserkrafttreten")
+      );
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         ArticleServiceTest.class,
-        "regelungstext-without-geltungszeitregel.xml"
+        "regelungstext-without-geltungszeitregel/regelungstext-verkuendung-1.xml"
       );
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
 
@@ -258,7 +269,7 @@ class ArticleServiceTest {
         articleService.loadSpecificArticlesXmlFromDokument(query)
       ).isInstanceOf(
         // Then
-        LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class
+        LoadSpecificArticlesXmlFromDokumentUseCase.NoArticlesOfTypesFoundException.class
       );
 
       verify(loadRegelungstextPort, times(1)).loadRegelungstext(
@@ -270,12 +281,15 @@ class ArticleServiceTest {
     void itThrowsWhenTheDokumentHasNoArticles() {
       // Given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Options(eli, "geltungszeitregel");
+      var query = new LoadSpecificArticlesXmlFromDokumentUseCase.Options(
+        eli,
+        List.of("geltungszeitregel")
+      );
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         ArticleServiceTest.class,
-        "vereinsgesetz-without-articles.xml"
+        "vereinsgesetz-without-articles/regelungstext-verkuendung-1.xml"
       );
 
       when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
@@ -285,12 +299,13 @@ class ArticleServiceTest {
         articleService.loadSpecificArticlesXmlFromDokument(query)
       ).isInstanceOf(
         // Then
-        LoadSpecificArticlesXmlFromDokumentUseCase.ArticleOfTypeNotFoundException.class
+        LoadSpecificArticlesXmlFromDokumentUseCase.NoArticlesOfTypesFoundException.class
       );
 
       verify(loadRegelungstextPort, times(1)).loadRegelungstext(
         argThat(argument -> Objects.equals(argument.eli(), eli))
       );
     }
+    // TODO: (Malte Laukötter, 2025-06-13) add test for multiple refersTo
   }
 }

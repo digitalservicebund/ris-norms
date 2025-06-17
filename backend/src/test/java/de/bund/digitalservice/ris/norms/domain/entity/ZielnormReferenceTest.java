@@ -12,10 +12,10 @@ class ZielnormReferenceTest {
     var zielnormReference = new ZielnormReference(
       toElement(
         """
-        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
+        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
            <norms:typ>Änderungsvorschrift</norms:typ>
            <norms:geltungszeit>gz-1</norms:geltungszeit>
-           <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+           <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
            <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
         </norms:zielnorm-reference>
         """
@@ -30,10 +30,10 @@ class ZielnormReferenceTest {
     var zielnormReference = new ZielnormReference(
       toElement(
         """
-        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
+        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
            <norms:typ>Änderungsvorschrift</norms:typ>
            <norms:geltungszeit>gz-1</norms:geltungszeit>
-           <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+           <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
            <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
         </norms:zielnorm-reference>
         """
@@ -48,19 +48,17 @@ class ZielnormReferenceTest {
     var zielnormReference = new ZielnormReference(
       toElement(
         """
-        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
+        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
            <norms:typ>Änderungsvorschrift</norms:typ>
            <norms:geltungszeit>gz-1</norms:geltungszeit>
-           <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+           <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
            <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
         </norms:zielnorm-reference>
         """
       )
     );
 
-    assertThat(zielnormReference.getEId()).hasToString(
-      "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1"
-    );
+    assertThat(zielnormReference.getEId()).hasToString("art-z1_abs-n1_untergl-n1_listenelem-n1");
   }
 
   @Test
@@ -68,10 +66,10 @@ class ZielnormReferenceTest {
     var zielnormReference = new ZielnormReference(
       toElement(
         """
-        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.7.2/'>
+        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
            <norms:typ>Änderungsvorschrift</norms:typ>
            <norms:geltungszeit>gz-1</norms:geltungszeit>
-           <norms:eid>hauptteil-1_art-1_abs-1_untergl-1_listenelem-1</norms:eid>
+           <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
            <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
         </norms:zielnorm-reference>
         """

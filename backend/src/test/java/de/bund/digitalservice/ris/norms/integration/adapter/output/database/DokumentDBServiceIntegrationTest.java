@@ -35,10 +35,10 @@ class DokumentDBServiceIntegrationTest extends BaseIntegrationTest {
     void itFindsRegelungstextByExpressionEli() {
       // Given
       var regelungstextOld = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       var regelungstextCurrent = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
       );
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstextOld));
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstextCurrent));
@@ -47,7 +47,7 @@ class DokumentDBServiceIntegrationTest extends BaseIntegrationTest {
       var loadedRegelungstext = dokumentDBService.loadRegelungstext(
         new LoadRegelungstextPort.Options(
           DokumentExpressionEli.fromString(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
           )
         )
       );
@@ -60,7 +60,7 @@ class DokumentDBServiceIntegrationTest extends BaseIntegrationTest {
     void itFindsRegelungstextByManifestationEli() {
       // Given
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       dokumentRepository.save(DokumentMapper.mapToDto(regelungstext));
 
@@ -68,7 +68,7 @@ class DokumentDBServiceIntegrationTest extends BaseIntegrationTest {
       var loadedRegelungstext = dokumentDBService.loadRegelungstext(
         new LoadRegelungstextPort.Options(
           DokumentManifestationEli.fromString(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );

@@ -29,30 +29,30 @@ import org.springframework.web.multipart.MultipartFile;
 public class VerkuendungenController {
 
   private final LoadAllVerkuendungenUseCase loadAllVerkuendungenUseCase;
-  private final CreateVerkuendungUseCase createVerkuendungUseCase;
   private final LoadNormUseCase loadNormUseCase;
   private final LoadVerkuendungUseCase loadVerkuendungUseCase;
   private final LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase;
   private final LoadZielnormenExpressionsUseCase loadZielnormenExpressionsUseCase;
   private final CreateZielnormenExpressionsUseCase createZielnormenExpressionsUseCase;
+  private final ProcessNormendokumentationspaketUseCase processNormendokumentationspaketUseCase;
 
   public VerkuendungenController(
     LoadAllVerkuendungenUseCase loadAllVerkuendungenUseCase,
-    CreateVerkuendungUseCase createVerkuendungUseCase,
     LoadNormUseCase loadNormUseCase,
     LoadVerkuendungUseCase loadVerkuendungUseCase,
     LoadNormExpressionsAffectedByVerkuendungUseCase loadNormExpressionsAffectedByVerkuendungUseCase,
     LoadZielnormenExpressionsUseCase loadZielnormenExpressionsUseCase,
-    CreateZielnormenExpressionsUseCase createZielnormenExpressionsUseCase
+    CreateZielnormenExpressionsUseCase createZielnormenExpressionsUseCase,
+    ProcessNormendokumentationspaketUseCase processNormendokumentationspaketUseCase
   ) {
     this.loadAllVerkuendungenUseCase = loadAllVerkuendungenUseCase;
-    this.createVerkuendungUseCase = createVerkuendungUseCase;
     this.loadNormUseCase = loadNormUseCase;
     this.loadVerkuendungUseCase = loadVerkuendungUseCase;
     this.loadNormExpressionsAffectedByVerkuendungUseCase =
       loadNormExpressionsAffectedByVerkuendungUseCase;
     this.loadZielnormenExpressionsUseCase = loadZielnormenExpressionsUseCase;
     this.createZielnormenExpressionsUseCase = createZielnormenExpressionsUseCase;
+    this.processNormendokumentationspaketUseCase = processNormendokumentationspaketUseCase;
   }
 
   /**
@@ -183,7 +183,7 @@ public class VerkuendungenController {
   /**
    * Creates a new {@link Verkuendung} using the provided Norm XML.
    *
-   * @param file a file containing an amending norm as an XML file that contains LDML.de
+   * @param file a file containing a zip file of a Normendokumentationspaket
    * @param force in case a norm already exists, if set to true, the norm will be overwritten
    * @return information about the newly created verkuendung
    */
@@ -192,9 +192,10 @@ public class VerkuendungenController {
     @RequestParam final MultipartFile file,
     @RequestParam(defaultValue = "false") final Boolean force
   ) throws IOException {
-    var verkuendung = createVerkuendungUseCase.createVerkuendung(
-      new CreateVerkuendungUseCase.Options(file, force)
+    var verkuendung = processNormendokumentationspaketUseCase.processNormendokumentationspaket(
+      new ProcessNormendokumentationspaketUseCase.DirectProcessingOptions(file.getBytes(), force)
     );
+
     var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(verkuendung.getEli()));
     return ResponseEntity.ok(VerkuendungResponseMapper.fromAnnouncedNorm(verkuendung, norm));
   }

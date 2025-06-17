@@ -65,7 +65,7 @@ class NormTest {
       .dokumente(
         Set.of(
           Fixtures.loadOffeneStrukturFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
           )
         )
       )
@@ -157,7 +157,7 @@ class NormTest {
           new Regelungstext(
             XmlMapper.toDocument(
               Fixtures.loadTextFromDisk(
-                "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+                "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
               )
             )
           )
@@ -186,10 +186,10 @@ class NormTest {
     void itReturnsRegelungstext1ByExpressionEli() {
       // Given
       Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-2.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-2.xml"
       );
       Norm norm = new Norm(NormPublishState.UNPUBLISHED, Set.of(regelungstext1, regelungstext2));
 
@@ -204,10 +204,10 @@ class NormTest {
     void itReturnsRegelungstext2ByManifestationEli() {
       // Given
       Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-2.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-2.xml"
       );
       Norm norm = new Norm(NormPublishState.UNPUBLISHED, Set.of(regelungstext1, regelungstext2));
 
@@ -222,10 +222,10 @@ class NormTest {
     void itReturnsRegelungstext1ByWorkEli() {
       // Given
       Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-2.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-2.xml"
       );
       Norm norm = new Norm(NormPublishState.UNPUBLISHED, Set.of(regelungstext1, regelungstext2));
 
@@ -240,16 +240,16 @@ class NormTest {
     void itReturnsEmptyForUnknownEli() {
       // Given
       Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-2.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-2.xml"
       );
       Norm norm = new Norm(NormPublishState.UNPUBLISHED, Set.of(regelungstext1, regelungstext2));
 
       // When
       var loadedRegelungstext = norm.getRegelungstextByEli(
-        DokumentWorkEli.fromString("eli/bund/bgbl-1/2022/23/regelungstext-3")
+        DokumentWorkEli.fromString("eli/bund/bgbl-1/2022/23/regelungstext-verkuendung-3")
       );
 
       // Then
@@ -286,10 +286,10 @@ class NormTest {
     void itReturnsOffenestrukturen() {
       // Given
       Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
       OffeneStruktur offeneStruktur1 = Fixtures.loadOffeneStrukturFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/offenestruktur-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
       );
       Norm norm = new Norm(NormPublishState.UNPUBLISHED, Set.of(regelungstext1, offeneStruktur1));
 
@@ -337,7 +337,7 @@ class NormTest {
       assertThat(norm.isGegenstandlos()).isTrue();
 
       final Optional<Gegenstandlos> gegenstandlos = norm
-        .getRegelungstext1()
+        .getRechtsetzungsdokument()
         .getMeta()
         .getOrCreateProprietary()
         .getGegenstandlos();
@@ -352,7 +352,7 @@ class NormTest {
     void getGegenstandlosModify() {
       Norm norm = Fixtures.loadNormFromDisk(NormTest.class, "vereinsgesetz-gegenstandlos");
       final Optional<Gegenstandlos> gegenstandlos = norm
-        .getRegelungstext1()
+        .getRechtsetzungsdokument()
         .getMeta()
         .getOrCreateProprietary()
         .getGegenstandlos();

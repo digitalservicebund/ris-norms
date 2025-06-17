@@ -23,8 +23,8 @@ describe("releaseService", () => {
         {
           releaseAt: "2024-03-25T10:37:29.658954Z",
           norms: [
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-            "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+            "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1",
           ],
         },
       ]
@@ -37,7 +37,7 @@ describe("releaseService", () => {
 
       const { isFinished, data } = useGetReleases(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
         ),
       )
       await vi.waitUntil(() => isFinished.value)
@@ -45,7 +45,7 @@ describe("releaseService", () => {
       expect(data.value).toEqual(expectedReleases)
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases`,
+        `/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/releases`,
         expect.objectContaining({
           method: "GET",
           headers: expect.objectContaining({
@@ -60,8 +60,8 @@ describe("releaseService", () => {
         {
           releaseAt: "2024-03-25T10:37:29.658954Z",
           norms: [
-            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-            "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+            "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1",
           ],
         },
       ]
@@ -75,7 +75,7 @@ describe("releaseService", () => {
 
       const eli = ref(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
         ),
       )
       const { isFinished, data } = useGetReleases(eli)
@@ -84,7 +84,7 @@ describe("releaseService", () => {
       expect(data.value).toEqual(expectedReleases)
 
       eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1",
       )
       await nextTick()
       await vi.waitUntil(() => isFinished.value)
@@ -92,12 +92,12 @@ describe("releaseService", () => {
       expect(data.value).toEqual([])
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases`,
+        `/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/releases`,
         expect.anything(),
       )
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1/releases`,
+        `/api/v1/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1/releases`,
         expect.anything(),
       )
     })
@@ -108,8 +108,8 @@ describe("releaseService", () => {
       const mockReleaseResponse = {
         releaseAt: "2024-03-25T10:37:29.658954Z",
         norms: [
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1",
         ],
       }
 
@@ -121,7 +121,7 @@ describe("releaseService", () => {
 
       const { data, execute } = usePostRelease(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
         ),
       )
       await execute()
@@ -129,7 +129,7 @@ describe("releaseService", () => {
       expect(data.value).toEqual(mockReleaseResponse)
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/releases`,
+        `/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/releases`,
         expect.objectContaining({
           method: "POST",
           headers: expect.objectContaining({
@@ -143,8 +143,8 @@ describe("releaseService", () => {
       const mockReleaseResponse = {
         releaseAt: "2024-03-25T10:37:29.658954Z",
         norms: [
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
-          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+          "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1",
         ],
       }
 
@@ -158,12 +158,12 @@ describe("releaseService", () => {
 
       const eli = ref(
         DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
         ),
       )
       const { data, execute } = usePostRelease(eli)
       eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1",
+        "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1",
       )
       await nextTick()
       await execute()
@@ -172,7 +172,7 @@ describe("releaseService", () => {
 
       expect(fetchSpy).toHaveBeenCalledOnce()
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-1/releases`,
+        `/api/v1/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1/releases`,
         expect.objectContaining({
           method: "POST",
         }),

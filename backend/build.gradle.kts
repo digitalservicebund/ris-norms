@@ -198,6 +198,8 @@ tasks {
     }
 
     processResources {
+        dependsOn("processDBFixtures")
+
         // include the ldml.de schema
         from("../LegalDocML.de") {
             includeEmptyDirs = false
@@ -254,6 +256,65 @@ tasks {
             include("**/*.gif")
             include("**/*.pdf")
             into("./LegalDocML.de")
+        }
+    }
+
+    register("processDBFixtures") {
+        val baseDir = fileTree("src/main/resources/db/data")
+        val norms =
+            baseDir.matching {
+                include("**/rechtsetzungsdokument-1.xml")
+            }
+
+        inputs.files(norms)
+
+        val outdir = layout.buildDirectory.dir("resources/main/db/data")
+        outputs.dir(outdir)
+
+        doLast {
+            norms.files.forEach { rechtsetzungsdokumentFile ->
+                val relativeNormFolder = rechtsetzungsdokumentFile.parentFile.relativeTo(baseDir.dir)
+                logger.info("Creating db migration for $relativeNormFolder")
+                val dbMigrationFile = file(outdir.get().file("$relativeNormFolder.sql"))
+
+                dbMigrationFile.parentFile.mkdirs()
+                dbMigrationFile.writeText("")
+
+                val rechtsetzungsdokumentContent = rechtsetzungsdokumentFile.readText(Charsets.UTF_8)
+                // we just look for the first thing looking like a norm expression eli as it should always be the one of the norm, and we don't need to parse the xml this way
+                val eliNormExpression =
+                    "eli/bund/[-a-z0-9]+/\\d{4}/(s[0-9]+[a-zäöüß]*|[0-9]+(-\\d+)?)/\\d{4}-\\d{2}-\\d{2}/\\d+/[a-z]{3}"
+                        .toRegex()
+                        .find(
+                            rechtsetzungsdokumentContent,
+                        )?.value
+
+                if (eliNormExpression == null) {
+                    throw GradleException("Could not find norm expression eli in ${rechtsetzungsdokumentFile.path}")
+                }
+
+                // To set the correct publish state the rechtsetzungsdokument can include a comment like "<!-- PUBLISH_STATE:UNPUBLISHED -->" that specifies which publish state should be set on the database.
+                val publishState = "(?<=PUBLISH_STATE:)[A-Z]+".toRegex().find(rechtsetzungsdokumentContent)?.value ?: "PUBLISHED"
+
+                dbMigrationFile.appendText("DELETE FROM dokumente WHERE eli_norm_expression = '$eliNormExpression';\n")
+                dbMigrationFile.appendText("DELETE FROM norm_manifestation WHERE eli_norm_expression = '$eliNormExpression';\n")
+                dbMigrationFile.appendText("DELETE FROM norm_expression WHERE eli_norm_expression = '$eliNormExpression';\n")
+
+                // This can be used for sql-injections. So please do not include any sql in the sample files, we only do some very simple checking for the '-character ^^
+                rechtsetzungsdokumentFile.parentFile.listFiles { file -> file.name.endsWith(".xml") }!!.forEach { file ->
+                    val fileContent = file.readText(Charsets.UTF_8)
+
+                    if (fileContent.contains("'")) {
+                        throw GradleException("Content of ${file.path} includes a '. This will not create a valid database migration.")
+                    }
+
+                    dbMigrationFile.appendText("INSERT INTO dokumente (xml) VALUES ('$fileContent');\n")
+                }
+
+                dbMigrationFile.appendText(
+                    "UPDATE norm_manifestation SET publish_state = '$publishState' WHERE eli_norm_expression = '$eliNormExpression';\n",
+                )
+            }
         }
     }
 }

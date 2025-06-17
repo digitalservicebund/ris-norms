@@ -22,7 +22,7 @@ describe("uploadService", () => {
         type: "text/xml",
       })
       const expectedNorm = {
-        eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1",
+        eli: "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
         title: "Test Norm",
       }
 

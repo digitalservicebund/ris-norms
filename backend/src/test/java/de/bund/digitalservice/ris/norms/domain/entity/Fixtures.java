@@ -28,7 +28,7 @@ import org.springframework.core.io.UrlResource;
  */
 public class Fixtures {
 
-  private static final String LDMLDE_RESOURCE_FOLDER = "/LegalDocML.de/1.7.2";
+  private static final String LDMLDE_RESOURCE_FOLDER = "/LegalDocML.de/1.8.1";
 
   private static final String FIXTURES_RESOURCE_FOLDER = LDMLDE_RESOURCE_FOLDER + "/fixtures";
 
@@ -37,13 +37,6 @@ public class Fixtures {
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
             LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-baukasten.xsd"
-          )
-      )
-    ),
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten.xsd"
           )
       )
     ),
@@ -79,6 +72,27 @@ public class Fixtures {
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
             LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-rechtsetzungsdokument.xsd"
+          )
+      )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource(
+            LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-bundesregierung.xsd"
+          )
+      )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource(
+            LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-regelungstext.xsd"
+          )
+      )
+    ),
+    new UrlResource(
+      Objects.requireNonNull(
+        LdmlDeValidator.class.getResource(
+            LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-rechtsetzungsdokument.xsd"
           )
       )
     ),
@@ -141,16 +155,20 @@ public class Fixtures {
     NormManifestationEli normManifestationEli = null;
 
     for (File file : Objects.requireNonNull(folder.listFiles())) {
+      if (file.isDirectory()) {
+        continue;
+      }
+
       var dokType = file.getName().substring(0, file.getName().lastIndexOf("-"));
       switch (dokType) {
-        case "regelungstext":
+        case "regelungstext-verkuendung":
           try {
             dokumente.add(loadRegelungstextFromDisk(file.toURI().toURL(), validated));
           } catch (MalformedURLException e) {
             throw new RuntimeException(e);
           }
           break;
-        case "offenestruktur":
+        case "anlage-regelungstext":
           try {
             dokumente.add(loadOffeneStrukturFromDisk(file.toURI().toURL(), validated));
           } catch (MalformedURLException e) {

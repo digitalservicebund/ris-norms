@@ -39,18 +39,19 @@ class NormManifestationControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml";
+      var eli =
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml";
 
       // When // Then
       mockMvc
         .perform(get("/api/v1/norms/{eli}", eli).accept(MediaType.APPLICATION_XML))
         .andExpect(status().isOk())
         .andExpect(
-          xpath("//*[@eId='meta-1_ident-1_frbrmanifestation-1_frbrthis-1']/@value").string(eli)
+          xpath("//*[@eId='meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1']/@value").string(eli)
         );
     }
 
@@ -58,7 +59,8 @@ class NormManifestationControllerIntegrationTest extends BaseIntegrationTest {
     void itReturnsNotFoundIfManifestationDoesntExist() throws Exception {
       // Given
       // No norm
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml";
+      var eli =
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml";
 
       // When // Then
       mockMvc
@@ -69,12 +71,12 @@ class NormManifestationControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml does not exist"
+            "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml does not exist"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
         .andExpect(jsonPath("eli").value(eli));
@@ -86,11 +88,12 @@ class NormManifestationControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.pdf";
+      var eli =
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.pdf";
 
       // When // Then
       mockMvc
@@ -101,12 +104,12 @@ class NormManifestationControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(500))
         .andExpect(
           jsonPath("detail").value(
-            "No static resource api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.pdf."
+            "No static resource api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.pdf."
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.pdf"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.pdf"
           )
         );
     }

@@ -2,7 +2,7 @@
 <xsl:stylesheet
         version="2.0"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
         xmlns:math="http://www.w3.org/1998/Math/MathML"
         exclude-result-prefixes="#all"
 >

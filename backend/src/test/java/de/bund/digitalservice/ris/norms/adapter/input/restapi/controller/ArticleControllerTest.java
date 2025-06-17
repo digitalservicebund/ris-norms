@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -46,7 +47,7 @@ class ArticleControllerTest {
     void itReturnsArticles() throws Exception {
       // Given
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
 
       when(loadArticlesFromDokumentUseCase.loadArticlesFromDokument(any())).thenReturn(
@@ -57,15 +58,15 @@ class ArticleControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles"
+            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles"
           ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
-        .andExpect(jsonPath("$[0].eid").value("hauptteil-1_art-1"))
+        .andExpect(jsonPath("$[0].eid").value("art-z1"))
         .andExpect(jsonPath("$[1]").exists())
-        .andExpect(jsonPath("$[1].eid").value("hauptteil-1_art-2"))
+        .andExpect(jsonPath("$[1].eid").value("art-z3"))
         .andExpect(jsonPath("$[2]").doesNotExist());
 
       verify(loadArticlesFromDokumentUseCase, times(1)).loadArticlesFromDokument(
@@ -73,7 +74,7 @@ class ArticleControllerTest {
           Objects.equals(
             argument.eli(),
             DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
+              "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1"
             )
           )
         )
@@ -84,7 +85,7 @@ class ArticleControllerTest {
     void itReturnsUnprocessableEntityWhenMandatoryNodeIsMissing() throws Exception {
       // Given
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
 
       when(loadRegelungstextUseCase.loadRegelungstext(any())).thenReturn(regelungstext);
@@ -97,7 +98,7 @@ class ArticleControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles?amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-1"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles?amendedBy=eli/bund/bgbl-1/2017/s815/1995-03-15/1/deu/regelungstext-verkuendung-1"
           ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
@@ -111,7 +112,7 @@ class ArticleControllerTest {
     @Test
     void itCallsNormServiceAndReturnsNormRender() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
       final String xml = "<akn:doc></akn:doc>";
       final String html = "<div></div>";
 
@@ -123,13 +124,27 @@ class ArticleControllerTest {
       // When
       mockMvc
         .perform(
-          get("/api/v1/norms/{eli}/articles?refersTo=something", eli).accept(MediaType.TEXT_HTML)
+          get(
+            "/api/v1/norms/{eli}/articles?refersTo=geltungszeitregel-ausserkrafttreten&refersTo=geltungszeitregel-inkrafttreten",
+            eli
+          ).accept(MediaType.TEXT_HTML)
         )
         // Then
         .andExpect(status().isOk())
         .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
         .andExpect(content().string("<div>\n" + html + "\n</div>\n"));
 
+      verify(
+        loadSpecificArticlesXmlFromDokumentUseCase,
+        times(1)
+      ).loadSpecificArticlesXmlFromDokument(
+        assertArg(arg -> {
+          assertThat(arg.refersTo()).containsAll(
+            List.of("geltungszeitregel-inkrafttreten", "geltungszeitregel-ausserkrafttreten")
+          );
+          assertThat(arg.eli()).hasToString(eli);
+        })
+      );
       verify(transformLegalDocMlToHtmlUseCase, times(1)).transformLegalDocMlToHtml(
         argThat(query -> query.xml().equals(xml))
       );
@@ -143,7 +158,7 @@ class ArticleControllerTest {
     void itReturnsArticle() throws Exception {
       // Given
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
 
       when(loadRegelungstextUseCase.loadRegelungstext(any())).thenReturn(regelungstext);
@@ -152,19 +167,19 @@ class ArticleControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1/articles/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles/art-z1"
           ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
         .andExpect(status().isOk())
-        .andExpect(jsonPath("eid").value("hauptteil-1_art-1"));
+        .andExpect(jsonPath("eid").value("art-z1"));
 
       verify(loadRegelungstextUseCase, times(1)).loadRegelungstext(
         argThat(argument ->
           Objects.equals(
             argument.eli(),
             DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-1"
+              "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1"
             )
           )
         )
@@ -175,7 +190,7 @@ class ArticleControllerTest {
     void itReturnsNothingIfArticleDoesNotExists() throws Exception {
       // Given
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
 
       // When
@@ -185,7 +200,7 @@ class ArticleControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles/hauptteil-1_art-4523"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles/art-z4523"
           ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
@@ -196,7 +211,7 @@ class ArticleControllerTest {
           Objects.equals(
             argument.eli(),
             DokumentExpressionEli.fromString(
-              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+              "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
             )
           )
         )
@@ -211,7 +226,7 @@ class ArticleControllerTest {
     void itReturnsArticleRender() throws Exception {
       // Given
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
       );
 
       // When
@@ -222,7 +237,7 @@ class ArticleControllerTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1/articles/hauptteil-1_art-1"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/articles/art-z1"
           ).accept(MediaType.TEXT_HTML)
         )
         // Then

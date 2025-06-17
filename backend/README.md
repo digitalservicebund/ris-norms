@@ -98,6 +98,12 @@ the deployment is currently running a migration by checking argocd. Once the mig
 repeated for every environment. If the migration takes longer than 90 minutes the pod will be restarted and the migration started anew. In this case we need to (temporarily) increase the maximal waiting time
 for the startUp probe in the infra repository.
 
+## Database Seeds
+
+Database seeds are added using repeatable flyway migrations. These migrations are automatically created by gradle from the xml folders stored in `src/main/resources/db/data/x`. The name of the folder is used
+for the name of the repeatable migration and the folder should contain the xml files (binary files are not currently supported) of the norm to add into the database.
+We have different seed folders for "real" norms (that are very similar to existing norms), "synthetic" norms (created specifically to test certain scenarios) and fixtures for e2e tests.
+
 ## Key pair for signing/verifying ZIP
 
 There is an external API developed for the e-Verkündung that accepts a ZIP file. A signature file must also be sent and it's validty will be checked.
@@ -111,4 +117,4 @@ For local development the following key pair is used:
 │       └── certificate.pem
 ```
 
-For how to create the signature refer to the README of [LegalDocML.de](../LegalDocML.de/1.7.2/README.md)
+For how to create the signature refer to the README of [LegalDocML.de](../LegalDocML.de/1.8.1/README.md)

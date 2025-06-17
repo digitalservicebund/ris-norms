@@ -6,9 +6,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
+import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Roles;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
@@ -31,9 +33,13 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
   @Autowired
   private NormManifestationRepository normManifestationRepository;
 
+  @Autowired
+  private BinaryFileRepository binaryFileRepository;
+
   @AfterEach
   void cleanUp() {
     dokumentRepository.deleteAll();
+    binaryFileRepository.deleteAll();
     normManifestationRepository.deleteAll();
   }
 
@@ -45,24 +51,26 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsNormsServiceAndReturnsNorm() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
       );
 
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1").accept(
-            MediaType.APPLICATION_JSON
-          )
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          ).accept(MediaType.APPLICATION_JSON)
         )
         .andExpect(status().isOk())
         .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          jsonPath("eli").value(
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          )
         )
         .andExpect(jsonPath("title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"))
         .andExpect(jsonPath("frbrName").value("BGBl. I"))
@@ -76,7 +84,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -84,13 +92,13 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1").accept(
-            MediaType.APPLICATION_XML
-          )
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          ).accept(MediaType.APPLICATION_XML)
         )
         .andExpect(status().isOk())
         .andExpect(
-          xpath("//*[@eId='einleitung-1_doktitel-1_text-1_doctitel-1']").string(
+          xpath("//*[@eId='einleitung-n1_doktitel-n1_text-n1_doctitel-n1']").string(
             "Gesetz zur Regelung des öffentlichen Vereinsrechts"
           )
         );
@@ -102,7 +110,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -110,16 +118,16 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          get("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1").accept(
-            MediaType.TEXT_HTML
-          )
+          get(
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
+          ).accept(MediaType.TEXT_HTML)
         )
         .andExpect(status().isOk())
         .andExpect(
           content()
             .node(
               hasXPath(
-                "//h1//*[@data-eId=\"einleitung-1_doktitel-1_text-1_doctitel-1\"]",
+                "//h1//*[@data-eId=\"einleitung-n1_doktitel-n1_text-n1_doctitel-n1\"]",
                 equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
               )
             )
@@ -138,7 +146,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml"
+            "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
           )
         )
       );
@@ -147,7 +155,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-1?showMetadata=true"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1?showMetadata=true"
           ).accept(MediaType.TEXT_HTML)
         )
         .andExpect(status().isOk())
@@ -155,7 +163,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
           content()
             .node(
               hasXPath(
-                "//h1//*[@data-eId=\"einleitung-1_doktitel-1_text-1_doctitel-1\"]",
+                "//h1//*[@data-eId=\"einleitung-n1_doktitel-n1_text-n1_doctitel-n1\"]",
                 equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
               )
             )
@@ -178,9 +186,9 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itReturnsNotFound() throws Exception {
       // Given no norm in database
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1";
+      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
       final String xml =
-        "<akn:doc xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.7.2/\">new</akn:doc>";
+        "<akn:doc xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.1/\">new</akn:doc>";
 
       // When
       mockMvc
@@ -202,7 +210,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-1"
+            "/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1"
           )
         )
         .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu"));
@@ -214,18 +222,20 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
       var newXml = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-1.xml"
+        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
       );
 
       // When // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          put(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          )
             .accept(MediaType.APPLICATION_XML)
             .contentType(MediaType.APPLICATION_XML)
             .content(newXml)
@@ -237,7 +247,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("detail").value("Changing the ELI is not supported."))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
           )
         );
     }
@@ -248,19 +258,21 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
       var newXml = Fixtures.loadTextFromDisk(
         NormExpressionControllerIntegrationTest.class,
-        "vereinsgesetz-with-different-guid.xml"
+        "vereinsgesetz-with-different-guid/regelungstext-verkuendung-1.xml"
       );
 
       // When // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          put(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          )
             .accept(MediaType.APPLICATION_XML)
             .contentType(MediaType.APPLICATION_XML)
             .content(newXml)
@@ -272,7 +284,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("detail").value("Changing the GUID is not supported."))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
           )
         );
     }
@@ -283,19 +295,21 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
           )
         )
       );
       var newXml = Fixtures.loadTextFromDisk(
         NormExpressionControllerIntegrationTest.class,
-        "vereinsgesetz-with-different-title.xml"
+        "vereinsgesetz-with-different-title/regelungstext-verkuendung-1.xml"
       );
 
       // When // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-1")
+          put(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          )
             .accept(MediaType.APPLICATION_XML)
             .contentType(MediaType.APPLICATION_XML)
             .content(newXml)
@@ -305,7 +319,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
           content()
             .node(
               hasXPath(
-                "//*[@eId=\"einleitung-1_doktitel-1_text-1_doctitel-1\"]",
+                "//*[@eId=\"einleitung-n1_doktitel-n1_text-n1_doctitel-n1\"]",
                 equalTo("Neuer Title")
               )
             )

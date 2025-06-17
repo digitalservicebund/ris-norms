@@ -252,36 +252,40 @@ class NodeParserTest {
 
   @ParameterizedTest
   @CsvSource(
-    { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act/@name" }
+    { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}act/@name" }
   )
   void xPathsWorkWithoutNamespaceAwareness(String xPath) {
     var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml",
       false
     );
     Node node = regelungstext.getDocument();
     Optional<String> result = NodeParser.getValueFromExpression(xPath, node);
-    assertThat(result).contains("regelungstext");
+    assertThat(result).contains(
+      "/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
+    );
   }
 
   @ParameterizedTest
   @CsvSource(
-    { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.7.2/}act/@name" }
+    { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}act/@name" }
   )
   void xPathsWorkWithNamespaceAwareness(String xPath) {
     var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml",
       true
     );
     Node node = regelungstext.getDocument();
     Optional<String> result = NodeParser.getValueFromExpression(xPath, node);
-    assertThat(result).contains("regelungstext");
+    assertThat(result).contains(
+      "/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
+    );
   }
 
   @Test
   void xPathsWorkWithNamespaceDoesNotMatchInDocumentWithDifferentNamespace() {
     var regelungstext = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-1.xml",
+      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml",
       true
     );
     Node node = regelungstext.getDocument();

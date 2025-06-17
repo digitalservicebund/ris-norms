@@ -13,7 +13,7 @@ class XmlMapperTest {
   void itCanConvertTextToXmlDocument() {
     // Given
     var text = Fixtures.loadTextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // When
@@ -27,14 +27,14 @@ class XmlMapperTest {
         .getAttributes()
         .getNamedItem("name")
         .getNodeValue()
-    ).isEqualTo("regelungstext");
+    ).isEqualTo("/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung");
   }
 
   @Test
   void itCanConvertTextToXmlDocumentAndBack() {
     // Given
     var text = Fixtures.loadTextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-1.xml"
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
     // When

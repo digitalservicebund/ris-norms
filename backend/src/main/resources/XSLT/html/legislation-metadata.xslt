@@ -2,10 +2,11 @@
 <xsl:stylesheet
         version="2.0"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
-        xmlns:meta="http://Metadaten.LegalDocML.de/1.7.2/"
-        xmlns:meta-ds="http://MetadatenRIS.LegalDocML.de/1.7.2/"
-        xmlns:meta-bund="http://MetadatenBundesregierung.LegalDocML.de/1.7.2/"
+        xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+        xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/"
+        xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/"
+        xmlns:meta-ds="http://MetadatenRIS.LegalDocML.de/1.8.1/"
+        xmlns:meta-bund="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/"
         exclude-result-prefixes="#all"
 >
 
@@ -77,19 +78,13 @@
                     <tr>
                         <td>Dokumententyp</td>
                         <td>
-                            <xsl:value-of select="//meta:typ"/>
+                            <xsl:value-of select="//regtxt:typ"/>
                         </td>
                     </tr>
                     <tr>
                         <td>ELI</td>
                         <td>
                             <xsl:value-of select="//akn:FRBRExpression/akn:FRBRthis/@value"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Fassungsdatum</td>
-                        <td>
-                            <xsl:value-of select="format-date(//meta:fassungsdatum, '[D01].[M01].[Y0001]')"/>
                         </td>
                     </tr>
                     <tr>
@@ -127,13 +122,13 @@
                     <tr>
                         <td>Normgeber</td>
                         <td>
-                            <xsl:value-of select="//meta:initiant"/>
+                            <xsl:value-of select="//redok:initiant"/>
                         </td>
                     </tr>
                     <tr>
                         <td>Sachgebiet (FNA-Nummer)</td>
                         <td>
-                            <xsl:value-of select="//meta:fna"/>
+                            <xsl:value-of select="//redok:fna"/>
                         </td>
                     </tr>
                 </tbody>
