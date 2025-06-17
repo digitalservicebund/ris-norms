@@ -42,7 +42,7 @@ describe("useGetZielnormReleaseStatus", () => {
     vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
     const { useGetZielnormReleaseStatus } = await import(
-      "./zielnormReleaseStatusService"
+      "./zielnormReleaseService"
     )
 
     const result = useGetZielnormReleaseStatus(
@@ -73,7 +73,7 @@ describe("useGetZielnormReleaseStatus", () => {
       .mockResolvedValue(new Response("[]"))
 
     const { useGetZielnormReleaseStatus } = await import(
-      "./zielnormReleaseStatusService"
+      "./zielnormReleaseService"
     )
 
     const eli = ref(undefined)
@@ -96,7 +96,7 @@ describe("useGetZielnormReleaseStatus", () => {
     )
 
     const { useGetZielnormReleaseStatus } = await import(
-      "./zielnormReleaseStatusService"
+      "./zielnormReleaseService"
     )
 
     const eli = ref(NormWorkEli.fromString("eli/bund/bgbl-1/2021/1"))
