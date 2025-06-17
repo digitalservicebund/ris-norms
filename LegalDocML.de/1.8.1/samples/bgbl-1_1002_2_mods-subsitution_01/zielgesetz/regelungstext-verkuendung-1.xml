@@ -308,7 +308,7 @@
                      <akn:foreign GUID="4eb29632-77d7-4394-b9cd-b4e1e446d828"
                                   eId="art-z1_abs-z2_inhalt-n1_exmarkup-n1">
                         <math xmlns="http://www.w3.org/1998/Math/MathML"
-                              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.7.2/"
+                              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
                               display="block">
                            <mrow>
                               <mi>f</mi>
