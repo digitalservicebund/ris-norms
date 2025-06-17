@@ -22,6 +22,15 @@
       "description": "Allow only patch updates for AWS SDK in the 2.29.x series. With new minor version 2.30.x we have some issue with the integrity checks when communicating with OTC OBS"
     },
     {
+      "matchDepNames": [
+        "org.apache.tomcat.embed:tomcat-embed-core",
+        "org.apache.tomcat.embed:tomcat-embed-el",
+        "org.apache.tomcat.embed:tomcat-embed-websocket"
+      ],
+      "allowedVersions": "10.x",
+      "description": "Keep Tomcat embedded dependencies in 10.x series. Pinned due to CVE-2025-48988 fix - remove when Spring Boot/JobRunr naturally update"
+    },
+    {
       "groupName": "all non-major frontend dependencies",
       "matchFileNames": [
         "frontend/**"
