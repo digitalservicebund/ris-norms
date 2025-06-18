@@ -120,6 +120,14 @@ export const errorMessages = {
     message: `Die Datei ist kein ZIP-Archiv.`,
   }),
 
+  "/errors/normendokumentationspaket-import-failed/invalid-structure-in-zip-file":
+    (e) => ({
+      title: "Unerwartet Struktur",
+      // Normally we shouldn't use the detail for use facing messages, but here we have many different exceptions that could cause this.
+      // So for now we just show the english detail message to atleast provide some context to the users.
+      message: `Das ZIP-Archiv entspricht nicht der erwarteten Struktur: ${e.detail}`,
+    }),
+
   "/errors/not-a-ldml-de-xml-file": (
     e: ErrorResponse<{ fileName: string }>,
   ) => ({
