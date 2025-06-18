@@ -9,6 +9,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.NormManif
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
+import de.bund.digitalservice.ris.norms.application.port.output.CheckNormExistencePort;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
@@ -40,6 +41,7 @@ public class NormDBService
   implements
     LoadNormPort,
     LoadNormByGuidPort,
+    CheckNormExistencePort,
     UpdateNormPort,
     UpdateOrSaveNormPort,
     DeleteNormPort,
@@ -88,6 +90,27 @@ public class NormDBService
     return normManifestationRepository
       .findFirstByExpressionAktuelleVersionIdOrderByManifestationEli(options.guid())
       .map(NormManifestationMapper::mapToDomain);
+  }
+
+  @Override
+  public Boolean checkNormExistence(CheckNormExistencePort.Options options) {
+    return switch (options.eli()) {
+      case NormExpressionEli expressionEli -> normManifestationRepository.existsByExpressionEli(
+        expressionEli.toString()
+      );
+      case NormManifestationEli manifestationEli -> {
+        if (!manifestationEli.hasPointInTimeManifestation()) {
+          // we can find the norm based on the expression eli as the point in time
+          // manifestation is the only additional identifying part of the eli
+          yield this.checkNormExistence(
+              new CheckNormExistencePort.Options(manifestationEli.asExpressionEli())
+            );
+        }
+
+        yield normManifestationRepository.existsById(manifestationEli.toString());
+      }
+      case NormWorkEli workEli -> normManifestationRepository.existsByWorkEli(workEli.toString());
+    };
   }
 
   @Override

@@ -86,4 +86,8 @@ public interface NormManifestationRepository extends JpaRepository<NormManifesta
    * @return  a {@link List} of manifestations
    */
   List<NormManifestationDto> findAllByExpressionEli(final String expressionEli);
+
+  Boolean existsByExpressionEli(String expressionEli);
+
+  Boolean existsByWorkEli(String workEli);
 }

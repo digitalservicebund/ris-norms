@@ -1,6 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.CheckNormExistencePort;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.time.LocalDate;
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class EliService {
 
-  private final LoadNormPort loadNormPort;
+  private final CheckNormExistencePort checkNormExistencePort;
 
-  public EliService(LoadNormPort loadNormPort) {
-    this.loadNormPort = loadNormPort;
+  public EliService(CheckNormExistencePort checkNormExistencePort) {
+    this.checkNormExistencePort = checkNormExistencePort;
   }
 
   /**
@@ -35,11 +35,15 @@ public class EliService {
     var expressionEli = NormExpressionEli.fromWorkEli(workEli, pointInTime, 1, language);
 
     for (int i = 0; i < 1000; i++) {
-      if (loadNormPort.loadNorm(new LoadNormPort.Options(expressionEli)).isEmpty()) {
+      if (
+        !checkNormExistencePort.checkNormExistence(
+          new CheckNormExistencePort.Options(expressionEli)
+        )
+      ) {
         return expressionEli;
-      } else {
-        expressionEli.setVersion(expressionEli.getVersion() + 1);
       }
+
+      expressionEli.setVersion(expressionEli.getVersion() + 1);
     }
 
     throw new RuntimeException(

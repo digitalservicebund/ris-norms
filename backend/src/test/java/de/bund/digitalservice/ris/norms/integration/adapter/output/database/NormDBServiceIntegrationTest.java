@@ -249,6 +249,150 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
+  class checkNormExistence {
+
+    @Nested
+    class manifestationEli {
+
+      @Test
+      void itReturnsTrueIfExists() {
+        // Given
+        Fixtures.loadAndSaveNormFixture(
+          dokumentRepository,
+          binaryFileRepository,
+          normManifestationRepository,
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+          NormPublishState.UNPUBLISHED
+        );
+
+        // When
+        final var result = normDBService.checkNormExistence(
+          new CheckNormExistencePort.Options(
+            NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+          )
+        );
+
+        // Then
+        assertThat(result).isTrue();
+      }
+
+      @Test
+      void itReturnsFalseIfItDoesNotExist() {
+        // Given
+        Fixtures.loadAndSaveNormFixture(
+          dokumentRepository,
+          binaryFileRepository,
+          normManifestationRepository,
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+          NormPublishState.UNPUBLISHED
+        );
+
+        // When
+        final var result = normDBService.checkNormExistence(
+          new CheckNormExistencePort.Options(
+            NormManifestationEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-06")
+          )
+        );
+
+        // Then
+        assertThat(result).isFalse();
+      }
+    }
+
+    @Nested
+    class expressionEli {
+
+      @Test
+      void itReturnsTrueIfExists() {
+        // Given
+        Fixtures.loadAndSaveNormFixture(
+          dokumentRepository,
+          binaryFileRepository,
+          normManifestationRepository,
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+          NormPublishState.UNPUBLISHED
+        );
+
+        // When
+        final var result = normDBService.checkNormExistence(
+          new CheckNormExistencePort.Options(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+          )
+        );
+
+        // Then
+        assertThat(result).isTrue();
+      }
+
+      @Test
+      void itReturnsFalseIfItDoesNotExist() {
+        // Given
+        Fixtures.loadAndSaveNormFixture(
+          dokumentRepository,
+          binaryFileRepository,
+          normManifestationRepository,
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+          NormPublishState.UNPUBLISHED
+        );
+
+        // When
+        final var result = normDBService.checkNormExistence(
+          new CheckNormExistencePort.Options(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu")
+          )
+        );
+
+        // Then
+        assertThat(result).isFalse();
+      }
+    }
+
+    @Nested
+    class workEli {
+
+      @Test
+      void itReturnsTrueIfExists() {
+        // Given
+        Fixtures.loadAndSaveNormFixture(
+          dokumentRepository,
+          binaryFileRepository,
+          normManifestationRepository,
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+          NormPublishState.UNPUBLISHED
+        );
+
+        // When
+        final var result = normDBService.checkNormExistence(
+          new CheckNormExistencePort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
+        );
+
+        // Then
+        assertThat(result).isTrue();
+      }
+
+      @Test
+      void itReturnsFalseIfItDoesNotExist() {
+        // Given
+        Fixtures.loadAndSaveNormFixture(
+          dokumentRepository,
+          binaryFileRepository,
+          normManifestationRepository,
+          "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+          NormPublishState.UNPUBLISHED
+        );
+
+        // When
+        final var result = normDBService.checkNormExistence(
+          new CheckNormExistencePort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s595"))
+        );
+
+        // Then
+        assertThat(result).isFalse();
+      }
+    }
+  }
+
+  @Nested
   class updateNorm {
 
     @Test
