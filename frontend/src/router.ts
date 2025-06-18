@@ -5,19 +5,6 @@ import { createRouter, createWebHistory } from "vue-router"
 import { toValue } from "vue"
 import { useNormGuidService } from "@/services/normGuidService"
 
-/**
- * The regular expressions for the eId is based on the definitions from
- * LDML.de 1.8.1 (Section 9.2.12.64, eIdLiterals.einzelvorschrift)
- *
- * The expression only matches eIds that represent articles.
- *
- * All groups have been converted to non-capturing groups and all closing ")"
- * have been escaped. This is as the vue-router otherwise has problems parsing
- * the RegEx.
- */
-const ARTICLE_EID_ROUTE_PATH =
-  ":eid((?:[a-zäöüß0-9]+-(?:n[1-9]{1}[0-9]*|z[0-9a-zäöüß~%]*\\)_\\)*art-(?:n[1-9]{1}[0-9]*|z[0-9a-zäöüß~%]*\\))"
-
 const GUID_ROUTE_PATH = `:guid([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})`
 
 /**
@@ -177,12 +164,6 @@ const routes: readonly RouteRecordRaw[] = [
               ),
           },
           {
-            path: "articles",
-            name: "AmendingLawArticles",
-            component: () =>
-              import("@/views/amending-law/articles/Articles.view.vue"),
-          },
-          {
             path: "publishing",
             name: "AmendingLawPublishing",
             component: () =>
@@ -194,35 +175,6 @@ const routes: readonly RouteRecordRaw[] = [
         path: `${GUID_ROUTE_PATH}/:any(.*)*`,
         component: () => null,
         beforeEnter: beforeRouteEnterGuidToEliRedirect,
-      },
-    ],
-  },
-
-  // Legacy routes - these are leftovers from an earlier version of the
-  // application and will be removed soon
-  {
-    path: `/amending-laws/${createDokumentExpressionEliPathParameter()}/articles/${ARTICLE_EID_ROUTE_PATH}/edit`,
-    name: "AmendingLawArticleEditor",
-    component: () =>
-      import(
-        "@/views/amending-law/articles/editor/AmendingLawArticleEditor.view.vue"
-      ),
-    children: [
-      {
-        path: ":modEid",
-        name: "AmendingLawArticleEditorSingleMod",
-        component: () =>
-          import(
-            "@/views/amending-law/articles/editor/single-mods/AmendingLawArticleEditorSingleMod.view.vue"
-          ),
-      },
-      {
-        path: "",
-        name: "AmendingLawArticleEditorMultiMod",
-        component: () =>
-          import(
-            "@/views/amending-law/articles/editor/multiple-mods/AmendingLawArticleEditorMultiMod.view.vue"
-          ),
       },
     ],
   },
