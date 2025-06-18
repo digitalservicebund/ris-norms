@@ -8,8 +8,15 @@
     "enabled": true,
     "automerge": true
   },
+  "automerge": true,
+  "automergeType": "pr",
   "ignoreDeps": [],
   "packageRules": [
+    {
+      "matchUpdateTypes": ["major"],
+      "automerge": false,
+      "description": "Disable automerge for major updates"
+    },
     {
       "matchDepNames": [
         "software.amazon.awssdk:bom",
@@ -42,9 +49,7 @@
       ],
       "labels": [
         "frontend-updates"
-      ],
-      "platformAutomerge": false, // this would require more repository setup; also it interferes with automergeSchedule
-      "automergeType": "pr"
+      ]
     },
     {
       "groupName": "all non-major backend dependencies",
@@ -54,16 +59,13 @@
       "matchUpdateTypes": [
         "minor",
         "patch",
-        "patch",
         "pin",
         "pinDigest",
         "digest"
       ],
       "labels": [
         "backend-updates"
-      ],
-      "platformAutomerge": false, // this would require more repository setup; also it interferes with automergeSchedule
-      "automergeType": "pr"
+      ]
     }
   ],
   "customManagers": [
