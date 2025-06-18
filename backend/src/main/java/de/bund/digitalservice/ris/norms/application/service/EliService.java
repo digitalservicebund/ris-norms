@@ -1,9 +1,10 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.time.LocalDate;
+import java.util.Comparator;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,10 +13,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class EliService {
 
-  private final LoadNormPort loadNormPort;
+  private final LoadNormExpressionElisPort loadNormExpressionElisPort;
 
-  public EliService(LoadNormPort loadNormPort) {
-    this.loadNormPort = loadNormPort;
+  public EliService(LoadNormExpressionElisPort loadNormExpressionElisPort) {
+    this.loadNormExpressionElisPort = loadNormExpressionElisPort;
   }
 
   /**
@@ -32,20 +33,23 @@ public class EliService {
     LocalDate pointInTime,
     String language
   ) {
-    var expressionEli = NormExpressionEli.fromWorkEli(workEli, pointInTime, 1, language);
+    var expressionsOfWork = loadNormExpressionElisPort.loadNormExpressionElis(
+      new LoadNormExpressionElisPort.Options(workEli)
+    );
 
-    for (int i = 0; i < 1000; i++) {
-      if (loadNormPort.loadNorm(new LoadNormPort.Options(expressionEli)).isEmpty()) {
-        return expressionEli;
-      } else {
-        expressionEli.setVersion(expressionEli.getVersion() + 1);
-      }
-    }
+    var largestOccupiedVersion = expressionsOfWork
+      .stream()
+      .filter(expressionEli -> expressionEli.getPointInTime().isEqual(pointInTime))
+      .filter(expressionEli -> expressionEli.getLanguage().equals(language))
+      .map(NormExpressionEli::getVersion)
+      .max(Comparator.naturalOrder())
+      .orElse(0);
 
-    throw new RuntimeException(
-      "Could not determine next available expression eli version. Checked up to %s".formatted(
-          expressionEli
-        )
+    return NormExpressionEli.fromWorkEli(
+      workEli,
+      pointInTime,
+      largestOccupiedVersion + 1,
+      language
     );
   }
 }
