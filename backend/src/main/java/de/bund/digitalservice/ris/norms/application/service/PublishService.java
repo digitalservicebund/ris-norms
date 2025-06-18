@@ -95,6 +95,7 @@ public class PublishService implements PublishNormUseCase {
     manifestationElis.forEach(manifestationEli -> {
       log.info("Processing norm with manifestation eli {}", manifestationEli);
       Optional<Norm> norm = loadNormPort.loadNorm(new LoadNormPort.Options(manifestationEli));
+      log.debug("Finished looking for norm with manifestation eli {}", manifestationEli);
       norm.ifPresent(this::processNorm);
       if (norm.isEmpty()) {
         log.error("Norm with manifestation eli {} not found", manifestationEli);
@@ -143,17 +144,30 @@ public class PublishService implements PublishNormUseCase {
   }
 
   private void processNorm(Norm norm) {
+    log.debug("Preparing norm with manifestation eli {} for publish", norm.getManifestationEli());
     prepareForPublish(norm);
     boolean isPublicPublished = false;
     boolean isPrivatePublished = false;
     try {
       // Try to publish publicly
+      log.debug(
+        "Publishing norm with manifestation eli {} to public bucket",
+        norm.getManifestationEli()
+      );
       publishNormPort.publishNorm(new PublishNormPort.Options(norm));
       isPublicPublished = true;
       // Only if public publish succeeds, try private publish
+      log.debug(
+        "Publishing norm with manifestation eli {} to private bucket",
+        norm.getManifestationEli()
+      );
       publishPrivateNormPort.publishNorm(new PublishNormPort.Options(norm));
       isPrivatePublished = true;
       // If both succeed, update the publish state
+      log.debug(
+        "Saving updated norm state to database for norm with manifestation eli {}",
+        norm.getManifestationEli()
+      );
       norm.setPublishState(NormPublishState.PUBLISHED);
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm));
       log.info("Published norm: {}", norm.getManifestationEli().toString());

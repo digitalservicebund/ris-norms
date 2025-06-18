@@ -71,3 +71,7 @@ frontend:
     url: ${oauth2.frontend-url}
     realm: ${oauth2.realm}
     clientId: ${oauth2.client-id}
+
+logging:
+  level:
+    de.bund.digitalservice.ris.norms.application.service.PublishService: debug
