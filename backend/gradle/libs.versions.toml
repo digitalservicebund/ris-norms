@@ -4,7 +4,7 @@ flyway = "11.9.1"
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "6.9.0"
 org-bouncycastle = "1.81"
-org-testcontainers = "1.21.1"
+org-testcontainers = "1.21.2"
 spring-boot = "3.5.0"
 
 [libraries]
