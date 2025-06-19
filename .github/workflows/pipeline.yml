@@ -10,10 +10,6 @@ on:
   # also: allow to run this workflow manually
   workflow_dispatch:
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   #############################################
   # jobs dispatched to a separate workflow file
