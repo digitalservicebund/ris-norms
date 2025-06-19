@@ -69,6 +69,10 @@
 }
 
 @layer base {
+  body:has([data-pc-name="splitter"]) {
+    overflow: hidden;
+  }
+
   body {
     background: var(--color-gray-100);
   }
