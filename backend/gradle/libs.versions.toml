@@ -5,7 +5,7 @@ jacoco = "0.8.11"
 net-javacrumbs-shedlock = "6.9.0"
 org-bouncycastle = "1.81"
 org-testcontainers = "1.21.2"
-spring-boot = "3.5.2"
+spring-boot = "3.5.3"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
@@ -18,7 +18,7 @@ flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 # CVE-2024-7254
 google-protobuf-java = "com.google.protobuf:protobuf-java:4.31.1"
-jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:7.5.1"
+jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:7.5.2"
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 jspecify = "org.jspecify:jspecify:1.0.0"
