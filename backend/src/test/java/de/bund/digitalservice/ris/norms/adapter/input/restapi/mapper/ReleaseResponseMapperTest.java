@@ -5,7 +5,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Release;
-import java.time.Instant;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
@@ -14,7 +13,6 @@ class ReleaseResponseMapperTest {
   @Test
   void canMapVerkuendungAndEffectedNorms() {
     var release = Release.builder()
-      .releasedAt(Instant.parse("2024-01-02T10:20:30.0Z"))
       .publishedNorms(
         List.of(
           Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"),
@@ -27,7 +25,6 @@ class ReleaseResponseMapperTest {
     final ReleaseResponseSchema result = ReleaseResponseMapper.fromRelease(release);
 
     // Then
-    assertThat(result.getReleaseAt()).isEqualTo(Instant.parse("2024-01-02T10:20:30.0Z"));
     assertThat(result.getNorms())
       .hasSize(2)
       .contains(

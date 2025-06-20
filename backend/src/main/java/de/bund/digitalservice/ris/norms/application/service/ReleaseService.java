@@ -6,7 +6,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -20,15 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
  * component in the Spring context.
  */
 @Service
-public class ReleaseService
-  implements ReleaseAllNormExpressionsUseCase, LoadReleasesByNormExpressionEliUseCase {
+public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
 
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final NormService normService;
   private final CreateNewVersionOfNormService createNewVersionOfNormService;
   private final DeleteNormPort deleteNormPort;
   private final LdmlDeValidator ldmlDeValidator;
-  private final LoadReleasesByNormExpressionEliPort loadReleasesByNormExpressionEliPort;
   private final LoadNormExpressionElisPort loadNormExpressionElisPort;
   private final LdmlDeElementSorter ldmlDeElementSorter;
 
@@ -38,7 +35,6 @@ public class ReleaseService
     CreateNewVersionOfNormService createNewVersionOfNormService,
     DeleteNormPort deleteNormPort,
     LdmlDeValidator ldmlDeValidator,
-    LoadReleasesByNormExpressionEliPort loadReleasesByNormExpressionEliPort,
     LoadNormExpressionElisPort loadNormExpressionElisPort,
     LdmlDeElementSorter ldmlDeElementSorter
   ) {
@@ -47,7 +43,6 @@ public class ReleaseService
     this.createNewVersionOfNormService = createNewVersionOfNormService;
     this.deleteNormPort = deleteNormPort;
     this.ldmlDeValidator = ldmlDeValidator;
-    this.loadReleasesByNormExpressionEliPort = loadReleasesByNormExpressionEliPort;
     this.loadNormExpressionElisPort = loadNormExpressionElisPort;
     this.ldmlDeElementSorter = ldmlDeElementSorter;
   }
@@ -117,10 +112,7 @@ public class ReleaseService
       }
     });
 
-    return Release.builder()
-      .publishedNorms(manifestationsToPublish)
-      .releasedAt(Instant.now())
-      .build();
+    return Release.builder().publishedNorms(manifestationsToPublish).build();
   }
 
   // TODO this is just a copy from CreateNewVersionOfNormService might this be moved to Norm?
@@ -176,14 +168,5 @@ public class ReleaseService
     if (targetReleaseType == ReleaseType.VOLLDOKUMENTATION_RELEASED) {
       norm.setReleaseType(ReleaseType.VOLLDOKUMENTATION_RELEASED);
     }
-  }
-
-  @Override
-  public List<Release> loadReleasesByNormExpressionEli(
-    LoadReleasesByNormExpressionEliUseCase.Options options
-  ) {
-    return loadReleasesByNormExpressionEliPort.loadReleasesByNormExpressionEli(
-      new LoadReleasesByNormExpressionEliPort.Options(options.eli())
-    );
   }
 }
