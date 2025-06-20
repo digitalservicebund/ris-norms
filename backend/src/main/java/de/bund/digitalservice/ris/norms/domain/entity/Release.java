@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -15,8 +14,6 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @Data
 public class Release {
-
-  private Instant releasedAt;
 
   @Builder.Default
   private List<Norm> publishedNorms = new ArrayList<>();
