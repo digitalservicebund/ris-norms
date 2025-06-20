@@ -5,6 +5,8 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationE
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.DokumentRahmenMetadata;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -12,6 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import org.jspecify.annotations.NonNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -100,6 +103,26 @@ public abstract sealed class Dokument
    */
   public Meta getMeta() {
     return new Meta(NodeParser.getMandatoryElementFromExpression("//meta", document));
+  }
+
+  /**
+   * Sets the metadata for a new manifestation based on the eli.
+   * @param manifestationDate the point-in-time-manifestation
+   */
+  public void setManifestationDateTo(@NonNull LocalDate manifestationDate) {
+    var manifestationEli = this.getManifestationEli();
+    var newManifestationEli = DokumentManifestationEli.fromExpressionEli(
+      getExpressionEli(),
+      manifestationDate,
+      manifestationEli.getFormat()
+    );
+    var manifestation = this.getMeta().getFRBRManifestation();
+    manifestation.setEli(newManifestationEli);
+    manifestation.setURI(newManifestationEli.toUri());
+    manifestation.setFBRDate(
+      newManifestationEli.getPointInTimeManifestation().format(DateTimeFormatter.ISO_LOCAL_DATE),
+      "generierung"
+    );
   }
 
   /**
