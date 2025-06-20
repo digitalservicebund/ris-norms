@@ -1,12 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.*;
 import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RahmenMetadata;
 import java.time.LocalDate;
 import java.util.*;
@@ -196,6 +190,10 @@ public class Norm {
       .asNormEli();
   }
 
+  public void setManifestationDateTo(LocalDate manifestationDate) {
+    dokumente.forEach(dokument -> dokument.setManifestationDateTo(manifestationDate));
+  }
+
   /**
    * Returns the current version GUID as {@link UUID} from the {@link Norm}.
    *
@@ -225,6 +223,7 @@ public class Norm {
 
   /**
    * Returns if the norm is in force at the given date
+   *
    * @param date the date to check
    * @return true if the norm is currently in force
    */
@@ -246,6 +245,7 @@ public class Norm {
 
   /**
    * Is this norm gegenstandlos?
+   *
    * @return true if it is.
    */
   public boolean isGegenstandlos() {
@@ -258,6 +258,7 @@ public class Norm {
 
   /**
    * Set the norm as gegenstandslos
+   *
    * @param date - date to set as gegenstandslos with
    */
   public void setGegenstandlos(final String date) {
@@ -272,6 +273,7 @@ public class Norm {
 
   /**
    * Set the release type of the norm
+   *
    * @param releaseType - the release type to set
    */
   public void setReleaseType(ReleaseType releaseType) {
@@ -284,6 +286,7 @@ public class Norm {
 
   /**
    * Get the release type of the norm
+   *
    * @return the release type
    */
   public ReleaseType getReleaseType() {

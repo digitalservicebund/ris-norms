@@ -3,11 +3,9 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
@@ -94,7 +92,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
       if (manifestationToPublish.getReleaseType() == ReleaseType.PRAETEXT_RELEASED) {
         pretextCleanupService.clean(manifestationToPublish);
       }
-      setManifestationDateToCurrentDate(manifestationToPublish);
+      manifestationToPublish.setManifestationDateTo(LocalDate.now());
       ldmlDeElementSorter.sortElements(
         manifestationToPublish.getRegelungstext1().getDocument().getDocumentElement()
       );
@@ -118,44 +116,6 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
     });
 
     return Release.builder().publishedNorms(manifestationsToPublish).build();
-  }
-
-  // TODO this is just a copy from CreateNewVersionOfNormService might this be moved to Norm?
-  private void setManifestationDateToCurrentDate(Norm manifestationToPublish) {
-    var newManifestationEli = NormManifestationEli.fromExpressionEli(
-      manifestationToPublish.getExpressionEli(),
-      LocalDate.now()
-    );
-    manifestationToPublish
-      .getDokumente()
-      .forEach(dokument ->
-        setNewManifestationMetadata(
-          dokument,
-          DokumentManifestationEli.fromNormEli(
-            newManifestationEli,
-            dokument.getManifestationEli().getSubtype(),
-            dokument.getManifestationEli().getFormat()
-          )
-        )
-      );
-  }
-
-  /**
-   * Sets the metadata for a new manifestation based on the eli.
-   * @param dokument a dokument of the new manifestation
-   * @param manifestationEli the new eli for the manifestation
-   */
-  private void setNewManifestationMetadata(
-    Dokument dokument,
-    DokumentManifestationEli manifestationEli
-  ) {
-    var manifestation = dokument.getMeta().getFRBRManifestation();
-    manifestation.setEli(manifestationEli);
-    manifestation.setURI(manifestationEli.toUri());
-    manifestation.setFBRDate(
-      manifestationEli.getPointInTimeManifestation().format(DateTimeFormatter.ISO_LOCAL_DATE),
-      "generierung"
-    );
   }
 
   private static void setNewStandDerBearbeitung(ReleaseType targetReleaseType, Norm norm) {
