@@ -44,6 +44,9 @@ class ReleaseServiceTest {
   @Mock
   private DeleteNormPort deleteNormPort;
 
+  @Mock
+  private PretextCleanupService pretextCleanupService;
+
   @InjectMocks
   private ReleaseService releaseService;
 
@@ -83,6 +86,7 @@ class ReleaseServiceTest {
     verify(ldmlDeValidator, times(2)).validateXSDSchema((Norm) any());
     verify(ldmlDeValidator, times(2)).validateSchematron((Norm) any());
     verify(updateOrSaveNormPort, times(2)).updateOrSave(any());
+    verify(pretextCleanupService, times(1)).clean(any());
     verifyNoInteractions(deleteNormPort);
   }
 

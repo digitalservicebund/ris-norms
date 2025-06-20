@@ -28,6 +28,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
   private final LdmlDeValidator ldmlDeValidator;
   private final LoadNormExpressionElisPort loadNormExpressionElisPort;
   private final LdmlDeElementSorter ldmlDeElementSorter;
+  private final PretextCleanupService pretextCleanupService;
 
   public ReleaseService(
     UpdateOrSaveNormPort updateOrSaveNormPort,
@@ -36,7 +37,8 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
     DeleteNormPort deleteNormPort,
     LdmlDeValidator ldmlDeValidator,
     LoadNormExpressionElisPort loadNormExpressionElisPort,
-    LdmlDeElementSorter ldmlDeElementSorter
+    LdmlDeElementSorter ldmlDeElementSorter,
+    PretextCleanupService pretextCleanupService
   ) {
     this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.normService = normService;
@@ -45,6 +47,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
     this.ldmlDeValidator = ldmlDeValidator;
     this.loadNormExpressionElisPort = loadNormExpressionElisPort;
     this.ldmlDeElementSorter = ldmlDeElementSorter;
+    this.pretextCleanupService = pretextCleanupService;
   }
 
   /**
@@ -88,7 +91,9 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
       ldmlDeValidator.validateSchematron(workingCopy);
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(workingCopy));
 
-      if (manifestationToPublish.getReleaseType() == ReleaseType.PRAETEXT_RELEASED) {} // TODO Clean metadata
+      if (manifestationToPublish.getReleaseType() == ReleaseType.PRAETEXT_RELEASED) {
+        pretextCleanupService.clean(manifestationToPublish);
+      }
       setManifestationDateToCurrentDate(manifestationToPublish);
       ldmlDeElementSorter.sortElements(
         manifestationToPublish.getRegelungstext1().getDocument().getDocumentElement()
