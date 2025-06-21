@@ -67,4 +67,51 @@ test.describe("Abgabe view with expressions", { tag: ["@RISDEV-7186"] }, () => {
       ),
     ).toBeVisible()
   })
+
+  test("publishes Prätext and shows success toast", async ({ page }) => {
+    await page.goto(
+      "./verkuendungen/eli/bund/bgbl-1/2025/9999/2025-06-11/1/deu/regelungstext-1/zielnorm/eli/bund/bgbl-1/1964/1234/abgabe",
+    )
+
+    await page.getByRole("button", { name: "Prätexte abgeben" }).click()
+
+    const dialog = page.getByRole("alertdialog")
+    await dialog.getByRole("button", { name: "Abgeben" }).click()
+
+    await expect(page.getByText("Abgabe erfolgreich")).toBeVisible()
+
+    const rows = page.getByRole("row", { name: /eli\/bund/ })
+    const expectedStatus = "Prätext abgegeben"
+
+    const rowCount = await rows.count()
+    for (let i = 0; i < rowCount; i++) {
+      await expect(rows.nth(i)).toContainText(expectedStatus)
+    }
+  })
+
+  test("publishes Volldokumentationen and shows success toast", async ({
+    page,
+  }) => {
+    await page.goto(
+      "./verkuendungen/eli/bund/bgbl-1/2025/9999/2025-06-11/1/deu/regelungstext-1/zielnorm/eli/bund/bgbl-1/1964/1234/abgabe",
+    )
+
+    await page
+      .getByRole("button", { name: "Volldokumentationen abgeben" })
+      .click()
+
+    const dialog = page.getByRole("alertdialog")
+    await dialog.getByRole("button", { name: "Abgeben" }).click()
+
+    await expect(page.getByText("Abgabe erfolgreich")).toBeVisible()
+
+    const rows = page.getByRole("row", { name: /eli\/bund/ })
+    const expectedStatus = "Volldokumentation abgegeben"
+
+    const rowCount = await rows.count()
+    for (let i = 0; i < rowCount; i++) {
+      const statusChip = rows.nth(i).getByText(expectedStatus, { exact: true })
+      await expect(statusChip).toBeVisible()
+    }
+  })
 })

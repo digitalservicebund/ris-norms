@@ -1,12 +1,16 @@
 <script setup lang="ts">
+import { watch, ref, computed } from "vue"
 import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
-import { useGetZielnormReleaseStatus } from "@/services/zielnormReleaseStatusService"
+import type { ZielnormReleaseStatusDomain } from "@/services/zielnormReleaseService"
+import {
+  useGetZielnormReleaseStatus,
+  usePostZielnormRelease,
+} from "@/services/zielnormReleaseService"
 import { ConfirmDialog, Badge, Column, DataTable, useConfirm } from "primevue"
-import { ref, computed } from "vue"
 import Button from "primevue/button"
 import { useElementId } from "@/composables/useElementId"
 import IcBaselineCheckCircle from "~icons/ic/baseline-check-circle"
@@ -19,15 +23,27 @@ import { useNormWorkEliPathParameter } from "@/composables/useNormWorkEliPathPar
 import { formatDate } from "@/lib/dateTime"
 import dayjs from "dayjs"
 import RisEmptyState from "@/components/RisEmptyState.vue"
+import { useToast } from "@/composables/useToast"
 
 const zielnormEli = useNormWorkEliPathParameter("zielnorm")
 const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
+const releaseStatus = ref<ZielnormReleaseStatusDomain | null>(null)
+const toast = useToast()
 
 const confirm = useConfirm()
 
-const { data: releaseStatus, error: releaseStatusError } =
+const { data: initialReleaseStatus, error: releaseStatusError } =
   useGetZielnormReleaseStatus(() => zielnormEli.value)
 
+const {
+  execute: postRelease,
+  data: postData,
+  error: postError,
+} = usePostZielnormRelease(() => zielnormEli.value)
+
+watch(initialReleaseStatus, (val) => {
+  if (val) releaseStatus.value = val
+})
 const { data: verkuendung } = useGetVerkuendungService(() =>
   verkuendungEli.value.asNormEli(),
 )
@@ -83,7 +99,7 @@ function handlePraetextSubmit() {
     acceptClass: "w-full",
     rejectClass: "w-full",
     accept: () => {
-      // call backend
+      postRelease("praetext")
     },
   })
 }
@@ -100,10 +116,23 @@ function handleVolldokumentationSubmit() {
     acceptClass: "w-full",
     rejectClass: "w-full",
     accept: () => {
-      // call backend
+      postRelease("volldokumentation")
     },
   })
 }
+
+watch([postData, postError], ([data, error]) => {
+  if (data && !error) {
+    releaseStatus.value = data
+    toast.add({
+      summary: "Abgabe erfolgreich",
+      detail: "Die Expressionen sind ab morgen im Portal verfügbar.",
+      severity: "success",
+    })
+  } else if (error) {
+    toast.addError(error)
+  }
+})
 </script>
 
 <template>
@@ -187,12 +216,10 @@ function handleVolldokumentationSubmit() {
             <Button
               label="Prätexte abgeben"
               severity="secondary"
-              disabled
               @click="handlePraetextSubmit"
             />
             <Button
               label="Volldokumentationen abgeben"
-              disabled
               @click="handleVolldokumentationSubmit"
             />
           </div>
