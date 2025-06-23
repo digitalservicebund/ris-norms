@@ -158,10 +158,14 @@ jobs:
           exit-code: 1 # if any level of CVE is found, break the pipeline
 
       - name: Create branch and PR
+        if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
           branch: "removed-CVEs"
           title: "chore: pinned dependencies because of CVEs removed"
+          add-paths: |
+            backend/gradle/libs.versions.toml
+            backend/build.gradle.kts
           body: |
             This PR removes pinned dependencies that are no longer needed because their associated CVEs were resolved.
           base: main
