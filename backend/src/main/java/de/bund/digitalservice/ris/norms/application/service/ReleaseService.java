@@ -82,7 +82,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
       //TODO next iteration: Generate new GUID for FRBRExpression/FRBRalias/aktuelle-version-id/@value and set it as nachfolgende-version-id in the previous expression
       final Norm workingCopy = createNewVersionOfNormService.createNewManifestation(
         manifestationToPublish,
-        LocalDate.of(2999, 12, 31)
+        Norm.WORKING_COPY_DATE
       );
       ldmlDeElementSorter.sortElements(
         workingCopy.getRegelungstext1().getDocument().getDocumentElement()
@@ -108,9 +108,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
       );
       final boolean newManifestationWasCreatedOnSave =
         !updatedNorm.getManifestationEli().equals(oldManifestationEli) &&
-        oldManifestationEli
-          .getPointInTimeManifestation()
-          .isBefore(workingCopy.getManifestationEli().getPointInTimeManifestation());
+        !Norm.WORKING_COPY_DATE.isEqual(oldManifestationEli.getPointInTimeManifestation());
       if (newManifestationWasCreatedOnSave) {
         deleteNormPort.deleteNorm(
           new DeleteNormPort.Options(oldManifestationEli, NormPublishState.UNPUBLISHED)
