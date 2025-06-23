@@ -167,7 +167,7 @@ jobs:
           BRANCH="version-bump-$(date +%Y%m%d%H%M%S)"
           git checkout -b $BRANCH
 
-          git add gradle/libs.versions.toml build.gradle.kts
+          git add backend/gradle/libs.versions.toml backend/build.gradle.kts
 
           git commit -m "chore: pinned dependencies because of CVEs removed"
 
