@@ -76,12 +76,7 @@ public abstract sealed class Dokument
    * @return An GUID of the norm (of the expression level)
    */
   public UUID getGuid() {
-    var guid = NodeParser.getValueFromMandatoryNodeFromExpression(
-      "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']/@value",
-      document
-    );
-
-    return UUID.fromString(guid);
+    return getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId();
   }
 
   /**
@@ -90,10 +85,7 @@ public abstract sealed class Dokument
    * @param guid An GUID of the norm
    */
   public void setGuid(UUID guid) {
-    NodeParser.getMandatoryElementFromExpression(
-      "//FRBRExpression/FRBRalias[@name='aktuelle-version-id']",
-      document
-    ).setAttribute("value", guid.toString());
+    getMeta().getFRBRExpression().setFRBRaliasCurrentVersionId(guid);
   }
 
   /**
