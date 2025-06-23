@@ -9,9 +9,13 @@
 # 6. If changes were made:
 #    6.1. The Spotless formatter is run to apply code formatting, and the output is displayed.
 #    6.2. The Docker image is rebuilt, and a second Trivy scan is run. The pipeline will fail if any CVE is found.
-#    6.3. Changes are commited to the repo.
+#    6.3. Changes are commited to the repo with the token GH_PAT_PUSH_TOKEN, which has been created with DS as the resource owner and valid for 1 year (so to expired around 23rd June 2026).
+#         This was needed because the standard GITHUB_TOKEN is subject to branch protection rules, which include status checks to pass (needed because of the renovate autoMerge)
 
 name: "Check and Remove Unnecessary CVE-Pinned Backend Dependencies"
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GH_PAT_PUSH_TOKEN }}
 
 on:
   workflow_dispatch: # Manual trigger
@@ -26,6 +30,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          submodules: "true"
 
       - name: Set up JDK
         uses: actions/setup-java@v4
@@ -154,7 +160,7 @@ jobs:
           trivy-config: "./trivy.yaml"
           exit-code: 1 # if any level of CVE is found, break the pipeline
 
-      - name: Commit and Push Changes (if needed)
+      - name: Add changed files
         if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
         working-directory: ./backend
         run: git add gradle/libs.versions.toml build.gradle.kts
@@ -168,6 +174,13 @@ jobs:
         with:
           message: "Auto-update: Manage pinned dependencies based on CVE results"
           skip-empty: true
+
+      - name: Set up Git to use PAT for pushing
+        if: ${{ steps.commit.outputs.commit }}
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT_PUSH_TOKEN }}@github.com/${{ github.repository }}
 
       - name: Push Changes
         if: ${{ steps.commit.outputs.commit }}
