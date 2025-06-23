@@ -161,6 +161,7 @@ jobs:
         if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
         uses: peter-evans/create-pull-request@v7
         with:
+          token: ${{ secrets.GH_PAT_PUSH_TOKEN }} # normal GITHUB_TOKEN  not enough
           branch: "removed-CVEs"
           title: "chore: pinned dependencies because of CVEs removed"
           add-paths: |
