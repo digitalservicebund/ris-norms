@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
@@ -74,6 +75,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
       .filter(norm -> NormPublishState.UNPUBLISHED.equals(norm.getPublishState()))
       .toList();
 
+    List<Norm> workingCopies = new ArrayList<>();
     manifestationsToPublish.forEach(manifestationToPublish -> {
       final NormManifestationEli oldManifestationEli = manifestationToPublish.getManifestationEli();
       setNewStandDerBearbeitung(options.releaseType(), manifestationToPublish);
@@ -88,6 +90,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
       ldmlDeValidator.validateXSDSchema(workingCopy);
       ldmlDeValidator.validateSchematron(workingCopy);
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(workingCopy));
+      workingCopies.add(workingCopy);
 
       if (manifestationToPublish.getReleaseType() == ReleaseType.PRAETEXT_RELEASED) {
         pretextCleanupService.clean(manifestationToPublish);
@@ -115,7 +118,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
       }
     });
 
-    return Release.builder().publishedNorms(manifestationsToPublish).build();
+    return Release.builder().publishedNorms(workingCopies).build();
   }
 
   private static void setNewStandDerBearbeitung(ReleaseType targetReleaseType, Norm norm) {
@@ -129,8 +132,8 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
       norm.setReleaseType(ReleaseType.PRAETEXT_RELEASED);
     }
 
-    // in all cases set to VOLLDOKUMENTATION_RELEASED
     if (targetReleaseType == ReleaseType.VOLLDOKUMENTATION_RELEASED) {
+      // in all cases set to VOLLDOKUMENTATION_RELEASED
       norm.setReleaseType(ReleaseType.VOLLDOKUMENTATION_RELEASED);
     }
   }
