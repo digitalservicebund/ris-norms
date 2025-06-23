@@ -3,7 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.ExpressionsStatusResponseMapper;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseTypeRequestSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ReleaseRequestSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ZielnormReleaseStatusResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressionsWorkingCopiesUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
@@ -45,7 +45,7 @@ public class ReleaseController {
   @PostMapping(path = "/releases", produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ZielnormReleaseStatusResponseSchema> postReleasesForNorm(
     final NormWorkEli eli,
-    @RequestBody ReleaseTypeRequestSchema requestBody
+    @RequestBody ReleaseRequestSchema requestBody
   ) {
     var publishedNorms = releaseAllNormExpressionsUseCase
       .release(new ReleaseAllNormExpressionsUseCase.Options(eli, requestBody.releaseType()))

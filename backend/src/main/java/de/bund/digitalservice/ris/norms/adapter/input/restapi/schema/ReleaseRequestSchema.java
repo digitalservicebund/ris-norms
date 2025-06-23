@@ -8,4 +8,4 @@ import de.bund.digitalservice.ris.norms.domain.entity.ReleaseType;
  * @param releaseType
  */
 
-public record ReleaseTypeRequestSchema(ReleaseType releaseType) {}
+public record ReleaseRequestSchema(ReleaseType releaseType) {}
