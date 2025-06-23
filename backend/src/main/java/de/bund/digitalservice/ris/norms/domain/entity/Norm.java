@@ -279,7 +279,6 @@ public class Norm {
    * @param releaseType - the release type to set
    */
   public void setReleaseType(ReleaseType releaseType) {
-    // TODO might change in 1.8 -> for now this will be stored exclusively in the rechtsetzungsdokument
     getRegelungstext1()
       .getMeta()
       .getOrCreateProprietary()
