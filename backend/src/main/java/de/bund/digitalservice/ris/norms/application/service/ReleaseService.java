@@ -62,7 +62,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
    */
   @Override
   @Transactional
-  public List<Norm> release(@NonNull Options options) {
+  public @NonNull List<Norm> release(@NonNull Options options) {
     // all expression elis of the norm to publish
     List<NormExpressionEli> allExpressionElis = loadNormExpressionElisPort.loadNormExpressionElis(
       new LoadNormExpressionElisPort.Options(options.eli())
