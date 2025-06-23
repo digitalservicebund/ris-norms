@@ -108,6 +108,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
       );
       final boolean newManifestationWasCreatedOnSave =
         !updatedNorm.getManifestationEli().equals(oldManifestationEli) &&
+        // Do not delete the working copy
         !Norm.WORKING_COPY_DATE.isEqual(oldManifestationEli.getPointInTimeManifestation());
       if (newManifestationWasCreatedOnSave) {
         deleteNormPort.deleteNorm(
