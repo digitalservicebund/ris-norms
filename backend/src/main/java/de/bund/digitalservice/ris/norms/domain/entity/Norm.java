@@ -27,6 +27,8 @@ public class Norm {
 
   private Set<Dokument> dokumente;
 
+  public static final LocalDate WORKING_COPY_DATE = LocalDate.of(2999, 12, 31);
+
   @Builder.Default
   private Set<BinaryFile> binaryFiles = new HashSet<>();
 
