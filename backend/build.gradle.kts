@@ -321,7 +321,7 @@ spotless {
         removeUnusedImports()
         prettier(
             mapOf(
-                "prettier" to "3.5.3", // npm dependency
+                "prettier" to "3.6.0", // npm dependency
                 "prettier-plugin-java" to "2.6.8", // npm dependency
             ),
         ).config(
@@ -347,7 +347,7 @@ spotless {
         )
         prettier(
             mapOf(
-                "prettier" to "3.5.3", // npm dependency
+                "prettier" to "3.6.0", // npm dependency
                 "prettier-plugin-sh" to "0.17.4", // npm dependency
             ),
         ).config(mapOf("keySeparator" to "="))
