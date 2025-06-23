@@ -157,36 +157,14 @@ jobs:
           trivy-config: "./trivy.yaml"
           exit-code: 1 # if any level of CVE is found, break the pipeline
 
-      - name: Commit and push on new branch
-        if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-
-          BRANCH="version-bump-$(date +%Y%m%d%H%M%S)"
-          git checkout -b $BRANCH
-
-          git add backend/gradle/libs.versions.toml backend/build.gradle.kts
-
-          git commit -m "chore: pinned dependencies because of CVEs removed"
-
-          git push --quiet origin $BRANCH
-
-          echo "Pushed changes to branch $BRANCH"
-
-          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
-
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v5
+      - name: Create branch and PR
+        uses: peter-evans/create-pull-request@v7
         with:
-          branch: ${{ env.BRANCH }}
-          title: "chore: remove unnecessary CVE-pinned dependencies"
+          branch: "removed-CVEs"
+          title: "chore: pinned dependencies because of CVEs removed"
           body: |
             This PR removes pinned dependencies that are no longer needed because their associated CVEs were resolved.
           base: main
-          delete-branch: true
-          draft: false
           labels: |
             automerge
 
