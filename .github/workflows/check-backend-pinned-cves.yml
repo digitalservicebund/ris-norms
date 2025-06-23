@@ -14,9 +14,6 @@
 
 name: "Check and Remove Unnecessary CVE-Pinned Backend Dependencies"
 
-env:
-  GITHUB_TOKEN: ${{ secrets.GH_PAT_PUSH_TOKEN }}
-
 on:
   workflow_dispatch: # Manual trigger
   schedule:
@@ -181,6 +178,10 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin https://x-access-token:${{ secrets.GH_PAT_PUSH_TOKEN }}@github.com/${{ github.repository }}
+
+      # For debugging, to be removed
+      - name: Verify Git Remote URL
+        run: git remote -v
 
       - name: Push Changes
         if: ${{ steps.commit.outputs.commit }}
