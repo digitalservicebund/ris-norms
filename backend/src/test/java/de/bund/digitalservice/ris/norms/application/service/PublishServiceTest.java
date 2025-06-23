@@ -25,7 +25,9 @@ class PublishServiceTest {
 
   final PublishNormPort publishPrivateNormPort = mock(PublishNormPort.class);
 
-  final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
+  final UpdateNormPublishStatePort updateNormPublishStatePort = mock(
+    UpdateNormPublishStatePort.class
+  );
 
   final DeletePublishedNormPort deletePublishedNormPort = mock(DeletePublishedNormPort.class);
   final DeletePublishedNormPort deletePrivateNormPort = mock(DeletePublishedNormPort.class);
@@ -54,7 +56,6 @@ class PublishServiceTest {
     loadNormPort,
     publishNormPort,
     publishPrivateNormPort,
-    updateOrSaveNormPort,
     deletePublishedNormPort,
     deletePrivateNormPort,
     loadLastMigrationLogPort,
@@ -63,7 +64,8 @@ class PublishServiceTest {
     publishChangelogPort,
     publishPrivateChangelogsPort,
     updateMigrationLogPort,
-    confidentialDataCleanupService
+    confidentialDataCleanupService,
+    updateNormPublishStatePort
   );
 
   @Nested
@@ -103,7 +105,12 @@ class PublishServiceTest {
       verify(confidentialDataCleanupService, times(1)).clean(norm);
       verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
       verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Options(norm));
+      verify(updateNormPublishStatePort, times(1)).updateNormPublishState(
+        new UpdateNormPublishStatePort.Options(
+          norm.getManifestationEli(),
+          NormPublishState.PUBLISHED
+        )
+      );
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
 
@@ -147,7 +154,12 @@ class PublishServiceTest {
       verify(confidentialDataCleanupService, times(1)).clean(norm);
       verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
       verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Options(norm));
+      verify(updateNormPublishStatePort, times(1)).updateNormPublishState(
+        new UpdateNormPublishStatePort.Options(
+          norm.getManifestationEli(),
+          NormPublishState.PUBLISHED
+        )
+      );
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
       verify(updateMigrationLogPort).completeMigrationLog(
         new CompleteMigrationLogPort.Options(migrationLog.getId())
@@ -186,7 +198,7 @@ class PublishServiceTest {
       verify(deletePrivateNormPort, never()).deletePublishedNorm(
         new DeletePublishedNormPort.Options(norm)
       );
-      verify(updateOrSaveNormPort, never()).updateOrSave(any(UpdateOrSaveNormPort.Options.class));
+      verify(updateNormPublishStatePort, never()).updateNormPublishState(any());
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
 
@@ -222,7 +234,7 @@ class PublishServiceTest {
       verify(deletePrivateNormPort, never()).deletePublishedNorm(
         new DeletePublishedNormPort.Options(norm)
       );
-      verify(updateOrSaveNormPort, never()).updateOrSave(any(UpdateOrSaveNormPort.Options.class));
+      verify(updateNormPublishStatePort, never()).updateNormPublishState(any());
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
 
@@ -268,7 +280,12 @@ class PublishServiceTest {
       // Verify norm publishing actions
       verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
       verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Options(norm));
+      verify(updateNormPublishStatePort, times(1)).updateNormPublishState(
+        new UpdateNormPublishStatePort.Options(
+          norm.getManifestationEli(),
+          NormPublishState.PUBLISHED
+        )
+      );
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
 
@@ -332,7 +349,12 @@ class PublishServiceTest {
       // Verify norm publishing actions
       verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
       verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Options(norm));
+      verify(updateNormPublishStatePort, times(1)).updateNormPublishState(
+        new UpdateNormPublishStatePort.Options(
+          norm.getManifestationEli(),
+          NormPublishState.PUBLISHED
+        )
+      );
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
 
@@ -374,7 +396,12 @@ class PublishServiceTest {
       // Verify norm publishing actions
       verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
       verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Options(norm));
+      verify(updateNormPublishStatePort, times(1)).updateNormPublishState(
+        new UpdateNormPublishStatePort.Options(
+          norm.getManifestationEli(),
+          NormPublishState.PUBLISHED
+        )
+      );
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
 
@@ -420,7 +447,12 @@ class PublishServiceTest {
       // Verify norm publishing actions
       verify(publishNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
       verify(publishPrivateNormPort, times(1)).publishNorm(new PublishNormPort.Options(norm));
-      verify(updateOrSaveNormPort, times(1)).updateOrSave(new UpdateOrSaveNormPort.Options(norm));
+      verify(updateNormPublishStatePort, times(1)).updateNormPublishState(
+        new UpdateNormPublishStatePort.Options(
+          norm.getManifestationEli(),
+          NormPublishState.PUBLISHED
+        )
+      );
       verify(publishChangelogPort, times(1)).publishChangelogs(any());
     }
   }

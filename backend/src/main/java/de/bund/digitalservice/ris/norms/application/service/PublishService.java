@@ -32,7 +32,6 @@ public class PublishService implements PublishNormUseCase {
   private final LoadNormPort loadNormPort;
   private final PublishNormPort publishNormPort;
   private final PublishNormPort publishPrivateNormPort;
-  private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final DeletePublishedNormPort deletePublishedNormPort;
   private final DeletePublishedNormPort deletePrivateNormPort;
   private final LoadLastMigrationLogPort loadLastMigrationLogPort;
@@ -42,13 +41,13 @@ public class PublishService implements PublishNormUseCase {
   private final PublishChangelogPort publishPrivateChangelogsPort;
   private final CompleteMigrationLogPort updateMigrationLogPort;
   private final ConfidentialDataCleanupService confidentialDataCleanupService;
+  private final UpdateNormPublishStatePort updateNormPublishStatePort;
 
   public PublishService(
     LoadNormManifestationElisByPublishStatePort loadNormManifestationElisByPublishStatePort,
     LoadNormPort loadNormPort,
     @Qualifier("public") PublishNormPort publishNormPort,
     @Qualifier("private") PublishNormPort publishPrivateNormPort,
-    UpdateOrSaveNormPort updateOrSaveNormPort,
     @Qualifier("public") DeletePublishedNormPort deletePublishedNormPort,
     @Qualifier("private") DeletePublishedNormPort deletePrivateNormPort,
     LoadLastMigrationLogPort loadLastMigrationLogPort,
@@ -57,13 +56,13 @@ public class PublishService implements PublishNormUseCase {
     @Qualifier("public") PublishChangelogPort publishPublicChangelogsPort,
     @Qualifier("private") PublishChangelogPort publishPrivateChangelogsPort,
     CompleteMigrationLogPort updateMigrationLogPort,
-    ConfidentialDataCleanupService confidentialDataCleanupService
+    ConfidentialDataCleanupService confidentialDataCleanupService,
+    UpdateNormPublishStatePort updateNormPublishStatePort
   ) {
     this.loadNormManifestationElisByPublishStatePort = loadNormManifestationElisByPublishStatePort;
     this.loadNormPort = loadNormPort;
     this.publishNormPort = publishNormPort;
     this.publishPrivateNormPort = publishPrivateNormPort;
-    this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.deletePublishedNormPort = deletePublishedNormPort;
     this.deletePrivateNormPort = deletePrivateNormPort;
     this.loadLastMigrationLogPort = loadLastMigrationLogPort;
@@ -73,6 +72,7 @@ public class PublishService implements PublishNormUseCase {
     this.publishPrivateChangelogsPort = publishPrivateChangelogsPort;
     this.updateMigrationLogPort = updateMigrationLogPort;
     this.confidentialDataCleanupService = confidentialDataCleanupService;
+    this.updateNormPublishStatePort = updateNormPublishStatePort;
   }
 
   @Override
@@ -168,8 +168,12 @@ public class PublishService implements PublishNormUseCase {
         "Saving updated norm state to database for norm with manifestation eli {}",
         norm.getManifestationEli()
       );
-      norm.setPublishState(NormPublishState.PUBLISHED);
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm));
+      updateNormPublishStatePort.updateNormPublishState(
+        new UpdateNormPublishStatePort.Options(
+          norm.getManifestationEli(),
+          NormPublishState.PUBLISHED
+        )
+      );
       log.info("Published norm: {}", norm.getManifestationEli().toString());
     } catch (final Exception e) {
       log.error("Norm {} could not be published", norm.getManifestationEli().toString());

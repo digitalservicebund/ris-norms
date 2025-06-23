@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -86,4 +87,13 @@ public interface NormManifestationRepository extends JpaRepository<NormManifesta
    * @return  a {@link List} of manifestations
    */
   List<NormManifestationDto> findAllByExpressionEli(final String expressionEli);
+
+  @Modifying
+  @Query(
+    "UPDATE NormManifestationDto n SET n.publishState = :publishState WHERE n.manifestationEli = :manifestationEli"
+  )
+  void updatePublishStateByManifestationEli(
+    @Param("manifestationEli") String manifestationEli,
+    @Param("publishState") NormPublishState publishState
+  );
 }

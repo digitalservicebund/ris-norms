@@ -15,6 +15,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressi
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifestationElisByPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.BinaryFile;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
@@ -42,6 +43,7 @@ public class NormDBService
     LoadNormByGuidPort,
     UpdateNormPort,
     UpdateOrSaveNormPort,
+    UpdateNormPublishStatePort,
     DeleteNormPort,
     LoadNormManifestationElisByPublishStatePort,
     LoadNormExpressionElisPort {
@@ -219,6 +221,14 @@ public class NormDBService
     } else {
       return updatedNorm.get();
     }
+  }
+
+  @Override
+  public void updateNormPublishState(UpdateNormPublishStatePort.Options options) {
+    normManifestationRepository.updatePublishStateByManifestationEli(
+      options.normManifestationEli().toString(),
+      options.publishState()
+    );
   }
 
   @Override
