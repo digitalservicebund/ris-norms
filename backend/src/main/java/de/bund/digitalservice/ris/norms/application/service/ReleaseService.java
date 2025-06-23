@@ -69,7 +69,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
 
     List<Norm> manifestationsToPublish = allExpressionElis
       .stream()
-      // we assume the latest expression is the working copy
+      // we assume the latest manifestation is the working copy
       .map(expressionEli -> normService.loadNorm(new LoadNormUseCase.EliOptions(expressionEli)))
       .filter(norm -> NormPublishState.UNPUBLISHED.equals(norm.getPublishState()))
       .toList();
