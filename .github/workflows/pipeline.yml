@@ -130,7 +130,7 @@ jobs:
   # ######################
 
   deploy-uat-job:
-    if: ${{ github.ref == 'refs/heads/main' && false }} # Skip deployment to uat until abnahme-testing is done so the 1.8.1 update does not influence it. Remember to clear the database before running the update.
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs:
       - smoketest
       - deploy-staging-job
