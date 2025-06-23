@@ -157,35 +157,38 @@ jobs:
           trivy-config: "./trivy.yaml"
           exit-code: 1 # if any level of CVE is found, break the pipeline
 
-      - name: Add changed files
+      - name: Commit and push on new branch
         if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
-        working-directory: ./backend
-        run: git add gradle/libs.versions.toml build.gradle.kts
-
-      # Creates commit via GH API using the GITHUB_TOKEN that is generated for every job automatically. Good explanation here:
-      # https://github.com/Nautilus-Cyberneering/pygithub/blob/main/docs/how_to_sign_automatic_commits_in_github_actions.md#solution-01-using-the-temporary-github_token-generated-for-each-workflow-job
-      - name: Create Commit with GPG Signature
-        if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
-        uses: qoomon/actions--create-commit@c495e09ee4ceb341683d2348bdf78e7202f93657
-        id: commit
-        with:
-          message: "Auto-update: Manage pinned dependencies based on CVE results"
-          skip-empty: true
-
-      - name: Set up Git to use PAT for pushing
-        if: ${{ steps.commit.outputs.commit }}
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git remote set-url origin https://x-access-token:${{ secrets.GH_PAT_PUSH_TOKEN }}@github.com/${{ github.repository }}
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
 
-      # For debugging, to be removed
-      - name: Verify Git Remote URL
-        run: git remote -v
+          BRANCH="version-bump-$(date +%Y%m%d%H%M%S)"
+          git checkout -b $BRANCH
 
-      - name: Push Changes
-        if: ${{ steps.commit.outputs.commit }}
-        run: git push
+          git add gradle/libs.versions.toml build.gradle.kts
+
+          git commit -m "chore: pinned dependencies because of CVEs removed"
+
+          git push --quiet origin $BRANCH
+
+          echo "Pushed changes to branch $BRANCH"
+
+          echo "BRANCH=$BRANCH" >> $GITHUB_ENV
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          branch: ${{ env.BRANCH }}
+          title: "chore: remove unnecessary CVE-pinned dependencies"
+          body: |
+            This PR removes pinned dependencies that are no longer needed because their associated CVEs were resolved.
+          base: main
+          delete-branch: true
+          draft: false
+          labels: |
+            automerge
 
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
