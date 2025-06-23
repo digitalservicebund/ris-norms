@@ -102,11 +102,10 @@ public abstract sealed class Dokument
    * @param manifestationDate the point-in-time-manifestation
    */
   public void setManifestationDateTo(@NonNull LocalDate manifestationDate) {
-    var manifestationEli = this.getManifestationEli();
     var newManifestationEli = DokumentManifestationEli.fromExpressionEli(
       getExpressionEli(),
       manifestationDate,
-      manifestationEli.getFormat()
+      this.getManifestationEli().getFormat()
     );
     var manifestation = this.getMeta().getFRBRManifestation();
     manifestation.setEli(newManifestationEli);
