@@ -47,9 +47,9 @@ public class ReleaseController {
     final NormWorkEli eli,
     @RequestBody ReleaseRequestSchema requestBody
   ) {
-    var publishedNorms = releaseAllNormExpressionsUseCase
-      .release(new ReleaseAllNormExpressionsUseCase.Options(eli, requestBody.releaseType()))
-      .getPublishedNorms();
+    var publishedNorms = releaseAllNormExpressionsUseCase.release(
+      new ReleaseAllNormExpressionsUseCase.Options(eli, requestBody.releaseType())
+    );
     if (publishedNorms.isEmpty()) {
       Norm norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli));
       return ResponseEntity.ok(ExpressionsStatusResponseMapper.fromPublishedNorm(norm));

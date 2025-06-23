@@ -1,9 +1,9 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
-import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import de.bund.digitalservice.ris.norms.domain.entity.ReleaseType;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
+import java.util.List;
 import org.jspecify.annotations.NullMarked;
 
 /**
@@ -15,9 +15,9 @@ public interface ReleaseAllNormExpressionsUseCase {
    * Releases all expressions of a {@link Norm} based on the provided options.
    *
    * @param options The options specifying the {@link Norm} to be released.
-   * @return The created {@link Release}.
+   * @return The created List of {@link Norm}s.
    */
-  Release release(Options options);
+  List<Norm> release(Options options);
 
   /**
    * A record representing the options for releasing all expressions of a {@link Norm}.

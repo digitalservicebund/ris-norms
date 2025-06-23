@@ -12,7 +12,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadNormExpressio
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.ReleaseAllNormExpressionsUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.Release;
 import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -48,9 +47,8 @@ class ReleaseControllerTest {
       var norm2 = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
-      var release = Release.builder().publishedNorms(List.of(norm1, norm2)).build();
 
-      when(releaseAllNormExpressionsUseCase.release(any())).thenReturn(release);
+      when(releaseAllNormExpressionsUseCase.release(any())).thenReturn(List.of(norm1, norm2));
 
       // When // Then
       mockMvc

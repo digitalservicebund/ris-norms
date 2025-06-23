@@ -74,10 +74,10 @@ class ReleaseServiceTest {
     when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(workingCopy).thenReturn(updatedNorm);
 
     // when
-    Release result = releaseService.release(options);
+    List<Norm> result = releaseService.release(options);
 
     // than
-    assertThat(result.getPublishedNorms()).hasSize(1);
+    assertThat(result).hasSize(1);
 
     verify(loadNormExpressionElisPort).loadNormExpressionElis(any());
     verify(normService).loadNorm(any());
@@ -99,10 +99,10 @@ class ReleaseServiceTest {
     );
 
     // Act
-    Release result = releaseService.release(options);
+    List<Norm> result = releaseService.release(options);
 
     // Assert
-    assertThat(result.getPublishedNorms()).isEmpty();
+    assertThat(result).isEmpty();
 
     verify(loadNormExpressionElisPort).loadNormExpressionElis(any());
     verifyNoInteractions(
@@ -131,10 +131,10 @@ class ReleaseServiceTest {
     when(normService.loadNorm(any())).thenReturn(publishedNorm);
 
     // Act
-    Release result = releaseService.release(options);
+    List<Norm> result = releaseService.release(options);
 
     // Assert
-    assertThat(result.getPublishedNorms()).isEmpty();
+    assertThat(result).isEmpty();
 
     verify(normService).loadNorm(any());
     verifyNoInteractions(

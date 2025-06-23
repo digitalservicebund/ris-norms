@@ -62,7 +62,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
    */
   @Override
   @Transactional
-  public Release release(ReleaseAllNormExpressionsUseCase.@NonNull Options options) {
+  public List<Norm> release(@NonNull Options options) {
     // all expression elis of the norm to publish
     List<NormExpressionEli> allExpressionElis = loadNormExpressionElisPort.loadNormExpressionElis(
       new LoadNormExpressionElisPort.Options(options.eli())
@@ -116,7 +116,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
       }
     });
 
-    return Release.builder().publishedNorms(workingCopies).build();
+    return workingCopies;
   }
 
   private static void setNewStandDerBearbeitung(ReleaseType targetReleaseType, Norm norm) {
