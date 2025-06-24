@@ -77,7 +77,7 @@
                                GUID="f4e9b719-d797-4def-aa25-48aad9f3b95a"
                                eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"/>
                <akn:FRBRdate name="verkuendung"
-                             date="1964-08-05"
+                             date="1964-09-21"
                              GUID="d4330835-4379-4679-a85f-46e4518ad891"
                              eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"/>
                <akn:FRBRlanguage language="deu"
@@ -96,7 +96,7 @@
                             GUID="2d878359-ff06-468b-8505-8c2753375f33"
                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"/>
                <akn:FRBRdate name="generierung"
-                             date="1964-08-05"
+                             date="2025-06-11"
                              GUID="52a530d5-33dd-4f21-8d78-9f6a5f8b768a"
                              eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"/>
                <akn:FRBRauthor href="recht.bund.de"
@@ -121,7 +121,7 @@
       <akn:collectionBody GUID="8ba2be21-0c21-4fd7-8848-1b170374a2f4" eId="rdokhauptteil-n1">
          <akn:component GUID="1014f83a-5ada-45b9-97bc-6023aaa9684b" eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="0302654d-5c45-4802-aa7c-70880f166090"
-                             href="regelungstext-1.xml"
+                             href="regelungstext-verkuendung-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
                              eId="rdokhauptteil-n1_tldokverweis-n1_verweis-n1"/>
          </akn:component>
