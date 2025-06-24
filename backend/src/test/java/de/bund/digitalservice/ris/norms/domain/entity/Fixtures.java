@@ -31,6 +31,9 @@ public class Fixtures {
 
   private static final String LDMLDE_RESOURCE_FOLDER = "/LegalDocML.de/1.8.1";
 
+  private static final String LDMLDE_EXTENSION_RESOURCE_FOLDER =
+    "/LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1";
+
   private static final String FIXTURES_RESOURCE_FOLDER = LDMLDE_RESOURCE_FOLDER + "/fixtures";
 
   private static final XsdSchemaService xsdSchemaService = new XsdSchemaService(
@@ -99,13 +102,15 @@ public class Fixtures {
     ),
     new UrlResource(
       Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(LDMLDE_RESOURCE_FOLDER + "/schema-extension/metadata.xsd")
+        LdmlDeValidator.class.getResource(
+            LDMLDE_EXTENSION_RESOURCE_FOLDER + "/legalDocML.de-metadaten-ris.xsd"
+          )
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/schema-extension/norms-application-only-metadata.xsd"
+            LDMLDE_EXTENSION_RESOURCE_FOLDER + "/norms-application-only-metadata.xsd"
           )
       )
     )

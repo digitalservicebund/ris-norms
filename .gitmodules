@@ -1,0 +1,3 @@
+[submodule "LegalDocML.de/ris-norms-ldml-schema-extensions"]
+	path = LegalDocML.de/ris-norms-ldml-schema-extensions
+	url = https://github.com/digitalservicebund/ris-norms-ldml-schema-extensions.git

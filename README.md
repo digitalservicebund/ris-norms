@@ -8,7 +8,27 @@ This repository contains a web app supporting the Federal Documentation of Statu
 
 ## Quickstart
 
+Clone this repo and initialize the included submodule:
+
+```bash
+git clone --recursive git@github.com:digitalservicebund/ris-norms.git
+```
+
 If you're already familiar with our stack and the project, here is a list of the most important commands for running frequent tasks. You will find [more detailed instructions below](#prerequisites).
+
+### Shared Schema via Git Submodule
+
+This repository includes a Git submodule for the shared LegalDocML schema extension, located at:
+
+`LegalDocML.de/ris-norms-ldml-schema-extensions`
+
+The submodule points to the [digitalservicebund/ris-norms-ldml-schema-extensions](https://github.com/digitalservicebund/ris-norms-ldml-schema-extensions) repository and contains schema extensions for LegalDocML.de
+
+To initialize or update the submodule:
+
+```bash
+git submodule update --init --recursive
+```
 
 ### Test user credentials
 

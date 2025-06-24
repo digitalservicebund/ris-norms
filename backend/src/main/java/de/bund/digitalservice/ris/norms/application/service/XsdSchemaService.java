@@ -67,10 +67,10 @@ public class XsdSchemaService {
       "classpath:/LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-rechtsetzungsdokument.xsd"
     ) Resource metadatenRechtsetzungsdokumentSchema,
     @Value(
-      "classpath:/LegalDocML.de/1.8.1/schema-extension/metadata.xsd"
+      "classpath:/LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd"
     ) Resource risNormsMetadataSchema,
     @Value(
-      "classpath:/LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd"
+      "classpath:/LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd"
     ) Resource risNormsApplicationOnlyMetadataSchema
   ) {
     this.baukastenXsdSchema = baukastenXsdSchema;
