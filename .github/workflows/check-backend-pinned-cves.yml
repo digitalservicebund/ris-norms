@@ -9,8 +9,8 @@
 # 6. If changes were made:
 #    6.1. The Spotless formatter is run to apply code formatting, and the output is displayed.
 #    6.2. The Docker image is rebuilt, and a second Trivy scan is run. The pipeline will fail if any CVE is found.
-#    6.3. Changes are commited to the repo with the token GH_PAT_PUSH_TOKEN, which has been created with DS as the resource owner and valid for 1 year (so to expired around 23rd June 2026).
-#         This was needed because the standard GITHUB_TOKEN is subject to branch protection rules, which include status checks to pass (needed because of the renovate autoMerge)
+#    6.3. Changes are commited to a branch with GITHUB_TOKEN so that the commit is marked as verified. Then a PR is created with GH_PAT_PUSH_TOKEN, which has been created with the digitalservice-machine user and is valid for 1 year (so to expired on 24th June 2026),
+#         and has higher permissions to do so. This flow is needed because of the main branch protection rules, which require status checks before merge (activated because of renovate autoMerge)
 
 name: "Check and Remove Unnecessary CVE-Pinned Backend Dependencies"
 
@@ -159,7 +159,7 @@ jobs:
 
       - name: Create branch and PR
         if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
-        uses: peter-evans/create-pull-request@v7
+        uses: peter-evans/create-pull-request@c2e8eb39a3cb6c93285d508c16b74ded79dfe9ab
         with:
           token: ${{ secrets.GH_PAT_PUSH_TOKEN }} # so that the PR can be created, GITHUB_TOKEN is not enough
           branch-token: ${{ secrets.GITHUB_TOKEN }} # so that the commit can be signed
