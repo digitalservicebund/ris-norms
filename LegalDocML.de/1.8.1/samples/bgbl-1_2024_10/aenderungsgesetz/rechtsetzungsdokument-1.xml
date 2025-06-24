@@ -102,11 +102,11 @@
                <redok:fna>1101-13</redok:fna>
                <redok:gesta>B041</redok:gesta>
             </redok:legalDocML.de_metadaten>
-           <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
-             <meta-breg:federfuehrung>
-               <meta-breg:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta-breg:federfuehrend>
-             </meta-breg:federfuehrung>
-           </meta-breg:legalDocML.de_metadaten>
+            <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+               <meta-breg:federfuehrung>
+                  <meta-breg:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta-breg:federfuehrend>
+               </meta-breg:federfuehrung>
+            </meta-breg:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="b1909756-04d2-40c4-9d16-3eaa45735aec" eId="rdokhauptteil-n1">

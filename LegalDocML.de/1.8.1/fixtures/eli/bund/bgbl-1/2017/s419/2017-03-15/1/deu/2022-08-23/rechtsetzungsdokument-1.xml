@@ -119,10 +119,10 @@
                <redok:gesta>nicht-vorhanden</redok:gesta>
             </redok:legalDocML.de_metadaten>
             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
-              <meta:federfuehrung>
+               <meta:federfuehrung>
                   <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                   <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
-              </meta:federfuehrung>
+               </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>

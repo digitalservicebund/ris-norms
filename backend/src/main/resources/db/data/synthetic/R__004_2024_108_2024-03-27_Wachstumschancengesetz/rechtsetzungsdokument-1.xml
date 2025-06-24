@@ -8,7 +8,8 @@
          <akn:identification eId="meta-n1_ident-n1"
                              GUID="1b3fbbcd-d7c0-4150-9ee3-bc45dabb2d51"
                              source="attributsemantik-noch-undefiniert">
-            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1" GUID="38f3350d-f591-4be7-bf09-493ba182d775">
+            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1"
+                          GUID="38f3350d-f591-4be7-bf09-493ba182d775">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
                              GUID="a601ccbe-302e-4726-9561-f1ae8074d5e1"
                              value="eli/bund/bgbl-1/2024/108/rechtsetzungsdokument-1"/>
@@ -43,7 +44,8 @@
                                 GUID="e800a71b-564f-4a3d-b519-a7cfade67023"
                                 value="rechtsetzungsdokument-1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="ff0d57f0-4ed7-49f0-901d-78941544b75b">
+            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1"
+                                GUID="ff0d57f0-4ed7-49f0-901d-78941544b75b">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
                              GUID="2f7b957d-4409-4225-acd5-137ca7fab34f"
                              value="eli/bund/bgbl-1/2024/108/2024-03-27/1/deu/rechtsetzungsdokument-1"/>
@@ -104,7 +106,8 @@
          </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="7ff10fe5-ab58-40c8-8a1a-4c03477aa531" eId="rdokhauptteil-n1">
-         <akn:component GUID="e96a249d-e089-4c17-8e95-0741d2b4cea5" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="e96a249d-e089-4c17-8e95-0741d2b4cea5"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="918c1838-4636-4e1e-bcdf-f0e7a95158f8"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"

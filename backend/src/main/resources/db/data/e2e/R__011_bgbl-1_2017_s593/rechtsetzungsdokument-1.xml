@@ -23,7 +23,8 @@
          <akn:identification eId="meta-n1_ident-n1"
                              GUID="febc9319-ff24-4efe-9458-c5c30ae3eae2"
                              source="attributsemantik-noch-undefiniert">
-            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1" GUID="0aa6d824-d420-4615-b499-50afa3bc6e0c">
+            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1"
+                          GUID="0aa6d824-d420-4615-b499-50afa3bc6e0c">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
                              GUID="67c6e2fe-270a-4208-9a57-7f36476f8458"
                              value="eli/bund/bgbl-1/2017/s593/rechtsetzungsdokument-1"/>
@@ -58,7 +59,8 @@
                                 GUID="28876e38-7a8a-41d5-8750-00ce2c30f04b"
                                 value="rechtsetzungsdokument-1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="616c8133-d261-42e9-bde0-a4cc565775cc">
+            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1"
+                                GUID="616c8133-d261-42e9-bde0-a4cc565775cc">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
                              GUID="a286cac5-7df4-4746-b334-86741d2f6525"
                              value="eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/rechtsetzungsdokument-1"/>
@@ -119,7 +121,8 @@
          </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="1b1e29ba-b3ef-4cd3-84dd-95a82445df59" eId="rdokhauptteil-n1">
-         <akn:component GUID="d24b7a17-f918-4e0e-8ab3-6af567270d03" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="d24b7a17-f918-4e0e-8ab3-6af567270d03"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="1c2c3325-3eb5-4212-bbf4-6d6f7d6578b1"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"

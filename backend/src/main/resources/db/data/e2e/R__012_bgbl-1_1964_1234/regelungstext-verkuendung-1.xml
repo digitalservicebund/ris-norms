@@ -145,8 +145,6 @@
                <regtxt:typ>gesetz</regtxt:typ>
                <regtxt:form>stammform</regtxt:form>
             </regtxt:legalDocML.de_metadaten>
-
-
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
                <ris:subtyp>rechtsverordnung</ris:subtyp>
                <ris:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
@@ -212,26 +210,26 @@
                <akn:content GUID="252d6c6b-7a41-49f7-923a-bcd1333ecadd"
                             eId="art-z20_abs-z1_inhalt-n1">
                   <akn:blockList GUID="ee8f83bc-8461-40e4-9c06-1fed230e960d"
-                            eId="art-z20_abs-z1_inhalt-n1_liste-n1">
+                                 eId="art-z20_abs-z1_inhalt-n1_liste-n1">
                      <akn:listIntroduction GUID="1a184fd8-a242-4933-9bc0-0bb22d29433d"
-                                eId="art-z20_abs-z1_inhalt-n1_liste-n1_listeneing-n1">Wer
+                                           eId="art-z20_abs-z1_inhalt-n1_liste-n1_listeneing-n1">Wer
                      </akn:listIntroduction>
                      <akn:item GUID="cc8c85f9-4798-47ec-ac4b-2c34e68c52bb"
-                                eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
+                               eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
                         <akn:num GUID="1654a12b-a8bb-4aec-9757-60b2d7f194ab"
                                  eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1"> 1. </akn:num>
-                           <akn:p GUID="f290fbd4-fa84-4f81-8a0d-df512bc96743"
-                                  eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1">entgegen einem vollziehbaren Verbot den Verein fortführt, seinen organisatorischen Zusammenhalt auf andere Weise aufrechterhält, sich an ihm als Mitglied beteiligt, für ihn wirbt, ihn unterstützt oder eine Tätigkeit ausübt (§ 18 Satz 2) oder</akn:p>
+                        <akn:p GUID="f290fbd4-fa84-4f81-8a0d-df512bc96743"
+                               eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1">entgegen einem vollziehbaren Verbot den Verein fortführt, seinen organisatorischen Zusammenhalt auf andere Weise aufrechterhält, sich an ihm als Mitglied beteiligt, für ihn wirbt, ihn unterstützt oder eine Tätigkeit ausübt (§ 18 Satz 2) oder</akn:p>
                      </akn:item>
                      <akn:item GUID="4a82cd1e-586d-4bd5-93f2-b88287764f0d"
-                                eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
+                               eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
                         <akn:num GUID="cb0e299b-1a1f-4c25-a491-801d17def3dc"
                                  eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1"> 2. </akn:num>
-                           <akn:p GUID="f617023d-536f-4296-bcb4-0129a04130eb"
-                                  eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1">entgegen § 9 Abs. 1 Satz 2, Abs. 2 Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
+                        <akn:p GUID="f617023d-536f-4296-bcb4-0129a04130eb"
+                               eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1">entgegen § 9 Abs. 1 Satz 2, Abs. 2 Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
                      </akn:item>
                      <akn:listWrapUp GUID="d1ba059a-83a4-4aeb-b1a7-d29c86b82582"
-                                 eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenschl-n1">wird mit Gefängnis bis zu einem Jahr oder mit Geldstrafe bestraft, wenn die Tat nicht in den §§ 49 b, 90 a, 90 b, 96 a, 128 oder 129 des Strafgesetzbuches, mit schwerer Strafe bedroht ist.
+                                     eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenschl-n1">wird mit Gefängnis bis zu einem Jahr oder mit Geldstrafe bestraft, wenn die Tat nicht in den §§ 49 b, 90 a, 90 b, 96 a, 128 oder 129 des Strafgesetzbuches, mit schwerer Strafe bedroht ist.
                      </akn:listWrapUp>
                   </akn:blockList>
                </akn:content>

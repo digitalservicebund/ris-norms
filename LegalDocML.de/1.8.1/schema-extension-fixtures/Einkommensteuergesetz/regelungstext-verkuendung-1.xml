@@ -1451,68 +1451,59 @@
                <akn:num eId="art-z%c2%a719_abs-z2_bezeichnung-n1"
                         GUID="48d155ca-ec9e-4136-a14a-96d4f7e7a017">
                            (2)</akn:num>
-               <akn:list GUID="3035f805-a24d-45c3-9cb6-785fa2cc9812"
-                         eId="art-z%c2%a719_abs-z2_untergl-n1">
-                  <akn:intro GUID="244de4e1-4976-4959-b274-22a0e4253bea"
-                             eId="art-z%c2%a719_abs-z2_untergl-n1_intro-n1">
-                     <akn:p GUID="9092b8f3-d2b4-4df0-8e7d-3232808365a6"
-                            eId="art-z%c2%a719_abs-z2_untergl-n1_intro-n1_text-n1">Von Versorgungsbezügen bleiben ein nach einem Prozentsatz ermittelter, auf einen Höchstbetrag begrenzter Betrag (Versorgungsfreibetrag) und ein Zuschlag zum Versorgungsfreibetrag steuerfrei. Versorgungsbezüge sind
-                                 </akn:p>
-                  </akn:intro>
-                  <akn:point GUID="26764f22-3d0e-47c5-9830-31a8ca6dfa35"
-                             eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1">
-                     <akn:num GUID="fa106c10-a7e9-4093-80bb-a061c7bd51e0"
-                              eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                     <akn:list GUID="c121d47b-788e-4003-9ff0-5581d604b91a"
-                               eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_untergl-n1">
-                        <akn:intro GUID="a0fe69a4-2a37-4d9e-9de6-237bd313b1fc"
-                                   eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_untergl-n1_intro-n1">
-                           <akn:p GUID="fa011bbb-c56e-426c-a571-2e3d9e9f2cda"
-                                  eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1">das Ruhegehalt, Witwen- oder Waisengeld, der Unterhaltsbeitrag oder ein gleichartiger Bezug
-                                       </akn:p>
-                        </akn:intro>
-                        <akn:point GUID="b0d6890a-8224-4fc3-b7c6-9790277b1499"
-                                   eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1">
-                           <akn:num GUID="ec3231f1-9d02-4d1e-86b5-68e75664e626"
-                                    eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
-                           <akn:content GUID="a1802bf9-25cc-465f-bd96-7aceae04c366"
-                                        eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="f7af9314-bada-4651-bf86-a93aee4fa521"
+                            eId="art-z%c2%a719_abs-z2_inhalt-n1">
+                  <akn:blockList GUID="3035f805-a24d-45c3-9cb6-785fa2cc9812"
+                                 eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="244de4e1-4976-4959-b274-22a0e4253bea"
+                                           eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listeneing-n1">
+                     Von Versorgungsbezügen bleiben ein nach einem Prozentsatz ermittelter, auf einen Höchstbetrag begrenzter Betrag (Versorgungsfreibetrag) und ein Zuschlag zum Versorgungsfreibetrag steuerfrei. Versorgungsbezüge sind
+                                 
+                  </akn:listIntroduction>
+                     <akn:item GUID="26764f22-3d0e-47c5-9830-31a8ca6dfa35"
+                               eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="fa106c10-a7e9-4093-80bb-a061c7bd51e0"
+                                 eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                        <akn:blockList GUID="c121d47b-788e-4003-9ff0-5581d604b91a"
+                                       eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n1_liste-n1">
+                           <akn:listIntroduction GUID="a0fe69a4-2a37-4d9e-9de6-237bd313b1fc"
+                                                 eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listeneing-n1">
+                           das Ruhegehalt, Witwen- oder Waisengeld, der Unterhaltsbeitrag oder ein gleichartiger Bezug
+                                       
+                        </akn:listIntroduction>
+                           <akn:item GUID="b0d6890a-8224-4fc3-b7c6-9790277b1499"
+                                     eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1">
+                              <akn:num GUID="ec3231f1-9d02-4d1e-86b5-68e75664e626"
+                                       eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
                               <akn:p GUID="2e5cea34-e8ce-4f7c-8673-0a36f845f38b"
-                                     eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">Grund beamtenrechtlicher oder entsprechender gesetzlicher Vorschriften,
+                                     eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_text-n1">Grund beamtenrechtlicher oder entsprechender gesetzlicher Vorschriften,
                                        </akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="7cbb02b7-2053-41e2-88aa-a6aa26a72233"
-                                   eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2">
-                           <akn:num GUID="e1953bdd-0564-4853-8ed0-dac771a181d2"
-                                    eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
-                           <akn:content GUID="a2903657-6784-4eef-961b-f3c53bed78c6"
-                                        eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1">
+                           </akn:item>
+                           <akn:item GUID="7cbb02b7-2053-41e2-88aa-a6aa26a72233"
+                                     eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2">
+                              <akn:num GUID="e1953bdd-0564-4853-8ed0-dac771a181d2"
+                                       eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
                               <akn:p GUID="c2cd5917-b4ce-449d-8103-9f34fa0d34f7"
-                                     eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">nach beamtenrechtlichen Grundsätzen von Körperschaften, Anstalten oder Stiftungen des öffentlichen Rechts oder öffentlich-rechtlichen Verbänden von Körperschaften
+                                     eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_text-n1">nach beamtenrechtlichen Grundsätzen von Körperschaften, Anstalten oder Stiftungen des öffentlichen Rechts oder öffentlich-rechtlichen Verbänden von Körperschaften
                                        </akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:wrapUp GUID="0405677d-8718-4564-9dec-b3bf832f04e4"
-                                    eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_untergl-n1_schlusstext-n1">
-                           <akn:p GUID="ad110215-c861-4a60-8987-523952f68e21"
-                                  eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n1_untergl-n1_schlusstext-n1_text-n1">oder</akn:p>
-                        </akn:wrapUp>
-                     </akn:list>
-                  </akn:point>
-                  <akn:point GUID="accde094-d21b-4a86-a8cd-f9123606c726"
-                             eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n2">
-                     <akn:num GUID="0521715f-1e31-4e38-b8e4-84c4d23e0f0b"
-                              eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                     <akn:content GUID="5484bc1b-b351-41f4-93d1-f2256ca61bea"
-                                  eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n2_inhalt-n1">
+                           </akn:item>
+                           <akn:listWrapUp GUID="0405677d-8718-4564-9dec-b3bf832f04e4"
+                                           eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenschl-n1">
+                           oder
+                        </akn:listWrapUp>
+                        </akn:blockList>
+                     </akn:item>
+                     <akn:item GUID="accde094-d21b-4a86-a8cd-f9123606c726"
+                               eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="0521715f-1e31-4e38-b8e4-84c4d23e0f0b"
+                                 eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                         <akn:p GUID="e0aeb3f1-50a0-4f60-98d9-910a54143dca"
-                               eId="art-z%c2%a719_abs-z2_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                               eId="art-z%c2%a719_abs-z2_inhalt-n1_liste-n1_listenelem-n2_text-n1">
                                     in anderen Fällen Bezüge und Vorteile aus früheren Dienstleistungen wegen Erreichens einer Altersgrenze, verminderter Erwerbsfähigkeit oder Hinterbliebenenbezüge; Bezüge wegen Erreichens einer Altersgrenze gelten erst dann als Versorgungsbezüge, wenn der Steuerpflichtige das 63. Lebensjahr oder, wenn er schwerbehindert ist, das 60. Lebensjahr vollendet hat.
                                  </akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
          </akn:article>
       </akn:body>

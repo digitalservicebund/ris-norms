@@ -124,7 +124,7 @@
                <akn:textualMod type="substitution"
                                GUID="3cd70e2a-651c-44df-a724-ea5222f5f10a"
                                eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1">
-                  <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                  <akn:source href="#art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1"
                               GUID="6772fc87-4b26-46f3-a48c-7557e826f5be"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"/>
                   <akn:destination href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-1_art-6_abs-3_inhalt-1_text-1/667-734.xml"
@@ -137,7 +137,7 @@
                <akn:textualMod type="substitution"
                                GUID="18338894-6440-492a-85fc-ff07a7ebb2c3"
                                eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2">
-                  <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
+                  <akn:source href="#art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1"
                               GUID="43200497-1f1a-4d56-ab57-976cd9ae6b42"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_source-n1"/>
                   <akn:destination href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-1_art-2_abs-1_inhalt-1_text-1/146-194.xml"
@@ -227,60 +227,56 @@
             <akn:paragraph GUID="8a2f35d4-2a7b-4577-be0d-7797242109f0" eId="art-z1_abs-z">
                <akn:num GUID="7e9ac2bf-a2a0-447a-92bc-37d3d9d35dd4"
                         eId="art-z1_abs-z_bezeichnung-n1"/>
-               <akn:list GUID="a7c2d2cb-4b8d-4fac-81e2-af1d74600405"
-                         eId="art-z1_abs-z_untergl-n1">
-                  <akn:intro GUID="2d97f2ce-0353-4aca-ae8f-f6d3df3190f8"
-                             eId="art-z1_abs-z_untergl-n1_intro-n1">
-                     <akn:p GUID="bc2ab028-49ba-432e-92d3-66813dcf5bb1"
-                            eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1">Das <akn:affectedDocument href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1"
+               <akn:content GUID="51bab108-2a6d-4535-b658-d0383b78c01f"
+                            eId="art-z1_abs-z_inhalt-n1">
+                  <akn:blockList GUID="a7c2d2cb-4b8d-4fac-81e2-af1d74600405"
+                                 eId="art-z1_abs-z_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="2d97f2ce-0353-4aca-ae8f-f6d3df3190f8"
+                                           eId="art-z1_abs-z_inhalt-n1_liste-n1_listeneing-n1">
+                     Das <akn:affectedDocument href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1"
                                               GUID="af4f8c32-ce37-428f-b979-78b506efef31"
-                                              eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1">Bundesverfassungsschutzgesetz vom 20. Dezember 1990 (BGBl. I S. 2954, 2970), das zuletzt durch Artikel 1 des Gesetzes vom 19. Dezember 2022 (BGBl. I S. 2632) geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="3b7b3f24-c294-419e-84fa-501cb9f90887"
-                             eId="art-z1_abs-z_untergl-n1_listenelem-n1">
-                     <akn:num GUID="01206417-0430-4049-982c-bc7a7a78421c"
-                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1"> 1.</akn:num>
-                     <akn:content GUID="57950df4-b5fc-4223-80f6-0c7df2df9dba"
-                                  eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1">
+                                              eId="art-z1_abs-z_inhalt-n1_liste-n1_listeneing-n1_bezugsdoc-n1">Bundesverfassungsschutzgesetz vom 20. Dezember 1990 (BGBl. I S. 2954, 2970), das zuletzt durch Artikel 1 des Gesetzes vom 19. Dezember 2022 (BGBl. I S. 2632) geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:
+                  </akn:listIntroduction>
+                     <akn:item GUID="3b7b3f24-c294-419e-84fa-501cb9f90887"
+                               eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="01206417-0430-4049-982c-bc7a7a78421c"
+                                 eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1"> 1.</akn:num>
                         <akn:p GUID="ca7a00bb-c4fb-4c1b-81fe-2e15ba51439a"
-                               eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                               eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1">
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                     GUID="67816c96-d839-40bb-b409-1ba6dcd57e9c"
-                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-1_art-6_abs-3_inhalt-1_text-1/667-734.xml"
+                                    eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-1_art-6_abs-3_inhalt-1_text-1/667-734.xml"
                                        GUID="278342f0-298d-4fa1-86de-4ffdc72ae3b1"
-                                       eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">§ 6 Absatz 3 Satz 5</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
+                                       eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_ref-n1">§ 6 Absatz 3 Satz 5</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
                                               endQuote="“"
                                               GUID="9b312b5f-577b-4f56-b7c2-7287cb687067"
-                                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1">am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt,</akn:quotedText> durch die Wörter <akn:quotedText startQuote="„"
+                                              eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quottext-n1">am Ende des Kalenderjahres, das dem Jahr der Protokollierung folgt,</akn:quotedText> durch die Wörter <akn:quotedText startQuote="„"
                                               endQuote="“"
                                               GUID="f218f828-95fc-4904-b96c-9429bf5e1ff1"
-                                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n2">nach Ablauf von fünf Jahren</akn:quotedText> ersetzt.</akn:mod>
+                                              eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quottext-n2">nach Ablauf von fünf Jahren</akn:quotedText> ersetzt.</akn:mod>
                         </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="231bcbc6-79fa-4892-b88e-c3625868e20d"
-                             eId="art-z1_abs-z_untergl-n1_listenelem-n2">
-                     <akn:num GUID="df94b213-091b-4dd0-9890-585688192935"
-                              eId="art-z1_abs-z_untergl-n1_listenelem-n2_bezeichnung-n1"> 2.</akn:num>
-                     <akn:content GUID="b755801f-4b77-47aa-a8bf-129d3177251c"
-                                  eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="231bcbc6-79fa-4892-b88e-c3625868e20d"
+                               eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="df94b213-091b-4dd0-9890-585688192935"
+                                 eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1"> 2.</akn:num>
                         <akn:p GUID="257e51a7-7947-4742-b700-f6d5f44220d3"
-                               eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                               eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1">
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                     GUID="a18e81f9-ce49-4c07-8455-4c6b2014bb49"
-                                    eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-1_art-2_abs-1_inhalt-1_text-1/146-194.xml"
+                                    eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-1_art-2_abs-1_inhalt-1_text-1/146-194.xml"
                                        GUID="d95408b6-d45e-49a2-8fd8-6eaec5001148"
-                                       eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">§ 2 Absatz 1 Satz 2</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
+                                       eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_ref-n1">§ 2 Absatz 1 Satz 2</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
                                               endQuote="“"
                                               GUID="35b9dddd-e792-4475-8484-48612156c747"
-                                              eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1">Bundesministerium des Innern, für Bau und Heimat</akn:quotedText> durch die Wörter <akn:quotedText startQuote="„"
+                                              eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quottext-n1">Bundesministerium des Innern, für Bau und Heimat</akn:quotedText> durch die Wörter <akn:quotedText startQuote="„"
                                               endQuote="“"
                                               GUID="c14a84e8-1269-4829-b467-ebe572961a76"
-                                              eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quottext-n2">Bundesministerium des Innern und für Heimat</akn:quotedText> ersetzt.</akn:mod>
+                                              eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quottext-n2">Bundesministerium des Innern und für Heimat</akn:quotedText> ersetzt.</akn:mod>
                         </akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
          </akn:article>
          <akn:article refersTo="geltungszeitregel"

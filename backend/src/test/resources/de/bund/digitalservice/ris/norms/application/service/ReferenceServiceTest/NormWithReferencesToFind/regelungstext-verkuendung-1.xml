@@ -637,10 +637,10 @@
                                     § 11 Durchsetzung bestimmter Vorschriften der Verordnung (EG)
                                     Nr. 601/2004
                                 </akn:heading>
-                  <akn:list eId="art-z_abs-z_inhalt-n1_untergl-n1">
-                     <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1">
-                        <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_bezeichnung-n1">(1)</akn:num>
-                        <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1">
+                  <akn:blockList eId="art-z_abs-z_inhalt-n1_liste-n1">
+                     <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1">
+                        <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_bezeichnung-n1">(1)</akn:num>
+                        <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1">
                                             Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
                                             Buchstabe a des Seefischereigesetzes handelt, wer gegen
                                             die Verordnung (EG) Nr. 601/2004 des Rates vom 22. März
@@ -653,56 +653,56 @@
                                             Nr. 1005/2008 (ABl. L 286 vom 29.10.2008, S. 1) geändert
                                             worden ist, verstößt, indem er vorsätzlich oder
                                             fahrlässig
-                                            <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n1">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n1_text-n1">
+                                            <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n1">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n1_text-n1">
                                                     als Kapitän entgegen Artikel 3 Absatz 1 fischt
                                                     oder einen Fang an Bord behält, umlädt oder
                                                     anlandet,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n2">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n2_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n2">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n2_text-n1">
                                                     entgegen Artikel 6 Absatz 1 oder Artikel 7
                                                     Absatz 1 eine Fischerei oder eine
                                                     Versuchsfischerei ausübt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n3">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n3_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n3">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n3_text-n1">
                                                     als Kapitän entgegen Artikel 7a Buchstabe a
                                                     einen dort genannten Stoff ins Meer einbringt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n4">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n4_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n4">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n4_text-n1">
                                                     entgegen Artikel 7a Buchstabe b lebendes
                                                     Geflügel oder einen lebenden Vogel verbringt
                                                     oder dort genanntes Geflügel nicht, nicht
                                                     richtig oder nicht vollständig entfernt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n5">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n5_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n5">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n5_text-n1">
                                                     entgegen Artikel 7a Buchstabe c Dissostichus
                                                     spp. fischt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n6">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n6_bezeichnung-n1">6.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n6_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n6">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n6_bezeichnung-n1">6.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n6_text-n1">
                                                     als Kapitän entgegen Artikel 7b Absatz 1
                                                     Buchstabe a Satz 1 ein dort genanntes Exemplar
                                                     nicht markiert oder nicht wieder freilässt oder
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n7">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n7_bezeichnung-n1">7.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n7_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n7">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n7_bezeichnung-n1">7.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n7_text-n1">
                                                     als Kapitän entgegen Artikel 7b Absatz 1
                                                     Buchstabe d einen Fisch freilässt.(2)
                                                     Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer
@@ -713,33 +713,33 @@
                            </akn:point>
                         </akn:p>
                      </akn:p>
-                     <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2">
-                        <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_bezeichnung-n1">(2)</akn:num>
-                        <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1">
+                     <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2">
+                        <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_bezeichnung-n1">(2)</akn:num>
+                        <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1">
                                             Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
                                             Buchstabe b des Seefischereigesetzes handelt, wer gegen
                                             die Verordnung (EG) Nr. 601/2004 verstößt, indem er
                                             vorsätzlich oder fahrlässig
-                                            <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n1">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n1_text-n1">
+                                            <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n1">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n1_text-n1">
                                                     als Kapitän entgegen Artikel 4 Absatz 1 eine
                                                     Fangerlaubnis und eine beglaubigte Kopie nicht
                                                     mitführt oder nicht, nicht richtig oder nicht
                                                     rechtzeitig vorlegt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n2">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n2_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n2">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n2_text-n1">
                                                     als Kapitän entgegen Artikel 9 Absatz 1 eine
                                                     Angabe nicht, nicht richtig, nicht vollständig
                                                     oder nicht rechtzeitig macht,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n3">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n3_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n3">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n3_text-n1">
                                                     als Kapitän entgegen Artikel 13 Absatz 1 erster
                                                     Halbsatz, Artikel 14 Absatz 1, Artikel 17 Absatz
                                                     1, Artikel 18 Absatz 1 oder Artikel 19 Absatz 1
@@ -749,17 +749,17 @@
                                                     oder nicht rechtzeitig übermittelt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n4">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n4_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n4">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n4_text-n1">
                                                     als Kapitän entgegen Artikel 24 Absatz 2 Satz 1
                                                     einer dort genannten Person das Übersetzen nicht
                                                     oder nicht richtig gestattet oder
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n5">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n5_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n5">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n5_text-n1">
                                                     als Kapitän entgegen Artikel 27 Absatz 2 Satz 1
                                                     eine Anmeldung nicht oder nicht rechtzeitig
                                                     macht oder eine Erklärung nicht, nicht richtig,
@@ -768,7 +768,7 @@
                            </akn:point>
                         </akn:p>
                      </akn:p>
-                  </akn:list>
+                  </akn:blockList>
                </akn:content>
             </akn:paragraph>
             <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae" eId="art-z_abs-z">
@@ -778,10 +778,10 @@
                                     § 12 Durchsetzung bestimmter Vorschriften der Verordnung (EG)
                                     Nr. 734/2008
                                 </akn:heading>
-                  <akn:list eId="art-z_abs-z_inhalt-n1_untergl-n1">
-                     <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1">
-                        <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_bezeichnung-n1">(1)</akn:num>
-                        <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1">
+                  <akn:blockList eId="art-z_abs-z_inhalt-n1_liste-n1">
+                     <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1">
+                        <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_bezeichnung-n1">(1)</akn:num>
+                        <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1">
                                             Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
                                             Buchstabe a des Seefischereigesetzes handelt, wer gegen
                                             die Verordnung (EG) Nr. 734/2008 des Rates vom 15. Juli
@@ -789,41 +789,41 @@
                                             schädlichen Auswirkungen von Grundfanggeräten (ABl. L
                                             201 vom 30.7.2008, S. 8) verstößt, indem er vorsätzlich
                                             oder fahrlässig
-                                            <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n1">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n1_text-n1">
+                                            <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n1">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n1_text-n1">
                                                     ohne Fangerlaubnis nach Artikel 3 Absatz 1 eine
                                                     Fischereitätigkeit ausführt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n2">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n2_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n2">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n2_text-n1">
                                                     als Kapitän entgegen Artikel 7 Absatz 1 Satz 1
                                                     eine Fischereitätigkeit nicht, nicht richtig,
                                                     nicht vollständig oder nicht rechtzeitig
                                                     einstellt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n3">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n3_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n3">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n3_text-n1">
                                                     entgegen Artikel 7 Absatz 1 Satz 2 eine
                                                     Fischereitätigkeit wieder aufnimmt oder
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n4">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n4_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n4">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n4_text-n1">
                                                     als Kapitän entgegen Artikel 9 Absatz 2 den
                                                     Hafen wieder verlässt.
                                                 </akn:p>
                            </akn:point>
                         </akn:p>
                      </akn:p>
-                     <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2">
-                        <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_bezeichnung-n1">(2)</akn:num>
-                        <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1">
+                     <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2">
+                        <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_bezeichnung-n1">(2)</akn:num>
+                        <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1">
                                             Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
                                             Buchstabe b des Seefischereigesetzes handelt, wer
                                             vorsätzlich oder fahrlässig als Kapitän entgegen Artikel
@@ -833,7 +833,7 @@
                                             nicht rechtzeitig macht.
                                         </akn:p>
                      </akn:p>
-                  </akn:list>
+                  </akn:blockList>
                </akn:content>
             </akn:paragraph>
             <akn:paragraph GUID="c0a4c9d2-dc0d-4b59-be88-7663f1e32bae" eId="art-z_abs-z">
@@ -843,10 +843,10 @@
                                     § 13 Durchsetzung bestimmter Vorschriften der Verordnung (EG)
                                     Nr. 1005/2008
                                 </akn:heading>
-                  <akn:list eId="art-z_abs-z_inhalt-n1_untergl-n1">
-                     <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1">
-                        <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_bezeichnung-n1">(1)</akn:num>
-                        <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1">
+                  <akn:blockList eId="art-z_abs-z_inhalt-n1_liste-n1">
+                     <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1">
+                        <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_bezeichnung-n1">(1)</akn:num>
+                        <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1">
                                             Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
                                             Buchstabe a des Seefischereigesetzes handelt, wer gegen
                                             die Verordnung (EG) Nr. 1005/2008 des Rates vom 29.
@@ -860,104 +860,104 @@
                                             8), die zuletzt durch die Verordnung (EU) 2023/2842
                                             (ABl. L, 2023/2842, 20.12.2023) geändert worden ist,
                                             verstößt, indem er vorsätzlich oder fahrlässig
-                                            <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n1">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n1_text-n1">
+                                            <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n1">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n1_text-n1">
                                                     entgegen Artikel 4 Absatz 3 in
                                                     Gemeinschaftsgewässern umlädt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n2">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n2_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n2">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n2_text-n1">
                                                     als Kapitän entgegen Artikel 4 Absatz 4 einen
                                                     Fang umlädt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n3">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n3_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n3">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n3_text-n1">
                                                     entgegen Artikel 12 Absatz 1 oder 2 ein
                                                     Fischereierzeugnis einführt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n4">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n4_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n4">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n4_text-n1">
                                                     entgegen Artikel 37 Nummer 3 ein dort genanntes
                                                     Fischereifahrzeug chartert,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n5">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n5_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n5">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n5_text-n1">
                                                     als Kapitän entgegen Artikel 37 Nummer 4 eine
                                                     Fischverarbeitungstätigkeit übernimmt oder sich
                                                     an einer Umladung oder einem Fangeinsatz
                                                     beteiligt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n6">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n6_bezeichnung-n1">6.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n6_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n6">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n6_bezeichnung-n1">6.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n6_text-n1">
                                                     entgegen Artikel 37 Nummer 5 Satz 2 in einen
                                                     Hafen einläuft,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n7">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n7_bezeichnung-n1">7.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n7_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n7">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n7_bezeichnung-n1">7.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n7_text-n1">
                                                     entgegen Artikel 38 Nummer 2 ein dort genanntes
                                                     Fischereierfahrzeug erwirbt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n8">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n8_bezeichnung-n1">8.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n8_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n8">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n8_bezeichnung-n1">8.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n8_text-n1">
                                                     entgegen Artikel 38 Nummer 3 ein dort genanntes
                                                     Fischereifahrzeug umflaggt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n9">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n9_bezeichnung-n1">9.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n9_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n9">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n9_bezeichnung-n1">9.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n9_text-n1">
                                                     entgegen Artikel 38 Nummer 5 ein dort genanntes
                                                     Fischereifahrzeug ausführt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n10">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n10_bezeichnung-n1">10.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n10_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n10">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n10_bezeichnung-n1">10.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n10_text-n1">
                                                     entgegen Artikel 38 Nummer 10 ein
                                                     Fischereifahrzeug betreibt, besitzt oder managt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n11">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n11_bezeichnung-n1">11.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n11_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n11">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n11_bezeichnung-n1">11.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n11_text-n1">
                                                     entgegen Artikel 38 Nummer 11 anlandet oder
                                                     umlädt oder
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n12">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n12_bezeichnung-n1">12.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n1_text-n1_listenelem-n12_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n12">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n12_bezeichnung-n1">12.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n1_text-n1_listenelem-n12_text-n1">
                                                     entgegen Artikel 40 Absatz 2 ein
                                                     Fischereifahrzeug verkauft oder exportiert.
                                                 </akn:p>
                            </akn:point>
                         </akn:p>
                      </akn:p>
-                     <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2">
-                        <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_bezeichnung-n1">(2)</akn:num>
-                        <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1">
+                     <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2">
+                        <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_bezeichnung-n1">(2)</akn:num>
+                        <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1">
                                             Ordnungswidrig im Sinne des § 18 Absatz 2 Nummer 11
                                             Buchstabe b des Seefischereigesetzes handelt, wer gegen
                                             die Verordnung (EG) Nr. 1005/2008 verstößt, indem er
                                             vorsätzlich oder fahrlässig
-                                            <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n1">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n1_text-n1">
+                                            <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n1">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n1_text-n1">
                                                     entgegen Artikel 14 Absatz 1 Unterabsatz 1 Satz
                                                     1 Buchstabe a oder b eine dort genannte
                                                     Unterlage nicht, nicht richtig, nicht
@@ -965,17 +965,17 @@
                                                     oder nicht rechtzeitig vorlegt,
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n2">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n2_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n2">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n2_text-n1">
                                                     entgegen Artikel 14 Absatz 2 Satz 1 eine dort
                                                     genannte Erklärung nicht, nicht richtig, nicht
                                                     vollständig oder nicht rechtzeitig vorlegt oder
                                                 </akn:p>
                            </akn:point>
-                           <akn:point eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n3">
-                              <akn:num eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                              <akn:p eId="art-z_abs-z_inhalt-n1_untergl-n1_text-n2_text-n1_listenelem-n3_text-n1">
+                           <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n3">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_text-n2_text-n1_listenelem-n3_text-n1">
                                                     entgegen Artikel 16 Absatz 1 Satz 1 eine
                                                     validierte Fangbescheinigung nicht, nicht
                                                     richtig oder nicht rechtzeitig vorlegt.
@@ -983,7 +983,7 @@
                            </akn:point>
                         </akn:p>
                      </akn:p>
-                  </akn:list>
+                  </akn:blockList>
                </akn:content>
             </akn:paragraph>
          </akn:article>

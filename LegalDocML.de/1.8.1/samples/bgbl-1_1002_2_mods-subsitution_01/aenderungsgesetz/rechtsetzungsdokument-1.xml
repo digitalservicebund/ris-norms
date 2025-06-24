@@ -94,8 +94,8 @@
             </akn:FRBRManifestation>
          </akn:identification>
          <akn:proprietary GUID="0491c95d-de17-4e38-bc97-a6a58a394297"
-                         eId="meta-n1_proprietary-n1"
-                         source="attributsemantik-noch-undefiniert">
+                          eId="meta-n1_proprietary-n1"
+                          source="attributsemantik-noch-undefiniert">
             <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/">
                <redok:initiant>nicht-vorhanden</redok:initiant>
                <redok:bearbeitendeInstitution>nicht-vorhanden</redok:bearbeitendeInstitution>

@@ -111,7 +111,7 @@
          </akn:identification>
          <akn:proprietary GUID="3635e830-4daf-450d-80ff-a609a2a059c6"
                           source="attributsemantik-noch-undefiniert"
-                          eId="meta-n1_proprietary-n1" />
+                          eId="meta-n1_proprietary-n1"/>
       </akn:meta>
       <akn:collectionBody GUID="55335963-766b-43cd-8c8f-73a18a565e69" eId="rdokhauptteil-n1">
          <akn:component GUID="71517ead-878a-41fa-aa16-5be0ea4a052b"

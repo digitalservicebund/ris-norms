@@ -177,7 +177,7 @@ public class CharacterRangeTest {
       );
 
       var n2 = NodeParser.getNodeFromExpression(
-        "//*[@eId='art-z20_abs-z1_untergl-n1_listenelem-n1_inhalt-n1']",
+        "//*[@eId='art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1']",
         regelungstext.getDocument()
       );
 

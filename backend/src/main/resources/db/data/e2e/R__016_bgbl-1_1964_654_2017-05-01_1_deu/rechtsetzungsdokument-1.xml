@@ -23,7 +23,8 @@
          <akn:identification source="attributsemantik-noch-undefiniert"
                              GUID="e6596a65-5db2-4d05-99b2-3ba5a9e092f8"
                              eId="meta-n1_ident-n1">
-            <akn:FRBRWork GUID="c9f1805f-0997-4e23-9542-f346870e08c3" eId="meta-n1_ident-n1_frbrwork-n1">
+            <akn:FRBRWork GUID="c9f1805f-0997-4e23-9542-f346870e08c3"
+                          eId="meta-n1_ident-n1_frbrwork-n1">
                <akn:FRBRthis value="eli/bund/bgbl-1/1964/654/rechtsetzungsdokument-1"
                              GUID="81e1048a-ad88-48f1-b843-7f5425f41081"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"/>
@@ -58,7 +59,8 @@
                                 GUID="c39f484e-8143-4e6f-8973-04081d041e00"
                                 eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression GUID="163cce55-7cc5-42fe-b050-afe64f44e03d" eId="meta-n1_ident-n1_frbrexpression-n1">
+            <akn:FRBRExpression GUID="163cce55-7cc5-42fe-b050-afe64f44e03d"
+                                eId="meta-n1_ident-n1_frbrexpression-n1">
                <akn:FRBRthis value="eli/bund/bgbl-1/1964/654/2017-05-01/1/deu/rechtsetzungsdokument-1"
                              GUID="33f73b69-2df3-4cce-b6af-14dcd2dea438"
                              eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"/>
@@ -119,7 +121,8 @@
          </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="4ebd6c7e-62da-46dd-b4d2-7f3416769b37" eId="rdokhauptteil-n1">
-         <akn:component GUID="216a09f8-6459-4776-b93b-786c4b3c7552" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="216a09f8-6459-4776-b93b-786c4b3c7552"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="702177f6-4ad5-4baf-8940-b489f52613bd"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"

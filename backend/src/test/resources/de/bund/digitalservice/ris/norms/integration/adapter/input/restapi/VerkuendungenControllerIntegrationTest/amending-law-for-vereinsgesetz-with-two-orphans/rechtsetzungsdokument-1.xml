@@ -23,7 +23,8 @@
          <akn:identification eId="meta-n1_ident-n1"
                              GUID="d50e4b53-2f0a-4151-b5ab-70bac60042fb"
                              source="attributsemantik-noch-undefiniert">
-            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1" GUID="1caf03be-a918-42d0-a52a-2ed7f118fa6b">
+            <akn:FRBRWork eId="meta-n1_ident-n1_frbrwork-n1"
+                          GUID="1caf03be-a918-42d0-a52a-2ed7f118fa6b">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"
                              GUID="da4d73b9-047f-462b-bfbe-7d9e6af9b38c"
                              value="eli/bund/bgbl-1/2017/s419/rechtsetzungsdokument-1"/>
@@ -58,7 +59,8 @@
                                 GUID="cd4ccdc6-f81f-4d68-8796-7567dd9c5cc2"
                                 value="rechtsetzungsdokument-1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1" GUID="4499a080-dd15-4aa2-82c0-783b0eb0051c">
+            <akn:FRBRExpression eId="meta-n1_ident-n1_frbrexpression-n1"
+                                GUID="4499a080-dd15-4aa2-82c0-783b0eb0051c">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"
                              GUID="891cc730-5501-42fe-a7f3-8d234821109d"
                              value="eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/rechtsetzungsdokument-1"/>
@@ -119,7 +121,8 @@
          </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="8b5149ba-acd1-4bb7-8b3e-ff8b70d161d8" eId="rdokhauptteil-n1">
-         <akn:component GUID="2de66313-4471-4a26-bc65-ab96afbe3aae" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="2de66313-4471-4a26-bc65-ab96afbe3aae"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="9fe1796e-73e7-4d65-af24-58f86b7b8d78"
                              href="regelungstext-verkuendung-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"

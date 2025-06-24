@@ -140,7 +140,7 @@
                                GUID="1378474b-426f-4488-83e1-6adf3be72fea"
                                eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1">
                   <akn:source eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"
-                              href="#art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
+                              href="#art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1"
                               GUID="46928a7e-8665-41bd-923c-9617211239d5"/>
                   <akn:destination eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"
                                    href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-15_abs-2/221-998.xml"
@@ -413,75 +413,68 @@
             <akn:paragraph GUID="c1832865-d3ef-4e67-b65a-738fa6c2e3a4" eId="art-z%c2%a711_abs-z">
                <akn:num GUID="8acfa447-cdd5-4209-8a8f-52026e670a31"
                         eId="art-z%c2%a711_abs-z_bezeichnung-n1"/>
-               <akn:list GUID="bd77a96e-a767-480a-836e-1ef7ea0ac537"
-                         eId="art-z%c2%a711_abs-z_untergl-n1">
-                  <akn:intro GUID="71cac91e-38bf-4b75-8701-3a9008977cf7"
-                             eId="art-z%c2%a711_abs-z_untergl-n1_intro-n1">
-                     <akn:p GUID="05fa855b-e83f-4ac1-8d35-7d24173083a2"
-                            eId="art-z%c2%a711_abs-z_untergl-n1_intro-n1_text-n1">
+               <akn:content GUID="955f9222-c148-4e61-99ce-f34bdcb98b33"
+                            eId="art-z%c2%a711_abs-z_inhalt-n1">
+                  <akn:blockList GUID="bd77a96e-a767-480a-836e-1ef7ea0ac537"
+                                 eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="71cac91e-38bf-4b75-8701-3a9008977cf7"
+                                           eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listeneing-n1">
+                     
                             Das <akn:affectedDocument href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-verkuendung-1"
                                               GUID="a198b868-0ede-4b0d-a759-eb5a829aae81"
-                                              eId="art-z%c2%a711_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1"> vom 7. Dezember 2006 (BGBl. I S. 2782, 2791), das zuletzt durch Artikel 34 Absatz 8 des Gesetzes vom 22. Dezember 2023 (BGBl. 2023 I Nr. 411) geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:
-                        </akn:p>
-                  </akn:intro>
-                  <akn:point GUID="81a11c64-1827-456c-b662-14ff7f645bd7"
-                             eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1">
-                     <akn:num GUID="6725cfbc-94ab-44a0-9a06-8adc5d52fc47"
-                              eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                     <akn:list GUID="27282132-136c-4df1-8bb7-a135afced654"
-                               eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1">
-                        <akn:intro GUID="134793d9-7678-4af2-9dac-f314697f943c"
-                                   eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_intro-n1">
-                           <akn:p GUID="c7966d1f-9aa1-4fe3-9bea-331d0cae07db"
-                                  eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1">
+                                              eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listeneing-n1_bezugsdoc-n1"> vom 7. Dezember 2006 (BGBl. I S. 2782, 2791), das zuletzt durch Artikel 34 Absatz 8 des Gesetzes vom 22. Dezember 2023 (BGBl. 2023 I Nr. 411) geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:
+                        
+                  </akn:listIntroduction>
+                     <akn:item GUID="81a11c64-1827-456c-b662-14ff7f645bd7"
+                               eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="6725cfbc-94ab-44a0-9a06-8adc5d52fc47"
+                                 eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                        <akn:blockList GUID="27282132-136c-4df1-8bb7-a135afced654"
+                                       eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1">
+                           <akn:listIntroduction GUID="134793d9-7678-4af2-9dac-f314697f943c"
+                                                 eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listeneing-n1">
                               <akn:ref href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-15_abs-2.xml"
                                        GUID="0d8cdcbb-29fc-4e94-a697-57422f664f95"
-                                       eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1_ref-n1">§ 15 Absatz 2 wird wie folgt geändert:</akn:ref>
-                           </akn:p>
-                        </akn:intro>
-                        <akn:point GUID="36ff8fcb-4828-4548-be28-0373c7e3e9e2"
-                                   eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1">
-                           <akn:num GUID="edca222d-f23e-495a-8419-32daa119c08c"
-                                    eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
-                           <akn:content GUID="dd7cca4a-4b1f-4bc2-971f-053cad9cbe0b"
-                                        eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1">
+                                       eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listeneing-n1_ref-n1">§ 15 Absatz 2 wird wie folgt geändert:</akn:ref>
+                           </akn:listIntroduction>
+                           <akn:item GUID="36ff8fcb-4828-4548-be28-0373c7e3e9e2"
+                                     eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1">
+                              <akn:num GUID="edca222d-f23e-495a-8419-32daa119c08c"
+                                       eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
                               <akn:p GUID="ccc65174-571c-4039-8e65-949761fcee0c"
-                                     eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                                     eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_text-n1">
                                  <akn:mod GUID="fc56ab94-6f00-435a-8b02-69dcd180828f"
-                                          eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                                          eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1"
                                           refersTo="aenderungsbefehl-einfuegen">
                                             In <akn:ref href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-15_abs-2/302-443.xml"
                                              GUID="6ab6c29c-88ba-415a-ae13-4e05acba1d5a"
-                                             eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1"> Satz 2</akn:ref>  werden nach dem Wort <akn:quotedText eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1"
+                                             eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_ref-n1"> Satz 2</akn:ref>  werden nach dem Wort <akn:quotedText eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quottext-n1"
                                                     GUID="25234249-339a-49ad-911c-2b1783917dc8"
                                                     startQuote="„"
-                                                    endQuote="“">vollzogen</akn:quotedText> die Wörter <akn:quotedText eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n2"
+                                                    endQuote="“">vollzogen</akn:quotedText> die Wörter <akn:quotedText eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quottext-n2"
                                                     GUID="2515db83-2088-4d91-b80d-90f81a334bce"
                                                     startQuote="„"
                                                     endQuote="“">oder vorbereitet</akn:quotedText> eingefügt.
                                         </akn:mod>
                               </akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="78ac89a9-4dde-483a-9b5b-70d7de9f8cf4"
-                                   eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2">
-                           <akn:num GUID="bd457a3c-5542-413b-975a-239b3bf199b5"
-                                    eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
-                           <akn:content GUID="1878c3dc-0c46-48bf-946e-f3b56932381b"
-                                        eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1">
+                           </akn:item>
+                           <akn:item GUID="78ac89a9-4dde-483a-9b5b-70d7de9f8cf4"
+                                     eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2">
+                              <akn:num GUID="bd457a3c-5542-413b-975a-239b3bf199b5"
+                                       eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
                               <akn:p GUID="6ceb1172-3f90-4b27-9891-b2c9538c6bec"
-                                     eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                                     eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_text-n1">
                                  <akn:mod GUID="45352185-9cda-4cef-867b-2df508ace8a4"
-                                          eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
+                                          eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1"
                                           refersTo="aenderungsbefehl-ersetzen">
                                     <akn:ref href="eli/bund/bgbl-1/2006/s2782/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-15_abs-2/221-998.xml"
                                              GUID="79ea3bd6-a074-4903-bf87-6caa1d205330"
-                                             eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1"> Sätze 3 und 4</akn:ref> werden durch die folgenden Sätze ersetzt:
-                                            Die Sätze <akn:quotedText eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1"
+                                             eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_ref-n1"> Sätze 3 und 4</akn:ref> werden durch die folgenden Sätze ersetzt:
+                                            Die Sätze <akn:quotedText eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quottext-n1"
                                                     GUID="071d21c0-8846-415f-917c-7c17a057ae27"
                                                     startQuote="„"
                                                     endQuote="“">Als außenstehende Personen gelten Personen, die nicht ununterbrochen fünf Jahre vor der Spaltung an der übertragenden Körperschaft beteiligt waren. In den Fällen der Vorbereitung einer Veräußerung kommt Satz 2 nur zur Anwendung, wenn innerhalb von fünf Jahren nach dem steuerlichen Übertragungsstichtag eine Veräußerung mindestens eines Anteils an einer an der Spaltung beteiligten Körperschaft an außenstehende Personen erfolgt; die Veräußerung des Anteils gilt als rückwirkendes Ereignis im Sinne von § 175 Absatz 1 Satz 1 Nummer 2 der Abgabenordnung.</akn:quotedText> werden durch folgenden Text ersetzt
-                                            <akn:quotedText eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quottext-n2"
+                                            <akn:quotedText eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quottext-n2"
                                                     GUID="d53991a3-16d3-4481-9f3a-05687e9697b2"
                                                     startQuote="„"
                                                     endQuote="“">Als außenstehende Personen gelten Personen, die nicht ununterbrochen fünf Jahre vor der Spaltung an der
@@ -503,27 +496,24 @@
                                                 dieses Anteils durch ein verbundenes Unternehmen.</akn:quotedText>
                                  </akn:mod>
                               </akn:p>
-                           </akn:content>
-                        </akn:point>
-                     </akn:list>
-                  </akn:point>
-                  <akn:point GUID="6aac1aac-d487-4665-a8a8-92a7c0d7d113"
-                             eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n2">
-                     <akn:num GUID="55791135-27b1-4342-8477-e46e502ba45c"
-                              eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                     <akn:content GUID="24d595a0-5126-4327-9466-567ee1824dd3"
-                                  eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n2_inhalt-n1">
+                           </akn:item>
+                        </akn:blockList>
+                     </akn:item>
+                     <akn:item GUID="6aac1aac-d487-4665-a8a8-92a7c0d7d113"
+                               eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="55791135-27b1-4342-8477-e46e502ba45c"
+                                 eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                         <akn:p GUID="ae487685-573f-4121-a1c1-3825aa369d63"
-                               eId="art-z%c2%a711_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                               eId="art-z%c2%a711_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1">
                                 Dem § 27 wird folgender Absatz 19 angefügt:
                                 „(19) § 15 Absatz 2 in der Fassung des Artikels 11 des Gesetzes vom 27. März 2024 (BGBl. 2024 I Nr. 108) ist
                                 erstmals auf Spaltungen anzuwenden, bei denen die Anmeldung zur Eintragung in das für die Wirksamkeit des
 
                                 jeweiligen Vorgangs maßgebende öffentliche Register nach dem 14. Juli 2023 erfolgt.“
                             </akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
          </akn:article>
          <!-- §12-->
@@ -952,135 +942,107 @@
                <akn:num eId="art-z%c2%a735_abs-z1_bezeichnung-n1"
                         GUID="8373fc61-cc1b-4588-aa1f-8c29a2bc644e">
                         (1)</akn:num>
-               <akn:list GUID="0af5ebc9-805e-40d7-b5c2-392977595974"
-                         eId="art-z%c2%a735_abs-z1_untergl-n1">
-                  <akn:intro GUID="59c94bfd-0014-44df-a916-35254a314936"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_intro-n1">
-                     <akn:p GUID="82015b74-1c1d-4354-a7d8-482a904bbe14"
-                            eId="art-z%c2%a735_abs-z1_untergl-n1_intro-n1_text-n1"/>
-                  </akn:intro>
-                  <akn:point GUID="9a8983f6-c5a5-4554-8231-cfd33319e0a9"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n1">
-                     <akn:num GUID="e48171db-d319-4b3c-8b6f-a305e401d87f"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">(1)</akn:num>
-                     <akn:content GUID="86f1d04f-cf83-4851-a463-83753ba33208"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="f42476ec-ab4d-4337-8d47-22f124717eb3"
+                            eId="art-z%c2%a735_abs-z1_inhalt-n1">
+                  <akn:blockList GUID="0af5ebc9-805e-40d7-b5c2-392977595974"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="59c94bfd-0014-44df-a916-35254a314936"
+                                           eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
+                     
+                  </akn:listIntroduction>
+                     <akn:item GUID="9a8983f6-c5a5-4554-8231-cfd33319e0a9"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="e48171db-d319-4b3c-8b6f-a305e401d87f"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">(1)</akn:num>
                         <akn:p GUID="d917836c-1926-479d-b14f-824dd03d3633"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1">
                                 Dieses Gesetz tritt vorbehaltlich der Absätze 2 bis 9 am Tag nach der Verkündung in Kraft.
                             </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="f61ff441-1986-481d-894e-94e9e250519e"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n2">
-                     <akn:num GUID="cbbf73d6-c5bc-4f04-80d0-bee5183a5168"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">(2)</akn:num>
-                     <akn:content GUID="d89f2a49-aee7-4ca8-9d56-4b69f7de13b4"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="f61ff441-1986-481d-894e-94e9e250519e"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="cbbf73d6-c5bc-4f04-80d0-bee5183a5168"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">(2)</akn:num>
                         <akn:p GUID="aa246a74-02d6-420c-89b4-6375d86547ff"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1">
                                 Artikel 26 tritt mit Wirkung vom 1. Januar 2020 in Kraft.
                             </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="c32b1cd9-e6f1-4bbe-aed4-9c19c9dd5bf6"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n3">
-                     <akn:num GUID="39e1f85f-f341-45c4-a46e-90cd72665f67"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n3_bezeichnung-n1">(3)</akn:num>
-                     <akn:content GUID="30323067-5d43-4859-8f98-3d5c6ce98fe5"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n3_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="c32b1cd9-e6f1-4bbe-aed4-9c19c9dd5bf6"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n3">
+                        <akn:num GUID="39e1f85f-f341-45c4-a46e-90cd72665f67"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">(3)</akn:num>
                         <akn:p GUID="1d983209-4248-4f09-ad59-e78fc4c8fd83"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n3_text-n1">
                                 Die Artikel 1 und 7 treten mit Wirkung vom 1. Januar 2023 in Kraft.
                             </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="4c623505-79dd-48d2-91e6-b9a658c01b3f"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n4">
-                     <akn:num GUID="9ececa14-a57d-45bf-89c8-141c42d48368"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n4_bezeichnung-n1">(4)</akn:num>
-                     <akn:content GUID="96e7836c-a6b9-4f70-93dc-87073d22ed40"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n4_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="4c623505-79dd-48d2-91e6-b9a658c01b3f"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n4">
+                        <akn:num GUID="9ececa14-a57d-45bf-89c8-141c42d48368"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n4_bezeichnung-n1">(4)</akn:num>
                         <akn:p GUID="c8425bf7-47c2-4da7-9904-1e1a72bb7586"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n4_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n4_text-n1">
                                 Die Artikel 2, 12, 20, 31 und 32 Nummer 2 treten mit Wirkung vom 1. Januar 2024 in Kraft.
                             </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="db3679b0-8b1e-44eb-a15e-cfabca814a21"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n5">
-                     <akn:num GUID="6a285e06-75c5-4070-bb47-cff4cb5c26a5"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n5_bezeichnung-n1">(5)</akn:num>
-                     <akn:content GUID="f0f6f73d-6d93-43e1-84c4-798d56ed716c"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n5_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="db3679b0-8b1e-44eb-a15e-cfabca814a21"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n5">
+                        <akn:num GUID="6a285e06-75c5-4070-bb47-cff4cb5c26a5"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n5_bezeichnung-n1">(5)</akn:num>
                         <akn:p GUID="edefafec-29f3-475f-a03b-69d216a42d93"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n5_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n5_text-n1">
                                 Die Artikel 4 und 22 treten am 1. April 2024 in Kraft.
                             </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="45f70562-f0c9-46ae-bffb-d4d2e763629a"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n6">
-                     <akn:num GUID="ce2a08f8-1099-4cff-9ed3-4bb4bd386434"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n6_bezeichnung-n1">(6)</akn:num>
-                     <akn:content GUID="48da3995-398d-478e-9aa9-5a0ce3904442"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n6_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="45f70562-f0c9-46ae-bffb-d4d2e763629a"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n6">
+                        <akn:num GUID="ce2a08f8-1099-4cff-9ed3-4bb4bd386434"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n6_bezeichnung-n1">(6)</akn:num>
                         <akn:p GUID="0a7edbf9-612c-43ad-b728-d8e37e2e6c68"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n6_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n6_text-n1">
                                 Die Artikel 5, 9, 23, 24 und 27 Nummer 6 treten am 1. Januar 2025 in Kraft.
                             </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="8f6b3b22-c532-429b-b674-220ee7372c12"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n7">
-                     <akn:num GUID="ad245874-a7bd-41d5-97d3-d316a417bc9a"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n7_bezeichnung-n1">(7)</akn:num>
-                     <akn:content GUID="5f406ea7-324c-4a90-ba13-6d9d239e8ee9"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n7_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="8f6b3b22-c532-429b-b674-220ee7372c12"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n7">
+                        <akn:num GUID="ad245874-a7bd-41d5-97d3-d316a417bc9a"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n7_bezeichnung-n1">(7)</akn:num>
                         <akn:p GUID="d38908ad-6bbd-4d1a-88e6-f697ec00cf12"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n7_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n7_text-n1">
                                 Artikel 32 Nummer 3 und 4 tritt am 1. Juli 2025 in Kraft.
                             </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="61b0fc82-738c-4ebb-bdff-9f1eea4e96b9"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n8">
-                     <akn:num GUID="634aa27a-df2f-4bb6-9fab-418965ae7217"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n8_bezeichnung-n1">(8)</akn:num>
-                     <akn:content GUID="3d7a8657-95eb-4e6d-9ad0-53e7e31883bc"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n8_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="61b0fc82-738c-4ebb-bdff-9f1eea4e96b9"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n8">
+                        <akn:num GUID="634aa27a-df2f-4bb6-9fab-418965ae7217"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n8_bezeichnung-n1">(8)</akn:num>
                         <akn:p GUID="dd2b467b-54b3-48e3-8e62-cf232df38975"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n8_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n8_text-n1">
                                 Die Artikel 14 und 16 treten am 1. Januar 2027 in Kraft.
                             </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="545da796-e05b-491e-a64d-c4ed9ee5fb09"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n9">
-                     <akn:num GUID="c5174939-4a22-49b4-8e91-f29f25997c75"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n9_bezeichnung-n1">(9)</akn:num>
-                     <akn:content GUID="2430d65b-f2f5-4cf9-a78d-997de8bb1bb1"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n9_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="545da796-e05b-491e-a64d-c4ed9ee5fb09"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n9">
+                        <akn:num GUID="c5174939-4a22-49b4-8e91-f29f25997c75"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n9_bezeichnung-n1">(9)</akn:num>
                         <akn:p GUID="e37f15d9-0e99-4719-948b-d18a0945f0ac"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n9_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n9_text-n1">
                                 Artikel 6 tritt am 1. Januar 2028 in Kraft.
                             </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="1861791b-36e7-4742-8e81-909e63735de5"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n10">
-                     <akn:num GUID="569c8de9-11ba-45eb-8c09-d325e6a9f373"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n10_bezeichnung-n1">(10)</akn:num>
-                     <akn:content GUID="d199a332-8e7d-46c6-b3c5-84cce841fc29"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n10_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="1861791b-36e7-4742-8e81-909e63735de5"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n10">
+                        <akn:num GUID="569c8de9-11ba-45eb-8c09-d325e6a9f373"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n10_bezeichnung-n1">(10)</akn:num>
                         <akn:p GUID="29b55044-6570-485f-97d1-7db6e17ec6c7"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n10_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n10_text-n1">
                                 Die §§ 124 und 125 des Vierten Buches Sozialgesetzbuch, § 202a des Fünften Buches Sozialgesetzbuch
                                 sowie § 55b Absatz 2 des Elften Buches Sozialgesetzbuch treten am 1. Juli 2026 außer Kraft.
                             </akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
          </akn:article>
       </akn:body>
