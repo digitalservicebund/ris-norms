@@ -132,7 +132,7 @@
                <akn:textualMod type="substitution"
                                GUID="c7d24f8c-d2ff-4d03-ad12-48b8cd9aadc1"
                                eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1">
-                  <akn:source href="#art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1"
+                  <akn:source href="#art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                               GUID="0d29f3dd-2ce7-4f14-b7ed-a033516ce4fe"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"/>
                   <akn:destination href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
@@ -228,39 +228,40 @@
             <akn:paragraph GUID="bae70b73-cb52-4223-9322-eec895ca0bdb" eId="art-z1_abs-z">
                <akn:num GUID="8a991656-b70b-4e88-a3db-2d09230d72d5"
                         eId="art-z1_abs-z_bezeichnung-n1"/>
-               <akn:content GUID="5361c8bc-8d3f-4af6-88fc-ed4ac3874a5a"
-                            eId="art-z1_abs-z_inhalt-n1">
-                  <akn:blockList GUID="30eefaa0-4881-4a67-9c92-c59bc40d18b1"
-                                 eId="art-z1_abs-z_inhalt-n1_liste-n1">
-                     <akn:listIntroduction GUID="392c7e8f-00f0-47c1-bb7d-d0e962085b11"
-                                           eId="art-z1_abs-z_inhalt-n1_liste-n1_listeneing-n1">
-                      Das <akn:affectedDocument href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+               <akn:list GUID="30eefaa0-4881-4a67-9c92-c59bc40d18b1"
+                         eId="art-z1_abs-z_untergl-n1">
+                  <akn:intro GUID="392c7e8f-00f0-47c1-bb7d-d0e962085b11"
+                             eId="art-z1_abs-z_untergl-n1_intro-n1">
+                     <akn:p GUID="09564246-7319-447b-aa14-58944defb203"
+                            eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1"> Das <akn:affectedDocument href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
                                               GUID="b9722530-5f4b-4151-8072-07af6d2d1374"
-                                              eId="art-z1_abs-z_inhalt-n1_liste-n1_listeneing-n1_bezugsdoc-n1">Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593), das zuletzt durch … geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:
-                  </akn:listIntroduction>
-                     <!-- Nummer 1 wurde entfernt -->
-                     <!-- Nummer 2 -->
-                     <akn:item GUID="39b8ee63-873b-445a-942b-569f002320aa"
-                               eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1">
-                        <akn:num GUID="965b1d4b-63aa-4789-a97c-ed36a8184d08"
-                                 eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1"> 2.</akn:num>
+                                              eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1">Vereinsgesetz vom 5. August 1964 (BGBl. I S. 593), das zuletzt durch … geändert worden ist</akn:affectedDocument>, wird wie folgt geändert:</akn:p>
+                  </akn:intro>
+                  <!-- Nummer 1 wurde entfernt -->
+                  <!-- Nummer 2 -->
+                  <akn:point GUID="39b8ee63-873b-445a-942b-569f002320aa"
+                             eId="art-z1_abs-z_untergl-n1_listenelem-n1">
+                     <akn:num GUID="965b1d4b-63aa-4789-a97c-ed36a8184d08"
+                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1"> 2.</akn:num>
+                     <akn:content GUID="a4186a03-a869-4176-ac37-1622900e86c6"
+                                  eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1">
                         <akn:p GUID="ab768cd1-2740-4142-82dc-2d4615a660c8"
-                               eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1">
+                               eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                     GUID="677cfb13-07b7-4a8e-b8da-419ce5c632ec"
-                                    eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
+                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_untergl-1_listenelem-2_inhalt-1_text-1/9-34.xml"
                                        GUID="77033f1e-44c3-4d08-ae11-6de933f8a80a"
-                                       eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_ref-n1">§ 20 Absatz 1 Satz 2</akn:ref> wird die Angabe <akn:quotedText startQuote="„"
+                                       eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">§ 20 Absatz 1 Satz 2</akn:ref> wird die Angabe <akn:quotedText startQuote="„"
                                               endQuote="“"
                                               GUID="31c38281-8ed4-485b-99d7-4d9b2906d16a"
-                                              eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quottext-n1">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die Wörter <akn:quotedText startQuote="„"
+                                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1">§ 9 Abs. 1 Satz 2, Abs. 2</akn:quotedText> durch die Wörter <akn:quotedText startQuote="„"
                                               endQuote="“"
                                               GUID="663c0322-e020-4b70-b675-fe3145095467"
-                                              eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quottext-n2">§ 9 Absatz 1 Satz 2, Absatz 2 oder 3</akn:quotedText> ersetzt.</akn:mod>
+                                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n2">§ 9 Absatz 1 Satz 2, Absatz 2 oder 3</akn:quotedText> ersetzt.</akn:mod>
                         </akn:p>
-                     </akn:item>
-                  </akn:blockList>
-               </akn:content>
+                     </akn:content>
+                  </akn:point>
+               </akn:list>
             </akn:paragraph>
          </akn:article>
          <!-- Artikel 3: Geltungszeitregel-->
