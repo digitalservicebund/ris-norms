@@ -767,21 +767,18 @@
                                  erfolgt.</akn:p>
                            </akn:item>
                         </akn:blockList>
-                     </akn:content>
-                     <akn:content GUID="048388ba-8dfc-4121-8e90-a3e7c81b21ab"
-                                  eId="art-z%c2%a73_abs-z1_inhalt-n2">
-                        <akn:blockList eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1"
+                        <akn:blockList eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1"
                                        GUID="3761e5c8-a98f-42bd-bafa-5b61fca94eec">
-                           <akn:listIntroduction eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listeneing-n1"
+                           <akn:listIntroduction eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listeneing-n1"
                                                  GUID="c8e7f644-f524-4648-aff5-cf52c859abd8">
                            Saatgut darf
                         </akn:listIntroduction>
-                           <akn:item eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n1"
+                           <akn:item eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n1"
                                      GUID="1a482c05-aebd-434b-8352-58643e5c8ebc">
-                              <akn:num eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n1_bezeichnung-n1"
+                              <akn:num eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1"
                                        GUID="9bd398f6-a92a-4953-a42f-6707ec12f27c">
                               1.</akn:num>
-                              <akn:p eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n1_text-n1"
+                              <akn:p eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1"
                                      GUID="c8b6dbfa-216a-4713-b0a1-1e657bccee61">
                                  nach Satz 1 Nr. 1, 2, 4 und 7 nur so lange in den Verkehr
                                  gebracht werden, als es den durch Rechtsverordnung
@@ -792,36 +789,36 @@
                                  entspricht,
                                  </akn:p>
                            </akn:item>
-                           <akn:item eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n2"
+                           <akn:item eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n2"
                                      GUID="09620432-1157-4902-b6c5-cd386d4fbb8b">
-                              <akn:num eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n2_bezeichnung-n1"
+                              <akn:num eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1"
                                        GUID="92c7dd56-873e-4744-845f-b3cfe88b06da">
                               2.</akn:num>
-                              <akn:blockList eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n2_liste-n1"
+                              <akn:blockList eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1"
                                              GUID="0d53f349-938e-4121-a412-6770af777ded">
-                                 <akn:listIntroduction eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n2_liste-n1_listeneing-n1"
+                                 <akn:listIntroduction eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listeneing-n1"
                                                        GUID="24cef507-7656-4bcf-bf5f-53b040ffb0f7">
                                  nach Satz 1 Nr. 1, 2 Buchstabe a und Nr. 7 nur so
                                     lange in den Verkehr gebracht werden, als
                               </akn:listIntroduction>
-                                 <akn:item eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n2_liste-n1_listenelem-n1"
+                                 <akn:item eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1"
                                            GUID="6ecdad77-ea12-4023-8104-080c629f46bc">
-                                    <akn:num eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n2_liste-n1_listenelem-n1_bezeichnung-n1"
+                                    <akn:num eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1_bezeichnung-n1"
                                              GUID="332f38a3-452b-4749-b925-a4b0f41bfa77">
                                     a)</akn:num>
-                                    <akn:p eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n2_liste-n1_listenelem-n1_text-n1"
+                                    <akn:p eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1_text-n1"
                                            GUID="c5a01a86-497a-4f95-a505-294821139874">
                                        eine vom Bundessortenamt für das Inverkehrbringen
                                        von Saatgut der Sorte nach § 52 Abs. 6 festgesetzte
                                        Auslauffrist noch nicht abgelaufen ist oder
                                        </akn:p>
                                  </akn:item>
-                                 <akn:item eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n2_liste-n1_listenelem-n2"
+                                 <akn:item eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n2"
                                            GUID="33a38732-8c57-4af4-bf79-f47b79e01ca8">
-                                    <akn:num eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n2_liste-n1_listenelem-n2_bezeichnung-n1"
+                                    <akn:num eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n2_bezeichnung-n1"
                                              GUID="9b0ea4c5-9b62-4b85-a7d2-ebfec0b7126a">
                                     b)</akn:num>
-                                    <akn:p eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n2_liste-n1_listenelem-n2_text-n1"
+                                    <akn:p eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n2_text-n1"
                                            GUID="627ac695-73de-427b-adda-26e47b8eb228">
                                        eine in einem der Gemeinsamen Sortenkataloge
                                        veröffentlichte Auslauffrist für das Inverkehrbringen
@@ -831,21 +828,21 @@
                                  </akn:item>
                               </akn:blockList>
                            </akn:item>
-                           <akn:item eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n3"
+                           <akn:item eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n3"
                                      GUID="dfd5fcbf-779d-4828-88ed-29f286a4ddc8">
-                              <akn:num eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n3_bezeichnung-n1"
+                              <akn:num eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1"
                                        GUID="71202da0-714c-4315-a831-cbf5e0b58f5e">
                               3.</akn:num>
-                              <akn:p eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenelem-n3_text-n1"
+                              <akn:p eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenelem-n3_text-n1"
                                      GUID="3a3843ea-100c-4c81-9a60-ad11a83d2c17">
                                  in Mischungen zu gewerblichen Zwecken nur in den
                                  Verkehr gebracht werden, wenn dies durch Rechtsverordnung
                                  nach § 26 gestattet ist.
                                  </akn:p>
                            </akn:item>
-                           <akn:listWrapUp eId="art-z%c2%a73_abs-z1_inhalt-n2_liste-n1_listenschl-n1"
+                           <akn:listWrapUp eId="art-z%c2%a73_abs-z1_inhalt-n1_liste-n1_listenschl-n1"
                                            GUID="333c0875-269b-4f53-b04f-db6d1ca16782">
-                           
+
                               Wer Saatgut einer Sorte, deren Pflanzen gentechnisch
                               veränderte Organismen im Sinne des § 3 Nr. 3 des Gentechnikgesetzes
                               sind, zu gewerblichen Zwecken in den
@@ -853,7 +850,7 @@
                               oder mittels eines anderen in schriftlicher
                               Form verfassten Angebotsträgers deutlich auf den Umstand
                               der gentechnischen Veränderung hinzuweisen.
-                              
+
                         </akn:listWrapUp>
                         </akn:blockList>
                      </akn:content>
@@ -898,7 +895,7 @@
                                              GUID="5d4308c5-6115-4b04-b582-cb768247734d">
                                  <akn:listIntroduction eId="art-z%c2%a74_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listeneing-n1"
                                                        GUID="56609473-1a27-49c0-a6a1-acf4ac55b18e">
-                                 
+
                               </akn:listIntroduction>
                                  <akn:item eId="art-z%c2%a74_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1"
                                            GUID="15588fad-a146-4bcb-8234-2db29fe5c6f6">
@@ -951,7 +948,7 @@
                            <!-- weitere Auzählungen aus dem Originaldokument werden ausgelassen -->
                            <akn:listWrapUp eId="art-z%c2%a74_abs-z1_inhalt-n1_liste-n1_listenschl-n1"
                                            GUID="b9185ee2-366c-4675-b689-6d8fd70e6bfc">
-                           
+
                               Die Anerkennung als Standardpflanzgut setzt ferner voraus,
                               dass das Inverkehrbringen von Standardpflanzgut
                               der jeweiligen Rebsorte zu gewerblichen Zwecken durch
@@ -961,7 +958,7 @@
                               entspricht, soweit nicht durch Rechtsverordnung
                               nach § 5 Abs. 1 Nr. 1 Buchstabe a oder b für Vorstufensaatgut
                               abweichende Anforderungen festgesetzt sind.
-                              
+
                         </akn:listWrapUp>
                         </akn:blockList>
                      </akn:content>
