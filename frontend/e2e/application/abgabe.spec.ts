@@ -70,7 +70,7 @@ test.describe("Abgabe view with expressions", { tag: ["@RISDEV-7186"] }, () => {
 
   test("publishes Prätext and shows success toast", async ({ page }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2025/9999/2025-06-11/1/deu/regelungstext-1/zielnorm/eli/bund/bgbl-1/1964/1234/abgabe",
+      "./verkuendungen/eli/bund/bgbl-1/2025/9999/2025-06-11/1/deu/regelungstext-verkuendung-1/zielnorm/eli/bund/bgbl-1/1964/1234/abgabe",
     )
 
     await page.getByRole("button", { name: "Prätexte abgeben" }).click()
@@ -93,7 +93,7 @@ test.describe("Abgabe view with expressions", { tag: ["@RISDEV-7186"] }, () => {
     page,
   }) => {
     await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2025/9999/2025-06-11/1/deu/regelungstext-1/zielnorm/eli/bund/bgbl-1/1964/1234/abgabe",
+      "./verkuendungen/eli/bund/bgbl-1/2025/9999/2025-06-11/1/deu/regelungstext-verkuendung-1/zielnorm/eli/bund/bgbl-1/1964/1234/abgabe",
     )
 
     await page

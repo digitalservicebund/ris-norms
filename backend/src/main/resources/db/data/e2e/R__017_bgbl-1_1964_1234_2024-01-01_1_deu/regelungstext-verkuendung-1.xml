@@ -45,7 +45,7 @@
                              GUID="fee576f9-5d6a-483c-8084-b09e0bef96ae"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
-                               GUID="31437268-expression8ab9-4156-a464-a1ca68c40a75"
+                               GUID="31437268-8ab9-4156-a464-a1ca68c40a75"
                                eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"/>
                <akn:FRBRcountry value="de"
                                 GUID="27ea99b4-2ece-45ec-92e2-14a6a3be52b5"
@@ -72,15 +72,11 @@
                               value="d04791fc-dcdc-47e6-aefb-bc2f7aaee15b"
                               GUID="32bd238d-e176-473b-a86c-1be978ccc90b"
                               eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1"/>
-               <akn:FRBRalias name="nachfolgende-version-id"
-                              value=""
-                              GUID="38a1a0b5-8291-4b91-8ca0-8d12bf990a12"
-                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="b03544ab-bd92-48e3-8cd4-5f46e11536fc"
                                eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"/>
                <akn:FRBRdate name="verkuendung"
-                             date="1964-08-05"
+                             date="2024-01-01"
                              GUID="d421ea74-0c09-4cd0-ad55-e305dee5535e"
                              eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"/>
                <akn:FRBRlanguage language="deu"
@@ -99,7 +95,7 @@
                             GUID="01653b47-2a85-4902-a6ea-b538df135ea4"
                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"/>
                <akn:FRBRdate name="generierung"
-                             date="1964-08-05"
+                             date="2025-06-11"
                              GUID="5873cf64-9760-46c3-be8a-369bb012fbd1"
                              eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"/>
                <akn:FRBRauthor href="recht.bund.de"
