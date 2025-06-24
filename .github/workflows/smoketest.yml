@@ -14,6 +14,7 @@ jobs:
         with:
           path: ./frontend/node_modules
           key: ${{ runner.os }}-node-modules-${{ hashFiles('frontend/package-lock.json') }}
+          fail-on-cache-miss: true
       - name: Get Playwright version
         working-directory: ./frontend
         run: echo "PLAYWRIGHT_VERSION=$(jq -r '.packages["node_modules/@playwright/test"].version' package-lock.json)" >> $GITHUB_ENV
@@ -23,6 +24,7 @@ jobs:
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+          fail-on-cache-miss: true
       - name: Run smoke tests
         working-directory: ./frontend
         env:
