@@ -23,7 +23,7 @@ test.describe("Abgabe view with expressions", { tag: ["@RISDEV-7186"] }, () => {
       {
         eli: "eli/bund/bgbl-1/1964/1234/1964-09-21/1/deu",
         date: "21.09.1964 – 31.12.2023",
-        status: "Prätext abgegeben",
+        status: "Noch nicht abgegeben",
       },
       {
         eli: "eli/bund/bgbl-1/1964/1234/2024-01-01/1/deu",
