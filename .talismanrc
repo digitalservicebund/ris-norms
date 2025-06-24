@@ -58,3 +58,5 @@ fileignoreconfig:
     checksum: f5ec3e5bb2aad4bfd6023fda792725789bd2d8c72cd6f5c4701f0998310caece
   - filename: local/certs/private-key.pem
     checksum: a4e1c0eda6ae4318ae7e5a97ab6910bb0655ca0eab9a6c91a17dff8279b67ec1
+  - filename: LegalDocML.de/ris-norms-ldml-schema-extensions
+    checksum: 4980a355e26c327ce4ddf8cb227c9d5dde01f9fae8931dc89bf3ac9115c19764
