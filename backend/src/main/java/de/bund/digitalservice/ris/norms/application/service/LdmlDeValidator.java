@@ -1,10 +1,10 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
-import de.bund.digitalservice.ris.norms.application.exception.InvalidDokumentTypeException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
 import de.bund.digitalservice.ris.norms.domain.entity.Bekanntmachung;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
+import de.bund.digitalservice.ris.norms.domain.entity.DokumentType;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.OffeneStruktur;
 import de.bund.digitalservice.ris.norms.domain.entity.Rechtsetzungsdokument;
@@ -12,6 +12,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidDokumentTypeException;
 import de.bund.digitalservice.ris.norms.utils.exceptions.XmlProcessingException;
 import java.io.IOException;
 import java.net.URI;
@@ -121,12 +122,11 @@ public class LdmlDeValidator {
    */
   public Dokument parseAndValidateDokument(String dokumentName, String ldmlDeString) {
     try {
-      return switch (dokumentName.split("-")[0]) {
-        case "rechtsetzungsdokument" -> parseAndValidateRechtsetzungsdokument(ldmlDeString);
-        case "regelungstext" -> parseAndValidateRegelungstext(ldmlDeString);
-        case "offenestruktur" -> parseAndValidateOffeneStruktur(ldmlDeString);
-        case "bekanntmachungstext" -> parseAndValidateBekanntmachung(ldmlDeString);
-        default -> throw new InvalidDokumentTypeException(dokumentName);
+      return switch (DokumentType.getByFileName(dokumentName)) {
+        case RECHTSETZUNGSDOKUMENT -> parseAndValidateRechtsetzungsdokument(ldmlDeString);
+        case REGELUNGSTEXT_VERKUENDUNG -> parseAndValidateRegelungstext(ldmlDeString);
+        case ANLAGE_REGELUNGSTEXT -> parseAndValidateOffeneStruktur(ldmlDeString);
+        case BEKANNTMACHUNGSTEXT -> parseAndValidateBekanntmachung(ldmlDeString);
       };
     } catch (LdmlDeNotValidException exception) {
       throw new LdmlDeNotValidException(

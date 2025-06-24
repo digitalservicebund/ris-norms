@@ -8,7 +8,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.OffeneStruktur;
 import de.bund.digitalservice.ris.norms.domain.entity.Rechtsetzungsdokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import java.util.Arrays;
 
 /** Mapper class for converting between {@link DokumentDto} and {@link Regelungstext} or {@link OffeneStruktur}. */
 public class DokumentMapper {
@@ -23,31 +22,16 @@ public class DokumentMapper {
    * @return A new {@link Dokument} mapped from the input {@link DokumentDto}.
    */
   public static Dokument mapToDomain(final DokumentDto dokumentDto) {
-    return switch (mapToDokumentTypeToDomain(dokumentDto.getSubtype())) {
-      case DokumentType.REGELUNGSTEXT_VERKUENDUNG -> new Regelungstext(
+    return switch (DokumentType.getByOntologyUri(dokumentDto.getSubtype())) {
+      case REGELUNGSTEXT_VERKUENDUNG -> new Regelungstext(
         XmlMapper.toDocument(dokumentDto.getXml())
       );
-      case DokumentType.ANLAGE_REGELUNGSTEXT -> new OffeneStruktur(
+      case ANLAGE_REGELUNGSTEXT -> new OffeneStruktur(XmlMapper.toDocument(dokumentDto.getXml()));
+      case RECHTSETZUNGSDOKUMENT -> new Rechtsetzungsdokument(
         XmlMapper.toDocument(dokumentDto.getXml())
       );
-      case DokumentType.RECHTSETZUNGSDOKUMENT -> new Rechtsetzungsdokument(
-        XmlMapper.toDocument(dokumentDto.getXml())
-      );
-      case DokumentType.BEKANNTMACHUNGSTEXT -> new Bekanntmachung(
-        XmlMapper.toDocument(dokumentDto.getXml())
-      );
+      case BEKANNTMACHUNGSTEXT -> new Bekanntmachung(XmlMapper.toDocument(dokumentDto.getXml()));
     };
-  }
-
-  private static DokumentType mapToDokumentTypeToDomain(final String dokumentType) {
-    var lowerCaseDokumentType = dokumentType.toLowerCase();
-
-    return Arrays.stream(DokumentType.values())
-      .filter(type -> lowerCaseDokumentType.equals(type.ontologyUri))
-      .findFirst()
-      .orElseThrow(() ->
-        new IllegalArgumentException("Dokument type " + dokumentType + " not supported")
-      );
   }
 
   /**
