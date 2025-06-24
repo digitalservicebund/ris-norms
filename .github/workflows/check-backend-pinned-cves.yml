@@ -158,6 +158,7 @@ jobs:
           exit-code: 1 # if any level of CVE is found, break the pipeline
 
       - name: Create branch and PR
+        id: cpr
         if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
         uses: peter-evans/create-pull-request@c2e8eb39a3cb6c93285d508c16b74ded79dfe9ab
         with:
@@ -172,8 +173,14 @@ jobs:
           body: |
             This PR removes pinned dependencies that are no longer needed because their associated CVEs were resolved.
           base: main
-          labels: |
-            automerge
+
+      - name: Enable Pull Request Automerge
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@15cc64bb1afa41657d1325a39ade0bc0fa2d55d4
+        with:
+          token: ${{ secrets.GH_PAT_PUSH_TOKEN }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash
 
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
