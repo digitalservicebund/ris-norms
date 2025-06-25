@@ -117,7 +117,7 @@
                                type="substitution">
                   <akn:source GUID="4f1548dc-5130-4b1e-bd36-896cf12b99b6"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"
-                              href="#art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1"/>
+                              href="#art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"/>
                   <akn:destination GUID="7daf52ed-e0c5-4458-8eff-ac5a8c857702"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"
                                    href="#"/>
@@ -186,105 +186,120 @@
             <akn:paragraph GUID="6c8b3206-4c3f-4144-aed5-7630a2958a6c" eId="art-z1_abs-z">
                <akn:num GUID="16556b49-9279-4160-bf60-f83a923994c3"
                         eId="art-z1_abs-z_bezeichnung-n1"/>
-               <akn:content GUID="1b97a747-88c7-4df0-8db5-70e73833c01e"
-                            eId="art-z1_abs-z_inhalt-n1">
-                  <akn:blockList GUID="c2c7f24e-9f14-4c0a-8618-0775a99defc6"
-                                 eId="art-z1_abs-z_inhalt-n1_liste-n1">
-                     <akn:listIntroduction GUID="4f8ad690-712c-4d9b-a217-96cc45c6e2bf"
-                                           eId="art-z1_abs-z_inhalt-n1_liste-n1_listeneing-n1">
-                     Die Zwangsvollstreckungsformular-Verordnung vom 16. Dezember 2022 (BGBl. I S. 2368), die durch Artikel 1 der Verordnung vom 24. November 2023 (BGBl. 2023 I Nr. 320) geändert worden ist, wird wie folgt geändert:
-                  </akn:listIntroduction>
-                     <akn:item GUID="03bf1973-5228-4ee1-bd69-4b16d036bac9"
-                               eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1">
-                        <akn:num GUID="c2827068-ec3e-475a-9ac6-9eea7b2a9678"
-                                 eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+               <akn:list GUID="c2c7f24e-9f14-4c0a-8618-0775a99defc6"
+                         eId="art-z1_abs-z_untergl-n1">
+                  <akn:intro GUID="4f8ad690-712c-4d9b-a217-96cc45c6e2bf"
+                             eId="art-z1_abs-z_untergl-n1_intro-n1">
+                     <akn:p GUID="70179e01-82ce-4e61-ac00-6a6b4a7df72a"
+                            eId="art-z1_abs-z_untergl-n1_intro-n1_text-n1">Die Zwangsvollstreckungsformular-Verordnung vom 16. Dezember 2022 (BGBl. I S. 2368), die durch Artikel 1 der Verordnung vom 24. November 2023 (BGBl. 2023 I Nr. 320) geändert worden ist, wird wie folgt geändert:</akn:p>
+                  </akn:intro>
+                  <akn:point GUID="03bf1973-5228-4ee1-bd69-4b16d036bac9"
+                             eId="art-z1_abs-z_untergl-n1_listenelem-n1">
+                     <akn:num GUID="c2827068-ec3e-475a-9ac6-9eea7b2a9678"
+                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                     <akn:content GUID="82ccfec8-32d6-4f39-8557-2f102309181e"
+                                  eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1">
                         <akn:p GUID="d38eafb8-116b-4c1b-85e5-204710deafc7"
-                               eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1">
+                               eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
                            <akn:mod GUID="dde7933b-32da-4990-96e8-c73e8a0a41ec"
-                                    eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1"
+                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
                                     refersTo="aenderungsbefehl-neufassung">§ 6 wird wie folgt gefasst: <akn:quotedStructure GUID="a0ea7123-58e2-4b7b-99fe-411c8c1c8f5f"
-                                                   eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1"
+                                                   eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1"
                                                    endQuote="“"
                                                    startQuote="„">
                                  <akn:article GUID="54c6147c-f50b-4fee-a237-e158b471a4c6"
-                                              eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6"
+                                              eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6"
                                               period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
                                               refersTo="stammform">
                                     <akn:num GUID="99ab1283-2e8e-4383-a3aa-67df496b0195"
-                                             eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_bezeichnung-n1">§ 6</akn:num>
+                                             eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_bezeichnung-n1">§ 6</akn:num>
                                     <akn:heading GUID="cd36af73-2af4-4029-abeb-4109a6aeb010"
-                                                 eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_überschrift-n1">Übergangsregelung</akn:heading>
+                                                 eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_überschrift-n1">Übergangsregelung</akn:heading>
                                     <akn:paragraph GUID="41225d07-8aa5-4da2-b46a-9ae365511e91"
-                                                   eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1">
+                                                   eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1">
                                        <akn:num GUID="48112be5-52a1-4d0f-bfc4-88cb85fe473b"
-                                                eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_bezeichnung-n1">(1)</akn:num>
-                                       <akn:content GUID="d212b4c5-bf61-4ba1-9c61-f507b780686c"
-                                                    eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1">
-                                          <akn:blockList GUID="802daef0-ac1a-46fa-b536-a53c26ad5171"
-                                                         eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1">
-                                             <akn:listIntroduction GUID="d99ea42f-368e-483e-9a88-c9eeeab51a8b"
-                                                                   eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
-                                             Für bis einschließlich 30. September 2025 gestellte
-                                          </akn:listIntroduction>
-                                             <akn:item GUID="e191ea00-1f1a-404e-a05d-a7b470c43edc"
-                                                       eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
-                                                <akn:num GUID="fa165127-2ed4-4c45-bdcd-e9cd352c001b"
-                                                         eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_bezeichnung-n1">(1)</akn:num>
+                                       <akn:list GUID="802daef0-ac1a-46fa-b536-a53c26ad5171"
+                                                 eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1">
+                                          <akn:intro GUID="d99ea42f-368e-483e-9a88-c9eeeab51a8b"
+                                                     eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_intro-n1">
+                                             <akn:p GUID="07288383-ef20-4a7d-829c-f9b602a3023f"
+                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_intro-n1_text-n1">Für bis einschließlich 30. September 2025 gestellte</akn:p>
+                                          </akn:intro>
+                                          <akn:point GUID="e191ea00-1f1a-404e-a05d-a7b470c43edc"
+                                                     eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n1">
+                                             <akn:num GUID="fa165127-2ed4-4c45-bdcd-e9cd352c001b"
+                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                                             <akn:content GUID="c0ee0c02-59f0-44b0-9c5d-8309327afcde"
+                                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n1_inhalt-n1">
                                                 <akn:p GUID="cbb71ad4-25b2-450c-a32d-813a3b8f5ac4"
-                                                       eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1">Vollstreckungsaufträge an Gerichtsvollzieher zur Zwangsvollstreckung wegen privatrechtlicher Geldforderungen,</akn:p>
-                                             </akn:item>
-                                             <akn:item GUID="87a7f7ea-1379-4ebf-8294-0842516c1c97"
-                                                       eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
-                                                <akn:num GUID="f4862cbf-6cf4-43bd-8c99-c8af5f92ffe6"
-                                                         eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                                                       eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">Vollstreckungsaufträge an Gerichtsvollzieher zur Zwangsvollstreckung wegen privatrechtlicher Geldforderungen,</akn:p>
+                                             </akn:content>
+                                          </akn:point>
+                                          <akn:point GUID="87a7f7ea-1379-4ebf-8294-0842516c1c97"
+                                                     eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n2">
+                                             <akn:num GUID="f4862cbf-6cf4-43bd-8c99-c8af5f92ffe6"
+                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                                             <akn:content GUID="de2164e8-8df9-4c67-a258-5c8847b01e08"
+                                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
                                                 <akn:p GUID="b36ea54b-a63b-4bcd-9b12-6667322a450b"
-                                                       eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1">Anträge auf Erlass einer richterlichen Durchsuchungsanordnung nach § 758a Absatz 1 der Zivilprozessordnung,</akn:p>
-                                             </akn:item>
-                                             <akn:item GUID="ba743977-61d5-4f3e-9a6a-d76ae959b9f9"
-                                                       eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listenelem-n3">
-                                                <akn:num GUID="ca83d4a8-8a25-4bdc-b05f-5dbc35ce614a"
-                                                         eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                                                       eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Anträge auf Erlass einer richterlichen Durchsuchungsanordnung nach § 758a Absatz 1 der Zivilprozessordnung,</akn:p>
+                                             </akn:content>
+                                          </akn:point>
+                                          <akn:point GUID="ba743977-61d5-4f3e-9a6a-d76ae959b9f9"
+                                                     eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n3">
+                                             <akn:num GUID="ca83d4a8-8a25-4bdc-b05f-5dbc35ce614a"
+                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
+                                             <akn:content GUID="ab30f130-4370-421e-a3e9-be86e6a27a1c"
+                                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n3_inhalt-n1">
                                                 <akn:p GUID="9161aee5-cfd2-43b7-a5db-07182dcd2bf8"
-                                                       eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listenelem-n3_text-n1">Anträge auf Erlass eines Pfändungsbeschlusses nach § 829 der Zivilprozessordnung und</akn:p>
-                                             </akn:item>
-                                             <akn:item GUID="369ddd24-5a50-4a50-bcd5-85eef60ffb48"
-                                                       eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listenelem-n4">
-                                                <akn:num GUID="f2716379-0009-48bd-9463-8cfe2f62004a"
-                                                         eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
+                                                       eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">Anträge auf Erlass eines Pfändungsbeschlusses nach § 829 der Zivilprozessordnung und</akn:p>
+                                             </akn:content>
+                                          </akn:point>
+                                          <akn:point GUID="369ddd24-5a50-4a50-bcd5-85eef60ffb48"
+                                                     eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n4">
+                                             <akn:num GUID="f2716379-0009-48bd-9463-8cfe2f62004a"
+                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
+                                             <akn:content GUID="3a300ee8-fa40-4a59-a8df-b8637077bd6c"
+                                                          eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n4_inhalt-n1">
                                                 <akn:p GUID="149f71d6-e2a0-4290-a896-78fc5618fe2f"
-                                                       eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listenelem-n4_text-n1">Anträge auf Erlass eines Pfändungs- und Überweisungsbeschlusses nach den §§ 829 und 835 der Zivilprozessordnung</akn:p>
-                                             </akn:item>
-                                             <akn:listWrapUp GUID="c8808ffe-4e32-4423-89be-716579bc8dc4"
-                                                             eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_inhalt-n1_liste-n1_listenschl-n1">
-                                             dürfen diejenigen Formulare weiter genutzt werden, die durch diese Verordnung in der Fassung vom 24. November 2023 für solche Aufträge und Anträge bestimmt sind.
-                                          </akn:listWrapUp>
-                                          </akn:blockList>
-                                       </akn:content>
+                                                       eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_listenelem-n4_inhalt-n1_text-n1">Anträge auf Erlass eines Pfändungs- und Überweisungsbeschlusses nach den §§ 829 und 835 der Zivilprozessordnung</akn:p>
+                                             </akn:content>
+                                          </akn:point>
+                                          <akn:wrapUp GUID="c8808ffe-4e32-4423-89be-716579bc8dc4"
+                                                      eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_schlusstext-n1">
+                                             <akn:p GUID="ac5e4897-42a4-4ab4-90a9-a7794b66af62"
+                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z1_untergl-n1_schlusstext-n1_text-n1">dürfen diejenigen Formulare weiter genutzt werden, die durch diese Verordnung in der Fassung vom 24. November 2023 für solche Aufträge und Anträge bestimmt sind.</akn:p>
+                                          </akn:wrapUp>
+                                       </akn:list>
                                     </akn:paragraph>
                                     <akn:paragraph GUID="0726bf36-1b07-4c23-9084-63975b1e2a75"
-                                                   eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z2">
+                                                   eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z2">
                                        <akn:num GUID="70ee5f1c-6eea-48a9-a4c4-8dab2bbdcff8"
-                                                eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z2_bezeichnung-n1">(2)</akn:num>
+                                                eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z2_bezeichnung-n1">(2)</akn:num>
                                        <akn:content GUID="208387e5-bf1b-4f52-8144-f7d54250d819"
-                                                    eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z2_inhalt-n1">
+                                                    eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z2_inhalt-n1">
                                           <akn:p GUID="04bbcc1e-32d2-44f2-ad79-2c977d196a0d"
-                                                 eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z2_inhalt-n1_text-n1">Ist für Vollstreckungsaufträge an Gerichtsvollzieher zur Zwangsvollstreckung wegen öffentlich-rechtlicher Geldforderungen die Nutzung der Formulare der Anlagen 1 und 6 verbindlich, so müssen diese Formulare erst für solche Vollstreckungsaufträge genutzt werden, die ab dem 1. Oktober 2025 gestellt werden.</akn:p>
+                                                 eId="art-z1_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_art-z6_abs-z2_inhalt-n1_text-n1">Ist für Vollstreckungsaufträge an Gerichtsvollzieher zur Zwangsvollstreckung wegen öffentlich-rechtlicher Geldforderungen die Nutzung der Formulare der Anlagen 1 und 6 verbindlich, so müssen diese Formulare erst für solche Vollstreckungsaufträge genutzt werden, die ab dem 1. Oktober 2025 gestellt werden.</akn:p>
                                        </akn:content>
                                     </akn:paragraph>
                                  </akn:article>
                               </akn:quotedStructure>
                            </akn:mod>
                         </akn:p>
-                     </akn:item>
-                     <akn:item GUID="effcbfc0-6cbf-455c-89e9-fbbbd7bb6a90"
-                               eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n2">
-                        <akn:num GUID="2d3198dc-3c3f-4354-ac3d-23ef76a29324"
-                                 eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                     </akn:content>
+                  </akn:point>
+                  <akn:point GUID="effcbfc0-6cbf-455c-89e9-fbbbd7bb6a90"
+                             eId="art-z1_abs-z_untergl-n1_listenelem-n2">
+                     <akn:num GUID="2d3198dc-3c3f-4354-ac3d-23ef76a29324"
+                              eId="art-z1_abs-z_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                     <akn:content GUID="3f3fed7f-19aa-48da-8dbf-e7fe967cedf9"
+                                  eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1">
                         <akn:p GUID="08de2488-2d0a-4587-a3f6-bf663a1d8b78"
-                               eId="art-z1_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1">Die Anlagen 1 bis 8 erhalten jeweils die aus dem Anhang zu dieser Verordnung ersichtliche Fassung.</akn:p>
-                     </akn:item>
-                  </akn:blockList>
-               </akn:content>
+                               eId="art-z1_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Die Anlagen 1 bis 8 erhalten jeweils die aus dem Anhang zu dieser Verordnung ersichtliche Fassung.</akn:p>
+                     </akn:content>
+                  </akn:point>
+               </akn:list>
             </akn:paragraph>
          </akn:article>
          <akn:article GUID="136d956e-3a2f-479c-be6c-a028b3f247bb"
