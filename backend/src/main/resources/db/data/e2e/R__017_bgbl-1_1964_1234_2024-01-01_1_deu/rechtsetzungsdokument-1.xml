@@ -71,15 +71,11 @@
                               value="d04791fc-dcdc-47e6-aefb-bc2f7aaee15b"
                               GUID="0bf51618-ab5d-418d-bdc6-302e5e0ea55b"
                               eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1"/>
-               <akn:FRBRalias name="nachfolgende-version-id"
-                              value=""
-                              GUID="710fd563-d3d9-45f4-ace3-80a9a93ecb7e"
-                              eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2"/>
                <akn:FRBRauthor href="recht.bund.de/institution/bundesregierung"
                                GUID="89183df0-25d4-4b53-9d8d-00396510f8a1"
                                eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"/>
                <akn:FRBRdate name="verkuendung"
-                             date="1964-08-05"
+                             date="2024-01-01"
                              GUID="186bfb96-58bc-491f-8103-ec79117032e3"
                              eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"/>
                <akn:FRBRlanguage language="deu"
@@ -98,7 +94,7 @@
                             GUID="9415412b-2b61-4a13-ad90-bf33c933a0b5"
                             eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"/>
                <akn:FRBRdate name="generierung"
-                             date="1964-08-05"
+                             date="2025-06-11"
                              GUID="2e44c4ac-eb6c-41b3-8526-b7bb15700137"
                              eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"/>
                <akn:FRBRauthor href="recht.bund.de"
@@ -124,7 +120,7 @@
          <akn:component GUID="5779a47c-df65-485e-b8f8-90501e2b8cc6"
                         eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="c4a01b2a-4560-44d7-b10e-f5a6634c288b"
-                             href="regelungstext-1.xml"
+                             href="regelungstext-verkuendung-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
                              eId="rdokhauptteil-n1_tldokverweis-n1_verweis-n1"/>
          </akn:component>
