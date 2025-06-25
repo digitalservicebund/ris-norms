@@ -13,7 +13,7 @@ aws-bom = "software.amazon.awssdk:bom:2.29.52"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
-errorprone = "com.google.errorprone:error_prone_core:2.38.0"
+errorprone = "com.google.errorprone:error_prone_core:2.39.0"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:7.5.2"

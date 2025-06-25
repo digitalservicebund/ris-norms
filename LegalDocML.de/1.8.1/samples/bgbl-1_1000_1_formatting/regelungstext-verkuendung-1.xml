@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <akn:meta GUID="95331d84-69b2-4f2d-a20a-d9bd802cfecc" eId="meta-n1">
          <akn:identification source="attributsemantik-noch-undefiniert"
@@ -226,92 +226,74 @@
             <akn:paragraph GUID="95a96e0c-bb6c-4898-8dd3-2721054cc2cd" eId="art-z2_abs-z">
                <akn:num GUID="4343d003-ade6-4259-87a8-3eb7c41597a9"
                         eId="art-z2_abs-z_bezeichnung-n1"/>
-               <akn:list GUID="b936694e-4680-4763-b59f-7a6f3d890353"
-                         eId="art-z2_abs-z_untergl-n1">
-                  <akn:intro GUID="2cef57c3-6b38-4561-abf3-e875bf43dfdd"
-                             eId="art-z2_abs-z_untergl-n1_intro-n1">
-                     <akn:p GUID="dbbbecdc-374d-457b-b749-997147574e52"
-                            eId="art-z2_abs-z_untergl-n1_intro-n1_text-n1">This is the intro to the following list:</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="73220071-f6f3-46f1-9470-6f74d987071b"
-                             eId="art-z2_abs-z_untergl-n1_listenelem-n1">
-                     <akn:num GUID="ef9f6ce6-4412-42ce-b290-15dd650ab4aa"
-                              eId="art-z2_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1"/>
-                     <akn:list GUID="29d1617f-5a1a-4dfe-af05-08e49130649d"
-                               eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1">
-                        <akn:intro GUID="9c0854ba-77cd-4cfe-8209-3ccc4a2ba5a9"
-                                   eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_intro-n1">
-                           <akn:p GUID="00c33129-49ac-4040-b871-1e893de8293a"
-                                  eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1">This is the first item</akn:p>
-                        </akn:intro>
-                        <akn:point GUID="044e4590-14ae-46ea-8f23-f4999845b5f4"
-                                   eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1">
-                           <akn:num GUID="bd436b4f-c99c-4575-aef5-3ee595703dca"
-                                    eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1"/>
-                           <akn:content GUID="5f0253d7-55ac-491d-82f4-15df2d089ef3"
-                                        eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="8cc44190-93b4-4c95-97c4-f8147884c455"
+                            eId="art-z2_abs-z_inhalt-n1">
+                  <akn:blockList GUID="b936694e-4680-4763-b59f-7a6f3d890353"
+                                 eId="art-z2_abs-z_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="2cef57c3-6b38-4561-abf3-e875bf43dfdd"
+                                           eId="art-z2_abs-z_inhalt-n1_liste-n1_listeneing-n1">
+                     This is the intro to the following list:
+                  </akn:listIntroduction>
+                     <akn:item GUID="73220071-f6f3-46f1-9470-6f74d987071b"
+                               eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="ef9f6ce6-4412-42ce-b290-15dd650ab4aa"
+                                 eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1"/>
+                        <akn:blockList GUID="29d1617f-5a1a-4dfe-af05-08e49130649d"
+                                       eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1">
+                           <akn:listIntroduction GUID="9c0854ba-77cd-4cfe-8209-3ccc4a2ba5a9"
+                                                 eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listeneing-n1">
+                           This is the first item
+                        </akn:listIntroduction>
+                           <akn:item GUID="044e4590-14ae-46ea-8f23-f4999845b5f4"
+                                     eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1">
+                              <akn:num GUID="bd436b4f-c99c-4575-aef5-3ee595703dca"
+                                       eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_bezeichnung-n1"/>
                               <akn:p GUID="3c5a9e6d-d62d-4a8f-be50-2e5c825181d0"
-                                     eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">This is the first sub item.</akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="1092eabf-ab54-4a1b-b11c-eedba53835c3"
-                                   eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2">
-                           <akn:num GUID="276ed014-1350-4595-a70a-003c25735f1e"
-                                    eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1"/>
-                           <akn:content GUID="df2a2164-eb2e-421c-8740-b9d67174c377"
-                                        eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1">
+                                     eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_text-n1">This is the first sub item.</akn:p>
+                           </akn:item>
+                           <akn:item GUID="1092eabf-ab54-4a1b-b11c-eedba53835c3"
+                                     eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2">
+                              <akn:num GUID="276ed014-1350-4595-a70a-003c25735f1e"
+                                       eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_bezeichnung-n1"/>
                               <akn:p GUID="0c9b38a0-6481-41f5-ba5a-cd4dafbbe55c"
-                                     eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">This is the second sub item.</akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="3ac355ad-96dc-44e4-a7c1-6e986c666c3a"
-                                   eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3">
-                           <akn:num GUID="9c751fd1-39d7-4011-830a-7f3fc151f22e"
-                                    eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_bezeichnung-n1"/>
-                           <akn:content GUID="d992de84-d503-43f7-86be-228829ecf95f"
-                                        eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1">
+                                     eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_text-n1">This is the second sub item.</akn:p>
+                           </akn:item>
+                           <akn:item GUID="3ac355ad-96dc-44e4-a7c1-6e986c666c3a"
+                                     eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n3">
+                              <akn:num GUID="9c751fd1-39d7-4011-830a-7f3fc151f22e"
+                                       eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n3_bezeichnung-n1"/>
                               <akn:p GUID="303e4d60-d3f2-49c3-a25b-4c9b170490da"
-                                     eId="art-z2_abs-z_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">This is the third sub item.</akn:p>
-                           </akn:content>
-                        </akn:point>
-                     </akn:list>
-                  </akn:point>
-                  <akn:point GUID="f0296e94-f871-488d-a02a-40071876198c"
-                             eId="art-z2_abs-z_untergl-n1_listenelem-n2">
-                     <akn:num GUID="52156187-2226-4363-a0bd-a3b912d8e7fa"
-                              eId="art-z2_abs-z_untergl-n1_listenelem-n2_bezeichnung-n1"/>
-                     <akn:content GUID="3f8e14eb-c1e0-457c-9eed-8d36839a87ce"
-                                  eId="art-z2_abs-z_untergl-n1_listenelem-n2_inhalt-n1">
+                                     eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n3_text-n1">This is the third sub item.</akn:p>
+                           </akn:item>
+                        </akn:blockList>
+                     </akn:item>
+                     <akn:item GUID="f0296e94-f871-488d-a02a-40071876198c"
+                               eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="52156187-2226-4363-a0bd-a3b912d8e7fa"
+                                 eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1"/>
                         <akn:p GUID="2ff5b711-fbd6-4d8a-a44f-535b802eaf8d"
-                               eId="art-z2_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1">This is the second list item</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="cedd5012-5ddd-40aa-999e-5db9ff654d52"
-                             eId="art-z2_abs-z_untergl-n1_listenelem-n3">
-                     <akn:num GUID="86502073-95bb-4294-bc07-7badbf9c5670"
-                              eId="art-z2_abs-z_untergl-n1_listenelem-n3_bezeichnung-n1"/>
-                     <akn:content GUID="64b16cbc-8778-4838-8239-b8ec71373d71"
-                                  eId="art-z2_abs-z_untergl-n1_listenelem-n3_inhalt-n1">
+                               eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1">This is the second list item</akn:p>
+                     </akn:item>
+                     <akn:item GUID="cedd5012-5ddd-40aa-999e-5db9ff654d52"
+                               eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n3">
+                        <akn:num GUID="86502073-95bb-4294-bc07-7badbf9c5670"
+                                 eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1"/>
                         <akn:p GUID="22aa60c6-40d9-43a5-ba40-07e84e6966b6"
-                               eId="art-z2_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1">This is the third list item </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="52dfdfbb-0810-4717-bc9d-345932c92987"
-                             eId="art-z2_abs-z_untergl-n1_listenelem-n4">
-                     <akn:num GUID="8a2566d2-6de6-4658-85a7-85ebe88551ce"
-                              eId="art-z2_abs-z_untergl-n1_listenelem-n4_bezeichnung-n1"/>
-                     <akn:content GUID="1a6fccf5-bf2e-4550-97ed-b3af6ee79aa6"
-                                  eId="art-z2_abs-z_untergl-n1_listenelem-n4_inhalt-n1">
+                               eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n3_text-n1">This is the third list item </akn:p>
+                     </akn:item>
+                     <akn:item GUID="52dfdfbb-0810-4717-bc9d-345932c92987"
+                               eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n4">
+                        <akn:num GUID="8a2566d2-6de6-4658-85a7-85ebe88551ce"
+                                 eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n4_bezeichnung-n1"/>
                         <akn:p GUID="e9fd6b62-82b9-4cc4-9a6e-1b6b76957d5b"
-                               eId="art-z2_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1">This is the fourth list item.</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:wrapUp GUID="1d234bf0-b4e1-46bf-be69-8c5347425c59"
-                              eId="art-z2_abs-z_untergl-n1_schlusstext-n1">
-                     <akn:p GUID="49f9c479-d700-49aa-ba1d-496fcb8cdd75"
-                            eId="art-z2_abs-z_untergl-n1_schlusstext-n1_text-n1">This is the outro of the list.</akn:p>
-                  </akn:wrapUp>
-               </akn:list>
+                               eId="art-z2_abs-z_inhalt-n1_liste-n1_listenelem-n4_text-n1">This is the fourth list item.</akn:p>
+                     </akn:item>
+                     <akn:listWrapUp GUID="1d234bf0-b4e1-46bf-be69-8c5347425c59"
+                                     eId="art-z2_abs-z_inhalt-n1_liste-n1_listenschl-n1">
+                     This is the outro of the list.
+                  </akn:listWrapUp>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
          </akn:article>
          <akn:article GUID="4c978896-bb89-4e95-8fe0-cc338f56c293"

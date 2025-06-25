@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.application.service.XsdSchemaService;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
+import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidDokumentTypeException;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -29,6 +30,9 @@ import org.springframework.core.io.UrlResource;
 public class Fixtures {
 
   private static final String LDMLDE_RESOURCE_FOLDER = "/LegalDocML.de/1.8.1";
+
+  private static final String LDMLDE_EXTENSION_RESOURCE_FOLDER =
+    "/LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1";
 
   private static final String FIXTURES_RESOURCE_FOLDER = LDMLDE_RESOURCE_FOLDER + "/fixtures";
 
@@ -98,13 +102,15 @@ public class Fixtures {
     ),
     new UrlResource(
       Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(LDMLDE_RESOURCE_FOLDER + "/schema-extension/metadata.xsd")
+        LdmlDeValidator.class.getResource(
+            LDMLDE_EXTENSION_RESOURCE_FOLDER + "/legalDocML.de-metadaten-ris.xsd"
+          )
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/schema-extension/norms-application-only-metadata.xsd"
+            LDMLDE_EXTENSION_RESOURCE_FOLDER + "/norms-application-only-metadata.xsd"
           )
       )
     )
@@ -159,51 +165,58 @@ public class Fixtures {
         continue;
       }
 
-      var dokType = file.getName().substring(0, file.getName().lastIndexOf("-"));
-      switch (dokType) {
-        case "regelungstext-verkuendung":
-          try {
-            dokumente.add(loadRegelungstextFromDisk(file.toURI().toURL(), validated));
-          } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-          }
-          break;
-        case "anlage-regelungstext":
-          try {
-            dokumente.add(loadOffeneStrukturFromDisk(file.toURI().toURL(), validated));
-          } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-          }
-          break;
-        case "rechtsetzungsdokument":
-          try {
-            var rechtsetzungsdokument = loadRechtsetzungsdokumentFromDisk(
-              file.toURI().toURL(),
-              validated
-            );
-            dokumente.add(rechtsetzungsdokument);
-            normManifestationEli = rechtsetzungsdokument.getManifestationEli().asNormEli();
-          } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-          }
-          break;
-        default:
-          try {
-            assert normManifestationEli != null;
-            binaryFiles.add(
-              loadBinaryFileFromDisk(
+      try {
+        switch (DokumentType.getByFileName(file.getName())) {
+          case REGELUNGSTEXT_VERKUENDUNG:
+            try {
+              dokumente.add(loadRegelungstextFromDisk(file.toURI().toURL(), validated));
+            } catch (MalformedURLException e) {
+              throw new RuntimeException(e);
+            }
+            break;
+          case ANLAGE_REGELUNGSTEXT:
+            try {
+              dokumente.add(loadOffeneStrukturFromDisk(file.toURI().toURL(), validated));
+            } catch (MalformedURLException e) {
+              throw new RuntimeException(e);
+            }
+            break;
+          case RECHTSETZUNGSDOKUMENT:
+            try {
+              var rechtsetzungsdokument = loadRechtsetzungsdokumentFromDisk(
                 file.toURI().toURL(),
-                DokumentManifestationEli.fromNormEli(
-                  normManifestationEli,
-                  file.getName().split("\\.")[0],
-                  file.getName().split("\\.")[1]
-                )
+                validated
+              );
+              dokumente.add(rechtsetzungsdokument);
+              normManifestationEli = rechtsetzungsdokument.getManifestationEli().asNormEli();
+            } catch (MalformedURLException e) {
+              throw new RuntimeException(e);
+            }
+            break;
+          case BEKANNTMACHUNGSTEXT:
+            try {
+              dokumente.add(loadBekanntmachungFromDisk(file.toURI().toURL(), validated));
+            } catch (MalformedURLException e) {
+              throw new RuntimeException(e);
+            }
+            break;
+        }
+      } catch (InvalidDokumentTypeException ignored) {
+        try {
+          assert normManifestationEli != null;
+          binaryFiles.add(
+            loadBinaryFileFromDisk(
+              file.toURI().toURL(),
+              DokumentManifestationEli.fromNormEli(
+                normManifestationEli,
+                file.getName().split("\\.")[0],
+                file.getName().split("\\.")[1]
               )
-            );
-          } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-          }
-          break;
+            )
+          );
+        } catch (MalformedURLException e) {
+          throw new RuntimeException(e);
+        }
       }
     }
 
@@ -282,6 +295,17 @@ public class Fixtures {
     }
 
     return new OffeneStruktur(XmlMapper.toDocument(loadTextFromDisk(fileName)));
+  }
+
+  private static Bekanntmachung loadBekanntmachungFromDisk(
+    final URL fileName,
+    final boolean validated
+  ) {
+    if (validated) {
+      return ldmlDeValidator.parseAndValidateBekanntmachung(loadTextFromDisk(fileName));
+    }
+
+    return new Bekanntmachung(XmlMapper.toDocument(loadTextFromDisk(fileName)));
   }
 
   private static Rechtsetzungsdokument loadRechtsetzungsdokumentFromDisk(

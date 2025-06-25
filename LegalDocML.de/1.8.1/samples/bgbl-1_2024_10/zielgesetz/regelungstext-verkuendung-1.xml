@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <akn:meta GUID="24742477-cfd0-4df5-8df1-8da2ed8100e9" eId="meta-n1">
          <akn:identification source="attributsemantik-noch-undefiniert"
@@ -224,321 +224,245 @@
             <akn:paragraph GUID="2eef5a8f-32be-4e23-b8c3-75528452d446" eId="art-z2_abs-z1">
                <akn:num GUID="d128a7d8-55a7-47ab-84a3-aa488a3ac654"
                         eId="art-z2_abs-z1_bezeichnung-n1">(1)</akn:num>
-               <akn:list GUID="6d4675ed-e359-47af-9795-5955861130ec"
-                         eId="art-z2_abs-z1_untergl-n1">
-                  <akn:intro GUID="538340e2-6385-44d2-b472-98fdbcffaacd"
-                             eId="art-z2_abs-z1_untergl-n1_intro-n1">
-                     <akn:p GUID="c14283f6-ec0f-40ab-92df-6e4d75ee5e43"
-                            eId="art-z2_abs-z1_untergl-n1_intro-n1_text-n1">Interessenvertreterinnen oder Interessenvertreter nach § 1 Absatz 4 müssen die Angaben nach § 3 Absatz 1 in einem öffentlichen Verzeichnis (Lobbyregister) gemäß Satz 2 eintragen, wenn</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="1203ead7-db08-4ff9-bdd4-99205e687343"
-                             eId="art-z2_abs-z1_untergl-n1_listenelem-n1">
-                     <akn:num GUID="b85f6a02-f961-44f4-965b-0a234395bdaa"
-                              eId="art-z2_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                     <akn:content GUID="e319d6c5-366a-475c-8b52-03c92129af11"
-                                  eId="art-z2_abs-z1_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="1a0c04a6-0ba4-41b5-acec-8b413afaffa9"
+                            eId="art-z2_abs-z1_inhalt-n1">
+                  <akn:blockList GUID="6d4675ed-e359-47af-9795-5955861130ec"
+                                 eId="art-z2_abs-z1_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="538340e2-6385-44d2-b472-98fdbcffaacd"
+                                           eId="art-z2_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
+                     Interessenvertreterinnen oder Interessenvertreter nach § 1 Absatz 4 müssen die Angaben nach § 3 Absatz 1 in einem öffentlichen Verzeichnis (Lobbyregister) gemäß Satz 2 eintragen, wenn
+                  </akn:listIntroduction>
+                     <akn:item GUID="1203ead7-db08-4ff9-bdd4-99205e687343"
+                               eId="art-z2_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="b85f6a02-f961-44f4-965b-0a234395bdaa"
+                                 eId="art-z2_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                         <akn:p GUID="0f189e06-71f3-4dda-a207-6c85c77fae44"
-                               eId="art-z2_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">die Interessenvertretung regelmäßig betrieben wird,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="56ccbf67-aebb-4739-bbef-5cd90e0a5df4"
-                             eId="art-z2_abs-z1_untergl-n1_listenelem-n2">
-                     <akn:num GUID="53eb0ea6-aaa3-49c5-a62f-e5b4fa14eb11"
-                              eId="art-z2_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                     <akn:content GUID="8b0f1e00-c2e7-41db-ae85-234fe3e60f04"
-                                  eId="art-z2_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
+                               eId="art-z2_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1">die Interessenvertretung regelmäßig betrieben wird,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="56ccbf67-aebb-4739-bbef-5cd90e0a5df4"
+                               eId="art-z2_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="53eb0ea6-aaa3-49c5-a62f-e5b4fa14eb11"
+                                 eId="art-z2_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                         <akn:p GUID="81a6262e-8628-4a3e-bc23-67b7f62e1377"
-                               eId="art-z2_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">die Interessenvertretung auf Dauer angelegt ist,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="136d5466-c103-4e47-ad62-170cf0e0ad58"
-                             eId="art-z2_abs-z1_untergl-n1_listenelem-n3">
-                     <akn:num GUID="1548fdd3-33fc-4b32-8236-2b3cc858d2eb"
-                              eId="art-z2_abs-z1_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                     <akn:content GUID="f7132baf-6ca4-4585-9f66-2d8313e8cbc6"
-                                  eId="art-z2_abs-z1_untergl-n1_listenelem-n3_inhalt-n1">
+                               eId="art-z2_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1">die Interessenvertretung auf Dauer angelegt ist,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="136d5466-c103-4e47-ad62-170cf0e0ad58"
+                               eId="art-z2_abs-z1_inhalt-n1_liste-n1_listenelem-n3">
+                        <akn:num GUID="1548fdd3-33fc-4b32-8236-2b3cc858d2eb"
+                                 eId="art-z2_abs-z1_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
                         <akn:p GUID="f6f3027f-91c1-451c-96a7-cc191ad7a096"
-                               eId="art-z2_abs-z1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">die Interessenvertretung geschäftsmäßig für Dritte betrieben wird oder</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="adab4575-28a4-4210-bb50-7f366e1846e6"
-                             eId="art-z2_abs-z1_untergl-n1_listenelem-n4">
-                     <akn:num GUID="ce272fc8-c45e-443a-8364-0d3eb4871b0f"
-                              eId="art-z2_abs-z1_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
-                     <akn:content GUID="b59871b2-f5c8-431b-8594-bdc72bf0aeef"
-                                  eId="art-z2_abs-z1_untergl-n1_listenelem-n4_inhalt-n1">
+                               eId="art-z2_abs-z1_inhalt-n1_liste-n1_listenelem-n3_text-n1">die Interessenvertretung geschäftsmäßig für Dritte betrieben wird oder</akn:p>
+                     </akn:item>
+                     <akn:item GUID="adab4575-28a4-4210-bb50-7f366e1846e6"
+                               eId="art-z2_abs-z1_inhalt-n1_liste-n1_listenelem-n4">
+                        <akn:num GUID="ce272fc8-c45e-443a-8364-0d3eb4871b0f"
+                                 eId="art-z2_abs-z1_inhalt-n1_liste-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
                         <akn:p GUID="30775dc6-e584-4042-bc72-e48eccf739c6"
-                               eId="art-z2_abs-z1_untergl-n1_listenelem-n4_inhalt-n1_text-n1">innerhalb der jeweils letzten drei Monate mehr als 50 unterschiedliche Interessenvertretungskontakte aufgenommen wurden.</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:wrapUp GUID="d9140f57-d66a-4719-8d4a-21fd7c3bc887"
-                              eId="art-z2_abs-z1_untergl-n1_schlusstext-n1">
-                     <akn:p GUID="139d2e26-4405-4c20-b54b-1585d64bbfeb"
-                            eId="art-z2_abs-z1_untergl-n1_schlusstext-n1_text-n1">Die Eintragung ist unverzüglich vorzunehmen, sobald eine der in Satz 1 genannten Voraussetzungen vorliegt.</akn:p>
-                  </akn:wrapUp>
-               </akn:list>
+                               eId="art-z2_abs-z1_inhalt-n1_liste-n1_listenelem-n4_text-n1">innerhalb der jeweils letzten drei Monate mehr als 50 unterschiedliche Interessenvertretungskontakte aufgenommen wurden.</akn:p>
+                     </akn:item>
+                     <akn:listWrapUp GUID="d9140f57-d66a-4719-8d4a-21fd7c3bc887"
+                                     eId="art-z2_abs-z1_inhalt-n1_liste-n1_listenschl-n1">
+                     Die Eintragung ist unverzüglich vorzunehmen, sobald eine der in Satz 1 genannten Voraussetzungen vorliegt.
+                  </akn:listWrapUp>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
             <akn:paragraph GUID="241dbe96-f259-47c5-a3ca-5ccac190fa70" eId="art-z2_abs-z2">
                <akn:num GUID="d2518aeb-c2ae-4b8a-8638-d6eea03c0e4f"
                         eId="art-z2_abs-z2_bezeichnung-n1">(2)</akn:num>
-               <akn:list GUID="1ee39ff9-d1ff-417a-984d-ee6cdba99faa"
-                         eId="art-z2_abs-z2_untergl-n1">
-                  <akn:intro GUID="c3afc322-2a94-4908-ba6b-545366ab32af"
-                             eId="art-z2_abs-z2_untergl-n1_intro-n1">
-                     <akn:p GUID="7cdee7b9-56fa-43d8-9499-a25d4c904cde"
-                            eId="art-z2_abs-z2_untergl-n1_intro-n1_text-n1">Interessenvertreterinnen oder Interessenvertreter nach <akn:ref href="#art-z2_abs-z1"
+               <akn:content GUID="4c38b642-2786-48fd-9fb1-5a2eac62955c"
+                            eId="art-z2_abs-z2_inhalt-n1">
+                  <akn:blockList GUID="1ee39ff9-d1ff-417a-984d-ee6cdba99faa"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="c3afc322-2a94-4908-ba6b-545366ab32af"
+                                           eId="art-z2_abs-z2_inhalt-n1_liste-n1_listeneing-n1">
+                     Interessenvertreterinnen oder Interessenvertreter nach <akn:ref href="#art-z2_abs-z1"
                                  GUID="69da1e42-004e-431c-8b50-cf905f7952c2"
-                                 eId="art-z2_abs-z2_untergl-n1_intro-n1_text-n1_ref-n1">Absatz 1</akn:ref> müssen sich bei Interessenvertretung gegenüber den Organen, Mitgliedern, Fraktionen oder Gruppen des Deutschen Bundestages nicht eintragen, wenn und soweit sie</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="b96518d5-1b5e-44c6-9361-2cd871e852fa"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n1">
-                     <akn:num GUID="aa84ee10-209e-4329-9783-60b427afde40"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                     <akn:content GUID="5a683931-9d70-436b-9e69-dca1627f30e3"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n1_inhalt-n1">
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listeneing-n1_ref-n1">Absatz 1</akn:ref> müssen sich bei Interessenvertretung gegenüber den Organen, Mitgliedern, Fraktionen oder Gruppen des Deutschen Bundestages nicht eintragen, wenn und soweit sie
+                  </akn:listIntroduction>
+                     <akn:item GUID="b96518d5-1b5e-44c6-9361-2cd871e852fa"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="aa84ee10-209e-4329-9783-60b427afde40"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                         <akn:p GUID="4265217a-5e24-4925-9936-8e05193d3a8f"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n1_inhalt-n1_text-n1">natürliche Personen sind, die mit ihrer Eingabe ausschließlich persönliche Interessen formulieren, unabhängig davon, ob es sich zugleich um unternehmerische oder sonstige Interessen handelt,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="8e10d714-d923-47e2-95db-ac416abaa76b"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n2">
-                     <akn:num GUID="be800b28-d7a1-4b18-b891-8f935a8a6786"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                     <akn:content GUID="e74bc35e-33f3-4dc6-b35e-3d3915ce9955"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n2_inhalt-n1">
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n1_text-n1">natürliche Personen sind, die mit ihrer Eingabe ausschließlich persönliche Interessen formulieren, unabhängig davon, ob es sich zugleich um unternehmerische oder sonstige Interessen handelt,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="8e10d714-d923-47e2-95db-ac416abaa76b"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="be800b28-d7a1-4b18-b891-8f935a8a6786"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                         <akn:p GUID="5e662f85-c3cc-460e-bceb-59106e4f241d"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Anliegen von ausschließlich lokalem Charakter geltend machen, soweit nicht mehr als zwei Wahlkreise unmittelbar betroffen sind,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="69bde502-733a-4520-adca-486f8edeed36"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n3">
-                     <akn:num GUID="4f73d2fc-77d1-4e6f-b725-cb4b45092020"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                     <akn:content GUID="8107be4f-17a0-468b-beb1-fdaa5366ef01"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n3_inhalt-n1">
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n2_text-n1">Anliegen von ausschließlich lokalem Charakter geltend machen, soweit nicht mehr als zwei Wahlkreise unmittelbar betroffen sind,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="69bde502-733a-4520-adca-486f8edeed36"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n3">
+                        <akn:num GUID="4f73d2fc-77d1-4e6f-b725-cb4b45092020"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
                         <akn:p GUID="011b44e9-925b-4441-b3e1-8acb6de47ba5"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n3_inhalt-n1_text-n1">eine Petition nach <akn:ref href=""
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n3_text-n1">eine Petition nach <akn:ref href=""
                                     GUID="bc1aed73-b068-4b19-b256-c8ef09b028f3"
-                                    eId="art-z2_abs-z2_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ref-n1">Artikel 17</akn:ref> des Grundgesetzes einreichen,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="3d627eb6-ef74-459d-8196-d865a9fe373d"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n4">
-                     <akn:num GUID="acaa28c3-405c-45fa-8712-0d7e824c20e6"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
-                     <akn:content GUID="bb37fa72-87bc-4c78-9d7f-86f63387e1d3"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n4_inhalt-n1">
+                                    eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n3_text-n1_ref-n1">Artikel 17</akn:ref> des Grundgesetzes einreichen,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="3d627eb6-ef74-459d-8196-d865a9fe373d"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n4">
+                        <akn:num GUID="acaa28c3-405c-45fa-8712-0d7e824c20e6"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
                         <akn:p GUID="e051dffb-5822-49f2-a087-14fe347baaf3"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n4_inhalt-n1_text-n1">an öffentlichen Anhörungen der Ausschüsse, öffentlichen Kongressen oder anderen öffentlichen Veranstaltungen der Organe, Mitglieder, Fraktionen oder Gruppen des Deutschen Bundestages teilnehmen,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="20dc44a7-df5c-49aa-bf8b-1077bc30ecf3"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n5">
-                     <akn:num GUID="9b5f1420-1761-454d-b943-c552bd1899e4"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
-                     <akn:content GUID="a85bb5f9-65f1-4490-9469-f5c14ec3e5eb"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n5_inhalt-n1">
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n4_text-n1">an öffentlichen Anhörungen der Ausschüsse, öffentlichen Kongressen oder anderen öffentlichen Veranstaltungen der Organe, Mitglieder, Fraktionen oder Gruppen des Deutschen Bundestages teilnehmen,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="20dc44a7-df5c-49aa-bf8b-1077bc30ecf3"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n5">
+                        <akn:num GUID="9b5f1420-1761-454d-b943-c552bd1899e4"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
                         <akn:p GUID="20e106c2-2e38-40cd-9b2f-12da9869d56b"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n5_inhalt-n1_text-n1">direkten und individuellen Ersuchen der Organe, Mitglieder, Fraktionen oder Gruppen des Deutschen Bundestages um Sachinformationen, Daten oder Fachwissen nachkommen,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="d3c76441-95d8-4206-b245-dd78fd8fed4b"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n6">
-                     <akn:num GUID="3c544a80-e2ec-44a6-92dd-ef4000b965fa"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n6_bezeichnung-n1">6.</akn:num>
-                     <akn:content GUID="d460b0a5-38e3-4712-8651-6ddb49a6d0b7"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n6_inhalt-n1">
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n5_text-n1">direkten und individuellen Ersuchen der Organe, Mitglieder, Fraktionen oder Gruppen des Deutschen Bundestages um Sachinformationen, Daten oder Fachwissen nachkommen,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="d3c76441-95d8-4206-b245-dd78fd8fed4b"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n6">
+                        <akn:num GUID="3c544a80-e2ec-44a6-92dd-ef4000b965fa"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n6_bezeichnung-n1">6.</akn:num>
                         <akn:p GUID="08870e67-057d-442a-b01d-d3a356334817"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n6_inhalt-n1_text-n1">ein öffentliches Amt oder Mandat wahrnehmen,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="80af699c-9ac6-4112-948d-80f45d0d5fec"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n7">
-                     <akn:num GUID="a23d8398-908e-46e3-b88b-c2accd4b9152"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n7_bezeichnung-n1">7.</akn:num>
-                     <akn:content GUID="dabc6f7c-a686-4c4d-bc70-880dda282ee8"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n7_inhalt-n1">
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n6_text-n1">ein öffentliches Amt oder Mandat wahrnehmen,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="80af699c-9ac6-4112-948d-80f45d0d5fec"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n7">
+                        <akn:num GUID="a23d8398-908e-46e3-b88b-c2accd4b9152"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n7_bezeichnung-n1">7.</akn:num>
                         <akn:p GUID="60c9d2f7-99b3-47a5-a186-8fd74c8579b1"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n7_inhalt-n1_text-n1">als Arbeitgeber- oder Arbeitnehmerverband (<akn:ref href=""
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n7_text-n1">als Arbeitgeber- oder Arbeitnehmerverband (<akn:ref href=""
                                     GUID="8feb8053-83ec-4a30-adee-313cc877a56f"
-                                    eId="art-z2_abs-z2_untergl-n1_listenelem-n7_inhalt-n1_text-n1_ref-n1">Artikel 9 Absatz 3</akn:ref> des Grundgesetzes) Einfluss auf Arbeits- und Wirtschaftsbedingungen nehmen,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="90adfd51-c945-4f37-98f5-40949101b997"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n8">
-                     <akn:num GUID="f6313bc4-2133-4ca5-81a7-2fa3eb3d7e19"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n8_bezeichnung-n1">8.</akn:num>
-                     <akn:content GUID="685b4aeb-e29a-489e-9e4e-766c7c6434a5"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n8_inhalt-n1">
+                                    eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n7_text-n1_ref-n1">Artikel 9 Absatz 3</akn:ref> des Grundgesetzes) Einfluss auf Arbeits- und Wirtschaftsbedingungen nehmen,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="90adfd51-c945-4f37-98f5-40949101b997"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n8">
+                        <akn:num GUID="f6313bc4-2133-4ca5-81a7-2fa3eb3d7e19"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n8_bezeichnung-n1">8.</akn:num>
                         <akn:p GUID="6746c228-f429-4671-8eca-d576a8af2756"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n8_inhalt-n1_text-n1">Rechtsberatung für einen Dritten oder sich selbst, einschließlich der Erstattung wissenschaftlicher Gutachten oder an die Allgemeinheit gerichteter Darstellung und Erörterung von Rechtsfragen erbringen, sowie Tätigkeiten, die nicht auf Erlass, Änderung oder Unterlassung einer rechtlichen Regelung durch den Deutschen Bundestag oder die Bundesregierung gerichtet sind, erbringen,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="151f92c0-16ba-4e77-9583-aa6c03929f87"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n9">
-                     <akn:num GUID="d46a692e-5211-4a20-8b92-76e7d5531d18"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n9_bezeichnung-n1">9.</akn:num>
-                     <akn:content GUID="aa4bedc7-8ecd-4795-a199-32137a398339"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n9_inhalt-n1">
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n8_text-n1">Rechtsberatung für einen Dritten oder sich selbst, einschließlich der Erstattung wissenschaftlicher Gutachten oder an die Allgemeinheit gerichteter Darstellung und Erörterung von Rechtsfragen erbringen, sowie Tätigkeiten, die nicht auf Erlass, Änderung oder Unterlassung einer rechtlichen Regelung durch den Deutschen Bundestag oder die Bundesregierung gerichtet sind, erbringen,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="151f92c0-16ba-4e77-9583-aa6c03929f87"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n9">
+                        <akn:num GUID="d46a692e-5211-4a20-8b92-76e7d5531d18"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n9_bezeichnung-n1">9.</akn:num>
                         <akn:p GUID="2d9a92d3-b342-405b-bfbd-2d7d43225967"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n9_inhalt-n1_text-n1">als politische Parteien nach dem Parteiengesetz tätig werden,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="bbd0ccf5-d9b9-4b1d-976a-bbe2f09eb88e"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n10">
-                     <akn:num GUID="61ab07c3-1920-4d82-a5c3-213a20c38129"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n10_bezeichnung-n1">10.</akn:num>
-                     <akn:content GUID="ee62637b-e043-4093-a8d1-876277d002b1"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n10_inhalt-n1">
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n9_text-n1">als politische Parteien nach dem Parteiengesetz tätig werden,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="bbd0ccf5-d9b9-4b1d-976a-bbe2f09eb88e"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n10">
+                        <akn:num GUID="61ab07c3-1920-4d82-a5c3-213a20c38129"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n10_bezeichnung-n1">10.</akn:num>
                         <akn:p GUID="65061134-4277-44a7-ad6b-214853e49169"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n10_inhalt-n1_text-n1">als Einrichtungen zur gesellschaftspolitischen und demokratischen Bildungsarbeit (politische Stiftungen) tätig werden, soweit der jeweilige Haushaltsgesetzgeber Globalzuschüsse zur Erfüllung ihrer satzungsmäßigen Aufgaben gewährt,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="ff706ea8-82f2-4df8-a804-1ac90ef2e95c"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n11">
-                     <akn:num GUID="325fdde5-f143-4d94-8501-ba78c29dc15a"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n11_bezeichnung-n1">11.</akn:num>
-                     <akn:content GUID="1745529c-cd3d-481a-898a-363fc0a6ad76"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n11_inhalt-n1">
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n10_text-n1">als Einrichtungen zur gesellschaftspolitischen und demokratischen Bildungsarbeit (politische Stiftungen) tätig werden, soweit der jeweilige Haushaltsgesetzgeber Globalzuschüsse zur Erfüllung ihrer satzungsmäßigen Aufgaben gewährt,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="ff706ea8-82f2-4df8-a804-1ac90ef2e95c"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n11">
+                        <akn:num GUID="325fdde5-f143-4d94-8501-ba78c29dc15a"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n11_bezeichnung-n1">11.</akn:num>
                         <akn:p GUID="781ab044-fa3e-4c12-96a1-962ff7203fdd"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n11_inhalt-n1_text-n1">als Mittlerorganisationen der auswärtigen Kultur- und Bildungspolitik tätig werden, soweit sie institutionell mit Mitteln des Bundeshaushaltes gefördert werden,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="554c1b1e-2aa4-475a-aaa5-94fe47ff5f1d"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n12">
-                     <akn:num GUID="cf4c4f9a-06d7-42ce-9e4e-56719d02a6a2"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n12_bezeichnung-n1">12.</akn:num>
-                     <akn:content GUID="709169d3-b94e-4dcb-bc1d-6267b63266f9"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n12_inhalt-n1">
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n11_text-n1">als Mittlerorganisationen der auswärtigen Kultur- und Bildungspolitik tätig werden, soweit sie institutionell mit Mitteln des Bundeshaushaltes gefördert werden,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="554c1b1e-2aa4-475a-aaa5-94fe47ff5f1d"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n12">
+                        <akn:num GUID="cf4c4f9a-06d7-42ce-9e4e-56719d02a6a2"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n12_bezeichnung-n1">12.</akn:num>
                         <akn:p GUID="ca87a5ac-31cd-4ffa-98a5-de28b7e23135"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n12_inhalt-n1_text-n1">als Kirche, andere Religionsgemeinschaft oder Weltanschauungsgemeinschaft tätig werden,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="d35be5ff-b056-4e9a-82b4-255c6ac50099"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n13">
-                     <akn:num GUID="60de59b8-b3ff-42b6-85a7-d702f7c57568"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n13_bezeichnung-n1">13.</akn:num>
-                     <akn:content GUID="d52cfe91-5e8e-4a4f-b96f-8b7934aa2111"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n13_inhalt-n1">
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n12_text-n1">als Kirche, andere Religionsgemeinschaft oder Weltanschauungsgemeinschaft tätig werden,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="d35be5ff-b056-4e9a-82b4-255c6ac50099"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n13">
+                        <akn:num GUID="60de59b8-b3ff-42b6-85a7-d702f7c57568"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n13_bezeichnung-n1">13.</akn:num>
                         <akn:p GUID="91aa63b4-9832-4876-8921-7a76abf65ced"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n13_inhalt-n1_text-n1">einer nach <akn:ref href=""
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n13_text-n1">einer nach <akn:ref href=""
                                     GUID="b6c36bab-0a70-4c49-a355-0d3766efa7c0"
-                                    eId="art-z2_abs-z2_untergl-n1_listenelem-n13_inhalt-n1_text-n1_ref-n1">Artikel 5 Absatz 1 Satz 2</akn:ref> des Grundgesetzes geschützten Tätigkeit nachgehen,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="970e2839-e905-4b85-b7be-911a7f84e77d"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n14">
-                     <akn:num GUID="358196b1-5962-4260-a35d-1cf2fc87b3a0"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n14_bezeichnung-n1">14.</akn:num>
-                     <akn:content GUID="c8924c2a-bfe4-43f4-9fb9-dd2fd88b36f8"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n14_inhalt-n1">
+                                    eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n13_text-n1_ref-n1">Artikel 5 Absatz 1 Satz 2</akn:ref> des Grundgesetzes geschützten Tätigkeit nachgehen,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="970e2839-e905-4b85-b7be-911a7f84e77d"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n14">
+                        <akn:num GUID="358196b1-5962-4260-a35d-1cf2fc87b3a0"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n14_bezeichnung-n1">14.</akn:num>
                         <akn:p GUID="a891c3e6-664e-4bbd-9230-0ca59c69736a"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n14_inhalt-n1_text-n1">als kommunaler Spitzenverband auf Bundes- oder Landesebene tätig sind,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="1f55701a-465b-466f-b110-48e17ce81f6a"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n15">
-                     <akn:num GUID="b18cabb5-38aa-48c9-a906-c2e569aba003"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n15_bezeichnung-n1">15.</akn:num>
-                     <akn:content GUID="a179c360-6518-43d8-b518-6d6cee7112d1"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n15_inhalt-n1">
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n14_text-n1">als kommunaler Spitzenverband auf Bundes- oder Landesebene tätig sind,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="1f55701a-465b-466f-b110-48e17ce81f6a"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n15">
+                        <akn:num GUID="b18cabb5-38aa-48c9-a906-c2e569aba003"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n15_bezeichnung-n1">15.</akn:num>
                         <akn:p GUID="fab4092b-48c4-4b61-9242-cf0c45f17a80"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n15_inhalt-n1_text-n1">als eine in Deutschland anerkannte nationale Minderheit, als niederdeutsche Sprechergruppe, als deutsche Minderheit in Dänemark oder als Organisation oder Einrichtung der vorgenannten Gruppen tätig werden oder</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="ffb04fa1-059c-42f5-b730-837a4634c989"
-                             eId="art-z2_abs-z2_untergl-n1_listenelem-n16">
-                     <akn:num GUID="41c6e074-2aa9-4084-9f08-0ebbede1ee92"
-                              eId="art-z2_abs-z2_untergl-n1_listenelem-n16_bezeichnung-n1">16.</akn:num>
-                     <akn:content GUID="38195bdb-d9fd-4fba-841c-408bfc2b3236"
-                                  eId="art-z2_abs-z2_untergl-n1_listenelem-n16_inhalt-n1">
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n15_text-n1">als eine in Deutschland anerkannte nationale Minderheit, als niederdeutsche Sprechergruppe, als deutsche Minderheit in Dänemark oder als Organisation oder Einrichtung der vorgenannten Gruppen tätig werden oder</akn:p>
+                     </akn:item>
+                     <akn:item GUID="ffb04fa1-059c-42f5-b730-837a4634c989"
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n16">
+                        <akn:num GUID="41c6e074-2aa9-4084-9f08-0ebbede1ee92"
+                                 eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n16_bezeichnung-n1">16.</akn:num>
                         <akn:p GUID="21d521ab-7fa6-4c02-94b7-4853454b01cc"
-                               eId="art-z2_abs-z2_untergl-n1_listenelem-n16_inhalt-n1_text-n1">über keine dauerhafte Vertretung in Deutschland verfügen und sich für Menschenrechte, Demokratie, Rechtsstaatlichkeit, humanitäre Belange oder Fragen der Nachhaltigkeit einsetzen und ihr Wirken primär auf andere Länder oder Weltregionen ausgerichtet ist.</akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                               eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n16_text-n1">über keine dauerhafte Vertretung in Deutschland verfügen und sich für Menschenrechte, Demokratie, Rechtsstaatlichkeit, humanitäre Belange oder Fragen der Nachhaltigkeit einsetzen und ihr Wirken primär auf andere Länder oder Weltregionen ausgerichtet ist.</akn:p>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
             <akn:paragraph GUID="7e52b89e-8523-4eed-a808-24f807451243" eId="art-z2_abs-z3">
                <akn:num GUID="3c759681-8e6f-4501-a505-f98ac5c47cfe"
                         eId="art-z2_abs-z3_bezeichnung-n1">(3)</akn:num>
-               <akn:list GUID="e92ad226-a1ae-4318-b672-e11dd0dd1fb6"
-                         eId="art-z2_abs-z3_untergl-n1">
-                  <akn:intro GUID="0c037e63-884c-4733-920d-2ea00acf9cb5"
-                             eId="art-z2_abs-z3_untergl-n1_intro-n1">
-                     <akn:p GUID="67dd7c27-f6fe-4080-80ad-e397d09218ee"
-                            eId="art-z2_abs-z3_untergl-n1_intro-n1_text-n1">Interessenvertreterinnen oder Interessenvertreter müssen sich bei Interessenvertretung gegenüber der Bundesregierung nicht eintragen, wenn und soweit sie</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="8fed3e96-be06-4b49-b6d2-0e136c66c07f"
-                             eId="art-z2_abs-z3_untergl-n1_listenelem-n1">
-                     <akn:num GUID="f1f51431-26d9-40be-a5da-3f314f82efc3"
-                              eId="art-z2_abs-z3_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                     <akn:content GUID="f4bcc8a4-7b93-4ef2-a858-6dc5962b6bee"
-                                  eId="art-z2_abs-z3_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="4b10dbc3-fe8e-401f-a5c1-f719eb4768c6"
+                            eId="art-z2_abs-z3_inhalt-n1">
+                  <akn:blockList GUID="e92ad226-a1ae-4318-b672-e11dd0dd1fb6"
+                                 eId="art-z2_abs-z3_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="0c037e63-884c-4733-920d-2ea00acf9cb5"
+                                           eId="art-z2_abs-z3_inhalt-n1_liste-n1_listeneing-n1">
+                     Interessenvertreterinnen oder Interessenvertreter müssen sich bei Interessenvertretung gegenüber der Bundesregierung nicht eintragen, wenn und soweit sie
+                  </akn:listIntroduction>
+                     <akn:item GUID="8fed3e96-be06-4b49-b6d2-0e136c66c07f"
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="f1f51431-26d9-40be-a5da-3f314f82efc3"
+                                 eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                         <akn:p GUID="3bf185c8-1335-4f0b-bf2c-ffdf16a45520"
-                               eId="art-z2_abs-z3_untergl-n1_listenelem-n1_inhalt-n1_text-n1"> einen Anspruch auf gesetzlich geregelten Informationszugang geltend machen,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="fbb41e50-43e1-499c-8b07-4c9767f4ef1c"
-                             eId="art-z2_abs-z3_untergl-n1_listenelem-n2">
-                     <akn:num GUID="ffed4aa0-560e-4117-a6f1-6fb148ad6ee6"
-                              eId="art-z2_abs-z3_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                     <akn:content GUID="eae01a33-8533-438a-a04d-60ee467004ff"
-                                  eId="art-z2_abs-z3_untergl-n1_listenelem-n2_inhalt-n1">
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n1_text-n1"> einen Anspruch auf gesetzlich geregelten Informationszugang geltend machen,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="fbb41e50-43e1-499c-8b07-4c9767f4ef1c"
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="ffed4aa0-560e-4117-a6f1-6fb148ad6ee6"
+                                 eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                         <akn:p GUID="007af134-dc66-413a-a341-d068b2aa1641"
-                               eId="art-z2_abs-z3_untergl-n1_listenelem-n2_inhalt-n1_text-n1">eine Bürgeranfrage stellen,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="5960c559-a807-4b42-8531-4f5ae6b0f1fc"
-                             eId="art-z2_abs-z3_untergl-n1_listenelem-n3">
-                     <akn:num GUID="95944f78-86d2-4601-a890-1e33ee7a86d2"
-                              eId="art-z2_abs-z3_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                     <akn:content GUID="de3462b2-69ed-4005-afad-5386279dc76c"
-                                  eId="art-z2_abs-z3_untergl-n1_listenelem-n3_inhalt-n1">
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n2_text-n1">eine Bürgeranfrage stellen,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="5960c559-a807-4b42-8531-4f5ae6b0f1fc"
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n3">
+                        <akn:num GUID="95944f78-86d2-4601-a890-1e33ee7a86d2"
+                                 eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
                         <akn:p GUID="ff9ca23f-ad71-4196-8385-4dfab26b0541"
-                               eId="art-z2_abs-z3_untergl-n1_listenelem-n3_inhalt-n1_text-n1">an Besuchsprogrammen, Vorträgen, Konferenzen und sonstigen öffentlichen Veranstaltungen der Bundesregierung teilnehmen,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="36d4730f-5f63-4346-803c-b911281cd829"
-                             eId="art-z2_abs-z3_untergl-n1_listenelem-n4">
-                     <akn:num GUID="eb930ad4-5454-426e-9ffb-174e9cb40853"
-                              eId="art-z2_abs-z3_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
-                     <akn:content GUID="1283bb04-f40d-4dd5-830c-b99e0df77cd5"
-                                  eId="art-z2_abs-z3_untergl-n1_listenelem-n4_inhalt-n1">
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n3_text-n1">an Besuchsprogrammen, Vorträgen, Konferenzen und sonstigen öffentlichen Veranstaltungen der Bundesregierung teilnehmen,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="36d4730f-5f63-4346-803c-b911281cd829"
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n4">
+                        <akn:num GUID="eb930ad4-5454-426e-9ffb-174e9cb40853"
+                                 eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
                         <akn:p GUID="76ef632c-2c3a-464b-bcab-97d2a82fa7ab"
-                               eId="art-z2_abs-z3_untergl-n1_listenelem-n4_inhalt-n1_text-n1">für die von der Bundesregierung eingerichteten Sachverständigenräte und sonstigen Expertengremien tätig sind,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="4c683f48-0780-4253-b56a-921cec45669b"
-                             eId="art-z2_abs-z3_untergl-n1_listenelem-n5">
-                     <akn:num GUID="ac7a58fe-0d55-4c53-89d3-05861ab6d14f"
-                              eId="art-z2_abs-z3_untergl-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
-                     <akn:content GUID="76cdef13-0036-4343-9d5c-f08319c98dff"
-                                  eId="art-z2_abs-z3_untergl-n1_listenelem-n5_inhalt-n1">
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n4_text-n1">für die von der Bundesregierung eingerichteten Sachverständigenräte und sonstigen Expertengremien tätig sind,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="4c683f48-0780-4253-b56a-921cec45669b"
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n5">
+                        <akn:num GUID="ac7a58fe-0d55-4c53-89d3-05861ab6d14f"
+                                 eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
                         <akn:p GUID="eda3f8a8-6750-4517-8700-1bc0a407be03"
-                               eId="art-z2_abs-z3_untergl-n1_listenelem-n5_inhalt-n1_text-n1">diplomatische oder konsularische Tätigkeiten wahrnehmen,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="074968e7-3a7c-4a69-84c1-2939be3e97a0"
-                             eId="art-z2_abs-z3_untergl-n1_listenelem-n6">
-                     <akn:num GUID="cd5c844e-8df3-4a93-ac88-9416ac6973e5"
-                              eId="art-z2_abs-z3_untergl-n1_listenelem-n6_bezeichnung-n1">6.</akn:num>
-                     <akn:content GUID="cc742ba3-f8f4-4b77-8ab6-4a381964a65c"
-                                  eId="art-z2_abs-z3_untergl-n1_listenelem-n6_inhalt-n1">
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n5_text-n1">diplomatische oder konsularische Tätigkeiten wahrnehmen,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="074968e7-3a7c-4a69-84c1-2939be3e97a0"
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n6">
+                        <akn:num GUID="cd5c844e-8df3-4a93-ac88-9416ac6973e5"
+                                 eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n6_bezeichnung-n1">6.</akn:num>
                         <akn:p GUID="787f01e2-1062-45d4-87b1-3986ac7eaedd"
-                               eId="art-z2_abs-z3_untergl-n1_listenelem-n6_inhalt-n1_text-n1">direkten und individuellen Ersuchen der Bundesregierung um Sachinformationen, Daten oder Fachwissen nachkommen oder </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="a5a9eb94-4fdf-43c6-93b3-53ef62f2a56d"
-                             eId="art-z2_abs-z3_untergl-n1_listenelem-n7">
-                     <akn:num GUID="f10c6cef-4603-4011-927d-30bc67174e94"
-                              eId="art-z2_abs-z3_untergl-n1_listenelem-n7_bezeichnung-n1">7.</akn:num>
-                     <akn:content GUID="278f948c-cbf2-49ba-8f4d-b578405e3cec"
-                                  eId="art-z2_abs-z3_untergl-n1_listenelem-n7_inhalt-n1">
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n6_text-n1">direkten und individuellen Ersuchen der Bundesregierung um Sachinformationen, Daten oder Fachwissen nachkommen oder </akn:p>
+                     </akn:item>
+                     <akn:item GUID="a5a9eb94-4fdf-43c6-93b3-53ef62f2a56d"
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n7">
+                        <akn:num GUID="f10c6cef-4603-4011-927d-30bc67174e94"
+                                 eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n7_bezeichnung-n1">7.</akn:num>
                         <akn:p GUID="68e2c94f-e1f0-407a-bfa1-e16759a98082"
-                               eId="art-z2_abs-z3_untergl-n1_listenelem-n7_inhalt-n1_text-n1">einer der in Absatz 2 Nummer 1 oder 6 bis 16 genannten Tätigkeiten nachgehen.</akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                               eId="art-z2_abs-z3_inhalt-n1_liste-n1_listenelem-n7_text-n1">einer der in Absatz 2 Nummer 1 oder 6 bis 16 genannten Tätigkeiten nachgehen.</akn:p>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
             <akn:paragraph GUID="ac8ec20c-7ede-41df-a93a-cd8a2fce3e3b" eId="art-z2_abs-z4">
                <akn:num GUID="d83b34a0-2cfa-4401-b318-1e2ae113ad14"
@@ -567,223 +491,171 @@
             <akn:paragraph GUID="919a97c2-ac60-40f7-b701-aa4f07c8ce70" eId="art-z3_abs-z1">
                <akn:num GUID="d9fb901d-fa5e-48c0-8425-728e442ddc48"
                         eId="art-z3_abs-z1_bezeichnung-n1">(1)</akn:num>
-               <akn:list GUID="601e107a-370d-48bd-801b-da53a08657e6"
-                         eId="art-z3_abs-z1_untergl-n1">
-                  <akn:intro GUID="a89f54e6-6706-47d0-940a-7c371a6c0538"
-                             eId="art-z3_abs-z1_untergl-n1_intro-n1">
-                     <akn:p GUID="4deca8d7-8c59-401f-bc9a-5a2c51150cdc"
-                            eId="art-z3_abs-z1_untergl-n1_intro-n1_text-n1">Interessenvertreterinnen und Interessenvertreter stellen im Lobbyregister die folgenden Informationen bereit: </akn:p>
-                  </akn:intro>
-                  <akn:point GUID="43fca950-2c17-400a-a12d-a72507b84d6f"
-                             eId="art-z3_abs-z1_untergl-n1_listenelem-n1">
-                     <akn:num GUID="565b1965-0708-463f-a47e-44842b47c21c"
-                              eId="art-z3_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                     <akn:list GUID="babdb8e9-27aa-4edb-9521-b015e4e52742"
-                               eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1">
-                        <akn:intro GUID="5338b853-f8d9-4542-b292-526b912a56d8"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_intro-n1">
-                           <akn:p GUID="d7742b9e-d648-493f-afcf-2f3dc7a696cf"
-                                  eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1">wenn sie natürliche Personen sind,</akn:p>
-                        </akn:intro>
-                        <akn:point GUID="b4d05356-802e-49e5-bcd5-65c650cbf3c4"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1">
-                           <akn:num GUID="d1409a11-8660-4af4-a4e2-9753e6385b5a"
-                                    eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
-                           <akn:content GUID="d87e2b3f-5f60-42b5-a715-bac9014c7b0a"
-                                        eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="1dcc91d6-cb0c-4d1a-96c8-fda6795a1e9d"
+                            eId="art-z3_abs-z1_inhalt-n1">
+                  <akn:blockList GUID="601e107a-370d-48bd-801b-da53a08657e6"
+                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="a89f54e6-6706-47d0-940a-7c371a6c0538"
+                                           eId="art-z3_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
+                     Interessenvertreterinnen und Interessenvertreter stellen im Lobbyregister die folgenden Informationen bereit: 
+                  </akn:listIntroduction>
+                     <akn:item GUID="43fca950-2c17-400a-a12d-a72507b84d6f"
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="565b1965-0708-463f-a47e-44842b47c21c"
+                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                        <akn:blockList GUID="babdb8e9-27aa-4edb-9521-b015e4e52742"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1">
+                           <akn:listIntroduction GUID="5338b853-f8d9-4542-b292-526b912a56d8"
+                                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listeneing-n1">
+                           wenn sie natürliche Personen sind,
+                        </akn:listIntroduction>
+                           <akn:item GUID="b4d05356-802e-49e5-bcd5-65c650cbf3c4"
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1">
+                              <akn:num GUID="d1409a11-8660-4af4-a4e2-9753e6385b5a"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
                               <akn:p GUID="d4fdc16c-121e-4e6d-8d15-f5d13617008e"
-                                     eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">Familienname, Geburtsname, Vornamen, akademischer Grad (optional),</akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="fc6a1757-63aa-4a16-a3e0-0a2beca28bf1"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2">
-                           <akn:num GUID="8a96a2df-bcf3-4820-875e-08d49221748f"
-                                    eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
-                           <akn:content GUID="f3aeb98a-56d7-43f8-832e-f2fcfe04260b"
-                                        eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1">
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_text-n1">Familienname, Geburtsname, Vornamen, akademischer Grad (optional),</akn:p>
+                           </akn:item>
+                           <akn:item GUID="fc6a1757-63aa-4a16-a3e0-0a2beca28bf1"
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2">
+                              <akn:num GUID="8a96a2df-bcf3-4820-875e-08d49221748f"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
                               <akn:p GUID="6feb914c-f19e-4317-a2d5-48c588a7de3d"
-                                     eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Geburtsdatum und Geburtsort, </akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="ee58ce1e-4033-41de-8776-88293bf48fc1"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3">
-                           <akn:num GUID="2eefbc21-8155-400f-a570-6b22629f40d4"
-                                    eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_bezeichnung-n1">c)</akn:num>
-                           <akn:content GUID="394526e9-88ee-43fb-8a87-969ae54df9cb"
-                                        eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1">
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_text-n1">Geburtsdatum und Geburtsort, </akn:p>
+                           </akn:item>
+                           <akn:item GUID="ee58ce1e-4033-41de-8776-88293bf48fc1"
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n3">
+                              <akn:num GUID="2eefbc21-8155-400f-a570-6b22629f40d4"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n3_bezeichnung-n1">c)</akn:num>
                               <akn:p GUID="33da31ec-b511-4b66-ac49-c2b84da32ba8"
-                                     eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">Anschrift,</akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="fa65903a-d813-4db3-aa5d-a5943ac16d24"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4">
-                           <akn:num GUID="3471d30c-4db4-42f5-af18-b42f1f7f6e7e"
-                                    eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_bezeichnung-n1">d)</akn:num>
-                           <akn:content GUID="2b40240c-0b37-4bf6-99c3-715671c643ac"
-                                        eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_inhalt-n1">
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n3_text-n1">Anschrift,</akn:p>
+                           </akn:item>
+                           <akn:item GUID="fa65903a-d813-4db3-aa5d-a5943ac16d24"
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n4">
+                              <akn:num GUID="3471d30c-4db4-42f5-af18-b42f1f7f6e7e"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n4_bezeichnung-n1">d)</akn:num>
                               <akn:p GUID="9142e3ef-06e3-46f8-a313-d00659fd3093"
-                                     eId="art-z3_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_inhalt-n1_text-n1">elektronische Kontaktdaten,</akn:p>
-                           </akn:content>
-                        </akn:point>
-                     </akn:list>
-                  </akn:point>
-                  <akn:point GUID="7a8f3a91-db30-4ea3-b2a5-cdc5545b66f0"
-                             eId="art-z3_abs-z1_untergl-n1_listenelem-n2">
-                     <akn:num GUID="f3981139-5cfe-42d6-bc53-b47c2de90d7f"
-                              eId="art-z3_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                     <akn:list GUID="2010f22b-7b8d-4d37-bca4-ec762281f722"
-                               eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1">
-                        <akn:intro GUID="ad22e549-b405-4d5d-b7ec-93704ca6d685"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_intro-n1">
-                           <akn:p GUID="90e22599-9a06-4a19-b7e3-e4e30a9a6593"
-                                  eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_intro-n1_text-n1">wenn sie juristische Personen, Personengesellschaften oder sonstige Organisationen sind</akn:p>
-                        </akn:intro>
-                        <akn:point GUID="4d09dc51-c25f-4089-9ee5-72220ee0f306"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1">
-                           <akn:num GUID="ef84ec22-13b5-4d01-a09b-6c555b1e0d91"
-                                    eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
-                           <akn:content GUID="aa4065d5-c302-4971-b770-18defc492e2a"
-                                        eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1">
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n4_text-n1">elektronische Kontaktdaten,</akn:p>
+                           </akn:item>
+                        </akn:blockList>
+                     </akn:item>
+                     <akn:item GUID="7a8f3a91-db30-4ea3-b2a5-cdc5545b66f0"
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="f3981139-5cfe-42d6-bc53-b47c2de90d7f"
+                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                        <akn:blockList GUID="2010f22b-7b8d-4d37-bca4-ec762281f722"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1">
+                           <akn:listIntroduction GUID="ad22e549-b405-4d5d-b7ec-93704ca6d685"
+                                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listeneing-n1">
+                           wenn sie juristische Personen, Personengesellschaften oder sonstige Organisationen sind
+                        </akn:listIntroduction>
+                           <akn:item GUID="4d09dc51-c25f-4089-9ee5-72220ee0f306"
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1">
+                              <akn:num GUID="ef84ec22-13b5-4d01-a09b-6c555b1e0d91"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
                               <akn:p GUID="4b67d822-a4c0-49c6-a966-946ef8dff1b4"
-                                     eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1">Firma, Name oder Bezeichnung der Organisation, deren Webseite, E-Mail-Adresse und Anschrift, </akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="dfaf7722-9069-47cb-8004-f6ed53e0ca39"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2">
-                           <akn:num GUID="f3b1c03f-411d-4051-a0d4-6632aa66ae57"
-                                    eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
-                           <akn:content GUID="b638cd21-696c-4db3-9609-f39f67dc5b5d"
-                                        eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1">
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1_text-n1">Firma, Name oder Bezeichnung der Organisation, deren Webseite, E-Mail-Adresse und Anschrift, </akn:p>
+                           </akn:item>
+                           <akn:item GUID="dfaf7722-9069-47cb-8004-f6ed53e0ca39"
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n2">
+                              <akn:num GUID="f3b1c03f-411d-4051-a0d4-6632aa66ae57"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
                               <akn:p GUID="56efc9f8-e520-4bd7-b073-7691270071d4"
-                                     eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Rechtsform oder Art der Organisation,</akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="12e0502d-0f28-46e2-9532-00016f3a9c9f"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3">
-                           <akn:num GUID="74774475-77d8-4c4e-8f9c-d95bf8b92364"
-                                    eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_bezeichnung-n1">c)</akn:num>
-                           <akn:content GUID="d30055b1-97d0-4d46-8a7d-1dacb6e749b0"
-                                        eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1">
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n2_text-n1">Rechtsform oder Art der Organisation,</akn:p>
+                           </akn:item>
+                           <akn:item GUID="12e0502d-0f28-46e2-9532-00016f3a9c9f"
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n3">
+                              <akn:num GUID="74774475-77d8-4c4e-8f9c-d95bf8b92364"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n3_bezeichnung-n1">c)</akn:num>
                               <akn:p GUID="168b410b-fcea-43be-a342-8ae243e45f35"
-                                     eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1_text-n1">Familienname, Vornamen, akademischer Grad (optional) und elektronische Kontaktdaten aller gesetzlichen Vertretungen oder sonstigen vertretungsberechtigen Personen, </akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="dc9fb669-706f-4ca0-8fcc-d21b03f56a8d"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4">
-                           <akn:num GUID="e6b698e1-c9e1-4194-8ffe-de2094e74a8d"
-                                    eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_bezeichnung-n1">d)</akn:num>
-                           <akn:content GUID="0164a362-79be-43b6-a62a-9b300fb81413"
-                                        eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1">
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n3_text-n1">Familienname, Vornamen, akademischer Grad (optional) und elektronische Kontaktdaten aller gesetzlichen Vertretungen oder sonstigen vertretungsberechtigen Personen, </akn:p>
+                           </akn:item>
+                           <akn:item GUID="dc9fb669-706f-4ca0-8fcc-d21b03f56a8d"
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n4">
+                              <akn:num GUID="e6b698e1-c9e1-4194-8ffe-de2094e74a8d"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n4_bezeichnung-n1">d)</akn:num>
                               <akn:p GUID="3383f19b-04a1-43fe-af7f-887f99c38425"
-                                     eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n4_inhalt-n1_text-n1">Familienname, Geburtsname, Vornamen, akademischer Grad (optional) der Beschäftigten, die die Interessenvertretung unmittelbar ausüben, soweit nicht nach Buchstabe c erfasst,</akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="1850a725-74c3-4a40-914c-3ac711896a24"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n5">
-                           <akn:num GUID="2cd9fda9-fe5b-41ff-bf29-a59a3a40ef3e"
-                                    eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n5_bezeichnung-n1">e)</akn:num>
-                           <akn:content GUID="c9d09a5e-ee29-4e4f-a668-7299855d899a"
-                                        eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n5_inhalt-n1">
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n4_text-n1">Familienname, Geburtsname, Vornamen, akademischer Grad (optional) der Beschäftigten, die die Interessenvertretung unmittelbar ausüben, soweit nicht nach Buchstabe c erfasst,</akn:p>
+                           </akn:item>
+                           <akn:item GUID="1850a725-74c3-4a40-914c-3ac711896a24"
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n5">
+                              <akn:num GUID="2cd9fda9-fe5b-41ff-bf29-a59a3a40ef3e"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n5_bezeichnung-n1">e)</akn:num>
                               <akn:p GUID="bde28346-2645-424d-9982-a8bb79c793fd"
-                                     eId="art-z3_abs-z1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n5_inhalt-n1_text-n1">Mitgliederzahl und Mitgliedschaften, </akn:p>
-                           </akn:content>
-                        </akn:point>
-                     </akn:list>
-                  </akn:point>
-                  <akn:point GUID="cb0227f9-5be7-4431-a204-ac093563fb5d"
-                             eId="art-z3_abs-z1_untergl-n1_listenelem-n3">
-                     <akn:num GUID="08a6d0e3-3ee6-4931-8790-89dcb252f877"
-                              eId="art-z3_abs-z1_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                     <akn:content GUID="87983a86-aed0-47f2-bced-80e4a15c32a7"
-                                  eId="art-z3_abs-z1_untergl-n1_listenelem-n3_inhalt-n1">
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n5_text-n1">Mitgliederzahl und Mitgliedschaften, </akn:p>
+                           </akn:item>
+                        </akn:blockList>
+                     </akn:item>
+                     <akn:item GUID="cb0227f9-5be7-4431-a204-ac093563fb5d"
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n3">
+                        <akn:num GUID="08a6d0e3-3ee6-4931-8790-89dcb252f877"
+                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
                         <akn:p GUID="1ee43f9f-7a9e-4cb2-a499-303edc6ba6dc"
-                               eId="art-z3_abs-z1_untergl-n1_listenelem-n3_inhalt-n1_text-n1"> Interessen- und Vorhabenbereich sowie Beschreibung der Tätigkeit, </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="9f9b1608-7a23-450e-a171-bd7d3bdc6fc5"
-                             eId="art-z3_abs-z1_untergl-n1_listenelem-n4">
-                     <akn:num GUID="36577f67-7cd9-4c3c-ae03-3a785cc9dd7e"
-                              eId="art-z3_abs-z1_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
-                     <akn:content GUID="1c65926e-a3b7-4238-b632-d5da8922d526"
-                                  eId="art-z3_abs-z1_untergl-n1_listenelem-n4_inhalt-n1">
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n3_text-n1"> Interessen- und Vorhabenbereich sowie Beschreibung der Tätigkeit, </akn:p>
+                     </akn:item>
+                     <akn:item GUID="9f9b1608-7a23-450e-a171-bd7d3bdc6fc5"
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n4">
+                        <akn:num GUID="36577f67-7cd9-4c3c-ae03-3a785cc9dd7e"
+                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
                         <akn:p GUID="dc458448-8fa2-4d68-824f-e568b8161ebe"
-                               eId="art-z3_abs-z1_untergl-n1_listenelem-n4_inhalt-n1_text-n1">Angaben zur Identität von Auftraggeberinnen und Auftraggebern, für welche Interessenvertretung betrieben wird; die Nummern 1 und 2 Buchstabe a bis c gelten entsprechend, </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="8ddb3608-5f94-4ea0-a2b5-115cf230f96f"
-                             eId="art-z3_abs-z1_untergl-n1_listenelem-n5">
-                     <akn:num GUID="52fd5b56-4879-4188-91a0-189c76fd1312"
-                              eId="art-z3_abs-z1_untergl-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
-                     <akn:content GUID="07b13218-b386-446c-b6ed-08603c9a0663"
-                                  eId="art-z3_abs-z1_untergl-n1_listenelem-n5_inhalt-n1">
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n4_text-n1">Angaben zur Identität von Auftraggeberinnen und Auftraggebern, für welche Interessenvertretung betrieben wird; die Nummern 1 und 2 Buchstabe a bis c gelten entsprechend, </akn:p>
+                     </akn:item>
+                     <akn:item GUID="8ddb3608-5f94-4ea0-a2b5-115cf230f96f"
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n5">
+                        <akn:num GUID="52fd5b56-4879-4188-91a0-189c76fd1312"
+                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n5_bezeichnung-n1">5.</akn:num>
                         <akn:p GUID="e3a50c85-b61b-4818-b7de-51fe2d307f42"
-                               eId="art-z3_abs-z1_untergl-n1_listenelem-n5_inhalt-n1_text-n1">Anzahl der Beschäftigten in Stufen von jeweils zehn Beschäftigten im Bereich der Interessenvertretung,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="7461bc00-ebee-491d-b26e-55b21ed06e29"
-                             eId="art-z3_abs-z1_untergl-n1_listenelem-n6">
-                     <akn:num GUID="15b74077-cfb9-4a53-9af9-eba0d74be6fb"
-                              eId="art-z3_abs-z1_untergl-n1_listenelem-n6_bezeichnung-n1">6.</akn:num>
-                     <akn:content GUID="8911693f-e229-49e6-b265-93495ade2e38"
-                                  eId="art-z3_abs-z1_untergl-n1_listenelem-n6_inhalt-n1">
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n5_text-n1">Anzahl der Beschäftigten in Stufen von jeweils zehn Beschäftigten im Bereich der Interessenvertretung,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="7461bc00-ebee-491d-b26e-55b21ed06e29"
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n6">
+                        <akn:num GUID="15b74077-cfb9-4a53-9af9-eba0d74be6fb"
+                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n6_bezeichnung-n1">6.</akn:num>
                         <akn:p GUID="a34415c6-d202-4b81-bb27-4011bdb8da4c"
-                               eId="art-z3_abs-z1_untergl-n1_listenelem-n6_inhalt-n1_text-n1">Angaben zu den jährlichen finanziellen Aufwendungen im Bereich der Interessenvertretung in Stufen von jeweils 10 000 Euro, </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="ef7d70a7-dc21-493b-bbba-4be7565c9273"
-                             eId="art-z3_abs-z1_untergl-n1_listenelem-n7">
-                     <akn:num GUID="57293600-cccb-46fe-8afa-1e39f06b2c6a"
-                              eId="art-z3_abs-z1_untergl-n1_listenelem-n7_bezeichnung-n1">7.</akn:num>
-                     <akn:list GUID="9ad56c6f-fa7c-4258-9a7d-a6daa1b31b51"
-                               eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1">
-                        <akn:intro GUID="1cad020b-1d05-4afc-b1f6-8ccd0e421f09"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_intro-n1">
-                           <akn:p GUID="846c4737-05a0-4243-8907-0136fc6924fa"
-                                  eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_intro-n1_text-n1">Angaben zu einzelnen Zuwendungen und Zuschüssen der öffentlichen Hand sowie zu einzelnen Schenkungen Dritter in Stufen von jeweils 10 000 Euro, sofern jeweils ein Betrag von 20 000 Euro oder der Gesamtwert von 20 000 Euro bezogen auf eine Geberin oder einen Geber in einem Kalenderjahr überschritten wird, nämlich </akn:p>
-                        </akn:intro>
-                        <akn:point GUID="28a739ff-b9b8-4aef-bc07-90a2cfe5d90c"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_listenelem-n1">
-                           <akn:num GUID="6a6c959a-3592-4e7d-ab03-1ef40bae6c8d"
-                                    eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
-                           <akn:content GUID="0a09e1bb-0e1c-49f5-b350-21cd305818a1"
-                                        eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_listenelem-n1_inhalt-n1">
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n6_text-n1">Angaben zu den jährlichen finanziellen Aufwendungen im Bereich der Interessenvertretung in Stufen von jeweils 10 000 Euro, </akn:p>
+                     </akn:item>
+                     <akn:item GUID="ef7d70a7-dc21-493b-bbba-4be7565c9273"
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7">
+                        <akn:num GUID="57293600-cccb-46fe-8afa-1e39f06b2c6a"
+                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_bezeichnung-n1">7.</akn:num>
+                        <akn:blockList GUID="9ad56c6f-fa7c-4258-9a7d-a6daa1b31b51"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1">
+                           <akn:listIntroduction GUID="1cad020b-1d05-4afc-b1f6-8ccd0e421f09"
+                                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1_listeneing-n1">
+                           Angaben zu einzelnen Zuwendungen und Zuschüssen der öffentlichen Hand sowie zu einzelnen Schenkungen Dritter in Stufen von jeweils 10 000 Euro, sofern jeweils ein Betrag von 20 000 Euro oder der Gesamtwert von 20 000 Euro bezogen auf eine Geberin oder einen Geber in einem Kalenderjahr überschritten wird, nämlich 
+                        </akn:listIntroduction>
+                           <akn:item GUID="28a739ff-b9b8-4aef-bc07-90a2cfe5d90c"
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1_listenelem-n1">
+                              <akn:num GUID="6a6c959a-3592-4e7d-ab03-1ef40bae6c8d"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
                               <akn:p GUID="e5e9ce76-34b7-4f8d-8fa4-fe64cb3e7b55"
-                                     eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_listenelem-n1_inhalt-n1_text-n1">Name, Firma oder Bezeichnung der Geberin oder des Gebers, </akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="0f4d6fb7-46ca-43af-90d0-7491cbcd7984"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_listenelem-n2">
-                           <akn:num GUID="467ebef2-c7da-47b6-9e5f-8908922fe5e3"
-                                    eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
-                           <akn:content GUID="13c223ab-3bff-4f86-80cb-bdc248645a9f"
-                                        eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_listenelem-n2_inhalt-n1">
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1_listenelem-n1_text-n1">Name, Firma oder Bezeichnung der Geberin oder des Gebers, </akn:p>
+                           </akn:item>
+                           <akn:item GUID="0f4d6fb7-46ca-43af-90d0-7491cbcd7984"
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1_listenelem-n2">
+                              <akn:num GUID="467ebef2-c7da-47b6-9e5f-8908922fe5e3"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
                               <akn:p GUID="34f59996-4cb5-42b2-b15c-be65ae0bca14"
-                                     eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Wohnort oder Sitz der Geberin oder des Gebers,</akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="ea728ae6-73e7-4b54-b0c4-9ac2d7fa8a39"
-                                   eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_listenelem-n3">
-                           <akn:num GUID="5ddf5d98-259f-4932-827f-965bee3bf32d"
-                                    eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_listenelem-n3_bezeichnung-n1">c)</akn:num>
-                           <akn:content GUID="92d7beb2-5618-414d-96b0-f901d39948ce"
-                                        eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_listenelem-n3_inhalt-n1">
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1_listenelem-n2_text-n1">Wohnort oder Sitz der Geberin oder des Gebers,</akn:p>
+                           </akn:item>
+                           <akn:item GUID="ea728ae6-73e7-4b54-b0c4-9ac2d7fa8a39"
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1_listenelem-n3">
+                              <akn:num GUID="5ddf5d98-259f-4932-827f-965bee3bf32d"
+                                       eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1_listenelem-n3_bezeichnung-n1">c)</akn:num>
                               <akn:p GUID="2b47dec1-e09d-4749-b174-a8063e878db8"
-                                     eId="art-z3_abs-z1_untergl-n1_listenelem-n7_untergl-n1_listenelem-n3_inhalt-n1_text-n1">eine kurze Beschreibung der Leistung,</akn:p>
-                           </akn:content>
-                        </akn:point>
-                     </akn:list>
-                  </akn:point>
-                  <akn:point GUID="69f4033d-0763-49b2-9935-7f6866fbc870"
-                             eId="art-z3_abs-z1_untergl-n1_listenelem-n8">
-                     <akn:num GUID="4346ca49-8282-4101-b7c3-0296953e9d6a"
-                              eId="art-z3_abs-z1_untergl-n1_listenelem-n8_bezeichnung-n1">8.</akn:num>
-                     <akn:content GUID="ec144654-7992-47a6-b658-e3731d9c7ef8"
-                                  eId="art-z3_abs-z1_untergl-n1_listenelem-n8_inhalt-n1">
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1_listenelem-n3_text-n1">eine kurze Beschreibung der Leistung,</akn:p>
+                           </akn:item>
+                        </akn:blockList>
+                     </akn:item>
+                     <akn:item GUID="69f4033d-0763-49b2-9935-7f6866fbc870"
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n8">
+                        <akn:num GUID="4346ca49-8282-4101-b7c3-0296953e9d6a"
+                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n8_bezeichnung-n1">8.</akn:num>
                         <akn:p GUID="5ba0e1b6-5e95-414e-a5ac-00408b16366e"
-                               eId="art-z3_abs-z1_untergl-n1_listenelem-n8_inhalt-n1_text-n1">Jahresabschlüsse oder Rechenschaftsberichte von juristischen Personen, falls keine handelsrechtlichen Offenlegungspflichten bestehen.</akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n8_text-n1">Jahresabschlüsse oder Rechenschaftsberichte von juristischen Personen, falls keine handelsrechtlichen Offenlegungspflichten bestehen.</akn:p>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
             <akn:paragraph GUID="4234723d-a337-4e23-8530-e462253c2e1c" eId="art-z3_abs-z2">
                <akn:num GUID="323e1a6d-4482-4446-bfce-2c236a3e00f2"
@@ -908,34 +780,30 @@
             <akn:paragraph GUID="ebfbf038-dc7e-4b16-ab30-ec613ae039cd" eId="art-z5_abs-z4">
                <akn:num GUID="4d7eab28-b28f-40bf-a51f-9152be012cfa"
                         eId="art-z5_abs-z4_bezeichnung-n1">(4)</akn:num>
-               <akn:list GUID="c3d6690d-a3e6-4b37-9c95-a76d0a96ef78"
-                         eId="art-z5_abs-z4_untergl-n1">
-                  <akn:intro GUID="1183e89a-0342-4b4a-aebb-95b211323d7a"
-                             eId="art-z5_abs-z4_untergl-n1_intro-n1">
-                     <akn:p GUID="82a5fde6-1dd5-4da9-bf4d-182de1a4e395"
-                            eId="art-z5_abs-z4_untergl-n1_intro-n1_text-n1">Interessenvertretung muss bei jedem Kontakt gegenüber den Organen, Mitgliedern, Fraktionen oder Gruppen des Deutschen Bundestages oder der Bundesregierung transparent erfolgen. Interessenvertreterinnen und Interessenvertreter müssen</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="d8bdcba6-82be-480a-af8a-6ab563c113e1"
-                             eId="art-z5_abs-z4_untergl-n1_listenelem-n1">
-                     <akn:num GUID="1ef44326-a42b-4761-85a6-ae2bdc927bc1"
-                              eId="art-z5_abs-z4_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                     <akn:content GUID="47b4ae64-906f-4b57-98dc-63ac8ae03723"
-                                  eId="art-z5_abs-z4_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="9e810d25-b9a9-4e99-a069-a766a011ca32"
+                            eId="art-z5_abs-z4_inhalt-n1">
+                  <akn:blockList GUID="c3d6690d-a3e6-4b37-9c95-a76d0a96ef78"
+                                 eId="art-z5_abs-z4_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="1183e89a-0342-4b4a-aebb-95b211323d7a"
+                                           eId="art-z5_abs-z4_inhalt-n1_liste-n1_listeneing-n1">
+                     Interessenvertretung muss bei jedem Kontakt gegenüber den Organen, Mitgliedern, Fraktionen oder Gruppen des Deutschen Bundestages oder der Bundesregierung transparent erfolgen. Interessenvertreterinnen und Interessenvertreter müssen
+                  </akn:listIntroduction>
+                     <akn:item GUID="d8bdcba6-82be-480a-af8a-6ab563c113e1"
+                               eId="art-z5_abs-z4_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="1ef44326-a42b-4761-85a6-ae2bdc927bc1"
+                                 eId="art-z5_abs-z4_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                         <akn:p GUID="466b3453-8c67-4cf1-a82e-869ac4042059"
-                               eId="art-z5_abs-z4_untergl-n1_listenelem-n1_inhalt-n1_text-n1">ihre Identität und ihr Anliegen sowie gegebenenfalls die Identität und das Anliegen ihrer Auftraggeberin oder ihres Auftraggebers offenlegen,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="8122ce98-ffbb-43c5-a867-e41bb302a199"
-                             eId="art-z5_abs-z4_untergl-n1_listenelem-n2">
-                     <akn:num GUID="418b01b6-3dcc-4f03-bd4e-b7dc299caebb"
-                              eId="art-z5_abs-z4_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                     <akn:content GUID="6060abbb-9cc6-42da-a0ed-a52e417455dd"
-                                  eId="art-z5_abs-z4_untergl-n1_listenelem-n2_inhalt-n1">
+                               eId="art-z5_abs-z4_inhalt-n1_liste-n1_listenelem-n1_text-n1">ihre Identität und ihr Anliegen sowie gegebenenfalls die Identität und das Anliegen ihrer Auftraggeberin oder ihres Auftraggebers offenlegen,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="8122ce98-ffbb-43c5-a867-e41bb302a199"
+                               eId="art-z5_abs-z4_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="418b01b6-3dcc-4f03-bd4e-b7dc299caebb"
+                                 eId="art-z5_abs-z4_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                         <akn:p GUID="f92033d2-07e3-4ea9-bc23-92f9504822b8"
-                               eId="art-z5_abs-z4_untergl-n1_listenelem-n2_inhalt-n1_text-n1">über sich und ihren Auftrag bei der Interessenvertretung zutreffende Angaben machen.</akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                               eId="art-z5_abs-z4_inhalt-n1_liste-n1_listenelem-n2_text-n1">über sich und ihren Auftrag bei der Interessenvertretung zutreffende Angaben machen.</akn:p>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
             <akn:paragraph GUID="147aa775-3534-4447-a0f6-3a8294ab1fa3" eId="art-z5_abs-z5">
                <akn:num GUID="a86e8b0c-4db9-4035-ab9b-1a780574b94e"
@@ -1025,44 +893,37 @@
             <akn:paragraph GUID="44def928-47a0-4fd6-b335-e952516b3b63" eId="art-z7_abs-z1">
                <akn:num GUID="87707f68-5b66-4a05-9ae5-54425c3814df"
                         eId="art-z7_abs-z1_bezeichnung-n1">(1)</akn:num>
-               <akn:list GUID="18595e70-49d1-4777-8d50-5a1bd455199b"
-                         eId="art-z7_abs-z1_untergl-n1">
-                  <akn:intro GUID="65c554f8-f85e-42ce-8801-d46bd2d94581"
-                             eId="art-z7_abs-z1_untergl-n1_intro-n1">
-                     <akn:p GUID="f8871e8c-7024-4015-928b-ab05a191861e"
-                            eId="art-z7_abs-z1_untergl-n1_intro-n1_text-n1">Ordnungswidrig handelt, wer</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="c6c12465-fdd1-409b-b355-917e198b519f"
-                             eId="art-z7_abs-z1_untergl-n1_listenelem-n1">
-                     <akn:num GUID="caf562a3-ce99-4b86-aebd-12b9ef424abf"
-                              eId="art-z7_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                     <akn:content GUID="951c4957-f727-4293-b0d3-999d2879a5d6"
-                                  eId="art-z7_abs-z1_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="a75e11fa-c597-4f35-9562-0d9d40bc6e3e"
+                            eId="art-z7_abs-z1_inhalt-n1">
+                  <akn:blockList GUID="18595e70-49d1-4777-8d50-5a1bd455199b"
+                                 eId="art-z7_abs-z1_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="65c554f8-f85e-42ce-8801-d46bd2d94581"
+                                           eId="art-z7_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
+                     Ordnungswidrig handelt, wer
+                  </akn:listIntroduction>
+                     <akn:item GUID="c6c12465-fdd1-409b-b355-917e198b519f"
+                               eId="art-z7_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="caf562a3-ce99-4b86-aebd-12b9ef424abf"
+                                 eId="art-z7_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                         <akn:p GUID="6754dfce-98ea-436a-bef6-6113da7bcd44"
-                               eId="art-z7_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">entgegen § 2 Absatz 1 Satz 1 eine Angabe nicht, nicht richtig, nicht vollständig oder nicht rechtzeitig einträgt,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="cca5d166-8f24-4cee-8443-1bb32d9c62da"
-                             eId="art-z7_abs-z1_untergl-n1_listenelem-n2">
-                     <akn:num GUID="7dda396a-7135-46b6-988f-fc1564a0fc8c"
-                              eId="art-z7_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                     <akn:content GUID="75437d55-c5bd-4b91-bbf0-7149766e3ef0"
-                                  eId="art-z7_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
+                               eId="art-z7_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1">entgegen § 2 Absatz 1 Satz 1 eine Angabe nicht, nicht richtig, nicht vollständig oder nicht rechtzeitig einträgt,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="cca5d166-8f24-4cee-8443-1bb32d9c62da"
+                               eId="art-z7_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="7dda396a-7135-46b6-988f-fc1564a0fc8c"
+                                 eId="art-z7_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                         <akn:p GUID="7615c310-f3a9-4d52-a8e3-195003aaa230"
-                               eId="art-z7_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">entgegen § 2 Absatz 5 Satz 2 eine Angabe nicht richtig oder nicht vollständig einträgt oder</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="d5081b95-4d28-4446-af79-5a706f95624a"
-                             eId="art-z7_abs-z1_untergl-n1_listenelem-n3">
-                     <akn:num GUID="1de4879f-a262-4ad2-bf8b-90801b699e31"
-                              eId="art-z7_abs-z1_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                     <akn:content GUID="4277d665-72f1-4d5e-967c-fc576950addf"
-                                  eId="art-z7_abs-z1_untergl-n1_listenelem-n3_inhalt-n1">
+                               eId="art-z7_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1">entgegen § 2 Absatz 5 Satz 2 eine Angabe nicht richtig oder nicht vollständig einträgt oder</akn:p>
+                     </akn:item>
+                     <akn:item GUID="d5081b95-4d28-4446-af79-5a706f95624a"
+                               eId="art-z7_abs-z1_inhalt-n1_liste-n1_listenelem-n3">
+                        <akn:num GUID="1de4879f-a262-4ad2-bf8b-90801b699e31"
+                                 eId="art-z7_abs-z1_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
                         <akn:p GUID="f2a0f6ac-4967-4a9c-907c-2eeee51ed00f"
-                               eId="art-z7_abs-z1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">entgegen § 3 Absatz 3 Satz 1, auch in Verbindung mit den Sätzen 2 bis 5, eine Angabe nicht, nicht richtig, nicht vollständig oder nicht rechtzeitig aktualisiert. </akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                               eId="art-z7_abs-z1_inhalt-n1_liste-n1_listenelem-n3_text-n1">entgegen § 3 Absatz 3 Satz 1, auch in Verbindung mit den Sätzen 2 bis 5, eine Angabe nicht, nicht richtig, nicht vollständig oder nicht rechtzeitig aktualisiert. </akn:p>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
             <akn:paragraph GUID="bf948cf7-1d06-40f9-a09d-8114a85bfe12" eId="art-z7_abs-z2">
                <akn:num GUID="5089dc21-117e-402e-a47d-de21dd6ceb8d"

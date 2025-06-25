@@ -17,7 +17,7 @@
 <?xml-model href="/LegalDocML.de/1.8.1/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
    <akn:documentCollection name="/akn/ontology/de/concept/documenttype/bund/rechtsetzungsdokument">
       <akn:meta GUID="cbc0b3b4-4e7f-42de-8c2a-5d15bc0a8b7e" eId="meta-n1">
          <akn:identification eId="meta-n1_ident-n1"
@@ -77,7 +77,7 @@
                               value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"
                                GUID="971d92e5-e473-40ec-b6a3-79456bfe02a8"
-                               href="recht.bund.de/institution/bundestag"/>
+                               href="recht.bund.de/institution/bundesregierung"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrexpression-n1_frbrdate-n1"
                              GUID="1417da63-2970-4ebc-887e-ee71548101af"
                              date="1964-08-05"
@@ -119,10 +119,10 @@
                <redok:gesta>nicht-vorhanden</redok:gesta>
             </redok:legalDocML.de_metadaten>
             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
-              <meta:federfuehrung>
+               <meta:federfuehrung>
                   <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
                   <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
-              </meta:federfuehrung>
+               </meta:federfuehrung>
             </meta:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>

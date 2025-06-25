@@ -3,7 +3,7 @@
 <!-- Es handelt sich hier um eine inoffizielle und automatische Konvertierung der Verkündung BGBl. 2025 I Nr. 101 vom 02.04.2025. (https://www.recht.bund.de/eli/bund/bgbl-1/2025/101) -->
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <akn:meta GUID="58fd4306-d609-4555-b582-87732c70ef23" eId="meta-n1">
          <akn:identification GUID="2886a1d0-2c1a-445c-bd98-bf97a0a21955"
@@ -210,39 +210,34 @@
             <akn:paragraph GUID="39e9103e-c9e2-4f48-889b-82ebd0628baa" eId="art-z3_abs-z1">
                <akn:num GUID="7f35d3a7-96d6-4dfa-bf74-80231ad8f005"
                         eId="art-z3_abs-z1_bezeichnung-n1">(1)</akn:num>
-               <akn:list GUID="f3b956d4-0f35-43eb-a907-451e4cc9400d"
-                         eId="art-z3_abs-z1_untergl-n1">
-                  <akn:intro GUID="679ca746-60b4-422b-abfd-d3951c40191d"
-                             eId="art-z3_abs-z1_untergl-n1_intro-n1">
-                     <akn:p GUID="04a3b2ca-3ea1-4006-b65c-1074182060b8"
-                            eId="art-z3_abs-z1_untergl-n1_intro-n1_text-n1">Das Vermögen der Stiftung besteht aus</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="11a190d8-84c8-4414-a1be-571297d58b8c"
-                             eId="art-z3_abs-z1_untergl-n1_listenelem-n1">
-                     <akn:num GUID="ef85d2b5-98c4-419f-b913-ff35b3697426"
-                              eId="art-z3_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                     <akn:content GUID="23f07959-622a-42c8-a4a5-79483b773776"
-                                  eId="art-z3_abs-z1_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="99e108df-0c98-4ffd-bee1-9ff36613dc05"
+                            eId="art-z3_abs-z1_inhalt-n1">
+                  <akn:blockList GUID="f3b956d4-0f35-43eb-a907-451e4cc9400d"
+                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="679ca746-60b4-422b-abfd-d3951c40191d"
+                                           eId="art-z3_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
+                     Das Vermögen der Stiftung besteht aus
+                  </akn:listIntroduction>
+                     <akn:item GUID="11a190d8-84c8-4414-a1be-571297d58b8c"
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="ef85d2b5-98c4-419f-b913-ff35b3697426"
+                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                         <akn:p GUID="3e09c713-2779-4abd-ace1-9cd0c879a05e"
-                               eId="art-z3_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">den Kulturgütern und dazugehörigen Grundstücken des ehemaligen Staates Preußen, die durch § 2 Absatz 1 des Gesetzes zur Errichtung einer Stiftung „Preußischer Kulturbesitz“ und zur Übertragung von Vermögenswerten des ehemaligen Landes Preußen auf die Stiftung in der im Bundesgesetzblatt Teil III, Gliederungsnummer 224-3, veröffentlichten bereinigten Fassung, das zuletzt durch Artikel 15 Absatz 59 des Gesetzes vom 5. Februar 2009 (BGBl. I S. 160) geändert worden ist, auf die Stiftung übergegangen sind sowie</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="64a9d878-054e-4cf3-ad71-1bc339f5c87c"
-                             eId="art-z3_abs-z1_untergl-n1_listenelem-n2">
-                     <akn:num GUID="d8943838-824c-4e40-a8ec-9434c9d30015"
-                              eId="art-z3_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                     <akn:content GUID="ced05d65-d33c-457d-8df0-3b568c002ac8"
-                                  eId="art-z3_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1">den Kulturgütern und dazugehörigen Grundstücken des ehemaligen Staates Preußen, die durch § 2 Absatz 1 des Gesetzes zur Errichtung einer Stiftung „Preußischer Kulturbesitz“ und zur Übertragung von Vermögenswerten des ehemaligen Landes Preußen auf die Stiftung in der im Bundesgesetzblatt Teil III, Gliederungsnummer 224-3, veröffentlichten bereinigten Fassung, das zuletzt durch Artikel 15 Absatz 59 des Gesetzes vom 5. Februar 2009 (BGBl. I S. 160) geändert worden ist, auf die Stiftung übergegangen sind sowie</akn:p>
+                     </akn:item>
+                     <akn:item GUID="64a9d878-054e-4cf3-ad71-1bc339f5c87c"
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="d8943838-824c-4e40-a8ec-9434c9d30015"
+                                 eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                         <akn:p GUID="64da3dcc-dbe3-4db6-8d98-f516fdba0a4d"
-                               eId="art-z3_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">den seitdem von ihr erworbenen Gegenständen und sonstigen Vermögenswerten,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:wrapUp GUID="a5e5deda-938d-4341-87b9-316ee1308d98"
-                              eId="art-z3_abs-z1_untergl-n1_schlusstext-n1">
-                     <akn:p GUID="d2782a44-d867-4e50-b791-2832dd770f98"
-                            eId="art-z3_abs-z1_untergl-n1_schlusstext-n1_text-n1">soweit diese am Tag vor dem Inkrafttreten dieses Gesetzes zum Vermögen der Stiftung gehörten.</akn:p>
-                  </akn:wrapUp>
-               </akn:list>
+                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1">den seitdem von ihr erworbenen Gegenständen und sonstigen Vermögenswerten,</akn:p>
+                     </akn:item>
+                     <akn:listWrapUp GUID="a5e5deda-938d-4341-87b9-316ee1308d98"
+                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenschl-n1">
+                     soweit diese am Tag vor dem Inkrafttreten dieses Gesetzes zum Vermögen der Stiftung gehörten.
+                  </akn:listWrapUp>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
             <akn:paragraph GUID="f8490f15-fcb2-49a3-ba4f-c614ce06217f" eId="art-z3_abs-z2">
                <akn:num GUID="de559633-697a-4355-bbe8-bea9c0c679bd"
@@ -286,44 +281,37 @@
             <akn:paragraph GUID="d681d3b5-bd94-4670-b768-dfde88402368" eId="art-z5_abs-z">
                <akn:num GUID="200cc4d5-b9e4-4392-b7a2-186a202b6217"
                         eId="art-z5_abs-z_bezeichnung-n1"/>
-               <akn:list GUID="8701c0fd-2d40-4c30-b107-845a7b663dbe"
-                         eId="art-z5_abs-z_untergl-n1">
-                  <akn:intro GUID="a96e07ee-0e39-4079-8edb-d7233afe6159"
-                             eId="art-z5_abs-z_untergl-n1_intro-n1">
-                     <akn:p GUID="de7a9a77-1953-4dad-b5a4-09e6dc4f3208"
-                            eId="art-z5_abs-z_untergl-n1_intro-n1_text-n1">Organe der Stiftung sind</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="bd837209-f653-4b82-908d-6ed3b83a0fa3"
-                             eId="art-z5_abs-z_untergl-n1_listenelem-n1">
-                     <akn:num GUID="e4575a90-02b2-41d0-b986-94290af731b7"
-                              eId="art-z5_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                     <akn:content GUID="13c107bb-e7f0-4cd0-8707-b173d982d9dd"
-                                  eId="art-z5_abs-z_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="e6e0901c-c785-4851-bf2c-cc53c6784da4"
+                            eId="art-z5_abs-z_inhalt-n1">
+                  <akn:blockList GUID="8701c0fd-2d40-4c30-b107-845a7b663dbe"
+                                 eId="art-z5_abs-z_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="a96e07ee-0e39-4079-8edb-d7233afe6159"
+                                           eId="art-z5_abs-z_inhalt-n1_liste-n1_listeneing-n1">
+                     Organe der Stiftung sind
+                  </akn:listIntroduction>
+                     <akn:item GUID="bd837209-f653-4b82-908d-6ed3b83a0fa3"
+                               eId="art-z5_abs-z_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="e4575a90-02b2-41d0-b986-94290af731b7"
+                                 eId="art-z5_abs-z_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                         <akn:p GUID="0ea740d0-61c7-408b-a6b7-e5f004c28e4c"
-                               eId="art-z5_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">der Stiftungsrat,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="3f8b6a0b-7b6e-4c4b-baa1-835d49b7ee0e"
-                             eId="art-z5_abs-z_untergl-n1_listenelem-n2">
-                     <akn:num GUID="5cedc682-38fa-474c-aac8-6996b287bb3a"
-                              eId="art-z5_abs-z_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                     <akn:content GUID="6b61759d-7d28-451a-b4a1-7a841b04cc3d"
-                                  eId="art-z5_abs-z_untergl-n1_listenelem-n2_inhalt-n1">
+                               eId="art-z5_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1">der Stiftungsrat,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="3f8b6a0b-7b6e-4c4b-baa1-835d49b7ee0e"
+                               eId="art-z5_abs-z_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="5cedc682-38fa-474c-aac8-6996b287bb3a"
+                                 eId="art-z5_abs-z_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                         <akn:p GUID="b258fd68-d5d6-49bf-b863-1d0b74ea7b09"
-                               eId="art-z5_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1">der Vorstand,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="b86dce43-c237-4488-b7f0-2fe6eaf7cd58"
-                             eId="art-z5_abs-z_untergl-n1_listenelem-n3">
-                     <akn:num GUID="488a2357-955e-42a6-b59a-056b6b8ea504"
-                              eId="art-z5_abs-z_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                     <akn:content GUID="78c7b61c-7e67-460e-9d3c-6b373e85bcf8"
-                                  eId="art-z5_abs-z_untergl-n1_listenelem-n3_inhalt-n1">
+                               eId="art-z5_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1">der Vorstand,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="b86dce43-c237-4488-b7f0-2fe6eaf7cd58"
+                               eId="art-z5_abs-z_inhalt-n1_liste-n1_listenelem-n3">
+                        <akn:num GUID="488a2357-955e-42a6-b59a-056b6b8ea504"
+                                 eId="art-z5_abs-z_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
                         <akn:p GUID="d22254c5-2ad4-40b2-bcb5-addd994be1d0"
-                               eId="art-z5_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1">der Präsident oder die Präsidentin.</akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                               eId="art-z5_abs-z_inhalt-n1_liste-n1_listenelem-n3_text-n1">der Präsident oder die Präsidentin.</akn:p>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
          </akn:article>
          <akn:article GUID="4610ea9b-cbc9-47c9-902e-fb5cc106ddeb"
@@ -427,59 +415,48 @@
             <akn:paragraph GUID="809300ed-55b1-4bd7-a483-15e910920c8c" eId="art-z8_abs-z1">
                <akn:num GUID="f3047d05-1108-442d-93a1-53465f9c7729"
                         eId="art-z8_abs-z1_bezeichnung-n1">(1)</akn:num>
-               <akn:list GUID="5d025192-b0d7-453e-b53e-f0d21d63610e"
-                         eId="art-z8_abs-z1_untergl-n1">
-                  <akn:intro GUID="ea1558cc-ffad-490f-9708-53b510e6b2fd"
-                             eId="art-z8_abs-z1_untergl-n1_intro-n1">
-                     <akn:p GUID="439a322d-f761-4099-b3a3-fc169f67017f"
-                            eId="art-z8_abs-z1_untergl-n1_intro-n1_text-n1">Der Vorstand besteht aus bis zu sieben Mitgliedern, die vom Stiftungsrat ernannt werden. Ihm gehören an</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="d2dc580f-a67d-4f49-b4b3-339c233e1bb1"
-                             eId="art-z8_abs-z1_untergl-n1_listenelem-n1">
-                     <akn:num GUID="108d2de2-6416-480b-8b79-ac2a1161ce91"
-                              eId="art-z8_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                     <akn:content GUID="2a735a11-1a31-4796-8827-867378c2e791"
-                                  eId="art-z8_abs-z1_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="7b2a5e23-05ec-41a2-8937-20c510128ccd"
+                            eId="art-z8_abs-z1_inhalt-n1">
+                  <akn:blockList GUID="5d025192-b0d7-453e-b53e-f0d21d63610e"
+                                 eId="art-z8_abs-z1_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="ea1558cc-ffad-490f-9708-53b510e6b2fd"
+                                           eId="art-z8_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
+                     Der Vorstand besteht aus bis zu sieben Mitgliedern, die vom Stiftungsrat ernannt werden. Ihm gehören an
+                  </akn:listIntroduction>
+                     <akn:item GUID="d2dc580f-a67d-4f49-b4b3-339c233e1bb1"
+                               eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="108d2de2-6416-480b-8b79-ac2a1161ce91"
+                                 eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                         <akn:p GUID="98c0e022-9e90-4f66-8b07-34562085cf3f"
-                               eId="art-z8_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">der Präsident oder die Präsidentin als Vorsitzender oder Vorsitzende mit Richtlinienkompetenz,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="b8fe016e-5501-4b8c-b674-87a8a100c460"
-                             eId="art-z8_abs-z1_untergl-n1_listenelem-n2">
-                     <akn:num GUID="f3a750e3-4adb-4799-a81f-f7d96f40f67f"
-                              eId="art-z8_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                     <akn:content GUID="8b3faccc-f96d-4be6-b3c5-083a01a0dbc0"
-                                  eId="art-z8_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
+                               eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1">der Präsident oder die Präsidentin als Vorsitzender oder Vorsitzende mit Richtlinienkompetenz,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="b8fe016e-5501-4b8c-b674-87a8a100c460"
+                               eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="f3a750e3-4adb-4799-a81f-f7d96f40f67f"
+                                 eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                         <akn:p GUID="7054ef4e-89b7-461f-b987-c07ec5c8f1eb"
-                               eId="art-z8_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">die Leitung der für Verwaltung und Dienstleistung zuständigen Organisationseinheit,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="f4d072dd-210a-472d-9d5b-2827511de869"
-                             eId="art-z8_abs-z1_untergl-n1_listenelem-n3">
-                     <akn:num GUID="4f16a412-ba20-4755-8c5e-3477799f6d91"
-                              eId="art-z8_abs-z1_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                     <akn:content GUID="796770db-d8c7-48a5-926e-dbe191f57201"
-                                  eId="art-z8_abs-z1_untergl-n1_listenelem-n3_inhalt-n1">
+                               eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1">die Leitung der für Verwaltung und Dienstleistung zuständigen Organisationseinheit,</akn:p>
+                     </akn:item>
+                     <akn:item GUID="f4d072dd-210a-472d-9d5b-2827511de869"
+                               eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n3">
+                        <akn:num GUID="4f16a412-ba20-4755-8c5e-3477799f6d91"
+                                 eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
                         <akn:p GUID="2fc17104-4d52-4e18-b835-29efb06acba9"
-                               eId="art-z8_abs-z1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">bis zu vier Leitungen von Einrichtungen der Stiftung sowie</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="8fe82131-f580-497a-ac8e-b5514675f2d6"
-                             eId="art-z8_abs-z1_untergl-n1_listenelem-n4">
-                     <akn:num GUID="470e8310-c36b-4ad8-8f18-c51f10350372"
-                              eId="art-z8_abs-z1_untergl-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
-                     <akn:content GUID="50e0a3a3-6fe0-4092-a243-24a05d73e38a"
-                                  eId="art-z8_abs-z1_untergl-n1_listenelem-n4_inhalt-n1">
+                               eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n3_text-n1">bis zu vier Leitungen von Einrichtungen der Stiftung sowie</akn:p>
+                     </akn:item>
+                     <akn:item GUID="8fe82131-f580-497a-ac8e-b5514675f2d6"
+                               eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n4">
+                        <akn:num GUID="470e8310-c36b-4ad8-8f18-c51f10350372"
+                                 eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n4_bezeichnung-n1">4.</akn:num>
                         <akn:p GUID="22a8368f-77a0-4db6-a5d9-8361a2edfc23"
-                               eId="art-z8_abs-z1_untergl-n1_listenelem-n4_inhalt-n1_text-n1">ein weiteres Mitglied, falls der Stiftungsrat dies bestimmt.</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:wrapUp GUID="4d7eaac7-4193-486c-a95a-c65be30453ef"
-                              eId="art-z8_abs-z1_untergl-n1_schlusstext-n1">
-                     <akn:p GUID="1073aa4e-064b-4b79-8d5c-5ac0c84b44b9"
-                            eId="art-z8_abs-z1_untergl-n1_schlusstext-n1_text-n1">Die Mitglieder des Vorstands handeln im Gesamtinteresse der Stiftung.</akn:p>
-                  </akn:wrapUp>
-               </akn:list>
+                               eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n4_text-n1">ein weiteres Mitglied, falls der Stiftungsrat dies bestimmt.</akn:p>
+                     </akn:item>
+                     <akn:listWrapUp GUID="4d7eaac7-4193-486c-a95a-c65be30453ef"
+                                     eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenschl-n1">
+                     Die Mitglieder des Vorstands handeln im Gesamtinteresse der Stiftung.
+                  </akn:listWrapUp>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
             <akn:paragraph GUID="a3fb3c78-ead1-426b-9af2-516f694daf59" eId="art-z8_abs-z2">
                <akn:num GUID="5529692b-f29f-4945-a5c4-39eed0239846"
@@ -657,34 +634,30 @@
             <akn:paragraph GUID="18669625-b72f-4b9e-be84-f3bbf85fc84a" eId="art-z13_abs-z1">
                <akn:num GUID="8f09a87f-79a1-4a04-b367-2f945adb7ceb"
                         eId="art-z13_abs-z1_bezeichnung-n1">(1)</akn:num>
-               <akn:list GUID="902a0a2a-9c5a-4eed-8a4a-8bdb19d691ef"
-                         eId="art-z13_abs-z1_untergl-n1">
-                  <akn:intro GUID="d354bf62-bd59-4b8d-b3e3-43478275f34d"
-                             eId="art-z13_abs-z1_untergl-n1_intro-n1">
-                     <akn:p GUID="3ca107d3-0f00-4d9d-8750-fbc0cbdabbcb"
-                            eId="art-z13_abs-z1_untergl-n1_intro-n1_text-n1">Die Stiftung ist verpflichtet,</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="279a6467-ad07-4b10-9584-4dcf51418916"
-                             eId="art-z13_abs-z1_untergl-n1_listenelem-n1">
-                     <akn:num GUID="819e97cc-56dc-4dbc-b050-9f2205bd495a"
-                              eId="art-z13_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                     <akn:content GUID="65c21285-5a67-4348-86e8-caa896297e3d"
-                                  eId="art-z13_abs-z1_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="0410b1d8-db29-4729-83c4-575f4f303db3"
+                            eId="art-z13_abs-z1_inhalt-n1">
+                  <akn:blockList GUID="902a0a2a-9c5a-4eed-8a4a-8bdb19d691ef"
+                                 eId="art-z13_abs-z1_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="d354bf62-bd59-4b8d-b3e3-43478275f34d"
+                                           eId="art-z13_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
+                     Die Stiftung ist verpflichtet,
+                  </akn:listIntroduction>
+                     <akn:item GUID="279a6467-ad07-4b10-9584-4dcf51418916"
+                               eId="art-z13_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="819e97cc-56dc-4dbc-b050-9f2205bd495a"
+                                 eId="art-z13_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                         <akn:p GUID="d767419b-59aa-42a1-bce6-368e625ac7c8"
-                               eId="art-z13_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">die Wiedererlangung jener Kulturgüter zu betreiben, die auf sie durch Gesetz zur Errichtung einer Stiftung „Preußischer Kulturbesitz“ und zur Übertragung von Vermögenswerten des ehemaligen Landes Preußen auf die Stiftung übergegangen, jedoch aus kriegsbedingten Gründen aus Berlin verlagert und in der Folge entzogen worden sind sowie</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="01736bd6-f73a-4e00-a729-d71ca15c8d43"
-                             eId="art-z13_abs-z1_untergl-n1_listenelem-n2">
-                     <akn:num GUID="ba27587a-3a21-4c94-8c7d-f7033d105ac8"
-                              eId="art-z13_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                     <akn:content GUID="4e2a103c-a016-446c-8fb1-877737849a5a"
-                                  eId="art-z13_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
+                               eId="art-z13_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1">die Wiedererlangung jener Kulturgüter zu betreiben, die auf sie durch Gesetz zur Errichtung einer Stiftung „Preußischer Kulturbesitz“ und zur Übertragung von Vermögenswerten des ehemaligen Landes Preußen auf die Stiftung übergegangen, jedoch aus kriegsbedingten Gründen aus Berlin verlagert und in der Folge entzogen worden sind sowie</akn:p>
+                     </akn:item>
+                     <akn:item GUID="01736bd6-f73a-4e00-a729-d71ca15c8d43"
+                               eId="art-z13_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="ba27587a-3a21-4c94-8c7d-f7033d105ac8"
+                                 eId="art-z13_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                         <akn:p GUID="70433a45-e838-4b3a-bf79-d71583ea52f0"
-                               eId="art-z13_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Vermögenswerte nach § 3 Absatz 1, die nur von regionaler kultureller Bedeutung für ein bestimmtes Land sind, auf dieses zu übertragen.</akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                               eId="art-z13_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1">Vermögenswerte nach § 3 Absatz 1, die nur von regionaler kultureller Bedeutung für ein bestimmtes Land sind, auf dieses zu übertragen.</akn:p>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
             <akn:paragraph GUID="47ef3502-ce4f-4634-941c-98b9758efc30" eId="art-z13_abs-z2">
                <akn:num GUID="ab288c0e-1b5b-4ccd-9de1-478633c96bd4"

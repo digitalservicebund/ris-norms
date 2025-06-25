@@ -8,7 +8,7 @@
 <?xml-model href="/LegalDocML.de/1.8.1/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
 <!-- Metadaten-->
       <akn:meta eId="meta-n1" GUID="52226401-eb20-4c64-8077-bacdcf3bf584">
@@ -140,7 +140,7 @@
                                GUID="de2d69cd-691b-4b61-b1fb-db471d9f52aa"
                                eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1">
                   <akn:source eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"
-                              href="#art-z%c2%a71_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                              href="#art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1"
                               GUID="c42641b3-e987-4013-b713-52017ca0ca78"/>
                   <akn:destination eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"
                                    href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-26_bezeichnung-1_zaehlbez-1/284-449.xml"
@@ -153,7 +153,7 @@
                                GUID="a9447c63-fd78-44b9-9426-48ea9e86cf68"
                                eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2">
                   <akn:source eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_source-n1"
-                              href="#art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
+                              href="#art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1"
                               GUID="c509c75e-4813-491a-a973-9b23e2b8be03"/>
                   <akn:destination eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_destination-n1"
                                    href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-71_abs-2.xml"
@@ -248,199 +248,195 @@
                <akn:num eId="art-z%c2%a71_abs-z1_bezeichnung-n1"
                         GUID="c38a41af-4911-4b1a-9404-929912af983e">
                         (1)</akn:num>
-               <akn:list GUID="5d6fc824-7926-43b4-b243-b0096da183f8"
-                         eId="art-z%c2%a71_abs-z1_untergl-n1">
-                  <akn:intro GUID="5d6fc824-7926-43b4-b243-b0096da183f9"
-                             eId="art-z%c2%a71_abs-z1_untergl-n1_intro-n1">
-                     <akn:p GUID="04879ca1-994b-4eb2-b59b-032e528d9ce5"
-                            eId="art-z%c2%a71_abs-z1_untergl-n1_intro-n1_text-n1"> Das <akn:affectedDocument GUID="e9e5ceb0-c831-45da-8fa4-aaaa16572bee"
-                                              eId="art-z%c2%a71_abs-z1_untergl-n1_intro-n1_text-n1_bezugsdoc-n1"
+               <akn:content GUID="2eb05fa2-9fca-4be0-b4a8-ee8e17a421aa"
+                            eId="art-z%c2%a71_abs-z1_inhalt-n1">
+                  <akn:blockList GUID="5d6fc824-7926-43b4-b243-b0096da183f8"
+                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="5d6fc824-7926-43b4-b243-b0096da183f9"
+                                           eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
+                      Das <akn:affectedDocument GUID="e9e5ceb0-c831-45da-8fa4-aaaa16572bee"
+                                              eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listeneing-n1_bezugsdoc-n1"
                                               href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-verkuendung-1">Einkommensteuergesetz in der Fassung der Bekanntmachung vom 8. Oktober 2009 (BGBl. I S. 3366, 3862),
                             das zuletzt durch Artikel 20 des Gesetzes vom 22. Dezember 2023 (BGBl. 2023 I Nr. 411) geändert worden ist</akn:affectedDocument>, wird
-                            wie folgt geändert:</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="49983c1a-c952-4ab1-b926-2f414c05da7d"
-                             eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n1">
-                     <akn:num GUID="634ddcaa-4851-4656-8b65-f26c8f56d1f1"
-                              eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">
+                            wie folgt geändert:
+                  </akn:listIntroduction>
+                     <akn:item GUID="49983c1a-c952-4ab1-b926-2f414c05da7d"
+                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="634ddcaa-4851-4656-8b65-f26c8f56d1f1"
+                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">
                               1.
                            </akn:num>
-                     <akn:content eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n1_inhalt-n1"
-                                  GUID="63c7840e-f93f-497a-843f-3afbd9ec8784">
-                        <akn:p eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1"
+                        <akn:p eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1"
                                GUID="a8786a31-bf59-41f9-b945-7785ed93861a">
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
-                                    eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                                    eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1"
                                     GUID="a8786a31-bf59-41f9-b945-7785ed93861b">
                               In <akn:ref href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-26_bezeichnung-1_zaehlbez-1/284-449.xml"
-                                       eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1"
+                                       eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_ref-n1"
                                        GUID="a8786a31-bf59-41f9-b945-7785ed93861c">§ 6b Absatz 6 Satz 2</akn:ref> werden die Wörter „<akn:quotedText startQuote="„"
                                               endQuote="“"
-                                              eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1"
+                                              eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quottext-n1"
                                               GUID="a8786a31-bf59-41f9-b945-7785ed93861d">§ 7 Absatz 4 Satz 1 und Absatz 5</akn:quotedText>“ durch die Wörter „<akn:quotedText startQuote="„"
                                               endQuote="“"
-                                              eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n2"
+                                              eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quottext-n2"
                                               GUID="a8786a31-bf59-41f9-b945-7785ed93861f">§ 7 Absatz 4 Satz 1, Absatz 5 und 5a</akn:quotedText>“ ersetzt.
                            </akn:mod>
                         </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="4bf3aae7-b83c-4429-8518-040182a228d5"
-                             eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2">
-                     <akn:num GUID="81e4878a-ad3a-4ec9-b32a-074c32367d12"
-                              eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                     <akn:content GUID="e447e69e-5b1f-4880-b0d9-04a596ab2a01"
-                                  eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="4bf3aae7-b83c-4429-8518-040182a228d5"
+                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="81e4878a-ad3a-4ec9-b32a-074c32367d12"
+                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                         <akn:p GUID="0d881f49-5342-4629-9874-fc4c248b630a"
-                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1">
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                     GUID="58161d8d-b02e-4d54-a362-25a734c5e79b"
-                                    eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1">
+                                    eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1">
                               <akn:ref href="eli/bund/bgbl-1/2009/s3366/2023-12-23/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-71_abs-2"
                                        GUID="88c21ccc-f528-4dd1-ab38-48c562daf53c"
-                                       eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">
+                                       eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_ref-n1">
                                  § 19 Absatz 2 Satz 3 wird wie folgt gefasst:</akn:ref>
                               <akn:quotedStructure endQuote="“"
                                                    startQuote="„"
                                                    GUID="2785f9b5-51ee-4876-af06-17219ddd9351"
-                                                   eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1">
-                                 <akn:p eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_text-n1"
+                                                   eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1">
+                                 <akn:p eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_text-n1"
                                         GUID="0d7a4336-d505-4125-bdb5-13987833ce75">Der  maßgebende  Prozentsatz,  der  Höchstbetrag  des  Versorgungsfreibetrags  und  der  Zuschlag  zum
                            Versorgungsfreibetrag sind der nachstehenden Tabelle zu entnehmen:</akn:p>
                                  <akn:table GUID="e6095f0b-884b-4be8-a033-58282d5dd514"
-                                            eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1">
+                                            eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1">
                                     <akn:tr GUID="990c5783-9b51-4062-87df-e7c73c6b3598"
-                                            eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1">
+                                            eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1">
                                        <akn:th GUID="1b3dfb9b-41cf-4650-aad6-f5c250d71c26"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n1"
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n1"
                                                rowspan="2">
                                           <akn:p GUID="63cbbdb0-a993-4c76-bfe1-06176e954df1"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n1_text-n1">Jahr des Versorgungsbeginns</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n1_text-n1">Jahr des Versorgungsbeginns</akn:p>
                                        </akn:th>
                                        <akn:th GUID="e1849850-f1bc-485e-b9cb-ecd2ac14a513"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n2">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n2">
                                           <akn:p GUID="e25d8ec3-3470-4778-beae-bb23f26ff94e"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n2_text-n1">Versorgungsfreibetrag</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n2_text-n1">Versorgungsfreibetrag</akn:p>
                                        </akn:th>
                                        <akn:th GUID="1512c9fd-fe29-4363-915f-f1b34f022c4f"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n3"
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n3"
                                                rowspan="2">
                                           <akn:p GUID="5ffcdd71-953f-4035-9f4a-cc82038f1932"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n3_text-n1">Zuschlag zum Versorgungsfreibetrag in Euro</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n1_tabellekopf-n3_text-n1">Zuschlag zum Versorgungsfreibetrag in Euro</akn:p>
                                        </akn:th>
                                     </akn:tr>
                                     <akn:tr GUID="ce0a57b3-bcd4-4a51-bd34-bd3df5ea5e54"
-                                            eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n2">
+                                            eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n2">
                                        <akn:th GUID="82a5507b-1c59-4989-9810-ea39897b3142"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n2_tabellekopf-n1">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n2_tabellekopf-n1">
                                           <akn:p GUID="f502b5ab-d7af-49a2-88ed-1cb7c380387a"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n2_tabellekopf-n1_text-n1">in % der Versorgungsbezüge</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n2_tabellekopf-n1_text-n1">in % der Versorgungsbezüge</akn:p>
                                        </akn:th>
                                        <akn:th GUID="a4b33640-a58f-4fa5-9286-c6fc3a4521dc"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n2_tabellekopf-n2">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n2_tabellekopf-n2">
                                           <akn:p GUID="44c877d7-4e7b-427a-9c69-58dfeaddea39"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n2_tabellekopf-n2_text-n1">Höchstbetrag in Euro</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n2_tabellekopf-n2_text-n1">Höchstbetrag in Euro</akn:p>
                                        </akn:th>
                                     </akn:tr>
                                     <akn:tr GUID="c7b2cdea-4ac3-4af7-9d7d-29345f1d6ed8"
-                                            eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3">
+                                            eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3">
                                        <akn:td GUID="6135164c-082f-4f25-8146-39b2c7851f8d"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n1">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n1">
                                           <akn:p GUID="1daba036-230a-4595-aca2-c72faa0dbfaf"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n1_text-n1">bis 2005</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n1_text-n1">bis 2005</akn:p>
                                        </akn:td>
                                        <akn:td GUID="4b1822c2-86f2-499b-9e15-3e238a9475e5"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2">
                                           <akn:p GUID="47f2763e-83f9-4a8e-81e3-188ab8ce46c6"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2_text-n1">40,0</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n2_text-n1">40,0</akn:p>
                                        </akn:td>
                                        <akn:td GUID="ff209893-13c7-4e15-a401-dd660be8c527"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n3">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n3">
                                           <akn:p GUID="95dffc04-b963-4f63-b39d-2da5ba650654"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n3_text-n1">3 000</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n3_text-n1">3 000</akn:p>
                                        </akn:td>
                                        <akn:td GUID="3972a0d5-7c54-4bcc-9c3c-e59630f840b0"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n4">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n4">
                                           <akn:p GUID="9834fccb-d13e-4ac5-a2ff-dd242fe0f763"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n4_text-n1">900</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n3_tabelleinh-n4_text-n1">900</akn:p>
                                        </akn:td>
                                     </akn:tr>
                                     <akn:tr GUID="b671a30c-dc1a-4898-970d-e371abe9aed9"
-                                            eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4">
+                                            eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4">
                                        <akn:td GUID="fad8cef3-00be-4d74-b23e-dcafa2516bf2"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n1">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n1">
                                           <akn:p GUID="a2a1f303-9c82-4c6c-a95f-35f01941029f"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n1_text-n1">ab 2006</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n1_text-n1">ab 2006</akn:p>
                                        </akn:td>
                                        <akn:td GUID="e3c06299-3855-41e7-995a-f395d7f84461"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2">
                                           <akn:p GUID="85ae462a-e205-4f7e-8532-4b993b5ea12e"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2_text-n1">38,4</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n2_text-n1">38,4</akn:p>
                                        </akn:td>
                                        <akn:td GUID="aff4aa39-7b78-4f69-8004-a95a88c4fa9c"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n3">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n3">
                                           <akn:p GUID="08bc3ade-e920-438b-8448-7fcedb6192fa"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n3_text-n1">2 880</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n3_text-n1">2 880</akn:p>
                                        </akn:td>
                                        <akn:td GUID="1180c599-4219-4f91-a2a0-e5bf5754430d"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n4">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n4">
                                           <akn:p GUID="7a10ff40-0025-4622-97d4-0333473653f2"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n4_text-n1">864</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n4_tabelleinh-n4_text-n1">864</akn:p>
                                        </akn:td>
                                     </akn:tr>
                                     <akn:tr GUID="458a49d1-b3ea-46bd-8051-10960c0f4094"
-                                            eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5">
+                                            eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5">
                                        <akn:td GUID="dd0ed33d-b834-4e5a-906c-59474385394d"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n1">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n1">
                                           <akn:p GUID="93656d01-643a-4a9a-8f9c-de0b85f43955"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n1_text-n1">2007</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n1_text-n1">2007</akn:p>
                                        </akn:td>
                                        <akn:td GUID="3fd9bac2-803f-42fc-938f-cbd6b58bc833"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n2">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n2">
                                           <akn:p GUID="23c53d5e-8217-4d29-a099-2575c85ae7dc"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n2_text-n1">36,8</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n2_text-n1">36,8</akn:p>
                                        </akn:td>
                                        <akn:td GUID="22bea0e1-db96-4694-98c7-c2d2574b2263"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n3">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n3">
                                           <akn:p GUID="257a1968-fe04-4180-a8cb-18c825f1c836"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n3_text-n1">2 760</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n3_text-n1">2 760</akn:p>
                                        </akn:td>
                                        <akn:td GUID="5e6ed51d-48da-44e9-b8bd-7453929bef81"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n4">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n4">
                                           <akn:p GUID="22751007-c55f-41c4-89ae-b7a3acef841a"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n4_text-n1">828</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n5_tabelleinh-n4_text-n1">828</akn:p>
                                        </akn:td>
                                     </akn:tr>
                                     <akn:tr GUID="23fd3a0c-b7ff-471c-a6b2-10e2f25b8b5d"
-                                            eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6">
+                                            eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6">
                                        <akn:td GUID="037d324d-67dd-4c6c-b74f-0da3c094d7f3"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n1">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n1">
                                           <akn:p GUID="07be3174-ab04-4ae6-a8f6-0c5652ffe1ea"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n1_text-n1">2008</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n1_text-n1">2008</akn:p>
                                        </akn:td>
                                        <akn:td GUID="16acddc4-a085-43be-b413-a9c7240632c0"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n2">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n2">
                                           <akn:p GUID="0c5a3e05-7a6c-43cd-b19e-c748e2046e02"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n2_text-n1">35,2</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n2_text-n1">35,2</akn:p>
                                        </akn:td>
                                        <akn:td GUID="82745578-4b7e-48e3-ba66-a5e80caa6e5f"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n3">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n3">
                                           <akn:p GUID="84690030-0b62-409e-acee-67b422fb4e1e"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n3_text-n1">2 640</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n3_text-n1">2 640</akn:p>
                                        </akn:td>
                                        <akn:td GUID="8e897241-573d-4b7d-87a3-3fbfaba46602"
-                                               eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n4">
+                                               eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n4">
                                           <akn:p GUID="88ec824e-0b3c-4e6e-9e67-93b2c9ba0c07"
-                                                 eId="art-z%c2%a71_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n4_text-n1">792</akn:p>
+                                                 eId="art-z%c2%a71_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_tabelle-n1_tabellereihe-n6_tabelleinh-n4_text-n1">792</akn:p>
                                        </akn:td>
                                     </akn:tr>
                                  </akn:table>
                               </akn:quotedStructure>
                            </akn:mod>
                         </akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
          </akn:article>
          <!-- §2 -->
@@ -1038,135 +1034,107 @@
                <akn:num eId="art-z%c2%a735_abs-z1_bezeichnung-n1"
                         GUID="8373fc61-cc1b-4588-aa1f-8c29a2bc644e">
                         (1)</akn:num>
-               <akn:list GUID="0af5ebc9-805e-40d7-b5c2-392977595974"
-                         eId="art-z%c2%a735_abs-z1_untergl-n1">
-                  <akn:intro GUID="59c94bfd-0014-44df-a916-35254a314936"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_intro-n1">
-                     <akn:p GUID="82015b74-1c1d-4354-a7d8-482a904bbe14"
-                            eId="art-z%c2%a735_abs-z1_untergl-n1_intro-n1_text-n1"/>
-                  </akn:intro>
-                  <akn:point GUID="9a8983f6-c5a5-4554-8231-cfd33319e0a9"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n1">
-                     <akn:num GUID="e48171db-d319-4b3c-8b6f-a305e401d87f"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">(1)</akn:num>
-                     <akn:content GUID="86f1d04f-cf83-4851-a463-83753ba33208"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="ab45ddbe-10fe-4a79-995b-6ff048926214"
+                            eId="art-z%c2%a735_abs-z1_inhalt-n1">
+                  <akn:blockList GUID="0af5ebc9-805e-40d7-b5c2-392977595974"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="59c94bfd-0014-44df-a916-35254a314936"
+                                           eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
+                     
+                  </akn:listIntroduction>
+                     <akn:item GUID="9a8983f6-c5a5-4554-8231-cfd33319e0a9"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="e48171db-d319-4b3c-8b6f-a305e401d87f"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">(1)</akn:num>
                         <akn:p GUID="d917836c-1926-479d-b14f-824dd03d3633"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1">
                               Dieses Gesetz tritt vorbehaltlich der Absätze 2 bis 9 am Tag nach der Verkündung in Kraft.
                            </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="f61ff441-1986-481d-894e-94e9e250519e"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n2">
-                     <akn:num GUID="cbbf73d6-c5bc-4f04-80d0-bee5183a5168"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">(2)</akn:num>
-                     <akn:content GUID="d89f2a49-aee7-4ca8-9d56-4b69f7de13b4"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="f61ff441-1986-481d-894e-94e9e250519e"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="cbbf73d6-c5bc-4f04-80d0-bee5183a5168"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">(2)</akn:num>
                         <akn:p GUID="aa246a74-02d6-420c-89b4-6375d86547ff"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1">
                               Artikel 26 tritt mit Wirkung vom 1. Januar 2020 in Kraft.
                            </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="c32b1cd9-e6f1-4bbe-aed4-9c19c9dd5bf6"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n3">
-                     <akn:num GUID="39e1f85f-f341-45c4-a46e-90cd72665f67"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n3_bezeichnung-n1">(3)</akn:num>
-                     <akn:content GUID="30323067-5d43-4859-8f98-3d5c6ce98fe5"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n3_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="c32b1cd9-e6f1-4bbe-aed4-9c19c9dd5bf6"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n3">
+                        <akn:num GUID="39e1f85f-f341-45c4-a46e-90cd72665f67"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">(3)</akn:num>
                         <akn:p GUID="1d983209-4248-4f09-ad59-e78fc4c8fd83"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n3_text-n1">
                               Die Artikel 1 und 7 treten mit Wirkung vom 1. Januar 2023 in Kraft.
                            </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="4c623505-79dd-48d2-91e6-b9a658c01b3f"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n4">
-                     <akn:num GUID="9ececa14-a57d-45bf-89c8-141c42d48368"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n4_bezeichnung-n1">(4)</akn:num>
-                     <akn:content GUID="96e7836c-a6b9-4f70-93dc-87073d22ed40"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n4_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="4c623505-79dd-48d2-91e6-b9a658c01b3f"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n4">
+                        <akn:num GUID="9ececa14-a57d-45bf-89c8-141c42d48368"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n4_bezeichnung-n1">(4)</akn:num>
                         <akn:p GUID="c8425bf7-47c2-4da7-9904-1e1a72bb7586"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n4_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n4_text-n1">
                               Die Artikel 2, 12, 20, 31 und 32 Nummer 2 treten mit Wirkung vom 1. Januar 2024 in Kraft.
                            </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="db3679b0-8b1e-44eb-a15e-cfabca814a21"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n5">
-                     <akn:num GUID="6a285e06-75c5-4070-bb47-cff4cb5c26a5"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n5_bezeichnung-n1">(5)</akn:num>
-                     <akn:content GUID="f0f6f73d-6d93-43e1-84c4-798d56ed716c"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n5_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="db3679b0-8b1e-44eb-a15e-cfabca814a21"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n5">
+                        <akn:num GUID="6a285e06-75c5-4070-bb47-cff4cb5c26a5"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n5_bezeichnung-n1">(5)</akn:num>
                         <akn:p GUID="edefafec-29f3-475f-a03b-69d216a42d93"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n5_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n5_text-n1">
                               Die Artikel 4 und 22 treten am 1. April 2024 in Kraft.
                            </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="45f70562-f0c9-46ae-bffb-d4d2e763629a"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n6">
-                     <akn:num GUID="ce2a08f8-1099-4cff-9ed3-4bb4bd386434"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n6_bezeichnung-n1">(6)</akn:num>
-                     <akn:content GUID="48da3995-398d-478e-9aa9-5a0ce3904442"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n6_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="45f70562-f0c9-46ae-bffb-d4d2e763629a"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n6">
+                        <akn:num GUID="ce2a08f8-1099-4cff-9ed3-4bb4bd386434"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n6_bezeichnung-n1">(6)</akn:num>
                         <akn:p GUID="0a7edbf9-612c-43ad-b728-d8e37e2e6c68"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n6_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n6_text-n1">
                               Die Artikel 5, 9, 23, 24 und 27 Nummer 6 treten am 1. Januar 2025 in Kraft.
                            </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="8f6b3b22-c532-429b-b674-220ee7372c12"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n7">
-                     <akn:num GUID="ad245874-a7bd-41d5-97d3-d316a417bc9a"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n7_bezeichnung-n1">(7)</akn:num>
-                     <akn:content GUID="5f406ea7-324c-4a90-ba13-6d9d239e8ee9"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n7_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="8f6b3b22-c532-429b-b674-220ee7372c12"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n7">
+                        <akn:num GUID="ad245874-a7bd-41d5-97d3-d316a417bc9a"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n7_bezeichnung-n1">(7)</akn:num>
                         <akn:p GUID="d38908ad-6bbd-4d1a-88e6-f697ec00cf12"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n7_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n7_text-n1">
                               Artikel 32 Nummer 3 und 4 tritt am 1. Juli 2025 in Kraft.
                            </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="61b0fc82-738c-4ebb-bdff-9f1eea4e96b9"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n8">
-                     <akn:num GUID="634aa27a-df2f-4bb6-9fab-418965ae7217"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n8_bezeichnung-n1">(8)</akn:num>
-                     <akn:content GUID="3d7a8657-95eb-4e6d-9ad0-53e7e31883bc"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n8_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="61b0fc82-738c-4ebb-bdff-9f1eea4e96b9"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n8">
+                        <akn:num GUID="634aa27a-df2f-4bb6-9fab-418965ae7217"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n8_bezeichnung-n1">(8)</akn:num>
                         <akn:p GUID="dd2b467b-54b3-48e3-8e62-cf232df38975"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n8_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n8_text-n1">
                               Die Artikel 14 und 16 treten am 1. Januar 2027 in Kraft.
                            </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="545da796-e05b-491e-a64d-c4ed9ee5fb09"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n9">
-                     <akn:num GUID="c5174939-4a22-49b4-8e91-f29f25997c75"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n9_bezeichnung-n1">(9)</akn:num>
-                     <akn:content GUID="2430d65b-f2f5-4cf9-a78d-997de8bb1bb1"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n9_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="545da796-e05b-491e-a64d-c4ed9ee5fb09"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n9">
+                        <akn:num GUID="c5174939-4a22-49b4-8e91-f29f25997c75"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n9_bezeichnung-n1">(9)</akn:num>
                         <akn:p GUID="e37f15d9-0e99-4719-948b-d18a0945f0ac"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n9_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n9_text-n1">
                               Artikel 6 tritt am 1. Januar 2028 in Kraft.
                            </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="1861791b-36e7-4742-8e81-909e63735de5"
-                             eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n10">
-                     <akn:num GUID="569c8de9-11ba-45eb-8c09-d325e6a9f373"
-                              eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n10_bezeichnung-n1">(10)</akn:num>
-                     <akn:content GUID="d199a332-8e7d-46c6-b3c5-84cce841fc29"
-                                  eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n10_inhalt-n1">
+                     </akn:item>
+                     <akn:item GUID="1861791b-36e7-4742-8e81-909e63735de5"
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n10">
+                        <akn:num GUID="569c8de9-11ba-45eb-8c09-d325e6a9f373"
+                                 eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n10_bezeichnung-n1">(10)</akn:num>
                         <akn:p GUID="29b55044-6570-485f-97d1-7db6e17ec6c7"
-                               eId="art-z%c2%a735_abs-z1_untergl-n1_listenelem-n10_inhalt-n1_text-n1">
+                               eId="art-z%c2%a735_abs-z1_inhalt-n1_liste-n1_listenelem-n10_text-n1">
                               Die §§ 124 und 125 des Vierten Buches Sozialgesetzbuch, § 202a des Fünften Buches Sozialgesetzbuch
 sowie § 55b Absatz 2 des Elften Buches Sozialgesetzbuch treten am 1. Juli 2026 außer Kraft.
                            </akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
          </akn:article>
       </akn:body>

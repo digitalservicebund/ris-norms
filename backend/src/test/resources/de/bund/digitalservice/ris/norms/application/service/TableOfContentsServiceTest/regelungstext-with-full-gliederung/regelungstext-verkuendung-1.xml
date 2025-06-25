@@ -14,7 +14,7 @@
 <?xml-model href="/LegalDocML.de/1.8.1/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
         <!-- Metadaten -->
       <akn:meta eId="meta-n1" GUID="7e5837c8-b967-45be-924b-c95956c4aa94">
@@ -394,143 +394,124 @@
                                              GUID="57b42d35-0431-4739-ae46-471b8c9a8c5b">
                                                     (1)</akn:num>
                                     <!-- Satz 1 -->
-                                    <akn:list eId="art-z1_abs-z1_untergl-n1"
-                                              GUID="f2dc3497-fb2b-4f9b-bd96-aad437f4fd99">
-                                       <akn:intro eId="art-z1_abs-z1_untergl-n1_intro-n1"
-                                                  GUID="094fa9dc-2370-4443-b4d1-31d2a6bb5274">
-                                          <akn:p eId="art-z1_abs-z1_untergl-n1_intro-n1_text-n1"
-                                                 GUID="855e7807-9f06-41c3-b724-0848dc411e2b"> In den folgenden Artikeln können Sie weitere
+                                    <akn:content GUID="7131bc8e-bbe5-4f29-95a7-b4120d5afee2"
+                                                 eId="art-z1_abs-z1_inhalt-n1">
+                                       <akn:blockList eId="art-z1_abs-z1_inhalt-n1_liste-n1"
+                                                      GUID="f2dc3497-fb2b-4f9b-bd96-aad437f4fd99">
+                                          <akn:listIntroduction eId="art-z1_abs-z1_inhalt-n1_liste-n1_listeneing-n1"
+                                                                GUID="094fa9dc-2370-4443-b4d1-31d2a6bb5274">
+                                           In den folgenden Artikeln können Sie weitere
                                                             neue Stammgesetze oder Änderungen bestehender
                                                             Stammgesetze nach dem Muster von Artikel 1 oder
                                                             zusammengefasste Folgeänderungen anderer
                                                             Rechtsvorschriften vorsehen. Bitte ordnen Sie alle
                                                             Artikel, die bestehende Rechtsvorschriften ändern,
                                                             nach der Reihenfolge ihrer Gliederungsnummern im
-                                                            Fundstellennachweis A </akn:p>
-                                       </akn:intro>
-                                       <!-- Teilsatz 1. -->
-                                       <akn:point eId="art-z1_abs-z1_untergl-n1_listenelem-n1"
-                                                  GUID="863c7778-fff8-47bf-bf72-03e5ec122818">
-                                          <akn:num eId="art-z1_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1"
-                                                   GUID="7b6ca993-ccf6-41c1-9a36-4b1beada0265">
+                                                            Fundstellennachweis A 
+                                       </akn:listIntroduction>
+                                          <!-- Teilsatz 1. -->
+                                          <akn:item eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1"
+                                                    GUID="863c7778-fff8-47bf-bf72-03e5ec122818">
+                                             <akn:num eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1"
+                                                      GUID="7b6ca993-ccf6-41c1-9a36-4b1beada0265">
                                                             1.</akn:num>
-                                          <akn:list eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1"
-                                                    GUID="564c6c02-be75-481e-9d00-9b029375b53e">
-                                             <akn:intro eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_intro-n1"
-                                                        GUID="fe810eee-134a-4c1d-a3b2-db74fdb9b646">
-                                                <akn:p eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1"
-                                                       GUID="e3a4857f-a748-4b7b-9ba8-d3963445954a">in den folgenden Artikeln können</akn:p>
-                                             </akn:intro>
-                                             <!-- Teilsatz a) -->
-                                             <akn:point eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1"
-                                                        GUID="d517dac0-50ee-40f6-8a3a-b0e92163fbf8">
-                                                <akn:num eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1"
-                                                         GUID="6187ba88-2d65-4d19-af0c-0654885b3462">
+                                             <akn:blockList eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1"
+                                                            GUID="564c6c02-be75-481e-9d00-9b029375b53e">
+                                                <akn:listIntroduction eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listeneing-n1"
+                                                                      GUID="fe810eee-134a-4c1d-a3b2-db74fdb9b646">
+                                                in den folgenden Artikeln können
+                                             </akn:listIntroduction>
+                                                <!-- Teilsatz a) -->
+                                                <akn:item eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1"
+                                                          GUID="d517dac0-50ee-40f6-8a3a-b0e92163fbf8">
+                                                   <akn:num eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_bezeichnung-n1"
+                                                            GUID="6187ba88-2d65-4d19-af0c-0654885b3462">
                                                                     a)</akn:num>
-                                                <akn:list eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1"
-                                                          GUID="1213e042-dbf9-46b8-8a73-a80486b10bba">
-                                                   <akn:intro eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_intro-n1"
-                                                              GUID="19c413f6-bdea-4f0c-9f82-2ff76fa78031">
-                                                      <akn:p eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1"
-                                                             GUID="1387e43c-682a-4d49-98b6-5e9d3e1b1e21"> sie weitere </akn:p>
-                                                   </akn:intro>
-                                                   <!-- Teilsatz aa) -->
-                                                   <akn:point eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1"
-                                                              GUID="a1645e1e-c83b-4987-940d-5d110fb095f0">
-                                                      <akn:num eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1"
-                                                               GUID="60efcd14-4740-4032-8494-bbec71db4fcf">
+                                                   <akn:blockList eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1"
+                                                                  GUID="1213e042-dbf9-46b8-8a73-a80486b10bba">
+                                                      <akn:listIntroduction eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listeneing-n1"
+                                                                            GUID="19c413f6-bdea-4f0c-9f82-2ff76fa78031">
+                                                       sie weitere 
+                                                   </akn:listIntroduction>
+                                                      <!-- Teilsatz aa) -->
+                                                      <akn:item eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1"
+                                                                GUID="a1645e1e-c83b-4987-940d-5d110fb095f0">
+                                                         <akn:num eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_bezeichnung-n1"
+                                                                  GUID="60efcd14-4740-4032-8494-bbec71db4fcf">
                                                                             aa)</akn:num>
-                                                      <akn:content eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1"
-                                                                   GUID="a6065b99-ddc6-409e-b9b0-a6c7cba22894">
-                                                         <akn:p eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1"
+                                                         <akn:p eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_text-n1"
                                                                 GUID="5bd07ad4-64db-4abb-9945-0ca9c1d3d738"> neue Stammgesetze oder </akn:p>
-                                                      </akn:content>
-                                                   </akn:point>
-                                                   <!-- Teilsatz bb) -->
-                                                   <akn:point eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2"
-                                                              GUID="b16b7dfd-dcac-4094-ae98-6ac6aa79605d">
-                                                      <akn:num eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1"
-                                                               GUID="d0238913-7b4d-442e-9718-487fb43c6d2e">
+                                                      </akn:item>
+                                                      <!-- Teilsatz bb) -->
+                                                      <akn:item eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2"
+                                                                GUID="b16b7dfd-dcac-4094-ae98-6ac6aa79605d">
+                                                         <akn:num eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_bezeichnung-n1"
+                                                                  GUID="d0238913-7b4d-442e-9718-487fb43c6d2e">
                                                                             bb)</akn:num>
-                                                      <akn:list eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1"
-                                                                GUID="7fffe598-ff43-4f33-8223-739386231c1d">
-                                                         <akn:intro eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_intro-n1"
-                                                                    GUID="cee4dae6-5336-426a-8995-a8d28d1c5e71">
-                                                            <akn:p eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_intro-n1_text-n1"
-                                                                   GUID="4b1f0783-2b10-410d-ad02-47ccbcc006a1"> Änderungen </akn:p>
-                                                         </akn:intro>
-                                                         <!-- Teilsatz aaa) -->
-                                                         <akn:point eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1"
-                                                                    GUID="d092b25f-e8ff-4cd5-a99c-7148e9468701">
-                                                            <akn:num eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_bezeichnung-n1"
-                                                                     GUID="f15643b5-690f-40b4-b6a4-c36d7e3ca462">
+                                                         <akn:blockList eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_liste-n1"
+                                                                        GUID="7fffe598-ff43-4f33-8223-739386231c1d">
+                                                            <akn:listIntroduction eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_liste-n1_listeneing-n1"
+                                                                                  GUID="cee4dae6-5336-426a-8995-a8d28d1c5e71">
+                                                             Änderungen 
+                                                         </akn:listIntroduction>
+                                                            <!-- Teilsatz aaa) -->
+                                                            <akn:item eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1"
+                                                                      GUID="d092b25f-e8ff-4cd5-a99c-7148e9468701">
+                                                               <akn:num eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1_bezeichnung-n1"
+                                                                        GUID="f15643b5-690f-40b4-b6a4-c36d7e3ca462">
                                                                                     aaa)</akn:num>
-                                                            <akn:content eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1"
-                                                                         GUID="36cf9f36-4c8b-48f8-92c7-e23005d1214d">
-                                                               <akn:p eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1"
+                                                               <akn:p eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1_text-n1"
                                                                       GUID="c7f596f5-370a-4c7b-9122-eb5c18ede89a"> bestehender Stammgesetze </akn:p>
-                                                            </akn:content>
-                                                         </akn:point>
-                                                         <!-- Teilsatz bbb) -->
-                                                         <akn:point eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2"
-                                                                    GUID="7f5e8112-78de-4052-a9ea-fa423b8f9a7c">
-                                                            <akn:num eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_bezeichnung-n1"
-                                                                     GUID="192ebf95-4963-4897-97ce-afea6556f17f">
+                                                            </akn:item>
+                                                            <!-- Teilsatz bbb) -->
+                                                            <akn:item eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n2"
+                                                                      GUID="7f5e8112-78de-4052-a9ea-fa423b8f9a7c">
+                                                               <akn:num eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n2_bezeichnung-n1"
+                                                                        GUID="192ebf95-4963-4897-97ce-afea6556f17f">
                                                                                     bbb)</akn:num>
-                                                            <akn:content eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1"
-                                                                         GUID="039991e2-0a01-44d3-91a3-71708dbd402f">
-                                                               <akn:p eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1"
+                                                               <akn:p eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n2_text-n1"
                                                                       GUID="f1d6135a-f560-44c8-9d87-cbb140543835"> nach dem Muster </akn:p>
-                                                            </akn:content>
-                                                         </akn:point>
-                                                      </akn:list>
-                                                   </akn:point>
-                                                   <!-- Teilsatz cc) -->
-                                                   <akn:point eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3"
-                                                              GUID="d92433ae-d2d1-4ba6-8392-e4ad134faae4">
-                                                      <akn:num eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_bezeichnung-n1"
-                                                               GUID="9430cae2-7082-4546-b330-ea0d8035dbaf">
+                                                            </akn:item>
+                                                         </akn:blockList>
+                                                      </akn:item>
+                                                      <!-- Teilsatz cc) -->
+                                                      <akn:item eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n3"
+                                                                GUID="d92433ae-d2d1-4ba6-8392-e4ad134faae4">
+                                                         <akn:num eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n3_bezeichnung-n1"
+                                                                  GUID="9430cae2-7082-4546-b330-ea0d8035dbaf">
                                                                             cc)</akn:num>
-                                                      <akn:content eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1"
-                                                                   GUID="f60b0821-c6d5-45ee-9c17-8f91c44e46eb">
-                                                         <akn:p eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1"
+                                                         <akn:p eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n3_text-n1"
                                                                 GUID="721a8b23-9ded-42fc-bf58-306d3baaf3af"> von Artikel 1 oder zusammengefasste
                                                                                 Folgeänderungen </akn:p>
-                                                      </akn:content>
-                                                   </akn:point>
-                                                </akn:list>
-                                             </akn:point>
-                                             <!-- Teilsatz b) -->
-                                             <akn:point eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2"
-                                                        GUID="73ae6e67-7cbd-42b4-9669-fdf0ee78e682">
-                                                <akn:num eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1"
-                                                         GUID="685917dc-0b33-4c87-9e7a-03b2ef4259b6">
+                                                      </akn:item>
+                                                   </akn:blockList>
+                                                </akn:item>
+                                                <!-- Teilsatz b) -->
+                                                <akn:item eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2"
+                                                          GUID="73ae6e67-7cbd-42b4-9669-fdf0ee78e682">
+                                                   <akn:num eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_bezeichnung-n1"
+                                                            GUID="685917dc-0b33-4c87-9e7a-03b2ef4259b6">
                                                                     b)</akn:num>
-                                                <akn:content eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1"
-                                                             GUID="1f54437e-30be-465a-8fdf-89849515b92e">
-                                                   <akn:p eId="art-z1_abs-z1_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1"
+                                                   <akn:p eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_text-n1"
                                                           GUID="a47412b4-9408-45f5-9229-442dc62bda3d"> anderer Rechtsvorschriften vorsehen,
                                                                     </akn:p>
-                                                </akn:content>
-                                             </akn:point>
-                                          </akn:list>
-                                       </akn:point>
-                                       <!-- Teilsatz 2.) -->
-                                       <akn:point eId="art-z1_abs-z1_untergl-n1_listenelem-n2"
-                                                  GUID="bdf75682-8571-49e6-8dd0-c7f138f90abe">
-                                          <akn:num eId="art-z1_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1"
-                                                   GUID="8b1a4bd5-5039-49b2-868e-1ef7326b03ef">
+                                                </akn:item>
+                                             </akn:blockList>
+                                          </akn:item>
+                                          <!-- Teilsatz 2.) -->
+                                          <akn:item eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n2"
+                                                    GUID="bdf75682-8571-49e6-8dd0-c7f138f90abe">
+                                             <akn:num eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1"
+                                                      GUID="8b1a4bd5-5039-49b2-868e-1ef7326b03ef">
                                                             2.</akn:num>
-                                          <akn:content eId="art-z1_abs-z1_untergl-n1_listenelem-n2_inhalt-n1"
-                                                       GUID="0f2bc9bb-37f1-447f-969e-c3b2a0f08c27">
-                                             <akn:p eId="art-z1_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1"
+                                             <akn:p eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1"
                                                     GUID="cae33855-480c-4fa1-ac6d-749e09d350cd"> bitte ordnen Sie alle Artikel, die
                                                                 bestehende Rechtsvorschriften ändern, nach der
                                                                 Reihenfolge ihrer Gliederungsnummern im
                                                                 Fundstellennachweis A. </akn:p>
-                                          </akn:content>
-                                       </akn:point>
-                                    </akn:list>
+                                          </akn:item>
+                                       </akn:blockList>
+                                    </akn:content>
                                  </akn:paragraph>
                               </akn:article>
                               <!-- § 2 -->
@@ -562,53 +543,46 @@
                                              GUID="777b9dec-402d-44a3-ba6b-acee67ca11a2">
                                                     (2)</akn:num>
                                     <!-- Satz 1 -->
-                                    <akn:list eId="art-z2_abs-z2_untergl-n1"
-                                              GUID="cd09c696-5c04-4c76-937d-6a85e01b0143">
-                                       <akn:intro eId="art-z2_abs-z2_untergl-n1_intro-n1"
-                                                  GUID="c06e96e9-9457-4952-91ff-db5ae9d4e487">
-                                          <akn:p eId="art-z2_abs-z2_untergl-n1_intro-n1_text-n1"
-                                                 GUID="36ba6584-d16e-4e40-87a5-2aec6b99b129">Das ist ein Test ob in der </akn:p>
-                                       </akn:intro>
-                                       <!-- Teilsatz 1. -->
-                                       <akn:point eId="art-z2_abs-z2_untergl-n1_listenelem-n1"
-                                                  GUID="8ad7fe15-e2e2-4438-99a0-46ce2bf02471">
-                                          <akn:num eId="art-z2_abs-z2_untergl-n1_listenelem-n1_bezeichnung-n1"
-                                                   GUID="8dbc5f8d-e58e-48b4-96c8-fd76991d3642">
+                                    <akn:content GUID="eb0182d4-1d7e-44b0-bb3d-b2ae59e8c112"
+                                                 eId="art-z2_abs-z2_inhalt-n1">
+                                       <akn:blockList eId="art-z2_abs-z2_inhalt-n1_liste-n1"
+                                                      GUID="cd09c696-5c04-4c76-937d-6a85e01b0143">
+                                          <akn:listIntroduction eId="art-z2_abs-z2_inhalt-n1_liste-n1_listeneing-n1"
+                                                                GUID="c06e96e9-9457-4952-91ff-db5ae9d4e487">
+                                          Das ist ein Test ob in der 
+                                       </akn:listIntroduction>
+                                          <!-- Teilsatz 1. -->
+                                          <akn:item eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n1"
+                                                    GUID="8ad7fe15-e2e2-4438-99a0-46ce2bf02471">
+                                             <akn:num eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1"
+                                                      GUID="8dbc5f8d-e58e-48b4-96c8-fd76991d3642">
                                                             1.</akn:num>
-                                          <akn:content eId="art-z2_abs-z2_untergl-n1_listenelem-n1_inhalt-n1"
-                                                       GUID="a1349365-77a3-4946-be9e-d85868a99dfa">
-                                             <akn:p eId="art-z2_abs-z2_untergl-n1_listenelem-n1_inhalt-n1_text-n1"
+                                             <akn:p eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n1_text-n1"
                                                     GUID="30b47e67-8ec0-4c50-b0e1-c5a4dd4b4cc4">Inhaltsübersicht der hängende </akn:p>
-                                          </akn:content>
-                                       </akn:point>
-                                       <!-- Teilsatz 2. -->
-                                       <akn:point eId="art-z2_abs-z2_untergl-n1_listenelem-n2"
-                                                  GUID="a6943a9f-92d6-4125-9090-e08e953e5b4a">
-                                          <akn:num eId="art-z2_abs-z2_untergl-n1_listenelem-n2_bezeichnung-n1"
-                                                   GUID="58c9a476-d074-4e07-810c-473f18dab0f6">
+                                          </akn:item>
+                                          <!-- Teilsatz 2. -->
+                                          <akn:item eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n2"
+                                                    GUID="a6943a9f-92d6-4125-9090-e08e953e5b4a">
+                                             <akn:num eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1"
+                                                      GUID="58c9a476-d074-4e07-810c-473f18dab0f6">
                                                             2.</akn:num>
-                                          <akn:content eId="art-z2_abs-z2_untergl-n1_listenelem-n2_inhalt-n1"
-                                                       GUID="4a777e8e-e4a1-474e-9581-c494a91e3ff5">
-                                             <akn:p eId="art-z2_abs-z2_untergl-n1_listenelem-n2_inhalt-n1_text-n1"
+                                             <akn:p eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n2_text-n1"
                                                     GUID="cf0677ff-8a4d-4b57-9c12-0a4016cc0f31"> Einzug auch wirklich umgesetzt worden ist,
                                                             </akn:p>
-                                          </akn:content>
-                                       </akn:point>
-                                       <!-- Teilsatz 3. -->
-                                       <akn:point eId="art-z2_abs-z2_untergl-n1_listenelem-n3"
-                                                  GUID="e25fb48e-ab36-42e4-a886-0a71f72832e0">
-                                          <akn:num eId="art-z2_abs-z2_untergl-n1_listenelem-n3_bezeichnung-n1"
-                                                   GUID="c0ce5fa3-3447-4443-ac37-95dbd2241ea1">
+                                          </akn:item>
+                                          <!-- Teilsatz 3. -->
+                                          <akn:item eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n3"
+                                                    GUID="e25fb48e-ab36-42e4-a886-0a71f72832e0">
+                                             <akn:num eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1"
+                                                      GUID="c0ce5fa3-3447-4443-ac37-95dbd2241ea1">
                                                             3.</akn:num>
-                                          <akn:content eId="art-z2_abs-z2_untergl-n1_listenelem-n3_inhalt-n1"
-                                                       GUID="acff7e95-d9ab-47ab-bef6-b5e93747dd7b">
-                                             <akn:p eId="art-z2_abs-z2_untergl-n1_listenelem-n3_inhalt-n1_text-n1"
+                                             <akn:p eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n3_text-n1"
                                                     GUID="7e94013c-b672-4f44-81b0-ef7a549ed637"> dazu muss die Paragraphenüberschrift aber
                                                                 auch sehr lang sein; bei der Spaltendarstellung
                                                                 fällt das häufiger auf. </akn:p>
-                                          </akn:content>
-                                       </akn:point>
-                                    </akn:list>
+                                          </akn:item>
+                                       </akn:blockList>
+                                    </akn:content>
                                  </akn:paragraph>
                               </akn:article>
                            </akn:subtitle>
@@ -829,8 +803,7 @@
                         <!-- Formel nach externem Schema -->
                         <akn:foreign eId="art-z5_abs-z_inhalt-n1_exmarkup-n1"
                                      GUID="4752bd79-ca96-4398-ad6e-3512369ae094">
-                           <math xmlns="http://www.w3.org/1998/Math/MathML"
-                                 groupalign="center">
+                           <math xmlns="http://www.w3.org/1998/Math/MathML" groupalign="center">
                               <mstyle displaystyle="true" align="center">
                                  <mrow class="MJX-TeXAtom-ORD">
                                     <mo stretchy="false">(</mo>

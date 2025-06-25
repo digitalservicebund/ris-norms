@@ -16,13 +16,14 @@
 -->
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
    <akn:documentCollection name="/akn/ontology/de/concept/documenttype/bund/rechtsetzungsdokument">
       <akn:meta GUID="d0c11641-027f-4c26-a7ec-8c1b387310c3" eId="meta-n1">
          <akn:identification source="attributsemantik-noch-undefiniert"
                              GUID="b8d29441-cce2-4803-b8e4-fbfd9f91e049"
                              eId="meta-n1_ident-n1">
-            <akn:FRBRWork GUID="269198ba-3dbd-40a8-8d3c-56a0ffcef644" eId="meta-n1_ident-n1_frbrwork-n1">
+            <akn:FRBRWork GUID="269198ba-3dbd-40a8-8d3c-56a0ffcef644"
+                          eId="meta-n1_ident-n1_frbrwork-n1">
                <akn:FRBRthis value="eli/bund/bgbl-1/1964/s593/rechtsetzungsdokument-1"
                              GUID="04ad8289-fa99-4664-b64a-f0215e32521f"
                              eId="meta-n1_ident-n1_frbrwork-n1_frbrthis-n1"/>
@@ -57,7 +58,8 @@
                                 GUID="56077de0-74a9-4053-bb6f-a313d94f5040"
                                 eId="meta-n1_ident-n1_frbrwork-n1_frbrsubtype-n1"/>
             </akn:FRBRWork>
-            <akn:FRBRExpression GUID="f154d4ea-1374-4ed1-9753-7c2ef2574cca" eId="meta-n1_ident-n1_frbrexpression-n1">
+            <akn:FRBRExpression GUID="f154d4ea-1374-4ed1-9753-7c2ef2574cca"
+                                eId="meta-n1_ident-n1_frbrexpression-n1">
                <akn:FRBRthis value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/rechtsetzungsdokument-1"
                              GUID="d1ce2d65-162e-4c34-89d4-88ec6257588f"
                              eId="meta-n1_ident-n1_frbrexpression-n1_frbrthis-n1"/>
@@ -118,7 +120,8 @@
          </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="c3095495-548e-417c-8e3e-cc8c717f34ec" eId="rdokhauptteil-n1">
-         <akn:component GUID="024eef2a-1c4c-49b5-ba63-b08bea4d13c2" eId="rdokhauptteil-n1_tldokverweis-n1">
+         <akn:component GUID="024eef2a-1c4c-49b5-ba63-b08bea4d13c2"
+                        eId="rdokhauptteil-n1_tldokverweis-n1">
             <akn:documentRef GUID="ec3eea24-6bdb-4233-ad2a-b822b3745126"
                              href="regelungstext-1.xml"
                              showAs="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"

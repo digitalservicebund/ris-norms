@@ -90,7 +90,7 @@
         </section>
     </xsl:template>
 
-    <xsl:template match="akn:blockContainer | akn:signature | akn:wrapUp | akn:block">
+    <xsl:template match="akn:blockContainer | akn:signature | akn:wrapUp | akn:block | akn:listWrapUp">
         <div>
             <xsl:call-template name="attributes"/>
             <xsl:apply-templates/>
@@ -98,7 +98,7 @@
     </xsl:template>
 
     <xsl:template
-            match="akn:longTitle/akn:p | akn:shortTitle | akn:docTitle | akn:num | akn:heading | akn:subheading | akn:marker | akn:content | akn:intro | akn:formula | akn:location | akn:role | akn:person | akn:inline | akn:affectedDocument | akn:organization | akn:ref| akn:rref">
+            match="akn:longTitle/akn:p | akn:shortTitle | akn:docTitle | akn:num | akn:heading | akn:subheading | akn:marker | akn:content | akn:intro | akn:listIntroduction | akn:formula | akn:location | akn:role | akn:person | akn:inline | akn:affectedDocument | akn:organization | akn:ref| akn:rref">
         <span>
             <xsl:call-template name="attributes"/>
             <xsl:apply-templates/>
@@ -173,7 +173,21 @@
         </div>
     </xsl:template>
 
-    <xsl:template match="akn:point">
+
+    <!-- Lists -->
+    <xsl:template match="akn:blockList">
+        <div>
+            <xsl:call-template name="attributes"/>
+            <xsl:apply-templates select="akn:listIntroduction"/>
+            <ol>
+                <xsl:apply-templates
+                        select="text()|*[not(self::akn:listIntroduction|self::akn:listWrapUp)]"/>
+            </ol>
+            <xsl:apply-templates select="akn:listWrapUp"/>
+        </div>
+    </xsl:template>
+
+    <xsl:template match="akn:point | akn:item">
         <li>
             <xsl:call-template name="attributes"/>
             <xsl:apply-templates/>

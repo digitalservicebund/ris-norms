@@ -2,7 +2,7 @@
 <!-- NOTE: This amending law references the target law from BGBl. 1 1000 Nr. 2 -->
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <akn:meta GUID="8ad916cc-6713-4179-be10-25915de8e523" eId="meta-n1">
          <akn:identification source="attributsemantik-noch-undefiniert"
@@ -118,7 +118,7 @@
                <akn:textualMod type="substitution"
                                GUID="672fd8ec-6a34-4c83-adb4-7dd1e29eb6b2"
                                eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1">
-                  <akn:source href="#art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                  <akn:source href="#art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1"
                               GUID="c6429774-4a17-40b3-8786-ff23bd481a47"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"/>
                   <akn:destination href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1/29-36.xml"
@@ -148,9 +148,9 @@
                                  start="#meta-n1_lebzykl-n1_ereignis-n2"/>
             </akn:temporalGroup>
          </akn:temporalData>
-        <akn:proprietary GUID="ed69c3bd-6063-4bb3-8267-5c2dfd021111"
-                         eId="meta-n1_proprietary-n1"
-                         source="attributsemantik-noch-undefiniert">
+         <akn:proprietary GUID="ed69c3bd-6063-4bb3-8267-5c2dfd021111"
+                          eId="meta-n1_proprietary-n1"
+                          source="attributsemantik-noch-undefiniert">
             <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
                <regtxt:typ>gesetz</regtxt:typ>
                <regtxt:form>mantelform</regtxt:form>
@@ -197,38 +197,36 @@
             <akn:paragraph GUID="7b060db4-4582-49b1-8ded-552749153f16" eId="art-z_abs-z">
                <akn:num GUID="08c1b885-ec9f-4a7b-a4d0-de69f79a7486"
                         eId="art-z_abs-z_bezeichnung-n1"/>
-               <akn:list GUID="e10bc729-5fb7-48c8-9ab1-32347baac7d8"
-                         eId="art-z_abs-z_untergl-n1">
-                  <akn:intro GUID="fb4d6a1f-2f05-46e4-bb4d-ed9d406f6d31"
-                             eId="art-z_abs-z_untergl-n1_intro-n1">
-                     <akn:p GUID="a975426c-eb0d-4b23-907c-6924243a5539"
-                            eId="art-z_abs-z_untergl-n1_intro-n1_text-n1">Das <akn:affectedDocument href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-verkuendung-1"
+               <akn:content GUID="db54c4e0-00f4-46ea-8ce6-18854c3e26eb" eId="art-z_abs-z_inhalt-n1">
+                  <akn:blockList GUID="e10bc729-5fb7-48c8-9ab1-32347baac7d8"
+                                 eId="art-z_abs-z_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="fb4d6a1f-2f05-46e4-bb4d-ed9d406f6d31"
+                                           eId="art-z_abs-z_inhalt-n1_liste-n1_listeneing-n1">
+                     Das <akn:affectedDocument href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-verkuendung-1"
                                               GUID="85a5da0c-c937-43f7-a77f-d7c220fca5e0"
-                                              eId="art-z_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1">Beispielgesetz</akn:affectedDocument> wird wie folgt geändert:</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="0a88840b-6e17-4f99-87ba-a152498de253"
-                             eId="art-z_abs-z_untergl-n1_listenelem-n1">
-                     <akn:num GUID="55b7e4f7-37c5-4e8f-ab24-5d45d1256abe"
-                              eId="art-z_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                     <akn:content GUID="5706fc3d-f6f1-41d3-b8d4-7b9027ddd72a"
-                                  eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1">
+                                              eId="art-z_abs-z_inhalt-n1_liste-n1_listeneing-n1_bezugsdoc-n1">Beispielgesetz</akn:affectedDocument> wird wie folgt geändert:
+                  </akn:listIntroduction>
+                     <akn:item GUID="0a88840b-6e17-4f99-87ba-a152498de253"
+                               eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="55b7e4f7-37c5-4e8f-ab24-5d45d1256abe"
+                                 eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                         <akn:p GUID="6c64223a-480d-4426-b6bf-1491b5bbe450"
-                               eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1">
+                               eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1">
                            <akn:mod refersTo="aenderungsbefehl-ersetzen"
                                     GUID="b77a910a-b4fa-4adc-bf75-c37cfccabd3a"
-                                    eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1/29-36.xml"
+                                    eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1">In <akn:ref href="eli/bund/bgbl-1/1001/1/1001-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-1_abs-1_inhalt-1_text-1/29-36.xml"
                                        GUID="2312e3fa-8e2b-4945-9b01-f8a3209d88a6"
-                                       eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">§ 1 Absatz 1 Satz 1</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
+                                       eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_ref-n1">§ 1 Absatz 1 Satz 1</akn:ref> werden die Wörter <akn:quotedText startQuote="„"
                                               endQuote="“"
                                               GUID="46c8625b-1277-48f4-bd30-00946dfe4d06"
-                                              eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n1">1. Fall</akn:quotedText> durch die Wörter <akn:quotedText startQuote="„"
+                                              eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quottext-n1">1. Fall</akn:quotedText> durch die Wörter <akn:quotedText startQuote="„"
                                               endQuote="“"
                                               GUID="038e3ef9-38d9-471b-a1ed-4f64c056b5ea"
-                                              eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quottext-n2">1. Beispiel</akn:quotedText> ersetzt.</akn:mod>
+                                              eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quottext-n2">1. Beispiel</akn:quotedText> ersetzt.</akn:mod>
                         </akn:p>
-                     </akn:content>
-                  </akn:point>
-               </akn:list>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
          </akn:article>
          <akn:article refersTo="geltungszeitregel"

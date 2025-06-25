@@ -2,7 +2,7 @@
 <?xml-model href="/LegalDocML.de/1.8.1/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <akn:meta eId="meta-n1" GUID="1d1d770a-9ff0-45e6-878d-911c98dd9cd4">
          <akn:identification eId="meta-n1_ident-n1"
@@ -120,7 +120,7 @@
                                type="substitution">
                   <akn:source GUID="27ea9f31-b2c4-4676-be56-e11f66e1e290"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_source-n1"
-                              href="#art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"/>
+                              href="#art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1"/>
                   <akn:destination GUID="a11bbebf-a4ce-4eec-9fbf-235c67a200ab"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n1_destination-n1"
                                    href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/einleitung-1_doktitel-1.xml"/>
@@ -133,7 +133,7 @@
                                type="substitution">
                   <akn:source GUID="907a4e8c-cfa2-469a-8cf0-e9981daed1cb"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_source-n1"
-                              href="#art-z_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"/>
+                              href="#art-z_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1"/>
                   <akn:destination GUID="f16cdf54-e9e9-4927-aab0-cc95cc887617"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n2_destination-n1"
                                    href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/preambel-1_ernormen-1.xml"/>
@@ -146,7 +146,7 @@
                                type="substitution">
                   <akn:source GUID="03f884ea-8b3d-43f7-a30d-5a3b525b40c4"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n3_source-n1"
-                              href="#art-z_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1"/>
+                              href="#art-z_abs-z_inhalt-n1_liste-n1_listenelem-n3_text-n1_ändbefehl-n1"/>
                   <akn:destination GUID="453e43cd-820d-4318-857e-1b332b99ddd5"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n3_destination-n1"
                                    href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/preambel-1_präambeln-1.xml"/>
@@ -159,7 +159,7 @@
                                type="substitution">
                   <akn:source GUID="30406542-d2e5-41fb-81ae-da19efa66aae"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n4_source-n1"
-                              href="#art-z_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1"/>
+                              href="#art-z_abs-z_inhalt-n1_liste-n1_listenelem-n4_text-n1_ändbefehl-n1"/>
                   <akn:destination GUID="dc780027-452c-41eb-850c-af483bbdc2dc"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n4_destination-n1"
                                    href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/preambel-1_blockcontainer-1.xml"/>
@@ -172,7 +172,7 @@
                                type="substitution">
                   <akn:source GUID="8aa0c8a5-63c3-446f-818b-3d8a27663a17"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n5_source-n1"
-                              href="#art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"/>
+                              href="#art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n1_text-n1_ändbefehl-n1"/>
                   <akn:destination GUID="332ef748-f2c0-4cb2-8b76-8266876d8bc4"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n5_destination-n1"
                                    href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1.xml"/>
@@ -185,7 +185,7 @@
                                type="substitution">
                   <akn:source GUID="4eae7856-ad4f-4897-b47f-8658b6b55c8b"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n6_source-n1"
-                              href="#art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"/>
+                              href="#art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n2_text-n1_ändbefehl-n1"/>
                   <akn:destination GUID="6b9d1419-0ac3-4443-baa2-c0b3be7caf5a"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n6_destination-n1"
                                    href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_inhalt-1_exmarkup-1.xml"/>
@@ -198,7 +198,7 @@
                                type="substitution">
                   <akn:source GUID="e579beee-8194-4c33-9eb3-d0d08c0bb209"
                               eId="meta-n1_analysis-n1_activemod-n1_textualmod-n7_source-n1"
-                              href="#art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1"/>
+                              href="#art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1"/>
                   <akn:destination GUID="5e2f3a4d-89c9-438d-842f-7e82b1b70a2d"
                                    eId="meta-n1_analysis-n1_activemod-n1_textualmod-n7_destination-n1"
                                    href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-3_untergl-1_listenelem-2.xml"/>
@@ -261,138 +261,127 @@
                <akn:num eId="art-z_abs-z_bezeichnung-n1"
                         GUID="d789f737-763e-40ce-b12a-aa68a1c6e9b6">
                     </akn:num>
-               <akn:list eId="art-z_abs-z_untergl-n1"
-                         GUID="f3e39c51-760e-418f-b8c5-57170d3480a3">
-                  <akn:intro eId="art-z_abs-z_untergl-n1_intro-n1"
-                             GUID="40067ab2-e780-40db-bd02-2813f1036ac8">
-                     <akn:p eId="art-z_abs-z_untergl-n1_intro-n1_text-n1"
-                            GUID="5ea6d74d-6330-43d0-9f25-5569c627a549"> Das <akn:affectedDocument eId="art-z_abs-z_untergl-n1_intro-n1_text-n1_bezugsdoc-n1"
+               <akn:content GUID="06d8512f-b9da-4127-a74b-7d534cb722da" eId="art-z_abs-z_inhalt-n1">
+                  <akn:blockList eId="art-z_abs-z_inhalt-n1_liste-n1"
+                                 GUID="f3e39c51-760e-418f-b8c5-57170d3480a3">
+                     <akn:listIntroduction eId="art-z_abs-z_inhalt-n1_liste-n1_listeneing-n1"
+                                           GUID="40067ab2-e780-40db-bd02-2813f1036ac8">
+                      Das <akn:affectedDocument eId="art-z_abs-z_inhalt-n1_liste-n1_listeneing-n1_bezugsdoc-n1"
                                               GUID="6af56003-a242-480c-a51c-c56f7642b4b7"
-                                              href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1">Strukturänderungsgesetz vom 1. Januar 1002 (BGBl. 1002 I Nr. 1)</akn:affectedDocument> wird wie folgt geändert:</akn:p>
-                  </akn:intro>
-                  <akn:point eId="art-z_abs-z_untergl-n1_listenelem-n1"
-                             GUID="8f5e1c26-85e9-4609-a619-4eb1881582aa">
-                     <akn:num eId="art-z_abs-z_untergl-n1_listenelem-n1_bezeichnung-n1"
-                              GUID="ebb6f4f1-2da0-4ba8-ad6d-77d131603494">
+                                              href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1">Strukturänderungsgesetz vom 1. Januar 1002 (BGBl. 1002 I Nr. 1)</akn:affectedDocument> wird wie folgt geändert:
+                  </akn:listIntroduction>
+                     <akn:item eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1"
+                               GUID="8f5e1c26-85e9-4609-a619-4eb1881582aa">
+                        <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1"
+                                 GUID="ebb6f4f1-2da0-4ba8-ad6d-77d131603494">
                                 1.</akn:num>
-                     <akn:content eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1"
-                                  GUID="d9a3cdef-a1ac-40c7-bbee-c44b2c202b1b">
-                        <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1"
+                        <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1"
                                GUID="4d2ed12d-9234-4a9b-aa85-ef356b33a540">
-                           <akn:mod eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                           <akn:mod eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1"
                                     GUID="5597b2ca-bc99-42d7-a362-faced3cad1c1"
                                     refersTo="aenderungsbefehl-ersetzen"> Der <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/einleitung-1_doktitel-1.xml"
                                        GUID="4400b9ef-c992-49fe-9bb5-30bfd4519e5d"
-                                       eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Titel</akn:ref> des Gesetzes wird ersetzt durch: <akn:quotedStructure endQuote="“"
+                                       eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_ref-n1">Titel</akn:ref> des Gesetzes wird ersetzt durch: <akn:quotedStructure endQuote="“"
                                                    startQuote="„"
                                                    GUID="9cb0572a-2933-473e-823f-5541ab360561"
-                                                   eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1">
-                                 <akn:longTitle eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_doktitel-n1"
+                                                   eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1">
+                                 <akn:longTitle eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_doktitel-n1"
                                                 GUID="0505f7b3-54c8-4c9d-b456-cd84adfb98f1">
-                                    <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_doktitel-n1_text-n1"
+                                    <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_doktitel-n1_text-n1"
                                            GUID="6ad3f708-b3be-4dbf-b149-a61e72678105">
-                                       <akn:docTitle eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_doktitel-n1_text-n1_doctitel-n1"
+                                       <akn:docTitle eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_doktitel-n1_text-n1_doctitel-n1"
                                                      GUID="ab481c1a-db58-4b6a-886c-1e9301952c34">Fiktives Beispielgesetz für das Ersetzen von Strukturen und Gliederungseinheiten mit Änderungsbefehlen</akn:docTitle>
                                        <akn:shortTitle GUID="820e7af3-fd8c-4409-949a-1e40ec2cc8e6"
-                                                       eId="art-z_abs-z_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_doktitel-n1_text-n1_kurztitel-n1"> (Strukturänderungsgesetz) </akn:shortTitle>
+                                                       eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_doktitel-n1_text-n1_kurztitel-n1"> (Strukturänderungsgesetz) </akn:shortTitle>
                                     </akn:p>
                                  </akn:longTitle>
                               </akn:quotedStructure>
                            </akn:mod>
                         </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point eId="art-z_abs-z_untergl-n1_listenelem-n2"
-                             GUID="5159b313-7578-4f36-bcd9-08461e65f27c">
-                     <akn:num eId="art-z_abs-z_untergl-n1_listenelem-n2_bezeichnung-n1"
-                              GUID="efbf64f3-08ad-4bfd-a88f-be0f9203108b">
+                     </akn:item>
+                     <akn:item eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n2"
+                               GUID="5159b313-7578-4f36-bcd9-08461e65f27c">
+                        <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1"
+                                 GUID="efbf64f3-08ad-4bfd-a88f-be0f9203108b">
                                 2.</akn:num>
-                     <akn:content eId="art-z_abs-z_untergl-n1_listenelem-n2_inhalt-n1"
-                                  GUID="3d1ec988-e011-4a90-bdfa-0f52164c5eec">
-                        <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1"
+                        <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1"
                                GUID="967d4a7f-ccd5-41ee-adab-d7323e4c4f09">
-                           <akn:mod eId="art-z_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
+                           <akn:mod eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1"
                                     GUID="2be5dd9e-3e74-4c47-a302-4502d0f1254c"
                                     refersTo="aenderungsbefehl-ersetzen"> Die <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/preambel-1_ernormen-1.xml"
                                        GUID="04400a25-5dc7-40e4-9c2e-ad9c67fe48d4"
-                                       eId="art-z_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Ermächtigung</akn:ref> des Gesetzes wird ersetzt durch: <akn:quotedStructure endQuote="“"
+                                       eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_ref-n1">Ermächtigung</akn:ref> des Gesetzes wird ersetzt durch: <akn:quotedStructure endQuote="“"
                                                    startQuote="„"
                                                    GUID="f9c4f89e-22f5-49f5-bdbf-04541ec34c13"
-                                                   eId="art-z_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1">
-                                 <akn:citations eId="art-z_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_ernormen-n1"
+                                                   eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1">
+                                 <akn:citations eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_ernormen-n1"
                                                 GUID="76484d80-b068-4a0f-8824-5ec531c9fc80">
-                                    <akn:citation eId="art-z_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_ernormen-n1_ernorm-n1"
+                                    <akn:citation eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_ernormen-n1_ernorm-n1"
                                                   GUID="f3fa42fb-9719-4fc8-8235-d88ce9ff6fb7">
-                                       <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_ernormen-n1_ernorm-n1_text-n1"
+                                       <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_ernormen-n1_ernorm-n1_text-n1"
                                               GUID="63ed510d-c024-4b6f-8dbd-b63153e0b3ea">Aufgrund der Spezifikation von Änderungsbefehlen können Strukturen und Gliederungseinheiten ersetzt werden. </akn:p>
                                     </akn:citation>
                                  </akn:citations>
                               </akn:quotedStructure>
                            </akn:mod>
                         </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point eId="art-z_abs-z_untergl-n1_listenelem-n3"
-                             GUID="c995f4f4-4219-405e-ac70-8735e2dcf90a">
-                     <akn:num eId="art-z_abs-z_untergl-n1_listenelem-n3_bezeichnung-n1"
-                              GUID="a650098b-cd82-4174-b0ca-c0a12296200a">
+                     </akn:item>
+                     <akn:item eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n3"
+                               GUID="c995f4f4-4219-405e-ac70-8735e2dcf90a">
+                        <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1"
+                                 GUID="a650098b-cd82-4174-b0ca-c0a12296200a">
                                 3.</akn:num>
-                     <akn:content eId="art-z_abs-z_untergl-n1_listenelem-n3_inhalt-n1"
-                                  GUID="89226cd3-e206-4a1e-bbd9-238a8e73998e">
-                        <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1"
+                        <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n3_text-n1"
                                GUID="c7b11acd-e66a-456f-a4d6-d28aa977ecd2">
-                           <akn:mod eId="art-z_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1"
+                           <akn:mod eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n3_text-n1_ändbefehl-n1"
                                     GUID="d64fe480-3580-4da3-8ed4-769876ecf5a4"
                                     refersTo="aenderungsbefehl-ersetzen"> Die <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/preambel-1_präambeln-1.xml"
                                        GUID="b16dc941-a6a7-4bd7-b65b-77f365bc26bd"
-                                       eId="art-z_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Präambel</akn:ref> des Gesetzes wird ersetzt durch: <akn:quotedStructure endQuote="“"
+                                       eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_ref-n1">Präambel</akn:ref> des Gesetzes wird ersetzt durch: <akn:quotedStructure endQuote="“"
                                                    startQuote="„"
                                                    GUID="41552184-4898-42bf-8673-8dfcc06df3ae"
-                                                   eId="art-z_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1">
-                                 <akn:recitals eId="art-z_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_präambeln-n1"
+                                                   eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1">
+                                 <akn:recitals eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_präambeln-n1"
                                                GUID="a741307a-ed30-4a99-8ea7-00c742c1d4d1">
-                                    <akn:heading eId="art-z_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_präambeln-n1_überschrift-n1"
+                                    <akn:heading eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_präambeln-n1_überschrift-n1"
                                                  GUID="678c3511-17fb-46a4-ba3e-5567f48465b4">Präambel</akn:heading>
-                                    <akn:recital eId="art-z_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_präambeln-n1_präambelinh-n1"
+                                    <akn:recital eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_präambeln-n1_präambelinh-n1"
                                                  GUID="00e6ce61-eaaa-41b9-b34d-47e9e78eae0d">
-                                       <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_präambeln-n1_präambelinh-n1_text-n1"
+                                       <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_präambeln-n1_präambelinh-n1_text-n1"
                                               GUID="ba0ed903-a454-4ddb-a0ba-deebe4c3ea69">Im Bewusstsein der Herausforderungen bei der Umsetzung von Änderungsbefehlen hat der Deutsche Bundestag das nachstehende Gesetz beschlossen.</akn:p>
                                     </akn:recital>
                                  </akn:recitals>
                               </akn:quotedStructure>
                            </akn:mod>
                         </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point eId="art-z_abs-z_untergl-n1_listenelem-n4"
-                             GUID="04a19415-316b-4bb2-a8d7-86d139cad3e6">
-                     <akn:num eId="art-z_abs-z_untergl-n1_listenelem-n4_bezeichnung-n1"
-                              GUID="23caf715-28d6-4f36-8fb4-9754fadef94d">
+                     </akn:item>
+                     <akn:item eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n4"
+                               GUID="04a19415-316b-4bb2-a8d7-86d139cad3e6">
+                        <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n4_bezeichnung-n1"
+                                 GUID="23caf715-28d6-4f36-8fb4-9754fadef94d">
                                 4.</akn:num>
-                     <akn:content eId="art-z_abs-z_untergl-n1_listenelem-n4_inhalt-n1"
-                                  GUID="73f1d11d-7b62-4160-b020-1787bbf4e912">
-                        <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1"
+                        <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n4_text-n1"
                                GUID="cd026a00-80ed-42d2-ae05-fc4a0bb569dd">
-                           <akn:mod eId="art-z_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1"
+                           <akn:mod eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n4_text-n1_ändbefehl-n1"
                                     GUID="4cef7af8-9296-4422-9251-4eac240d384e"
                                     refersTo="aenderungsbefehl-ersetzen"> Die <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/preambel-1_blockcontainer-1.xml"
                                        GUID="4bdd604b-1402-4413-a6b4-4f55482d902a"
-                                       eId="art-z_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Inhaltsübersicht</akn:ref> des Gesetzes wird ersetzt durch: <akn:quotedStructure endQuote="“"
+                                       eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n4_text-n1_ändbefehl-n1_ref-n1">Inhaltsübersicht</akn:ref> des Gesetzes wird ersetzt durch: <akn:quotedStructure endQuote="“"
                                                    startQuote="„"
                                                    GUID="42ba57e8-fe25-494f-be99-b42a9c5dceca"
-                                                   eId="art-z_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1">
-                                 <akn:blockContainer eId="art-z_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_blockcontainer-n1"
+                                                   eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n4_text-n1_ändbefehl-n1_quotstruct-n1">
+                                 <akn:blockContainer eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n4_text-n1_ändbefehl-n1_quotstruct-n1_blockcontainer-n1"
                                                      GUID="df13f34a-0f17-4ede-9b6f-eeda741edb2c"
                                                      refersTo="inhaltsuebersicht">
-                                    <akn:heading eId="art-z_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_blockcontainer-n1_überschrift-n1"
+                                    <akn:heading eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n4_text-n1_ändbefehl-n1_quotstruct-n1_blockcontainer-n1_überschrift-n1"
                                                  GUID="5628fd2f-9914-4315-8a36-6e1270f176bc">Inhaltsübersicht</akn:heading>
-                                    <akn:toc eId="art-z_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_blockcontainer-n1_inhuebs-n1"
+                                    <akn:toc eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n4_text-n1_ändbefehl-n1_quotstruct-n1_blockcontainer-n1_inhuebs-n1"
                                              GUID="ae6bd1b8-fd58-40ed-91d9-dc5b052e1638">
-                                       <akn:tocItem eId="art-z_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_blockcontainer-n1_inhuebs-n1_eintrag-n1"
+                                       <akn:tocItem eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n4_text-n1_ändbefehl-n1_quotstruct-n1_blockcontainer-n1_inhuebs-n1_eintrag-n1"
                                                     GUID="d9361ca1-dc5b-4ef4-a547-21a17805f9a2"
                                                     level="1"
                                                     href="">
-                                          <akn:span eId="art-z_abs-z_untergl-n1_listenelem-n4_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_blockcontainer-n1_inhuebs-n1_eintrag-n1_span-n1"
+                                          <akn:span eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n4_text-n1_ändbefehl-n1_quotstruct-n1_blockcontainer-n1_inhuebs-n1_eintrag-n1_span-n1"
                                                     GUID="a2d6d84c-ea62-4bca-8515-bc0f93b0d9ed">Neue Inhaltsübersicht.</akn:span>
                                        </akn:tocItem>
                                     </akn:toc>
@@ -400,80 +389,71 @@
                               </akn:quotedStructure>
                            </akn:mod>
                         </akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point eId="art-z_abs-z_untergl-n1_listenelem-n5"
-                             GUID="a8dc3914-85f8-4661-af89-7c5723c024a7">
-                     <akn:num eId="art-z_abs-z_untergl-n1_listenelem-n5_bezeichnung-n1"
-                              GUID="d3797736-8104-4aee-96c9-9b39168b8aa3">
+                     </akn:item>
+                     <akn:item eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5"
+                               GUID="a8dc3914-85f8-4661-af89-7c5723c024a7">
+                        <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_bezeichnung-n1"
+                                 GUID="d3797736-8104-4aee-96c9-9b39168b8aa3">
                                 5.</akn:num>
-                     <akn:list GUID="83a2fb8b-fc93-4d8a-b353-e2670c4200e9"
-                               eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1">
-                        <akn:intro GUID="37fbd50f-8833-4aa4-9ade-8b6269f5b707"
-                                   eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_intro-n1">
-                           <akn:p GUID="dc6d126a-c019-4495-a4b4-10869956dc3e"
-                                  eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_intro-n1_text-n1">
+                        <akn:blockList GUID="83a2fb8b-fc93-4d8a-b353-e2670c4200e9"
+                                       eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1">
+                           <akn:listIntroduction GUID="37fbd50f-8833-4aa4-9ade-8b6269f5b707"
+                                                 eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listeneing-n1">
                               <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2.xml"
                                        GUID="9979a407-44d8-4cef-a51a-717057b8d70c"
-                                       eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_intro-n1_text-n1_ref-n1">§ 2</akn:ref> wird wie folgt geändert:</akn:p>
-                        </akn:intro>
-                        <akn:point GUID="0b865178-7c63-4112-92a8-2cafa337b349"
-                                   eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1">
-                           <akn:num eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_bezeichnung-n1"
-                                    GUID="31168a4b-81ff-425a-9bce-e75a46ce6936">
+                                       eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listeneing-n1_ref-n1">§ 2</akn:ref> wird wie folgt geändert:
+                        </akn:listIntroduction>
+                           <akn:item GUID="0b865178-7c63-4112-92a8-2cafa337b349"
+                                     eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n1">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n1_bezeichnung-n1"
+                                       GUID="31168a4b-81ff-425a-9bce-e75a46ce6936">
                                         a)</akn:num>
-                           <akn:content eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1"
-                                        GUID="06122377-6a36-46bb-9f0d-8a5117f64dbd">
-                              <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1"
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n1_text-n1"
                                      GUID="581ab082-6bc4-4c9f-8368-c9508eb18b3a">
-                                 <akn:mod eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1"
+                                 <akn:mod eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n1_text-n1_ändbefehl-n1"
                                           GUID="af2483d2-e64a-4217-bb7a-cd297cdac0ef"
                                           refersTo="aenderungsbefehl-ersetzen">
                                     <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-1.xml"
                                              GUID="d5812441-185f-4e8a-beb0-067d433b1093"
-                                             eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Absatz 1</akn:ref> wird ersetzt durch: <akn:quotedStructure endQuote="“"
+                                             eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_ref-n1">Absatz 1</akn:ref> wird ersetzt durch: <akn:quotedStructure endQuote="“"
                                                          startQuote="„"
                                                          GUID="8bfa7127-4a05-41d0-ac7b-b729f3d53e18"
-                                                         eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1">
-                                       <akn:paragraph eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_abs-z1"
+                                                         eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1">
+                                       <akn:paragraph eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_abs-z1"
                                                       GUID="dd5a0f07-bb0c-4d37-b211-8681175cb2d3">
-                                          <akn:num eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_abs-z1_bezeichnung-n1"
+                                          <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_abs-z1_bezeichnung-n1"
                                                    GUID="7124be75-25e4-4739-a6a1-a5be97757e4f">
                                                         (1) </akn:num>
-                                          <akn:content eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_abs-z1_inhalt-n1"
+                                          <akn:content eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_abs-z1_inhalt-n1"
                                                        GUID="f5e3fa13-3ed9-41c4-a4ee-91db57abdd51">
-                                             <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_abs-z1_inhalt-n1_text-n1"
+                                             <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_abs-z1_inhalt-n1_text-n1"
                                                     GUID="fabee05a-1bba-4898-bd30-3472717fc013">Dieses Gesetz findet Anwendung auf fast alle definierten Struktur und Gliederungsebenen.</akn:p>
                                           </akn:content>
                                        </akn:paragraph>
                                     </akn:quotedStructure>
                                  </akn:mod>
                               </akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="94ea482a-3e05-4194-ba04-d039775d5834"
-                                   eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2">
-                           <akn:num eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_bezeichnung-n1"
-                                    GUID="9b0cb37d-56ca-49a4-8255-4a6e126cbb42">
+                           </akn:item>
+                           <akn:item GUID="94ea482a-3e05-4194-ba04-d039775d5834"
+                                     eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n2">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n2_bezeichnung-n1"
+                                       GUID="9b0cb37d-56ca-49a4-8255-4a6e126cbb42">
                                         b)</akn:num>
-                           <akn:content eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_inhalt-n1"
-                                        GUID="1945db7a-7db1-4e98-91dd-95f0acd05cc0">
-                              <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_inhalt-n1_text-n1"
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n2_text-n1"
                                      GUID="8befe73a-7b94-41f7-89d6-2e81c0ebb453">
-                                 <akn:mod eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1"
+                                 <akn:mod eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n2_text-n1_ändbefehl-n1"
                                           GUID="00f9c1da-643f-418f-9484-e65b8ea72edf"
                                           refersTo="aenderungsbefehl-ersetzen"> Die <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-2_inhalt-1_exmarkup-1.xml"
                                              GUID="8bbe8b42-1faa-4986-8311-908202f88d8a"
-                                             eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Formel</akn:ref> in <akn:ref href="hauptteil-1_art-2_abs-2"
+                                             eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_ref-n1">Formel</akn:ref> in <akn:ref href="hauptteil-1_art-2_abs-2"
                                              GUID="0f127060-8c4f-46d8-b7e7-f7df7ade223f"
-                                             eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_ref-n2">Absatz 2</akn:ref> wird ersetzt durch: <akn:quotedStructure endQuote="“"
+                                             eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_ref-n2">Absatz 2</akn:ref> wird ersetzt durch: <akn:quotedStructure endQuote="“"
                                                          startQuote="„"
                                                          GUID="0677c8bb-e953-4c67-acb5-7ee0dc864533"
-                                                         eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1">
-                                       <akn:foreign eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n2_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_exmarkup-n1"
+                                                         eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1">
+                                       <akn:foreign eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n2_text-n1_ändbefehl-n1_quotstruct-n1_exmarkup-n1"
                                                     GUID="1c657e5a-f938-4fcb-9d10-4730be379907">
-                                          <math xmlns="http://www.w3.org/1998/Math/MathML"
-                                                display="block">
+                                          <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
                                              <mrow>
                                                 <mi>e</mi>
                                                 <mo>=</mo>
@@ -488,70 +468,63 @@
                                     </akn:quotedStructure>
                                  </akn:mod>
                               </akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="6c8b4258-0797-41b7-83c5-3d716e0479fa"
-                                   eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3">
-                           <akn:num eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_bezeichnung-n1"
-                                    GUID="e6b145cd-d6ad-486c-aae4-2a643066e7b0">
+                           </akn:item>
+                           <akn:item GUID="6c8b4258-0797-41b7-83c5-3d716e0479fa"
+                                     eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3">
+                              <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_bezeichnung-n1"
+                                       GUID="e6b145cd-d6ad-486c-aae4-2a643066e7b0">
                                         c)</akn:num>
-                           <akn:content eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1"
-                                        GUID="4c64154c-8fce-46eb-b97b-2886d99fef1e">
-                              <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1"
+                              <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1"
                                      GUID="529ca863-c7b2-4f7d-b74e-7209b74b7d32">
-                                 <akn:mod eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1"
+                                 <akn:mod eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1"
                                           GUID="d351ba17-8ac9-4c49-981c-7175b5575e99"
                                           refersTo="aenderungsbefehl-ersetzen">
                                     <akn:ref href="eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_art-2_abs-3_untergl-1_listenelem-2.xml"
                                              GUID="9f512228-08c9-4278-a8e6-3edf5e189a8c"
-                                             eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_ref-n1">Absatz 3 Nummer 2</akn:ref> wird ersetzt durch: <akn:quotedStructure endQuote="“"
+                                             eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_ref-n1">Absatz 3 Nummer 2</akn:ref> wird ersetzt durch: <akn:quotedStructure endQuote="“"
                                                          startQuote="„"
                                                          GUID="b2fbc227-6aa8-49bc-8d07-e1004f2cd25e"
-                                                         eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1">
-                                       <akn:point eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1"
+                                                         eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1">
+                                       <akn:point eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1"
                                                   GUID="5b9b2a46-f9a9-4b29-885b-aef6a75e4474">
-                                          <akn:num eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_bezeichnung-n1"
+                                          <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_bezeichnung-n1"
                                                    GUID="2e8c1cc6-5a17-48d9-b084-23d7691d4391">
                                                         2.</akn:num>
-                                          <akn:list eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_untergl-n1"
-                                                    GUID="9766b5b5-b379-4768-befd-ae5bf2d1d843">
-                                             <akn:intro eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_untergl-n1_intro-n1"
-                                                        GUID="8b172a1f-9f58-4ffb-849e-d26f39a56f92">
-                                                <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_untergl-n1_intro-n1_text-n1"
-                                                       GUID="64182da3-fa83-4e3d-896d-7085fdd555c1">Elemente zur Darstellung von Tabellen wie zum Beispiel</akn:p>
-                                             </akn:intro>
-                                             <akn:point eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_untergl-n1_listenelem-n1"
-                                                        GUID="f9b3f75b-ea7f-493c-8fc1-a4731f4b6088">
-                                                <akn:num eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1"
-                                                         GUID="92596b77-9e50-43a5-9b8a-6e095a05268b">
+                                          <akn:content GUID="2d3104a0-50b9-4371-9c9c-0a0adbe700a5"
+                                                       eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1">
+                                             <akn:blockList eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1_liste-n1"
+                                                            GUID="9766b5b5-b379-4768-befd-ae5bf2d1d843">
+                                                <akn:listIntroduction eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1_liste-n1_listeneing-n1"
+                                                                      GUID="8b172a1f-9f58-4ffb-849e-d26f39a56f92">
+                                                Elemente zur Darstellung von Tabellen wie zum Beispiel
+                                             </akn:listIntroduction>
+                                                <akn:item eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1_liste-n1_listenelem-n1"
+                                                          GUID="f9b3f75b-ea7f-493c-8fc1-a4731f4b6088">
+                                                   <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1"
+                                                            GUID="92596b77-9e50-43a5-9b8a-6e095a05268b">
                                                                 b)</akn:num>
-                                                <akn:content eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1"
-                                                             GUID="497d8b76-e360-4fcb-b7cd-8726bcd03725">
-                                                   <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1"
+                                                   <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1_liste-n1_listenelem-n1_text-n1"
                                                           GUID="a4f02fa6-aca2-45ff-8e37-eeb88642ee43"> Zeilen, </akn:p>
-                                                </akn:content>
-                                             </akn:point>
-                                             <akn:point eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_untergl-n1_listenelem-n2"
-                                                        GUID="212317f9-6f40-4c18-9fea-a042473793a5">
-                                                <akn:num eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1"
-                                                         GUID="ccad2a48-fd23-47dc-bdbb-3e48ec4e7c7c">
+                                                </akn:item>
+                                                <akn:item eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1_liste-n1_listenelem-n2"
+                                                          GUID="212317f9-6f40-4c18-9fea-a042473793a5">
+                                                   <akn:num eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1"
+                                                            GUID="ccad2a48-fd23-47dc-bdbb-3e48ec4e7c7c">
                                                                 c)</akn:num>
-                                                <akn:content eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1"
-                                                             GUID="5e406eeb-4f84-45be-b473-ccfd8891904f">
-                                                   <akn:p eId="art-z_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n3_inhalt-n1_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1"
+                                                   <akn:p eId="art-z_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n3_text-n1_ändbefehl-n1_quotstruct-n1_listenelem-n1_inhalt-n1_liste-n1_listenelem-n2_text-n1"
                                                           GUID="cd03e1ae-b5c1-4def-bc10-6990bc93680c">oder Zellen.</akn:p>
-                                                </akn:content>
-                                             </akn:point>
-                                          </akn:list>
+                                                </akn:item>
+                                             </akn:blockList>
+                                          </akn:content>
                                        </akn:point>
                                     </akn:quotedStructure>
                                  </akn:mod>
                               </akn:p>
-                           </akn:content>
-                        </akn:point>
-                     </akn:list>
-                  </akn:point>
-               </akn:list>
+                           </akn:item>
+                        </akn:blockList>
+                     </akn:item>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
          </akn:article>
          <akn:article eId="art-z"

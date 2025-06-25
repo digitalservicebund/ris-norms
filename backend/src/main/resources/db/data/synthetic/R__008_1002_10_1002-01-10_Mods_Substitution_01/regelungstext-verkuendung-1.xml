@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <akn:meta GUID="c89f51aa-42ff-4b41-a8c8-6346a55e9689" eId="meta-n1">
          <akn:identification source="attributsemantik-noch-undefiniert"
@@ -307,9 +307,7 @@
                             eId="art-z1_abs-z2_inhalt-n1_text-n1">Die Berechnung der Anwendung erfolgt nach folgender Formel: </akn:p>
                      <akn:foreign GUID="4eb29632-77d7-4394-b9cd-b4e1e446d828"
                                   eId="art-z1_abs-z2_inhalt-n1_exmarkup-n1">
-                        <math xmlns="http://www.w3.org/1998/Math/MathML"
-                              xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
-                              display="block">
+                        <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
                            <mrow>
                               <mi>f</mi>
                               <mo>(</mo>
@@ -391,135 +389,107 @@
                <akn:paragraph GUID="fbb374bf-891c-4921-8781-0f7171b6f66c" eId="art-z1_abs-z3">
                   <akn:num GUID="66f47a2e-1cc1-4018-a9c9-b8370c846517"
                            eId="art-z1_abs-z3_bezeichnung-n1">(3)</akn:num>
-                  <akn:list GUID="6e453756-14c0-4741-89ad-0d28ab87016f"
-                            eId="art-z1_abs-z3_untergl-n1">
-                     <akn:intro GUID="2f041e5d-f886-4ec8-befb-c4425dbc8d87"
-                                eId="art-z1_abs-z3_untergl-n1_intro-n1">
-                        <akn:p GUID="91e9c586-3632-431d-aab7-493d29e719bc"
-                               eId="art-z1_abs-z3_untergl-n1_intro-n1_text-n1">Die Bestimmungen dieses Gesetzes gelten insbesondere für:</akn:p>
-                     </akn:intro>
-                     <akn:point GUID="47883317-0347-4b49-a3d9-e7d2d63bb95d"
-                                eId="art-z1_abs-z3_untergl-n1_listenelem-n1">
-                        <akn:num GUID="7f05537d-cf46-4f2a-af35-14401702d562"
-                                 eId="art-z1_abs-z3_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                        <akn:list GUID="4c7cc56f-cf37-4b94-8ba1-2e959345f5a0"
-                                  eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1">
-                           <akn:intro GUID="d7e12254-7e62-417f-9d0c-2614e9a9193d"
-                                      eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_intro-n1">
-                              <akn:p GUID="e3b966cc-40c9-438f-8341-a119e3f9be11"
-                                     eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_intro-n1_text-n1">Gliederungen im Regelungstext wie zum Beispiel</akn:p>
-                           </akn:intro>
-                           <akn:point GUID="26f87518-93ae-4850-9c69-ba71bce4d962"
-                                      eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1">
-                              <akn:num GUID="72c45430-b61a-4906-85c3-fb2e3702bc88"
-                                       eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
-                              <akn:content GUID="9740f2cd-7463-492e-b79e-1d961b9a0885"
-                                           eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1">
+                  <akn:content GUID="a008bc31-1ed2-490b-8596-a999f5263003"
+                               eId="art-z1_abs-z3_inhalt-n1">
+                     <akn:blockList GUID="6e453756-14c0-4741-89ad-0d28ab87016f"
+                                    eId="art-z1_abs-z3_inhalt-n1_liste-n1">
+                        <akn:listIntroduction GUID="2f041e5d-f886-4ec8-befb-c4425dbc8d87"
+                                              eId="art-z1_abs-z3_inhalt-n1_liste-n1_listeneing-n1">
+                        Die Bestimmungen dieses Gesetzes gelten insbesondere für:
+                     </akn:listIntroduction>
+                        <akn:item GUID="47883317-0347-4b49-a3d9-e7d2d63bb95d"
+                                  eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1">
+                           <akn:num GUID="7f05537d-cf46-4f2a-af35-14401702d562"
+                                    eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
+                           <akn:blockList GUID="4c7cc56f-cf37-4b94-8ba1-2e959345f5a0"
+                                          eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1">
+                              <akn:listIntroduction GUID="d7e12254-7e62-417f-9d0c-2614e9a9193d"
+                                                    eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listeneing-n1">
+                              Gliederungen im Regelungstext wie zum Beispiel
+                           </akn:listIntroduction>
+                              <akn:item GUID="26f87518-93ae-4850-9c69-ba71bce4d962"
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1">
+                                 <akn:num GUID="72c45430-b61a-4906-85c3-fb2e3702bc88"
+                                          eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
                                  <akn:p GUID="c4e5a220-cc08-4b16-b6d0-5ce9810e5e99"
-                                        eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">Bücher,</akn:p>
-                              </akn:content>
-                           </akn:point>
-                           <akn:point GUID="4a0b4136-f4f5-4366-b0ae-a231ed7c04d0"
-                                      eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2">
-                              <akn:num GUID="730d5ee8-164c-4c87-b65f-d90c11d6d653"
-                                       eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
-                              <akn:content GUID="69d9920f-2564-4b1f-a712-a8ce6e5ea84d"
-                                           eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1">
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_text-n1">Bücher,</akn:p>
+                              </akn:item>
+                              <akn:item GUID="4a0b4136-f4f5-4366-b0ae-a231ed7c04d0"
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2">
+                                 <akn:num GUID="730d5ee8-164c-4c87-b65f-d90c11d6d653"
+                                          eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
                                  <akn:p GUID="025d1fd2-d0bd-43e8-ba93-6318ce8863a4"
-                                        eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Teile,</akn:p>
-                              </akn:content>
-                           </akn:point>
-                           <akn:point GUID="2a39b359-b93f-44f5-aa97-688839c52300"
-                                      eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3">
-                              <akn:num GUID="02becf54-98b3-465e-9341-6a3bc2885d73"
-                                       eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_bezeichnung-n1">c)</akn:num>
-                              <akn:content GUID="5c198579-c673-4c20-9f59-a3aec34f23e4"
-                                           eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1">
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_text-n1">Teile,</akn:p>
+                              </akn:item>
+                              <akn:item GUID="2a39b359-b93f-44f5-aa97-688839c52300"
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n3">
+                                 <akn:num GUID="02becf54-98b3-465e-9341-6a3bc2885d73"
+                                          eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n3_bezeichnung-n1">c)</akn:num>
                                  <akn:p GUID="438e7e63-eff3-4fde-8604-6f19dc467263"
-                                        eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">Kapitel,</akn:p>
-                              </akn:content>
-                           </akn:point>
-                           <akn:point GUID="c73b076c-e316-4535-b129-6a70dc3a9f0d"
-                                      eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4">
-                              <akn:num GUID="b3751366-7c53-4574-a853-42f059cc245c"
-                                       eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_bezeichnung-n1">d)</akn:num>
-                              <akn:content GUID="45191822-ceb4-4fca-a026-470c55be2002"
-                                           eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_inhalt-n1">
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n3_text-n1">Kapitel,</akn:p>
+                              </akn:item>
+                              <akn:item GUID="c73b076c-e316-4535-b129-6a70dc3a9f0d"
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n4">
+                                 <akn:num GUID="b3751366-7c53-4574-a853-42f059cc245c"
+                                          eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n4_bezeichnung-n1">d)</akn:num>
                                  <akn:p GUID="c185e2bb-a564-423a-9acf-078d04ada7d6"
-                                        eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n4_inhalt-n1_text-n1">Unterkapitel,</akn:p>
-                              </akn:content>
-                           </akn:point>
-                           <akn:point GUID="5c935f57-6839-4878-a3d3-d775fa1d0921"
-                                      eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n5">
-                              <akn:num GUID="5400423d-2fd1-4769-9a0d-b9805c79bad0"
-                                       eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n5_bezeichnung-n1">e)</akn:num>
-                              <akn:content GUID="2c325fd5-5622-4bd8-a785-2f7783a67f16"
-                                           eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n5_inhalt-n1">
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n4_text-n1">Unterkapitel,</akn:p>
+                              </akn:item>
+                              <akn:item GUID="5c935f57-6839-4878-a3d3-d775fa1d0921"
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n5">
+                                 <akn:num GUID="5400423d-2fd1-4769-9a0d-b9805c79bad0"
+                                          eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n5_bezeichnung-n1">e)</akn:num>
                                  <akn:p GUID="967fec85-6afa-4d88-a5bc-2d0418f9cfca"
-                                        eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n5_inhalt-n1_text-n1">Abschnitte,</akn:p>
-                              </akn:content>
-                           </akn:point>
-                           <akn:point GUID="22ff2fb4-d600-4acd-988b-7241cef3acb4"
-                                      eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n6">
-                              <akn:num GUID="dac10e4a-6fd0-443d-a5f1-a01f5dbef135"
-                                       eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n6_bezeichnung-n1">f)</akn:num>
-                              <akn:content GUID="3fdf1820-87eb-4f16-909d-6dc113d7f304"
-                                           eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n6_inhalt-n1">
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n5_text-n1">Abschnitte,</akn:p>
+                              </akn:item>
+                              <akn:item GUID="22ff2fb4-d600-4acd-988b-7241cef3acb4"
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n6">
+                                 <akn:num GUID="dac10e4a-6fd0-443d-a5f1-a01f5dbef135"
+                                          eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n6_bezeichnung-n1">f)</akn:num>
                                  <akn:p GUID="8fbead81-e858-4ebc-9097-23ac2923113b"
-                                        eId="art-z1_abs-z3_untergl-n1_listenelem-n1_untergl-n1_listenelem-n6_inhalt-n1_text-n1">oder Unterabschnitte.</akn:p>
-                              </akn:content>
-                           </akn:point>
-                        </akn:list>
-                     </akn:point>
-                     <akn:point GUID="22c1199f-14cf-4aca-a5ad-9a8d229b680b"
-                                eId="art-z1_abs-z3_untergl-n1_listenelem-n2">
-                        <akn:num GUID="340e6ddf-f79b-4ab7-be76-7d2d1f3cb690"
-                                 eId="art-z1_abs-z3_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                        <akn:list GUID="81eac59a-ea34-444d-bfe0-77c677b16b84"
-                                  eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1">
-                           <akn:intro GUID="bbcb009e-bda2-4039-835e-4051e3f04c2f"
-                                      eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_intro-n1">
-                              <akn:p GUID="000c025f-a6af-4295-9b0a-b34880ca1256"
-                                     eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_intro-n1_text-n1">Elemente zur Darstellung von Tabellen wie zum Beispiel</akn:p>
-                           </akn:intro>
-                           <akn:point GUID="833a2a7c-0c04-4916-8b7f-c18877e1a4d5"
-                                      eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1">
-                              <akn:num GUID="e9323c66-4d8c-45c0-89bd-f2f48cd5d9b2"
-                                       eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
-                              <akn:content GUID="60aac569-dda7-497d-a64a-7090044a5f48"
-                                           eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1">
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n6_text-n1">oder Unterabschnitte.</akn:p>
+                              </akn:item>
+                           </akn:blockList>
+                        </akn:item>
+                        <akn:item GUID="22c1199f-14cf-4aca-a5ad-9a8d229b680b"
+                                  eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n2">
+                           <akn:num GUID="340e6ddf-f79b-4ab7-be76-7d2d1f3cb690"
+                                    eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
+                           <akn:blockList GUID="81eac59a-ea34-444d-bfe0-77c677b16b84"
+                                          eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1">
+                              <akn:listIntroduction GUID="bbcb009e-bda2-4039-835e-4051e3f04c2f"
+                                                    eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listeneing-n1">
+                              Elemente zur Darstellung von Tabellen wie zum Beispiel
+                           </akn:listIntroduction>
+                              <akn:item GUID="833a2a7c-0c04-4916-8b7f-c18877e1a4d5"
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1">
+                                 <akn:num GUID="e9323c66-4d8c-45c0-89bd-f2f48cd5d9b2"
+                                          eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1_bezeichnung-n1">a)</akn:num>
                                  <akn:p GUID="c250bea4-249b-4e4d-985f-b6be98d67ccb"
-                                        eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_listenelem-n1_inhalt-n1_text-n1">Überschriften,</akn:p>
-                              </akn:content>
-                           </akn:point>
-                           <akn:point GUID="82e2d981-70d0-43a2-8c53-fc977ac2846f"
-                                      eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2">
-                              <akn:num GUID="4db0c95c-fb3f-4ba3-9cd6-6d08ec2e962d"
-                                       eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
-                              <akn:content GUID="b6ed379b-6d01-412b-b2f7-8e9e7d3bad74"
-                                           eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1">
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1_text-n1">Überschriften,</akn:p>
+                              </akn:item>
+                              <akn:item GUID="82e2d981-70d0-43a2-8c53-fc977ac2846f"
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n2">
+                                 <akn:num GUID="4db0c95c-fb3f-4ba3-9cd6-6d08ec2e962d"
+                                          eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n2_bezeichnung-n1">b)</akn:num>
                                  <akn:p GUID="b2068696-482a-4a02-8fb5-3930909c569c"
-                                        eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Zeilen,</akn:p>
-                              </akn:content>
-                           </akn:point>
-                           <akn:point GUID="8cc9b1a6-8fbf-4d9c-86d2-868e7c651a1c"
-                                      eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3">
-                              <akn:num GUID="30585c2a-cc65-4ecd-978b-c30fffe245c0"
-                                       eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_bezeichnung-n1">c)</akn:num>
-                              <akn:content GUID="d16edc41-4524-4694-97fa-75cf5021ab32"
-                                           eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1">
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n2_text-n1">Zeilen,</akn:p>
+                              </akn:item>
+                              <akn:item GUID="8cc9b1a6-8fbf-4d9c-86d2-868e7c651a1c"
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n3">
+                                 <akn:num GUID="30585c2a-cc65-4ecd-978b-c30fffe245c0"
+                                          eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n3_bezeichnung-n1">c)</akn:num>
                                  <akn:p GUID="2440af32-b29e-48b7-9057-9faadb4035da"
-                                        eId="art-z1_abs-z3_untergl-n1_listenelem-n2_untergl-n1_listenelem-n3_inhalt-n1_text-n1">oder Zellen.</akn:p>
-                              </akn:content>
-                           </akn:point>
-                        </akn:list>
-                     </akn:point>
-                     <akn:wrapUp GUID="4b9d05c0-5c6b-4f1f-8813-695e6a3282ca"
-                                 eId="art-z1_abs-z3_untergl-n1_schlusstext-n1">
-                        <akn:p GUID="ddeb9b4f-9962-4f1e-9b2a-de4381789a0d"
-                               eId="art-z1_abs-z3_untergl-n1_schlusstext-n1_text-n1">In besonderen Fällen können auch Teile der Präambel, Inhaltsübersicht, Anlagen- oder Stammformverweise geändert werden.</akn:p>
-                     </akn:wrapUp>
-                  </akn:list>
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n3_text-n1">oder Zellen.</akn:p>
+                              </akn:item>
+                           </akn:blockList>
+                        </akn:item>
+                        <akn:listWrapUp GUID="4b9d05c0-5c6b-4f1f-8813-695e6a3282ca"
+                                        eId="art-z1_abs-z3_inhalt-n1_liste-n1_listenschl-n1">
+                        In besonderen Fällen können auch Teile der Präambel, Inhaltsübersicht, Anlagen- oder Stammformverweise geändert werden.
+                     </akn:listWrapUp>
+                     </akn:blockList>
+                  </akn:content>
                </akn:paragraph>
                <akn:paragraph GUID="0e8eb095-23f1-45e0-8c3c-fff597e727a4" eId="art-z1_abs-z4">
                   <akn:num GUID="2a5c58d9-050c-4cf7-bf02-d9b866343368"
@@ -533,44 +503,37 @@
                <akn:paragraph GUID="8ca97abb-49ca-44fa-8810-058798764702" eId="art-z1_abs-z5">
                   <akn:num GUID="784bc155-b806-42bc-8612-cefcd389200e"
                            eId="art-z1_abs-z5_bezeichnung-n1">(5)</akn:num>
-                  <akn:list GUID="86d0671d-0e9a-41ea-9f2d-d7a77cb96eac"
-                            eId="art-z1_abs-z5_untergl-n1">
-                     <akn:intro GUID="879a3a88-7c1a-4596-99a2-6e03c6bd1d54"
-                                eId="art-z1_abs-z5_untergl-n1_intro-n1">
-                        <akn:p GUID="eb4f8775-e400-4eec-8ecb-e63ac18cd16b"
-                               eId="art-z1_abs-z5_untergl-n1_intro-n1_text-n1">Jede Verwaltungseinheit hat sicherzustellen, dass:</akn:p>
-                     </akn:intro>
-                     <akn:point GUID="20dfe395-2381-4131-8d0c-9fee3121448b"
-                                eId="art-z1_abs-z5_untergl-n1_listenelem-n1">
-                        <akn:num GUID="db297a3b-378f-4200-8285-920885833556"
-                                 eId="art-z1_abs-z5_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                        <akn:content GUID="ab0c47ce-4d19-41cf-9dc2-a32d7fad20d3"
-                                     eId="art-z1_abs-z5_untergl-n1_listenelem-n1_inhalt-n1">
+                  <akn:content GUID="94bf0d18-bac1-4f18-a8ca-d691d212b68d"
+                               eId="art-z1_abs-z5_inhalt-n1">
+                     <akn:blockList GUID="86d0671d-0e9a-41ea-9f2d-d7a77cb96eac"
+                                    eId="art-z1_abs-z5_inhalt-n1_liste-n1">
+                        <akn:listIntroduction GUID="879a3a88-7c1a-4596-99a2-6e03c6bd1d54"
+                                              eId="art-z1_abs-z5_inhalt-n1_liste-n1_listeneing-n1">
+                        Jede Verwaltungseinheit hat sicherzustellen, dass:
+                     </akn:listIntroduction>
+                        <akn:item GUID="20dfe395-2381-4131-8d0c-9fee3121448b"
+                                  eId="art-z1_abs-z5_inhalt-n1_liste-n1_listenelem-n1">
+                           <akn:num GUID="db297a3b-378f-4200-8285-920885833556"
+                                    eId="art-z1_abs-z5_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                            <akn:p GUID="74baa9a5-55cd-45ba-9995-beb2cde10fb2"
-                                  eId="art-z1_abs-z5_untergl-n1_listenelem-n1_inhalt-n1_text-n1">alle Mitarbeiterinnen und Mitarbeiter angemessen geschult und weitergebildet werden,</akn:p>
-                        </akn:content>
-                     </akn:point>
-                     <akn:point GUID="d47597eb-7488-491c-85a8-9547911748af"
-                                eId="art-z1_abs-z5_untergl-n1_listenelem-n2">
-                        <akn:num GUID="eb85d279-6216-4dee-81b4-998356664abe"
-                                 eId="art-z1_abs-z5_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                        <akn:content GUID="8dd753a3-7822-47b0-a184-6de039125d71"
-                                     eId="art-z1_abs-z5_untergl-n1_listenelem-n2_inhalt-n1">
+                                  eId="art-z1_abs-z5_inhalt-n1_liste-n1_listenelem-n1_text-n1">alle Mitarbeiterinnen und Mitarbeiter angemessen geschult und weitergebildet werden,</akn:p>
+                        </akn:item>
+                        <akn:item GUID="d47597eb-7488-491c-85a8-9547911748af"
+                                  eId="art-z1_abs-z5_inhalt-n1_liste-n1_listenelem-n2">
+                           <akn:num GUID="eb85d279-6216-4dee-81b4-998356664abe"
+                                    eId="art-z1_abs-z5_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                            <akn:p GUID="aa2effeb-04ab-4776-a023-558207b93ccf"
-                                  eId="art-z1_abs-z5_untergl-n1_listenelem-n2_inhalt-n1_text-n1">die eingesetzten Technologien und Verfahren regelmäßig überprüft und bei Bedarf aktualisiert werden,</akn:p>
-                        </akn:content>
-                     </akn:point>
-                     <akn:point GUID="54e971dc-39f5-4f24-b418-8510bd8404f5"
-                                eId="art-z1_abs-z5_untergl-n1_listenelem-n3">
-                        <akn:num GUID="1c7b22f8-058e-4b8b-8903-f68d9aa69afb"
-                                 eId="art-z1_abs-z5_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                        <akn:content GUID="0513cd4a-cccd-40c9-ab52-d94709ef3380"
-                                     eId="art-z1_abs-z5_untergl-n1_listenelem-n3_inhalt-n1">
+                                  eId="art-z1_abs-z5_inhalt-n1_liste-n1_listenelem-n2_text-n1">die eingesetzten Technologien und Verfahren regelmäßig überprüft und bei Bedarf aktualisiert werden,</akn:p>
+                        </akn:item>
+                        <akn:item GUID="54e971dc-39f5-4f24-b418-8510bd8404f5"
+                                  eId="art-z1_abs-z5_inhalt-n1_liste-n1_listenelem-n3">
+                           <akn:num GUID="1c7b22f8-058e-4b8b-8903-f68d9aa69afb"
+                                    eId="art-z1_abs-z5_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
                            <akn:p GUID="126628ed-fbb4-4967-8173-1a94f09ae36e"
-                                  eId="art-z1_abs-z5_untergl-n1_listenelem-n3_inhalt-n1_text-n1">ein kontinuierlicher Verbesserungsprozess etabliert wird, um die Effizienz und Effektivität der Verwaltung zu steigern.</akn:p>
-                        </akn:content>
-                     </akn:point>
-                  </akn:list>
+                                  eId="art-z1_abs-z5_inhalt-n1_liste-n1_listenelem-n3_text-n1">ein kontinuierlicher Verbesserungsprozess etabliert wird, um die Effizienz und Effektivität der Verwaltung zu steigern.</akn:p>
+                        </akn:item>
+                     </akn:blockList>
+                  </akn:content>
                </akn:paragraph>
             </akn:article>
             <akn:article GUID="e193cbdc-4d36-4cd8-bebb-b2c3c451606c"
@@ -708,54 +671,44 @@
                   <akn:paragraph GUID="7b9e8d71-881b-4bea-b8af-779180f19a6b" eId="art-z3_abs-z2">
                      <akn:num GUID="2ceb63ec-b286-4eba-acfe-6261f7a6657d"
                               eId="art-z3_abs-z2_bezeichnung-n1">(2)</akn:num>
-                     <akn:list GUID="974446da-684c-493e-9e4a-133751410987"
-                               eId="art-z3_abs-z2_untergl-n1">
-                        <akn:intro GUID="d229b155-6258-4331-ad2e-94a9885c25a0"
-                                   eId="art-z3_abs-z2_untergl-n1_intro-n1">
-                           <akn:p GUID="cbf51d3e-e3af-418e-85f6-8618d3374ef4"
-                                  eId="art-z3_abs-z2_untergl-n1_intro-n1_text-n1">Zur Unterstützung der Implementierung wird eine zentrale Koordinierungsstelle eingerichtet, die die folgenden Aufgaben übernimmt:</akn:p>
-                        </akn:intro>
-                        <akn:point GUID="d2cf2ca3-59da-471c-9583-4fc634d6cdcb"
-                                   eId="art-z3_abs-z2_untergl-n1_listenelem-n1">
-                           <akn:num GUID="52490aeb-24ec-4c4d-890f-748956bee998"
-                                    eId="art-z3_abs-z2_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                           <akn:content GUID="31aa21cc-de90-43f0-bd6a-ca0b3edb918d"
-                                        eId="art-z3_abs-z2_untergl-n1_listenelem-n1_inhalt-n1">
+                     <akn:content GUID="896d4da7-600d-43a6-b09e-b401ed630534"
+                                  eId="art-z3_abs-z2_inhalt-n1">
+                        <akn:blockList GUID="974446da-684c-493e-9e4a-133751410987"
+                                       eId="art-z3_abs-z2_inhalt-n1_liste-n1">
+                           <akn:listIntroduction GUID="d229b155-6258-4331-ad2e-94a9885c25a0"
+                                                 eId="art-z3_abs-z2_inhalt-n1_liste-n1_listeneing-n1">
+                           Zur Unterstützung der Implementierung wird eine zentrale Koordinierungsstelle eingerichtet, die die folgenden Aufgaben übernimmt:
+                        </akn:listIntroduction>
+                           <akn:item GUID="d2cf2ca3-59da-471c-9583-4fc634d6cdcb"
+                                     eId="art-z3_abs-z2_inhalt-n1_liste-n1_listenelem-n1">
+                              <akn:num GUID="52490aeb-24ec-4c4d-890f-748956bee998"
+                                       eId="art-z3_abs-z2_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                               <akn:p GUID="f0f598ec-bfa6-45ec-a1e1-24c00d05f937"
-                                     eId="art-z3_abs-z2_untergl-n1_listenelem-n1_inhalt-n1_text-n1">Erstellung eines detaillierten Implementierungsplans, der die einzelnen Schritte und Zeitrahmen festlegt,</akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="57a5e0d5-f889-4511-b432-804583035606"
-                                   eId="art-z3_abs-z2_untergl-n1_listenelem-n2">
-                           <akn:num GUID="b99612a4-c9db-4c40-9c9a-847b950bc3d9"
-                                    eId="art-z3_abs-z2_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                           <akn:content GUID="5b11a9b8-144b-4455-a063-5075ca5a9412"
-                                        eId="art-z3_abs-z2_untergl-n1_listenelem-n2_inhalt-n1">
+                                     eId="art-z3_abs-z2_inhalt-n1_liste-n1_listenelem-n1_text-n1">Erstellung eines detaillierten Implementierungsplans, der die einzelnen Schritte und Zeitrahmen festlegt,</akn:p>
+                           </akn:item>
+                           <akn:item GUID="57a5e0d5-f889-4511-b432-804583035606"
+                                     eId="art-z3_abs-z2_inhalt-n1_liste-n1_listenelem-n2">
+                              <akn:num GUID="b99612a4-c9db-4c40-9c9a-847b950bc3d9"
+                                       eId="art-z3_abs-z2_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                               <akn:p GUID="7eb2e76c-6b14-439b-90f4-5f99853077e8"
-                                     eId="art-z3_abs-z2_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Bereitstellung von Ressourcen und Schulungen für die betroffenen Mitarbeiterinnen und Mitarbeiter,</akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="62bf7281-18da-43af-ace2-312f6b41152d"
-                                   eId="art-z3_abs-z2_untergl-n1_listenelem-n3">
-                           <akn:num GUID="8afea7c3-928b-4f0a-ae29-5342c403c79c"
-                                    eId="art-z3_abs-z2_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                           <akn:content GUID="ea643a63-c11b-4ce9-9c07-d891b917a8d0"
-                                        eId="art-z3_abs-z2_untergl-n1_listenelem-n3_inhalt-n1">
+                                     eId="art-z3_abs-z2_inhalt-n1_liste-n1_listenelem-n2_text-n1">Bereitstellung von Ressourcen und Schulungen für die betroffenen Mitarbeiterinnen und Mitarbeiter,</akn:p>
+                           </akn:item>
+                           <akn:item GUID="62bf7281-18da-43af-ace2-312f6b41152d"
+                                     eId="art-z3_abs-z2_inhalt-n1_liste-n1_listenelem-n3">
+                              <akn:num GUID="8afea7c3-928b-4f0a-ae29-5342c403c79c"
+                                       eId="art-z3_abs-z2_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
                               <akn:p GUID="3355fa8e-b7fd-4b8e-8f9e-2850d3fd7ff3"
-                                     eId="art-z3_abs-z2_untergl-n1_listenelem-n3_inhalt-n1_text-n1">Beratung und Unterstützung der Verwaltungseinheiten bei der Umsetzung der neuen Strukturen und Prozesse,</akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="04792bbb-0fb8-4eb1-8487-34f64b09de5a"
-                                   eId="art-z3_abs-z2_untergl-n1_listenelem-n4">
-                           <akn:num GUID="5938d974-b74c-4bd3-b6ca-6938e4126ee7"
-                                    eId="art-z3_abs-z2_untergl-n1_listenelem-n4_bezeichnung-n1">3.</akn:num>
-                           <akn:content GUID="c90dc80b-da00-4ea3-95f4-9d1183e58e8d"
-                                        eId="art-z3_abs-z2_untergl-n1_listenelem-n4_inhalt-n1">
+                                     eId="art-z3_abs-z2_inhalt-n1_liste-n1_listenelem-n3_text-n1">Beratung und Unterstützung der Verwaltungseinheiten bei der Umsetzung der neuen Strukturen und Prozesse,</akn:p>
+                           </akn:item>
+                           <akn:item GUID="04792bbb-0fb8-4eb1-8487-34f64b09de5a"
+                                     eId="art-z3_abs-z2_inhalt-n1_liste-n1_listenelem-n4">
+                              <akn:num GUID="5938d974-b74c-4bd3-b6ca-6938e4126ee7"
+                                       eId="art-z3_abs-z2_inhalt-n1_liste-n1_listenelem-n4_bezeichnung-n1">3.</akn:num>
                               <akn:p GUID="f813bcb9-4276-4ec3-849f-641e5a1df80c"
-                                     eId="art-z3_abs-z2_untergl-n1_listenelem-n4_inhalt-n1_text-n1">Überwachung und Bewertung des Fortschritts der Implementierung und Anpassung des Plans bei Bedarf.</akn:p>
-                           </akn:content>
-                        </akn:point>
-                     </akn:list>
+                                     eId="art-z3_abs-z2_inhalt-n1_liste-n1_listenelem-n4_text-n1">Überwachung und Bewertung des Fortschritts der Implementierung und Anpassung des Plans bei Bedarf.</akn:p>
+                           </akn:item>
+                        </akn:blockList>
+                     </akn:content>
                   </akn:paragraph>
                   <akn:paragraph GUID="8769ffbd-cf68-472c-a1a4-729f4df2aabb" eId="art-z3_abs-z3">
                      <akn:num GUID="e114e8bb-ca15-4073-8354-ae96370a242e"
@@ -784,44 +737,37 @@
                   <akn:paragraph GUID="6a66e950-42f8-441b-bab3-079aa7a681af" eId="art-z4_abs-z2">
                      <akn:num GUID="a1575091-e950-4560-9eff-e6ff2b1e2ee7"
                               eId="art-z4_abs-z2_bezeichnung-n1">(2)</akn:num>
-                     <akn:list GUID="7a1f750c-ed9a-466e-8803-dc2639b2a43f"
-                               eId="art-z4_abs-z2_untergl-n1">
-                        <akn:intro GUID="f3aca098-230b-498d-b1aa-c360f83ccff2"
-                                   eId="art-z4_abs-z2_untergl-n1_intro-n1">
-                           <akn:p GUID="b6b8afa7-10c6-4e65-ad67-4878a51623ce"
-                                  eId="art-z4_abs-z2_untergl-n1_intro-n1_text-n1">Die Höhe der Finanzmittel wird jährlich im Bundeshaushalt festgelegt und richtet sich nach:</akn:p>
-                        </akn:intro>
-                        <akn:point GUID="191e7b4d-c033-4eae-a307-7e8fab71ea0f"
-                                   eId="art-z4_abs-z2_untergl-n1_listenelem-n1">
-                           <akn:num GUID="7d01e5c4-6cdb-4b3e-b7e6-2f0bd0efd742"
-                                    eId="art-z4_abs-z2_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                           <akn:content GUID="45875ee2-291d-425b-8f4d-1f0496fd4b08"
-                                        eId="art-z4_abs-z2_untergl-n1_listenelem-n1_inhalt-n1">
+                     <akn:content GUID="f43da010-b8a3-42b7-abcd-f09b8ebf6f7a"
+                                  eId="art-z4_abs-z2_inhalt-n1">
+                        <akn:blockList GUID="7a1f750c-ed9a-466e-8803-dc2639b2a43f"
+                                       eId="art-z4_abs-z2_inhalt-n1_liste-n1">
+                           <akn:listIntroduction GUID="f3aca098-230b-498d-b1aa-c360f83ccff2"
+                                                 eId="art-z4_abs-z2_inhalt-n1_liste-n1_listeneing-n1">
+                           Die Höhe der Finanzmittel wird jährlich im Bundeshaushalt festgelegt und richtet sich nach:
+                        </akn:listIntroduction>
+                           <akn:item GUID="191e7b4d-c033-4eae-a307-7e8fab71ea0f"
+                                     eId="art-z4_abs-z2_inhalt-n1_liste-n1_listenelem-n1">
+                              <akn:num GUID="7d01e5c4-6cdb-4b3e-b7e6-2f0bd0efd742"
+                                       eId="art-z4_abs-z2_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                               <akn:p GUID="3adbd55c-5a39-47e4-a87f-56cc7397ff49"
-                                     eId="art-z4_abs-z2_untergl-n1_listenelem-n1_inhalt-n1_text-n1">dem Umfang der erforderlichen Maßnahmen in den jeweiligen Verwaltungseinheiten,</akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="71b8826a-0859-4f98-aa0f-a133e0c05fe3"
-                                   eId="art-z4_abs-z2_untergl-n1_listenelem-n2">
-                           <akn:num GUID="d1d5b436-0549-4bbd-9453-cefcb31eb729"
-                                    eId="art-z4_abs-z2_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                           <akn:content GUID="5a25606c-3116-4339-8d85-dd6c4e5f2273"
-                                        eId="art-z4_abs-z2_untergl-n1_listenelem-n2_inhalt-n1">
+                                     eId="art-z4_abs-z2_inhalt-n1_liste-n1_listenelem-n1_text-n1">dem Umfang der erforderlichen Maßnahmen in den jeweiligen Verwaltungseinheiten,</akn:p>
+                           </akn:item>
+                           <akn:item GUID="71b8826a-0859-4f98-aa0f-a133e0c05fe3"
+                                     eId="art-z4_abs-z2_inhalt-n1_liste-n1_listenelem-n2">
+                              <akn:num GUID="d1d5b436-0549-4bbd-9453-cefcb31eb729"
+                                       eId="art-z4_abs-z2_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                               <akn:p GUID="2ac69f83-ec8b-4400-be8e-f17cecde70b6"
-                                     eId="art-z4_abs-z2_untergl-n1_listenelem-n2_inhalt-n1_text-n1">der Anzahl der betroffenen Mitarbeiterinnen und Mitarbeiter,</akn:p>
-                           </akn:content>
-                        </akn:point>
-                        <akn:point GUID="778e55ed-afbb-457c-ac16-3864a72ac13a"
-                                   eId="art-z4_abs-z2_untergl-n1_listenelem-n3">
-                           <akn:num GUID="c4fc8bee-2c46-4ac3-910a-d3854a6e5071"
-                                    eId="art-z4_abs-z2_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                           <akn:content GUID="8f319aa7-3f6b-459f-803c-1e9208507114"
-                                        eId="art-z4_abs-z2_untergl-n1_listenelem-n3_inhalt-n1">
+                                     eId="art-z4_abs-z2_inhalt-n1_liste-n1_listenelem-n2_text-n1">der Anzahl der betroffenen Mitarbeiterinnen und Mitarbeiter,</akn:p>
+                           </akn:item>
+                           <akn:item GUID="778e55ed-afbb-457c-ac16-3864a72ac13a"
+                                     eId="art-z4_abs-z2_inhalt-n1_liste-n1_listenelem-n3">
+                              <akn:num GUID="c4fc8bee-2c46-4ac3-910a-d3854a6e5071"
+                                       eId="art-z4_abs-z2_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
                               <akn:p GUID="5fb951bd-68ac-4f48-add8-5a158e7e1af8"
-                                     eId="art-z4_abs-z2_untergl-n1_listenelem-n3_inhalt-n1_text-n1">den spezifischen regionalen Anforderungen und Besonderheiten. </akn:p>
-                           </akn:content>
-                        </akn:point>
-                     </akn:list>
+                                     eId="art-z4_abs-z2_inhalt-n1_liste-n1_listenelem-n3_text-n1">den spezifischen regionalen Anforderungen und Besonderheiten. </akn:p>
+                           </akn:item>
+                        </akn:blockList>
+                     </akn:content>
                   </akn:paragraph>
                   <akn:paragraph GUID="f49fa6a5-a461-4ff1-940b-dde64dea325c" eId="art-z4_abs-z3">
                      <akn:num GUID="4ad3d189-0cdf-4da5-b516-303604c3b1f1"
@@ -1058,44 +1004,37 @@
                <akn:paragraph GUID="17f2610e-aa83-4a2e-9e3a-8b41c14d3bec" eId="art-z8_abs-z1">
                   <akn:num GUID="b71f74d9-ae2a-4c96-b590-5a293a7b50ed"
                            eId="art-z8_abs-z1_bezeichnung-n1">(1)</akn:num>
-                  <akn:list GUID="1a0d72f8-4418-4b49-a60e-e3db3f9d2a00"
-                            eId="art-z8_abs-z1_untergl-n1">
-                     <akn:intro GUID="060b71bd-4027-4422-b4f5-ae6cb051e73c"
-                                eId="art-z8_abs-z1_untergl-n1_intro-n1">
-                        <akn:p GUID="eadee712-f479-4521-9cc4-fe94bbd83d01"
-                               eId="art-z8_abs-z1_untergl-n1_intro-n1_text-n1">Während der Übergangsphase, die bis zu fünf Jahre nach Inkrafttreten dieses Gesetzes dauern kann, gelten folgende Regelungen:</akn:p>
-                     </akn:intro>
-                     <akn:point GUID="6eef87c4-13c0-4937-b0ef-a412dde43aa1"
-                                eId="art-z8_abs-z1_untergl-n1_listenelem-n1">
-                        <akn:num GUID="e5b2eb23-90a1-423c-9454-cabd27dd65ae"
-                                 eId="art-z8_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
-                        <akn:content GUID="9ed5855c-b013-4e30-b2bc-dc72b75924f0"
-                                     eId="art-z8_abs-z1_untergl-n1_listenelem-n1_inhalt-n1">
+                  <akn:content GUID="a8997cc8-b1ca-4bb5-ae94-386453d9b54b"
+                               eId="art-z8_abs-z1_inhalt-n1">
+                     <akn:blockList GUID="1a0d72f8-4418-4b49-a60e-e3db3f9d2a00"
+                                    eId="art-z8_abs-z1_inhalt-n1_liste-n1">
+                        <akn:listIntroduction GUID="060b71bd-4027-4422-b4f5-ae6cb051e73c"
+                                              eId="art-z8_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
+                        Während der Übergangsphase, die bis zu fünf Jahre nach Inkrafttreten dieses Gesetzes dauern kann, gelten folgende Regelungen:
+                     </akn:listIntroduction>
+                        <akn:item GUID="6eef87c4-13c0-4937-b0ef-a412dde43aa1"
+                                  eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
+                           <akn:num GUID="e5b2eb23-90a1-423c-9454-cabd27dd65ae"
+                                    eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1">1.</akn:num>
                            <akn:p GUID="536a6802-5a37-4e5a-8f78-9f940933516a"
-                                  eId="art-z8_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">Bestehende Strukturen und Gliederungseinheiten dürfen parallel zu den neuen Einheiten weitergeführt werden, sofern dies zur Sicherstellung der Kontinuität der Verwaltungsabläufe erforderlich ist,</akn:p>
-                        </akn:content>
-                     </akn:point>
-                     <akn:point GUID="ff1c1671-23f0-479b-9d92-3863a5d8282b"
-                                eId="art-z8_abs-z1_untergl-n1_listenelem-n2">
-                        <akn:num GUID="baddb093-f92d-4833-9ccd-12c93c3ef4ec"
-                                 eId="art-z8_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
-                        <akn:content GUID="fef0c2c2-98cf-45d0-a2a8-218252bebb1d"
-                                     eId="art-z8_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
+                                  eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1">Bestehende Strukturen und Gliederungseinheiten dürfen parallel zu den neuen Einheiten weitergeführt werden, sofern dies zur Sicherstellung der Kontinuität der Verwaltungsabläufe erforderlich ist,</akn:p>
+                        </akn:item>
+                        <akn:item GUID="ff1c1671-23f0-479b-9d92-3863a5d8282b"
+                                  eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
+                           <akn:num GUID="baddb093-f92d-4833-9ccd-12c93c3ef4ec"
+                                    eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1">2.</akn:num>
                            <akn:p GUID="424304b1-7cd6-4a0d-a4f7-60a85b55e2f0"
-                                  eId="art-z8_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">Verwaltungseinheiten, die Schwierigkeiten bei der Umsetzung der neuen Strukturen haben, können bei der zentralen Koordinierungsstelle Unterstützung beantragen,</akn:p>
-                        </akn:content>
-                     </akn:point>
-                     <akn:point GUID="31a53540-acca-4c6a-bbf4-93fe87c92880"
-                                eId="art-z8_abs-z1_untergl-n1_listenelem-n3">
-                        <akn:num GUID="6a91ba4a-5eaf-484b-9318-bae6f1714f76"
-                                 eId="art-z8_abs-z1_untergl-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
-                        <akn:content GUID="b8501399-d9d1-4ed7-b4a4-7ab77e7ad9ab"
-                                     eId="art-z8_abs-z1_untergl-n1_listenelem-n3_inhalt-n1">
+                                  eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1">Verwaltungseinheiten, die Schwierigkeiten bei der Umsetzung der neuen Strukturen haben, können bei der zentralen Koordinierungsstelle Unterstützung beantragen,</akn:p>
+                        </akn:item>
+                        <akn:item GUID="31a53540-acca-4c6a-bbf4-93fe87c92880"
+                                  eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n3">
+                           <akn:num GUID="6a91ba4a-5eaf-484b-9318-bae6f1714f76"
+                                    eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n3_bezeichnung-n1">3.</akn:num>
                            <akn:p GUID="3e855124-d7db-4692-a341-57fe171e40ae"
-                                  eId="art-z8_abs-z1_untergl-n1_listenelem-n3_inhalt-n1_text-n1">Mitarbeiterinnen und Mitarbeiter, deren Aufgaben sich durch die neuen Strukturen ändern, haben Anspruch auf Weiterbildungs- und Umschulungsmaßnahmen.</akn:p>
-                        </akn:content>
-                     </akn:point>
-                  </akn:list>
+                                  eId="art-z8_abs-z1_inhalt-n1_liste-n1_listenelem-n3_text-n1">Mitarbeiterinnen und Mitarbeiter, deren Aufgaben sich durch die neuen Strukturen ändern, haben Anspruch auf Weiterbildungs- und Umschulungsmaßnahmen.</akn:p>
+                        </akn:item>
+                     </akn:blockList>
+                  </akn:content>
                </akn:paragraph>
                <akn:paragraph GUID="3c04cde5-0fb2-456e-a35a-a3fa31e2a90e" eId="art-z8_abs-z2">
                   <akn:num GUID="6b7eff32-d318-4545-8803-5682c1245381"

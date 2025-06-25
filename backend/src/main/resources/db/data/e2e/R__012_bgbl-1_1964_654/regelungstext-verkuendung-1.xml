@@ -16,7 +16,7 @@
 -->
 <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/metadata.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema-extension/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
     <!-- Metadaten -->
       <akn:meta GUID="852670f5-6956-4f67-8cc4-73c2fb65ede8" eId="meta-n1">
@@ -144,8 +144,6 @@
                <regtxt:typ>gesetz</regtxt:typ>
                <regtxt:form>stammform</regtxt:form>
             </regtxt:legalDocML.de_metadaten>
-            
-            
          </akn:proprietary>
       </akn:meta>
       <akn:preface GUID="f3ad0a73-4c92-4bbc-a624-f88de3e2b03b" eId="einleitung-n1">
@@ -193,39 +191,34 @@
             <akn:paragraph GUID="d029bfe6-5fc1-4810-81dc-32006396bbe5" eId="art-z20_abs-z1">
                <akn:num GUID="88ef8e90-f2c6-44a9-b8e9-698645fc46ff"
                         eId="art-z20_abs-z1_bezeichnung-n1"> (1) </akn:num>
-               <akn:list GUID="dc60c0e8-397c-4f7f-b9b6-27fe86cd79ea"
-                         eId="art-z20_abs-z1_untergl-n1">
-                  <akn:intro GUID="05c15fc0-e659-4e31-aa73-da6be3692442"
-                             eId="art-z20_abs-z1_untergl-n1_intro-n1">
-                     <akn:p GUID="87ce56b2-f155-441b-9d61-ebcf85293cf3"
-                            eId="art-z20_abs-z1_untergl-n1_intro-n1_text-n1">Wer</akn:p>
-                  </akn:intro>
-                  <akn:point GUID="bb374b76-4234-4b56-9466-b4210140aa7b"
-                             eId="art-z20_abs-z1_untergl-n1_listenelem-n1">
-                     <akn:num GUID="992e0d2c-04e4-4088-8519-a50e4c9802b5"
-                              eId="art-z20_abs-z1_untergl-n1_listenelem-n1_bezeichnung-n1"> 1. </akn:num>
-                     <akn:content GUID="af38afdc-a118-42f4-a3f0-d2e8b6413953"
-                                  eId="art-z20_abs-z1_untergl-n1_listenelem-n1_inhalt-n1">
+               <akn:content GUID="d0972d91-8ba8-4ccb-b3e0-b43df96b8c11"
+                            eId="art-z20_abs-z1_inhalt-n1">
+                  <akn:blockList GUID="dc60c0e8-397c-4f7f-b9b6-27fe86cd79ea"
+                                 eId="art-z20_abs-z1_inhalt-n1_liste-n1">
+                     <akn:listIntroduction GUID="05c15fc0-e659-4e31-aa73-da6be3692442"
+                                           eId="art-z20_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
+                     Wer
+                  </akn:listIntroduction>
+                     <akn:item GUID="bb374b76-4234-4b56-9466-b4210140aa7b"
+                               eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
+                        <akn:num GUID="992e0d2c-04e4-4088-8519-a50e4c9802b5"
+                                 eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n1_bezeichnung-n1"> 1. </akn:num>
                         <akn:p GUID="06a73c72-9643-491c-bd8e-34d727ee9ed3"
-                               eId="art-z20_abs-z1_untergl-n1_listenelem-n1_inhalt-n1_text-n1">entgegen einem vollziehbaren Verbot den Verein fortführt, seinen organisatorischen Zusammenhalt auf andere Weise aufrechterhält, sich an ihm als Mitglied beteiligt, für ihn wirbt, ihn unterstützt oder eine Tätigkeit ausübt (§ 18 Satz 2) oder</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:point GUID="1aea907f-1fa6-44dd-be98-ee0d573a1917"
-                             eId="art-z20_abs-z1_untergl-n1_listenelem-n2">
-                     <akn:num GUID="a25082dc-6a80-453d-8100-ac5e223ba481"
-                              eId="art-z20_abs-z1_untergl-n1_listenelem-n2_bezeichnung-n1"> 2. </akn:num>
-                     <akn:content GUID="b539727a-4ee6-4355-b701-f520e28c5053"
-                                  eId="art-z20_abs-z1_untergl-n1_listenelem-n2_inhalt-n1">
+                               eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n1_text-n1">entgegen einem vollziehbaren Verbot den Verein fortführt, seinen organisatorischen Zusammenhalt auf andere Weise aufrechterhält, sich an ihm als Mitglied beteiligt, für ihn wirbt, ihn unterstützt oder eine Tätigkeit ausübt (§ 18 Satz 2) oder</akn:p>
+                     </akn:item>
+                     <akn:item GUID="1aea907f-1fa6-44dd-be98-ee0d573a1917"
+                               eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n2">
+                        <akn:num GUID="a25082dc-6a80-453d-8100-ac5e223ba481"
+                                 eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n2_bezeichnung-n1"> 2. </akn:num>
                         <akn:p GUID="72d2a46d-14b3-4800-92bf-c6bcbdac24cf"
-                               eId="art-z20_abs-z1_untergl-n1_listenelem-n2_inhalt-n1_text-n1">entgegen § 9 Abs. 1 Satz 2, Abs. 2 Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
-                     </akn:content>
-                  </akn:point>
-                  <akn:wrapUp GUID="b6697467-2d47-4c57-be36-1002166edf9f"
-                              eId="art-z20_abs-z1_untergl-n1_schlusstext-n1">
-                     <akn:p GUID="49b02074-b296-4b2f-829c-bae0a729b75c"
-                            eId="art-z20_abs-z1_untergl-n1_schlusstext-n1_text-n1">wird mit Gefängnis bis zu einem Jahr oder mit Geldstrafe bestraft, wenn die Tat nicht in den §§ 49 b, 90 a, 90 b, 96 a, 128 oder 129 des Strafgesetzbuches, mit schwerer Strafe bedroht ist.</akn:p>
-                  </akn:wrapUp>
-               </akn:list>
+                               eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenelem-n2_text-n1">entgegen § 9 Abs. 1 Satz 2, Abs. 2 Kennzeichen eines verbotenen Vereins oder einer Ersatzorganisation verwendet,</akn:p>
+                     </akn:item>
+                     <akn:listWrapUp GUID="b6697467-2d47-4c57-be36-1002166edf9f"
+                                     eId="art-z20_abs-z1_inhalt-n1_liste-n1_listenschl-n1">
+                     wird mit Gefängnis bis zu einem Jahr oder mit Geldstrafe bestraft, wenn die Tat nicht in den §§ 49 b, 90 a, 90 b, 96 a, 128 oder 129 des Strafgesetzbuches, mit schwerer Strafe bedroht ist.
+                  </akn:listWrapUp>
+                  </akn:blockList>
+               </akn:content>
             </akn:paragraph>
             <akn:paragraph GUID="1a3bd840-714d-4470-a902-377ff98f4482" eId="art-z20_abs-z2">
                <akn:num GUID="3b96ea0d-bd5b-4a5c-a1fd-e32d49450ed6"

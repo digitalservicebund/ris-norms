@@ -1,6 +1,5 @@
-package de.bund.digitalservice.ris.norms.application.exception;
+package de.bund.digitalservice.ris.norms.utils.exceptions;
 
-import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import java.net.URI;
 import java.util.Map;
 
