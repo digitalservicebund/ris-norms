@@ -66,7 +66,7 @@ public class ReleaseController {
    *     <p>Returns HTTP 200 (OK) and list of {@link ZielnormReleaseStatusResponseSchema}s.
    *     <p>Returns HTTP 404 (Not Found) if the verkuendung is not found.
    */
-  @GetMapping(value = "/expressions/releasestatus", produces = APPLICATION_JSON_VALUE)
+  @GetMapping(value = "/releases", produces = APPLICATION_JSON_VALUE)
   public ResponseEntity<ZielnormReleaseStatusResponseSchema> getZielnormExpressionsStatus(
     NormWorkEli zielnormEli
   ) {
