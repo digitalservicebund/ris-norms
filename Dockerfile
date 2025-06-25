@@ -1,4 +1,4 @@
-FROM node:24.2.0 AS frontend
+FROM node:24.3.0 AS frontend
 
 WORKDIR /frontend
 COPY frontend .
