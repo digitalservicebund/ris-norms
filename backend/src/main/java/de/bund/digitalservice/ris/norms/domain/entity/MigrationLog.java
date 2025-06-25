@@ -16,7 +16,9 @@ public class MigrationLog {
 
   private UUID id;
 
-  private Integer size;
+  private Integer xmlSize;
+
+  private Integer binarySize;
 
   private Instant createdAt;
 

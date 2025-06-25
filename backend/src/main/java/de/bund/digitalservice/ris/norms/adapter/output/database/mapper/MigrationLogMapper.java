@@ -20,7 +20,8 @@ public class MigrationLogMapper {
   public static MigrationLog mapToDomain(final MigrationLogDto migrationLogDto) {
     return MigrationLog.builder()
       .id(migrationLogDto.getId())
-      .size(migrationLogDto.getSize())
+      .xmlSize(migrationLogDto.getXmlSize())
+      .binarySize(migrationLogDto.getBinarySize())
       .createdAt(migrationLogDto.getCreatedAt())
       .completed(migrationLogDto.isCompleted())
       .build();
@@ -36,7 +37,8 @@ public class MigrationLogMapper {
     return MigrationLogDto.builder()
       .id(migrationLog.getId())
       .createdAt(migrationLog.getCreatedAt())
-      .size(migrationLog.getSize())
+      .xmlSize(migrationLog.getXmlSize())
+      .binarySize(migrationLog.getBinarySize())
       .completed(migrationLog.isCompleted())
       .build();
   }

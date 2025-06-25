@@ -15,7 +15,8 @@ class MigrationLogMapperTest {
     // Given
     var dtoObj = MigrationLogDto.builder()
       .id(UUID.randomUUID())
-      .size(5)
+      .xmlSize(5)
+      .binarySize(11)
       .createdAt(Instant.parse("2025-03-03T15:00:00.0Z"))
       .completed(false)
       .build();
@@ -25,7 +26,8 @@ class MigrationLogMapperTest {
 
     // Then
     assertThat(domainObj.getId()).isEqualTo(dtoObj.getId());
-    assertThat(domainObj.getSize()).isEqualTo(dtoObj.getSize());
+    assertThat(domainObj.getXmlSize()).isEqualTo(dtoObj.getXmlSize());
+    assertThat(domainObj.getBinarySize()).isEqualTo(dtoObj.getBinarySize());
     assertThat(domainObj.getCreatedAt()).isEqualTo(dtoObj.getCreatedAt());
     assertThat(domainObj.isCompleted()).isEqualTo(dtoObj.isCompleted());
   }
@@ -35,7 +37,8 @@ class MigrationLogMapperTest {
     // Given
     var domainObj = MigrationLog.builder()
       .id(UUID.randomUUID())
-      .size(5)
+      .xmlSize(5)
+      .binarySize(11)
       .createdAt(Instant.parse("2025-03-03T15:00:00.0Z"))
       .completed(false)
       .build();
@@ -45,7 +48,8 @@ class MigrationLogMapperTest {
 
     // Then
     assertThat(dtoObj.getId()).isEqualTo(domainObj.getId());
-    assertThat(dtoObj.getSize()).isEqualTo(domainObj.getSize());
+    assertThat(dtoObj.getXmlSize()).isEqualTo(domainObj.getXmlSize());
+    assertThat(dtoObj.getBinarySize()).isEqualTo(domainObj.getBinarySize());
     assertThat(dtoObj.getCreatedAt()).isEqualTo(domainObj.getCreatedAt());
     assertThat(dtoObj.isCompleted()).isEqualTo(domainObj.isCompleted());
   }

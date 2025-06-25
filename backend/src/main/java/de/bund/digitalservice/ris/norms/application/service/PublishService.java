@@ -81,7 +81,7 @@ public class PublishService implements PublishNormUseCase {
       .loadLastMigrationLog()
       .filter(migrationLog -> !migrationLog.isCompleted());
     lastMigrationLog.ifPresent(log -> {
-      if (migrationLogIsRelevant(log) && log.getSize() <= 0) {
+      if (migrationLogIsRelevant(log) && log.getXmlSize() <= 0) {
         throw new MigrationJobException();
       }
     });
@@ -107,7 +107,7 @@ public class PublishService implements PublishNormUseCase {
         log.info(
           "Migration log found with timestamp {} (UTC) and {} dokumente.",
           formatMigrationLogTimestamp(migrationLog.getCreatedAt()),
-          migrationLog.getSize()
+          migrationLog.getXmlSize()
         );
         log.info("Deleting all old dokumente in both buckets");
         deleteAllPublishedDokumentePort.deleteAllPublishedDokumente(

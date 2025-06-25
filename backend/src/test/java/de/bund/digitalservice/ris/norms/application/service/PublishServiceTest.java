@@ -129,7 +129,7 @@ class PublishServiceTest {
         Set.of()
       );
       final MigrationLog migrationLog = MigrationLog.builder()
-        .size(5)
+        .xmlSize(5)
         .createdAt(Instant.now())
         .completed(false)
         .build();
@@ -245,7 +245,7 @@ class PublishServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
       final MigrationLog migrationLog = MigrationLog.builder()
-        .size(5)
+        .xmlSize(5)
         .createdAt(Instant.now())
         .completed(false)
         .build();
@@ -293,7 +293,7 @@ class PublishServiceTest {
     void doNotdeleteAllNormsIfMigrationLogExistsButSizeIsZero() {
       // Given
       final MigrationLog migrationLog = MigrationLog.builder()
-        .size(0)
+        .xmlSize(0)
         .createdAt(Instant.now())
         .build();
 
@@ -365,7 +365,7 @@ class PublishServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
       final MigrationLog migrationLog = MigrationLog.builder()
-        .size(5)
+        .xmlSize(5)
         .createdAt(Instant.now())
         .completed(true)
         .build();
@@ -412,7 +412,7 @@ class PublishServiceTest {
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
       final MigrationLog migrationLog = MigrationLog.builder()
-        .size(5)
+        .xmlSize(5)
         .createdAt(Instant.parse("2007-12-03T10:15:30.00Z"))
         .completed(false)
         .build();
