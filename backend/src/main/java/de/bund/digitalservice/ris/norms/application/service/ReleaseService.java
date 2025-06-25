@@ -79,7 +79,6 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
     manifestationsToPublish.forEach(manifestationToPublish -> {
       final NormManifestationEli oldManifestationEli = manifestationToPublish.getManifestationEli();
       setNewStandDerBearbeitung(options.releaseType(), manifestationToPublish);
-      //TODO next iteration: Generate new GUID for FRBRExpression/FRBRalias/aktuelle-version-id/@value and set it as nachfolgende-version-id in the previous expression
       final Norm workingCopy = createNewVersionOfNormService.createNewManifestation(
         manifestationToPublish,
         Norm.WORKING_COPY_DATE
