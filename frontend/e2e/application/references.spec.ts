@@ -34,7 +34,7 @@ test("should be able to add a new ref and edit it's refersTo and href and delete
     exact: true,
   })
   await expect(page).toHaveURL(
-    "/app/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-verkuendung-1/references/art-z%253e1_abs-z_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n1_text-n1_ändbefehl-n1_quotstruct-n1_abs-z2_inhalt-n1_text-n1_ref-1",
+    "/app/amending-laws/eli/bund/bgbl-1/1002/2/1002-01-10/1/deu/regelungstext-verkuendung-1/references/art-z%253e1_abs-z_untergl-n1_listenelem-n5_untergl-n1_listenelem-n1_inhalt-n1_text-n1_%C3%A4ndbefehl-n1_quotstruct-n1_abs-z2_inhalt-n1_text-n1_ref-1",
   )
 
   const combobox = newRefRegion.getByRole("combobox", { name: "Typ" })
