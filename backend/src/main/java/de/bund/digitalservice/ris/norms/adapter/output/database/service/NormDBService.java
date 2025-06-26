@@ -14,6 +14,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPo
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifestationElisByPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormWorksPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
@@ -30,6 +31,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 /**
@@ -46,7 +48,8 @@ public class NormDBService
     UpdateNormPublishStatePort,
     DeleteNormPort,
     LoadNormManifestationElisByPublishStatePort,
-    LoadNormExpressionElisPort {
+    LoadNormExpressionElisPort,
+    LoadNormWorksPort {
 
   private final DokumentRepository dokumentRepository;
   private final NormManifestationRepository normManifestationRepository;
@@ -292,5 +295,12 @@ public class NormDBService
       .stream()
       .map(NormExpressionEli::fromString)
       .toList();
+  }
+
+  @Override
+  public Page<Norm> loadNormWorks(LoadNormWorksPort.Options options) {
+    return normManifestationRepository
+      .findDistinctOnWorkEliByOrderByWorkEliAsc(options.pageable())
+      .map(NormManifestationMapper::mapToDomain);
   }
 }

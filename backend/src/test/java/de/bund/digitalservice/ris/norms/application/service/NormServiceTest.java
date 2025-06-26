@@ -25,6 +25,7 @@ class NormServiceTest {
 
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
+  final LoadNormWorksPort loadNormWorksPort = mock(LoadNormWorksPort.class);
   final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
   final LoadRegelungstextPort loadRegelungstextPort = mock(LoadRegelungstextPort.class);
   final LoadNormExpressionElisPort loadNormExpressionElisPort = mock(
@@ -46,7 +47,8 @@ class NormServiceTest {
     eliService,
     createNewVersionOfNormService,
     updateOrSaveNormPort,
-    deleteNormPort
+    deleteNormPort,
+    loadNormWorksPort
   );
 
   @Nested

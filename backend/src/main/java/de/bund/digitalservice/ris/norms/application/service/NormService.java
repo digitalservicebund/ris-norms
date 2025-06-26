@@ -14,6 +14,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Predicate;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,7 +34,8 @@ public class NormService
     LoadZielnormenExpressionsUseCase,
     CreateZielnormenExpressionsUseCase,
     UpdateZielnormReferencesUseCase,
-    DeleteZielnormReferencesUseCase {
+    DeleteZielnormReferencesUseCase,
+    LoadNormWorksUseCase {
 
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
@@ -44,6 +46,7 @@ public class NormService
   private final CreateNewVersionOfNormService createNewVersionOfNormService;
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final DeleteNormPort deleteNormPort;
+  private final LoadNormWorksPort loadNormWorksPort;
 
   public NormService(
     LoadNormPort loadNormPort,
@@ -54,7 +57,8 @@ public class NormService
     EliService eliService,
     CreateNewVersionOfNormService createNewVersionOfNormService,
     UpdateOrSaveNormPort updateOrSaveNormPort,
-    DeleteNormPort deleteNormPort
+    DeleteNormPort deleteNormPort,
+    LoadNormWorksPort loadNormWorksPort
   ) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
@@ -65,6 +69,7 @@ public class NormService
     this.createNewVersionOfNormService = createNewVersionOfNormService;
     this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.deleteNormPort = deleteNormPort;
+    this.loadNormWorksPort = loadNormWorksPort;
   }
 
   @Override
@@ -825,5 +830,10 @@ public class NormService
       .filter(entry -> !entry.getValue().isGegenstandlos())
       .max(Map.Entry.comparingByKey())
       .map(Map.Entry::getValue);
+  }
+
+  @Override
+  public Page<Norm> loadNormWorks(LoadNormWorksUseCase.Options options) {
+    return loadNormWorksPort.loadNormWorks(new LoadNormWorksPort.Options(options.pageable()));
   }
 }
