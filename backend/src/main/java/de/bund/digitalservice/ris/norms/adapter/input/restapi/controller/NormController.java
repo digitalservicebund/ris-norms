@@ -2,8 +2,8 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormWorkResponseMapper;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormWorkResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormWorksUseCase;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedModel;
@@ -30,7 +30,7 @@ public class NormController {
    * @return a paged list of information about norms
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
-  public PagedModel<NormResponseSchema> getNorm(Pageable pageable) {
+  public PagedModel<NormWorkResponseSchema> getNorm(Pageable pageable) {
     return new PagedModel<>(
       loadNormWorksUseCase
         .loadNormWorks(
@@ -39,7 +39,7 @@ public class NormController {
             Pageable.ofSize(pageable.getPageSize()).withPage(pageable.getPageNumber())
           )
         )
-        .map(NormResponseMapper::fromUseCaseData)
+        .map(NormWorkResponseMapper::fromUseCaseData)
     );
   }
 }

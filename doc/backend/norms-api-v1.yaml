@@ -237,7 +237,7 @@ paths:
                   content:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Norm"
+                      $ref: "#/components/schemas/NormWork"
                   page:
                     type: object
                     properties:
@@ -887,6 +887,14 @@ components:
         vorherigeVersionId:
           type: string
         nachfolgendeVersionId:
+          type: string
+
+    NormWork:
+      type: object
+      properties:
+        eli:
+          $ref: "#/components/schemas/NormWorkEli"
+        title:
           type: string
 
     Verkuendung:
