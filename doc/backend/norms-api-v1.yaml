@@ -161,6 +161,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
+  # TODO: (Malte Laukötter, 2025-06-26) for concitency: rename to norms/{workEli}/releases
   /{workEli}/releases:
     get:
       tags:
@@ -206,6 +207,48 @@ paths:
                 $ref: "#/components/schemas/ExpressionsStatusResponseSchema"
         "404":
           description: Norm not found.
+
+  /norms:
+    get:
+      tags:
+        - Norm work
+      summary: Get a list of all norm works
+      parameters:
+        - name: page
+          in: query
+          description: The page of the results
+          required: false
+          schema:
+            type: number
+        - name: size
+          in: query
+          description: The size of the pages
+          required: false
+          schema:
+            type: number
+      responses:
+        "200":
+          description: List of works.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Norm"
+                  page:
+                    type: object
+                    properties:
+                      size:
+                        type: number
+                      number:
+                        type: number
+                      totalElements:
+                        type: number
+                      totalPages:
+                        type: number
 
   /norms/{expressionEli}:
     get:
