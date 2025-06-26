@@ -347,7 +347,7 @@ spotless {
         prettier(
             mapOf(
                 "prettier" to "3.6.1", // npm dependency
-                "prettier-plugin-sh" to "0.17.4", // npm dependency
+                "prettier-plugin-sh" to "0.18.0", // npm dependency
             ),
         ).config(mapOf("keySeparator" to "="))
     }
