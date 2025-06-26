@@ -1,5 +1,5 @@
 [versions]
-flyway = "11.9.2"
+flyway = "11.10.0"
 # @keep
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "6.9.0"
@@ -50,7 +50,7 @@ tika-core = "org.apache.tika:tika-core:3.2.0"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.9"
-errorprone = "net.ltgt.errorprone:4.2.0"
+errorprone = "net.ltgt.errorprone:4.3.0"
 sentry = "io.sentry.jvm.gradle:5.8.0"
 sonarqube = "org.sonarqube:6.2.0.5505"
 spotless = "com.diffplug.spotless:7.0.4"
