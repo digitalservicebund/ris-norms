@@ -42,7 +42,7 @@ class FrontendFallbackControllerTest {
   @Test
   void itShouldServeTheFrontendWhenRequestingAPathUnderneathApp() throws Exception {
     mockMvc
-      .perform(get("/app/amending-laws"))
+      .perform(get("/app/verkuendungen"))
       .andExpect(status().is2xxSuccessful())
       .andExpect(forwardedUrl("/app/index.html"));
   }

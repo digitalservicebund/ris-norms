@@ -149,39 +149,6 @@ const routes: readonly RouteRecordRaw[] = [
   // Legacy routes - these are leftovers from an earlier version of the
   // application and will be removed soon
   {
-    path: "/amending-laws",
-    children: [
-      {
-        path: createDokumentExpressionEliPathParameter(),
-        component: () => import("@/views/amending-law/AmendingLaw.view.vue"),
-        children: [
-          {
-            path: "",
-            name: "AmendingLaw",
-            component: () =>
-              import(
-                "@/views/amending-law/overview/AmendingLawOverview.view.vue"
-              ),
-          },
-          {
-            path: "publishing",
-            name: "AmendingLawPublishing",
-            component: () =>
-              import("@/views/amending-law/publishing/Publishing.view.vue"),
-          },
-        ],
-      },
-      {
-        path: `${GUID_ROUTE_PATH}/:any(.*)*`,
-        component: () => null,
-        beforeEnter: beforeRouteEnterGuidToEliRedirect,
-      },
-    ],
-  },
-
-  // Legacy routes - these are leftovers from an earlier version of the
-  // application and will be removed soon
-  {
     path: `/amending-laws/${createDokumentExpressionEliPathParameter()}/references/:refEid?`,
     name: "References",
     component: () =>

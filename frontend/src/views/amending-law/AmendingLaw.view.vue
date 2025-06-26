@@ -19,20 +19,8 @@ const menuItems: LevelOneMenuItem[] = [
     route: { name: "AmendingLaw" },
     children: [
       {
-        label: "Artikelübersicht",
-        route: { name: "AmendingLawArticles" },
-      },
-      {
         label: "Verweise",
         route: { name: "References" },
-      },
-      {
-        label: "Metadaten",
-        route: { name: "ExpressionMetadataEditorRahmen" },
-      },
-      {
-        label: "Abgabe",
-        route: { name: "AmendingLawPublishing" },
       },
     ],
   },
