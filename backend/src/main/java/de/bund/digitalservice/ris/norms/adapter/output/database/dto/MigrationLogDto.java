@@ -30,8 +30,11 @@ public class MigrationLogDto {
   @GeneratedValue
   private UUID id;
 
-  @Column(name = "size", nullable = false)
-  private Integer size;
+  @Column(name = "xml_size", nullable = false)
+  private Integer xmlSize;
+
+  @Column(name = "binary_size", nullable = false)
+  private Integer binarySize;
 
   @Column(name = "created_at", nullable = false)
   private Instant createdAt;

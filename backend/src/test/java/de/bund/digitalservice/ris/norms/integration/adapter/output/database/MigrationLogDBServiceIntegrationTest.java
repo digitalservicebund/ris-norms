@@ -40,14 +40,16 @@ class MigrationLogDBServiceIntegrationTest extends BaseIntegrationTest {
       var date1 = LocalDate.parse("2024-11-06");
       var migrationLog1 = MigrationLog.builder()
         .createdAt(date1.atStartOfDay().toInstant(ZoneOffset.UTC))
-        .size(5)
+        .xmlSize(5)
+        .binarySize(11)
         .completed(false)
         .build();
 
       var date2 = LocalDate.parse("2024-11-05");
       var migrationLog2 = MigrationLog.builder()
         .createdAt(date2.atStartOfDay().toInstant(ZoneOffset.UTC))
-        .size(5)
+        .xmlSize(5)
+        .binarySize(11)
         .completed(false)
         .build();
 
@@ -72,13 +74,15 @@ class MigrationLogDBServiceIntegrationTest extends BaseIntegrationTest {
       var date1 = LocalDate.parse("2024-11-06");
       var migrationLog1 = MigrationLog.builder()
         .createdAt(date1.atTime(9, 30).toInstant(ZoneOffset.UTC))
-        .size(5)
+        .xmlSize(5)
+        .binarySize(11)
         .completed(false)
         .build();
 
       var migrationLog2 = MigrationLog.builder()
         .createdAt(date1.atTime(11, 45).toInstant(ZoneOffset.UTC))
-        .size(12)
+        .xmlSize(12)
+        .binarySize(35)
         .completed(false)
         .build();
 
@@ -106,7 +110,8 @@ class MigrationLogDBServiceIntegrationTest extends BaseIntegrationTest {
       // Given
       var savedMigrationLog = migrationLogRepository.save(
         MigrationLogDto.builder()
-          .size(5)
+          .xmlSize(5)
+          .binarySize(11)
           .createdAt(Instant.parse("2025-03-03T15:00:00.0Z"))
           .completed(false)
           .build()
