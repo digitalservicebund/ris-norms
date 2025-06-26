@@ -21,11 +21,42 @@ pagination than with offset-based pagination.
 Our dataset doesn't change often and only consists of some thousand entries. Also jumping to a specific page might be
 necessary for at least as long as we do not have a search functionality.
 
+Spring includes a way to deal with Pagination based on page-size and page-number, this is a kind of offset-based
+pagination. The pagination information can directly be passed to the repository. They also include a native way to
+load the pagination parameters using query-parameters and to provide the additional information about a page to the
+response:
+
+```java
+@GetMapping(produces = { APPLICATION_JSON_VALUE })
+public ResponseEntity<PagedModel<NormResponseSchema>> getNorm(Pageable pageable) {
+  var page = loadNormWorksUseCase.loadNormWorks(new LoadNormWorksUseCase.Options(pageable));
+  return ResponseEntity.ok(new PagedModel<>(page.map(NormResponseMapper::fromUseCaseData)));
+}
+```
+
+This then allows to paginate the request using the query parameters `size` and `page` and creates a response like
+
+```json
+{
+  "content": [...],
+  "page": {
+    "size": 20,
+    "number": 0,
+    "totalElements": 15,
+    "totalPages": 1
+  }
+}
+```
+
+Spring's Pageable also allows providing sorting information. We will not use this as that would expose our database
+column names to the rest-API.
+
+By using the native spring naming for these parameters we keep our project more idiomatic and consistent and ensure that
+the meaning of the fields is simple to understand.
+
 ## Decision
 
-We use offset-based pagination.
-
-For setting the offset and the page size we use the query parameters `offset` and `limit`.
+We use offset-based pagination. We use the nativ spring representation for a page and for the query parameters.
 
 ## Consequences
 
@@ -37,3 +68,5 @@ models in our application.
 ## References
 
 - https://opensource.zalando.com/restful-api-guidelines/#160
+- https://docs.spring.io/spring-data/jpa/reference/repositories/query-methods-details.html#repositories.special-parameters
+- https://docs.spring.io/spring-data/jpa/reference/repositories/core-extensions.html#core.web.page
