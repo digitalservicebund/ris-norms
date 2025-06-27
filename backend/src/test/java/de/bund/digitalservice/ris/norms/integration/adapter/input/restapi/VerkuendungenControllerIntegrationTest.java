@@ -200,7 +200,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         dokumentRepository,
         binaryFileRepository,
         normManifestationRepository,
-        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15",
+        "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-15",
         NormPublishState.UNPUBLISHED
       );
       verkuendungRepository.save(VerkuendungMapper.mapToDto(verkuendung));
@@ -222,7 +222,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath(
             "$[0].eli",
-            equalTo("eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1")
+            equalTo("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/regelungstext-verkuendung-1")
           )
         )
         .andExpect(jsonPath("$[0].shortTitle").value("Vereinsgesetz"))
@@ -662,34 +662,26 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
             "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"
           )
         )
-        .andExpect(jsonPath("$[0].expressions[0].isGegenstandslos").value(true))
+        .andExpect(jsonPath("$[0].expressions[0].isGegenstandslos").value(false))
         .andExpect(jsonPath("$[0].expressions[0].isCreated").value(true))
-        .andExpect(jsonPath("$[0].expressions[0].createdBy").value("andere Verkündung"))
+        .andExpect(jsonPath("$[0].expressions[0].createdBy").value("diese Verkündung"))
         .andExpect(
           jsonPath("$[0].expressions[1].normExpressionEli").value(
-            "eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"
-          )
-        )
-        .andExpect(jsonPath("$[0].expressions[1].isGegenstandslos").value(false))
-        .andExpect(jsonPath("$[0].expressions[1].isCreated").value(false))
-        .andExpect(jsonPath("$[0].expressions[1].createdBy").value("diese Verkündung"))
-        .andExpect(
-          jsonPath("$[0].expressions[2].normExpressionEli").value(
             "eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu"
           )
         )
-        .andExpect(jsonPath("$[0].expressions[2].isGegenstandslos").value(true))
-        .andExpect(jsonPath("$[0].expressions[2].isCreated").value(true))
-        .andExpect(jsonPath("$[0].expressions[2].createdBy").value("andere Verkündung"))
+        .andExpect(jsonPath("$[0].expressions[1].isGegenstandslos").value(true))
+        .andExpect(jsonPath("$[0].expressions[1].isCreated").value(true))
+        .andExpect(jsonPath("$[0].expressions[1].createdBy").value("andere Verkündung"))
         .andExpect(
-          jsonPath("$[0].expressions[3].normExpressionEli").value(
+          jsonPath("$[0].expressions[2].normExpressionEli").value(
             "eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"
           )
         )
-        .andExpect(jsonPath("$[0].expressions[3].isGegenstandslos").value(false))
-        .andExpect(jsonPath("$[0].expressions[3].isCreated").value(false))
-        .andExpect(jsonPath("$[0].expressions[3].createdBy").value("System"))
-        .andExpect(jsonPath("$[0].expressions[4]").doesNotExist())
+        .andExpect(jsonPath("$[0].expressions[2].isGegenstandslos").value(false))
+        .andExpect(jsonPath("$[0].expressions[2].isCreated").value(false))
+        .andExpect(jsonPath("$[0].expressions[2].createdBy").value("System"))
+        .andExpect(jsonPath("$[0].expressions[3]").doesNotExist())
         .andExpect(jsonPath("$[1]").doesNotExist());
     }
 

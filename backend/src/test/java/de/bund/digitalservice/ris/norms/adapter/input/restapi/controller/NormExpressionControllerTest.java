@@ -44,7 +44,7 @@ class NormExpressionControllerTest {
   private TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
   @Nested
-  class getNorm {
+  class getNorms {
 
     @Test
     void itReturnsNorm() throws Exception {

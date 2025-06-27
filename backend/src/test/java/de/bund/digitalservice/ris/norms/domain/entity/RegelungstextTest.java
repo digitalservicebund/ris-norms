@@ -314,7 +314,7 @@ class RegelungstextTest {
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
+      "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
     );
 
     // then
@@ -342,7 +342,7 @@ class RegelungstextTest {
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
     final var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
+      "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
     );
 
     // then

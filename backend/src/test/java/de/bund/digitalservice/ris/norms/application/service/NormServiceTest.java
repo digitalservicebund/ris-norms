@@ -277,7 +277,7 @@ class NormServiceTest {
       );
 
       var newXml = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
+        "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-15/regelungstext-verkuendung-1.xml"
       );
       var oldNorm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
@@ -599,6 +599,7 @@ class NormServiceTest {
       Norm norm = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
+
       when(
         loadNormPort.loadNorm(
           new LoadNormPort.Options(
@@ -667,9 +668,9 @@ class NormServiceTest {
           NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu") // a new expression for this date should be created
         )
       );
-      when(eliService.findNextExpressionEli(any(), any(), any()))
-        .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"))
-        .thenReturn(NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu"));
+      when(eliService.findNextExpressionEli(any(), any(), any())).thenReturn(
+        NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu")
+      );
 
       var preview = service.loadZielnormExpressions(
         new LoadZielnormenExpressionsUseCase.Options(
@@ -684,19 +685,12 @@ class NormServiceTest {
       );
       assertThat(preview.getFirst().shortTitle()).hasToString("Vereinsgesetz");
       assertThat(preview.getFirst().expressions())
-        .hasSize(4)
+        .hasSize(3)
         .containsExactly(
           new Zielnorm.Expression(
             NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"),
+            false,
             true,
-            true,
-            false,
-            Zielnorm.CreatedBy.OTHER_VERKUENDUNG
-          ),
-          new Zielnorm.Expression(
-            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/2/deu"),
-            false,
-            false,
             false,
             Zielnorm.CreatedBy.THIS_VERKUENDUNG
           ),
@@ -716,11 +710,6 @@ class NormServiceTest {
           )
         );
 
-      verify(eliService, times(1)).findNextExpressionEli(
-        NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
-        LocalDate.parse("2017-03-16"),
-        "deu"
-      );
       verify(eliService, times(1)).findNextExpressionEli(
         NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
         LocalDate.parse("2017-04-16"),

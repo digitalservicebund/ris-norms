@@ -132,7 +132,7 @@ class NormTest {
   void equalsShouldNotEqualWithDifferentXml() {
     // given
     var norm1 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
-    var norm2 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15");
+    var norm2 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-15");
 
     // then
     assertThat(norm1).isNotEqualTo(norm2);
@@ -173,7 +173,7 @@ class NormTest {
   void hashCodeShouldBeDifferentWithDifferentXml() {
     // given
     var norm1 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
-    var norm2 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15");
+    var norm2 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-15");
 
     // then
     assertThat(norm1.hashCode()).isNotEqualTo(norm2.hashCode());

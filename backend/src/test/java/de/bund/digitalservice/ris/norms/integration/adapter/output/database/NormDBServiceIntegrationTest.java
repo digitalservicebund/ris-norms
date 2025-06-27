@@ -258,12 +258,12 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
         dokumentRepository,
         binaryFileRepository,
         normManifestationRepository,
-        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15",
+        "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-15",
         NormPublishState.UNPUBLISHED
       );
 
       var newNorm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15"
+        "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-15"
       );
       newNorm.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
 
