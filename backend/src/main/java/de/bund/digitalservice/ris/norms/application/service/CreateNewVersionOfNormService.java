@@ -176,54 +176,6 @@ public class CreateNewVersionOfNormService {
   }
 
   /**
-   * Creates a new expression of the given norm for the given date. Also creates a new manifestation of the old
-   * expression which is set to gegenstandslos
-   *
-   * @param norm the norm for which a new expression should be created.
-   * @param date the date of the change that creates this expression.
-   * @param verkuendungDate the announcement date of the amending law producing a gegenstandslos version
-   * @return a {@link CreateNewExpressionResult} containing both the new expression and the new manifestation of the old expression
-   */
-  public CreateNewExpressionResult createNewExpression(
-    Norm norm,
-    LocalDate date,
-    String verkuendungDate
-  ) {
-    var newExpression = createOnlyNewExpression(norm, date);
-    // Keep same previous GUID and next GUID for the new created expression
-    norm
-      .getRegelungstext1()
-      .getMeta()
-      .getFRBRExpression()
-      .getFRBRaliasPreviousVersionId()
-      .ifPresent(previousGuid ->
-        newExpression
-          .getDokumente()
-          .forEach(dokument ->
-            dokument.getMeta().getFRBRExpression().setFRBRaliasPreviousVersionId(previousGuid)
-          )
-      );
-    norm
-      .getRegelungstext1()
-      .getMeta()
-      .getFRBRExpression()
-      .getFRBRaliasNextVersionId()
-      .ifPresent(nextGuid ->
-        newExpression
-          .getDokumente()
-          .forEach(dokument ->
-            dokument.getMeta().getFRBRExpression().setFRBRaliasNextVersionId(nextGuid)
-          )
-      );
-
-    // Set new manifestation of previous expression to gegenstandslos
-    final Norm newManifestationOfOldExpression = createNewManifestation(norm);
-    newManifestationOfOldExpression.setGegenstandlos(verkuendungDate);
-
-    return new CreateNewExpressionResult(newExpression, newManifestationOfOldExpression);
-  }
-
-  /**
    * Creates a new manifestation of the given norm. Uses the current date for the point-in-time-manifestation.
    * @param norm the norm for which a new manifestation should be created.
    * @return the newly created manifestation.
@@ -272,18 +224,12 @@ public class CreateNewVersionOfNormService {
     Norm newManifestationOfOldExpression = createNewManifestation(
       findPreviousExpressionOfNewExpression(oldExpression, newExpression)
     );
+    // We can just take the GUID of the Regelungstext because all Dokumente of the same expression share the same GUID
     newManifestationOfOldExpression
-      .getRegelungstext1()
-      .getMeta()
-      .getFRBRExpression()
-      .setFRBRaliasNextVersionId(
-        newExpression
-          .getRegelungstext1()
-          .getMeta()
-          .getFRBRExpression()
-          .getFRBRaliasCurrentVersionId()
+      .getDokumente()
+      .forEach(dokument ->
+        dokument.getMeta().getFRBRExpression().setFRBRaliasNextVersionId(newExpression.getGuid())
       );
-
     return newManifestationOfOldExpression;
   }
 
@@ -298,6 +244,7 @@ public class CreateNewVersionOfNormService {
       newExpressionEli,
       LocalDate.now()
     );
+    final UUID uuidForAllDokumente = UUID.randomUUID();
     newExpression
       .getDokumente()
       .forEach(dokument -> {
@@ -306,7 +253,8 @@ public class CreateNewVersionOfNormService {
           DokumentExpressionEli.fromNormEli(
             newExpressionEli,
             dokument.getExpressionEli().getSubtype()
-          )
+          ),
+          uuidForAllDokumente
         );
         setNewManifestationMetadata(
           dokument,
@@ -360,8 +308,13 @@ public class CreateNewVersionOfNormService {
    * Sets the metadata for a new expression based on the eli.
    * @param dokument the new expression
    * @param expressionEli the new eli for the expression
+   * @param uuidForAllDokumente the UUID for the aktuelle-version-id that needs to be the same for all Dokumente of an expression
    */
-  private void setNewExpressionMetadata(Dokument dokument, DokumentExpressionEli expressionEli) {
+  private void setNewExpressionMetadata(
+    Dokument dokument,
+    DokumentExpressionEli expressionEli,
+    UUID uuidForAllDokumente
+  ) {
     var oldEli = dokument.getExpressionEli();
     var oldVersionId = dokument.getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId();
     var expression = dokument.getMeta().getFRBRExpression();
@@ -372,7 +325,7 @@ public class CreateNewVersionOfNormService {
     );
     expression.setURI(expressionEli.toUri());
     expression.setFRBRVersionNumber(expressionEli.getVersion());
-    expression.setFRBRaliasCurrentVersionId(UUID.randomUUID());
+    expression.setFRBRaliasCurrentVersionId(uuidForAllDokumente);
     if (!oldEli.getPointInTime().isEqual(expressionEli.getPointInTime())) {
       expression.setFRBRaliasPreviousVersionId(oldVersionId);
     }
@@ -392,7 +345,7 @@ public class CreateNewVersionOfNormService {
     UUID currentGuid,
     UUID nextGuid
   ) {
-    setNewExpressionMetadata(dokument, expressionEli);
+    setNewExpressionMetadata(dokument, expressionEli, currentGuid);
     var expression = dokument.getMeta().getFRBRExpression();
     expression.setFRBRaliasCurrentVersionId(currentGuid);
     if (nextGuid != null) {

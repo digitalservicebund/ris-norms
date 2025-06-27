@@ -27,8 +27,10 @@ import java.net.URL;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -769,7 +771,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class createZielnormen {
+  class tionnormen {
 
     @Test
     void itShouldCreateNewZielnormen() throws Exception {
@@ -850,6 +852,8 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
           )
         ).isPresent()
       );
+
+      assertTimeLine(futureExpressionElis);
     }
 
     @Test
@@ -1334,7 +1338,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
 
     /**
      * This method tests the timeline for the given expressions ELIs (that should belong to the same work), meaning checks
-     * if the previous/current/next GUIDs are properly set
+     * if the previous/current/next GUIDs are properly set. It does it for every subtype of the norm (regelungstext / rechtsetzungsdokument, etc)
      * @param expressionElis the list of the expression eli in string format
      */
     private void assertTimeLine(final List<String> expressionElis) {
@@ -1356,44 +1360,69 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
         .map(NormExpressionEli::toString)
         .toList();
 
-      final List<FRBRExpression> frbrExpressions = sortedElis
+      final List<Norm> sortedNorms = sortedElis
         .stream()
         .map(eli -> {
           final Optional<NormManifestationDto> optionalDto =
             normManifestationRepository.findFirstByExpressionEliOrderByManifestationEliDesc(eli);
           assertThat(optionalDto).isPresent();
-          final Norm norm = NormManifestationMapper.mapToDomain(optionalDto.get());
-          return norm.getRegelungstext1().getMeta().getFRBRExpression();
+          return NormManifestationMapper.mapToDomain(optionalDto.get());
         })
         .toList();
 
-      for (int i = 0; i < frbrExpressions.size(); i++) {
-        FRBRExpression current = frbrExpressions.get(i);
+      final Map<String, List<Dokument>> dokumenteGroupedBySubtype = sortedNorms
+        .stream()
+        .flatMap(norm -> norm.getDokumente().stream())
+        .collect(Collectors.groupingBy(dokument -> dokument.getWorkEli().getSubtype()));
 
-        if (i == 0 && frbrExpressions.size() > 1) {
-          // First entry
-          FRBRExpression next = frbrExpressions.get(i + 1);
-          assertThat(current.getFRBRaliasNextVersionId()).contains(
-            next.getFRBRaliasCurrentVersionId()
-          );
-        } else if (i == frbrExpressions.size() - 1 && frbrExpressions.size() > 1) {
-          // Last entry
-          FRBRExpression previous = frbrExpressions.get(i - 1);
-          assertThat(current.getFRBRaliasPreviousVersionId()).contains(
-            previous.getFRBRaliasCurrentVersionId()
-          );
-        } else if (i > 0 && i < frbrExpressions.size() - 1) {
-          // Middle entries
-          FRBRExpression previous = frbrExpressions.get(i - 1);
-          FRBRExpression next = frbrExpressions.get(i + 1);
-          assertThat(current.getFRBRaliasPreviousVersionId()).contains(
-            previous.getFRBRaliasCurrentVersionId()
-          );
-          assertThat(current.getFRBRaliasNextVersionId()).contains(
-            next.getFRBRaliasCurrentVersionId()
-          );
+      dokumenteGroupedBySubtype.forEach((k, v) -> {
+        final List<FRBRExpression> frbrExpressions = v
+          .stream()
+          .map(m -> m.getMeta().getFRBRExpression())
+          .toList();
+        // First of all the aktuelle-version-id should be unique
+        assertThat(
+          frbrExpressions
+            .stream()
+            .map(FRBRExpression::getFRBRaliasCurrentVersionId)
+            .distinct()
+            .count()
+        )
+          .as("Unique aktuelle-version-id check failed for %s", k)
+          .isEqualTo(frbrExpressions.size());
+
+        for (int i = 0; i < frbrExpressions.size(); i++) {
+          FRBRExpression current = frbrExpressions.get(i);
+
+          if (i == 0 && frbrExpressions.size() > 1) {
+            // First entry
+            FRBRExpression next = frbrExpressions.get(i + 1);
+            assertThat(current.getFRBRaliasNextVersionId())
+              .as(
+                "Expression %s does not have nachfolgende-version-id of expression %s",
+                current.getEli(),
+                next.getEli()
+              )
+              .contains(next.getFRBRaliasCurrentVersionId());
+          } else if (i == frbrExpressions.size() - 1 && frbrExpressions.size() > 1) {
+            // Last entry
+            FRBRExpression previous = frbrExpressions.get(i - 1);
+            assertThat(current.getFRBRaliasPreviousVersionId()).contains(
+              previous.getFRBRaliasCurrentVersionId()
+            );
+          } else if (i > 0 && i < frbrExpressions.size() - 1) {
+            // Middle entries
+            FRBRExpression previous = frbrExpressions.get(i - 1);
+            FRBRExpression next = frbrExpressions.get(i + 1);
+            assertThat(current.getFRBRaliasPreviousVersionId()).contains(
+              previous.getFRBRaliasCurrentVersionId()
+            );
+            assertThat(current.getFRBRaliasNextVersionId()).contains(
+              next.getFRBRaliasCurrentVersionId()
+            );
+          }
         }
-      }
+      });
     }
   }
 

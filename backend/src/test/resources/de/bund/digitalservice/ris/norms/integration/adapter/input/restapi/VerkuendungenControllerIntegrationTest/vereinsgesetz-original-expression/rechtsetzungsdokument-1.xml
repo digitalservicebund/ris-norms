@@ -67,10 +67,6 @@
                <akn:FRBRuri eId="meta-n1_ident-n1_frbrexpression-n1_frbruri-n1"
                             GUID="df01f032-6ead-4ad3-81c8-13c3c6fb3ef9"
                             value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"/>
-               <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n1"
-                              GUID="4a60186a-cbc3-4bf3-866d-cb0d4fccc756"
-                              name="vorherige-version-id"
-                              value="30c19ca3-cf77-4ff9-8623-0cf60abac28e"/>
                <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2"
                               GUID="7033bc72-28e9-4a3d-92d2-3d88a2a7d4a6"
                               name="aktuelle-version-id"
