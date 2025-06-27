@@ -833,7 +833,9 @@ public class NormService
   }
 
   @Override
-  public Page<Norm> loadNormWorks(LoadNormWorksUseCase.Options options) {
-    return loadNormWorksPort.loadNormWorks(new LoadNormWorksPort.Options(options.pageable()));
+  public Page<LoadNormWorksUseCase.Result> loadNormWorks(LoadNormWorksUseCase.Options options) {
+    return loadNormWorksPort
+      .loadNormWorks(new LoadNormWorksPort.Options(options.pageable()))
+      .map(result -> new LoadNormWorksUseCase.Result(result.eli(), result.title()));
   }
 }

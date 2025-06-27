@@ -298,9 +298,14 @@ public class NormDBService
   }
 
   @Override
-  public Page<Norm> loadNormWorks(LoadNormWorksPort.Options options) {
+  public Page<LoadNormWorksPort.Result> loadNormWorks(LoadNormWorksPort.Options options) {
     return normManifestationRepository
       .findDistinctOnWorkEliByOrderByWorkEliAsc(options.pageable())
-      .map(NormManifestationMapper::mapToDomain);
+      .map(result ->
+        new LoadNormWorksPort.Result(
+          NormWorkEli.fromString(result.get("eli_norm_work").toString()),
+          Optional.ofNullable(result.get("title")).map(Object::toString).orElse(null)
+        )
+      );
   }
 }

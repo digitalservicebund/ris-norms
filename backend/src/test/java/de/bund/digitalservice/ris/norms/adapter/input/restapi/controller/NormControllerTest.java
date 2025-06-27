@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormWorksUseCase;
-import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
 import java.util.List;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -55,8 +55,14 @@ class NormControllerTest {
       when(loadNormWorksUseCase.loadNormWorks(any())).thenReturn(
         new PageImpl<>(
           List.of(
-            Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"),
-            Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23")
+            new LoadNormWorksUseCase.Result(
+              NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
+              "Gesetz zur Regelung des öffentlichen Vereinsrechts"
+            ),
+            new LoadNormWorksUseCase.Result(
+              NormWorkEli.fromString("eli/bund/bgbl-1/2017/s419"),
+              "Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes"
+            )
           ),
           Pageable.ofSize(10).withPage(2),
           2

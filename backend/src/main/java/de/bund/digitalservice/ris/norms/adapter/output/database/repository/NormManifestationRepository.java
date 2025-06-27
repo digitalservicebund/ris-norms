@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormManifestationDto;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
@@ -101,8 +102,16 @@ public interface NormManifestationRepository extends JpaRepository<NormManifesta
   );
 
   @NativeQuery(
-    value = "select DISTINCT ON (eli_norm_work) * from norm_manifestation ORDER BY eli_norm_work, eli_norm_manifestation DESC",
-    countQuery = "select COUNT(DISTINCT eli_norm_work) from norm_manifestation"
+    value = """
+    SELECT eli_norm_work, (xpath('//*[local-name()="longTitle"]/*/*[local-name()="docTitle"]/text()', xml))[1]::text as title
+      FROM (
+               SELECT DISTINCT ON (n.eli_norm_work) n.eli_norm_work, d.xml
+               FROM norm_manifestation n
+                        LEFT OUTER JOIN dokumente d on d.eli_dokument_manifestation = concat(n.eli_norm_manifestation, '/regelungstext-verkuendung-1.xml')
+               ORDER BY n.eli_norm_work, n.eli_norm_manifestation DESC
+           ) tmp
+    """,
+    countQuery = "SELECT count(DISTINCT eli_norm_work) FROM norm_manifestation"
   )
-  Page<NormManifestationDto> findDistinctOnWorkEliByOrderByWorkEliAsc(Pageable pageable);
+  Page<Map<String, Object>> findDistinctOnWorkEliByOrderByWorkEliAsc(Pageable pageable);
 }

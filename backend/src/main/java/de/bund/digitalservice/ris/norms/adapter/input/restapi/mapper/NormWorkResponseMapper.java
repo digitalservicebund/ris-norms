@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormWorkResponseSchema;
+import de.bund.digitalservice.ris.norms.application.port.input.LoadNormWorksUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 
 /** Mapper class for converting between {@link Norm} and {@link NormWorkResponseSchema}. */
@@ -12,13 +13,13 @@ public class NormWorkResponseMapper {
   /**
    * Creates a {@link NormWorkResponseSchema} instance from a {@link Norm} entity.
    *
-   * @param norm The input {@link Norm} entity to be converted.
+   * @param result The input norm information to be converted.
    * @return A new {@link NormWorkResponseSchema} instance mapped from the input {@link Norm}.
    */
-  public static NormWorkResponseSchema fromUseCaseData(final Norm norm) {
+  public static NormWorkResponseSchema fromUseCaseData(final LoadNormWorksUseCase.Result result) {
     return NormWorkResponseSchema.builder()
-      .eli(norm.getWorkEli().toString())
-      .title(norm.getTitle().orElse(null))
+      .eli(result.eli().toString())
+      .title(result.title())
       .build();
   }
 }
