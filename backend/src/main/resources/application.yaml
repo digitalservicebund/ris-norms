@@ -74,7 +74,7 @@ otc:
 
 publish:
   enabled: true
-  cron: "0 0 22 * * 0-4" # Runs daily at 22pm (Europe/Berlin), Sunday to Thursday
+  cron: "0 0 0 * * 1-5" # Runs daily at 0am (Europe/Berlin), Monday to Friday
   portal-prototype:
     enabled: false
     cron: "0 15 6 * * *" # Runs daily at 6:15am (Europe/Berlin)
