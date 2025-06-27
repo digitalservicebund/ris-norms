@@ -93,13 +93,13 @@
                                    GUID="6abb2eef-9f93-4378-b020-29538720bba9">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"
                              GUID="d7606df8-2cac-49f1-9acb-608f3000d006"
-                             value="eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-16/rechtsetzungsdokument-1.xml"/>
+                             value="eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-15/rechtsetzungsdokument-1.xml"/>
                <akn:FRBRuri eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"
                             GUID="89e9caf0-cc4d-46c6-8ece-2f488574ed8c"
-                            value="eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-16/rechtsetzungsdokument-1.xml"/>
+                            value="eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-15/rechtsetzungsdokument-1.xml"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"
                              GUID="25e72906-c7ed-4e32-8b03-b8c9a377e256"
-                             date="2017-03-16"
+                             date="2017-03-15"
                              name="generierung"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrauthor-n1"
                                GUID="1517cf31-5f5f-4ed7-b139-37bd06574a71"

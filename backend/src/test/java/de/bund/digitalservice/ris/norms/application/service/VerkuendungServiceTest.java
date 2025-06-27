@@ -123,7 +123,7 @@ class VerkuendungServiceTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
       var affectedNorm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/2017-03-15"
+        "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-15"
       );
 
       when(loadNormPort.loadNorm(any()))
@@ -144,7 +144,7 @@ class VerkuendungServiceTest {
       );
       verify(loadNormPort, times(1)).loadNorm(
         new LoadNormPort.Options(
-          NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu")
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu")
         )
       );
     }

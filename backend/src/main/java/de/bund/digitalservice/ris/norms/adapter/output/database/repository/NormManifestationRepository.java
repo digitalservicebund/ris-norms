@@ -5,8 +5,11 @@ import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -96,4 +99,10 @@ public interface NormManifestationRepository extends JpaRepository<NormManifesta
     @Param("manifestationEli") String manifestationEli,
     @Param("publishState") NormPublishState publishState
   );
+
+  @NativeQuery(
+    value = "select DISTINCT ON (eli_norm_work) * from norm_manifestation ORDER BY eli_norm_work, eli_norm_manifestation DESC",
+    countQuery = "select COUNT(DISTINCT eli_norm_work) from norm_manifestation"
+  )
+  Page<NormManifestationDto> findDistinctOnWorkEliByOrderByWorkEliAsc(Pageable pageable);
 }
