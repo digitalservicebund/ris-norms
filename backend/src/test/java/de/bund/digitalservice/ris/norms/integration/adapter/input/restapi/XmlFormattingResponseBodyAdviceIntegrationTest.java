@@ -1,14 +1,16 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.DokumentDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.mapper.DokumentMapper;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.BinaryFileRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
+import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.Roles;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import org.junit.jupiter.api.AfterEach;
@@ -42,37 +44,29 @@ class XmlFormattingIntegrationTest extends BaseIntegrationTest {
 
   @Test
   void itReturnsPrettyPrintedXmlEvenIfStoredUgly() throws Exception {
-    Fixtures.loadAndSaveNormFixture(
-      dokumentRepository,
-      binaryFileRepository,
-      normManifestationRepository,
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
-      NormPublishState.UNPUBLISHED
-    );
-
     String prettyXml = Fixtures.loadTextFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
     );
 
-    String uglyXml = prettyXml.replaceAll(">\\s+<", "><").replaceAll("\\r?\\n", "");
+    Regelungstext originalText = Fixtures.loadRegelungstextFromDisk(
+      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
+    );
+    DokumentDto dto = DokumentMapper.mapToDto(originalText);
+    dto.setXml(dto.getXml().replaceAll(">\\s+<", "><").replaceAll("\\r?\\n", ""));
 
-    String manifestationEli =
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml";
-    DokumentDto dokument = dokumentRepository
-      .findByEliDokumentManifestation(manifestationEli)
-      .orElseThrow();
-    dokument.setXml(uglyXml);
-    dokumentRepository.save(dokument);
+    dokumentRepository.save(dto);
 
-    mockMvc
+    String response = mockMvc
       .perform(
         get(
-          "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1"
         ).accept(MediaType.APPLICATION_XML)
       )
       .andExpect(status().isOk())
       .andReturn()
       .getResponse()
       .getContentAsString();
+
+    assertThat(response).isEqualToIgnoringWhitespace(prettyXml);
   }
 }

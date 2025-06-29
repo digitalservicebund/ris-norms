@@ -1,25 +1,27 @@
 package de.bund.digitalservice.ris.norms.adapter.input.restapi.formatter;
 
-import java.io.StringReader;
+import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.io.StringWriter;
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilderFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import org.w3c.dom.Document;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
-import org.xml.sax.InputSource;
 
 /**
  * ResponseBodyAdvice that formats XML responses
  */
+@NullMarked
+@Slf4j
 @ControllerAdvice
 public class XmlFormattingResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
@@ -28,12 +30,13 @@ public class XmlFormattingResponseBodyAdvice implements ResponseBodyAdvice<Objec
     MethodParameter returnType,
     Class<? extends HttpMessageConverter<?>> converterType
   ) {
-    return true;
+    return returnType.getParameterType() == String.class;
   }
 
+  @Nullable
   @Override
   public Object beforeBodyWrite(
-    Object body,
+    @Nullable Object body,
     MethodParameter returnType,
     MediaType selectedContentType,
     Class<? extends HttpMessageConverter<?>> selectedConverterType,
@@ -41,7 +44,6 @@ public class XmlFormattingResponseBodyAdvice implements ResponseBodyAdvice<Objec
     ServerHttpResponse response
   ) {
     if (
-      selectedContentType != null &&
       selectedContentType.isCompatibleWith(MediaType.APPLICATION_XML) &&
       body instanceof String xmlBody
     ) {
@@ -52,12 +54,7 @@ public class XmlFormattingResponseBodyAdvice implements ResponseBodyAdvice<Objec
 
   private String formatXml(String xml) {
     try {
-      DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-      dbf.setNamespaceAware(true);
-      dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-      dbf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
-      dbf.setExpandEntityReferences(false);
-      Document document = dbf.newDocumentBuilder().parse(new InputSource(new StringReader(xml)));
+      Document document = XmlMapper.toDocument(xml);
 
       DOMImplementationLS impl = (DOMImplementationLS) document
         .getImplementation()
@@ -74,6 +71,7 @@ public class XmlFormattingResponseBodyAdvice implements ResponseBodyAdvice<Objec
       serializer.write(document, lsOutput);
       return writer.toString();
     } catch (Exception e) {
+      log.error("Failed to format XML response", e);
       return xml;
     }
   }
