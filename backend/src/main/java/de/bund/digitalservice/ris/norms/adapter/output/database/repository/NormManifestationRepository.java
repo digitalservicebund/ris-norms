@@ -103,15 +103,25 @@ public interface NormManifestationRepository extends JpaRepository<NormManifesta
 
   @NativeQuery(
     value = """
-    SELECT eli_norm_work, (xpath('//*[local-name()="longTitle"]/*/*[local-name()="docTitle"]/text()', xml))[1]::text as title
-      FROM (
-               SELECT DISTINCT ON (n.eli_norm_work) n.eli_norm_work, d.xml
-               FROM norm_manifestation n
-                        LEFT OUTER JOIN dokumente d on d.eli_dokument_manifestation = concat(n.eli_norm_manifestation, '/regelungstext-verkuendung-1.xml')
-               ORDER BY n.eli_norm_work ASC, n.eli_norm_manifestation DESC
-           ) tmp
+    SELECT
+        eli_norm_work,
+       (xpath('//*[local-name()="longTitle"]/*/*[local-name()="docTitle"]/text()', xml))[1]::text as title
+    FROM (
+        SELECT DISTINCT ON (n.eli_norm_work) n.eli_norm_work, d.xml
+          FROM norm_manifestation n
+              -- To find the title we need the xml for the regelungstext. Every norm must have one.
+              LEFT OUTER JOIN dokumente d on d.eli_dokument_manifestation = concat(n.eli_norm_manifestation, '/regelungstext-verkuendung-1.xml')
+          ORDER BY
+              n.eli_norm_work ASC, -- Order the norms from oldest to newest
+              n.eli_norm_manifestation DESC -- Get the latest manifestation of the latest expression for each work
+          -- Place the offset and limit into the subquery so the xpath for getting the title is not calculated on the skipped rows
+          OFFSET :#{#pageable.getOffset()} ROWS
+          FETCH NEXT :#{#pageable.getPageSize()} ROWS ONLY
+    ) tmp
     """,
     countQuery = "SELECT count(DISTINCT eli_norm_work) FROM norm_manifestation"
   )
-  Page<Map<String, Object>> findDistinctOnWorkEliByOrderByWorkEliAsc(Pageable pageable);
+  Page<Map<String, Object>> findDistinctOnWorkEliByOrderByWorkEliAsc(
+    @Param("pageable") Pageable pageable
+  );
 }
