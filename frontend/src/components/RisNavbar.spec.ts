@@ -73,12 +73,13 @@ describe("risNavbar", () => {
     render(RisNavbar, { global: { plugins: [router] } })
     const verkuendungenTab = screen.getByRole("link", { name: "Verkündungen" })
     const bestandTab = screen.getByRole("link", { name: "Bestand" })
-    expect(verkuendungenTab).toHaveAttribute("aria-selected", "true")
-    expect(bestandTab).toHaveAttribute("aria-selected", "false")
+    expect(verkuendungenTab).toHaveAttribute("aria-current", "page")
+    expect(bestandTab).not.toHaveAttribute("aria-current")
 
     await router.push({ name: "Bestand" })
     render(RisNavbar, { global: { plugins: [router] } })
-    expect(bestandTab).toHaveAttribute("aria-selected", "true")
+    expect(bestandTab).toHaveAttribute("aria-current", "page")
+    expect(verkuendungenTab).not.toHaveAttribute("aria-current")
   })
 
   it("should navigate to the correct route when a tab is clicked", async () => {
