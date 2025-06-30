@@ -4,7 +4,7 @@ Date: 2025-06-25
 
 ## Status
 
-Proposed
+Accepted
 
 ## Context
 
@@ -49,14 +49,14 @@ This then allows to paginate the request using the query parameters `size` and `
 ```
 
 Spring's Pageable also allows providing sorting information. We will not use this as that would expose our database
-column names to the rest-API.
+column names to the REST API.
 
 By using the native spring naming for these parameters we keep our project more idiomatic and consistent and ensure that
 the meaning of the fields is simple to understand.
 
 ## Decision
 
-We use offset-based pagination. We use the nativ spring representation for a page and for the query parameters.
+We use offset-based pagination. We use the native spring representation for a page and for the query parameters.
 
 ## Consequences
 
