@@ -45,7 +45,7 @@ describe("releaseService", () => {
       expect(data.value).toEqual(expectedReleases)
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/releases`,
+        `/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/releases`,
         expect.objectContaining({
           method: "GET",
           headers: expect.objectContaining({
@@ -92,12 +92,12 @@ describe("releaseService", () => {
       expect(data.value).toEqual([])
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/releases`,
+        `/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/releases`,
         expect.anything(),
       )
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1/releases`,
+        `/api/v1/norms/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1/releases`,
         expect.anything(),
       )
     })
@@ -129,7 +129,7 @@ describe("releaseService", () => {
       expect(data.value).toEqual(mockReleaseResponse)
 
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/releases`,
+        `/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/releases`,
         expect.objectContaining({
           method: "POST",
           headers: expect.objectContaining({
@@ -172,7 +172,7 @@ describe("releaseService", () => {
 
       expect(fetchSpy).toHaveBeenCalledOnce()
       expect(fetchSpy).toHaveBeenCalledWith(
-        `/api/v1/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1/releases`,
+        `/api/v1/norms/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1/releases`,
         expect.objectContaining({
           method: "POST",
         }),

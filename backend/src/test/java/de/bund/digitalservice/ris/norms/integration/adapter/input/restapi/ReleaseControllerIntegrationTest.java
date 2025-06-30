@@ -57,7 +57,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // when
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/2023/413/releases")
+          post("/api/v1/norms/eli/bund/bgbl-1/2023/413/releases")
             .content(
               """
               {"releaseType": "praetext"}
@@ -74,7 +74,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail").value("Norm with eli eli/bund/bgbl-1/2023/413 does not exist")
         )
-        .andExpect(jsonPath("instance").value("/api/v1/eli/bund/bgbl-1/2023/413/releases"))
+        .andExpect(jsonPath("instance").value("/api/v1/norms/eli/bund/bgbl-1/2023/413/releases"))
         .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/2023/413"));
     }
 
@@ -92,7 +92,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/2017/s419/releases")
+          post("/api/v1/norms/eli/bund/bgbl-1/2017/s419/releases")
             .content(
               """
               {"releaseType": "praetext"}
@@ -156,7 +156,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // When // Then
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/2017/s419/releases")
+          post("/api/v1/norms/eli/bund/bgbl-1/2017/s419/releases")
             .content(
               """
               {"releaseType": "praetext"}
@@ -170,7 +170,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // release norm a second time
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/2017/s419/releases")
+          post("/api/v1/norms/eli/bund/bgbl-1/2017/s419/releases")
             .content(
               """
               {"releaseType": "praetext"}
@@ -218,7 +218,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // Request is refused
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/1964/s593/releases")
+          post("/api/v1/norms/eli/bund/bgbl-1/1964/s593/releases")
             .content(
               """
               {"releaseType": "praetext"}
@@ -264,7 +264,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       // Request is refused
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/1964/s593/releases")
+          post("/api/v1/norms/eli/bund/bgbl-1/1964/s593/releases")
             .content(
               """
               {"releaseType": "praetext"}
@@ -311,7 +311,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       //when
       mockMvc
         .perform(
-          get("/api/v1/eli/bund/bgbl-1/1964/s593/releases").accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/releases").accept(MediaType.APPLICATION_JSON)
         )
         //then
         .andExpect(status().isOk())
@@ -342,7 +342,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       //when
       mockMvc
         .perform(
-          get("/api/v1/eli/bund/bgbl-1/1964/s593/releases").accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/releases").accept(MediaType.APPLICATION_JSON)
         )
         //then
         .andExpect(status().isOk())
@@ -357,7 +357,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
       //when
       mockMvc
         .perform(
-          get("/api/v1/eli/bund/bgbl-1/1111/s593/releases").accept(MediaType.APPLICATION_JSON)
+          get("/api/v1/norms/eli/bund/bgbl-1/1111/s593/releases").accept(MediaType.APPLICATION_JSON)
         )
         //then
         .andExpect(status().isNotFound())
@@ -367,7 +367,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(
           jsonPath("detail").value("Norm with eli eli/bund/bgbl-1/1111/s593 does not exist")
         )
-        .andExpect(jsonPath("instance").value("/api/v1/eli/bund/bgbl-1/1111/s593/releases"))
+        .andExpect(jsonPath("instance").value("/api/v1/norms/eli/bund/bgbl-1/1111/s593/releases"))
         .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/1111/s593"));
     }
   }

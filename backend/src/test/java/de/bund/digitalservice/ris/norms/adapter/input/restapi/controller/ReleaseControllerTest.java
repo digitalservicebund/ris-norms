@@ -53,7 +53,7 @@ class ReleaseControllerTest {
       // When // Then
       mockMvc
         .perform(
-          post("/api/v1/eli/bund/bgbl-1/2023/413/releases")
+          post("/api/v1/norms/eli/bund/bgbl-1/2023/413/releases")
             .content(
               """
               {"releasetype": "praetext"}

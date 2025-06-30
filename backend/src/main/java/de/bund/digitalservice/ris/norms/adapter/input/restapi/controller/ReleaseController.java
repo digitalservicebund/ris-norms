@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 /** Controller for release-related actions. */
 @RestController
-@RequestMapping("/api/v1/eli/bund/{agent}/{year}/{naturalIdentifier}")
+@RequestMapping("/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}")
 public class ReleaseController {
 
   private final ReleaseAllNormExpressionsUseCase releaseAllNormExpressionsUseCase;
