@@ -112,12 +112,13 @@ public interface NormManifestationRepository extends JpaRepository<NormManifesta
               -- To find the title we need the xml for the regelungstext. Every norm must have one.
               LEFT OUTER JOIN dokumente d on d.eli_dokument_manifestation = concat(n.eli_norm_manifestation, '/regelungstext-verkuendung-1.xml')
           ORDER BY
-              n.eli_norm_work ASC, -- Order the norms from oldest to newest
+              n.eli_norm_work ASC, -- Order the norms from oldest to newest, for selecting the correct rows using the pagination
               n.eli_norm_manifestation DESC -- Get the latest manifestation of the latest expression for each work
           -- Place the offset and limit into the subquery so the xpath for getting the title is not calculated on the skipped rows
           OFFSET :#{#pageable.getOffset()} ROWS
           FETCH NEXT :#{#pageable.getPageSize()} ROWS ONLY
     ) tmp
+    ORDER BY eli_norm_work ASC -- Order the norms from oldest to newest, just because the subquery is ordered does not garantee that the outer query than also is ordered
     """,
     countQuery = "SELECT count(DISTINCT eli_norm_work) FROM norm_manifestation"
   )
