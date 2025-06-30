@@ -108,7 +108,7 @@ public interface NormManifestationRepository extends JpaRepository<NormManifesta
                SELECT DISTINCT ON (n.eli_norm_work) n.eli_norm_work, d.xml
                FROM norm_manifestation n
                         LEFT OUTER JOIN dokumente d on d.eli_dokument_manifestation = concat(n.eli_norm_manifestation, '/regelungstext-verkuendung-1.xml')
-               ORDER BY n.eli_norm_work, n.eli_norm_manifestation DESC
+               ORDER BY n.eli_norm_work ASC, n.eli_norm_manifestation DESC
            ) tmp
     """,
     countQuery = "SELECT count(DISTINCT eli_norm_work) FROM norm_manifestation"
