@@ -219,13 +219,13 @@ paths:
           description: The page of the results
           required: false
           schema:
-            type: number
+            type: integer
         - name: size
           in: query
           description: The size of the pages
           required: false
           schema:
-            type: number
+            type: integer
       responses:
         "200":
           description: List of works.
@@ -242,13 +242,13 @@ paths:
                     type: object
                     properties:
                       size:
-                        type: number
+                        type: integer
                       number:
-                        type: number
+                        type: integer
                       totalElements:
-                        type: number
+                        type: integer
                       totalPages:
-                        type: number
+                        type: integer
 
   /norms/{expressionEli}:
     get:
