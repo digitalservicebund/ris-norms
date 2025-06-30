@@ -97,7 +97,7 @@ describe("risNavbar", () => {
     })
 
     render(RisNavbar, { global: { plugins: [router] } })
-    screen.getByRole("link", { name: "Bestand" }).click()
+    await screen.getByRole("link", { name: "Bestand" }).click()
     await router.isReady()
     await nextTick()
     expect(router.currentRoute.value.name).toBe("Bestand")
