@@ -126,7 +126,7 @@ class NormExpressionControllerTest {
     void itCallsLoadNormXmlAndReturnsNormXml() throws Exception {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
-      final String xml = "<target></target>";
+      final String xml = "</target>";
 
       // When
       when(loadRegelungstextXmlUseCase.loadRegelungstextXml(any())).thenReturn(xml);
