@@ -30,7 +30,7 @@ public class XmlFormattingResponseBodyAdvice implements ResponseBodyAdvice<Objec
     MethodParameter returnType,
     Class<? extends HttpMessageConverter<?>> converterType
   ) {
-    return returnType.getParameterType() == String.class;
+    return true;
   }
 
   @Nullable
