@@ -161,6 +161,48 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
+  /norms:
+    get:
+      tags:
+        - Norm work
+      summary: Get a list of all norm works
+      parameters:
+        - name: page
+          in: query
+          description: The page of the results
+          required: false
+          schema:
+            type: integer
+        - name: size
+          in: query
+          description: The size of the pages
+          required: false
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of works.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  content:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/NormWork"
+                  page:
+                    type: object
+                    properties:
+                      size:
+                        type: integer
+                      number:
+                        type: integer
+                      totalElements:
+                        type: integer
+                      totalPages:
+                        type: integer
+
   /norms/{workEli}/releases:
     get:
       tags:
@@ -206,48 +248,6 @@ paths:
                 $ref: "#/components/schemas/ExpressionsStatusResponseSchema"
         "404":
           description: Norm not found.
-
-  /norms:
-    get:
-      tags:
-        - Norm work
-      summary: Get a list of all norm works
-      parameters:
-        - name: page
-          in: query
-          description: The page of the results
-          required: false
-          schema:
-            type: integer
-        - name: size
-          in: query
-          description: The size of the pages
-          required: false
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: List of works.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  content:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/NormWork"
-                  page:
-                    type: object
-                    properties:
-                      size:
-                        type: integer
-                      number:
-                        type: integer
-                      totalElements:
-                        type: integer
-                      totalPages:
-                        type: integer
 
   /norms/{expressionEli}:
     get:
