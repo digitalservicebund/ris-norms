@@ -1,4 +1,5 @@
 import { render, screen } from "@testing-library/vue"
+import { userEvent } from "@testing-library/user-event"
 import { describe, expect, it, vi } from "vitest"
 import RisNavbar from "./RisNavbar.vue"
 import { createRouter, createWebHashHistory } from "vue-router"
@@ -83,6 +84,7 @@ describe("risNavbar", () => {
   })
 
   it("should navigate to the correct route when a tab is clicked", async () => {
+    const user = userEvent.setup()
     const router = createRouter({
       history: createWebHashHistory(),
       routes: [
@@ -97,7 +99,7 @@ describe("risNavbar", () => {
     })
 
     render(RisNavbar, { global: { plugins: [router] } })
-    await screen.getByRole("link", { name: "Bestand" }).click()
+    await user.click(screen.getByRole("link", { name: "Bestand" }))
     await router.isReady()
     await nextTick()
     expect(router.currentRoute.value.name).toBe("Bestand")
