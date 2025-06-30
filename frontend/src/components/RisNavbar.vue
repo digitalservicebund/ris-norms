@@ -45,7 +45,7 @@ const tabs = [
             :to="{
               name: tab.id === 'verkuendungen' ? 'Verkuendungen' : 'Bestand',
             }"
-            :aria-selected="tab.id === activeTab"
+            :aria-current="tab.id === activeTab ? 'page' : undefined"
             class="ris-link2-regular no-underline hover:underline hover:underline-offset-2"
             :class="{
               'underline decoration-2 underline-offset-2': tab.id === activeTab,
