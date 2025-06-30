@@ -203,6 +203,27 @@ paths:
                       totalPages:
                         type: integer
 
+  /norms/{workEli}:
+    get:
+      tags:
+        - Norm work
+      summary: Get information about the work level norm
+      parameters:
+        - name: workEli
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/NormWorkEli"
+      responses:
+        "200":
+          description: Information about the norm.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NormWork"
+        "404":
+          description: Norm not found.
+
   /norms/{workEli}/releases:
     get:
       tags:
