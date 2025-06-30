@@ -68,7 +68,7 @@ export function useGetZielnormReleaseStatus(
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
-    return `/${eliVal}/releases`
+    return `/norms/${eliVal}/releases`
   })
 
   const { data, ...rest } = useApiFetch(url, {
@@ -98,7 +98,7 @@ export function usePostZielnormRelease(
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
-    return `/${eliVal}/releases`
+    return `/norms/${eliVal}/releases`
   })
 
   const {

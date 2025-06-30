@@ -161,8 +161,7 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerError"
 
-  # TODO: (Malte Laukötter, 2025-06-26) for concitency: rename to norms/{workEli}/releases
-  /{workEli}/releases:
+  /norms/{workEli}/releases:
     get:
       tags:
         - Releases

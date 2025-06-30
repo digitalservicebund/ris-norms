@@ -42,7 +42,7 @@ test.describe("Abgabe view with expressions", { tag: ["@RISDEV-7186"] }, () => {
 
   test("shows empty state when no expressions exist", async ({ page }) => {
     await page.route(
-      "**/api/v1/eli/bund/bgbl-1/1964/0000/releases",
+      "**/api/v1/norms/eli/bund/bgbl-1/1964/0000/releases",
       async (route) => {
         await route.fulfill({
           status: 200,
