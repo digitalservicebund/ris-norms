@@ -107,6 +107,17 @@ const routes: readonly RouteRecordRaw[] = [
   },
 
   {
+    path: "/bestand",
+    children: [
+      {
+        path: "",
+        name: "Bestand",
+        component: () => import("@/views/bestand/Bestand.view.vue"),
+      },
+    ],
+  },
+
+  {
     path: `/${createDokumentExpressionEliPathParameter()}/metadata`,
     name: "ExpressionMetadataEditor",
     component: () =>
