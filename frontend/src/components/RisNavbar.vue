@@ -20,8 +20,12 @@ const activeTab = computed(() => {
 })
 
 const tabs = [
-  { id: "verkuendungen", label: "Verkündungen" },
-  { id: "bestand", label: "Bestand" },
+  {
+    id: "verkuendungen",
+    label: "Verkündungen",
+    route: { name: "Verkuendungen" },
+  },
+  { id: "bestand", label: "Bestand", route: { name: "Bestand" } },
 ]
 </script>
 
@@ -42,9 +46,7 @@ const tabs = [
       <ul class="flex gap-28">
         <li v-for="tab in tabs" :key="tab.id" class="contents">
           <RouterLink
-            :to="{
-              name: tab.id === 'verkuendungen' ? 'Verkuendungen' : 'Bestand',
-            }"
+            :to="tab.route"
             :aria-current="tab.id === activeTab ? 'page' : undefined"
             class="ris-link2-regular no-underline hover:underline hover:underline-offset-2"
             :class="{
