@@ -10,7 +10,7 @@ function useReleaseService<T>(
   fetchOptions: UseFetchOptions = {},
 ): UseFetchReturn<T> {
   return useApiFetch(
-    computed(() => `/${toValue(eli)}/releases`),
+    computed(() => `/norms/${toValue(eli)}/releases`),
     fetchOptions,
   ).json()
 }

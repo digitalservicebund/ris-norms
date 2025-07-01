@@ -1,9 +1,9 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormManifestationDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormWorkListElementDto;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
@@ -103,15 +103,26 @@ public interface NormManifestationRepository extends JpaRepository<NormManifesta
 
   @NativeQuery(
     value = """
-    SELECT eli_norm_work, (xpath('//*[local-name()="longTitle"]/*/*[local-name()="docTitle"]/text()', xml))[1]::text as title
-      FROM (
-               SELECT DISTINCT ON (n.eli_norm_work) n.eli_norm_work, d.xml
-               FROM norm_manifestation n
-                        LEFT OUTER JOIN dokumente d on d.eli_dokument_manifestation = concat(n.eli_norm_manifestation, '/regelungstext-verkuendung-1.xml')
-               ORDER BY n.eli_norm_work ASC, n.eli_norm_manifestation DESC
-           ) tmp
+    SELECT
+        eli_norm_work,
+       (xpath('//*[local-name()="longTitle"]/*/*[local-name()="docTitle"]/text()', xml))[1]::text as title
+    FROM (
+        SELECT DISTINCT ON (n.eli_norm_work) n.eli_norm_work, d.xml
+          FROM norm_manifestation n
+              -- To find the title we need the xml for the regelungstext. Every norm must have one.
+              LEFT OUTER JOIN dokumente d on d.eli_dokument_manifestation = concat(n.eli_norm_manifestation, '/regelungstext-verkuendung-1.xml')
+          ORDER BY
+              n.eli_norm_work ASC, -- Order the norms from oldest to newest, for selecting the correct rows using the pagination
+              n.eli_norm_manifestation DESC -- Get the latest manifestation of the latest expression for each work
+          -- Place the offset and limit into the subquery so the xpath for getting the title is not calculated on the skipped rows
+          OFFSET :#{#pageable.getOffset()} ROWS
+          FETCH NEXT :#{#pageable.getPageSize()} ROWS ONLY
+    ) tmp
+    ORDER BY eli_norm_work ASC -- Order the norms from oldest to newest, just because the subquery is ordered does not garantee that the outer query than also is ordered
     """,
     countQuery = "SELECT count(DISTINCT eli_norm_work) FROM norm_manifestation"
   )
-  Page<Map<String, Object>> findDistinctOnWorkEliByOrderByWorkEliAsc(Pageable pageable);
+  Page<NormWorkListElementDto> findDistinctOnWorkEliByOrderByWorkEliAsc(
+    @Param("pageable") Pageable pageable
+  );
 }

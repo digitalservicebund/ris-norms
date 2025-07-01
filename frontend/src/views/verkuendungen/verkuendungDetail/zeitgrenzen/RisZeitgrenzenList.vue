@@ -35,16 +35,15 @@ const isFull = computed(
 </script>
 
 <template>
-  <RisEmptyState
-    v-if="isEmpty"
-    text-content="Es wurden noch keine Geltungszeiten angelegt."
-  >
-    <template #recommendedAction>
-      <Button label="Geltungszeit hinzufügen" @click="insertZeitgrenze()">
-        <template #icon><IcBaselinePlus /></template>
-      </Button>
-    </template>
-  </RisEmptyState>
+  <div v-if="isEmpty">
+    <RisEmptyState text-content="Es wurden noch keine Geltungszeiten angelegt.">
+      <template #recommendedAction>
+        <Button label="Geltungszeit hinzufügen" @click="insertZeitgrenze()">
+          <template #icon><IcBaselinePlus /></template>
+        </Button>
+      </template>
+    </RisEmptyState>
+  </div>
   <div v-else class="flex h-full flex-col gap-24">
     <div class="w-full overflow-y-auto">
       <div
