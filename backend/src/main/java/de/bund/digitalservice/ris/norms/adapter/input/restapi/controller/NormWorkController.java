@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Controller for getting all norms
+ * Controller for getting information about a norm on work level
  */
 @RestController
 @RequestMapping("/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}")
