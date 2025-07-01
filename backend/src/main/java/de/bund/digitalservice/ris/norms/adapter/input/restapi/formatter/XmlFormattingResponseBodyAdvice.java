@@ -62,7 +62,6 @@ public class XmlFormattingResponseBodyAdvice implements ResponseBodyAdvice<Objec
       LSSerializer serializer = impl.createLSSerializer();
 
       serializer.getDomConfig().setParameter("format-pretty-print", Boolean.TRUE);
-      serializer.getDomConfig().setParameter("xml-declaration", Boolean.TRUE);
 
       LSOutput lsOutput = impl.createLSOutput();
       StringWriter writer = new StringWriter();
