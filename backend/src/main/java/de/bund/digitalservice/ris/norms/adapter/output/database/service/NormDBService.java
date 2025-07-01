@@ -303,8 +303,8 @@ public class NormDBService
       .findDistinctOnWorkEliByOrderByWorkEliAsc(options.pageable())
       .map(result ->
         new LoadNormWorksPort.Result(
-          NormWorkEli.fromString(result.get("eli_norm_work").toString()),
-          Optional.ofNullable(result.get("title")).map(Object::toString).orElse(null)
+          NormWorkEli.fromString(result.getEliNormWork()),
+          result.getTitle()
         )
       );
   }

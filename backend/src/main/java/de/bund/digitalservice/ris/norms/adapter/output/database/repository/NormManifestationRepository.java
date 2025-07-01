@@ -1,9 +1,9 @@
 package de.bund.digitalservice.ris.norms.adapter.output.database.repository;
 
 import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormManifestationDto;
+import de.bund.digitalservice.ris.norms.adapter.output.database.dto.NormWorkListElementDto;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
@@ -122,7 +122,7 @@ public interface NormManifestationRepository extends JpaRepository<NormManifesta
     """,
     countQuery = "SELECT count(DISTINCT eli_norm_work) FROM norm_manifestation"
   )
-  Page<Map<String, Object>> findDistinctOnWorkEliByOrderByWorkEliAsc(
+  Page<NormWorkListElementDto> findDistinctOnWorkEliByOrderByWorkEliAsc(
     @Param("pageable") Pageable pageable
   );
 }
