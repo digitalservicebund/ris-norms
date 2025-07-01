@@ -45,29 +45,20 @@ class XmlFormattingIntegrationTest extends BaseIntegrationTest {
   @Test
   void itReturnsPrettyPrintedXmlEvenIfStoredUgly() throws Exception {
     Regelungstext originalText = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
+      "eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/2021-04-16/regelungstext-verkuendung-1.xml"
     );
     DokumentDto dto = DokumentMapper.mapToDto(originalText);
-    dokumentRepository.save(dto);
 
-    String formattedXml = mockMvc
-      .perform(
-        get(
-          "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
-        ).accept(MediaType.APPLICATION_XML)
-      )
-      .andExpect(status().isOk())
-      .andReturn()
-      .getResponse()
-      .getContentAsString();
+    String expectedPrettyXml = dto.getXml();
 
-    dto.setXml(formattedXml.replaceAll(">\\s+<", "><").replaceAll("\\r?\\n", ""));
+    dto.setXml(dto.getXml().replaceAll(">\\s+<", "><").replaceAll("\\r?\\n", ""));
+
     dokumentRepository.save(dto);
 
     String response = mockMvc
       .perform(
         get(
-          "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          "/api/v1/norms/eli/bund/bgbl-1/2021/s818/2021-04-16/1/deu/regelungstext-verkuendung-1"
         ).accept(MediaType.APPLICATION_XML)
       )
       .andExpect(status().isOk())
@@ -75,6 +66,6 @@ class XmlFormattingIntegrationTest extends BaseIntegrationTest {
       .getResponse()
       .getContentAsString();
 
-    assertThat(response).isEqualToIgnoringWhitespace(formattedXml);
+    assertThat(response).isEqualToIgnoringWhitespace(expectedPrettyXml);
   }
 }
