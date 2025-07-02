@@ -39,6 +39,9 @@ class NormServiceTest {
   final LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort = mock(
     LoadExpressionsOfNormWorkPort.class
   );
+  final LdmlDeElementSorter ldmlDeElementSorter = new LdmlDeElementSorter(
+    Fixtures.getXsdSchemaService()
+  );
 
   final NormService service = new NormService(
     loadNormPort,
@@ -50,7 +53,8 @@ class NormServiceTest {
     updateOrSaveNormPort,
     deleteNormPort,
     loadNormWorksPort,
-    loadExpressionsOfNormWorkPort
+    loadExpressionsOfNormWorkPort,
+    ldmlDeElementSorter
   );
 
   @Nested
