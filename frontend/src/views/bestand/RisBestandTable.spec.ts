@@ -1,6 +1,7 @@
 import { render, screen, within } from "@testing-library/vue"
 import RisBestandTable from "./RisBestandTable.vue"
 import { describe, expect, it } from "vitest"
+import userEvent from "@testing-library/user-event"
 
 describe("risBestandTable", () => {
   it("renders the table with ELI and title columns and paginates", async () => {
@@ -47,5 +48,58 @@ describe("risBestandTable", () => {
       },
     })
     expect(screen.getByText("Seite 2 von 2")).toBeInTheDocument()
+  })
+
+  it("shows 'Weiter' button and emits event on click", async () => {
+    const user = userEvent.setup()
+    const items = [
+      { eli: "eli/bund/bgbl-1/2021/s818", title: "Test" },
+      { eli: "eli/bund/bgbl-1/2024/108", title: "Test2" },
+    ]
+    const { emitted } = render(RisBestandTable, {
+      props: {
+        items,
+        total: 4,
+        currentPage: 0,
+        pageSize: 2,
+      },
+    })
+    const weiter = screen.getByText("Weiter")
+    expect(weiter).toBeInTheDocument()
+    await user.click(weiter)
+    expect(emitted().page[0]).toEqual([1])
+  })
+
+  it("shows 'Zurück' button and emits event on click", async () => {
+    const user = userEvent.setup()
+    const items = [
+      { eli: "eli/bund/bgbl-1/2021/s818", title: "Test" },
+      { eli: "eli/bund/bgbl-1/2024/108", title: "Test2" },
+    ]
+    const { emitted } = render(RisBestandTable, {
+      props: {
+        items,
+        total: 4,
+        currentPage: 1,
+        pageSize: 2,
+      },
+    })
+    const zurueck = screen.getByText("Zurück")
+    expect(zurueck).toBeInTheDocument()
+    await user.click(zurueck)
+    expect(emitted().page[0]).toEqual([0])
+  })
+
+  it("does not show 'Zurück' on first page or 'Weiter' on last page", () => {
+    render(RisBestandTable, {
+      props: {
+        items: [],
+        total: 2,
+        currentPage: 0,
+        pageSize: 2,
+      },
+    })
+    expect(screen.queryByText("Zurück")).not.toBeVisible()
+    expect(screen.queryByText("Weiter")).not.toBeVisible()
   })
 })
