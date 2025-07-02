@@ -14,6 +14,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Predicate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  * all the input ports. It is annotated with {@link Service} to indicate that it's a service
  * component in the Spring context.
  */
+@Slf4j
 @Service
 public class NormService
   implements
@@ -137,13 +139,18 @@ public class NormService
   }
 
   /**
-   * It not only saves a {@link Norm} but makes sure that all Eids are consistent.
+   * It not only saves a {@link Norm} but makes sure that all Eids are consistent. If a manifestation is saved that is
+   * not the current working-copy the working-copy is instead overwritten.
    *
    * @param normToBeUpdated the norm which shall be saved
-   * @return An {@link Map} containing the updated and saved {@link Norm}
+   * @return The updated and saved {@link Norm}
    * @throws NormNotFoundException if the norm cannot be found
    */
   public Norm updateNorm(Norm normToBeUpdated) {
+    var existingNorm = loadNormPort
+      .loadNorm(new LoadNormPort.Options(normToBeUpdated.getManifestationEli()))
+      .orElseThrow(() -> new NormNotFoundException(normToBeUpdated.getManifestationEli()));
+
     normToBeUpdated
       .getDokumente()
       .forEach(dokument -> {
@@ -151,9 +158,28 @@ public class NormService
         EidConsistencyGuardian.correctEids(dokument.getDocument());
       });
 
-    return updateNormPort
-      .updateNorm(new UpdateNormPort.Options(normToBeUpdated))
-      .orElseThrow(() -> new NormNotFoundException(normToBeUpdated.getManifestationEli()));
+    if (existingNorm.getPublishState() != NormPublishState.UNPUBLISHED) {
+      log.info(
+        "Updating working copy instead of existing manifestation ({}) as manifestation is not UNPUBLISHED",
+        normToBeUpdated.getManifestationEli()
+      );
+      normToBeUpdated.setManifestationDateTo(Norm.WORKING_COPY_DATE);
+    }
+
+    if (
+      !normToBeUpdated
+        .getManifestationEli()
+        .getPointInTimeManifestation()
+        .isEqual(Norm.WORKING_COPY_DATE)
+    ) {
+      // log this for now so we keep track of it, over time we should remove everything that is doing this
+      log.info(
+        "Updating a working copy of a norm that is NOT using the working copy date ({})",
+        normToBeUpdated.getManifestationEli()
+      );
+    }
+
+    return updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(normToBeUpdated));
   }
 
   @Override
