@@ -66,9 +66,9 @@ Using these attributes in the algorithm for orphan removal process, we would ite
    longer present under the _zielnorm_ references, the entry is deleted
 2. If `created-by-zeitgrenze=false` and `created-by-replacing-existing-expression=true` and there are no preceding
    expressions with `created-by-zeitgrenze=true`, the entry is deleted
-3. If `created-by-zeitgrenze=true` and `created-by-replacing-existing-expression=true` and neither the _zeitgrenze_ is
-   present under the _zielnorm_ references nor are there preceding expressions with `created-by-zeitgrenze=true`, the
-   entry is deleted
+3. If `created-by-zeitgrenze=true` and `created-by-replacing-existing-expression=true` there are two different possibilities:
+   - Neither the _zeitgrenze_ is present under the _zielnorm_ references nor are there preceding expressions with `created-by-zeitgrenze=true`, the entry is deleted
+   - The `zeitgrenze` is not present under the _zielnorm_ references but there are preceding expressions with `created-by-zeitgrenze=true`, the attribute _created-by-zeitgrenze_ is updated to `false`
 
 ## Consequences
 
