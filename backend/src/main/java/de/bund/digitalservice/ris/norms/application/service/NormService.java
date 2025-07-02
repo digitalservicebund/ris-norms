@@ -50,6 +50,7 @@ public class NormService
   private final DeleteNormPort deleteNormPort;
   private final LoadNormWorksPort loadNormWorksPort;
   private final LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort;
+  private final LdmlDeElementSorter ldmlDeElementSorter;
 
   public NormService(
     LoadNormPort loadNormPort,
@@ -61,7 +62,8 @@ public class NormService
     UpdateOrSaveNormPort updateOrSaveNormPort,
     DeleteNormPort deleteNormPort,
     LoadNormWorksPort loadNormWorksPort,
-    LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort
+    LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort,
+    LdmlDeElementSorter ldmlDeElementSorter
   ) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
@@ -73,6 +75,7 @@ public class NormService
     this.deleteNormPort = deleteNormPort;
     this.loadNormWorksPort = loadNormWorksPort;
     this.loadExpressionsOfNormWorkPort = loadExpressionsOfNormWorkPort;
+    this.ldmlDeElementSorter = ldmlDeElementSorter;
   }
 
   @Override
@@ -135,6 +138,16 @@ public class NormService
     return XmlMapper.toString(updatedRegelungstext.getDocument());
   }
 
+  private void prepareNormForSaving(Norm norm) {
+    norm
+      .getDokumente()
+      .forEach(dokument -> {
+        EidConsistencyGuardian.eliminateDeadReferences(dokument.getDocument());
+        EidConsistencyGuardian.correctEids(dokument.getDocument());
+        ldmlDeElementSorter.sortElements(dokument.getDocument().getDocumentElement());
+      });
+  }
+
   /**
    * It not only saves a {@link Norm} but makes sure that all Eids are consistent. If a manifestation is saved that is
    * not the current working-copy the working-copy is instead overwritten.
@@ -148,12 +161,7 @@ public class NormService
       .loadNorm(new LoadNormPort.Options(normToBeUpdated.getManifestationEli()))
       .orElseThrow(() -> new NormNotFoundException(normToBeUpdated.getManifestationEli()));
 
-    normToBeUpdated
-      .getDokumente()
-      .forEach(dokument -> {
-        EidConsistencyGuardian.eliminateDeadReferences(dokument.getDocument());
-        EidConsistencyGuardian.correctEids(dokument.getDocument());
-      });
+    prepareNormForSaving(existingNorm);
 
     if (existingNorm.getPublishState() != NormPublishState.UNPUBLISHED) {
       log.info(
