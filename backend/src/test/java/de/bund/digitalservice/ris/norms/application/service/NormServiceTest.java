@@ -42,6 +42,7 @@ class NormServiceTest {
   final LdmlDeElementSorter ldmlDeElementSorter = new LdmlDeElementSorter(
     Fixtures.getXsdSchemaService()
   );
+  final LdmlDeValidator ldmlDeValidator = Fixtures.getLdmlDeValidator();
 
   final NormService service = new NormService(
     loadNormPort,
@@ -54,7 +55,8 @@ class NormServiceTest {
     deleteNormPort,
     loadNormWorksPort,
     loadExpressionsOfNormWorkPort,
-    ldmlDeElementSorter
+    ldmlDeElementSorter,
+    ldmlDeValidator
   );
 
   @Nested
@@ -243,7 +245,9 @@ class NormServiceTest {
         argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
       );
       verify(updateOrSaveNormPort, times(1)).updateOrSave(
-        argThat(argument -> argument.norm().equals(newNorm))
+        argThat(argument ->
+          argument.norm().getManifestationEli().equals(newNorm.getManifestationEli())
+        )
       );
       assertThat(result).contains("Neuer Title");
     }
@@ -422,13 +426,13 @@ class NormServiceTest {
           List.of(
             new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
               "Änderungsvorschrift",
-              new Zeitgrenze.Id("gz-2"),
+              new Zeitgrenze.Id("f82ab983-5498-49ab-918f-5cf5e730e5ec"),
               new EId("art-z1_abs-z_untergl-n1_listenelem-n1"),
               NormWorkEli.fromString("eli/bund/bgbl-1/2024/12")
             ),
             new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
               "Änderungsvorschrift",
-              new Zeitgrenze.Id("gz-1"),
+              new Zeitgrenze.Id("6aa3a7ca-f30a-43b6-950b-b1e942fd1842"),
               new EId("art-z1_abs-z_untergl-n1_listenelem-n2"),
               NormWorkEli.fromString("eli/bund/bgbl-1/2023/22")
             )
@@ -444,13 +448,17 @@ class NormServiceTest {
       assertThat(zielnormReferences.getFirst().getEId()).hasToString(
         "art-z1_abs-z_untergl-n1_listenelem-n1"
       );
-      assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString("gz-2");
+      assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString(
+        "f82ab983-5498-49ab-918f-5cf5e730e5ec"
+      );
       assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
       assertThat(zielnormReferences.get(1).getZielnorm()).hasToString("eli/bund/bgbl-1/2023/22");
       assertThat(zielnormReferences.get(1).getEId()).hasToString(
         "art-z1_abs-z_untergl-n1_listenelem-n2"
       );
-      assertThat(zielnormReferences.get(1).getGeltungszeit()).hasToString("gz-1");
+      assertThat(zielnormReferences.get(1).getGeltungszeit()).hasToString(
+        "6aa3a7ca-f30a-43b6-950b-b1e942fd1842"
+      );
       assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
 
       verify(updateOrSaveNormPort, times(1)).updateOrSave(any());

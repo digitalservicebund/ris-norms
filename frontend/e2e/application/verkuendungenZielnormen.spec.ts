@@ -596,13 +596,13 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
       {
         data: [
           {
-            geltungszeit: "gz-1",
+            geltungszeit: "bc2188d7-84f4-41c5-9921-41b95b79241b",
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
             eId: "art-z1_abs-z",
           },
           {
-            geltungszeit: "gz-2",
+            geltungszeit: "fe0d79b2-449d-4b08-a826-b2ae5262067a",
             zielnorm: "eli/bund/bgbl-1/2021/456",
             typ: "Änderungsvorschrift",
             eId: "art-z1_abs-z_untergl-n1_listenelem-n1",
@@ -668,7 +668,7 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
       {
         data: [
           {
-            geltungszeit: "gz-1",
+            geltungszeit: "bc2188d7-84f4-41c5-9921-41b95b79241b",
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
             eId: "art-z1_abs-z",
@@ -709,13 +709,13 @@ test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
       {
         data: [
           {
-            geltungszeit: "gz-1",
+            geltungszeit: "bc2188d7-84f4-41c5-9921-41b95b79241b",
             zielnorm: "eli/bund/bgbl-1/2021/123",
             typ: "Änderungsvorschrift",
             eId: "art-z1_abs-z",
           },
           {
-            geltungszeit: "gz-2",
+            geltungszeit: "fe0d79b2-449d-4b08-a826-b2ae5262067a",
             zielnorm: "eli/bund/bgbl-1/2021/456",
             typ: "Änderungsvorschrift",
             eId: "art-z1_abs-z_untergl-n1_listenelem-n1",

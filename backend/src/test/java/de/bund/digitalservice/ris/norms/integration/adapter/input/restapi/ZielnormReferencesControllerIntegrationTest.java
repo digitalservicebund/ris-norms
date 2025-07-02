@@ -92,13 +92,13 @@ class ZielnormReferencesControllerIntegrationTest extends BaseIntegrationTest {
                 {
                   "eId": "art-z1_abs-z_untergl-n1_listenelem-n1",
                   "zielnorm": "eli/bund/bgbl-1/2022/1",
-                  "geltungszeit": "gz-2",
+                  "geltungszeit": "f55bfc5b-8260-43d1-a32c-45d3bb3e5e63",
                   "typ": "Änderungsvorschrift"
                 },
                 {
                   "eId": "art-z1_abs-z_untergl-n1_listenelem-n2",
                   "zielnorm": "eli/bund/bgbl-1/2023/12",
-                  "geltungszeit": "gz-1",
+                  "geltungszeit": "973ad752-a875-4028-adbe-636698517a5e",
                   "typ": "Änderungsvorschrift"
                 }
               ]
@@ -110,12 +110,16 @@ class ZielnormReferencesControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(status().isOk())
         .andExpect(jsonPath("$[0]").exists())
         .andExpect(jsonPath("$[0].typ").value(equalTo("Änderungsvorschrift")))
-        .andExpect(jsonPath("$[0].geltungszeit").value(equalTo("gz-2")))
+        .andExpect(
+          jsonPath("$[0].geltungszeit").value(equalTo("f55bfc5b-8260-43d1-a32c-45d3bb3e5e63"))
+        )
         .andExpect(jsonPath("$[0].eId").value(equalTo("art-z1_abs-z_untergl-n1_listenelem-n1")))
         .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2022/1")))
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[1].typ").value(equalTo("Änderungsvorschrift")))
-        .andExpect(jsonPath("$[1].geltungszeit").value(equalTo("gz-1")))
+        .andExpect(
+          jsonPath("$[1].geltungszeit").value(equalTo("973ad752-a875-4028-adbe-636698517a5e"))
+        )
         .andExpect(jsonPath("$[1].eId").value(equalTo("art-z1_abs-z_untergl-n1_listenelem-n2")))
         .andExpect(jsonPath("$[1].zielnorm").value(equalTo("eli/bund/bgbl-1/2023/12")));
     }
