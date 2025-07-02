@@ -51,6 +51,7 @@ public class NormService
   private final LoadNormWorksPort loadNormWorksPort;
   private final LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort;
   private final LdmlDeElementSorter ldmlDeElementSorter;
+  private final LdmlDeValidator ldmlDeValidator;
 
   public NormService(
     LoadNormPort loadNormPort,
@@ -63,7 +64,8 @@ public class NormService
     DeleteNormPort deleteNormPort,
     LoadNormWorksPort loadNormWorksPort,
     LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort,
-    LdmlDeElementSorter ldmlDeElementSorter
+    LdmlDeElementSorter ldmlDeElementSorter,
+    LdmlDeValidator ldmlDeValidator
   ) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
@@ -76,6 +78,7 @@ public class NormService
     this.loadNormWorksPort = loadNormWorksPort;
     this.loadExpressionsOfNormWorkPort = loadExpressionsOfNormWorkPort;
     this.ldmlDeElementSorter = ldmlDeElementSorter;
+    this.ldmlDeValidator = ldmlDeValidator;
   }
 
   @Override
@@ -146,6 +149,8 @@ public class NormService
         EidConsistencyGuardian.correctEids(dokument.getDocument());
         ldmlDeElementSorter.sortElements(dokument.getDocument().getDocumentElement());
       });
+
+    ldmlDeValidator.validateXSDSchema(norm);
   }
 
   /**

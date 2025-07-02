@@ -82,7 +82,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnEmptyValuesIfNormHasNoProprietaryAtAll() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/rechtsetzungsdokument-1"
       );
       Fixtures.loadAndSaveNormFixture(
         dokumentRepository,
@@ -196,7 +196,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"typ\": \"new-typ\"," +
+              "\"typ\": \"verordnung\"," +
               "\"subtyp\": \"new-subtyp\"," +
               "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
               "\"artDerNorm\": \"SN,ÄN,ÜN\"," +
@@ -244,7 +244,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"typ\": \"new-typ\"," +
+              "\"typ\": \"verordnung\"," +
               "\"subtyp\": \"new-subtyp\"," +
               "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
               "\"artDerNorm\": \"ÄN,ÜN\"," +
@@ -257,7 +257,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").value("new-fna"))
-        .andExpect(jsonPath("typ").value("new-typ"))
+        .andExpect(jsonPath("typ").value("verordnung"))
         .andExpect(jsonPath("subtyp").value("new-subtyp"))
         .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
         .andExpect(jsonPath("artDerNorm").value("ÄN,ÜN"))
@@ -275,7 +275,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final RahmenMetadata metadata = normLoaded.getRahmenMetadata();
       assertThat(metadata.getFna()).contains("new-fna");
-      assertThat(metadata.getTyp()).contains("new-typ");
+      assertThat(metadata.getTyp()).contains("verordnung");
       assertThat(metadata.getSubtyp()).contains("new-subtyp");
       assertThat(metadata.getBezeichnungInVorlage()).contains("new-bezeichnungInVorlage");
       assertThat(metadata.getArtDerNorm()).contains("ÄN,ÜN");
@@ -297,7 +297,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(proprietaryRechtsetzungsdokument.getMetadataValue(Metadata.FNA)).contains(
         "new-fna"
       );
-      assertThat(proprietaryRegelungstext1.getMetadataValue(Metadata.TYP)).contains("new-typ");
+      assertThat(proprietaryRegelungstext1.getMetadataValue(Metadata.TYP)).contains("verordnung");
       assertThat(proprietaryRegelungstext1.getMetadataValue(Metadata.SUBTYP)).contains(
         "new-subtyp"
       );
@@ -470,7 +470,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .content(
               "{\"fna\": \"new-fna\"," +
               // no change
-              "\"typ\": \"new-typ\"," + // no change
+              "\"typ\": \"verordnung\"," + // no change
               "\"subtyp\": \"new-subtyp\"," + // no change
               "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," + // no change
               "\"artDerNorm\": \"ÄN,ÜN\"," + // no change
@@ -483,7 +483,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         // change
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").value("new-fna"))
-        .andExpect(jsonPath("typ").value("new-typ"))
+        .andExpect(jsonPath("typ").value("verordnung"))
         .andExpect(jsonPath("subtyp").value("new-subtyp"))
         .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
         .andExpect(jsonPath("artDerNorm").value("ÄN,ÜN"))
@@ -500,7 +500,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final RahmenMetadata metadata = normLoaded.getRahmenMetadata();
       assertThat(metadata.getFna()).contains("new-fna");
-      assertThat(metadata.getTyp()).contains("new-typ");
+      assertThat(metadata.getTyp()).contains("verordnung");
       assertThat(metadata.getSubtyp()).contains("new-subtyp");
       assertThat(metadata.getBezeichnungInVorlage()).contains("new-bezeichnungInVorlage");
       assertThat(metadata.getArtDerNorm()).contains("ÄN,ÜN");
@@ -513,7 +513,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void createsProprietaryAndMetadatenDsAndUpdatesFna() throws Exception {
       // given
-      final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
       Fixtures.loadAndSaveNormFixture(
         dokumentRepository,
         binaryFileRepository,
@@ -531,7 +531,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"typ\": \"new-typ\"," +
+              "\"typ\": \"verordnung\"," +
               "\"subtyp\": \"new-subtyp\"," +
               "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
               "\"artDerNorm\": \"SN,ÄN,ÜN\"," +
@@ -543,7 +543,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").value("new-fna"))
-        .andExpect(jsonPath("typ").value("new-typ"))
+        .andExpect(jsonPath("typ").value("verordnung"))
         .andExpect(jsonPath("subtyp").value("new-subtyp"))
         .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
         .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
@@ -554,13 +554,13 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Norm normLoaded = NormManifestationMapper.mapToDomain(
         normManifestationRepository
-          .findByManifestationEli("eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/2022-08-23")
+          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
           .get()
       );
 
       final RahmenMetadata metadata = normLoaded.getRahmenMetadata();
       assertThat(metadata.getFna()).contains("new-fna");
-      assertThat(metadata.getTyp()).contains("new-typ");
+      assertThat(metadata.getTyp()).contains("verordnung");
       assertThat(metadata.getSubtyp()).contains("new-subtyp");
       assertThat(metadata.getBezeichnungInVorlage()).contains("new-bezeichnungInVorlage");
       assertThat(metadata.getArtDerNorm()).contains("SN,ÄN,ÜN");
@@ -615,7 +615,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnEmptyValuesIfNormHasNoProprietaryAtAll() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "art-z20";
 
@@ -743,7 +743,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void createsProprietaryAndMetadatenDsAndEinzelelementAndSetsValue() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/regelungstext-verkuendung-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var eid = "hauptteil-n1_abschnitt-n0_art-n1";
 
