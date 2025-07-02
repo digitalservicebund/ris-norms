@@ -16,7 +16,6 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressi
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifestationElisByPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormWorksPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.BinaryFile;
@@ -44,7 +43,6 @@ public class NormDBService
   implements
     LoadNormPort,
     LoadNormByGuidPort,
-    UpdateNormPort,
     UpdateOrSaveNormPort,
     UpdateNormPublishStatePort,
     DeleteNormPort,
@@ -97,8 +95,7 @@ public class NormDBService
       .map(NormManifestationMapper::mapToDomain);
   }
 
-  @Override
-  public Optional<Norm> updateNorm(UpdateNormPort.Options options) {
+  private Optional<Norm> updateNorm(UpdateOrSaveNormPort.Options options) {
     Optional<NormManifestationDto> normManifestationDto =
       normManifestationRepository.findByManifestationEli(
         options.norm().getManifestationEli().toString()
@@ -194,7 +191,7 @@ public class NormDBService
 
   @Override
   public Norm updateOrSave(UpdateOrSaveNormPort.Options options) {
-    final Optional<Norm> updatedNorm = updateNorm(new UpdateNormPort.Options(options.norm()));
+    final Optional<Norm> updatedNorm = updateNorm(options);
     if (updatedNorm.isEmpty()) {
       dokumentRepository.saveAllAndFlush(
         options

@@ -42,7 +42,6 @@ public class NormService
 
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
-  private final UpdateNormPort updateNormPort;
   private final LoadRegelungstextPort loadRegelungstextPort;
   private final LoadNormExpressionElisPort loadNormExpressionElisPort;
   private final EliService eliService;
@@ -55,7 +54,6 @@ public class NormService
   public NormService(
     LoadNormPort loadNormPort,
     LoadNormByGuidPort loadNormByGuidPort,
-    UpdateNormPort updateNormPort,
     LoadRegelungstextPort loadRegelungstextPort,
     LoadNormExpressionElisPort loadNormExpressionElisPort,
     EliService eliService,
@@ -67,7 +65,6 @@ public class NormService
   ) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
-    this.updateNormPort = updateNormPort;
     this.loadRegelungstextPort = loadRegelungstextPort;
     this.loadNormExpressionElisPort = loadNormExpressionElisPort;
     this.eliService = eliService;
