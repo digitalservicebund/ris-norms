@@ -26,7 +26,6 @@ class NormServiceTest {
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final LoadNormWorksPort loadNormWorksPort = mock(LoadNormWorksPort.class);
-  final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
   final LoadRegelungstextPort loadRegelungstextPort = mock(LoadRegelungstextPort.class);
   final LoadNormExpressionElisPort loadNormExpressionElisPort = mock(
     LoadNormExpressionElisPort.class
@@ -44,7 +43,6 @@ class NormServiceTest {
   final NormService service = new NormService(
     loadNormPort,
     loadNormByGuidPort,
-    updateNormPort,
     loadRegelungstextPort,
     loadNormExpressionElisPort,
     eliService,
@@ -270,7 +268,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
       );
-      verify(updateNormPort, times(0)).updateNorm(any());
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
     }
 
     @Test
@@ -298,7 +296,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
       );
-      verify(updateNormPort, times(0)).updateNorm(any());
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
       assertThat(thrown).isInstanceOf(InvalidUpdateException.class);
     }
 
@@ -328,7 +326,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
       );
-      verify(updateNormPort, times(0)).updateNorm(any());
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
       assertThat(thrown).isInstanceOf(InvalidUpdateException.class);
     }
   }
