@@ -35,7 +35,8 @@ public class NormService
     CreateZielnormenExpressionsUseCase,
     UpdateZielnormReferencesUseCase,
     DeleteZielnormReferencesUseCase,
-    LoadNormWorksUseCase {
+    LoadNormWorksUseCase,
+    LoadExpressionsOfNormWorkUseCase {
 
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
@@ -47,6 +48,7 @@ public class NormService
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final DeleteNormPort deleteNormPort;
   private final LoadNormWorksPort loadNormWorksPort;
+  private final LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort;
 
   public NormService(
     LoadNormPort loadNormPort,
@@ -58,7 +60,8 @@ public class NormService
     CreateNewVersionOfNormService createNewVersionOfNormService,
     UpdateOrSaveNormPort updateOrSaveNormPort,
     DeleteNormPort deleteNormPort,
-    LoadNormWorksPort loadNormWorksPort
+    LoadNormWorksPort loadNormWorksPort,
+    LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort
   ) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
@@ -70,6 +73,7 @@ public class NormService
     this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.deleteNormPort = deleteNormPort;
     this.loadNormWorksPort = loadNormWorksPort;
+    this.loadExpressionsOfNormWorkPort = loadExpressionsOfNormWorkPort;
   }
 
   @Override
@@ -837,5 +841,18 @@ public class NormService
     return loadNormWorksPort
       .loadNormWorks(new LoadNormWorksPort.Options(options.pageable()))
       .map(result -> new LoadNormWorksUseCase.Result(result.eli(), result.title()));
+  }
+
+  @Override
+  public List<LoadExpressionsOfNormWorkUseCase.Result> loadExpressionsOfNormWork(
+    LoadExpressionsOfNormWorkUseCase.Options options
+  ) {
+    return loadExpressionsOfNormWorkPort
+      .loadExpressionsOfNormWork(new LoadExpressionsOfNormWorkPort.Options(options.eli()))
+      .stream()
+      .map(result ->
+        new LoadExpressionsOfNormWorkUseCase.Result(result.eli(), result.gegenstandslos())
+      )
+      .toList();
   }
 }
