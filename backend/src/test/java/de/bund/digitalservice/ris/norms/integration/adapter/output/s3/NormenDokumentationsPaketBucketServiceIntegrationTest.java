@@ -24,8 +24,8 @@ class NormenDokumentationsPaketBucketServiceIntegrationTest extends BaseS3MockIn
     Resource file = new UrlResource(
       Objects.requireNonNull(
         NormenDokumentationsPaketBucketServiceIntegrationTest.class.getResource(
-            "SimpleNorm.xml.zip"
-          )
+          "SimpleNorm.xml.zip"
+        )
       )
     );
     Resource signature = new UrlResource(

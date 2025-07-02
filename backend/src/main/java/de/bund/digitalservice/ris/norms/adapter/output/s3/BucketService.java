@@ -94,10 +94,10 @@ public class BucketService
       } catch (final JsonProcessingException e) {
         log.error(
           "Failed to parse changelog with name %s for bucket %s with error %s".formatted(
-              changelog.getFileName(),
-              bucketName,
-              e
-            )
+            changelog.getFileName(),
+            bucketName,
+            e
+          )
         );
       }
     }
@@ -297,10 +297,10 @@ public class BucketService
     } catch (final Exception e) {
       log.warn(
         "Changelog not found or failed to load with name %s in bucket %s, creating an empty changelog. Error: %s".formatted(
-            newChangelog.getFileName(),
-            bucketName,
-            e
-          )
+          newChangelog.getFileName(),
+          bucketName,
+          e
+        )
       );
     }
     return newChangelog;

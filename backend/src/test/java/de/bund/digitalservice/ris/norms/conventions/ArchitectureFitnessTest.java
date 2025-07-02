@@ -286,8 +286,8 @@ class ArchitectureFitnessTest {
     ArchRule rule = ArchRuleDefinition.classes()
       .that(
         (resideInAPackage(INPUT_PORT_LAYER_PACKAGES).and(simpleNameEndingWith("UseCase"))).or(
-            resideInAPackage(OUTPUT_PORT_LAYER_PACKAGES).and(simpleNameEndingWith("Port"))
-          )
+          resideInAPackage(OUTPUT_PORT_LAYER_PACKAGES).and(simpleNameEndingWith("Port"))
+        )
       )
       .should(beInterfaces());
     rule.check(classes);

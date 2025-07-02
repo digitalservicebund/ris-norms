@@ -40,7 +40,10 @@ public class SignatureValidator {
         this.signature.initVerify(publicKey);
       }
     } catch (
-      IOException | CertificateException | NoSuchAlgorithmException | InvalidKeyException e
+      IOException
+      | CertificateException
+      | NoSuchAlgorithmException
+      | InvalidKeyException e
     ) {
       throw new IllegalStateException("Signature validator misconfigured", e);
     }

@@ -111,8 +111,7 @@ public class Meta {
    * @return {@link Proprietary} metadata of the norm.
    */
   public Proprietary getOrCreateProprietary() {
-    return this.getProprietary()
-      .orElseGet(() -> {
+    return this.getProprietary().orElseGet(() -> {
         final var newElement = NodeCreator.createElementWithEidAndGuid("akn:proprietary", element);
         newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
         return new Proprietary(newElement);

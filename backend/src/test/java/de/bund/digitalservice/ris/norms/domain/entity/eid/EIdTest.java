@@ -123,8 +123,8 @@ class EIdTest {
       var optionalEId = EId.forNode(node);
       // then
       assertThat(optionalEId).hasValueSatisfying(eId -> {
-        assertThat(eId.value()).isEqualTo(expectedEId);
-      });
+          assertThat(eId.value()).isEqualTo(expectedEId);
+        });
     }
 
     @Test
@@ -136,8 +136,8 @@ class EIdTest {
       var optionalEId = EId.forNode((Element) node.getFirstChild());
       // then
       assertThat(optionalEId).hasValueSatisfying(eId -> {
-        assertThat(eId.value()).isEqualTo("art-z6_abs-z3_inhalt-n3_text-n1");
-      });
+          assertThat(eId.value()).isEqualTo("art-z6_abs-z3_inhalt-n3_text-n1");
+        });
     }
 
     @Test
@@ -149,8 +149,8 @@ class EIdTest {
       var optionalEId = EId.forNode((Element) node.getChildNodes().item(2));
       // then
       assertThat(optionalEId).hasValueSatisfying(eId -> {
-        assertThat(eId.value()).isEqualTo("art-z6_abs-z3_inhalt-n3_text-n2");
-      });
+          assertThat(eId.value()).isEqualTo("art-z6_abs-z3_inhalt-n3_text-n2");
+        });
     }
   }
 }

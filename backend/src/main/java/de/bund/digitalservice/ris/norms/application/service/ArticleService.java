@@ -82,6 +82,9 @@ public class ArticleService
       throw new NoArticlesOfTypesFoundException(options.eli().toString(), options.refersTo());
     }
 
-    return articles.stream().map(a -> XmlMapper.toString(a.getElement())).toList();
+    return articles
+      .stream()
+      .map(a -> XmlMapper.toString(a.getElement()))
+      .toList();
   }
 }

@@ -15,9 +15,9 @@ public class NotAXmlFileException extends RuntimeException implements NormsAppEx
   public NotAXmlFileException(String fileName, String contentType) {
     super(
       "The file %s is not a xml file but has the content type \"%s\"".formatted(
-          fileName,
-          contentType
-        )
+        fileName,
+        contentType
+      )
     );
     this.fileName = fileName;
     this.contentType = contentType;

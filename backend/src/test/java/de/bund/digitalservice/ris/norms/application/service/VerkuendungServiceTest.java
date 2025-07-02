@@ -68,9 +68,9 @@ class VerkuendungServiceTest {
 
       // when
       assertThatThrownBy(() -> verkuendungService.loadVerkuendung(query)).isInstanceOf(
-        // then
-        VerkuendungNotFoundException.class
-      );
+          // then
+          VerkuendungNotFoundException.class
+        );
     }
 
     @Test
@@ -84,9 +84,9 @@ class VerkuendungServiceTest {
 
       // when
       assertThatThrownBy(() -> verkuendungService.loadVerkuendung(query)).isInstanceOf(
-        // then
-        VerkuendungNotFoundException.class
-      );
+          // then
+          VerkuendungNotFoundException.class
+        );
     }
 
     @Test

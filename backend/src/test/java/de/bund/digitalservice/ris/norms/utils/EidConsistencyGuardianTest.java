@@ -13,8 +13,7 @@ class EidConsistencyGuardianTest {
 
   @Test
   void itDoesNotCorrectAnything() {
-    var sampleXml =
-      """
+    var sampleXml = """
       <root>
       <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
            <akn:p eId="meta-n1_text-n1">
@@ -44,8 +43,7 @@ class EidConsistencyGuardianTest {
 
   @Test
   void itCorrectsEidGaps() {
-    var sampleXml =
-      """
+    var sampleXml = """
       <root>
       <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
            <akn:p eId="meta-n1_text-n1">
@@ -65,8 +63,7 @@ class EidConsistencyGuardianTest {
     EidConsistencyGuardian.correctEids(correctedDocument);
 
     // Then
-    var expectedXml =
-      """
+    var expectedXml = """
       <root>
       <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
            <akn:p eId="meta-n1_text-n1">
@@ -90,8 +87,7 @@ class EidConsistencyGuardianTest {
 
   @Test
   void itCorrectsEidOrder() {
-    var sampleXml =
-      """
+    var sampleXml = """
           <root>
       <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
                <akn:p eId="meta-n1_text-n2">
@@ -111,8 +107,7 @@ class EidConsistencyGuardianTest {
     EidConsistencyGuardian.correctEids(correctedDocument);
 
     // Then
-    var expectedXml =
-      """
+    var expectedXml = """
           <root>
       <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
                <akn:p eId="meta-n1_text-n1">
@@ -137,8 +132,7 @@ class EidConsistencyGuardianTest {
 
   @Test
   void itCorrectsEidTypes() {
-    var sampleXml =
-      """
+    var sampleXml = """
           <root>
       <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
                <akn:p eId="meta-n1_text-n1">
@@ -154,8 +148,7 @@ class EidConsistencyGuardianTest {
     EidConsistencyGuardian.correctEids(correctedDocument);
 
     // Then
-    var expectedXml =
-      """
+    var expectedXml = """
           <root>
       <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
                <akn:p eId="meta-n1_text-n1">
@@ -176,8 +169,7 @@ class EidConsistencyGuardianTest {
 
   @Test
   void itCorrectsMissingEids() {
-    var sampleXml =
-      """
+    var sampleXml = """
           <root>
       <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
                <akn:p>
@@ -193,8 +185,7 @@ class EidConsistencyGuardianTest {
     EidConsistencyGuardian.correctEids(correctedDocument);
 
     // Then
-    var expectedXml =
-      """
+    var expectedXml = """
           <root>
       <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
                <akn:p eId="meta-n1_text-n1">

@@ -124,13 +124,12 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(
-          content()
-            .node(
-              hasXPath(
-                "//h1//*[@data-eId=\"einleitung-n1_doktitel-n1_text-n1_doctitel-n1\"]",
-                equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
-              )
+          content().node(
+            hasXPath(
+              "//h1//*[@data-eId=\"einleitung-n1_doktitel-n1_text-n1_doctitel-n1\"]",
+              equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
             )
+          )
         );
     }
   }
@@ -160,22 +159,20 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(
-          content()
-            .node(
-              hasXPath(
-                "//h1//*[@data-eId=\"einleitung-n1_doktitel-n1_text-n1_doctitel-n1\"]",
-                equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
-              )
+          content().node(
+            hasXPath(
+              "//h1//*[@data-eId=\"einleitung-n1_doktitel-n1_text-n1_doctitel-n1\"]",
+              equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
             )
+          )
         )
         .andExpect(
-          content()
-            .node(
-              hasXPath(
-                "//section[@class=\"metadata\"]//td[text()=\"Amtliche Langüberschrift\"]/following-sibling::td/text()",
-                equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
-              )
+          content().node(
+            hasXPath(
+              "//section[@class=\"metadata\"]//td[text()=\"Amtliche Langüberschrift\"]/following-sibling::td/text()",
+              equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
             )
+          )
         );
     }
   }
@@ -316,13 +313,12 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(
-          content()
-            .node(
-              hasXPath(
-                "//*[@eId=\"einleitung-n1_doktitel-n1_text-n1_doctitel-n1\"]",
-                equalTo("Neuer Title")
-              )
+          content().node(
+            hasXPath(
+              "//*[@eId=\"einleitung-n1_doktitel-n1_text-n1_doctitel-n1\"]",
+              equalTo("Neuer Title")
             )
+          )
         );
     }
   }

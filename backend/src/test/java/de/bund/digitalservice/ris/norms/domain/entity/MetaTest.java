@@ -338,8 +338,7 @@ class MetaTest {
   @Test
   void returnsProprietaryEvenIfDoesNotExist() {
     // Given
-    var xml =
-      """
+    var xml = """
       <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
         <akn:act name="regelungstext">
           <!-- Metadaten -->
@@ -379,8 +378,7 @@ class MetaTest {
   @Test
   void returnsEmptyOptionalIfProprietaryDoesNotExist() {
     // Given
-    var xml =
-      """
+    var xml = """
       <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
         <akn:act name="regelungstext">
           <!-- Metadaten -->

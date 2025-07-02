@@ -41,21 +41,21 @@ class XsltTransformationServiceTest {
   @Test
   void shouldReturnTransformedXml() throws IOException {
     when(xsltResource.getInputStream()).thenReturn(
-      new ByteArrayInputStream(
-        """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-          <xsl:output method="html" encoding="UTF-8" />
+        new ByteArrayInputStream(
+          """
+          <?xml version="1.0" encoding="UTF-8"?>
+          <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+            <xsl:output method="html" encoding="UTF-8" />
 
-          <xsl:template match="/data">
-            <span>
-              <xsl:apply-templates />
-            </span>
-          </xsl:template>
-        </xsl:stylesheet>
-        """.getBytes()
-      )
-    );
+            <xsl:template match="/data">
+              <span>
+                <xsl:apply-templates />
+              </span>
+            </xsl:template>
+          </xsl:stylesheet>
+          """.getBytes()
+        )
+      );
     when(xsltResource.getURL()).thenReturn(URL.of(URI.create("https://example.com/"), null));
 
     var result = xsltTransformationService.transformLegalDocMlToHtml(
@@ -68,33 +68,33 @@ class XsltTransformationServiceTest {
   @Test
   void shouldReturnTransformedXmlWithMetadata() throws IOException {
     when(xsltResource.getInputStream()).thenReturn(
-      new ByteArrayInputStream(
-        """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-          <xsl:param name="show-metadata" />
+        new ByteArrayInputStream(
+          """
+          <?xml version="1.0" encoding="UTF-8"?>
+          <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+            <xsl:param name="show-metadata" />
 
-          <xsl:output method="html" encoding="UTF-8" />
+            <xsl:output method="html" encoding="UTF-8" />
 
-           <xsl:template match="/">
-            <body>
-              <xsl:if test="$show-metadata">
-                <h1>METADATA</h1>
-              </xsl:if>
-              <xsl:apply-templates />
-            </body>
-          </xsl:template>
+             <xsl:template match="/">
+              <body>
+                <xsl:if test="$show-metadata">
+                  <h1>METADATA</h1>
+                </xsl:if>
+                <xsl:apply-templates />
+              </body>
+            </xsl:template>
 
-          <xsl:template match="/data">
-            <span>
-              <xsl:apply-templates />
-            </span>
-          </xsl:template>
+            <xsl:template match="/data">
+              <span>
+                <xsl:apply-templates />
+              </span>
+            </xsl:template>
 
-        </xsl:stylesheet>
-        """.getBytes()
-      )
-    );
+          </xsl:stylesheet>
+          """.getBytes()
+        )
+      );
     when(xsltResource.getURL()).thenReturn(URL.of(URI.create("https://example.com/"), null));
 
     var result = xsltTransformationService.transformLegalDocMlToHtml(
@@ -102,45 +102,45 @@ class XsltTransformationServiceTest {
     );
 
     assertThat(result).isEqualToIgnoringWhitespace(
-      """
-      <body>
-        <h1>METADATA</h1>
-        <span>Test</span>
-      </body>
-      """
-    );
+        """
+        <body>
+          <h1>METADATA</h1>
+          <span>Test</span>
+        </body>
+        """
+      );
   }
 
   @Test
   void shouldReturnTransformedXmlWithoutMetadata() throws IOException {
     when(xsltResource.getInputStream()).thenReturn(
-      new ByteArrayInputStream(
-        """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-          <xsl:param name="show-metadata" />
+        new ByteArrayInputStream(
+          """
+          <?xml version="1.0" encoding="UTF-8"?>
+          <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+            <xsl:param name="show-metadata" />
 
-          <xsl:output method="html" encoding="UTF-8" />
+            <xsl:output method="html" encoding="UTF-8" />
 
-           <xsl:template match="/">
-            <body>
-              <xsl:if test="$show-metadata">
-                <h1>METADATA</h1>
-              </xsl:if>
-              <xsl:apply-templates />
-            </body>
-          </xsl:template>
+             <xsl:template match="/">
+              <body>
+                <xsl:if test="$show-metadata">
+                  <h1>METADATA</h1>
+                </xsl:if>
+                <xsl:apply-templates />
+              </body>
+            </xsl:template>
 
-          <xsl:template match="/data">
-            <span>
-              <xsl:apply-templates />
-            </span>
-          </xsl:template>
+            <xsl:template match="/data">
+              <span>
+                <xsl:apply-templates />
+              </span>
+            </xsl:template>
 
-        </xsl:stylesheet>
-        """.getBytes()
-      )
-    );
+          </xsl:stylesheet>
+          """.getBytes()
+        )
+      );
     when(xsltResource.getURL()).thenReturn(URL.of(URI.create("https://example.com/"), null));
 
     var result = xsltTransformationService.transformLegalDocMlToHtml(
@@ -148,32 +148,32 @@ class XsltTransformationServiceTest {
     );
 
     assertThat(result).isEqualToIgnoringWhitespace(
-      """
-      <body>
-        <span>Test</span>
-      </body>
-      """
-    );
+        """
+        <body>
+          <span>Test</span>
+        </body>
+        """
+      );
   }
 
   @Test
   void shouldThrowXmlTransformationExceptionWhenXmlIsNotValid() throws IOException {
     when(xsltResource.getInputStream()).thenReturn(
-      new ByteArrayInputStream(
-        """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-          <xsl:output method="html" encoding="UTF-8" />
+        new ByteArrayInputStream(
+          """
+          <?xml version="1.0" encoding="UTF-8"?>
+          <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+            <xsl:output method="html" encoding="UTF-8" />
 
-          <xsl:template match="/data">
-            <span>
-              <xsl:apply-templates />
-            </span>
-          </xsl:template>
-        </xsl:stylesheet>
-        """.getBytes()
-      )
-    );
+            <xsl:template match="/data">
+              <span>
+                <xsl:apply-templates />
+              </span>
+            </xsl:template>
+          </xsl:stylesheet>
+          """.getBytes()
+        )
+      );
     when(xsltResource.getURL()).thenReturn(URL.of(URI.create("https://example.com/"), null));
 
     var throwable = catchThrowable(() ->
@@ -184,10 +184,10 @@ class XsltTransformationServiceTest {
 
     assertThat(throwable).isInstanceOf(XmlProcessingException.class);
     assertThat(throwable.getMessage()).isEqualToIgnoringWhitespace(
-      """
-      SXXP0003   Error reported by XML parser: Attribute name "xml" associated with an element type "invalid" must be followed by the ' = ' character.
-      """
-    );
+        """
+        SXXP0003   Error reported by XML parser: Attribute name "xml" associated with an element type "invalid" must be followed by the ' = ' character.
+        """
+      );
   }
 
   /** To generate new expected files see {@link #generateExpectedHtmlForShouldTransformXml} */
@@ -245,19 +245,17 @@ class XsltTransformationServiceTest {
   }
 
   static String loadTestResource(String fileName) throws IOException {
-    var resource =
-      XsltTransformationServiceTest.class.getResource(
-          XsltTransformationServiceTest.class.getSimpleName() + "/" + fileName
-        );
+    var resource = XsltTransformationServiceTest.class.getResource(
+      XsltTransformationServiceTest.class.getSimpleName() + "/" + fileName
+    );
     assert resource != null;
     return IOUtils.toString(resource, StandardCharsets.UTF_8);
   }
 
   static void saveTestResource(String fileName, String result) throws IOException {
-    var resource =
-      XsltTransformationServiceTest.class.getResource(
-          XsltTransformationServiceTest.class.getSimpleName() + "/" + fileName
-        );
+    var resource = XsltTransformationServiceTest.class.getResource(
+      XsltTransformationServiceTest.class.getSimpleName() + "/" + fileName
+    );
     assert resource != null;
     FileUtils.writeStringToFile(new File(resource.getFile()), result, StandardCharsets.UTF_8);
   }

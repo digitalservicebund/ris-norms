@@ -40,8 +40,9 @@ public final class NodeParser {
 
     // Allow xpaths without namespaces to match in any namespace. This means that we can select a
     // `akn:mod` element using `//mod` irregardless of if the norm is parsed namespace-aware or not.
-    ((net.sf.saxon.xpath.XPathEvaluator) xPath).getStaticContext()
-      .setUnprefixedElementMatchingPolicy(UnprefixedElementMatchingPolicy.ANY_NAMESPACE);
+    ((net.sf.saxon.xpath.XPathEvaluator) xPath).getStaticContext().setUnprefixedElementMatchingPolicy(
+      UnprefixedElementMatchingPolicy.ANY_NAMESPACE
+    );
 
     return xPath;
   }
@@ -105,8 +106,11 @@ public final class NodeParser {
    */
   public static List<Node> getNodesFromExpression(String xPathExpression, Node sourceNode) {
     try {
-      final NodeList nodeList = (NodeList) createXPath()
-        .evaluate(xPathExpression, sourceNode, XPathConstants.NODESET);
+      final NodeList nodeList = (NodeList) createXPath().evaluate(
+        xPathExpression,
+        sourceNode,
+        XPathConstants.NODESET
+      );
       return nodeListToList(nodeList);
     } catch (XPathExpressionException | NoSuchElementException e) {
       throw new XmlProcessingException(e.getMessage(), e);
@@ -167,12 +171,12 @@ public final class NodeParser {
     Node sourceNode
   ) {
     return getNodeFromExpression(xPathExpression, sourceNode).flatMap(node -> {
-      if (node instanceof Element element) {
-        return Optional.of(element);
-      }
+        if (node instanceof Element element) {
+          return Optional.of(element);
+        }
 
-      return Optional.empty();
-    });
+        return Optional.empty();
+      });
   }
 
   /**

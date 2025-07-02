@@ -18,5 +18,4 @@ import java.lang.annotation.Target;
 @Documented
 @Retention(RUNTIME)
 @Target({ TYPE, METHOD })
-public @interface Generated {
-}
+public @interface Generated {}

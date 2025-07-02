@@ -75,8 +75,8 @@ class CreateNewVersionOfNormServiceTest {
 
     assertThat(result.newExpression().getRegelungstext1().getManifestationEli()).hasToString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu/%s/regelungstext-verkuendung-1.xml".formatted(
-          currentDate
-        )
+        currentDate
+      )
     );
     FRBRManifestation manifestation = result
       .newExpression()
@@ -85,8 +85,8 @@ class CreateNewVersionOfNormServiceTest {
       .getFRBRManifestation();
     assertThat(manifestation.getURI()).hasToString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/2/deu/%s/regelungstext-verkuendung-1.xml".formatted(
-          currentDate
-        )
+        currentDate
+      )
     );
     assertThat(manifestation.getFBRDate()).isEqualTo(currentDate);
 
@@ -98,8 +98,8 @@ class CreateNewVersionOfNormServiceTest {
       result.newManifestationOfOldExpression().getRegelungstext1().getManifestationEli()
     ).hasToString(
       "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-verkuendung-1.xml".formatted(
-          currentDate
-        )
+        currentDate
+      )
     );
     FRBRExpression expressionOldExpression = result
       .newManifestationOfOldExpression()
@@ -116,8 +116,8 @@ class CreateNewVersionOfNormServiceTest {
       .getFRBRManifestation();
     assertThat(manifestationOldExpression.getURI()).hasToString(
       "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s/regelungstext-verkuendung-1.xml".formatted(
-          currentDate
-        )
+        currentDate
+      )
     );
     assertThat(manifestationOldExpression.getFBRDate()).isEqualTo(currentDate);
   }
@@ -166,8 +166,8 @@ class CreateNewVersionOfNormServiceTest {
     );
     assertThat(result.newExpression().getRegelungstext1().getManifestationEli()).hasToString(
       "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/%s/regelungstext-verkuendung-1.xml".formatted(
-          currentDate
-        )
+        currentDate
+      )
     );
     FRBRManifestation manifestation = result
       .newExpression()
@@ -176,8 +176,8 @@ class CreateNewVersionOfNormServiceTest {
       .getFRBRManifestation();
     assertThat(manifestation.getURI()).hasToString(
       "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/%s/regelungstext-verkuendung-1.xml".formatted(
-          currentDate
-        )
+        currentDate
+      )
     );
     assertThat(manifestation.getFBRDate()).isEqualTo(currentDate);
 
@@ -189,8 +189,8 @@ class CreateNewVersionOfNormServiceTest {
       result.newManifestationOfOldExpression().getRegelungstext1().getManifestationEli()
     ).hasToString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-verkuendung-1.xml".formatted(
-          currentDate
-        )
+        currentDate
+      )
     );
     FRBRExpression expressionOldExpression = result
       .newManifestationOfOldExpression()
@@ -207,8 +207,8 @@ class CreateNewVersionOfNormServiceTest {
       .getFRBRManifestation();
     assertThat(manifestationOldExpression.getURI()).hasToString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-verkuendung-1.xml".formatted(
-          currentDate
-        )
+        currentDate
+      )
     );
     assertThat(manifestationOldExpression.getFBRDate()).isEqualTo(currentDate);
   }
@@ -269,8 +269,8 @@ class CreateNewVersionOfNormServiceTest {
     );
     assertThat(result.newExpression().getRegelungstext1().getManifestationEli()).hasToString(
       "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/%s/regelungstext-verkuendung-1.xml".formatted(
-          currentDate
-        )
+        currentDate
+      )
     );
     FRBRManifestation manifestation = result
       .newExpression()
@@ -279,8 +279,8 @@ class CreateNewVersionOfNormServiceTest {
       .getFRBRManifestation();
     assertThat(manifestation.getURI()).hasToString(
       "eli/bund/bgbl-1/1964/s593/2024-01-01/1/deu/%s/regelungstext-verkuendung-1.xml".formatted(
-          currentDate
-        )
+        currentDate
+      )
     );
     assertThat(manifestation.getFBRDate()).isEqualTo(currentDate);
 
@@ -292,8 +292,8 @@ class CreateNewVersionOfNormServiceTest {
       result.newManifestationOfOldExpression().getRegelungstext1().getManifestationEli()
     ).hasToString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-verkuendung-1.xml".formatted(
-          currentDate
-        )
+        currentDate
+      )
     );
     FRBRExpression expressionOldExpression = result
       .newManifestationOfOldExpression()
@@ -310,8 +310,8 @@ class CreateNewVersionOfNormServiceTest {
       .getFRBRManifestation();
     assertThat(manifestationOldExpression.getURI()).hasToString(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/%s/regelungstext-verkuendung-1.xml".formatted(
-          currentDate
-        )
+        currentDate
+      )
     );
     assertThat(manifestationOldExpression.getFBRDate()).isEqualTo(currentDate);
   }

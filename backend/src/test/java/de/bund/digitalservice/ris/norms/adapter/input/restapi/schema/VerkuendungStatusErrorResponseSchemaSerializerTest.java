@@ -45,27 +45,27 @@ class VerkuendungStatusErrorResponseSchemaSerializerTest {
     var result = mapper.writeValueAsString(schema);
 
     assertThat(result).isEqualToIgnoringWhitespace(
-      """
-      {
-        "type": "/errors/job-run-failed",
-        "title": "Tried to import a Normendokumentationspacket the max amount of times but failed",
-        "detail": "detail message",
-        "additionalProperty": "some-value",
-        "additionalObjectProperty": {
-          "some-key": "some-value",
-          "some-key2": {
-            "some-key": "some-value2"
-          }
-        },
-        "additionalArrayProperty": [
-          {
-            "some-key": "some-value"
+        """
+        {
+          "type": "/errors/job-run-failed",
+          "title": "Tried to import a Normendokumentationspacket the max amount of times but failed",
+          "detail": "detail message",
+          "additionalProperty": "some-value",
+          "additionalObjectProperty": {
+            "some-key": "some-value",
+            "some-key2": {
+              "some-key": "some-value2"
+            }
           },
-          123
-        ],
-        "status": "ERROR"
-      }
-      """
-    );
+          "additionalArrayProperty": [
+            {
+              "some-key": "some-value"
+            },
+            123
+          ],
+          "status": "ERROR"
+        }
+        """
+      );
   }
 }

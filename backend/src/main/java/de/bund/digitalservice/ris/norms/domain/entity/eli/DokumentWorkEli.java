@@ -79,11 +79,11 @@ public final class DokumentWorkEli implements DokumentEli, Comparable<DokumentWo
   @Override
   public String toString() {
     return "eli/bund/%s/%s/%s/%s".formatted(
-        getAgent(),
-        getYear(),
-        getNaturalIdentifier(),
-        getSubtype()
-      );
+      getAgent(),
+      getYear(),
+      getNaturalIdentifier(),
+      getSubtype()
+    );
   }
 
   /**

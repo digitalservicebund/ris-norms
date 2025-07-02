@@ -146,28 +146,28 @@ public final class DokumentManifestationEli
   public String toString() {
     if (!hasPointInTimeManifestation()) {
       return "eli/bund/%s/%s/%s/%s/%d/%s/%s.%s".formatted(
-          getAgent(),
-          getYear(),
-          getNaturalIdentifier(),
-          getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
-          getVersion(),
-          getLanguage(),
-          getSubtype(),
-          getFormat()
-        );
-    }
-
-    return "eli/bund/%s/%s/%s/%s/%d/%s/%s/%s.%s".formatted(
         getAgent(),
         getYear(),
         getNaturalIdentifier(),
         getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
         getVersion(),
         getLanguage(),
-        getPointInTimeManifestation().format(DateTimeFormatter.ISO_LOCAL_DATE),
         getSubtype(),
         getFormat()
       );
+    }
+
+    return "eli/bund/%s/%s/%s/%s/%d/%s/%s/%s.%s".formatted(
+      getAgent(),
+      getYear(),
+      getNaturalIdentifier(),
+      getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
+      getVersion(),
+      getLanguage(),
+      getPointInTimeManifestation().format(DateTimeFormatter.ISO_LOCAL_DATE),
+      getSubtype(),
+      getFormat()
+    );
   }
 
   /**

@@ -92,11 +92,11 @@ class NormControllerTest {
         .andExpect(jsonPath("page.totalPages").value(3));
 
       verify(loadNormWorksUseCase).loadNormWorks(
-        assertArg(arg -> {
-          assertThat(arg.pageable().getPageNumber()).isEqualTo(2);
-          assertThat(arg.pageable().getPageSize()).isEqualTo(10);
-        })
-      );
+          assertArg(arg -> {
+            assertThat(arg.pageable().getPageNumber()).isEqualTo(2);
+            assertThat(arg.pageable().getPageSize()).isEqualTo(10);
+          })
+        );
     }
   }
 }

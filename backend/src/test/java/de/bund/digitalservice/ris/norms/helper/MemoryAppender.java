@@ -12,8 +12,9 @@ public class MemoryAppender extends ListAppender<ILoggingEvent> {
   }
 
   public boolean contains(String string, Level level) {
-    return this.list.stream()
-      .anyMatch(event -> event.toString().contains(string) && event.getLevel().equals(level));
+    return this.list.stream().anyMatch(
+      event -> event.toString().contains(string) && event.getLevel().equals(level)
+    );
   }
 
   public int countEventsForLogger(String loggerName) {
@@ -23,7 +24,9 @@ public class MemoryAppender extends ListAppender<ILoggingEvent> {
   }
 
   public List<ILoggingEvent> search(String string) {
-    return this.list.stream().filter(event -> event.toString().contains(string)).toList();
+    return this.list.stream()
+      .filter(event -> event.toString().contains(string))
+      .toList();
   }
 
   public List<ILoggingEvent> search(String string, Level level) {

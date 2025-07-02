@@ -153,22 +153,21 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpectAll(
-          content()
-            .node(
-              hasXPath(
-                "//span[@data-eId=\"art-z1_überschrift-n1\"]",
-                equalTo("Änderung des Vereinsgesetzes")
-              )
-            ),
-          content()
-            .node(
-              hasXPath(
-                "//span/@data-href",
-                equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1")
-              )
-            ),
-          content()
-            .node(hasXPath("//span[@data-eId=\"art-z3_überschrift-n1\"]", equalTo("Inkrafttreten")))
+          content().node(
+            hasXPath(
+              "//span[@data-eId=\"art-z1_überschrift-n1\"]",
+              equalTo("Änderung des Vereinsgesetzes")
+            )
+          ),
+          content().node(
+            hasXPath(
+              "//span/@data-href",
+              equalTo("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1")
+            )
+          ),
+          content().node(
+            hasXPath("//span[@data-eId=\"art-z3_überschrift-n1\"]", equalTo("Inkrafttreten"))
+          )
         );
     }
 
@@ -192,30 +191,28 @@ class ArticleControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpectAll(
-          content()
-            .node(
-              IsNot.not(
-                hasXPath(
-                  "//span[@data-eId=\"art-z1_überschrift-n1\"]",
-                  equalTo("Änderung des Vereinsgesetzes")
-                )
+          content().node(
+            IsNot.not(
+              hasXPath(
+                "//span[@data-eId=\"art-z1_überschrift-n1\"]",
+                equalTo("Änderung des Vereinsgesetzes")
               )
-            ),
-          content()
-            .node(
-              IsNot.not(
-                hasXPath(
-                  "//span/@data-href",
-                  equalTo("eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-verkuendung-1")
-                )
+            )
+          ),
+          content().node(
+            IsNot.not(
+              hasXPath(
+                "//span/@data-href",
+                equalTo("eli/bund/bgbl-1/2024/10/2024-01-18/1/deu/regelungstext-verkuendung-1")
               )
-            ),
-          content()
-            .node(
-              hasXPath("//span[@data-eId=\"art-z3_überschrift-n1\"]", equalTo("Außerkrafttreten"))
-            ),
-          content()
-            .node(hasXPath("//span[@data-eId=\"art-z4_überschrift-n1\"]", equalTo("Inkrafttreten")))
+            )
+          ),
+          content().node(
+            hasXPath("//span[@data-eId=\"art-z3_überschrift-n1\"]", equalTo("Außerkrafttreten"))
+          ),
+          content().node(
+            hasXPath("//span[@data-eId=\"art-z4_überschrift-n1\"]", equalTo("Inkrafttreten"))
+          )
         );
     }
 

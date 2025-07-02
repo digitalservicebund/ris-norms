@@ -19,8 +19,7 @@ class LdmlDeElementSorterTest {
 
   @Test
   void itSortsElements() {
-    var elementNode =
-      """
+    var elementNode = """
           <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1"
                       GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
                       period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
@@ -62,8 +61,7 @@ class LdmlDeElementSorterTest {
 
   @Test
   void itSortsElementsWithDifferentNamespaces() {
-    var elementNode =
-      """
+    var elementNode = """
       <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
          <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
             <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">

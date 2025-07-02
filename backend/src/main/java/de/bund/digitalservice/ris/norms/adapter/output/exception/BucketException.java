@@ -29,10 +29,10 @@ public class BucketException extends StorageException {
   ) {
     super(
       "%s operation unsuccessful for bucket %s. %s".formatted(
-          operation.name(),
-          bucketName,
-          message
-        ),
+        operation.name(),
+        bucketName,
+        message
+      ),
       e
     );
   }

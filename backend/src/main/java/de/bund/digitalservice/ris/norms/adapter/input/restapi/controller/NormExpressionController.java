@@ -86,10 +86,9 @@ public class NormExpressionController {
     var normXml = loadRegelungstextXmlUseCase.loadRegelungstextXml(
       new LoadRegelungstextXmlUseCase.Options(eli)
     );
-    var legalDocHtml =
-      this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-          new TransformLegalDocMlToHtmlUseCase.Options(normXml, showMetadata, false)
-        );
+    var legalDocHtml = this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
+      new TransformLegalDocMlToHtmlUseCase.Options(normXml, showMetadata, false)
+    );
 
     return ResponseEntity.ok(legalDocHtml);
   }

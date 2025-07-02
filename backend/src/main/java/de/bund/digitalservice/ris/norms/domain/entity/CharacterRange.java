@@ -132,18 +132,18 @@ public record CharacterRange(String characterRange) {
     if (node.getTextContent().length() < getStart()) {
       throw new IndexOutOfBoundsException(
         "Start (%d) is after the end of the text content (length: %d).".formatted(
-            getStart(),
-            node.getTextContent().length()
-          )
+          getStart(),
+          node.getTextContent().length()
+        )
       );
     }
 
     if (node.getTextContent().length() < getEnd()) {
       throw new IndexOutOfBoundsException(
         "End (%d) is after the end of the text content (length: %d).".formatted(
-            getEnd(),
-            node.getTextContent().length()
-          )
+          getEnd(),
+          node.getTextContent().length()
+        )
       );
     }
 

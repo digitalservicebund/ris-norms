@@ -57,24 +57,24 @@ public final class NormManifestationEli implements NormEli, Comparable<NormManif
   public String toString() {
     if (!hasPointInTimeManifestation()) {
       return "eli/bund/%s/%s/%s/%s/%d/%s".formatted(
-          getAgent(),
-          getYear(),
-          getNaturalIdentifier(),
-          getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
-          getVersion(),
-          getLanguage()
-        );
-    }
-
-    return "eli/bund/%s/%s/%s/%s/%d/%s/%s".formatted(
         getAgent(),
         getYear(),
         getNaturalIdentifier(),
         getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
         getVersion(),
-        getLanguage(),
-        getPointInTimeManifestation().format(DateTimeFormatter.ISO_LOCAL_DATE)
+        getLanguage()
       );
+    }
+
+    return "eli/bund/%s/%s/%s/%s/%d/%s/%s".formatted(
+      getAgent(),
+      getYear(),
+      getNaturalIdentifier(),
+      getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
+      getVersion(),
+      getLanguage(),
+      getPointInTimeManifestation().format(DateTimeFormatter.ISO_LOCAL_DATE)
+    );
   }
 
   @Override
