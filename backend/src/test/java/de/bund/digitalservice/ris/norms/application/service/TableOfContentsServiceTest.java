@@ -34,9 +34,9 @@ class TableOfContentsServiceTest {
     when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
 
     assertThatThrownBy(() -> tableOfContentsService.loadTocFromRegelungstext(options)).isInstanceOf(
-      // then
-      RegelungstextNotFoundException.class
-    );
+        // then
+        RegelungstextNotFoundException.class
+      );
   }
 
   @Test

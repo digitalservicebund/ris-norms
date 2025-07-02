@@ -35,13 +35,13 @@ public final class NormExpressionEli implements NormEli, Comparable<NormExpressi
   @Override
   public String toString() {
     return "eli/bund/%s/%s/%s/%s/%d/%s".formatted(
-        getAgent(),
-        getYear(),
-        getNaturalIdentifier(),
-        getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
-        getVersion(),
-        getLanguage()
-      );
+      getAgent(),
+      getYear(),
+      getNaturalIdentifier(),
+      getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
+      getVersion(),
+      getLanguage()
+    );
   }
 
   @Override

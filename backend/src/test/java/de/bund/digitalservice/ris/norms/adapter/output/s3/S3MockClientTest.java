@@ -63,10 +63,16 @@ class S3MockClientTest {
     // Then
     assertThat(response.contents()).hasSize(2);
     assertThat(
-      response.contents().stream().anyMatch(s3Object -> s3Object.key().equals(key1))
+      response
+        .contents()
+        .stream()
+        .anyMatch(s3Object -> s3Object.key().equals(key1))
     ).isTrue();
     assertThat(
-      response.contents().stream().anyMatch(s3Object -> s3Object.key().equals(key2))
+      response
+        .contents()
+        .stream()
+        .anyMatch(s3Object -> s3Object.key().equals(key2))
     ).isTrue();
   }
 
@@ -88,7 +94,7 @@ class S3MockClientTest {
       InputStream inputStream = s3MockClient.getObject(
         GetObjectRequest.builder().key(key).build(),
         ResponseTransformer.toInputStream()
-      )
+      );
     ) {
       retrievedContent = new String(inputStream.readAllBytes());
     }

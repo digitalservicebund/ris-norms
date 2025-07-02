@@ -42,19 +42,18 @@ public class EverkuendungApiController {
     @RequestParam final MultipartFile file,
     @RequestParam final MultipartFile signature
   ) throws IOException {
-    return ResponseEntity.accepted()
-      .body(
-        new VerkuendungsProcessIdResponseSchema(
-          storeNormendokumentationspaketUseCase
-            .storeNormendokumentationspaket(
-              new StoreNormendokumentationspaketUseCase.Options(
-                file.getResource(),
-                signature.getResource()
-              )
+    return ResponseEntity.accepted().body(
+      new VerkuendungsProcessIdResponseSchema(
+        storeNormendokumentationspaketUseCase
+          .storeNormendokumentationspaket(
+            new StoreNormendokumentationspaketUseCase.Options(
+              file.getResource(),
+              signature.getResource()
             )
-            .toString()
-        )
-      );
+          )
+          .toString()
+      )
+    );
   }
 
   /**

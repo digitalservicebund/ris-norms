@@ -73,8 +73,7 @@ class RegelungstextTest {
   @Test
   void getErrorWhenEliDoesntExist() {
     // given
-    final String xml =
-      """
+    final String xml = """
       <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
          <akn:act name="regelungstext">
          </akn:act>
@@ -228,8 +227,7 @@ class RegelungstextTest {
   @Test
   void getMetaNotFound() {
     // given
-    final String xml =
-      """
+    final String xml = """
       <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
          <akn:act name="regelungstext">
          </akn:act>
@@ -274,8 +272,7 @@ class RegelungstextTest {
   @Test
   void returnsEmptyListIfNoArticlesAreFound() {
     // given
-    final String xml =
-      """
+    final String xml = """
       <akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
          <akn:act name="regelungstext">
             <akn:body eId="hauptteil-n1" GUID="0B4A8E1F-65EF-4B7C-9E22-E83BA6B73CD8">

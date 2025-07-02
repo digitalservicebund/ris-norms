@@ -125,9 +125,9 @@ class VerkuendungsImportServiceTest {
     LoadNormendokumentationspacketProcessingStatusUseCase.Options options =
       new LoadNormendokumentationspacketProcessingStatusUseCase.Options(UUID.randomUUID());
     assertThatThrownBy(() -> verkuendungsImportService.getStatus(options)).isInstanceOf(
-      // then
-      ImportProcessNotFoundException.class
-    );
+        // then
+        ImportProcessNotFoundException.class
+      );
   }
 
   @Nested
@@ -168,22 +168,22 @@ class VerkuendungsImportServiceTest {
         argThat(command -> command.status().equals(VerkuendungImportProcess.Status.SUCCESS))
       );
       verify(updateOrSaveNormPort, times(1)).updateOrSave(
-        assertArg(command -> {
-          assertThat(command.norm().getManifestationEli()).hasToString(
-            "eli/bund/bgbl-1/2024/107/2024-03-27/1/deu/2024-03-27"
-          );
-          assertThat(command.norm().getDokumente()).hasSize(2);
-          assertThat(command.norm().getBinaryFiles()).isEmpty();
-        })
-      );
+          assertArg(command -> {
+            assertThat(command.norm().getManifestationEli()).hasToString(
+              "eli/bund/bgbl-1/2024/107/2024-03-27/1/deu/2024-03-27"
+            );
+            assertThat(command.norm().getDokumente()).hasSize(2);
+            assertThat(command.norm().getBinaryFiles()).isEmpty();
+          })
+        );
 
       verify(updateOrSaveVerkuendungPort, times(1)).updateOrSaveVerkuendung(
-        assertArg(command -> {
-          assertThat(command.verkuendung().getEli()).hasToString(
-            "eli/bund/bgbl-1/2024/107/2024-03-27/1/deu"
-          );
-        })
-      );
+          assertArg(command -> {
+            assertThat(command.verkuendung().getEli()).hasToString(
+              "eli/bund/bgbl-1/2024/107/2024-03-27/1/deu"
+            );
+          })
+        );
     }
 
     @Test

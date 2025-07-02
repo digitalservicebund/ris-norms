@@ -138,13 +138,13 @@ class ArticleControllerTest {
         loadSpecificArticlesXmlFromDokumentUseCase,
         times(1)
       ).loadSpecificArticlesXmlFromDokument(
-        assertArg(arg -> {
-          assertThat(arg.refersTo()).containsAll(
-            List.of("geltungszeitregel-inkrafttreten", "geltungszeitregel-ausserkrafttreten")
-          );
-          assertThat(arg.eli()).hasToString(eli);
-        })
-      );
+          assertArg(arg -> {
+            assertThat(arg.refersTo()).containsAll(
+              List.of("geltungszeitregel-inkrafttreten", "geltungszeitregel-ausserkrafttreten")
+            );
+            assertThat(arg.eli()).hasToString(eli);
+          })
+        );
       verify(transformLegalDocMlToHtmlUseCase, times(1)).transformLegalDocMlToHtml(
         argThat(query -> query.xml().equals(xml))
       );

@@ -101,8 +101,9 @@ public class RahmenMetadata {
    * @param qualifizierteMehrheit the new value for the metadatum or null to remove it
    */
   public void setQualifizierterMehrheit(@Nullable Boolean qualifizierteMehrheit) {
-    getRegelungstextRahmenMetadata()
-      .forEach(m -> m.setQualifizierterMehrheit(qualifizierteMehrheit));
+    getRegelungstextRahmenMetadata().forEach(m ->
+      m.setQualifizierterMehrheit(qualifizierteMehrheit)
+    );
   }
 
   public Optional<String> getRessort() {

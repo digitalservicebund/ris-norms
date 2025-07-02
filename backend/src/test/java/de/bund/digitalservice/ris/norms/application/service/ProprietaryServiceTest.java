@@ -53,9 +53,9 @@ class ProprietaryServiceTest {
       assertThatThrownBy(() ->
         proprietaryService.loadProprietaryFromDokument(options)
       ).isInstanceOf(
-        // then
-        DokumentNotFoundException.class
-      );
+          // then
+          DokumentNotFoundException.class
+        );
     }
 
     @Test

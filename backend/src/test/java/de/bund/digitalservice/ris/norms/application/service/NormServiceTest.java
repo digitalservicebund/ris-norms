@@ -149,9 +149,9 @@ class NormServiceTest {
 
       // When
       assertThatThrownBy(() -> service.loadRegelungstext(query)).isInstanceOf(
-        // Then
-        RegelungstextNotFoundException.class
-      );
+          // Then
+          RegelungstextNotFoundException.class
+        );
 
       verify(loadRegelungstextPort, times(1)).loadRegelungstext(
         argThat(argument -> Objects.equals(argument.eli(), eli))
@@ -194,9 +194,9 @@ class NormServiceTest {
 
       // When
       assertThatThrownBy(() -> service.loadRegelungstextXml(query)).isInstanceOf(
-        // then
-        RegelungstextNotFoundException.class
-      );
+          // then
+          RegelungstextNotFoundException.class
+        );
     }
   }
 
@@ -263,9 +263,9 @@ class NormServiceTest {
 
       // When
       assertThatThrownBy(() -> service.updateRegelungstextXml(query)).isInstanceOf(
-        // then
-        NormNotFoundException.class
-      );
+          // then
+          NormNotFoundException.class
+        );
 
       verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
@@ -665,13 +665,13 @@ class NormServiceTest {
         )
       );
       when(loadNormExpressionElisPort.loadNormExpressionElis(any())).thenReturn(
-        List.of(
-          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"), // a new expression for this date should be created
-          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-21/1/deu"), // should be ignored as it is gegenstandlos
-          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/1/deu"), // should be ignored as it is gegenstandlos
-          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu") // a new expression for this date should be created
-        )
-      );
+          List.of(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"), // a new expression for this date should be created
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-03-21/1/deu"), // should be ignored as it is gegenstandlos
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/1/deu"), // should be ignored as it is gegenstandlos
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/2/deu") // a new expression for this date should be created
+          )
+        );
       when(eliService.findNextExpressionEli(any(), any(), any())).thenReturn(
         NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/2017-04-16/3/deu")
       );

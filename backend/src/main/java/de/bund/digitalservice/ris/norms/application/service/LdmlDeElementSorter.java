@@ -51,10 +51,10 @@ public class LdmlDeElementSorter {
     sortChildElements(element);
 
     NodeParser.nodeListToList(element.getChildNodes()).forEach(child -> {
-      if (child.getNodeType() == Node.ELEMENT_NODE) {
-        sortElements((Element) child);
-      }
-    });
+        if (child.getNodeType() == Node.ELEMENT_NODE) {
+          sortElements((Element) child);
+        }
+      });
   }
 
   private void sortChildElements(Element element) {
@@ -181,9 +181,9 @@ public class LdmlDeElementSorter {
       );
       default -> throw new LdmlDeElementSortingException(
         "Too many possible types for %s (%s) in schema".formatted(
-            tagName,
-            types.stream().map(SchemaType::toString).collect(Collectors.joining(", "))
-          )
+          tagName,
+          types.stream().map(SchemaType::toString).collect(Collectors.joining(", "))
+        )
       );
     };
   }
@@ -278,9 +278,9 @@ public class LdmlDeElementSorter {
       .map(schema ->
         NodeParser.getElementFromExpression(
           "/schema[@targetNamespace = \"%s\"]/(complexType | group | element)[@name = \"%s\"]".formatted(
-              type.namespace.getNamespaceUri(),
-              type.typeName
-            ),
+            type.namespace.getNamespaceUri(),
+            type.typeName
+          ),
           schema
         )
       )

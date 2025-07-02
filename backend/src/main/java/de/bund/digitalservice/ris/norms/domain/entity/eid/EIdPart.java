@@ -31,8 +31,8 @@ public record EIdPart(String value) {
 
     throw new IllegalStateException(
       "EId position doesn't start with one of the expected prefixes (either n or z): %s".formatted(
-          position
-        )
+        position
+      )
     );
   }
 

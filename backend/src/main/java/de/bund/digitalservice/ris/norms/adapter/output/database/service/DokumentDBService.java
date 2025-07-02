@@ -75,7 +75,7 @@ public class DokumentDBService
   @Override
   public Optional<Regelungstext> loadRegelungstext(LoadRegelungstextPort.Options options) {
     return this.loadDokument(new LoadDokumentPort.Options(options.eli())).map(
-        Regelungstext.class::cast
-      );
+      Regelungstext.class::cast
+    );
   }
 }

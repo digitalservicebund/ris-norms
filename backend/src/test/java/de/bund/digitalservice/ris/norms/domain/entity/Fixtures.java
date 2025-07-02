@@ -40,78 +40,78 @@ public class Fixtures {
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-baukasten.xsd"
-          )
+          LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-baukasten.xsd"
+        )
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd"
-          )
+          LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd"
+        )
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd"
-          )
+          LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-regelungstextverkuendungsfassung.xsd"
+        )
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-bekanntmachung.xsd"
-          )
+          LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-bekanntmachung.xsd"
+        )
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-offenestruktur.xsd"
-          )
+          LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-offenestruktur.xsd"
+        )
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-rechtsetzungsdokument.xsd"
-          )
+          LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-rechtsetzungsdokument.xsd"
+        )
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-bundesregierung.xsd"
-          )
+          LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-bundesregierung.xsd"
+        )
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-regelungstext.xsd"
-          )
+          LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-regelungstext.xsd"
+        )
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-rechtsetzungsdokument.xsd"
-          )
+          LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-rechtsetzungsdokument.xsd"
+        )
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_EXTENSION_RESOURCE_FOLDER + "/legalDocML.de-metadaten-ris.xsd"
-          )
+          LDMLDE_EXTENSION_RESOURCE_FOLDER + "/legalDocML.de-metadaten-ris.xsd"
+        )
       )
     ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
-            LDMLDE_EXTENSION_RESOURCE_FOLDER + "/norms-application-only-metadata.xsd"
-          )
+          LDMLDE_EXTENSION_RESOURCE_FOLDER + "/norms-application-only-metadata.xsd"
+        )
       )
     )
   );
@@ -338,7 +338,7 @@ public class Fixtures {
     final URL fileName,
     DokumentManifestationEli dokumentManifestationEli
   ) {
-    try (var resourceStream = fileName.openStream();) {
+    try (var resourceStream = fileName.openStream()) {
       return new BinaryFile(
         dokumentManifestationEli,
         Objects.requireNonNull(resourceStream).readAllBytes()

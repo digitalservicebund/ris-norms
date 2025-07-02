@@ -81,13 +81,13 @@ public class PrototypeCleanupService {
     }
 
     NodeParser.getNodesFromExpression("./notes", metadataElement).forEach(notesNode -> {
-      boolean hasElementChildren = IntStream.range(0, notesNode.getChildNodes().getLength())
-        .mapToObj(i -> notesNode.getChildNodes().item(i))
-        .anyMatch(node -> node.getNodeType() == Node.ELEMENT_NODE);
-      if (!hasElementChildren) {
-        notesNode.getParentNode().removeChild(notesNode);
-      }
-    });
+        boolean hasElementChildren = IntStream.range(0, notesNode.getChildNodes().getLength())
+          .mapToObj(i -> notesNode.getChildNodes().item(i))
+          .anyMatch(node -> node.getNodeType() == Node.ELEMENT_NODE);
+        if (!hasElementChildren) {
+          notesNode.getParentNode().removeChild(notesNode);
+        }
+      });
   }
 
   private void cleanLifecycleEvents(Dokument dokument) {

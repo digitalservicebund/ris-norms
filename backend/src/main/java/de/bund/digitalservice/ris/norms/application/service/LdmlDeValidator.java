@@ -57,8 +57,9 @@ public class LdmlDeValidator {
     try {
       Source xsltSource = new StreamSource(schematronXslt.getInputStream());
       xsltSource.setSystemId(schematronXslt.getURL().toString());
-      this.schematronValidationTransformer = new TransformerFactoryImpl()
-        .newTransformer(xsltSource);
+      this.schematronValidationTransformer = new TransformerFactoryImpl().newTransformer(
+        xsltSource
+      );
     } catch (IOException | TransformerConfigurationException e) {
       throw new XmlProcessingException(e.getMessage(), e);
     }
@@ -89,8 +90,8 @@ public class LdmlDeValidator {
         case Bekanntmachung bekanntmachung -> this.parseAndValidateBekanntmachung(xmlContent);
         case OffeneStruktur offeneStruktur -> this.parseAndValidateOffeneStruktur(xmlContent);
         case Rechtsetzungsdokument rechtsetzungsdokument -> this.parseAndValidateRechtsetzungsdokument(
-            xmlContent
-          );
+          xmlContent
+        );
       }
     } catch (LdmlDeNotValidException exception) {
       throw new LdmlDeNotValidException(

@@ -38,9 +38,9 @@ public interface LoadSpecificArticlesXmlFromDokumentUseCase {
     public NoArticlesOfTypesFoundException(final String eli, final List<String> articleTypes) {
       super(
         "Dokument with eli %s does not contain articles of any of the types %s".formatted(
-            eli,
-            String.join(", ", articleTypes)
-          )
+          eli,
+          String.join(", ", articleTypes)
+        )
       );
       this.eli = eli;
       this.articleTypes = articleTypes;

@@ -33,8 +33,9 @@ public class CustomModsMetadata {
    * @return all norm expression elis amended by this norm or a Set that can be used to add new once
    */
   public AmendedNormExpressions getOrCreateAmendedNormExpressions() {
-    return getAmendedNormExpressions()
-      .orElseGet(() -> AmendedNormExpressions.createAndAppend(getElement()));
+    return getAmendedNormExpressions().orElseGet(() ->
+      AmendedNormExpressions.createAndAppend(getElement())
+    );
   }
 
   /**
@@ -52,8 +53,9 @@ public class CustomModsMetadata {
    * @return the collection of {@link Zeitgrenze}n
    */
   public Geltungszeiten getOrCreateGeltungszeiten() {
-    return getGeltungszeiten()
-      .orElseGet(() -> Geltungszeiten.createAndAppend(this.getElement(), this::isZeitgrenzeInUse));
+    return getGeltungszeiten().orElseGet(() ->
+      Geltungszeiten.createAndAppend(this.getElement(), this::isZeitgrenzeInUse)
+    );
   }
 
   /**
@@ -85,15 +87,17 @@ public class CustomModsMetadata {
    * @return the {@link ZielnormReferences} of the norm
    */
   public ZielnormReferences getOrCreateZielnormenReferences() {
-    return getZielnormenReferences()
-      .orElseGet(() -> ZielnormReferences.createAndAppend(getElement()));
+    return getZielnormenReferences().orElseGet(() ->
+      ZielnormReferences.createAndAppend(getElement())
+    );
   }
 
   /**
    * Remove the {@link ZielnormReferences} element
    */
   public void removeZielnormenReferences() {
-    getZielnormenReferences()
-      .ifPresent(zielnormReferences -> getElement().removeChild(zielnormReferences.getElement()));
+    getZielnormenReferences().ifPresent(zielnormReferences ->
+      getElement().removeChild(zielnormReferences.getElement())
+    );
   }
 }

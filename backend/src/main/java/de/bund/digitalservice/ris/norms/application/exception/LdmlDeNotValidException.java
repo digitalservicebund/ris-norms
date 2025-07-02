@@ -60,8 +60,7 @@ public class LdmlDeNotValidException extends RuntimeException implements NormsAp
     int columnNumber,
     String detail,
     @Nullable String file
-  )
-    implements Serializable {
+  ) implements Serializable {
     public ValidationError(URI type, int lineNumber, int columnNumber, String detail) {
       this(type, lineNumber, columnNumber, detail, null);
     }

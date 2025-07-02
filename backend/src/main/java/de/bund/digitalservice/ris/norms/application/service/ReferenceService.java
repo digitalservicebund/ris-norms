@@ -38,36 +38,36 @@ public class ReferenceService {
 
   private void findAndCreateReferencesInNode(final Node node) {
     NodeParser.nodeListToList(node.getChildNodes()).forEach(child -> {
-      final short nodeType = child.getNodeType();
-      if (nodeType == Node.TEXT_NODE) {
-        final String originalText = child.getTextContent();
-        if (
-          originalText != null &&
-          !originalText.trim().isEmpty() &&
-          !child.getParentNode().getNodeName().equals("akn:num")
-        ) {
-          final String cleanedText = originalText.trim().replaceAll("\\s+", " ");
-          // Create mapping to original indexes
-          final List<Integer> originalIndexMapping = createOriginalIndexMapping(
-            originalText,
-            cleanedText
-          );
+        final short nodeType = child.getNodeType();
+        if (nodeType == Node.TEXT_NODE) {
+          final String originalText = child.getTextContent();
+          if (
+            originalText != null &&
+            !originalText.trim().isEmpty() &&
+            !child.getParentNode().getNodeName().equals("akn:num")
+          ) {
+            final String cleanedText = originalText.trim().replaceAll("\\s+", " ");
+            // Create mapping to original indexes
+            final List<Integer> originalIndexMapping = createOriginalIndexMapping(
+              originalText,
+              cleanedText
+            );
 
-          final List<MatchInfo> matches = findReferences(cleanedText);
+            final List<MatchInfo> matches = findReferences(cleanedText);
 
-          // Adjust match indices to original text and retrieve original matched text
-          final List<MatchInfo> adjustedMatches = adjustMatchesToOriginalText(
-            matches,
-            originalIndexMapping,
-            originalText
-          );
+            // Adjust match indices to original text and retrieve original matched text
+            final List<MatchInfo> adjustedMatches = adjustMatchesToOriginalText(
+              matches,
+              originalIndexMapping,
+              originalText
+            );
 
-          replaceMatchesWithNewNodes(child.getParentNode(), child, adjustedMatches, originalText);
+            replaceMatchesWithNewNodes(child.getParentNode(), child, adjustedMatches, originalText);
+          }
+        } else if (nodeType == Node.ELEMENT_NODE) {
+          findAndCreateReferencesInNode(child);
         }
-      } else if (nodeType == Node.ELEMENT_NODE) {
-        findAndCreateReferencesInNode(child);
-      }
-    });
+      });
   }
 
   private static List<Integer> createOriginalIndexMapping(

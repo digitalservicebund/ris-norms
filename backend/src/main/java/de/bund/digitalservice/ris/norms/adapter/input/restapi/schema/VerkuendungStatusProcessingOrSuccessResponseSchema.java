@@ -5,5 +5,6 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
  *
  * @param verkuendungStatus
  */
-public record VerkuendungStatusProcessingOrSuccessResponseSchema(String verkuendungStatus)
-  implements VerkuendungStatusResponseSchema {}
+public record VerkuendungStatusProcessingOrSuccessResponseSchema(
+  String verkuendungStatus
+) implements VerkuendungStatusResponseSchema {}

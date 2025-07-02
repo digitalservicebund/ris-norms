@@ -281,10 +281,10 @@ public interface ProcessNormendokumentationspaketUseCase {
     ) {
       super(
         "The Dokument %s uses a different norm manifestation eli (%s) than the rechtsetzungsdokument (%s)".formatted(
-            fileName,
-            actualEli,
-            expectedEli
-          )
+          fileName,
+          actualEli,
+          expectedEli
+        )
       );
       this.fileName = fileName;
       this.expectedEli = expectedEli.toString();

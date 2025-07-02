@@ -106,14 +106,14 @@ public final class DokumentExpressionEli implements DokumentEli, Comparable<Doku
   @Override
   public String toString() {
     return "eli/bund/%s/%s/%s/%s/%d/%s/%s".formatted(
-        getAgent(),
-        getYear(),
-        getNaturalIdentifier(),
-        getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
-        getVersion(),
-        getLanguage(),
-        getSubtype()
-      );
+      getAgent(),
+      getYear(),
+      getNaturalIdentifier(),
+      getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
+      getVersion(),
+      getLanguage(),
+      getSubtype()
+    );
   }
 
   /**
@@ -126,13 +126,13 @@ public final class DokumentExpressionEli implements DokumentEli, Comparable<Doku
   public URI toUri() {
     return URI.create(
       "eli/bund/%s/%s/%s/%s/%d/%s".formatted(
-          getAgent(),
-          getYear(),
-          getNaturalIdentifier(),
-          getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
-          getVersion(),
-          getLanguage()
-        )
+        getAgent(),
+        getYear(),
+        getNaturalIdentifier(),
+        getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
+        getVersion(),
+        getLanguage()
+      )
     );
   }
 

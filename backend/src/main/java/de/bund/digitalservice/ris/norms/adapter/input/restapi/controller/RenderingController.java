@@ -36,8 +36,8 @@ public class RenderingController {
   ) {
     return ResponseEntity.ok(
       this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
-          new TransformLegalDocMlToHtmlUseCase.Options(xml, showMetadata, snippet)
-        )
+        new TransformLegalDocMlToHtmlUseCase.Options(xml, showMetadata, snippet)
+      )
     );
   }
 }

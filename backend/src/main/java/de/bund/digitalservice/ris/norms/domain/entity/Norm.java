@@ -119,7 +119,10 @@ public class Norm {
   public void setRegelungstexte(final Set<Regelungstext> regelungstexte) {
     final Set<Dokument> newDokumente = (dokumente == null)
       ? new HashSet<>()
-      : dokumente.stream().filter(d -> !(d instanceof Regelungstext)).collect(Collectors.toSet());
+      : dokumente
+        .stream()
+        .filter(d -> !(d instanceof Regelungstext))
+        .collect(Collectors.toSet());
     newDokumente.addAll(regelungstexte);
     dokumente = newDokumente;
   }

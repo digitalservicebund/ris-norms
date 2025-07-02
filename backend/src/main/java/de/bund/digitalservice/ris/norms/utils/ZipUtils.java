@@ -39,7 +39,7 @@ public class ZipUtils {
       var zipEntryCount = 0;
       var zipArchiveSize = 0;
 
-      for (ZipEntry entry; (entry = zipInputStream.getNextEntry()) != null;) {
+      for (ZipEntry entry; (entry = zipInputStream.getNextEntry()) != null; ) {
         zipEntryCount++;
 
         if (entry.isDirectory()) {
@@ -55,8 +55,8 @@ public class ZipUtils {
         ) {
           throw new IllegalArgumentException(
             "Zip contains path traversals (\"%s\"). This is not supported.".formatted(
-                entry.getName()
-              )
+              entry.getName()
+            )
           );
         }
 
@@ -81,9 +81,9 @@ public class ZipUtils {
         if (zipInputStream.available() != 1) {
           throw new IllegalArgumentException(
             "Expected uncompressed filesize (%s) differs from actual file size for %s".formatted(
-                entrySize,
-                entry.getName()
-              )
+              entrySize,
+              entry.getName()
+            )
           );
         }
 

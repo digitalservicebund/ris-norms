@@ -50,9 +50,9 @@ public interface UpdateZeitgrenzenUseCase {
     public ZeitgrenzeCanNotBeDeletedAsItIsUsedException(Zeitgrenze zeitgrenze) {
       super(
         "Zeitgrenze (date: %s, art: %s) can not be deleted as it is used.".formatted(
-            zeitgrenze.getDate(),
-            zeitgrenze.getArt()
-          )
+          zeitgrenze.getDate(),
+          zeitgrenze.getArt()
+        )
       );
       this.date = zeitgrenze.getDate();
       this.art = zeitgrenze.getArt();
