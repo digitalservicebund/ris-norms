@@ -4,7 +4,7 @@ import type { DataTablePageEvent } from "primevue/datatable"
 import Button from "primevue/button"
 
 /** Input data to the table. */
-export type BestandTableItem = {
+export type DatenbankTableItem = {
   /** Work ELI of the norm */
   eli: string
   /** Title of the latest manifestation of the latest expression */
@@ -12,7 +12,7 @@ export type BestandTableItem = {
 }
 
 defineProps<{
-  items: BestandTableItem[]
+  items: DatenbankTableItem[]
   total: number
   currentPage: number
   pageSize: number
@@ -68,7 +68,7 @@ function onPage(event: DataTablePageEvent) {
     <Column field="eli" header="ELI" class="w-1/5">
       <template #body="{ data }">
         <RouterLink
-          :to="`/bestand/${data.eli}`"
+          :to="`/datenbank/${data.eli}`"
           class="ris-link2-regular pointer-events-none"
         >
           {{ data.eli }}

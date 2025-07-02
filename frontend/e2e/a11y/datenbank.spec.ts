@@ -3,15 +3,17 @@ import { expect } from "@playwright/test"
 import { logAccessibilityViolations, useAxeBuilder } from "../utils/a11y"
 
 test.describe(
-  "accessibility check for Abgabe page",
+  "accessibility check for Datenbank page",
   { tag: ["@RISDEV-8331"] },
   () => {
     test("should have no detectable accessibility violations", async ({
       page,
     }) => {
-      await page.goto("./bestand")
+      await page.goto("./datenbank")
 
-      await expect(page.getByRole("heading", { name: "Bestand" })).toBeVisible()
+      await expect(
+        page.getByRole("heading", { name: "Datenbank" }),
+      ).toBeVisible()
 
       const accessibilityScanResults = await useAxeBuilder(page)
         // Disable empty-heading rule since the empty headings are generated

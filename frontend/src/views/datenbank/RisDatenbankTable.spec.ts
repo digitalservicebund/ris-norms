@@ -1,9 +1,9 @@
 import { render, screen, within } from "@testing-library/vue"
-import RisBestandTable from "./RisBestandTable.vue"
+import RisDatenbankTable from "./RisDatenbankTable.vue"
 import { describe, expect, it } from "vitest"
 import userEvent from "@testing-library/user-event"
 
-describe("risBestandTable", () => {
+describe("risDatenbankTable", () => {
   it("renders the table with ELI and title columns and paginates", async () => {
     const items = [
       {
@@ -18,7 +18,7 @@ describe("risBestandTable", () => {
       },
     ]
 
-    render(RisBestandTable, {
+    render(RisDatenbankTable, {
       props: {
         items,
         total: 2,
@@ -39,7 +39,7 @@ describe("risBestandTable", () => {
   })
 
   it("shows the correct page report", () => {
-    render(RisBestandTable, {
+    render(RisDatenbankTable, {
       props: {
         items: [],
         total: 200,
@@ -56,7 +56,7 @@ describe("risBestandTable", () => {
       { eli: "eli/bund/bgbl-1/2021/s818", title: "Test" },
       { eli: "eli/bund/bgbl-1/2024/108", title: "Test2" },
     ]
-    const { emitted } = render(RisBestandTable, {
+    const { emitted } = render(RisDatenbankTable, {
       props: {
         items,
         total: 4,
@@ -76,7 +76,7 @@ describe("risBestandTable", () => {
       { eli: "eli/bund/bgbl-1/2021/s818", title: "Test" },
       { eli: "eli/bund/bgbl-1/2024/108", title: "Test2" },
     ]
-    const { emitted } = render(RisBestandTable, {
+    const { emitted } = render(RisDatenbankTable, {
       props: {
         items,
         total: 4,
@@ -91,7 +91,7 @@ describe("risBestandTable", () => {
   })
 
   it("does not show 'Zurück' on first page or 'Weiter' on last page", () => {
-    render(RisBestandTable, {
+    render(RisDatenbankTable, {
       props: {
         items: [],
         total: 2,

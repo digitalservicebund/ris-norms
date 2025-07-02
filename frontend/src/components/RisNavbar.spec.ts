@@ -13,7 +13,7 @@ vi.mock("@/lib/auth", () => ({
 }))
 
 describe("risNavbar", () => {
-  it("should show logo text and 'Verkündungen'/'Bestand' links", () => {
+  it("should show logo text and 'Verkündungen'/'Datenbank' links", () => {
     const router = createRouter({
       history: createWebHashHistory(),
       routes: [
@@ -23,7 +23,11 @@ describe("risNavbar", () => {
           path: "/verkuendungen",
           component: defineComponent({}),
         },
-        { name: "Bestand", path: "/bestand", component: defineComponent({}) },
+        {
+          name: "Datenbank",
+          path: "/datenbank",
+          component: defineComponent({}),
+        },
       ],
     })
 
@@ -33,7 +37,7 @@ describe("risNavbar", () => {
     expect(
       screen.getByRole("link", { name: "Verkündungen" }),
     ).toBeInTheDocument()
-    expect(screen.getByRole("link", { name: "Bestand" })).toBeInTheDocument()
+    expect(screen.getByRole("link", { name: "Datenbank" })).toBeInTheDocument()
   })
 
   it("should render the logout link", () => {
@@ -46,7 +50,11 @@ describe("risNavbar", () => {
           path: "/verkuendungen",
           component: defineComponent({}),
         },
-        { name: "Bestand", path: "/bestand", component: defineComponent({}) },
+        {
+          name: "Datenbank",
+          path: "/datenbank",
+          component: defineComponent({}),
+        },
       ],
     })
 
@@ -66,20 +74,24 @@ describe("risNavbar", () => {
           path: "/verkuendungen",
           component: defineComponent({}),
         },
-        { name: "Bestand", path: "/bestand", component: defineComponent({}) },
+        {
+          name: "Datenbank",
+          path: "/datenbank",
+          component: defineComponent({}),
+        },
       ],
     })
 
     await router.push({ name: "Verkuendungen" })
     render(RisNavbar, { global: { plugins: [router] } })
     const verkuendungenTab = screen.getByRole("link", { name: "Verkündungen" })
-    const bestandTab = screen.getByRole("link", { name: "Bestand" })
+    const datenbankTab = screen.getByRole("link", { name: "Datenbank" })
     expect(verkuendungenTab).toHaveAttribute("aria-current", "page")
-    expect(bestandTab).not.toHaveAttribute("aria-current")
+    expect(datenbankTab).not.toHaveAttribute("aria-current")
 
-    await router.push({ name: "Bestand" })
+    await router.push({ name: "Datenbank" })
     render(RisNavbar, { global: { plugins: [router] } })
-    expect(bestandTab).toHaveAttribute("aria-current", "page")
+    expect(datenbankTab).toHaveAttribute("aria-current", "page")
     expect(verkuendungenTab).not.toHaveAttribute("aria-current")
   })
 
@@ -94,14 +106,18 @@ describe("risNavbar", () => {
           path: "/verkuendungen",
           component: defineComponent({}),
         },
-        { name: "Bestand", path: "/bestand", component: defineComponent({}) },
+        {
+          name: "Datenbank",
+          path: "/datenbank",
+          component: defineComponent({}),
+        },
       ],
     })
 
     render(RisNavbar, { global: { plugins: [router] } })
-    await user.click(screen.getByRole("link", { name: "Bestand" }))
+    await user.click(screen.getByRole("link", { name: "Datenbank" }))
     await router.isReady()
     await nextTick()
-    expect(router.currentRoute.value.name).toBe("Bestand")
+    expect(router.currentRoute.value.name).toBe("Datenbank")
   })
 })
