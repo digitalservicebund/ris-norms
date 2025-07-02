@@ -1,6 +1,7 @@
 package de.bund.digitalservice.ris.norms.integration.adapter.input.restapi;
 
 import static de.bund.digitalservice.ris.norms.XPathMatcher.hasXPath;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -287,14 +288,14 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
-    void itCallsNormServiceAndUpdatesNorm() throws Exception {
+    void itUpdatesWorkingCopyOfNorm() throws Exception {
       // Given
-      dokumentRepository.save(
-        DokumentMapper.mapToDto(
-          Fixtures.loadRegelungstextFromDisk(
-            "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-          )
-        )
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.PUBLISHED
       );
       var newXml = Fixtures.loadTextFromDisk(
         NormExpressionControllerIntegrationTest.class,
@@ -320,6 +321,46 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
             )
           )
         );
+
+      assertThat(normManifestationRepository.findAll()).hasSize(2);
+    }
+
+    @Test
+    void itUpdatesExistingManifestationOfNorm() throws Exception {
+      // Given
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
+      );
+      var newXml = Fixtures.loadTextFromDisk(
+        NormExpressionControllerIntegrationTest.class,
+        "vereinsgesetz-with-different-title/regelungstext-verkuendung-1.xml"
+      );
+
+      // When // Then
+      mockMvc
+        .perform(
+          put(
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
+          )
+            .accept(MediaType.APPLICATION_XML)
+            .contentType(MediaType.APPLICATION_XML)
+            .content(newXml)
+        )
+        .andExpect(status().isOk())
+        .andExpect(
+          content().node(
+            hasXPath(
+              "//*[@eId=\"einleitung-n1_doktitel-n1_text-n1_doctitel-n1\"]",
+              equalTo("Neuer Title")
+            )
+          )
+        );
+
+      assertThat(normManifestationRepository.findAll()).hasSize(1);
     }
   }
 }

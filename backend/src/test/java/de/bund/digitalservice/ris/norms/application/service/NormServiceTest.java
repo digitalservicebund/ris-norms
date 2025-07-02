@@ -229,7 +229,7 @@ class NormServiceTest {
         .build();
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(newNorm));
+      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(newNorm);
 
       // When
       var result = service.updateRegelungstextXml(
@@ -240,7 +240,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
       );
-      verify(updateNormPort, times(1)).updateNorm(
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(
         argThat(argument -> argument.norm().equals(newNorm))
       );
       assertThat(result).contains("Neuer Title");
@@ -343,17 +343,30 @@ class NormServiceTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
 
-      when(updateNormPort.updateNorm(new UpdateNormPort.Options(norm))).thenReturn(
-        Optional.of(norm)
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
+      when(updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm))).thenReturn(
+        norm
       );
 
       // when
       service.updateNorm(norm);
 
       // then
-      verify(updateNormPort, times(1)).updateNorm(
-        argThat(argument -> Objects.equals(argument, new UpdateNormPort.Options(norm)))
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(
+        argThat(argument -> Objects.equals(argument, new UpdateOrSaveNormPort.Options(norm)))
       );
+    }
+
+    @Test
+    void itThrowsNormNotFoundIfNormNotFound() {
+      // given
+      Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
+      );
+      when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.empty());
+
+      // when
+      assertThatThrownBy(() -> service.updateNorm(norm)).isInstanceOf(NormNotFoundException.class);
     }
   }
 
@@ -396,8 +409,8 @@ class NormServiceTest {
       );
 
       when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
-      when(updateNormPort.updateNorm(new UpdateNormPort.Options(any()))).thenReturn(
-        Optional.of(norm)
+      when(updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(any()))).thenReturn(
+        norm
       );
 
       // when
@@ -438,7 +451,7 @@ class NormServiceTest {
       assertThat(zielnormReferences.get(1).getGeltungszeit()).hasToString("gz-1");
       assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
 
-      verify(updateNormPort, times(1)).updateNorm(any());
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
     }
 
     @Test
@@ -449,8 +462,8 @@ class NormServiceTest {
       );
 
       when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
-      when(updateNormPort.updateNorm(new UpdateNormPort.Options(any()))).thenReturn(
-        Optional.of(norm)
+      when(updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(any()))).thenReturn(
+        norm
       );
 
       // when
@@ -489,7 +502,7 @@ class NormServiceTest {
       );
       assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
 
-      verify(updateNormPort, times(1)).updateNorm(any());
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
     }
   }
 
@@ -499,8 +512,8 @@ class NormServiceTest {
     Norm norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23");
 
     when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
-    when(updateNormPort.updateNorm(new UpdateNormPort.Options(any()))).thenReturn(
-      Optional.of(norm)
+    when(updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(any()))).thenReturn(
+      norm
     );
 
     // when
@@ -513,7 +526,7 @@ class NormServiceTest {
 
     // then
     assertThat(zielnormReferences).isEmpty();
-    verify(updateNormPort, times(1)).updateNorm(any());
+    verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
   }
 
   @Nested
