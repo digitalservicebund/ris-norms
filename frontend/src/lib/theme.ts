@@ -5,6 +5,7 @@
 import { RisUiTheme } from "@digitalservicebund/ris-ui/primevue"
 import type {
   BadgePassThroughOptions,
+  PaginatorPassThroughOptions,
   ToastPassThroughOptions,
   TreePassThroughOptions,
 } from "primevue"
@@ -75,6 +76,24 @@ const toast: ToastPassThroughOptions = {
   },
 }
 
+const paginator: PaginatorPassThroughOptions = {
+  root: {
+    class: tw`flex justify-between gap-4 p-16`,
+  },
+  content: {
+    class: tw`flex items-center`,
+  },
+  pages: {
+    class: tw`flex gap-4`,
+  },
+  contentStart: {
+    class: tw`w-80`,
+  },
+  contentEnd: {
+    class: tw`w-80`,
+  },
+}
+
 export default usePassThrough(
   RisUiTheme,
   {
@@ -84,6 +103,7 @@ export default usePassThrough(
     badge,
     tree,
     toast,
+    paginator,
   },
   { mergeProps: false, mergeSections: true },
 )
