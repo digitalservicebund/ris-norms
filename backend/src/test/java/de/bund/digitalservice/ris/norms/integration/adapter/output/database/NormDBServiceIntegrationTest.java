@@ -681,4 +681,59 @@ class NormDBServiceIntegrationTest extends BaseIntegrationTest {
         });
     }
   }
+
+  @Nested
+  class loadExpressionsOfNormWork {
+
+    @Test
+    void itLoadsExpressions() {
+      // 1. expression
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        NormPublishState.UNPUBLISHED
+      );
+
+      // 1. expression, different manifestation: only one of the two should be returned
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15",
+        NormPublishState.UNPUBLISHED
+      );
+
+      // 2. expression
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-15",
+        NormPublishState.UNPUBLISHED
+      );
+
+      // different work: should be ignored
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        NormPublishState.UNPUBLISHED
+      );
+
+      var result = normDBService.loadExpressionsOfNormWork(
+        new LoadExpressionsOfNormWorkPort.Options(
+          NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")
+        )
+      );
+
+      assertThat(result).hasSize(2);
+      assertThat(result.get(0).eli()).hasToString("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu");
+      assertThat(result.get(0).gegenstandslos()).isFalse();
+      assertThat(result.get(1).eli()).hasToString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
+      assertThat(result.get(1).gegenstandslos()).isFalse();
+    }
+  }
 }

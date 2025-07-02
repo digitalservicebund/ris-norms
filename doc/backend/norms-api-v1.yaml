@@ -224,6 +224,34 @@ paths:
         "404":
           description: Norm not found.
 
+  /norms/{workEli}/expressions:
+    get:
+      tags:
+        - Norm work
+      summary: Get basic information about all the expressions of the work
+      parameters:
+        - name: workEli
+          in: path
+          required: true
+          schema:
+            $ref: "#/components/schemas/NormWorkEli"
+      responses:
+        "200":
+          description: List of expressions of the target norm.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    eli:
+                      $ref: "#/components/schemas/NormExpressionEli"
+                    gegenstandslos:
+                      type: boolean
+        "404":
+          description: Norm not found.
+
   /norms/{workEli}/releases:
     get:
       tags:

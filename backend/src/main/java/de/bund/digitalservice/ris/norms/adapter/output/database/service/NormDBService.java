@@ -10,6 +10,7 @@ import de.bund.digitalservice.ris.norms.adapter.output.database.repository.Binar
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.DokumentRepository;
 import de.bund.digitalservice.ris.norms.adapter.output.database.repository.NormManifestationRepository;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteNormPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadExpressionsOfNormWorkPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressionElisPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifestationElisByPublishStatePort;
@@ -49,7 +50,8 @@ public class NormDBService
     DeleteNormPort,
     LoadNormManifestationElisByPublishStatePort,
     LoadNormExpressionElisPort,
-    LoadNormWorksPort {
+    LoadNormWorksPort,
+    LoadExpressionsOfNormWorkPort {
 
   private final DokumentRepository dokumentRepository;
   private final NormManifestationRepository normManifestationRepository;
@@ -307,5 +309,21 @@ public class NormDBService
           result.getTitle()
         )
       );
+  }
+
+  @Override
+  public List<LoadExpressionsOfNormWorkPort.Result> loadExpressionsOfNormWork(
+    LoadExpressionsOfNormWorkPort.Options options
+  ) {
+    return dokumentRepository
+      .findExpressionsOfWork(options.eli().toString())
+      .stream()
+      .map(dokumentDto ->
+        new LoadExpressionsOfNormWorkPort.Result(
+          NormExpressionEli.fromString(dokumentDto.getEliNormExpression()),
+          dokumentDto.getGegenstandlos()
+        )
+      )
+      .toList();
   }
 }

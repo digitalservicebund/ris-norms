@@ -37,6 +37,9 @@ class NormServiceTest {
   );
   final UpdateOrSaveNormPort updateOrSaveNormPort = mock(UpdateOrSaveNormPort.class);
   final DeleteNormPort deleteNormPort = mock(DeleteNormPort.class);
+  final LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort = mock(
+    LoadExpressionsOfNormWorkPort.class
+  );
 
   final NormService service = new NormService(
     loadNormPort,
@@ -48,7 +51,8 @@ class NormServiceTest {
     createNewVersionOfNormService,
     updateOrSaveNormPort,
     deleteNormPort,
-    loadNormWorksPort
+    loadNormWorksPort,
+    loadExpressionsOfNormWorkPort
   );
 
   @Nested

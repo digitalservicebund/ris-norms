@@ -71,4 +71,8 @@ public class DokumentDto {
   @Generated(event = { INSERT, UPDATE })
   @Column(name = "subtype", updatable = false, insertable = false)
   private String subtype;
+
+  @Generated(event = { INSERT, UPDATE })
+  @Column(name = "gegenstandlos", updatable = false, insertable = false)
+  private Boolean gegenstandlos;
 }

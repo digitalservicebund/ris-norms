@@ -63,4 +63,76 @@ class NormWorkControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"));
     }
   }
+
+  @Nested
+  class getExpressions {
+
+    @Test
+    void itShowsExpressions() throws Exception {
+      // Given
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu/2017-03-15",
+        NormPublishState.UNPUBLISHED
+      );
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        NormWorkControllerIntegrationTest.class,
+        "vereinsgesetz-gegenstandlos",
+        NormPublishState.UNPUBLISHED
+      );
+
+      // When // Then
+      mockMvc
+        .perform(
+          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/expressions").accept(
+            MediaType.APPLICATION_JSON
+          )
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("[0].eli").value("eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu"))
+        .andExpect(jsonPath("[0].gegenstandslos").value(false))
+        .andExpect(jsonPath("[1].eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
+        .andExpect(jsonPath("[1].gegenstandslos").value(true))
+        .andExpect(jsonPath("[2]").doesNotExist());
+    }
+
+    @Test
+    void itOnlyLooksAtLatestManifestation() throws Exception {
+      // Given
+      Fixtures.loadAndSaveNormFixture(
+        // old manifestation
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        NormWorkControllerIntegrationTest.class,
+        "vereinsgesetz-gegenstandlos",
+        NormPublishState.UNPUBLISHED
+      );
+      Fixtures.loadAndSaveNormFixture(
+        // new manifestation
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2017-03-15",
+        NormPublishState.UNPUBLISHED
+      );
+
+      // When // Then
+      mockMvc
+        .perform(
+          get("/api/v1/norms/eli/bund/bgbl-1/1964/s593/expressions").accept(
+            MediaType.APPLICATION_JSON
+          )
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("[0].eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"))
+        .andExpect(jsonPath("[0].gegenstandslos").value(false))
+        .andExpect(jsonPath("[1]").doesNotExist());
+    }
+  }
 }
