@@ -249,7 +249,7 @@ public class Norm {
   }
 
   /**
-   * Is this norm gegenstandlos?
+   * Is this norm gegenstandlos? This information/metadata is ONLY present in the <i>rechtsetzungsdokument</i>
    *
    * @return true if it is.
    */
