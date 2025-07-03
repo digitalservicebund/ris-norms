@@ -128,14 +128,15 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
 
     log.info("Published {} norms to portal-prototype", successfullyPublishedNormCount);
 
-    log.info("Deleting all old dokumente from portal-prototype bucket");
-    deleteAllPublishedDokumentePort.deleteAllPublishedDokumente(
-      new DeleteAllPublishedDokumentePort.Options(startOfProcessing)
-    );
-    log.info("Deleted all old dokumente from portal-prototype bucket");
+    if (successfullyPublishedNormCount > 0) {
+      log.info("Deleting all old dokumente from portal-prototype bucket");
+      deleteAllPublishedDokumentePort.deleteAllPublishedDokumente(
+        new DeleteAllPublishedDokumentePort.Options(startOfProcessing)
+      );
+      log.info("Deleted all old dokumente from portal-prototype bucket");
 
-    publishChangelogPort.publishChangelogs(new PublishChangelogPort.Options(false));
-
+      publishChangelogPort.publishChangelogs(new PublishChangelogPort.Options(false));
+    }
     log.info("Publish job for portal prototype successfully completed.");
   }
 
