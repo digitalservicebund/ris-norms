@@ -86,8 +86,8 @@ jobs:
   # ######################
   # Check time for automatic deployments
   # Should only deploy automatically outside the hours when publication job is running (starts 0am Europe/Berlin and finishes in around 3,5 hours)
-  # Prototype publishing job, running only on prod, starts at 6:30am Europe/Berlin and takes around 1,5 hours
-  # meaning not between 21:30 UTC and 6:15 UTC (Berlin CEST 23:30 and 08:15)
+  # Prototype publishing job, running only on prod, starts at 6:30am Europe/Berlin and takes around 1 hour
+  # meaning not between 21:30 UTC and 6:00 UTC (Berlin CEST 23:30 and 08:00)
   # ######################
 
   check-auto-deploy:
@@ -100,7 +100,7 @@ jobs:
         run: |
           current_time_to_print=$(TZ=UTC date "+%H:%M")
           current_time=$((10#$(TZ=UTC date "+%H%M")))
-          if (( current_time >= 800 && current_time < 2130 )); then
+          if (( current_time >= 600 && current_time < 2130 )); then
             echo "Should deploy automatically. Current time is $current_time_to_print"
             echo "should-auto-deploy=true" >> "$GITHUB_OUTPUT"
           else
@@ -113,8 +113,7 @@ jobs:
   # ######################
 
   deploy-staging-job:
-    if: ${{ github.ref == 'refs/heads/main' }}
-    # if: ${{ github.ref == 'refs/heads/main' && needs.check-auto-deploy.outputs.should-auto-deploy == 'true' }}
+    if: ${{ github.ref == 'refs/heads/main' && needs.check-auto-deploy.outputs.should-auto-deploy == 'true' }}
     needs:
       - check-auto-deploy
       - frontend-jobs
@@ -145,8 +144,7 @@ jobs:
   # ######################
 
   deploy-production-job:
-    if: ${{ github.ref == 'refs/heads/main' && needs.check-auto-deploy.outputs.should-auto-deploy == 'true' }}
-    # if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs:
       - smoketest
       - deploy-uat-job
