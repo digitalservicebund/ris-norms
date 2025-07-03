@@ -771,7 +771,7 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
   }
 
   @Nested
-  class tionnormen {
+  class createZielnormenExpressions {
 
     @Test
     void itShouldCreateNewZielnormen() throws Exception {
