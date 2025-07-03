@@ -269,7 +269,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Norm normLoaded = NormManifestationMapper.mapToDomain(
         normManifestationRepository
-          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2999-12-31")
           .get()
       );
 
@@ -368,7 +368,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Norm normLoaded = NormManifestationMapper.mapToDomain(
         normManifestationRepository
-          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2999-12-31")
           .get()
       );
 
@@ -431,7 +431,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Norm normLoaded = NormManifestationMapper.mapToDomain(
         normManifestationRepository
-          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2999-12-31")
           .get()
       );
 
@@ -494,7 +494,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Norm normLoaded = NormManifestationMapper.mapToDomain(
         normManifestationRepository
-          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2999-12-31")
           .get()
       );
 
@@ -554,7 +554,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Norm normLoaded = NormManifestationMapper.mapToDomain(
         normManifestationRepository
-          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2999-12-31")
           .get()
       );
 

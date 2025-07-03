@@ -332,7 +332,7 @@ class NormExpressionControllerIntegrationTest extends BaseIntegrationTest {
         dokumentRepository,
         binaryFileRepository,
         normManifestationRepository,
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2999-12-31",
         NormPublishState.UNPUBLISHED
       );
       var newXml = Fixtures.loadTextFromDisk(

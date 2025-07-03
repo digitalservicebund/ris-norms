@@ -154,42 +154,26 @@ public class NormService
   }
 
   /**
-   * It not only saves a {@link Norm} but makes sure that all Eids are consistent. If a manifestation is saved that is
-   * not the current working-copy the working-copy is instead overwritten.
+   * It not only saves a {@link Norm} but makes sure that all Eids are consistent. It always saves to the working copy
+   * of the expression. This method can not be used to change the publishing state.
    *
    * @param normToBeUpdated the norm which shall be saved
    * @return The updated and saved {@link Norm}
    * @throws NormNotFoundException if the norm cannot be found
    */
   public Norm updateNorm(Norm normToBeUpdated) {
-    var existingNorm = loadNormPort
-      .loadNorm(new LoadNormPort.Options(normToBeUpdated.getManifestationEli()))
-      .orElseThrow(() -> new NormNotFoundException(normToBeUpdated.getManifestationEli()));
+    loadNormPort
+      .loadNorm(new LoadNormPort.Options(normToBeUpdated.getExpressionEli()))
+      .orElseThrow(() -> new NormNotFoundException(normToBeUpdated.getExpressionEli()));
 
-    prepareNormForSaving(existingNorm);
+    var norm = createNewVersionOfNormService.createNewManifestation(
+      normToBeUpdated,
+      Norm.WORKING_COPY_DATE
+    );
 
-    if (existingNorm.getPublishState() != NormPublishState.UNPUBLISHED) {
-      log.info(
-        "Updating working copy instead of existing manifestation ({}) as manifestation is not UNPUBLISHED",
-        normToBeUpdated.getManifestationEli()
-      );
-      normToBeUpdated.setManifestationDateTo(Norm.WORKING_COPY_DATE);
-    }
+    prepareNormForSaving(norm);
 
-    if (
-      !normToBeUpdated
-        .getManifestationEli()
-        .getPointInTimeManifestation()
-        .isEqual(Norm.WORKING_COPY_DATE)
-    ) {
-      // log this for now so we keep track of it, over time we should remove everything that is doing this
-      log.info(
-        "Updating a working copy of a norm that is NOT using the working copy date ({})",
-        normToBeUpdated.getManifestationEli()
-      );
-    }
-
-    return updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(normToBeUpdated));
+    return updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm));
   }
 
   @Override
@@ -578,7 +562,7 @@ public class NormService
 
     cleanUpOrphanAmendedExpressions(zielnorm, amendedNormExpressions, removedOrphans);
 
-    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(verkuendungNorm));
+    updateNorm(verkuendungNorm);
 
     return new Zielnorm(
       zielnorm.normWorkEli(),
@@ -648,9 +632,7 @@ public class NormService
       // Result is a new expression with the same eli but content based on the previous closest expression, which can be different from the one used to create the overriden expression
       // We also need to create new manifestation of expression on which the new expression was based, in case it differs from the one that was used to create the overriden expression
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(result.newExpression()));
-      updateOrSaveNormPort.updateOrSave(
-        new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
-      );
+      updateNorm(result.newManifestationOfOldExpression());
     } else {
       // It is an orphan, retrieved from DB because first time boundary for work eli was before this orphan
       boolean deleted = removeOrphan(expressionEli);

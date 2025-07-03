@@ -231,6 +231,7 @@ class NormServiceTest {
       var newNorm = Norm.builder()
         .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(newXml))))
         .build();
+      newNorm.setManifestationDateTo(Norm.WORKING_COPY_DATE);
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(newNorm);
@@ -241,7 +242,7 @@ class NormServiceTest {
       );
 
       // Then
-      verify(loadNormPort, times(1)).loadNorm(
+      verify(loadNormPort, times(2)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
       );
       verify(updateOrSaveNormPort, times(1)).updateOrSave(
