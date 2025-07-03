@@ -86,7 +86,7 @@ jobs:
   # ######################
   # Check time for automatic deployments
   # Should only deploy automatically outside the hours when publication job is running (starts 0am Europe/Berlin and finishes in around 3,5 hours)
-  # Prototype publishing job, running only on prod, starts at 6:15am Europe/Berlin and takes around 1,5 hours
+  # Prototype publishing job, running only on prod, starts at 6:30am Europe/Berlin and takes around 1,5 hours
   # meaning not between 21:30 UTC and 6:00 UTC (Berlin CEST 23:30 and 8:00)
   # ######################
 
@@ -113,9 +113,10 @@ jobs:
   # ######################
 
   deploy-staging-job:
-    if: ${{ github.ref == 'refs/heads/main' && needs.check-auto-deploy.outputs.should-auto-deploy == 'true' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
+    #   if: ${{ github.ref == 'refs/heads/main' && needs.check-auto-deploy.outputs.should-auto-deploy == 'true' }}
     needs:
-      # - check-auto-deploy
+      - check-auto-deploy
       - frontend-jobs
       - backend-jobs
       - push-docker-image-job
