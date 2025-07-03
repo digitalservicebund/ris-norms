@@ -15,8 +15,8 @@ const {
   error: normsError,
 } = useGetNorms(currentPage, pageSize)
 
-const norms = computed(() => data.value?.content || [])
-const total = computed(() => data.value?.page.totalElements || 0)
+const norms = computed(() => data.value?.content ?? [])
+const total = computed(() => data.value?.page.totalElements ?? 0)
 
 function onPageChange(page: number) {
   currentPage.value = page
