@@ -67,10 +67,7 @@ function onPage(event: DataTablePageEvent) {
     </template>
     <Column field="eli" header="ELI" class="w-1/5">
       <template #body="{ data }">
-        <RouterLink
-          :to="`/datenbank/${data.eli}`"
-          class="ris-link2-regular pointer-events-none"
-        >
+        <RouterLink :to="`/datenbank/${data.eli}`" class="ris-link2-regular">
           {{ data.eli }}
         </RouterLink>
       </template>

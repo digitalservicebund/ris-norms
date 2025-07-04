@@ -384,6 +384,12 @@ watch(
 
 // workaround for https://github.com/vuejs/language-tools/issues/5082
 const slots: SetupContext["slots"] = useSlots()
+
+function scrollToText(eid: string) {
+  const el = container.value?.querySelector(`[data-eId="${eid}"]`)
+  el?.scrollIntoView({ behavior: "smooth", block: "start" })
+}
+defineExpose({ scrollToText })
 </script>
 
 <template>
