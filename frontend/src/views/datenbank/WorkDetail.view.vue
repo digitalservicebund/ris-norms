@@ -27,12 +27,9 @@ const selectedExpression = ref<string | null>(null)
 const { expressionsHeadingId, tocHeadingId, expressionHtmlHeadingId } =
   useElementId()
 
-console.log(selectedExpression)
 const selectedExpressionEli = computed(() => {
   if (!selectedExpression.value) return undefined
-  return DokumentExpressionEli.fromString(
-    selectedExpression.value + "/regelungstext-verkuendung-1",
-  )
+  return DokumentExpressionEli.fromNormExpressionEli(selectedExpression.value)
 })
 
 const {
@@ -117,7 +114,6 @@ const handleNodeSelect = (node: TreeNode) => {
 const selectedEids = ref<string[]>([])
 
 const gotoEid = (eid: string) => {
-  console.log("Scrolling to:", eid)
   previewRef.value?.scrollToText(eid)
   selectedEids.value = [eid]
 }
@@ -159,7 +155,11 @@ const handleExpressionNodeSelect = (node: TreeNode) => {
     :loading="isLoading"
   >
     <Splitter class="h-full" layout="horizontal">
-      <SplitterPanel :size="20" class="h-full w-full overflow-auto">
+      <SplitterPanel
+        :size="20"
+        :min-size="20"
+        class="h-full w-full overflow-auto"
+      >
         <aside class="px-8">
           <h3
             :id="expressionsHeadingId"
@@ -188,6 +188,7 @@ const handleExpressionNodeSelect = (node: TreeNode) => {
       <template v-if="!selectedExpression">
         <SplitterPanel
           :size="80"
+          :min-size="33"
           class="flex w-full items-center justify-center bg-gray-100 p-24"
         >
           <RisEmptyState text-content="Keine Expression ausgewählt." />
@@ -198,6 +199,7 @@ const handleExpressionNodeSelect = (node: TreeNode) => {
           <Splitter layout="horizontal" class="h-full w-full">
             <SplitterPanel
               :size="30"
+              :min-size="20"
               class="h-full w-full overflow-auto px-8 py-16"
             >
               <h2 :id="tocHeadingId" class="ris-subhead-bold mx-20 mb-10">
