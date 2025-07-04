@@ -2,9 +2,9 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.controller;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormExpressionListResponseMapper;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormExpressionResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormWorkResponseMapper;
-import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormExpressionListResponseSchema;
+import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormExpressionResponseSchema;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormWorkResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadExpressionsOfNormWorkUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
@@ -53,11 +53,11 @@ public class NormWorkController {
    * @return a list of information about expressions
    */
   @GetMapping(path = "/expressions", produces = { APPLICATION_JSON_VALUE })
-  public List<NormExpressionListResponseSchema> getExpressions(NormWorkEli eli) {
+  public List<NormExpressionResponseSchema> getExpressions(NormWorkEli eli) {
     return loadExpressionsOfNormWorkUseCase
       .loadExpressionsOfNormWork(new LoadExpressionsOfNormWorkUseCase.Options(eli))
       .stream()
-      .map(NormExpressionListResponseMapper::fromUseCaseData)
+      .map(NormExpressionResponseMapper::fromUseCaseData)
       .toList();
   }
 }
