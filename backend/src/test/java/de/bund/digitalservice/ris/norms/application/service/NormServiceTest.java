@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
+import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
@@ -39,10 +40,8 @@ class NormServiceTest {
   final LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort = mock(
     LoadExpressionsOfNormWorkPort.class
   );
-  final LdmlDeElementSorter ldmlDeElementSorter = new LdmlDeElementSorter(
-    Fixtures.getXsdSchemaService()
-  );
-  final LdmlDeValidator ldmlDeValidator = Fixtures.getLdmlDeValidator();
+  final LdmlDeElementSorter ldmlDeElementSorter = mock(LdmlDeElementSorter.class);
+  final LdmlDeValidator ldmlDeValidator = mock(LdmlDeValidator.class);
 
   final NormService service = new NormService(
     loadNormPort,
@@ -351,22 +350,46 @@ class NormServiceTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
 
-      when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(norm);
       when(updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm))).thenReturn(
         norm
       );
-      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(norm);
 
       // when
       service.updateNorm(norm);
 
       // then
+      verify(createNewVersionOfNormService, times(1)).createNewManifestation(
+        any(),
+        eq(Norm.WORKING_COPY_DATE)
+      );
       verify(updateOrSaveNormPort, times(1)).updateOrSave(
         argThat(argument -> Objects.equals(argument, new UpdateOrSaveNormPort.Options(norm)))
       );
+      verify(ldmlDeElementSorter, times(2)).sortElements(any()); // once for regelungstext and once for rechtsetzungsdokument
+      verify(ldmlDeValidator, times(1)).validateXSDSchema(any(Norm.class));
     }
 
-    // TODO: (Malte Laukötter, 2025-07-04) add checks for running the schema validation, element sorter, etc. and that a working-copy is created
+    @Test
+    void itDoesNotSaveNormIfValidationFails() {
+      // given
+      Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
+      );
+
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(norm);
+      doThrow(new LdmlDeNotValidException(List.of()))
+        .when(ldmlDeValidator)
+        .validateXSDSchema(any(Norm.class));
+
+      // when
+      assertThatThrownBy(() -> service.updateNorm(norm)).isInstanceOf(
+        LdmlDeNotValidException.class
+      );
+
+      // then
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
+    }
   }
 
   @Test
