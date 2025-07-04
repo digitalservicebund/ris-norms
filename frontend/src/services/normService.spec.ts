@@ -396,3 +396,42 @@ describe("useNormService", () => {
     })
   })
 })
+
+describe("useGetNorms", () => {
+  beforeEach(() => {
+    vi.resetAllMocks()
+    vi.resetModules()
+  })
+
+  it("calls the paginated endpoint with correct params", async () => {
+    const fetchSpy = vi.spyOn(window, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          content: [{ eli: "eli/1", title: "Test" }],
+          page: { size: 10, number: 0, totalElements: 1, totalPages: 1 },
+        }),
+      ),
+    )
+
+    const { useGetNorms } = await import("./normService")
+
+    const page = ref(0)
+    const size = ref(10)
+    useGetNorms(page, size)
+
+    await vi.waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms?page=0&size=10",
+        expect.any(Object),
+      )
+    })
+
+    page.value = 1
+    await vi.waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms?page=1&size=10",
+        expect.any(Object),
+      )
+    })
+  })
+})

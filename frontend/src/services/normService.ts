@@ -133,3 +133,39 @@ export function usePutNormXml(
     .text()
     .put(updateData)
 }
+
+/**
+ * Fetches a paginated list of all norm works from the API.
+ * Refetches automatically when the page or size parameters change.
+ *
+ * @param page The current page number (0-based)
+ * @param size The number of items per page
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper with the paginated norms data
+ */
+export type NormWork = { eli: string; title: string }
+
+export type NormsPage = {
+  content: NormWork[]
+  page: {
+    size: number
+    number: number
+    totalElements: number
+    totalPages: number
+  }
+}
+
+export function useGetNorms(
+  page: MaybeRefOrGetter<number>,
+  size: MaybeRefOrGetter<number>,
+  fetchOptions: UseFetchOptions = {},
+): UseFetchReturn<NormsPage> {
+  const url = computed(() => {
+    const queryParams = new URLSearchParams()
+    queryParams.append("page", String(toValue(page)))
+    queryParams.append("size", String(toValue(size)))
+    return `/norms?${queryParams.toString()}`
+  })
+
+  return useApiFetch<NormsPage>(url, { refetch: true, ...fetchOptions }).json()
+}

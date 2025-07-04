@@ -107,12 +107,12 @@ const routes: readonly RouteRecordRaw[] = [
   },
 
   {
-    path: "/bestand",
+    path: "/datenbank",
     children: [
       {
         path: "",
-        name: "Bestand",
-        component: () => import("@/views/bestand/Bestand.view.vue"),
+        name: "Datenbank",
+        component: () => import("@/views/datenbank/Datenbank.view.vue"),
       },
     ],
   },

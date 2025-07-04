@@ -12,8 +12,8 @@ const route = useRoute()
 const activeTab = computed(() => {
   if (route.path.startsWith("/verkuendungen")) {
     return "verkuendungen"
-  } else if (route.path.startsWith("/bestand")) {
-    return "bestand"
+  } else if (route.path.startsWith("/datenbank")) {
+    return "datenbank"
   }
 
   return "verkuendungen"
@@ -25,7 +25,7 @@ const tabs = [
     label: "Verkündungen",
     route: { name: "Verkuendungen" },
   },
-  { id: "bestand", label: "Bestand", route: { name: "Bestand" } },
+  { id: "datenbank", label: "Datenbank", route: { name: "Datenbank" } },
 ]
 </script>
 
