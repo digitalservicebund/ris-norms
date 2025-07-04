@@ -921,7 +921,7 @@ class NormServiceTest {
       // Mock creating new expression (and new previous manifestation)
       var result = new CreateNewVersionOfNormService.CreateNewExpressionResult(
         amendedExpression,
-        mock(Norm.class)
+        targetLaw
       );
       when(
         createNewVersionOfNormService.createNewExpression(

@@ -682,12 +682,8 @@ public class NormService
         verkuendungNorm.getRegelungstext1().getMeta().getFRBRWork().getFBRDate()
       );
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(result.newExpression()));
-      updateOrSaveNormPort.updateOrSave(
-        new UpdateOrSaveNormPort.Options(result.newManifestationOfGegenstandslosExpression())
-      );
-      updateOrSaveNormPort.updateOrSave(
-        new UpdateOrSaveNormPort.Options(result.newManifestationOfPrecidingExpression())
-      );
+      updateNorm(result.newManifestationOfGegenstandslosExpression());
+      updateNorm(result.newManifestationOfPrecidingExpression());
       // Add expression eli of new expression into amended-expressions
       amendedNormExpressions.add(result.newExpression().getExpressionEli());
     } else {
@@ -697,9 +693,7 @@ public class NormService
         expressionEli.getPointInTime()
       );
       updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(result.newExpression()));
-      updateOrSaveNormPort.updateOrSave(
-        new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
-      );
+      updateNorm(result.newManifestationOfOldExpression());
       // Add expression eli of new expression into amended-expressions
       amendedNormExpressions.add(result.newExpression().getExpressionEli());
     }
@@ -784,8 +778,8 @@ public class NormService
       nextFrbrExpression.setFRBRaliasPreviousVersionId(
         previousFrbrExpression.getFRBRaliasCurrentVersionId()
       );
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(newPreviousManifestation));
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(newNextManifestation));
+      updateNorm(newPreviousManifestation);
+      updateNorm(newNextManifestation);
     } else if (previousNorm.isPresent()) {
       final Norm newPreviousManifestation = createNewVersionOfNormService.createNewManifestation(
         previousNorm.get()
@@ -795,7 +789,7 @@ public class NormService
         .getMeta()
         .getFRBRExpression();
       previousFrbrExpression.deleteAliasNextVersionId();
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(newPreviousManifestation));
+      updateNorm(newPreviousManifestation);
     }
   }
 
