@@ -235,6 +235,7 @@ class NormServiceTest {
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(newNorm);
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(newNorm);
 
       // When
       var result = service.updateRegelungstextXml(
@@ -354,6 +355,7 @@ class NormServiceTest {
       when(updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm))).thenReturn(
         norm
       );
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(norm);
 
       // when
       service.updateNorm(norm);
@@ -419,6 +421,7 @@ class NormServiceTest {
       when(updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(any()))).thenReturn(
         norm
       );
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(norm);
 
       // when
       var zielnormReferences = service.updateZielnormReferences(
@@ -476,6 +479,7 @@ class NormServiceTest {
       when(updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(any()))).thenReturn(
         norm
       );
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(norm);
 
       // when
       var zielnormReferences = service.updateZielnormReferences(
@@ -526,6 +530,7 @@ class NormServiceTest {
     when(updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(any()))).thenReturn(
       norm
     );
+    when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(norm);
 
     // when
     var zielnormReferences = service.deleteZielnormReferences(
@@ -930,6 +935,9 @@ class NormServiceTest {
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(mock(Norm.class));
 
       // Mock saving updated amending law
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(
+        amendingLaw
+      );
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(mock(Norm.class));
 
       var createdExpressions = spiedService.createZielnormExpressions(
