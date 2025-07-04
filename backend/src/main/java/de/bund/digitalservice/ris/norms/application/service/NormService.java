@@ -754,17 +754,13 @@ public class NormService
     // 2. The removed orphan was at the end of the timeline  (previous-norm is present)
     // The case that only the next-norm is present is not possible because at least the original expression must be present
     if (previousNorm.isPresent() && nextNorm.isPresent()) {
-      final Norm newPreviousManifestation = createNewVersionOfNormService.createNewManifestation(
-        previousNorm.get()
-      );
-      final FRBRExpression previousFrbrExpression = newPreviousManifestation
+      final Norm previousExpression = previousNorm.get();
+      final FRBRExpression previousFrbrExpression = previousExpression
         .getRegelungstext1()
         .getMeta()
         .getFRBRExpression();
-      final Norm newNextManifestation = createNewVersionOfNormService.createNewManifestation(
-        nextNorm.get()
-      );
-      final FRBRExpression nextFrbrExpression = newNextManifestation
+      final Norm nextExpression = nextNorm.get();
+      final FRBRExpression nextFrbrExpression = nextExpression
         .getRegelungstext1()
         .getMeta()
         .getFRBRExpression();
@@ -775,18 +771,16 @@ public class NormService
       nextFrbrExpression.setFRBRaliasPreviousVersionId(
         previousFrbrExpression.getFRBRaliasCurrentVersionId()
       );
-      updateNorm(newPreviousManifestation);
-      updateNorm(newNextManifestation);
+      updateNorm(previousExpression);
+      updateNorm(nextExpression);
     } else if (previousNorm.isPresent()) {
-      final Norm newPreviousManifestation = createNewVersionOfNormService.createNewManifestation(
-        previousNorm.get()
-      );
-      final FRBRExpression previousFrbrExpression = newPreviousManifestation
+      final Norm previousExpression = previousNorm.get();
+      previousExpression
         .getRegelungstext1()
         .getMeta()
-        .getFRBRExpression();
-      previousFrbrExpression.deleteAliasNextVersionId();
-      updateNorm(newPreviousManifestation);
+        .getFRBRExpression()
+        .deleteAliasNextVersionId();
+      updateNorm(previousExpression);
     }
   }
 
