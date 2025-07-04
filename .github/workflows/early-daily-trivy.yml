@@ -109,7 +109,7 @@ jobs:
           trivy-config: "./trivy.yaml"
           output: "vuln.json"
       - name: Install cosign
-        uses: sigstore/cosign-installer@d9374b96fed791ab117111a9a307a92b68bf3145
+        uses: sigstore/cosign-installer@e40248c492a99ad409432e2ea978d7a2811f2e1f
       - name: Log into container registry
         uses: docker/login-action@3d100841f68d4548bf57e52eb27bd33ec5069f55
         with:

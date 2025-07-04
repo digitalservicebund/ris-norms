@@ -1,5 +1,5 @@
 [versions]
-flyway = "11.10.0"
+flyway = "11.10.1"
 # @keep
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "6.9.0"
@@ -25,7 +25,7 @@ mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.18.0"
 nullaway = "com.uber.nullaway:nullaway:0.12.7"
 postgresql = "org.postgresql:postgresql:42.7.7"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.1"
-saxon-he = "net.sf.saxon:Saxon-HE:12.7"
+saxon-he = "net.sf.saxon:Saxon-HE:12.8"
 schxslt = "name.dmaus.schxslt:schxslt:1.10.1"
 shedlock = { module = "net.javacrumbs.shedlock:shedlock-spring", version.ref = "net-javacrumbs-shedlock" }
 shedlockJdbc = { module = "net.javacrumbs.shedlock:shedlock-provider-jdbc-template", version.ref = "net-javacrumbs-shedlock" }
@@ -45,7 +45,7 @@ squareup-okio-jvm = "com.squareup.okio:okio-jvm:3.15.0"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
-testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:3.7.0"
+testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:3.8.0"
 tika-core = "org.apache.tika:tika-core:3.2.0"
 
 [plugins]
