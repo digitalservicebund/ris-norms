@@ -156,16 +156,13 @@ public class NormService
   /**
    * It not only saves a {@link Norm} but makes sure that all Eids are consistent. It always saves to the working copy
    * of the expression. This method can not be used to change the publishing state.
+   * If the expression does not exist, yet it is created. It does not take care of updating the timeline.
    *
    * @param normToBeUpdated the norm which shall be saved
    * @return The updated and saved {@link Norm}
    * @throws NormNotFoundException if the norm cannot be found
    */
   public Norm updateNorm(Norm normToBeUpdated) {
-    loadNormPort
-      .loadNorm(new LoadNormPort.Options(normToBeUpdated.getExpressionEli()))
-      .orElseThrow(() -> new NormNotFoundException(normToBeUpdated.getExpressionEli()));
-
     var norm = createNewVersionOfNormService.createNewManifestation(
       normToBeUpdated,
       Norm.WORKING_COPY_DATE
