@@ -23,7 +23,7 @@ public class TimeInterval {
    */
   public static TimeInterval createAndAppend(Node parentNode) {
     return new TimeInterval(
-      NodeCreator.createElementWithEidAndGuid("akn:timeInterval", parentNode)
+      NodeCreator.createElementWithEidAndGuid(Namespace.INHALTSDATEN, "timeInterval", parentNode)
     );
   }
 
