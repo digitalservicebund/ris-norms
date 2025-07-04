@@ -73,7 +73,11 @@ public class Meta {
     try {
       return getTemporalData();
     } catch (final MandatoryNodeNotFoundException e) {
-      final var newElement = NodeCreator.createElementWithEidAndGuid("akn:temporalData", element);
+      final var newElement = NodeCreator.createElementWithEidAndGuid(
+        Namespace.INHALTSDATEN,
+        "temporalData",
+        element
+      );
       newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
       element.insertBefore(newElement, getOrCreateProprietary().getElement());
       return new TemporalData(newElement);
@@ -98,7 +102,11 @@ public class Meta {
     try {
       return getLifecycle();
     } catch (final MandatoryNodeNotFoundException e) {
-      final var newElement = NodeCreator.createElementWithEidAndGuid("akn:lifecycle", element);
+      final var newElement = NodeCreator.createElementWithEidAndGuid(
+        Namespace.INHALTSDATEN,
+        "lifecycle",
+        element
+      );
       newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
       element.insertBefore(newElement, getOrCreateProprietary().getElement());
       return new Lifecycle(newElement);
@@ -112,7 +120,11 @@ public class Meta {
    */
   public Proprietary getOrCreateProprietary() {
     return this.getProprietary().orElseGet(() -> {
-        final var newElement = NodeCreator.createElementWithEidAndGuid("akn:proprietary", element);
+        final var newElement = NodeCreator.createElementWithEidAndGuid(
+          Namespace.INHALTSDATEN,
+          "proprietary",
+          element
+        );
         newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
         return new Proprietary(newElement);
       });
