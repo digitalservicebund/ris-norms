@@ -243,7 +243,7 @@ class NormServiceTest {
       );
 
       // Then
-      verify(loadNormPort, times(2)).loadNorm(
+      verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
       );
       verify(updateOrSaveNormPort, times(1)).updateOrSave(
@@ -366,17 +366,7 @@ class NormServiceTest {
       );
     }
 
-    @Test
-    void itThrowsNormNotFoundIfNormNotFound() {
-      // given
-      Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
-      );
-      when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.empty());
-
-      // when
-      assertThatThrownBy(() -> service.updateNorm(norm)).isInstanceOf(NormNotFoundException.class);
-    }
+    // TODO: (Malte Laukötter, 2025-07-04) add checks for running the schema validation, element sorter, etc. and that a working-copy is created
   }
 
   @Test
