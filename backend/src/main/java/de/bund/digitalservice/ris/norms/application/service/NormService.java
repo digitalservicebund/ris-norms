@@ -628,7 +628,7 @@ public class NormService
       var result = createNewVersionOfNormService.createNewOverridenExpression(previous, norm);
       // Result is a new expression with the same eli but content based on the previous closest expression, which can be different from the one used to create the overriden expression
       // We also need to create new manifestation of expression on which the new expression was based, in case it differs from the one that was used to create the overriden expression
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(result.newExpression()));
+      updateNorm(result.newExpression());
       updateNorm(result.newManifestationOfOldExpression());
     } else {
       // It is an orphan, retrieved from DB because first time boundary for work eli was before this orphan
@@ -678,7 +678,7 @@ public class NormService
         expressionEli.getPointInTime(),
         verkuendungNorm.getRegelungstext1().getMeta().getFRBRWork().getFBRDate()
       );
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(result.newExpression()));
+      updateNorm(result.newExpression());
       updateNorm(result.newManifestationOfGegenstandslosExpression());
       updateNorm(result.newManifestationOfPrecidingExpression());
       // Add expression eli of new expression into amended-expressions
@@ -689,7 +689,7 @@ public class NormService
         previous,
         expressionEli.getPointInTime()
       );
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(result.newExpression()));
+      updateNorm(result.newExpression());
       updateNorm(result.newManifestationOfOldExpression());
       // Add expression eli of new expression into amended-expressions
       amendedNormExpressions.add(result.newExpression().getExpressionEli());
