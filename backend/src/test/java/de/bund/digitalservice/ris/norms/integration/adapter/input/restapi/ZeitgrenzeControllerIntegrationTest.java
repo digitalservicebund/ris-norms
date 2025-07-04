@@ -66,12 +66,12 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(get("/api/v1/norms/{eli}/zeitgrenzen", eli).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
-        .andExpect(jsonPath("title").value("Regelungstext not found"))
+        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+        .andExpect(jsonPath("title").value("Norm not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
+            "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu does not exist"
           )
         )
         .andExpect(
@@ -79,9 +79,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
             "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist/zeitgrenzen"
           )
         )
-        .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist")
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"));
     }
 
     @Test
@@ -127,12 +125,12 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
             )
         )
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
-        .andExpect(jsonPath("title").value("Regelungstext not found"))
+        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+        .andExpect(jsonPath("title").value("Norm not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
+            "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu does not exist"
           )
         )
         .andExpect(
@@ -140,9 +138,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
             "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist/zeitgrenzen"
           )
         )
-        .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist")
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"));
     }
 
     @Test
