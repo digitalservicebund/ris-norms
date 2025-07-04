@@ -13,7 +13,6 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietary
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadDokumentPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateDokumentPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
@@ -26,12 +25,10 @@ import org.junit.jupiter.api.Test;
 class ProprietaryServiceTest {
 
   final LoadDokumentPort loadDokumentPort = mock(LoadDokumentPort.class);
-  final UpdateDokumentPort updateDokumentPort = mock(UpdateDokumentPort.class);
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final NormService normService = mock(NormService.class);
   final ProprietaryService proprietaryService = new ProprietaryService(
     loadDokumentPort,
-    updateDokumentPort,
     loadNormPort,
     normService
   );
@@ -201,10 +198,10 @@ class ProprietaryServiceTest {
           new UpdateProprietarySingleElementFromDokumentUseCase.InputMetadata("SN")
         );
       // when
-      when(loadDokumentPort.loadDokument(any())).thenReturn(Optional.empty());
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
       assertThatThrownBy(() ->
         proprietaryService.updateProprietarySingleElementFromDokument(options)
-      ).isInstanceOf(DokumentNotFoundException.class); // then
+      ).isInstanceOf(NormNotFoundException.class); // then
     }
 
     @Test
@@ -212,20 +209,14 @@ class ProprietaryServiceTest {
       // given
       var eid = new EId("art-z20");
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/INVALID_ELI/2002/s1181/2019-11-22/1/deu/regelungstext-verkuendung-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
+      var normWithProprietary = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
       );
-      when(loadDokumentPort.loadDokument(new LoadDokumentPort.Options(eli))).thenReturn(
-        Optional.of(regelungstext)
-      );
-      var regelungsTextWithProprietary = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-      );
-      when(
-        updateDokumentPort.updateDokument(new UpdateDokumentPort.Options(regelungstext))
-      ).thenReturn(Optional.of(regelungsTextWithProprietary));
+      when(normService.updateNorm(any())).thenReturn(normWithProprietary);
 
       // when
       var result = proprietaryService.updateProprietarySingleElementFromDokument(

@@ -7,13 +7,11 @@ import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietary
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadDokumentPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateDokumentPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RahmenMetadata;
-import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
 import org.springframework.stereotype.Service;
 
 /** Implements operations related to the "proprietary" of a {@link Dokument} */
@@ -25,18 +23,15 @@ public class ProprietaryService
     UpdateProprietarySingleElementFromDokumentUseCase {
 
   final LoadDokumentPort loadDokumentPort;
-  final UpdateDokumentPort updateDokumentPort;
   private final LoadNormPort loadNormPort;
   private final NormService normService;
 
   ProprietaryService(
     LoadDokumentPort loadDokumentPort,
-    UpdateDokumentPort updateDokumentPort,
     LoadNormPort loadNormPort,
     NormService normService
   ) {
     this.loadDokumentPort = loadDokumentPort;
-    this.updateDokumentPort = updateDokumentPort;
     this.loadNormPort = loadNormPort;
     this.normService = normService;
   }
@@ -78,24 +73,27 @@ public class ProprietaryService
   public Proprietary updateProprietarySingleElementFromDokument(
     UpdateProprietarySingleElementFromDokumentUseCase.Options options
   ) {
-    final Dokument dokument = loadDokumentPort
-      .loadDokument(new LoadDokumentPort.Options(options.dokumentExpressionEli()))
+    final Norm norm = loadNormPort
+      .loadNorm(new LoadNormPort.Options(options.dokumentExpressionEli().asNormEli()))
+      .orElseThrow(() -> new NormNotFoundException(options.dokumentExpressionEli().asNormEli()));
+
+    Dokument dokument = norm
+      .getDokumentByEli(options.dokumentExpressionEli())
       .orElseThrow(() -> new DokumentNotFoundException(options.dokumentExpressionEli().toString()));
+
     final Proprietary proprietary = dokument.getMeta().getOrCreateProprietary();
     proprietary.setMetadataValue(
       Metadata.ART_DER_NORM,
       options.eid(),
       options.inputMetadata().artDerNorm()
     );
-    return updateDokument(dokument);
-  }
 
-  private Proprietary updateDokument(final Dokument dokument) {
-    EidConsistencyGuardian.eliminateDeadReferences(dokument.getDocument());
-    EidConsistencyGuardian.correctEids(dokument.getDocument());
-    return updateDokumentPort
-      .updateDokument(new UpdateDokumentPort.Options(dokument))
-      .map(updated -> updated.getMeta().getOrCreateProprietary())
-      .orElse(null);
+    final Norm updatedNorm = normService.updateNorm(norm);
+
+    return updatedNorm
+      .getDokumentByEli(options.dokumentExpressionEli())
+      .orElseThrow()
+      .getMeta()
+      .getOrCreateProprietary();
   }
 }
