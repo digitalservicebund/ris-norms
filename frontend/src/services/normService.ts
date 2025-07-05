@@ -4,6 +4,7 @@ import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
 
 /**
  * Returns the norm from the API. Reloads when the parameters change.
@@ -168,4 +169,52 @@ export function useGetNorms(
   })
 
   return useApiFetch<NormsPage>(url, { refetch: true, ...fetchOptions }).json()
+}
+
+/**
+ * Fetches a norm work from the API.
+ * Refetches automatically when the workEli parameters change.
+ *
+ * @param workEli The ELI of the norm work
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper with the norm work data
+ */
+export function useGetNormWork(
+  workEli: MaybeRefOrGetter<NormWorkEli | undefined>,
+  fetchOptions: UseFetchOptions = {},
+): UseFetchReturn<NormWork> {
+  const url = computed(() => {
+    const eliVal = toValue(workEli)
+    if (!eliVal) return INVALID_URL
+    return `/norms/${eliVal}`
+  })
+  return useApiFetch<NormWork>(url, { refetch: true, ...fetchOptions }).json()
+}
+
+export type NormExpression = {
+  eli: string
+  gegenstandslos: boolean
+}
+
+/**
+ * Fetches the expressions of a norm work from the API.
+ * Refetches automatically when the workEli parameters change.
+ *
+ * @param workEli The ELI of the norm work
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper with the norm expressions data
+ */
+export function useGetNormExpressions(
+  workEli: MaybeRefOrGetter<NormWorkEli | undefined>,
+  fetchOptions: UseFetchOptions = {},
+): UseFetchReturn<NormExpression[]> {
+  const url = computed(() => {
+    const eliVal = toValue(workEli)
+    if (!eliVal) return INVALID_URL
+    return `/norms/${eliVal}/expressions`
+  })
+  return useApiFetch<NormExpression[]>(url, {
+    refetch: true,
+    ...fetchOptions,
+  }).json()
 }
