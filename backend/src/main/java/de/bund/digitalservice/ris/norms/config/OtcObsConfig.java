@@ -9,6 +9,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.core.checksums.RequestChecksumCalculation;
+import software.amazon.awssdk.core.checksums.ResponseChecksumValidation;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
@@ -134,6 +136,8 @@ public class OtcObsConfig {
       )
       .endpointOverride(new URI(endpoint))
       .region(Region.of("eu-de"))
+      .responseChecksumValidation(ResponseChecksumValidation.WHEN_REQUIRED)
+      .requestChecksumCalculation(RequestChecksumCalculation.WHEN_REQUIRED)
       .build();
   }
 }
