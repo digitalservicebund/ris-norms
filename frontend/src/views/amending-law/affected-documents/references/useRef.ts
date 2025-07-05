@@ -51,14 +51,20 @@ export function useRef(
 
   const refersTo = computed<RefRefersTo | "">({
     get: () => {
-      return (node.value?.getAttribute("refersTo") as RefRefersTo) ?? ""
+      return (
+        (node.value?.getAttribute("refersTo") as RefRefersTo) ?? "zitierung"
+      )
     },
     set: (newValue) => {
       if (!node.value) {
         return
       }
 
-      node.value?.setAttribute("refersTo", newValue)
+      if (newValue === "zitierung") {
+        node.value?.removeAttribute("refersTo")
+      } else {
+        node.value?.setAttribute("refersTo", newValue)
+      }
 
       updateXmlSnippet()
     },

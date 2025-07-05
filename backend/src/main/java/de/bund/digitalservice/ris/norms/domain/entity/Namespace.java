@@ -15,7 +15,8 @@ public enum Namespace {
     "http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/",
     "redok"
   ),
-  METADATEN_REGELUNGSTEXT("http://MetadatenRegelungstext.LegalDocML.de/1.8.1/", "regtxt");
+  METADATEN_REGELUNGSTEXT("http://MetadatenRegelungstext.LegalDocML.de/1.8.1/", "regtxt"),
+  MATHML("http://www.w3.org/1998/Math/MathML", "math");
 
   /**
    * The namespace uri of the namespace

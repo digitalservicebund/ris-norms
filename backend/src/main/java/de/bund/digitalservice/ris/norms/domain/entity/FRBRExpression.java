@@ -83,7 +83,8 @@ public class FRBRExpression extends FRBR {
     NodeParser.getElementFromExpression("./FRBRalias[@name='vorherige-version-id']", getElement())
       .orElseGet(() -> {
         final Element newElement = NodeCreator.createElementWithEidAndGuid(
-          "akn:FRBRalias",
+          Namespace.INHALTSDATEN,
+          "FRBRalias",
           getElement()
         );
         newElement.setAttribute("name", "vorherige-version-id");
@@ -148,7 +149,8 @@ public class FRBRExpression extends FRBR {
     )
       .orElseGet(() -> {
         final Element nextVersionAlias = NodeCreator.createElementWithEidAndGuid(
-          "akn:FRBRalias",
+          Namespace.INHALTSDATEN,
+          "FRBRalias",
           getElement()
         );
         nextVersionAlias.setAttribute("name", "nachfolgende-version-id");

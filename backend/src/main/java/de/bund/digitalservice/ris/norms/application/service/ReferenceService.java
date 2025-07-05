@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EIdPart;
@@ -145,7 +146,8 @@ public class ReferenceService {
       // The matched text, replace with new element
       final String matchedText = originalText.substring(match.start(), match.end() + 1);
       final Element newElement = NodeCreator.createElementWithStaticEidAndGuidNoAppend(
-        "akn:ref",
+        Namespace.INHALTSDATEN,
+        "ref",
         new EIdPart("ref", new OrdinalEIdPosition(refCounter)),
         parent
       );

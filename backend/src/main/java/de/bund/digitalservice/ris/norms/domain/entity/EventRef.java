@@ -23,7 +23,11 @@ public class EventRef {
    * @return the newly created {@link EventRef}
    */
   public static EventRef createAndAppend(Node parentNode) {
-    final var element = NodeCreator.createElementWithEidAndGuid("akn:eventRef", parentNode);
+    final var element = NodeCreator.createElementWithEidAndGuid(
+      Namespace.INHALTSDATEN,
+      "eventRef",
+      parentNode
+    );
     element.setAttribute("source", "attributsemantik-noch-undefiniert");
     return new EventRef(element);
   }

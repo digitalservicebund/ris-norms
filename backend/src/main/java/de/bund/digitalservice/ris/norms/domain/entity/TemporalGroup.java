@@ -23,7 +23,7 @@ public class TemporalGroup {
    */
   public static TemporalGroup createAndAppend(Node parentNode) {
     return new TemporalGroup(
-      NodeCreator.createElementWithEidAndGuid("akn:temporalGroup", parentNode)
+      NodeCreator.createElementWithEidAndGuid(Namespace.INHALTSDATEN, "temporalGroup", parentNode)
     );
   }
 
