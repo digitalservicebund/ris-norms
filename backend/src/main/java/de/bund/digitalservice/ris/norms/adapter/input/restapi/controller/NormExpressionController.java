@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormRespons
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,8 +50,8 @@ public class NormExpressionController {
    *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
-  public ResponseEntity<NormResponseSchema> getNorm(final DokumentExpressionEli eli) {
-    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli.asNormEli()));
+  public ResponseEntity<NormResponseSchema> getNorm(final NormExpressionEli eli) {
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli));
     return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
   }
 
