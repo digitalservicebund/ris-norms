@@ -34,7 +34,7 @@ const {
   data: normExpression,
   error: normExpressionError,
   isFinished: normExpressionLoaded,
-} = useGetNorm(expressionEli)
+} = useGetNorm(() => expressionEli.value.asNormEli())
 
 const pointInTime = computed(() => {
   return NormExpressionEli.fromString(expressionEli.value.toString())

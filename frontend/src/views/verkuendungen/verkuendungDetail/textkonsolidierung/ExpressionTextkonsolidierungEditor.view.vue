@@ -66,7 +66,7 @@ const {
   data: normExpression,
   error: normExpressionError,
   isFinished: normExpressionLoaded,
-} = useGetNorm(expressionEli)
+} = useGetNorm(() => expressionEli.value.asNormEli())
 
 const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
   {

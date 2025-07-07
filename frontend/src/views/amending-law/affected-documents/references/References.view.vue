@@ -20,7 +20,7 @@ const {
   data: norm,
   isFetching: normIsLoading,
   error: normError,
-} = useGetNorm(normEli)
+} = useGetNorm(() => normEli.value.asNormEli())
 
 /* -------------------------------------------------- *
  * Data and states for editing                        *

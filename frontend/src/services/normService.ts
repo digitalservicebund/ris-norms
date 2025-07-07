@@ -3,7 +3,7 @@ import type { Norm } from "@/types/norm"
 import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
-import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
 
 /**
@@ -15,7 +15,7 @@ import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
  * @returns Reactive fetch wrapper
  */
 export function useNormService(
-  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
+  eli: MaybeRefOrGetter<NormExpressionEli | undefined>,
   options?: {
     /**
      * Render metadata in the HTML preview. Note that this is only applicable

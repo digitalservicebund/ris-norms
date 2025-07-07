@@ -27,7 +27,7 @@ const {
   data: verkuendungPreview,
   isFetching: isFetchingVerkuendungPreview,
   error: verkuendungPreviewError,
-} = useGetNormHtml(eli)
+} = useGetNormHtml(normExpressionEli)
 
 const {
   data: zielnormen,
