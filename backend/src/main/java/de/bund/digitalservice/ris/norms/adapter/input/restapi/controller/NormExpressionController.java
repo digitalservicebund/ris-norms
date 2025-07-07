@@ -5,6 +5,7 @@ import static org.springframework.http.MediaType.*;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.mapper.NormResponseMapper;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.NormResponseSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
+import de.bund.digitalservice.ris.norms.domain.entity.DokumentType;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import org.springframework.http.ResponseEntity;
@@ -81,11 +82,13 @@ public class NormExpressionController {
    */
   @GetMapping(produces = { TEXT_HTML_VALUE })
   public ResponseEntity<String> getNormRender(
-    final DokumentExpressionEli eli,
+    final NormExpressionEli eli,
     @RequestParam(defaultValue = "false") boolean showMetadata
   ) {
     var normXml = loadRegelungstextXmlUseCase.loadRegelungstextXml(
-      new LoadRegelungstextXmlUseCase.Options(eli)
+      new LoadRegelungstextXmlUseCase.Options(
+        DokumentExpressionEli.fromNormEli(eli, DokumentType.REGELUNGSTEXT_VERKUENDUNG, 1)
+      )
     );
     var legalDocHtml = this.transformLegalDocMlToHtmlUseCase.transformLegalDocMlToHtml(
       new TransformLegalDocMlToHtmlUseCase.Options(normXml, showMetadata, false)
