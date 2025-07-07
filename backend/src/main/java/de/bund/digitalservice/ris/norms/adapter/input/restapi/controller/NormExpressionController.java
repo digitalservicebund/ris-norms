@@ -13,32 +13,26 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * Controller for norm-related actions.
- *
- * Path parameters represent the eli of the expression of a norm and can be used to create an
- * {@link DokumentExpressionEli}: agent - DE: "Verkündungsblatt" year - DE "Verkündungsjahr"
- * naturalIdentifier - DE: "Seitenzahl / Verkündungsnummer" pointInTime - DE: "Versionsdatum"
- * version - DE: "Versionsnummer" language - DE: "Sprache" subtype - DE: "Dokumentenart"
+ * <p></p>
+ * Path parameters represent the eli of the expression of a norm and can be used to create a {@link NormExpressionEli}
  */
 @RestController
 @RequestMapping(
-  "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}"
+  "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}"
 )
 public class NormExpressionController {
 
   private final LoadNormUseCase loadNormUseCase;
   private final LoadRegelungstextXmlUseCase loadRegelungstextXmlUseCase;
-  private final UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase;
   private final TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase;
 
   public NormExpressionController(
     LoadNormUseCase loadNormUseCase,
     LoadRegelungstextXmlUseCase loadRegelungstextXmlUseCase,
-    UpdateRegelungstextXmlUseCase updateRegelungstextXmlUseCase,
     TransformLegalDocMlToHtmlUseCase transformLegalDocMlToHtmlUseCase
   ) {
     this.loadNormUseCase = loadNormUseCase;
     this.loadRegelungstextXmlUseCase = loadRegelungstextXmlUseCase;
-    this.updateRegelungstextXmlUseCase = updateRegelungstextXmlUseCase;
     this.transformLegalDocMlToHtmlUseCase = transformLegalDocMlToHtmlUseCase;
   }
 
@@ -54,21 +48,6 @@ public class NormExpressionController {
   public ResponseEntity<NormResponseSchema> getNorm(final NormExpressionEli eli) {
     var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(eli));
     return ResponseEntity.ok(NormResponseMapper.fromUseCaseData(norm));
-  }
-
-  /**
-   * Retrieves a norm's xml based on its expression ELI.
-   *
-   * @param eli Eli of the request
-   * @return A {@link ResponseEntity} containing the retrieved norm's xml.
-   *     <p>Returns HTTP 200 (OK) and the norm's xml if found.
-   *     <p>Returns HTTP 404 (Not Found) if the norm is not found.
-   */
-  @GetMapping(produces = { APPLICATION_XML_VALUE })
-  public ResponseEntity<String> getNormXml(final DokumentExpressionEli eli) {
-    return ResponseEntity.ok(
-      loadRegelungstextXmlUseCase.loadRegelungstextXml(new LoadRegelungstextXmlUseCase.Options(eli))
-    );
   }
 
   /**
@@ -95,26 +74,5 @@ public class NormExpressionController {
     );
 
     return ResponseEntity.ok(legalDocHtml);
-  }
-
-  /**
-   * Updates the XML representation of a Regelungstext based on its expression ELI.
-   *
-   * @param eli Eli of the request
-   * @param xml - the XML representation of the Regelungstext
-   * @return A {@link ResponseEntity} without any content if 204 or error response if 404.
-   *     <p>Returns HTTP 200 (OK) with the saved XML as response payload.
-   *     <p>Returns HTTP 404 (Not Found) if the Regelungstext is not found.
-   */
-  @PutMapping(consumes = { APPLICATION_XML_VALUE }, produces = { APPLICATION_XML_VALUE })
-  public ResponseEntity<String> updateRegelungstext(
-    final DokumentExpressionEli eli,
-    @RequestBody String xml
-  ) {
-    var updatedRegelungstext = updateRegelungstextXmlUseCase.updateRegelungstextXml(
-      new UpdateRegelungstextXmlUseCase.Options(eli, xml)
-    );
-
-    return ResponseEntity.ok(updatedRegelungstext);
   }
 }
