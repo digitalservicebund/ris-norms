@@ -49,18 +49,16 @@ public class ProprietaryController {
   }
 
   /**
-   * Return specific metadata of the {@link Dokument} within the {@link Proprietary} node.
+   * Return rahmen metadata of the {@link Norm}.
    *
-   * @param dokumentExpressionEli the eli at the document level
-   * @return the specific metadata returned in the form of {@link ProprietaryFrameSchema}
+   * @param normExpressionEli the eli of the norm
+   * @return the rahmen metadata
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ProprietaryFrameSchema> getProprietary(
-    final DokumentExpressionEli dokumentExpressionEli
+    final NormExpressionEli normExpressionEli
   ) {
-    var norm = loadNormUseCase.loadNorm(
-      new LoadNormUseCase.EliOptions(dokumentExpressionEli.asNormEli())
-    );
+    var norm = loadNormUseCase.loadNorm(new LoadNormUseCase.EliOptions(normExpressionEli));
 
     return ResponseEntity.ok(
       ProprietaryResponseMapper.fromRahmenMetadata(norm.getRahmenMetadata())
