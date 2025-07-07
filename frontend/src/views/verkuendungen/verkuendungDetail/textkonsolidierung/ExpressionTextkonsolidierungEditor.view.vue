@@ -222,8 +222,9 @@ watch(hasSaved, (finished) => {
 })
 
 // RIS DOCUMENT EXPLORER
-const { data: zeitgrenzen, error: zeitgrenzenError } =
-  useGetZeitgrenzen(expressionEli)
+const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(
+  computed(() => expressionEli.value.asNormEli()),
+)
 
 const eIdsToEdit = ref<string[]>([])
 

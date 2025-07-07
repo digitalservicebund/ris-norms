@@ -1,4 +1,3 @@
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { setZeitgrenzen, setZielnormReferences } from "@e2e/pages/verkuendung"
 import { frontendTestDataDirectory } from "@e2e/utils/dataDirectories"
@@ -21,8 +20,8 @@ test.describe(
 
       // Prepare Zeitgrenzen
       const zeitgrenzenIds = await setZeitgrenzen(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
         ),
         [
           { id: "", date: "2017-03-16", art: "INKRAFT" },
@@ -138,8 +137,8 @@ test.describe("creates affected expressions", { tag: ["@RISDEV-7181"] }, () => {
 
     // Prepare Zeitgrenzen
     const zeitgrenzenIds = await setZeitgrenzen(
-      DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
+      NormExpressionEli.fromString(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
       ),
       [
         { id: "", date: "2017-03-16", art: "INKRAFT" },

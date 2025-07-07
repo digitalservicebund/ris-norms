@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 /** Controller for listing and managing time boundaries of a {@link Dokument}. */
 @RestController
 @RequestMapping(
-  "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/zeitgrenzen"
+  "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/zeitgrenzen"
 )
 public class ZeitgrenzenController {
 

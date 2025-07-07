@@ -1,4 +1,3 @@
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { setZeitgrenzen, setZielnormReferences } from "@e2e/pages/verkuendung"
 import { test } from "@e2e/utils/testWithAuth"
@@ -21,8 +20,8 @@ test.describe(
     test.beforeEach(async ({ authenticatedRequest: request }) => {
       // Set initial Zeitgrenzen data
       await setZeitgrenzen(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
         ),
         [
           {
@@ -114,7 +113,7 @@ test.describe(
       page,
     }) => {
       await page.route(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
         async (route) => {
           await route.fulfill({
             status: 200,
@@ -158,7 +157,7 @@ test.describe(
       page,
     }) => {
       await page.route(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
         async (route) => {
           await route.fulfill({
             status: 500,
@@ -250,7 +249,7 @@ test.describe(
       await page.getByRole("option", { name: "Inkrafttreten" }).click()
 
       const resposne = page.waitForResponse(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
       )
 
       // Save -> Success toast

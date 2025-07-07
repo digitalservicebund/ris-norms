@@ -1,4 +1,3 @@
-import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import type { Zeitgrenze } from "@/types/zeitgrenze"
 import type { ZielnormReference } from "@/types/zielnormReference"
@@ -14,7 +13,7 @@ import type { APIRequestContext } from "playwright/test"
  * @returns List of Zeitgrenzen IDs
  */
 export async function setZeitgrenzen(
-  eli: DokumentExpressionEli,
+  eli: NormExpressionEli,
   zeitgrenzen: Zeitgrenze[],
   request: APIRequestContext,
 ): Promise<string[]> {

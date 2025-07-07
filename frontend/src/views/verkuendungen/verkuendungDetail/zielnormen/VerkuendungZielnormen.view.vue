@@ -65,7 +65,9 @@ const formattedVerkuendungsdatum = computed(() =>
 
 // Editing ------------------------------------------------
 
-const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(eli)
+const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(() =>
+  eli.value.asNormEli(),
+)
 
 const eIdsToEdit = ref<string[]>([])
 

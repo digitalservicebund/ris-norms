@@ -54,14 +54,14 @@ const {
   data: zeitgrenzen,
   error: zeitgrenzenError,
   isFetching: isFetchingZeitgrenzen,
-} = useGetZeitgrenzen(eli)
+} = useGetZeitgrenzen(() => eli.value.asNormEli())
 
 const {
   data: updatedZeitgrenzen,
   execute: saveZeitgrenzen,
   error: saveZeitgrenzenError,
   isFetching: saveZeitgrenzenIsFetching,
-} = usePutZeitgrenzen(eli, zeitgrenzen)
+} = usePutZeitgrenzen(() => eli.value.asNormEli(), zeitgrenzen)
 
 watch(updatedZeitgrenzen, (newVal, oldVal) => {
   // null in this case means the request failed, keep old data in that case

@@ -22,7 +22,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 @SecurelessControllerTest(ZeitgrenzenController.class)
-class ZeitgrenzeControllerTest {
+class ZeitgrenzenControllerTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -39,8 +39,6 @@ class ZeitgrenzeControllerTest {
     @Test
     void getZeitgrenzenReturnsCorrectDataInOrder() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
-
       var customModsMetadata = new CustomModsMetadata(
         toElement(
           """
@@ -70,7 +68,11 @@ class ZeitgrenzeControllerTest {
 
       // When // Then
       mockMvc
-        .perform(get("/api/v1/norms/{eli}/zeitgrenzen", eli).accept(MediaType.APPLICATION_JSON))
+        .perform(
+          get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/zeitgrenzen").accept(
+            MediaType.APPLICATION_JSON
+          )
+        )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", hasSize(4)))
         .andExpect(jsonPath("$[0].id", is("gz-3")))
@@ -98,13 +100,15 @@ class ZeitgrenzeControllerTest {
     @Test
     void getZeitgrenzenReturnsEmpty() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
-
       when(loadZeitgrenzenUseCase.loadZeitgrenzen(any())).thenReturn(Collections.emptyList());
 
       // When // Then
       mockMvc
-        .perform(get("/api/v1/norms/{eli}/zeitgrenzen", eli).accept(MediaType.APPLICATION_JSON))
+        .perform(
+          get("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/zeitgrenzen").accept(
+            MediaType.APPLICATION_JSON
+          )
+        )
         .andExpect(status().isOk())
         .andExpect(jsonPath("$", empty()));
 
@@ -120,8 +124,6 @@ class ZeitgrenzeControllerTest {
     @Test
     void updateZeitgrenzeReturnsSuccess() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
-
       var customModsMetadata = new CustomModsMetadata(
         toElement(
           """
@@ -142,7 +144,7 @@ class ZeitgrenzeControllerTest {
       // When // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+          put("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/zeitgrenzen")
             .accept(MediaType.APPLICATION_JSON)
             .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
@@ -169,14 +171,12 @@ class ZeitgrenzeControllerTest {
     @Test
     void updateZeitgrenzenWithEmptyList() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
-
       when(updateZeitgrenzenUseCase.updateZeitgrenzen(any())).thenReturn(Collections.emptyList());
 
       // When // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+          put("/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/zeitgrenzen")
             .accept(MediaType.APPLICATION_JSON)
             .with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
