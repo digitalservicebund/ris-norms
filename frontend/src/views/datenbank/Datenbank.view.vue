@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
-import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { computed, ref } from "vue"
 import { useGetNorms } from "@/services/normService"
 import RisDatenbankTable from "./RisDatenbankTable.vue"
@@ -29,12 +28,8 @@ function onPageChange(page: number) {
       <h1 class="ris-heading2-regular">Datenbank</h1>
     </header>
 
-    <div v-if="normsIsFetching" class="mt-24 flex justify-center">
-      <RisLoadingSpinner />
-    </div>
-
     <RisDatenbankTable
-      v-else-if="norms.length"
+      v-if="norms.length"
       :items="norms"
       :total="total"
       :current-page="currentPage"
