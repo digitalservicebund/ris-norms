@@ -10,7 +10,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadZeitgrenzenUs
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateZeitgrenzenUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Zeitgrenze;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import java.util.Comparator;
@@ -45,11 +45,11 @@ public class ZeitgrenzenController {
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<ZeitgrenzeResponseSchema>> getZeitgrenzen(
-    final DokumentExpressionEli eli
+    final NormExpressionEli eli
   ) {
     return ResponseEntity.ok(
       loadZeitgrenzenUseCase
-        .loadZeitgrenzen(new LoadZeitgrenzenUseCase.Options(eli.asNormEli()))
+        .loadZeitgrenzen(new LoadZeitgrenzenUseCase.Options(eli))
         .stream()
         .sorted(Comparator.comparing(Zeitgrenze::getDate))
         .map(ZeitgrenzeMapper::fromUseCaseData)
@@ -67,7 +67,7 @@ public class ZeitgrenzenController {
    */
   @PutMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<ZeitgrenzeResponseSchema>> updateZeitgrenzen(
-    final DokumentExpressionEli eli,
+    final NormExpressionEli eli,
     @RequestBody @Valid @UniqueZeitgrenzeDateArtConstraint @Size(
       max = 100,
       message = "A maximum of 100 time boundaries is supported"
@@ -76,10 +76,7 @@ public class ZeitgrenzenController {
     return ResponseEntity.ok(
       updateZeitgrenzenUseCase
         .updateZeitgrenzen(
-          new UpdateZeitgrenzenUseCase.Options(
-            eli.asNormEli(),
-            ZeitgrenzeMapper.fromRequestSchema(zeitgrenzen)
-          )
+          new UpdateZeitgrenzenUseCase.Options(eli, ZeitgrenzeMapper.fromRequestSchema(zeitgrenzen))
         )
         .stream()
         .sorted(Comparator.comparing(Zeitgrenze::getDate))
