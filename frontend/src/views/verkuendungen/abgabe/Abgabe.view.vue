@@ -91,7 +91,7 @@ function handlePraetextSubmit() {
   confirm.require({
     header: "Expressionen als Prätext abgeben",
     message:
-      "Sind sie sicher, dass sie die angezeigten Expressionen als Prätext abgeben möchten?",
+      "Sind Sie sicher, dass Sie die angezeigten Expressionen als Prätext abgeben möchten?",
     acceptLabel: "Abgeben",
     rejectLabel: "Abbrechen",
     rejectProps: { text: true },
@@ -108,7 +108,7 @@ function handleVolldokumentationSubmit() {
   confirm.require({
     header: "Expressionen als Volldokumentation abgeben",
     message:
-      "Sind sie sicher, dass sie die angezeigten Expressionen als Volldokumentation abgeben möchten?",
+      "Sind Sie sicher, dass Sie die angezeigten Expressionen als Volldokumentation abgeben möchten?",
     acceptLabel: "Abgeben",
     rejectLabel: "Abbrechen",
     rejectProps: { text: true },
