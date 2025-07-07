@@ -128,6 +128,13 @@ export const errorMessages = {
       message: `Das ZIP-Archiv entspricht nicht der erwarteten Struktur: ${e.detail}`,
     }),
 
+  "/errors/normendokumentationspaket-import-failed/unsupported-file-type": (
+    e: ErrorResponse<{ supportedTypes: string[]; file: string }>,
+  ) => ({
+    title: "Nicht unterstützter Datei-Typ in ZIP-Archiv.",
+    message: `Der erkannte Datei-Typ für die Datei "${e.file}" wird nicht unterstützt. Unterstützt werden: ${e.supportedTypes?.join(", ")}`,
+  }),
+
   "/errors/not-a-ldml-de-xml-file": (
     e: ErrorResponse<{ fileName: string }>,
   ) => ({
