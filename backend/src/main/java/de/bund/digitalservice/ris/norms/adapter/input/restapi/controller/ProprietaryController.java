@@ -7,12 +7,14 @@ import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.Proprietary
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.ProprietarySingleElementSchema;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromDokumentUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateRahmenMetadataUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,18 +31,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProprietaryController {
 
   private final LoadProprietaryFromDokumentUseCase loadProprietaryFromDokumentUseCase;
-  private final UpdateProprietaryFrameFromDokumentUseCase updateProprietaryFrameFromDokumentUseCase;
+  private final UpdateRahmenMetadataUseCase updateRahmenMetadataUseCase;
   private final UpdateProprietarySingleElementFromDokumentUseCase updateProprietarySingleElementFromDokumentUseCase;
   private final LoadNormUseCase loadNormUseCase;
 
   public ProprietaryController(
     LoadProprietaryFromDokumentUseCase loadProprietaryFromDokumentUseCase,
-    UpdateProprietaryFrameFromDokumentUseCase updateProprietaryFrameFromDokumentUseCase,
+    UpdateRahmenMetadataUseCase updateRahmenMetadataUseCase,
     UpdateProprietarySingleElementFromDokumentUseCase updateProprietarySingleElementFromDokumentUseCase,
     LoadNormUseCase loadNormUseCase
   ) {
     this.loadProprietaryFromDokumentUseCase = loadProprietaryFromDokumentUseCase;
-    this.updateProprietaryFrameFromDokumentUseCase = updateProprietaryFrameFromDokumentUseCase;
+    this.updateRahmenMetadataUseCase = updateRahmenMetadataUseCase;
     this.updateProprietarySingleElementFromDokumentUseCase =
       updateProprietarySingleElementFromDokumentUseCase;
     this.loadNormUseCase = loadNormUseCase;
@@ -66,37 +68,35 @@ public class ProprietaryController {
   }
 
   /**
-   * Updates specific metadata of the {@link Dokument} within the
-   * {@link Proprietary} node.
+   * Updates rahmen metadata of the {@link Norm}.
    *
-   * @param dokumentExpressionEli the eli at the document level
+   * @param normExpressionEli the eli identifying the norm
    * @param proprietaryFrameSchema the request {@link ProprietaryFrameSchema} with the new metadata
    *     values.
    * @return the specific metadata updated in the form of {@link ProprietaryFrameSchema}
    */
   @PutMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<ProprietaryFrameSchema> updateProprietary(
-    final DokumentExpressionEli dokumentExpressionEli,
+    final NormExpressionEli normExpressionEli,
     @RequestBody ProprietaryFrameSchema proprietaryFrameSchema
   ) {
-    var rahmenMetadata =
-      updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(
-        new UpdateProprietaryFrameFromDokumentUseCase.Options(
-          dokumentExpressionEli,
-          new UpdateProprietaryFrameFromDokumentUseCase.InputMetadata(
-            proprietaryFrameSchema.getFna(),
-            proprietaryFrameSchema.getTyp(),
-            proprietaryFrameSchema.getSubtyp(),
-            proprietaryFrameSchema.getBezeichnungInVorlage(),
-            proprietaryFrameSchema.getArtDerNorm(),
-            proprietaryFrameSchema.getStaat(),
-            proprietaryFrameSchema.getBeschliessendesOrgan(),
-            proprietaryFrameSchema.getQualifizierteMehrheit(),
-            proprietaryFrameSchema.getRessort(),
-            proprietaryFrameSchema.getOrganisationsEinheit()
-          )
+    var rahmenMetadata = updateRahmenMetadataUseCase.updateRahmenMetadata(
+      new UpdateRahmenMetadataUseCase.Options(
+        normExpressionEli,
+        new UpdateRahmenMetadataUseCase.InputMetadata(
+          proprietaryFrameSchema.getFna(),
+          proprietaryFrameSchema.getTyp(),
+          proprietaryFrameSchema.getSubtyp(),
+          proprietaryFrameSchema.getBezeichnungInVorlage(),
+          proprietaryFrameSchema.getArtDerNorm(),
+          proprietaryFrameSchema.getStaat(),
+          proprietaryFrameSchema.getBeschliessendesOrgan(),
+          proprietaryFrameSchema.getQualifizierteMehrheit(),
+          proprietaryFrameSchema.getRessort(),
+          proprietaryFrameSchema.getOrganisationsEinheit()
         )
-      );
+      )
+    );
 
     return ResponseEntity.ok(ProprietaryResponseMapper.fromRahmenMetadata(rahmenMetadata));
   }

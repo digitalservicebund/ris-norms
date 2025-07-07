@@ -3,8 +3,8 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.exception.DokumentNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromDokumentUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateRahmenMetadataUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadDokumentPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
 public class ProprietaryService
   implements
     LoadProprietaryFromDokumentUseCase,
-    UpdateProprietaryFrameFromDokumentUseCase,
+    UpdateRahmenMetadataUseCase,
     UpdateProprietarySingleElementFromDokumentUseCase {
 
   final LoadDokumentPort loadDokumentPort;
@@ -47,12 +47,10 @@ public class ProprietaryService
   }
 
   @Override
-  public RahmenMetadata updateProprietaryFrameFromDokument(
-    UpdateProprietaryFrameFromDokumentUseCase.Options options
-  ) {
+  public RahmenMetadata updateRahmenMetadata(UpdateRahmenMetadataUseCase.Options options) {
     final Norm norm = loadNormPort
-      .loadNorm(new LoadNormPort.Options(options.dokumentExpressionEli().asNormEli()))
-      .orElseThrow(() -> new NormNotFoundException(options.dokumentExpressionEli().asNormEli()));
+      .loadNorm(new LoadNormPort.Options(options.normExpressionEli()))
+      .orElseThrow(() -> new NormNotFoundException(options.normExpressionEli()));
 
     final RahmenMetadata rahmenMetadata = norm.getRahmenMetadata();
     rahmenMetadata.setFna(options.inputMetadata().fna());
