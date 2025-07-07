@@ -31,8 +31,8 @@ describe("zeitgrenzenService", () => {
       )
 
       const { data, isFinished } = useGeltungszeitenHtml(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu",
         ),
       )
 
@@ -59,16 +59,16 @@ describe("zeitgrenzenService", () => {
       )
 
       const eli = ref(
-        DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu",
         ),
       )
       const { data, isFinished } = useGeltungszeitenHtml(eli)
       await vi.waitUntil(() => isFinished.value)
       expect(data.value).toBe("<div>1</div>")
 
-      eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1",
+      eli.value = NormExpressionEli.fromString(
+        "eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu",
       )
       await nextTick()
       await vi.waitUntil(() => isFinished.value)

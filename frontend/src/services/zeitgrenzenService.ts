@@ -1,4 +1,3 @@
-import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
 import type { Zeitgrenze } from "@/types/zeitgrenze"
 import type { UseFetchReturn } from "@vueuse/core"
@@ -15,11 +14,11 @@ import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
  * @returns HTML string
  */
 export function useGeltungszeitenHtml(
-  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
+  eli: MaybeRefOrGetter<NormExpressionEli | undefined>,
 ): UseFetchReturn<string> {
   const url = computed(
     () =>
-      `/norms/${toValue(eli)}/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten`,
+      `/norms/${toValue(eli)}/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten`,
   )
 
   return useApiFetch(

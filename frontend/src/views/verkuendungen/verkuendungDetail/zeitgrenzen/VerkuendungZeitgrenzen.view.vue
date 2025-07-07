@@ -48,7 +48,7 @@ const {
   data: geltungszeitenHtml,
   isFetching: isFetchingGeltungszeitenHtml,
   error: geltungszeitenHtmlError,
-} = useGeltungszeitenHtml(eli)
+} = useGeltungszeitenHtml(() => eli.value.asNormEli())
 
 const {
   data: zeitgrenzen,

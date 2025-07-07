@@ -55,7 +55,7 @@ const {
   data: geltungszeitenHtml,
   isFetching: isFetchingGeltungszeitenHtml,
   error: geltungszeitenHtmlError,
-} = useGeltungszeitenHtml(eli)
+} = useGeltungszeitenHtml(() => eli.value.asNormEli())
 
 const formattedVerkuendungsdatum = computed(() =>
   verkuendung.value?.frbrDateVerkuendung
