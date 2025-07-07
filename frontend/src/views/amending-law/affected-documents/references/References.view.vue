@@ -5,7 +5,7 @@ import RisHeader from "@/components/RisHeader.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisRefsEditor from "@/views/amending-law/affected-documents/references/RisRefsEditor.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
-import { useNormXml } from "@/composables/useNormXml"
+import { useDokumentXml } from "@/composables/useDokumentXml"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
 import { ref, watch } from "vue"
@@ -38,7 +38,7 @@ const {
     isFinished: hasSaved,
     error: saveError,
   },
-} = useNormXml(normEli, newNormXml)
+} = useDokumentXml(normEli, newNormXml)
 
 function handleSave(xml: string) {
   newNormXml.value = xml

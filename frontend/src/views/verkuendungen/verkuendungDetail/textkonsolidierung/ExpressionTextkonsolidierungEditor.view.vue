@@ -9,7 +9,7 @@ import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
-import { useNormXml } from "@/composables/useNormXml"
+import { useDokumentXml } from "@/composables/useDokumentXml"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useToast } from "@/composables/useToast"
 import { useZeitgrenzenHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
@@ -200,7 +200,7 @@ const {
     isFinished: hasSaved,
     error: saveError,
   },
-} = useNormXml(expressionEli, newExpressionXml)
+} = useDokumentXml(expressionEli, newExpressionXml)
 
 const currentXml = ref("")
 
