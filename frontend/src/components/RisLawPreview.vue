@@ -425,6 +425,12 @@ defineExpose({ scrollToText })
 </template>
 
 <style scoped>
+:deep(.selected) {
+  background-color: var(--color-element-select-selected-background);
+  outline: 2px solid var(--color-element-select-selected-border);
+  outline-offset: 2px;
+}
+
 .preview-container:focus :deep(.focused) {
   position: relative;
   z-index: 10;

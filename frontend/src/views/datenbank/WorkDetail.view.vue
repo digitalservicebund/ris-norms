@@ -46,7 +46,6 @@ const breadcrumbs = computed<HeaderBreadcrumb[]>(() => {
 
   if (route.name === "DatenbankWorkExpressionDetail") {
     const expressionEli = useDokumentExpressionEliPathParameter("expression")
-    console.log(expressionEli)
     return [
       ...base,
       {
@@ -63,14 +62,6 @@ const breadcrumbs = computed<HeaderBreadcrumb[]>(() => {
   return base
 })
 
-function getInForceDateFromEli(eli: string) {
-  try {
-    return formatDate(NormExpressionEli.fromString(eli).pointInTime)
-  } catch {
-    return eli
-  }
-}
-
 const selectionKeysExpressions = ref<Record<string, boolean>>({})
 
 const treeNodesExpressions = computed<TreeNode[]>(() =>
@@ -78,7 +69,7 @@ const treeNodesExpressions = computed<TreeNode[]>(() =>
     ? normExpressions.value.map<TreeNode>((expr) => ({
         key: expr.eli,
         label:
-          getInForceDateFromEli(expr.eli) +
+          formatDate(NormExpressionEli.fromString(expr.eli).pointInTime) +
           (expr.gegenstandslos ? " (gegenstandslos)" : ""),
         data: {
           route: `/datenbank/${workEli.value}/expression/${DokumentExpressionEli.fromNormExpressionEli(expr.eli).toString()}`,
@@ -151,11 +142,3 @@ const handleExpressionNodeSelect = (node: TreeNode) => {
     </Splitter>
   </RisViewLayout>
 </template>
-
-<style scoped>
-:deep(.selected) {
-  background-color: var(--color-element-select-selected-background);
-  outline: 2px solid var(--color-element-select-selected-border);
-  outline-offset: 2px;
-}
-</style>

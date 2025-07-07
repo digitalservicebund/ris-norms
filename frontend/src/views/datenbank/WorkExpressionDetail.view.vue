@@ -143,11 +143,3 @@ function toggleNode(node: TreeNode) {
     </SplitterPanel>
   </Splitter>
 </template>
-
-<style scoped>
-:deep(.selected) {
-  background-color: var(--color-element-select-selected-background);
-  outline: 2px solid var(--color-element-select-selected-border);
-  outline-offset: 2px;
-}
-</style>
