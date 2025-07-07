@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/vue"
 import { describe, expect, it, vi } from "vitest"
 import { nextTick } from "vue"
 import RisLawPreview from "./RisLawPreview.vue"
+import { mount } from "@vue/test-utils"
 
 describe("risLawPreview", () => {
   it("should render provided content", () => {
@@ -436,5 +437,41 @@ describe("risLawPreview", () => {
     expect(screen.getByText("MOD")).not.toHaveClass("class-1")
     expect(screen.getByText("MOD")).toHaveClass("class-2")
     expect(screen.getByText("MOD")).toHaveClass("class-3")
+  })
+
+  it("should scroll to text when scrollToText is called", async () => {
+    const wrapper = mount(RisLawPreview, {
+      props: {
+        content: `<div>
+          <div data-eId="section-1">Section 1</div>
+          <div data-eId="section-2">Section 2</div>
+          <div data-eId="section-3">Section 3</div>
+        </div>`,
+      },
+    })
+
+    await nextTick()
+
+    const targetElement = wrapper.find('[data-eId="section-2"]').element
+    const scrollSpy = vi.mocked(targetElement.scrollIntoView)
+
+    wrapper.vm.scrollToText("section-2")
+
+    expect(scrollSpy).toHaveBeenCalledWith({
+      behavior: "smooth",
+      block: "start",
+    })
+  })
+
+  it("should not crash when scrollToText is called with non-existent eid", async () => {
+    const wrapper = mount(RisLawPreview, {
+      props: {
+        content: `<div><div data-eId="section-1">Section 1</div></div>`,
+      },
+    })
+
+    await nextTick()
+
+    expect(() => wrapper.vm.scrollToText("non-existent")).not.toThrow()
   })
 })

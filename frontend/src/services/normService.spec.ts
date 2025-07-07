@@ -435,3 +435,131 @@ describe("useGetNorms", () => {
     })
   })
 })
+
+describe("useGetNormWork", () => {
+  beforeEach(() => {
+    vi.resetAllMocks()
+    vi.resetModules()
+  })
+
+  it("loads the data from the API", async () => {
+    const fetchSpy = vi.spyOn(window, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify({
+          eli: "eli/bund/bgbl-1/2017/s419",
+          title: "Test Norm",
+        }),
+      ),
+    )
+
+    const { useGetNormWork } = await import("./normService")
+    const { NormWorkEli } = await import("@/lib/eli/NormWorkEli")
+
+    useGetNormWork(NormWorkEli.fromString("eli/bund/bgbl-1/2017/s419"))
+
+    await vi.waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419",
+        expect.objectContaining({
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }),
+      )
+    })
+  })
+
+  it("reloads when parameters change", async () => {
+    const fetchSpy = vi
+      .spyOn(window, "fetch")
+      .mockResolvedValue(
+        new Response(JSON.stringify({ eli: "test", title: "Test" })),
+      )
+
+    const { useGetNormWork } = await import("./normService")
+    const { NormWorkEli } = await import("@/lib/eli/NormWorkEli")
+
+    const workEli = ref(NormWorkEli.fromString("eli/bund/bgbl-1/2017/s419"))
+    useGetNormWork(workEli)
+
+    await vi.waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419",
+        expect.any(Object),
+      )
+    })
+
+    workEli.value = NormWorkEli.fromString("eli/bund/bgbl-1/2017/s420")
+    await vi.waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s420",
+        expect.any(Object),
+      )
+    })
+  })
+})
+
+describe("useGetNormExpressions", () => {
+  beforeEach(() => {
+    vi.resetAllMocks()
+    vi.resetModules()
+  })
+
+  it("loads the data from the API", async () => {
+    const fetchSpy = vi.spyOn(window, "fetch").mockResolvedValue(
+      new Response(
+        JSON.stringify([
+          {
+            eli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+            gegenstandslos: false,
+          },
+        ]),
+      ),
+    )
+
+    const { useGetNormExpressions } = await import("./normService")
+    const { NormWorkEli } = await import("@/lib/eli/NormWorkEli")
+
+    useGetNormExpressions(NormWorkEli.fromString("eli/bund/bgbl-1/2017/s419"))
+
+    await vi.waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/expressions",
+        expect.objectContaining({
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }),
+      )
+    })
+  })
+
+  it("reloads when parameters change", async () => {
+    const fetchSpy = vi
+      .spyOn(window, "fetch")
+      .mockResolvedValue(new Response(JSON.stringify([])))
+
+    const { useGetNormExpressions } = await import("./normService")
+    const { NormWorkEli } = await import("@/lib/eli/NormWorkEli")
+
+    const workEli = ref(NormWorkEli.fromString("eli/bund/bgbl-1/2017/s419"))
+    useGetNormExpressions(workEli)
+
+    await vi.waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/expressions",
+        expect.any(Object),
+      )
+    })
+
+    workEli.value = NormWorkEli.fromString("eli/bund/bgbl-1/2017/s420")
+    await vi.waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s420/expressions",
+        expect.any(Object),
+      )
+    })
+  })
+})
