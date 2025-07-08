@@ -5,6 +5,7 @@ import { defineComponent } from "vue"
 import type { Router } from "vue-router"
 import { createRouter, createWebHashHistory } from "vue-router"
 import RisZielnormenList from "./RisZielnormenList.vue"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
 describe("risZielnormenList", () => {
   let global = {}
@@ -40,7 +41,9 @@ describe("risZielnormenList", () => {
             expressions: [],
           },
         ],
-        verkuendungEli: "eli/verkuendung",
+        verkuendungEli: NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+        ),
       },
     })
 
@@ -75,7 +78,9 @@ describe("risZielnormenList", () => {
             ],
           },
         ],
-        verkuendungEli: "eli/verkuendung",
+        verkuendungEli: NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+        ),
       },
     })
 
@@ -115,7 +120,9 @@ describe("risZielnormenList", () => {
             expressions: [],
           },
         ],
-        verkuendungEli: "eli/verkuendung",
+        verkuendungEli: NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
+        ),
       },
     })
 

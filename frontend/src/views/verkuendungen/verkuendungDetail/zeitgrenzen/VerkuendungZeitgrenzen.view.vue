@@ -5,7 +5,6 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisPropertyValue from "@/components/RisPropertyValue.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
 import { formatDate } from "@/lib/dateTime"
 import { getFrbrDisplayText } from "@/lib/frbr"
@@ -22,8 +21,9 @@ import SplitterPanel from "primevue/splitterpanel"
 import { computed, ref, watch } from "vue"
 import IcBaselineCheck from "~icons/ic/baseline-check"
 import RisZeitgrenzenList from "./RisZeitgrenzenList.vue"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 
-const eli = useDokumentExpressionEliPathParameter()
+const eli = useNormExpressionEliPathParameter()
 
 const { geltungszeitenHtmlHeadingId, geltungszeitenHeadingId } = useElementId()
 
@@ -42,26 +42,26 @@ const {
   data: verkuendung,
   isFetching: isFetchingVerkuendung,
   error: verkuendungError,
-} = useGetVerkuendungService(() => eli.value.asNormEli())
+} = useGetVerkuendungService(eli)
 
 const {
   data: geltungszeitenHtml,
   isFetching: isFetchingGeltungszeitenHtml,
   error: geltungszeitenHtmlError,
-} = useGeltungszeitenHtml(() => eli.value.asNormEli())
+} = useGeltungszeitenHtml(eli)
 
 const {
   data: zeitgrenzen,
   error: zeitgrenzenError,
   isFetching: isFetchingZeitgrenzen,
-} = useGetZeitgrenzen(() => eli.value.asNormEli())
+} = useGetZeitgrenzen(eli)
 
 const {
   data: updatedZeitgrenzen,
   execute: saveZeitgrenzen,
   error: saveZeitgrenzenError,
   isFetching: saveZeitgrenzenIsFetching,
-} = usePutZeitgrenzen(() => eli.value.asNormEli(), zeitgrenzen)
+} = usePutZeitgrenzen(eli, zeitgrenzen)
 
 watch(updatedZeitgrenzen, (newVal, oldVal) => {
   // null in this case means the request failed, keep old data in that case

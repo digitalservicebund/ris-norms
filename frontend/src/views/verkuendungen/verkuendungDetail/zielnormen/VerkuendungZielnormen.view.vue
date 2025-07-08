@@ -7,7 +7,6 @@ import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisPropertyValue from "@/components/RisPropertyValue.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
 import { useToast } from "@/composables/useToast"
 import { useZeitgrenzenHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
@@ -25,10 +24,12 @@ import {
 import { ConfirmDialog, Splitter, SplitterPanel, useConfirm } from "primevue"
 import { computed, ref, watch } from "vue"
 import RisZielnormForm from "./RisZielnormForm.vue"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 const { add: addToast, addError: addErrorToast } = useToast()
 
-const eli = useDokumentExpressionEliPathParameter()
+const eli = useNormExpressionEliPathParameter()
 
 const confirm = useConfirm()
 
@@ -36,7 +37,7 @@ const {
   data: verkuendung,
   error: verkuendungError,
   isFinished: verkuendungHasFinished,
-} = useGetVerkuendungService(() => eli.value.asNormEli())
+} = useGetVerkuendungService(eli)
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -55,7 +56,7 @@ const {
   data: geltungszeitenHtml,
   isFetching: isFetchingGeltungszeitenHtml,
   error: geltungszeitenHtmlError,
-} = useGeltungszeitenHtml(() => eli.value.asNormEli())
+} = useGeltungszeitenHtml(eli)
 
 const formattedVerkuendungsdatum = computed(() =>
   verkuendung.value?.frbrDateVerkuendung
@@ -65,9 +66,7 @@ const formattedVerkuendungsdatum = computed(() =>
 
 // Editing ------------------------------------------------
 
-const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(() =>
-  eli.value.asNormEli(),
-)
+const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(eli)
 
 const eIdsToEdit = ref<string[]>([])
 
@@ -84,7 +83,7 @@ const {
   updateZielnormReferencesError,
   zielnormReferences,
   zielnormReferencesForEid,
-} = useZielnormReferences(() => eli.value.asNormEli())
+} = useZielnormReferences(eli)
 
 const isSelected = (eid: string) => {
   return eIdsToEdit.value.includes(eid)
@@ -167,7 +166,12 @@ async function onDeleteZielnormReferences() {
       >
         <RisDokumentExplorer
           v-model:eids-to-edit="eIdsToEdit"
-          v-model:eli="eli"
+          :eli="
+            DokumentExpressionEli.fromString(
+              /* todo: replace by new method tarek introduced */
+              eli + '/regelungstext-verkuendung-1',
+            )
+          "
           class="h-full"
           :e-id-classes="highlightClasses"
         />
