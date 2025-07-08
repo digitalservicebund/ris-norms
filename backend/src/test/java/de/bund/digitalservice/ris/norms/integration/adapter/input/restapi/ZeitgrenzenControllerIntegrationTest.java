@@ -18,7 +18,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Roles;
 import de.bund.digitalservice.ris.norms.domain.entity.Zeitgrenze;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
@@ -460,10 +459,6 @@ class ZeitgrenzenControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsUpdateZeitgrenzenOnXMLWithoutRisMetadata() throws Exception {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
-      );
-
       var norm = Fixtures.loadAndSaveNormFixture(
         dokumentRepository,
         binaryFileRepository,
