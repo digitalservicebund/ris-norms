@@ -28,6 +28,7 @@ class NormResponseMapperTest {
     assertThat(result.getFna()).isEqualTo("754-28-1");
     assertThat(result.getVorherigeVersionId()).isEqualTo("30c19ca3-cf77-4ff9-8623-0cf60abac28e");
     assertThat(result.getNachfolgendeVersionId()).isNull();
+    assertThat(result.isGegenstandslos()).isFalse();
   }
 
   @Test
@@ -46,5 +47,6 @@ class NormResponseMapperTest {
     assertThat(result.getFrbrName()).isEqualTo("BGBl. I");
     assertThat(result.getFrbrNumber()).isEqualTo("10");
     assertThat(result.getFrbrDateVerkuendung()).isEqualTo("2024-01-18");
+    assertThat(result.isGegenstandslos()).isFalse();
   }
 }
