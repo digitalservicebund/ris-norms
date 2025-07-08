@@ -95,28 +95,20 @@ public class NormDBService
       .map(NormManifestationMapper::mapToDomain);
   }
 
-  private Optional<Norm> updateNorm(UpdateOrSaveNormPort.Options options) {
+  private Optional<Norm> updateNorm(Norm norm) {
     Optional<NormManifestationDto> normManifestationDto =
-      normManifestationRepository.findByManifestationEli(
-        options.norm().getManifestationEli().toString()
-      );
+      normManifestationRepository.findByManifestationEli(norm.getManifestationEli().toString());
 
     if (normManifestationDto.isEmpty()) {
       return Optional.empty();
     }
 
-    var dokumentDtos = updateDokumente(
-      options.norm().getManifestationEli(),
-      options.norm().getDokumente()
-    );
-    var binaryFileDtos = updateBinaryFiles(
-      options.norm().getManifestationEli(),
-      options.norm().getBinaryFiles()
-    );
+    var dokumentDtos = updateDokumente(norm.getManifestationEli(), norm.getDokumente());
+    var binaryFileDtos = updateBinaryFiles(norm.getManifestationEli(), norm.getBinaryFiles());
 
     normManifestationDto.get().setDokumente(dokumentDtos);
     normManifestationDto.get().setBinaryFiles(binaryFileDtos);
-    normManifestationDto.get().setPublishState(options.norm().getPublishState());
+    normManifestationDto.get().setPublishState(norm.getPublishState());
 
     return Optional.of(
       NormManifestationMapper.mapToDomain(
@@ -191,7 +183,7 @@ public class NormDBService
 
   @Override
   public Norm updateOrSave(UpdateOrSaveNormPort.Options options) {
-    final Optional<Norm> updatedNorm = updateNorm(options);
+    final Optional<Norm> updatedNorm = updateNorm(options.norm());
     if (updatedNorm.isEmpty()) {
       dokumentRepository.saveAllAndFlush(
         options
