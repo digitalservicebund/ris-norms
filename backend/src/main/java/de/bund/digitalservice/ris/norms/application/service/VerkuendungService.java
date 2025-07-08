@@ -63,25 +63,25 @@ public class VerkuendungService
       .flatMap(Proprietary::getCustomModsMetadata)
       .flatMap(CustomModsMetadata::getAmendedNormExpressions);
 
-    if (affectedExpressionElis.isEmpty()) {
-      return List.of();
-    }
-
     return affectedExpressionElis
-      .get()
-      .stream()
-      .map(eli -> {
-        var norm = loadNormPort.loadNorm(new LoadNormPort.Options(eli));
-        if (norm.isEmpty()) {
-          log.warn(
-            "Norm with ELI {} could not be loaded when collecting expressions affected by Verkuendung with ELI {}",
-            eli,
-            options.eli()
-          );
-        }
-        return norm;
-      })
-      .flatMap(Optional::stream)
-      .toList();
+      .map(amendedNormExpressions ->
+        amendedNormExpressions
+          .getNormExpressions()
+          .stream()
+          .map(expr -> {
+            var norm = loadNormPort.loadNorm(new LoadNormPort.Options(expr.getNormExpressionEli()));
+            if (norm.isEmpty()) {
+              log.warn(
+                "Norm with ELI {} could not be loaded when collecting expressions affected by Verkuendung with ELI {}",
+                expr.getNormExpressionEli(),
+                options.eli()
+              );
+            }
+            return norm;
+          })
+          .flatMap(Optional::stream)
+          .toList()
+      )
+      .orElseGet(List::of);
   }
 }
