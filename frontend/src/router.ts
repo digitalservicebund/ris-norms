@@ -127,6 +127,14 @@ const routes: readonly RouteRecordRaw[] = [
           },
         ],
       },
+      {
+        path: `/datenbank/textbearbeitung/${createDokumentExpressionEliPathParameter()}`,
+        name: "DatenbankExpressionTextbearbeitung",
+        component: () =>
+          import(
+            "@/views/datenbank/bestandskorrektur/ExpressionBestandskorrekturEditor.view.vue"
+          ),
+      },
     ],
   },
 
