@@ -33,7 +33,7 @@ test.describe("preview", { tag: ["@RISDEV-6266"] }, () => {
   }) => {
     // Given
     await page.route(
-      /api\/v1\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\/regelungstext-verkuendung-1\?/,
+      /api\/v1\/norms\/eli\/bund\/bgbl-1\/1990\/s2954\/2022-12-19\/1\/deu\?/,
       async (route) => {
         await route.abort()
       },

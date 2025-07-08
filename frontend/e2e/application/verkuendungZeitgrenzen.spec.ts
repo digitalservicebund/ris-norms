@@ -36,7 +36,7 @@ test.describe(
 
     test("opens the page for a Verkündung", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
       )
 
       await page
@@ -56,7 +56,7 @@ test.describe(
 
     test("shows the details of the Verkündung", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
       )
 
       const details = page.getByRole("region", { name: "Verkündungsdaten" })
@@ -70,7 +70,7 @@ test.describe(
       page,
     }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
       )
 
       const details = page.getByRole("region", { name: "Verkündungsdaten" })
@@ -82,7 +82,7 @@ test.describe(
 
     test("lists the Zeitgrenzen of the Verkündung", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
       )
 
       const editor = page.getByRole("region", {
@@ -90,7 +90,7 @@ test.describe(
       })
 
       await page.waitForResponse(
-        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
       )
 
       const loadedItems = await editor.getByRole("listitem").all()
@@ -123,7 +123,7 @@ test.describe(
       )
 
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
       )
 
       await expect(
@@ -145,7 +145,7 @@ test.describe(
       )
 
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
       )
 
       await expect(
@@ -167,7 +167,7 @@ test.describe(
       )
 
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
       )
 
       await expect(
@@ -197,7 +197,7 @@ test.describe(
       )
 
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
       )
 
       await expect(
@@ -209,7 +209,7 @@ test.describe(
 
     test("saves new Zeitgrenzen successfully", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
       )
 
       const editor = page.getByRole("region", {
@@ -281,7 +281,7 @@ test.describe(
 
     test("shows an error message when saving fails", async ({ page }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
       )
 
       const editor = page.getByRole("region", {
@@ -304,7 +304,7 @@ test.describe(
       page,
     }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/zeitgrenzen",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen",
       )
 
       const editor = page.getByRole("region", {
