@@ -141,22 +141,11 @@ public class NormService
     return XmlMapper.toString(updatedRegelungstext.getDocument());
   }
 
-  private void prepareNormForSaving(Norm norm) {
-    norm
-      .getDokumente()
-      .forEach(dokument -> {
-        EidConsistencyGuardian.eliminateDeadReferences(dokument.getDocument());
-        EidConsistencyGuardian.correctEids(dokument.getDocument());
-        ldmlDeElementSorter.sortElements(dokument.getDocument().getDocumentElement());
-      });
-
-    ldmlDeValidator.validateXSDSchema(norm);
-  }
-
   /**
-   * It not only saves a {@link Norm} but makes sure that all Eids are consistent. It always saves to the working copy
-   * of the expression. This method can not be used to change the publishing state.
-   * If the expression does not exist, yet it is created. It does not take care of updating the timeline.
+   * It not only saves a {@link Norm} but also does various pre-processing steps (like fixing eIds, removing dead
+   * references or sorting elements). It always saves to the working copy of the expression. This method can not be used
+   * to change the publishing state.
+   * If the expression does not exist yet, it is created. It does not take care of updating the timeline.
    *
    * @param normToBeUpdated the norm which shall be saved
    * @return The updated and saved {@link Norm}
@@ -168,7 +157,15 @@ public class NormService
       Norm.WORKING_COPY_DATE
     );
 
-    prepareNormForSaving(norm);
+    norm
+      .getDokumente()
+      .forEach(dokument -> {
+        EidConsistencyGuardian.eliminateDeadReferences(dokument.getDocument());
+        EidConsistencyGuardian.correctEids(dokument.getDocument());
+        ldmlDeElementSorter.sortElements(dokument.getDocument().getDocumentElement());
+      });
+
+    ldmlDeValidator.validateXSDSchema(norm);
 
     return updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm));
   }

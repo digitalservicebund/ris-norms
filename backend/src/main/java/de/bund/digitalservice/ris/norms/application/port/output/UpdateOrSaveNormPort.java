@@ -7,7 +7,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
  * Interface representing a port for saving or updating a {@link Norm}.
  * <p>
  *   It is better to use {@link NormService#updateNorm(Norm)} as that method also ensures all preprocessing is done
- *   correctly and that the update writes to the working copy of an expression.
+ *   correctly and that the update writes to the working copy of an expression. That method is then using this port.
  * </p>
  */
 public interface UpdateOrSaveNormPort {
