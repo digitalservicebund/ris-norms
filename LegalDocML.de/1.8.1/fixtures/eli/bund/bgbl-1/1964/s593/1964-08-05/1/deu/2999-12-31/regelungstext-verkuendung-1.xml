@@ -41,7 +41,7 @@
                              date="1964-08-05"
                              name="verkuendungsfassung-ausfertigungsdatum"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrwork-n1_frbrdate-n2"
-                             GUID="abb44bac-e7b5-424c-91b6-416d4c1f2766"
+                             GUID="b4891845-cda2-45cc-afdd-a373f60af0d7"
                              date="1964-08-05"
                              name="verkuendungsfassung-verkuendungsdatum"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrwork-n1_frbrauthor-n1"
@@ -73,9 +73,13 @@
                               name="vorherige-version-id"
                               value="30c19ca3-cf77-4ff9-8623-0cf60abac28e"/>
                <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n2"
-                              GUID="519cad64-9102-4808-99ba-ea64988745bd"
+                              GUID="519cad64-9102-4808-99bc-ea64988745bd"
                               name="aktuelle-version-id"
                               value="d04791fc-dcdc-47e6-aefb-bc2f7aaee151"/>
+               <akn:FRBRalias eId="meta-n1_ident-n1_frbrexpression-n1_frbralias-n3"
+                              GUID="519cad64-9102-4808-99bd-ea64988745bd"
+                              name="nachfolgende-version-id"
+                              value="519cad64-9102-4808-99ba-ea64988745bd"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1"
                                GUID="e4334f35-501a-46f0-a8f5-a02d9a03aca3"
                                href="recht.bund.de/institution/bundesregierung"/>
@@ -94,13 +98,13 @@
                                    GUID="c2bb71f6-2e7f-4ba2-9f6e-fd4834114338">
                <akn:FRBRthis eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrthis-n1"
                              GUID="e3e3a77d-4027-4d7f-9e8d-66393d4f3a26"
-                             value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"/>
+                             value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2999-12-31/regelungstext-verkuendung-1.xml"/>
                <akn:FRBRuri eId="meta-n1_ident-n1_frbrmanifestation-n1_frbruri-n1"
                             GUID="a1118c13-2463-4c73-9375-dd39eab2e701"
-                            value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"/>
+                            value="eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2999-12-31/regelungstext-verkuendung-1.xml"/>
                <akn:FRBRdate eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrdate-n1"
                              GUID="fbdae376-ccbe-4097-9bbe-4e91203b15d8"
-                             date="1964-08-05"
+                             date="2999-12-31"
                              name="generierung"/>
                <akn:FRBRauthor eId="meta-n1_ident-n1_frbrmanifestation-n1_frbrauthor-n1"
                                GUID="5bbaf2cc-d861-4a57-b019-c4596b816673"
@@ -137,17 +141,22 @@
                                  start="#meta-n1_lebzykl-n1_ereignis-n2"/>
             </akn:temporalGroup>
          </akn:temporalData>
-         <akn:notes source="attributsemantik-noch-undefiniert">
-            <akn:note GUID="62ef7b71-c670-4639-ba9e-7216f237e9c1"
-                      eId="meta-n1_editfnote-n1"
-                      marker="#"
-                      placement="bottom"
-                      refersTo="kommentierende-fussnote">
-               <akn:p GUID="ad2edab0-725d-4459-9731-6c28173ea10b"
-                      eId="meta-n1_editfnote-n1_text-n1">*T (+++ Textnachweis ab: 1.1.1999 +++)</akn:p>
-            </akn:note>
-         </akn:notes>
-         <!-- Proprietary removed on purpose -->
+         <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung besitzen keine fachliche Korrektheit. -->
+         <akn:proprietary eId="meta-n1_proprietary-n1"
+                          GUID="7bd9d0dd-6dfe-4307-a699-fcce5ea3f03c"
+                          source="attributsemantik-noch-undefiniert">
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+               <regtxt:typ>gesetz</regtxt:typ>
+               <regtxt:form>stammform</regtxt:form>
+            </regtxt:legalDocML.de_metadaten>
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+               <ris:bezeichnungInVorlage start="1964-09-21" end="unbestimmt">Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
+               <ris:normgeber start="1964-09-21" end="unbestimmt">DEU</ris:normgeber>
+               <ris:beschliessendesOrgan start="1964-09-21" end="unbestimmt" qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
+               <ris:organisationsEinheit>Aktuelle Organisationseinheit</ris:organisationsEinheit>
+               <ris:artDerNorm start="1964-09-21" end="unbestimmt">SN,ÄN,ÜN</ris:artDerNorm>
+            </ris:legalDocML.de_metadaten>
+         </akn:proprietary>
       </akn:meta>
       <!-- Dokumentenkopf Regelungstext -->
       <akn:preface eId="einleitung-n1" GUID="fc10e89f-fde4-44bf-aa98-b6bdea01f0ea">
@@ -163,9 +172,9 @@
                              GUID="8c4eabab-9893-455e-b83b-c46f2453f2fb">Gesetz zur Regelung des öffentlichen Vereinsrechts</akn:docTitle>
                <akn:shortTitle eId="einleitung-n1_doktitel-n1_text-n1_kurztitel-n1"
                                GUID="fdb8ed28-2e1f-4d81-b780-846fd9ecb716">( <akn:inline eId="einleitung-n1_doktitel-n1_text-n1_kurztitel-n1_inline-n1"
-                                                                                         GUID="bdff7240-266e-4ff3-b311-60342bd1afa2"
-                                                                                         refersTo="amtliche-abkuerzung"
-                                                                                         name="attributsemantik-noch-undefiniert">Vereinsgesetz</akn:inline>)</akn:shortTitle>
+                              GUID="bdff7240-266e-4ff3-b311-60342bd1afa2"
+                              refersTo="amtliche-abkuerzung"
+                              name="attributsemantik-noch-undefiniert">Vereinsgesetz</akn:inline>)</akn:shortTitle>
             </akn:p>
          </akn:longTitle>
          <akn:block eId="einleitung-n1_block-n1"
@@ -201,7 +210,7 @@
                <akn:num eId="art-z20_abs-z1_bezeichnung-n1"
                         GUID="e363f12d-7918-435c-b3a1-182c5e03ff43">
                   (1) </akn:num>
-               <akn:content GUID="da45be54-504d-45b9-9f9b-40f688292830"
+               <akn:content GUID="8126c826-df28-4fca-af71-8cea3a04e9cb"
                             eId="art-z20_abs-z1_inhalt-n1">
                   <akn:blockList eId="art-z20_abs-z1_inhalt-n1_liste-n1"
                                  GUID="97e930bf-49f8-472a-a1fa-3c3a401caa13">
@@ -288,11 +297,11 @@
                <akn:location eId="schluss-n1_blockcontainer-n1_text-n1_ort-n1"
                              GUID="19ffc7e1-add6-40a4-b9af-2f0927e46e9c"
                              refersTo="attributsemantik-noch-undefiniert">Bonn</akn:location>, den <akn:date eId="schluss-n1_blockcontainer-n1_text-n1_datum-n1"
-                                                                                                             GUID="34cf44aa-73a4-4dee-9827-4d890da7aac7"
-                                                                                                             refersTo="ausfertigung-datum"
-                                                                                                             date="1964-08-05">5. August 1964</akn:date>
+                         GUID="34cf44aa-73a4-4dee-9827-4d890da7aac7"
+                         refersTo="ausfertigung-datum"
+                         date="1964-08-05">5. August 1964</akn:date>
             </akn:p>
-            <akn:p GUID="cc65804c-9b7a-48c6-85ae-ae1cef90aab6"
+            <akn:p GUID="1b3d22de-784c-43a3-a931-44b113ca961c"
                    eId="schluss-n1_blockcontainer-n1_text-n2">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n2_signatur-n1"
                               GUID="b092cd1d-2f77-4fe6-a63d-5bcabeb410ad">
@@ -304,7 +313,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Lübke</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="c5b0657b-6d32-4624-b17f-53bd38ce7ba6"
+            <akn:p GUID="4a6f60b2-42b5-422c-a755-45bb690ef84d"
                    eId="schluss-n1_blockcontainer-n1_text-n3">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n3_signatur-n1"
                               GUID="2c6c0dc9-32b6-46ee-a1fa-9b8a0bc7c193">
@@ -316,7 +325,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Mende</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="f342ccb1-41dd-4641-8040-4305aa2474dd"
+            <akn:p GUID="11bffb77-a6ec-4181-b35a-3f0f5237d452"
                    eId="schluss-n1_blockcontainer-n1_text-n4">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n4_signatur-n1"
                               GUID="669a4ce1-2782-4623-8af7-83e7bcf0917a">
@@ -328,7 +337,7 @@
                               refersTo="attributsemantik-noch-undefiniert">Hermann Höcherl</akn:person>
                </akn:signature>
             </akn:p>
-            <akn:p GUID="99205497-09f9-4238-bfbe-9317381bc7fd"
+            <akn:p GUID="30b895cd-5991-4c8f-b6ef-8dc1cf59edb1"
                    eId="schluss-n1_blockcontainer-n1_text-n5">
                <akn:signature eId="schluss-n1_blockcontainer-n1_text-n5_signatur-n1"
                               GUID="22a6ce3d-3ae9-4189-bfed-d544efe7e50b">

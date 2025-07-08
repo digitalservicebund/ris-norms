@@ -361,7 +361,11 @@ class RegelungstextTest {
       ).orElseThrow();
 
       // when
-      final Node createdNode = NodeCreator.createElementWithEidAndGuid("akn:analysis", parentNode);
+      final Node createdNode = NodeCreator.createElementWithEidAndGuid(
+        Namespace.INHALTSDATEN,
+        "analysis",
+        parentNode
+      );
 
       // then
       assertThat(

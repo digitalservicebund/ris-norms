@@ -14,6 +14,7 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Predicate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
  * all the input ports. It is annotated with {@link Service} to indicate that it's a service
  * component in the Spring context.
  */
+@Slf4j
 @Service
 public class NormService
   implements
@@ -40,7 +42,6 @@ public class NormService
 
   private final LoadNormPort loadNormPort;
   private final LoadNormByGuidPort loadNormByGuidPort;
-  private final UpdateNormPort updateNormPort;
   private final LoadRegelungstextPort loadRegelungstextPort;
   private final LoadNormExpressionElisPort loadNormExpressionElisPort;
   private final EliService eliService;
@@ -49,11 +50,12 @@ public class NormService
   private final DeleteNormPort deleteNormPort;
   private final LoadNormWorksPort loadNormWorksPort;
   private final LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort;
+  private final LdmlDeElementSorter ldmlDeElementSorter;
+  private final LdmlDeValidator ldmlDeValidator;
 
   public NormService(
     LoadNormPort loadNormPort,
     LoadNormByGuidPort loadNormByGuidPort,
-    UpdateNormPort updateNormPort,
     LoadRegelungstextPort loadRegelungstextPort,
     LoadNormExpressionElisPort loadNormExpressionElisPort,
     EliService eliService,
@@ -61,11 +63,12 @@ public class NormService
     UpdateOrSaveNormPort updateOrSaveNormPort,
     DeleteNormPort deleteNormPort,
     LoadNormWorksPort loadNormWorksPort,
-    LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort
+    LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort,
+    LdmlDeElementSorter ldmlDeElementSorter,
+    LdmlDeValidator ldmlDeValidator
   ) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
-    this.updateNormPort = updateNormPort;
     this.loadRegelungstextPort = loadRegelungstextPort;
     this.loadNormExpressionElisPort = loadNormExpressionElisPort;
     this.eliService = eliService;
@@ -74,6 +77,8 @@ public class NormService
     this.deleteNormPort = deleteNormPort;
     this.loadNormWorksPort = loadNormWorksPort;
     this.loadExpressionsOfNormWorkPort = loadExpressionsOfNormWorkPort;
+    this.ldmlDeElementSorter = ldmlDeElementSorter;
+    this.ldmlDeValidator = ldmlDeValidator;
   }
 
   @Override
@@ -137,23 +142,32 @@ public class NormService
   }
 
   /**
-   * It not only saves a {@link Norm} but makes sure that all Eids are consistent.
+   * It not only saves a {@link Norm} but also does various pre-processing steps (like fixing eIds, removing dead
+   * references or sorting elements). It always saves to the working copy of the expression. This method can not be used
+   * to change the publishing state.
+   * If the expression does not exist yet, it is created. It does not take care of updating the timeline.
    *
    * @param normToBeUpdated the norm which shall be saved
-   * @return An {@link Map} containing the updated and saved {@link Norm}
+   * @return The updated and saved {@link Norm}
    * @throws NormNotFoundException if the norm cannot be found
    */
   public Norm updateNorm(Norm normToBeUpdated) {
-    normToBeUpdated
+    var norm = createNewVersionOfNormService.createNewManifestation(
+      normToBeUpdated,
+      Norm.WORKING_COPY_DATE
+    );
+
+    norm
       .getDokumente()
       .forEach(dokument -> {
         EidConsistencyGuardian.eliminateDeadReferences(dokument.getDocument());
         EidConsistencyGuardian.correctEids(dokument.getDocument());
+        ldmlDeElementSorter.sortElements(dokument.getDocument().getDocumentElement());
       });
 
-    return updateNormPort
-      .updateNorm(new UpdateNormPort.Options(normToBeUpdated))
-      .orElseThrow(() -> new NormNotFoundException(normToBeUpdated.getManifestationEli()));
+    ldmlDeValidator.validateXSDSchema(norm);
+
+    return updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm));
   }
 
   @Override
@@ -542,7 +556,7 @@ public class NormService
 
     cleanUpOrphanAmendedExpressions(zielnorm, amendedNormExpressions, removedOrphans);
 
-    updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(verkuendungNorm));
+    updateNorm(verkuendungNorm);
 
     return new Zielnorm(
       zielnorm.normWorkEli(),
@@ -611,10 +625,8 @@ public class NormService
       var result = createNewVersionOfNormService.createNewOverridenExpression(previous, norm);
       // Result is a new expression with the same eli but content based on the previous closest expression, which can be different from the one used to create the overriden expression
       // We also need to create new manifestation of expression on which the new expression was based, in case it differs from the one that was used to create the overriden expression
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(result.newExpression()));
-      updateOrSaveNormPort.updateOrSave(
-        new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
-      );
+      updateNorm(result.newExpression());
+      updateNorm(result.newManifestationOfOldExpression());
     } else {
       // It is an orphan, retrieved from DB because first time boundary for work eli was before this orphan
       boolean deleted = removeOrphan(expressionEli);
@@ -663,13 +675,9 @@ public class NormService
         expressionEli.getPointInTime(),
         verkuendungNorm.getRegelungstext1().getMeta().getFRBRWork().getFBRDate()
       );
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(result.newExpression()));
-      updateOrSaveNormPort.updateOrSave(
-        new UpdateOrSaveNormPort.Options(result.newManifestationOfGegenstandslosExpression())
-      );
-      updateOrSaveNormPort.updateOrSave(
-        new UpdateOrSaveNormPort.Options(result.newManifestationOfPrecidingExpression())
-      );
+      updateNorm(result.newExpression());
+      updateNorm(result.newManifestationOfGegenstandslosExpression());
+      updateNorm(result.newManifestationOfPrecidingExpression());
       // Add expression eli of new expression into amended-expressions
       amendedNormExpressions.add(result.newExpression().getExpressionEli());
     } else {
@@ -678,10 +686,8 @@ public class NormService
         previous,
         expressionEli.getPointInTime()
       );
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(result.newExpression()));
-      updateOrSaveNormPort.updateOrSave(
-        new UpdateOrSaveNormPort.Options(result.newManifestationOfOldExpression())
-      );
+      updateNorm(result.newExpression());
+      updateNorm(result.newManifestationOfOldExpression());
       // Add expression eli of new expression into amended-expressions
       amendedNormExpressions.add(result.newExpression().getExpressionEli());
     }
@@ -745,17 +751,13 @@ public class NormService
     // 2. The removed orphan was at the end of the timeline  (previous-norm is present)
     // The case that only the next-norm is present is not possible because at least the original expression must be present
     if (previousNorm.isPresent() && nextNorm.isPresent()) {
-      final Norm newPreviousManifestation = createNewVersionOfNormService.createNewManifestation(
-        previousNorm.get()
-      );
-      final FRBRExpression previousFrbrExpression = newPreviousManifestation
+      final Norm previousExpression = previousNorm.get();
+      final FRBRExpression previousFrbrExpression = previousExpression
         .getRegelungstext1()
         .getMeta()
         .getFRBRExpression();
-      final Norm newNextManifestation = createNewVersionOfNormService.createNewManifestation(
-        nextNorm.get()
-      );
-      final FRBRExpression nextFrbrExpression = newNextManifestation
+      final Norm nextExpression = nextNorm.get();
+      final FRBRExpression nextFrbrExpression = nextExpression
         .getRegelungstext1()
         .getMeta()
         .getFRBRExpression();
@@ -766,18 +768,16 @@ public class NormService
       nextFrbrExpression.setFRBRaliasPreviousVersionId(
         previousFrbrExpression.getFRBRaliasCurrentVersionId()
       );
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(newPreviousManifestation));
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(newNextManifestation));
+      updateNorm(previousExpression);
+      updateNorm(nextExpression);
     } else if (previousNorm.isPresent()) {
-      final Norm newPreviousManifestation = createNewVersionOfNormService.createNewManifestation(
-        previousNorm.get()
-      );
-      final FRBRExpression previousFrbrExpression = newPreviousManifestation
+      final Norm previousExpression = previousNorm.get();
+      previousExpression
         .getRegelungstext1()
         .getMeta()
-        .getFRBRExpression();
-      previousFrbrExpression.deleteAliasNextVersionId();
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(newPreviousManifestation));
+        .getFRBRExpression()
+        .deleteAliasNextVersionId();
+      updateNorm(previousExpression);
     }
   }
 

@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.InvalidUpdateException;
+import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.*;
@@ -26,7 +27,6 @@ class NormServiceTest {
   final LoadNormPort loadNormPort = mock(LoadNormPort.class);
   final LoadNormByGuidPort loadNormByGuidPort = mock(LoadNormByGuidPort.class);
   final LoadNormWorksPort loadNormWorksPort = mock(LoadNormWorksPort.class);
-  final UpdateNormPort updateNormPort = mock(UpdateNormPort.class);
   final LoadRegelungstextPort loadRegelungstextPort = mock(LoadRegelungstextPort.class);
   final LoadNormExpressionElisPort loadNormExpressionElisPort = mock(
     LoadNormExpressionElisPort.class
@@ -40,11 +40,12 @@ class NormServiceTest {
   final LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort = mock(
     LoadExpressionsOfNormWorkPort.class
   );
+  final LdmlDeElementSorter ldmlDeElementSorter = mock(LdmlDeElementSorter.class);
+  final LdmlDeValidator ldmlDeValidator = mock(LdmlDeValidator.class);
 
   final NormService service = new NormService(
     loadNormPort,
     loadNormByGuidPort,
-    updateNormPort,
     loadRegelungstextPort,
     loadNormExpressionElisPort,
     eliService,
@@ -52,7 +53,9 @@ class NormServiceTest {
     updateOrSaveNormPort,
     deleteNormPort,
     loadNormWorksPort,
-    loadExpressionsOfNormWorkPort
+    loadExpressionsOfNormWorkPort,
+    ldmlDeElementSorter,
+    ldmlDeValidator
   );
 
   @Nested
@@ -227,9 +230,11 @@ class NormServiceTest {
       var newNorm = Norm.builder()
         .dokumente(Set.of(new Regelungstext(XmlMapper.toDocument(newXml))))
         .build();
+      newNorm.setManifestationDateTo(Norm.WORKING_COPY_DATE);
 
       when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(oldNorm));
-      when(updateNormPort.updateNorm(any())).thenReturn(Optional.of(newNorm));
+      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(newNorm);
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(newNorm);
 
       // When
       var result = service.updateRegelungstextXml(
@@ -240,8 +245,10 @@ class NormServiceTest {
       verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
       );
-      verify(updateNormPort, times(1)).updateNorm(
-        argThat(argument -> argument.norm().equals(newNorm))
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(
+        argThat(argument ->
+          argument.norm().getManifestationEli().equals(newNorm.getManifestationEli())
+        )
       );
       assertThat(result).contains("Neuer Title");
     }
@@ -270,7 +277,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
       );
-      verify(updateNormPort, times(0)).updateNorm(any());
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
     }
 
     @Test
@@ -298,7 +305,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
       );
-      verify(updateNormPort, times(0)).updateNorm(any());
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
       assertThat(thrown).isInstanceOf(InvalidUpdateException.class);
     }
 
@@ -328,7 +335,7 @@ class NormServiceTest {
       verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli.asNormEli()))
       );
-      verify(updateNormPort, times(0)).updateNorm(any());
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
       assertThat(thrown).isInstanceOf(InvalidUpdateException.class);
     }
   }
@@ -343,17 +350,45 @@ class NormServiceTest {
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
       );
 
-      when(updateNormPort.updateNorm(new UpdateNormPort.Options(norm))).thenReturn(
-        Optional.of(norm)
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(norm);
+      when(updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(norm))).thenReturn(
+        norm
       );
 
       // when
       service.updateNorm(norm);
 
       // then
-      verify(updateNormPort, times(1)).updateNorm(
-        argThat(argument -> Objects.equals(argument, new UpdateNormPort.Options(norm)))
+      verify(createNewVersionOfNormService, times(1)).createNewManifestation(
+        any(),
+        eq(Norm.WORKING_COPY_DATE)
       );
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(
+        argThat(argument -> Objects.equals(argument, new UpdateOrSaveNormPort.Options(norm)))
+      );
+      verify(ldmlDeElementSorter, times(2)).sortElements(any()); // once for regelungstext and once for rechtsetzungsdokument
+      verify(ldmlDeValidator, times(1)).validateXSDSchema(any(Norm.class));
+    }
+
+    @Test
+    void itDoesNotSaveNormIfValidationFails() {
+      // given
+      Norm norm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23"
+      );
+
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(norm);
+      doThrow(new LdmlDeNotValidException(List.of()))
+        .when(ldmlDeValidator)
+        .validateXSDSchema(any(Norm.class));
+
+      // when
+      assertThatThrownBy(() -> service.updateNorm(norm)).isInstanceOf(
+        LdmlDeNotValidException.class
+      );
+
+      // then
+      verify(updateOrSaveNormPort, times(0)).updateOrSave(any());
     }
   }
 
@@ -396,9 +431,10 @@ class NormServiceTest {
       );
 
       when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
-      when(updateNormPort.updateNorm(new UpdateNormPort.Options(any()))).thenReturn(
-        Optional.of(norm)
+      when(updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(any()))).thenReturn(
+        norm
       );
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(norm);
 
       // when
       var zielnormReferences = service.updateZielnormReferences(
@@ -407,13 +443,13 @@ class NormServiceTest {
           List.of(
             new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
               "Änderungsvorschrift",
-              new Zeitgrenze.Id("gz-2"),
+              new Zeitgrenze.Id("f82ab983-5498-49ab-918f-5cf5e730e5ec"),
               new EId("art-z1_abs-z_untergl-n1_listenelem-n1"),
               NormWorkEli.fromString("eli/bund/bgbl-1/2024/12")
             ),
             new UpdateZielnormReferencesUseCase.ZielnormReferenceUpdateData(
               "Änderungsvorschrift",
-              new Zeitgrenze.Id("gz-1"),
+              new Zeitgrenze.Id("6aa3a7ca-f30a-43b6-950b-b1e942fd1842"),
               new EId("art-z1_abs-z_untergl-n1_listenelem-n2"),
               NormWorkEli.fromString("eli/bund/bgbl-1/2023/22")
             )
@@ -429,16 +465,20 @@ class NormServiceTest {
       assertThat(zielnormReferences.getFirst().getEId()).hasToString(
         "art-z1_abs-z_untergl-n1_listenelem-n1"
       );
-      assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString("gz-2");
+      assertThat(zielnormReferences.getFirst().getGeltungszeit()).hasToString(
+        "f82ab983-5498-49ab-918f-5cf5e730e5ec"
+      );
       assertThat(zielnormReferences.getFirst().getTyp()).isEqualTo("Änderungsvorschrift");
       assertThat(zielnormReferences.get(1).getZielnorm()).hasToString("eli/bund/bgbl-1/2023/22");
       assertThat(zielnormReferences.get(1).getEId()).hasToString(
         "art-z1_abs-z_untergl-n1_listenelem-n2"
       );
-      assertThat(zielnormReferences.get(1).getGeltungszeit()).hasToString("gz-1");
+      assertThat(zielnormReferences.get(1).getGeltungszeit()).hasToString(
+        "6aa3a7ca-f30a-43b6-950b-b1e942fd1842"
+      );
       assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
 
-      verify(updateNormPort, times(1)).updateNorm(any());
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
     }
 
     @Test
@@ -449,9 +489,10 @@ class NormServiceTest {
       );
 
       when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
-      when(updateNormPort.updateNorm(new UpdateNormPort.Options(any()))).thenReturn(
-        Optional.of(norm)
+      when(updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(any()))).thenReturn(
+        norm
       );
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(norm);
 
       // when
       var zielnormReferences = service.updateZielnormReferences(
@@ -489,7 +530,7 @@ class NormServiceTest {
       );
       assertThat(zielnormReferences.get(1).getTyp()).isEqualTo("Änderungsvorschrift");
 
-      verify(updateNormPort, times(1)).updateNorm(any());
+      verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
     }
   }
 
@@ -499,9 +540,10 @@ class NormServiceTest {
     Norm norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23");
 
     when(loadNormPort.loadNorm(new LoadNormPort.Options(any()))).thenReturn(Optional.of(norm));
-    when(updateNormPort.updateNorm(new UpdateNormPort.Options(any()))).thenReturn(
-      Optional.of(norm)
+    when(updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(any()))).thenReturn(
+      norm
     );
+    when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(norm);
 
     // when
     var zielnormReferences = service.deleteZielnormReferences(
@@ -513,7 +555,7 @@ class NormServiceTest {
 
     // then
     assertThat(zielnormReferences).isEmpty();
-    verify(updateNormPort, times(1)).updateNorm(any());
+    verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
   }
 
   @Nested
@@ -892,7 +934,7 @@ class NormServiceTest {
       // Mock creating new expression (and new previous manifestation)
       var result = new CreateNewVersionOfNormService.CreateNewExpressionResult(
         amendedExpression,
-        mock(Norm.class)
+        targetLaw
       );
       when(
         createNewVersionOfNormService.createNewExpression(
@@ -906,6 +948,9 @@ class NormServiceTest {
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(mock(Norm.class));
 
       // Mock saving updated amending law
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(
+        amendingLaw
+      );
       when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(mock(Norm.class));
 
       var createdExpressions = spiedService.createZielnormExpressions(
