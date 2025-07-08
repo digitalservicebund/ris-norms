@@ -166,12 +166,7 @@ async function onDeleteZielnormReferences() {
       >
         <RisDokumentExplorer
           v-model:eids-to-edit="eIdsToEdit"
-          :eli="
-            DokumentExpressionEli.fromString(
-              /* todo: replace by new method tarek introduced */
-              eli + '/regelungstext-verkuendung-1',
-            )
-          "
+          :eli="DokumentExpressionEli.fromNormExpressionEli(eli)"
           class="h-full"
           :e-id-classes="highlightClasses"
         />

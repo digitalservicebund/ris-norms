@@ -416,12 +416,7 @@ const isGegenstandslosExpression = computed(() => {
       <SplitterPanel :size="40" :min-size="40" class="h-full overflow-auto">
         <RisDokumentExplorer
           v-model:eids-to-edit="eIdsToEdit"
-          :eli="
-            DokumentExpressionEli.fromString(
-              /* TODO: (Malte Laukötter, 2025-07-07) replace with new method created by tarek */
-              verkuendungEli + '/regelungstext-verkuendung-1',
-            )
-          "
+          :eli="DokumentExpressionEli.fromNormExpressionEli(verkuendungEli)"
           class="h-full"
           :e-id-classes="highlightClasses"
           :disable-selection="true"

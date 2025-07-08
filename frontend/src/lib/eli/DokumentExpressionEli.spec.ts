@@ -1,5 +1,6 @@
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { describe, expect, it } from "vitest"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
 describe("dokumentExpressionEli", () => {
   it("fromString", () => {
@@ -41,7 +42,9 @@ describe("dokumentExpressionEli", () => {
   })
 
   it("fromNormExpressionEli", () => {
-    const normExpressionEli = "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"
+    const normExpressionEli = NormExpressionEli.fromString(
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu",
+    )
     const dokumentEli =
       DokumentExpressionEli.fromNormExpressionEli(normExpressionEli)
 
@@ -58,7 +61,9 @@ describe("dokumentExpressionEli", () => {
   })
 
   it("fromNormExpressionEli with custom subtype", () => {
-    const normExpressionEli = "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"
+    const normExpressionEli = NormExpressionEli.fromString(
+      "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu",
+    )
     const dokumentEli = DokumentExpressionEli.fromNormExpressionEli(
       normExpressionEli,
       "custom-subtype",

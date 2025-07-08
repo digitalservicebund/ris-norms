@@ -66,18 +66,16 @@ export class DokumentExpressionEli {
    * @return the DokumentExpressionEli
    */
   static fromNormExpressionEli(
-    eli: string,
+    eli: NormExpressionEli,
     subtype: string = "regelungstext-verkuendung-1",
   ): DokumentExpressionEli {
-    const normEli = NormExpressionEli.fromString(eli)
-
     return new DokumentExpressionEli(
-      normEli.agent,
-      normEli.year,
-      normEli.naturalIdentifier,
-      normEli.pointInTime,
-      normEli.version,
-      normEli.language,
+      eli.agent,
+      eli.year,
+      eli.naturalIdentifier,
+      eli.pointInTime,
+      eli.version,
+      eli.language,
       subtype,
     )
   }
