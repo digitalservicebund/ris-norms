@@ -59,6 +59,30 @@ export class DokumentExpressionEli {
   }
 
   /**
+   * Create a DokumentExpressionEli from a NormExpressionEli string
+   *
+   * @param eli The NormExpressionEli string
+   * @param subtype The document subtype (default: "regelungstext-verkuendung-1")
+   * @return the DokumentExpressionEli
+   */
+  static fromNormExpressionEli(
+    eli: string,
+    subtype: string = "regelungstext-verkuendung-1",
+  ): DokumentExpressionEli {
+    const normEli = NormExpressionEli.fromString(eli)
+
+    return new DokumentExpressionEli(
+      normEli.agent,
+      normEli.year,
+      normEli.naturalIdentifier,
+      normEli.pointInTime,
+      normEli.version,
+      normEli.language,
+      subtype,
+    )
+  }
+
+  /**
    * Create a NormExpressionEli that contains the parts of this ELI
    *
    * @return a norm ELI

@@ -114,6 +114,19 @@ const routes: readonly RouteRecordRaw[] = [
         name: "Datenbank",
         component: () => import("@/views/datenbank/Datenbank.view.vue"),
       },
+      {
+        path: `${createNormWorkEliPathParameter()}`,
+        name: "DatenbankWorkDetail",
+        component: () => import("@/views/datenbank/WorkDetail.view.vue"),
+        children: [
+          {
+            path: `expression/${createDokumentExpressionEliPathParameter("expression")}`,
+            name: "DatenbankWorkExpressionDetail",
+            component: () =>
+              import("@/views/datenbank/WorkExpressionDetail.view.vue"),
+          },
+        ],
+      },
     ],
   },
 
