@@ -115,7 +115,9 @@ function toggleNode(node: TreeNode) {
             <RouterLink :to="`/${expressionEli}/metadata`">
               <Button severity="primary" label="Metadaten bearbeiten" />
             </RouterLink>
-            <Button severity="primary" label="Text bearbeiten" disabled />
+            <RouterLink :to="`/datenbank/textbearbeitung/${expressionEli}`">
+              <Button severity="primary" label="Text bearbeiten" />
+            </RouterLink>
           </div>
         </div>
         <hr class="mb-0" />
