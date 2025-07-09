@@ -347,6 +347,7 @@ public class NormService
 
     List<Zielnorm.Expression> expressions = new ArrayList<>();
 
+    // First handling the already existing expressions (could be 1. orphans, 2. overrides or 3. becoming-gegenstandslos)
     for (var eli : existingSortedExpressionElis) {
       handleExistingExpression(
         eli,
@@ -357,6 +358,7 @@ public class NormService
       );
     }
 
+    // Then handling the actual geltungszeiten of the verkuendung (meaning 1. replacing expressions or simply 2. new expressions)
     for (var geltungszeit : geltungszeiten.stream().sorted().toList()) {
       handleGeltungszeit(geltungszeit, zielnormWorkEli, expressions);
     }
@@ -377,6 +379,7 @@ public class NormService
     boolean isBeforeFirstGeltungszeit = eli.getPointInTime().isBefore(earliestGeltungszeit);
 
     if (isBeforeFirstGeltungszeit) {
+      // 1. Before the first geltungszeit can only be orphans (if determined by the isOrphan helper method)
       if (
         affectedExpressionElisOpt.isPresent() &&
         isOrphan(affectedExpressionElisOpt.get(), geltungszeiten, eli)
@@ -388,9 +391,11 @@ public class NormService
       return;
     }
 
+    // After first geltungszeit could be...
     boolean wasCreatedByVerkuendung =
       affectedExpressionElisOpt.isPresent() && affectedExpressionElisOpt.get().contains(eli);
     if (wasCreatedByVerkuendung) {
+      // ... 2. overrides (were created by the same verkuendung already) or ...
       expressions.add(
         new Zielnorm.Expression(
           eli,
@@ -401,6 +406,7 @@ public class NormService
         )
       );
     } else {
+      // ... 3. becoming-gegenstandslos expressions
       expressions.add(
         new Zielnorm.Expression(eli, true, true, false, Zielnorm.CreatedBy.OTHER_VERKUENDUNG)
       );
@@ -433,7 +439,7 @@ public class NormService
       .filter(f -> f.createdBy() == Zielnorm.CreatedBy.SYSTEM)
       .findFirst();
     if (existingExpressionBySystem.isPresent()) {
-      // When the verkuendung itself had the same zeitgrenze as an already existing expression
+      // 1. replacing expression, we created already a SYSTEM one that needs to be replaced by THIS_VERKUENDUNG, because verkuendung had the same geltungszeit as the existing expression
       expressions.remove(existingExpressionBySystem.get());
       expressions.add(
         new Zielnorm.Expression(
@@ -452,6 +458,7 @@ public class NormService
       .filter(f -> f.createdBy() == Zielnorm.CreatedBy.THIS_VERKUENDUNG)
       .findFirst();
     if (existingExpressionByThisVerkuendung.isEmpty()) {
+      // 2. completely new expression that has not been created yet
       var eli = eliService.findNextExpressionEli(zielnormWorkEli, geltungszeit, "deu");
       expressions.add(
         new Zielnorm.Expression(eli, false, false, false, Zielnorm.CreatedBy.THIS_VERKUENDUNG)
@@ -459,6 +466,9 @@ public class NormService
     }
   }
 
+  /*
+This method is applying the algorithm described in ADR 0020
+ */
   private Zielnorm.CreatedBy isSystemExpression(
     AmendedNormExpressions amendedNormExpressions,
     NormExpressionEli expressionEli
@@ -479,8 +489,8 @@ public class NormService
   }
 
   /*
-  This method is applying the algorithm described in ADR 0020
-   */
+This method is applying the algorithm described in ADR 0020
+ */
   private boolean isOrphan(
     final AmendedNormExpressions amendedNormExpressions,
     final List<LocalDate> geltungszeiten,
