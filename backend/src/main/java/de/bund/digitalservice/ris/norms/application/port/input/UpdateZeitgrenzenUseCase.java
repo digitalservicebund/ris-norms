@@ -1,8 +1,8 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
-import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Zeitgrenze;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
 import java.net.URI;
 import java.time.LocalDate;
@@ -14,20 +14,20 @@ import java.util.Map;
  */
 public interface UpdateZeitgrenzenUseCase {
   /**
-   * Updates a list of time boundaries of a {@link Dokument} based on the provided options.
+   * Updates a list of time boundaries of a {@link Norm} based on the provided options.
    *
-   * @param options The options containing the ELI (European Legislation Identifier) of the {@link Dokument}.
+   * @param options The options containing the ELI (European Legislation Identifier) of the {@link Norm}.
    * @return the list of {@link Zeitgrenze}
    */
-  List<Zeitgrenze> updateZeitgrenzenOfDokument(Options options);
+  List<Zeitgrenze> updateZeitgrenzen(Options options);
 
   /**
-   * A record representing the parameters needed to query time boundaries related to a {@link Dokument}.
+   * A record representing the parameters needed to update time boundaries.
    *
-   * @param eli The ELI used to identify the {@link Dokument}
+   * @param eli The ELI used to identify the {@link Norm}
    * @param zeitgrenzen the list of the new {@link Zeitgrenze}n. Existing {@link Zeitgrenze}n that are not listed will be removed.
    */
-  record Options(DokumentExpressionEli eli, List<ZeitgrenzenUpdateData> zeitgrenzen) {}
+  record Options(NormExpressionEli eli, List<ZeitgrenzenUpdateData> zeitgrenzen) {}
 
   /**
    * Data for updating a zeitgrenze

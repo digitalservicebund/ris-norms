@@ -47,7 +47,7 @@ test(
     await page.getByRole("button", { name: "Hochladen" }).click()
 
     await page.waitForURL(
-      "/app/verkuendungen/eli/bund/bgbl-1/1000/5/1000-01-05/1/deu/regelungstext-verkuendung-1",
+      "/app/verkuendungen/eli/bund/bgbl-1/1000/5/1000-01-05/1/deu",
     )
 
     await expect(

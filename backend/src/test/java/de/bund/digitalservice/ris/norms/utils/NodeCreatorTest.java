@@ -25,28 +25,6 @@ class NodeCreatorTest {
     final Node testNode = NodeParser.getMandatoryNodeFromExpression("//test", document);
 
     // when
-    final Element newElement = NodeCreator.createElement("childTest", testNode);
-
-    // Then
-    final Node childTestNode = NodeParser.getMandatoryNodeFromExpression(
-      "//test/childTest",
-      document
-    );
-    assertThat(childTestNode).isEqualTo(newElement);
-  }
-
-  @Test
-  void createElement_withNamespace() {
-    // given
-    final Document document = XmlMapper.toDocument(
-      """
-      <root>
-          <test>test value</test>
-      </root>"""
-    );
-    final Node testNode = NodeParser.getMandatoryNodeFromExpression("//test", document);
-
-    // when
     final Element newElement = NodeCreator.createElement(
       Namespace.METADATEN_RIS,
       "childTest",
@@ -74,7 +52,11 @@ class NodeCreatorTest {
     final Node testNode = NodeParser.getMandatoryNodeFromExpression("//*/p", document);
 
     // when
-    final Element newElement = NodeCreator.createElementWithEidAndGuid("akn:ref", testNode);
+    final Element newElement = NodeCreator.createElementWithEidAndGuid(
+      Namespace.INHALTSDATEN,
+      "ref",
+      testNode
+    );
 
     // Then
     final Element childTestNode = NodeParser.getMandatoryElementFromExpression("//p/ref", document);
@@ -96,6 +78,7 @@ class NodeCreatorTest {
 
     // when
     final Element newElement = NodeCreator.createElementWithStaticEidAndGuidNoAppend(
+      Namespace.INHALTSDATEN,
       "childTest",
       new EIdPart("child-test", new OrdinalEIdPosition(1)),
       testNode

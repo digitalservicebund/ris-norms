@@ -3,7 +3,7 @@ import { nextTick, ref } from "vue"
 import type { UseFetchReturn } from "@vueuse/core"
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
-describe("useNormXml", () => {
+describe("useDokumentXml", () => {
   beforeEach(() => {
     vi.resetModules()
     vi.resetAllMocks()
@@ -11,18 +11,18 @@ describe("useNormXml", () => {
 
   it("should provide the norm xml", async () => {
     const dataRef = ref<string>()
-    vi.doMock("@/services/normService", () => ({
-      useGetNormXml: vi.fn().mockReturnValue({
+    vi.doMock("@/services/dokumentService", () => ({
+      useGetDokumentXml: vi.fn().mockReturnValue({
         data: dataRef,
       } as UseFetchReturn<string>),
-      usePutNormXml: vi.fn().mockReturnValue({
+      usePutDokumentXml: vi.fn().mockReturnValue({
         data: ref(),
       } as UseFetchReturn<string>),
     }))
 
-    const { useNormXml } = await import("./useNormXml")
+    const { useDokumentXml } = await import("./useDokumentXml")
 
-    const { data } = useNormXml(
+    const { data } = useDokumentXml(
       DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       ),
@@ -36,11 +36,11 @@ describe("useNormXml", () => {
 
   it("should update the xml", async () => {
     const updateRef = ref<string>()
-    vi.doMock("@/services/normService", () => ({
-      useGetNormXml: vi.fn().mockReturnValue({
+    vi.doMock("@/services/dokumentService", () => ({
+      useGetDokumentXml: vi.fn().mockReturnValue({
         data: ref("<xml>1</xml>"),
       } as UseFetchReturn<string>),
-      usePutNormXml: vi.fn().mockReturnValue({
+      usePutDokumentXml: vi.fn().mockReturnValue({
         data: updateRef,
         execute: vi.fn().mockImplementation(() => {
           updateRef.value = "<xml>2</xml>"
@@ -48,12 +48,12 @@ describe("useNormXml", () => {
       } as UseFetchReturn<string>),
     }))
 
-    const { useNormXml } = await import("@/composables/useNormXml")
+    const { useDokumentXml } = await import("@/composables/useDokumentXml")
     const newXml = ref<string>()
     const {
       data,
       update: { execute },
-    } = useNormXml(
+    } = useDokumentXml(
       DokumentExpressionEli.fromString(
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       ),

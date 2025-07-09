@@ -5,6 +5,7 @@ import Button from "primevue/button"
 import { RouterLink } from "vue-router"
 import RisVerkuendungListItem from "./RisVerkuendungListItem.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 const { isFetching, error, data: amendingLaws } = useVerkuendungenService()
 </script>
@@ -27,7 +28,7 @@ const { isFetching, error, data: amendingLaws } = useVerkuendungenService()
         <RouterLink
           v-for="amendingLaw in amendingLaws"
           :key="amendingLaw.eli"
-          :to="`/verkuendungen/${amendingLaw.eli}`"
+          :to="`/verkuendungen/${DokumentExpressionEli.fromString(amendingLaw.eli).asNormEli().toString()}`"
           class="block"
         >
           <RisVerkuendungListItem

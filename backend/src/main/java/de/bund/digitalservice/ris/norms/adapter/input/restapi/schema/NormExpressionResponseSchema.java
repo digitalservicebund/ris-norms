@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @AllArgsConstructor
 @Data
-public class NormExpressionListResponseSchema {
+public class NormExpressionResponseSchema {
 
   private String eli;
 

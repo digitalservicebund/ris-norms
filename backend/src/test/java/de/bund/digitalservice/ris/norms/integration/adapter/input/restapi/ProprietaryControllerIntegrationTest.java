@@ -82,7 +82,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnEmptyValuesIfNormHasNoProprietaryAtAll() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/rechtsetzungsdokument-1"
       );
       Fixtures.loadAndSaveNormFixture(
         dokumentRepository,
@@ -196,7 +196,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"typ\": \"new-typ\"," +
+              "\"typ\": \"verordnung\"," +
               "\"subtyp\": \"new-subtyp\"," +
               "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
               "\"artDerNorm\": \"SN,ÄN,ÜN\"," +
@@ -244,7 +244,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"typ\": \"new-typ\"," +
+              "\"typ\": \"verordnung\"," +
               "\"subtyp\": \"new-subtyp\"," +
               "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
               "\"artDerNorm\": \"ÄN,ÜN\"," +
@@ -257,7 +257,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(status().isOk())
         .andExpect(jsonPath("fna").value("new-fna"))
-        .andExpect(jsonPath("typ").value("new-typ"))
+        .andExpect(jsonPath("typ").value("verordnung"))
         .andExpect(jsonPath("subtyp").value("new-subtyp"))
         .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
         .andExpect(jsonPath("artDerNorm").value("ÄN,ÜN"))
@@ -269,13 +269,13 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
 
       final Norm normLoaded = NormManifestationMapper.mapToDomain(
         normManifestationRepository
-          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
+          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2999-12-31")
           .get()
       );
 
       final RahmenMetadata metadata = normLoaded.getRahmenMetadata();
       assertThat(metadata.getFna()).contains("new-fna");
-      assertThat(metadata.getTyp()).contains("new-typ");
+      assertThat(metadata.getTyp()).contains("verordnung");
       assertThat(metadata.getSubtyp()).contains("new-subtyp");
       assertThat(metadata.getBezeichnungInVorlage()).contains("new-bezeichnungInVorlage");
       assertThat(metadata.getArtDerNorm()).contains("ÄN,ÜN");
@@ -297,7 +297,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(proprietaryRechtsetzungsdokument.getMetadataValue(Metadata.FNA)).contains(
         "new-fna"
       );
-      assertThat(proprietaryRegelungstext1.getMetadataValue(Metadata.TYP)).contains("new-typ");
+      assertThat(proprietaryRegelungstext1.getMetadataValue(Metadata.TYP)).contains("verordnung");
       assertThat(proprietaryRegelungstext1.getMetadataValue(Metadata.SUBTYP)).contains(
         "new-subtyp"
       );
@@ -320,254 +320,6 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
       assertThat(
         proprietaryRegelungstext1.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)
       ).contains("Andere Organisationseinheit");
-    }
-
-    @Test
-    void doesResetAllFieldsBySendingNull() throws Exception {
-      // given
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
-      Fixtures.loadAndSaveNormFixture(
-        dokumentRepository,
-        binaryFileRepository,
-        normManifestationRepository,
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
-        NormPublishState.UNPUBLISHED
-      );
-
-      // when
-
-      mockMvc
-        .perform(
-          put("/api/v1/norms/{eli}/proprietary", eli)
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(
-              "{\"fna\": null," +
-              "\"typ\": null," +
-              "\"subtyp\": null," +
-              "\"bezeichnungInVorlage\": null," +
-              "\"artDerNorm\": null," +
-              "\"staat\": null," +
-              "\"beschliessendesOrgan\": null," +
-              "\"qualifizierteMehrheit\": null," +
-              "\"ressort\": null," +
-              "\"organisationsEinheit\": null}"
-            )
-        )
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("fna").isEmpty())
-        .andExpect(jsonPath("typ").isEmpty())
-        .andExpect(jsonPath("subtyp").isEmpty())
-        .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
-        .andExpect(jsonPath("artDerNorm").isEmpty())
-        .andExpect(jsonPath("staat").isEmpty())
-        .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
-        .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
-        .andExpect(jsonPath("ressort").isEmpty())
-        .andExpect(jsonPath("organisationsEinheit").isEmpty());
-
-      final Norm normLoaded = NormManifestationMapper.mapToDomain(
-        normManifestationRepository
-          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
-          .get()
-      );
-
-      final RahmenMetadata metadata = normLoaded.getRahmenMetadata();
-      assertThat(metadata.getFna()).isEmpty();
-      assertThat(metadata.getTyp()).isEmpty();
-      assertThat(metadata.getSubtyp()).isEmpty();
-      assertThat(metadata.getBezeichnungInVorlage()).isEmpty();
-      assertThat(metadata.getArtDerNorm()).isEmpty();
-      assertThat(metadata.getStaat()).isEmpty();
-      assertThat(metadata.getBeschliessendesOrgan()).isEmpty();
-      assertThat(metadata.getQualifizierteMehrheit()).isEmpty();
-      assertThat(metadata.getRessort()).isEmpty();
-      assertThat(metadata.getOrganisationsEinheit()).isEmpty();
-    }
-
-    @Test
-    void doesResetAllFieldsBySendingEmptyString() throws Exception {
-      // given
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
-      Fixtures.loadAndSaveNormFixture(
-        dokumentRepository,
-        binaryFileRepository,
-        normManifestationRepository,
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
-        NormPublishState.UNPUBLISHED
-      );
-
-      // when
-
-      mockMvc
-        .perform(
-          put("/api/v1/norms/{eli}/proprietary", eli)
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(
-              "{\"fna\": \"\"," +
-              "\"typ\": \"\"," +
-              "\"subtyp\": \"\"," +
-              "\"bezeichnungInVorlage\": \"\"," +
-              "\"artDerNorm\": \"\"," +
-              "\"staat\": \"\"," +
-              "\"beschliessendesOrgan\": \"\"," +
-              "\"qualifizierteMehrheit\": null," +
-              "\"ressort\": \"\"," +
-              "\"organisationsEinheit\": \"\"}"
-            )
-        )
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("fna").isEmpty())
-        .andExpect(jsonPath("typ").isEmpty())
-        .andExpect(jsonPath("subtyp").isEmpty())
-        .andExpect(jsonPath("bezeichnungInVorlage").isEmpty())
-        .andExpect(jsonPath("artDerNorm").isEmpty())
-        .andExpect(jsonPath("staat").isEmpty())
-        .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
-        .andExpect(jsonPath("qualifizierteMehrheit").isEmpty())
-        .andExpect(jsonPath("ressort").isEmpty())
-        .andExpect(jsonPath("organisationsEinheit").isEmpty());
-
-      final Norm normLoaded = NormManifestationMapper.mapToDomain(
-        normManifestationRepository
-          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
-          .get()
-      );
-
-      final RahmenMetadata metadata = normLoaded.getRahmenMetadata();
-      assertThat(metadata.getFna()).isEmpty();
-      assertThat(metadata.getTyp()).isEmpty();
-      assertThat(metadata.getSubtyp()).isEmpty();
-      assertThat(metadata.getBezeichnungInVorlage()).isEmpty();
-      assertThat(metadata.getArtDerNorm()).isEmpty();
-      assertThat(metadata.getStaat()).isEmpty();
-      assertThat(metadata.getBeschliessendesOrgan()).isEmpty();
-      assertThat(metadata.getQualifizierteMehrheit()).isEmpty();
-      assertThat(metadata.getRessort()).isEmpty();
-      assertThat(metadata.getOrganisationsEinheit()).isEmpty();
-    }
-
-    @Test
-    void doesRemoveQualifizierteMehrheitFromBeschliessendesOrganWhenNull() throws Exception {
-      // given
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
-      Fixtures.loadAndSaveNormFixture(
-        dokumentRepository,
-        binaryFileRepository,
-        normManifestationRepository,
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05",
-        NormPublishState.UNPUBLISHED
-      );
-
-      // when
-
-      mockMvc
-        .perform(
-          put("/api/v1/norms/{eli}/proprietary", eli)
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(
-              "{\"fna\": \"new-fna\"," +
-              // no change
-              "\"typ\": \"new-typ\"," + // no change
-              "\"subtyp\": \"new-subtyp\"," + // no change
-              "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," + // no change
-              "\"artDerNorm\": \"ÄN,ÜN\"," + // no change
-              "\"staat\": \"DDR\"," + // no change
-              "\"beschliessendesOrgan\": \"\"," + // this will remove the...
-              "\"qualifizierteMehrheit\": null," + // ...qualifizierteMehrheit attr
-              "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"
-            )
-        ) // no
-        // change
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("fna").value("new-fna"))
-        .andExpect(jsonPath("typ").value("new-typ"))
-        .andExpect(jsonPath("subtyp").value("new-subtyp"))
-        .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
-        .andExpect(jsonPath("artDerNorm").value("ÄN,ÜN"))
-        .andExpect(jsonPath("staat").value("DDR"))
-        .andExpect(jsonPath("beschliessendesOrgan").isEmpty())
-        .andExpect(jsonPath("qualifizierteMehrheit").isEmpty()) // meaning json "qualifizierteMehrheit":null
-        .andExpect(jsonPath("organisationsEinheit").value("Andere Organisationseinheit"));
-
-      final Norm normLoaded = NormManifestationMapper.mapToDomain(
-        normManifestationRepository
-          .findByManifestationEli("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05")
-          .get()
-      );
-
-      final RahmenMetadata metadata = normLoaded.getRahmenMetadata();
-      assertThat(metadata.getFna()).contains("new-fna");
-      assertThat(metadata.getTyp()).contains("new-typ");
-      assertThat(metadata.getSubtyp()).contains("new-subtyp");
-      assertThat(metadata.getBezeichnungInVorlage()).contains("new-bezeichnungInVorlage");
-      assertThat(metadata.getArtDerNorm()).contains("ÄN,ÜN");
-      assertThat(metadata.getStaat()).contains("DDR");
-      assertThat(metadata.getBeschliessendesOrgan()).isEmpty();
-      assertThat(metadata.getQualifizierteMehrheit()).isEmpty();
-      assertThat(metadata.getOrganisationsEinheit()).contains("Andere Organisationseinheit");
-    }
-
-    @Test
-    void createsProprietaryAndMetadatenDsAndUpdatesFna() throws Exception {
-      // given
-      final String eli = "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1";
-      Fixtures.loadAndSaveNormFixture(
-        dokumentRepository,
-        binaryFileRepository,
-        normManifestationRepository,
-        ProprietaryControllerIntegrationTest.class,
-        "regelungstext-without-proprietary",
-        NormPublishState.UNPUBLISHED
-      );
-
-      // when
-      mockMvc
-        .perform(
-          put("/api/v1/norms/{eli}/proprietary", eli)
-            .accept(MediaType.APPLICATION_JSON)
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(
-              "{\"fna\": \"new-fna\"," +
-              "\"typ\": \"new-typ\"," +
-              "\"subtyp\": \"new-subtyp\"," +
-              "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
-              "\"artDerNorm\": \"SN,ÄN,ÜN\"," +
-              "\"staat\": \"DEU\"," +
-              "\"beschliessendesOrgan\": \"Bundestag\"," +
-              "\"qualifizierteMehrheit\": true," +
-              "\"organisationsEinheit\": \"Organisationseinheit\"}"
-            )
-        )
-        .andExpect(status().isOk())
-        .andExpect(jsonPath("fna").value("new-fna"))
-        .andExpect(jsonPath("typ").value("new-typ"))
-        .andExpect(jsonPath("subtyp").value("new-subtyp"))
-        .andExpect(jsonPath("bezeichnungInVorlage").value("new-bezeichnungInVorlage"))
-        .andExpect(jsonPath("artDerNorm").value("SN,ÄN,ÜN"))
-        .andExpect(jsonPath("staat").value("DEU"))
-        .andExpect(jsonPath("beschliessendesOrgan").value("Bundestag"))
-        .andExpect(jsonPath("qualifizierteMehrheit").value(true))
-        .andExpect(jsonPath("organisationsEinheit").value("Organisationseinheit"));
-
-      final Norm normLoaded = NormManifestationMapper.mapToDomain(
-        normManifestationRepository
-          .findByManifestationEli("eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/2022-08-23")
-          .get()
-      );
-
-      final RahmenMetadata metadata = normLoaded.getRahmenMetadata();
-      assertThat(metadata.getFna()).contains("new-fna");
-      assertThat(metadata.getTyp()).contains("new-typ");
-      assertThat(metadata.getSubtyp()).contains("new-subtyp");
-      assertThat(metadata.getBezeichnungInVorlage()).contains("new-bezeichnungInVorlage");
-      assertThat(metadata.getArtDerNorm()).contains("SN,ÄN,ÜN");
-      assertThat(metadata.getStaat()).contains("DEU");
-      assertThat(metadata.getBeschliessendesOrgan()).contains("Bundestag");
-      assertThat(metadata.getQualifizierteMehrheit()).contains(true);
-      assertThat(metadata.getOrganisationsEinheit()).contains("Organisationseinheit");
     }
   }
 
@@ -615,7 +367,7 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
     void returnEmptyValuesIfNormHasNoProprietaryAtAll() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/rechtsetzungsdokument-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/rechtsetzungsdokument-1"
       );
       var eid = "art-z20";
 
@@ -719,12 +471,12 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
         )
         // then
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/dokument-not-found"))
-        .andExpect(jsonPath("title").value("Dokument not found"))
+        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+        .andExpect(jsonPath("title").value("Norm not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Document with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1 does not exist"
+            "Norm with eli eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu does not exist"
           )
         )
         .andExpect(
@@ -732,18 +484,14 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             "/api/v1/norms/eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/proprietary/hauptteil-n1_abschnitt-n0_art-n1"
           )
         )
-        .andExpect(
-          jsonPath("eli").value(
-            "eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
-          )
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/NONEXISTENT_NORM/1964/s593/1964-08-05/1/deu"));
     }
 
     @Test
     void createsProprietaryAndMetadatenDsAndEinzelelementAndSetsValue() throws Exception {
       // given
       var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2002/s1181/2019-11-22/1/deu/regelungstext-verkuendung-1"
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
       );
       var eid = "hauptteil-n1_abschnitt-n0_art-n1";
 

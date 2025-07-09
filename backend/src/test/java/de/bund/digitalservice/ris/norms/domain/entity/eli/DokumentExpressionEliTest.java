@@ -2,7 +2,9 @@ package de.bund.digitalservice.ris.norms.domain.entity.eli;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import de.bund.digitalservice.ris.norms.domain.entity.DokumentType;
 import java.time.LocalDate;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class DokumentExpressionEliTest {
@@ -34,15 +36,31 @@ class DokumentExpressionEliTest {
     );
   }
 
-  @Test
-  void fromNormEli() {
-    var eli = DokumentExpressionEli.fromNormEli(
-      NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
-      "regelungstext-verkuendung-1"
-    );
-    assertThat(eli).hasToString(
-      "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1"
-    );
+  @Nested
+  class fromNormEli {
+
+    @Test
+    void subtypeAsString() {
+      var eli = DokumentExpressionEli.fromNormEli(
+        NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
+        "regelungstext-verkuendung-1"
+      );
+      assertThat(eli).hasToString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1"
+      );
+    }
+
+    @Test
+    void subtypeAsDokumentTypeAndIndex() {
+      var eli = DokumentExpressionEli.fromNormEli(
+        NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
+        DokumentType.REGELUNGSTEXT_VERKUENDUNG,
+        1
+      );
+      assertThat(eli).hasToString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1"
+      );
+    }
   }
 
   @Test

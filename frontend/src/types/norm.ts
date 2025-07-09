@@ -22,4 +22,6 @@ export interface Norm {
   nachfolgendeVersionId?: string
   /** ID of the previous version, if available */
   vorherigeVersionId?: string
+  /** Is the norm (manifestation) gegenstandslos? */
+  gegenstandslos?: boolean
 }

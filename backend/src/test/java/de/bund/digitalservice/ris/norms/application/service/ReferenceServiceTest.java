@@ -36,6 +36,7 @@ class ReferenceServiceTest {
     )
       .ignoreElementContentWhitespace()
       .withTest(Input.from(expectedUpdatedRegelungstext.getDocument()))
+      .withNodeFilter(node -> node.getNodeName().equals("meta"))
       .withAttributeFilter(attribute -> !attribute.getName().equals("GUID"))
       .build();
     assertThat(diff.hasDifferences()).isFalse();

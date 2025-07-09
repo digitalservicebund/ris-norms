@@ -93,8 +93,8 @@ class PortalPrototypePublishServiceTest {
 
     // Then
     verify(publishNormPort, times(0)).publishNorm(any());
-    verify(deleteAllPublishedDokumentePort, times(1)).deleteAllPublishedDokumente(any());
-    verify(publishChangelogPort, times(1)).publishChangelogs(any());
+    verify(deleteAllPublishedDokumentePort, times(0)).deleteAllPublishedDokumente(any());
+    verify(publishChangelogPort, times(0)).publishChangelogs(any());
   }
 
   @Test
@@ -121,7 +121,7 @@ class PortalPrototypePublishServiceTest {
 
     // Then
     verify(publishNormPort, times(0)).publishNorm(any());
-    verify(deleteAllPublishedDokumentePort, times(1)).deleteAllPublishedDokumente(any());
-    verify(publishChangelogPort, times(1)).publishChangelogs(any());
+    verify(deleteAllPublishedDokumentePort, times(0)).deleteAllPublishedDokumente(any());
+    verify(publishChangelogPort, times(0)).publishChangelogs(any());
   }
 }

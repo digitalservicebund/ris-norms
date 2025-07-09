@@ -164,6 +164,28 @@ public class Norm {
   }
 
   /**
+   * Get a specific dokument of this norm by its ELI
+   * @param dokumentEli the eli of the dokument
+   * @return the {@link Dokument} or empty if none of the {@link Dokument}e match
+   */
+  public Optional<Dokument> getDokumentByEli(DokumentEli dokumentEli) {
+    return getDokumente()
+      .stream()
+      .filter(dokument ->
+        switch (dokumentEli) {
+          case DokumentManifestationEli manifestationEli -> dokument
+            .getManifestationEli()
+            .equals(manifestationEli);
+          case DokumentExpressionEli expressionEli -> dokument
+            .getExpressionEli()
+            .equals(expressionEli);
+          case DokumentWorkEli workEli -> dokument.getWorkEli().equals(workEli);
+        }
+      )
+      .findFirst();
+  }
+
+  /**
    * Returns the work Eli of the {@link Norm}.
    *
    * @return The work Eli
@@ -249,7 +271,7 @@ public class Norm {
   }
 
   /**
-   * Is this norm gegenstandlos?
+   * Is this norm gegenstandlos? This information/metadata is ONLY present in the <i>rechtsetzungsdokument</i>
    *
    * @return true if it is.
    */

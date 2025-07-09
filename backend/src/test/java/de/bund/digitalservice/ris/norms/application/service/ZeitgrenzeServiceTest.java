@@ -7,13 +7,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
-import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
+import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadZeitgrenzenUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateZeitgrenzenUseCase;
-import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateDokumentPort;
+import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import java.time.LocalDate;
 import java.util.*;
 import org.junit.jupiter.api.Nested;
@@ -21,52 +20,39 @@ import org.junit.jupiter.api.Test;
 
 class ZeitgrenzeServiceTest {
 
-  final LoadRegelungstextPort loadRegelungstextPort = mock(LoadRegelungstextPort.class);
-  final UpdateDokumentPort updateDokumentPort = mock(UpdateDokumentPort.class);
+  final LoadNormPort loadNormPort = mock(LoadNormPort.class);
+  final NormService normService = mock(NormService.class);
 
-  final ZeitgrenzeService service = new ZeitgrenzeService(
-    loadRegelungstextPort,
-    updateDokumentPort
-  );
+  final ZeitgrenzeService service = new ZeitgrenzeService(loadNormPort, normService);
 
   @Nested
-  class loadZeizgrenzenFromDokument {
+  class loadZeitgrenzen {
 
     @Test
-    void itThrowsRegelungstextNotFoundExceptionWhenRegelungstextNotFound() {
+    void itThrowsNormNotFoundExceptionWhenNotFound() {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2020/s100/2020-06-10/1/deu/regelungstext-verkuendung-2"
-      );
-      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
+      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/2020/s100/2020-06-10/1/deu");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When / Then
-      assertThatThrownBy(() ->
-        service.loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Options(eli))
-      )
-        .isInstanceOf(RegelungstextNotFoundException.class)
+      assertThatThrownBy(() -> service.loadZeitgrenzen(new LoadZeitgrenzenUseCase.Options(eli)))
+        .isInstanceOf(NormNotFoundException.class)
         .hasMessageContaining(eli.toString());
     }
 
     @Test
     void itCallsLoadZeitgrenzenOfNormAndReturnsEmpty() {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1"
-      );
+      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu");
 
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-      );
-      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var zeitgrenzen = service.loadZeitgrenzenFromDokument(
-        new LoadZeitgrenzenUseCase.Options(eli)
-      );
+      var zeitgrenzen = service.loadZeitgrenzen(new LoadZeitgrenzenUseCase.Options(eli));
 
       // Then
-      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+      verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli))
       );
       assertThat(zeitgrenzen).isEmpty();
@@ -75,22 +61,16 @@ class ZeitgrenzeServiceTest {
     @Test
     void itCallsLoadZeitgrenzenAndReturnsSingleZeitgrenze() {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
-      );
+      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu");
 
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
-      );
-      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var zeitgrenzen = service.loadZeitgrenzenFromDokument(
-        new LoadZeitgrenzenUseCase.Options(eli)
-      );
+      var zeitgrenzen = service.loadZeitgrenzen(new LoadZeitgrenzenUseCase.Options(eli));
 
       // Then
-      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+      verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli))
       );
       assertThat(zeitgrenzen)
@@ -108,23 +88,19 @@ class ZeitgrenzeServiceTest {
     @Test
     void itCallsLoadZeitgrenzenAndReturnsMultipleZeitgrenzen() {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
-      );
+      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu");
 
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+      var norm = Fixtures.loadNormFromDisk(
         ZeitgrenzeServiceTest.class,
-        "norm-with-several-zeitgrenzen/regelungstext-verkuendung-1.xml"
+        "norm-with-several-zeitgrenzen"
       );
-      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When
-      var zeitgrenzen = service.loadZeitgrenzenFromDokument(
-        new LoadZeitgrenzenUseCase.Options(eli)
-      );
+      var zeitgrenzen = service.loadZeitgrenzen(new LoadZeitgrenzenUseCase.Options(eli));
 
       // Then
-      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+      verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli))
       );
       assertThat(zeitgrenzen)
@@ -153,32 +129,28 @@ class ZeitgrenzeServiceTest {
     @Test
     void itThrowsRegelungstextNotFoundExceptionWhenRegelungstextNotFound() {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2020/s100/2020-06-10/1/deu/regelungstext-verkuendung-2"
-      );
-      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.empty());
+      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/2020/s100/2020-06-10/1/deu");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
 
       // When / Then
       assertThatThrownBy(() ->
-        service.updateZeitgrenzenOfDokument(new UpdateZeitgrenzenUseCase.Options(eli, any()))
+        service.updateZeitgrenzen(new UpdateZeitgrenzenUseCase.Options(eli, any()))
       )
-        .isInstanceOf(RegelungstextNotFoundException.class)
+        .isInstanceOf(NormNotFoundException.class)
         .hasMessageContaining(eli.toString());
-      verify(updateDokumentPort, times(0)).updateDokument(any());
+      verify(normService, times(0)).updateNorm(any());
     }
 
     @Test
     void itUpdatesZeitgrenzen() {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
-      );
+      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu");
 
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
+      var norm = Fixtures.loadNormFromDisk(
         ZeitgrenzeServiceTest.class,
-        "norm-with-several-zeitgrenzen/regelungstext-verkuendung-1.xml"
+        "norm-with-several-zeitgrenzen"
       );
-      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       final List<UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData> newZeitgrenzen = List.of(
         new UpdateZeitgrenzenUseCase.ZeitgrenzenUpdateData(
@@ -195,15 +167,15 @@ class ZeitgrenzeServiceTest {
         )
       );
       // When
-      var updatedZeitgrenze = service.updateZeitgrenzenOfDokument(
+      var updatedZeitgrenze = service.updateZeitgrenzen(
         new UpdateZeitgrenzenUseCase.Options(eli, newZeitgrenzen)
       );
 
       // Then
-      verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+      verify(loadNormPort, times(1)).loadNorm(
         argThat(argument -> Objects.equals(argument.eli(), eli))
       );
-      verify(updateDokumentPort, times(1)).updateDokument(any());
+      verify(normService, times(1)).updateNorm(any());
       assertThat(updatedZeitgrenze).hasSize(3);
       assertThat(updatedZeitgrenze.getFirst().getDate()).isEqualTo(LocalDate.parse("2017-03-16"));
       assertThat(updatedZeitgrenze.getFirst().getArt()).isEqualTo(Zeitgrenze.Art.INKRAFT);
@@ -217,18 +189,14 @@ class ZeitgrenzeServiceTest {
     @Test
     void itThrowsWhenUpdatingZeitgrenzeThatIsInUse() {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
-      );
+      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu");
 
-      var regelungstext = Fixtures.loadRegelungstextFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
-      );
-      when(loadRegelungstextPort.loadRegelungstext(any())).thenReturn(Optional.of(regelungstext));
+      var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23");
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm));
 
       // When / Then
       assertThatThrownBy(() ->
-        service.updateZeitgrenzenOfDokument(
+        service.updateZeitgrenzen(
           new UpdateZeitgrenzenUseCase.Options(
             eli,
             List.of(
@@ -240,7 +208,7 @@ class ZeitgrenzeServiceTest {
           )
         )
       ).isInstanceOf(UpdateZeitgrenzenUseCase.ZeitgrenzeCanNotBeDeletedAsItIsUsedException.class);
-      verify(updateDokumentPort, times(0)).updateDokument(any());
+      verify(normService, times(0)).updateNorm(any());
     }
   }
 }

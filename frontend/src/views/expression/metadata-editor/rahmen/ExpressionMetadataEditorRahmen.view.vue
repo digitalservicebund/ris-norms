@@ -39,7 +39,9 @@ const { actionTeleportTarget } = useHeaderContext()
  * API handling                                       *
  * -------------------------------------------------- */
 
-const { data: normData } = useGetNorm(dokumentExpressionEli)
+const { data: normData } = useGetNorm(() =>
+  dokumentExpressionEli.value.asNormEli(),
+)
 
 const localData = ref<RahmenProprietary | null>(null)
 
@@ -267,7 +269,7 @@ const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetNormHtml(dokumentExpressionEli)
+} = useGetNormHtml(() => dokumentExpressionEli.value.asNormEli())
 
 const sentryTraceId = useSentryTraceId()
 const { add: addToast, addError: addErrorToast } = useToast()

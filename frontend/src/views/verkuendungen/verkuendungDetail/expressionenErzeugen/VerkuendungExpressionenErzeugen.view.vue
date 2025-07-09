@@ -2,7 +2,6 @@
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useToast } from "@/composables/useToast"
 import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
@@ -16,8 +15,9 @@ import { cloneDeep, isEqual } from "lodash"
 import { ConfirmDialog, useConfirm } from "primevue"
 import { ref, watch, watchEffect } from "vue"
 import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 
-const eli = useDokumentExpressionEliPathParameter()
+const eli = useNormExpressionEliPathParameter()
 
 const confirm = useConfirm()
 const traceId = useSentryTraceId()
@@ -36,7 +36,7 @@ const {
   data: verkuendung,
   error: verkuendungError,
   isFinished: verkuendungIsFinished,
-} = useGetVerkuendungService(() => eli.value.asNormEli())
+} = useGetVerkuendungService(eli)
 
 const {
   data: previewData,
@@ -44,7 +44,7 @@ const {
   execute: fetchPreviewData,
   isFinished: previewIsFinished,
   isFetching: previewIsFetching,
-} = useGetZielnormPreview(() => eli.value.asNormEli())
+} = useGetZielnormPreview(eli)
 
 // Loading state for the view that is only true for the initial load.
 // Prevents flickering when syncing data before submitting the create
@@ -67,7 +67,7 @@ const {
   execute: createExpressions,
   isFetching: isCreatingExpressions,
   isFinished: finishedCreatingExpressions,
-} = useCreateZielnormExpressions(() => eli.value.asNormEli(), zielnormWorkEli)
+} = useCreateZielnormExpressions(eli, zielnormWorkEli)
 
 async function beginCreateExpression(eli: NormWorkEli) {
   if (!previewData.value) return

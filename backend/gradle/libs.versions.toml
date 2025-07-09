@@ -1,8 +1,8 @@
 [versions]
-flyway = "11.10.0"
+flyway = "11.10.1"
 # @keep
 jacoco = "0.8.11"
-net-javacrumbs-shedlock = "6.9.0"
+net-javacrumbs-shedlock = "6.9.2"
 org-bouncycastle = "1.81"
 org-testcontainers = "1.21.3"
 spring-boot = "3.5.3"
@@ -16,7 +16,7 @@ bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref 
 errorprone = "com.google.errorprone:error_prone_core:2.39.0"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
-jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:7.5.3"
+jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:8.0.0"
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 jspecify = "org.jspecify:jspecify:1.0.0"
@@ -25,7 +25,7 @@ mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.18.0"
 nullaway = "com.uber.nullaway:nullaway:0.12.7"
 postgresql = "org.postgresql:postgresql:42.7.7"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.1"
-saxon-he = "net.sf.saxon:Saxon-HE:12.7"
+saxon-he = "net.sf.saxon:Saxon-HE:12.8"
 schxslt = "name.dmaus.schxslt:schxslt:1.10.1"
 shedlock = { module = "net.javacrumbs.shedlock:shedlock-spring", version.ref = "net-javacrumbs-shedlock" }
 shedlockJdbc = { module = "net.javacrumbs.shedlock:shedlock-provider-jdbc-template", version.ref = "net-javacrumbs-shedlock" }
@@ -45,7 +45,7 @@ squareup-okio-jvm = "com.squareup.okio:okio-jvm:3.15.0"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
-testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:3.7.0"
+testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:3.8.0"
 tika-core = "org.apache.tika:tika-core:3.2.0"
 
 [plugins]
@@ -53,7 +53,7 @@ dependency-license-report = "com.github.jk1.dependency-license-report:2.9"
 errorprone = "net.ltgt.errorprone:4.3.0"
 sentry = "io.sentry.jvm.gradle:5.8.0"
 sonarqube = "org.sonarqube:6.2.0.5505"
-spotless = "com.diffplug.spotless:7.0.4"
+spotless = "com.diffplug.spotless:7.1.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = "io.spring.dependency-management:1.1.7"
 test-logger = "com.adarshr.test-logger:4.0.0"
