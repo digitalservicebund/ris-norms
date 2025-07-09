@@ -27,7 +27,7 @@
     "audit:licences": "license-checker-rseidelsohn --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./frontend-licence-report.csv"
   },
   "engines": {
-    "node": "24.3.0",
+    "node": "24.4.0",
     "npm": "11.4.2"
   },
   "dependencies": {
@@ -68,7 +68,7 @@
     "@vitest/ui": "~3.2.0",
     "@vue/eslint-config-prettier": "~10.2.0",
     "@vue/eslint-config-typescript": "~14.6.0",
-    "dotenv": "~17.1.0",
+    "dotenv": "~17.2.0",
     "eslint": "~9.30.0",
     "eslint-import-resolver-typescript": "~4.4.0",
     "eslint-plugin-import": "~2.32.0",
