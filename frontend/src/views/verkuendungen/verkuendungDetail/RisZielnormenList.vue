@@ -39,7 +39,7 @@ type MappedRisZielnormenListItem = Omit<
 
 const { items, verkuendungEli } = defineProps<{
   items: RisZielnormenListItem[]
-  verkuendungEli: string
+  verkuendungEli: NormExpressionEli
 }>()
 
 const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
@@ -114,7 +114,7 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
                     <RouterLink
                       :to="
                         section === 'textkonsolidierung'
-                          ? `/verkuendungen/${verkuendungEli}/textkonsolidierung/${data.documentExpressionEli}`
+                          ? `/verkuendungen/${verkuendungEli.toString()}/textkonsolidierung/${data.documentExpressionEli}`
                           : `/${data.documentExpressionEli}/metadata`
                       "
                       class="ris-link2-regular"
@@ -147,7 +147,7 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
           </AccordionPanel>
           <AccordionPanel value="abgabe">
             <RouterLink
-              :to="`/verkuendungen/${verkuendungEli}/zielnorm/${item.eli}/abgabe`"
+              :to="`/verkuendungen/${verkuendungEli.toString()}/zielnorm/${item.eli}/abgabe`"
               class="group flex w-full cursor-pointer justify-start px-12 py-8 pl-40 text-left no-underline -outline-offset-4 outline-blue-800 hover:bg-gray-200 focus-visible:outline-4"
             >
               <span class="ris-link2-bold">Abgabe</span>

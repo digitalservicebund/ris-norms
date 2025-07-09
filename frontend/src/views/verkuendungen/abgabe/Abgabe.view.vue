@@ -2,7 +2,6 @@
 import { watch, ref, computed } from "vue"
 import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
 import type { ZielnormReleaseStatusDomain } from "@/services/zielnormReleaseService"
@@ -24,9 +23,10 @@ import { formatDate } from "@/lib/dateTime"
 import dayjs from "dayjs"
 import RisEmptyState from "@/components/RisEmptyState.vue"
 import { useToast } from "@/composables/useToast"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 
 const zielnormEli = useNormWorkEliPathParameter("zielnorm")
-const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
+const verkuendungEli = useNormExpressionEliPathParameter("verkuendung")
 const releaseStatus = ref<ZielnormReleaseStatusDomain | null>(null)
 const toast = useToast()
 
@@ -44,9 +44,7 @@ const {
 watch(initialReleaseStatus, (val) => {
   if (val) releaseStatus.value = val
 })
-const { data: verkuendung } = useGetVerkuendungService(() =>
-  verkuendungEli.value.asNormEli(),
-)
+const { data: verkuendung } = useGetVerkuendungService(verkuendungEli)
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {

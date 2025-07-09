@@ -21,7 +21,7 @@ const {
   data: normExpressionHtml,
   isFetching: isFetchingNormExpressionHtml,
   error: normExpressionHtmlError,
-} = useGetNormHtml(expressionEli)
+} = useGetNormHtml(() => expressionEli.value.asNormEli())
 
 const {
   data: toc,

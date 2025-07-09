@@ -1,27 +1,26 @@
 package de.bund.digitalservice.ris.norms.application.port.input;
 
-import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
-import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RahmenMetadata;
 
-/** Use case for updating metadata within the {@link Proprietary} node of a {@link Dokument}. */
-public interface UpdateProprietaryFrameFromDokumentUseCase {
+/** Use case for updating {@link RahmenMetadata} of a {@link Norm}. */
+public interface UpdateRahmenMetadataUseCase {
   /**
-   * Updates specific metadata from a {@link Dokument}.
+   * Updates rahmen metadata.
    *
-   * @param options Options used for identifying the {@link Dokument} as well as the metadata themselves.
+   * @param options Options used for identifying the {@link Norm} as well as the metadata themselves.
    * @return The updated metadata.
    */
-  RahmenMetadata updateProprietaryFrameFromDokument(Options options);
+  RahmenMetadata updateRahmenMetadata(Options options);
 
   /**
-   * Contains the parameters needed for loading proprietary metadata from a {@link Dokument}.
+   * Contains the parameters needed for updating metadata.
    *
-   * @param dokumentExpressionEli The ELI used to identify the {@link Dokument} at the expression level
+   * @param normExpressionEli The ELI used to identify the {@link Norm} at the expression level
    * @param inputMetadata object containing the metadata to update
    */
-  record Options(DokumentExpressionEli dokumentExpressionEli, InputMetadata inputMetadata) {}
+  record Options(NormExpressionEli normExpressionEli, InputMetadata inputMetadata) {}
 
   /**
    * Record representing the list of metadata to update.

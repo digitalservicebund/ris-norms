@@ -5,7 +5,6 @@ import RisEmptyState from "@/components/RisEmptyState.vue"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import {
@@ -15,13 +14,14 @@ import {
 import { useGetNormHtml } from "@/services/normService"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
-import { computed, ref } from "vue"
+import { ref } from "vue"
 import RisVerkuendungHeader from "./RisVerkuendungHeader.vue"
 import RisZielnormenList from "./RisZielnormenList.vue"
 import { useGroupedZielnormen } from "./useGroupedZielnormen"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
-const eli = useDokumentExpressionEliPathParameter()
-const normExpressionEli = computed(() => eli.value.asNormEli())
+const eli = useNormExpressionEliPathParameter()
 
 const {
   data: verkuendungPreview,
@@ -33,13 +33,13 @@ const {
   data: zielnormen,
   isFetching: isFetchingZielnormen,
   error: zielnormenError,
-} = useGetZielnormReferences(normExpressionEli)
+} = useGetZielnormReferences(eli)
 
 const {
   data: verkuendung,
   isFetching: isFetchingVerkuendung,
   error: verkuendungError,
-} = useGetVerkuendungService(normExpressionEli)
+} = useGetVerkuendungService(eli)
 
 const breadcrumbs = ref<HeaderBreadcrumb[]>([
   {
@@ -68,7 +68,12 @@ const groupedZielnormen = useGroupedZielnormen(zielnormen)
     :header-back-destination="{ name: 'Home' }"
     :loading="isFetchingVerkuendung"
   >
-    <Splitter class="h-full" layout="horizontal">
+    <RisErrorCallout
+      v-if="verkuendung == null"
+      error="Fehler beim Laden der Verkündung"
+    />
+
+    <Splitter v-else class="h-full" layout="horizontal">
       <SplitterPanel
         :size="66"
         :min-size="33"
@@ -79,11 +84,11 @@ const groupedZielnormen = useGroupedZielnormen(zielnormen)
             Verkündungs-Details
           </span>
           <RisVerkuendungHeader
-            :title="verkuendung?.title"
-            :veroeffentlichungsdatum="verkuendung?.frbrDateVerkuendung"
-            :ausfertigungsdatum="verkuendung?.dateAusfertigung"
-            :datenlieferungsdatum="verkuendung?.importedAt"
-            :fna="verkuendung?.fna"
+            :title="verkuendung.title"
+            :veroeffentlichungsdatum="verkuendung.frbrDateVerkuendung"
+            :ausfertigungsdatum="verkuendung.dateAusfertigung"
+            :datenlieferungsdatum="verkuendung.importedAt"
+            :fna="verkuendung.fna"
           />
         </section>
 
@@ -111,7 +116,9 @@ const groupedZielnormen = useGroupedZielnormen(zielnormen)
             <div v-else class="flex flex-col">
               <RisZielnormenList
                 :items="groupedZielnormen"
-                :verkuendung-eli="verkuendung?.eli ?? ''"
+                :verkuendung-eli="
+                  DokumentExpressionEli.fromString(verkuendung.eli).asNormEli()
+                "
               />
             </div>
           </template>

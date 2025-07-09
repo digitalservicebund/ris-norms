@@ -9,7 +9,7 @@ import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
-import { useNormXml } from "@/composables/useNormXml"
+import { useDokumentXml } from "@/composables/useDokumentXml"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useToast } from "@/composables/useToast"
 import { useZeitgrenzenHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
@@ -43,36 +43,30 @@ import { RouterLink } from "vue-router"
 import IcBaselineArrowBack from "~icons/ic/baseline-arrow-back"
 import IcBaselineArrowForward from "~icons/ic/baseline-arrow-forward"
 import IcBaselineCheck from "~icons/ic/baseline-check"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
-const verkuendungEli = useDokumentExpressionEliPathParameter("verkuendung")
+const verkuendungEli = useNormExpressionEliPathParameter("verkuendung")
 const expressionEli = useDokumentExpressionEliPathParameter("expression")
 
-const announcementNormExpressionEli = computed(() =>
-  verkuendungEli.value.asNormEli(),
-)
-
 // BREADCRUMBS
-const sourceVerkuendungNormEli = computed(() => {
-  return verkuendungEli.value.asNormEli()
-})
-
 const {
   data: verkuendung,
   error: verkuendungError,
   isFinished: verkuendungHasFinished,
-} = useGetVerkuendungService(sourceVerkuendungNormEli)
+} = useGetVerkuendungService(verkuendungEli)
 
 const {
   data: normExpression,
   error: normExpressionError,
   isFinished: normExpressionLoaded,
-} = useGetNorm(expressionEli)
+} = useGetNorm(() => expressionEli.value.asNormEli())
 
 const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
   {
     key: "verkuendung",
     title: () => getFrbrDisplayText(verkuendung.value) ?? "...",
-    to: `/verkuendungen/${verkuendungEli.value}`,
+    to: `/verkuendungen/${verkuendungEli.value.toString()}`,
   },
   {
     key: "norm",
@@ -130,9 +124,7 @@ const pointInTime = computed(() => {
 
 const formattedDate = computed(() => formatDate(pointInTime.value))
 
-const { data: zielnormen } = useGetZielnormReferences(
-  announcementNormExpressionEli,
-)
+const { data: zielnormen } = useGetZielnormReferences(verkuendungEli)
 const groupedZielnormen = useGroupedZielnormen(zielnormen)
 
 // NAVIGATION
@@ -200,7 +192,7 @@ const {
     isFinished: hasSaved,
     error: saveError,
   },
-} = useNormXml(expressionEli, newExpressionXml)
+} = useDokumentXml(expressionEli, newExpressionXml)
 
 const currentXml = ref("")
 
@@ -222,16 +214,16 @@ watch(hasSaved, (finished) => {
 })
 
 // RIS DOCUMENT EXPLORER
-const { data: zeitgrenzen, error: zeitgrenzenError } =
-  useGetZeitgrenzen(expressionEli)
+const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(
+  computed(() => expressionEli.value.asNormEli()),
+)
 
 const eIdsToEdit = ref<string[]>([])
 
 const editedZielnormReference = ref<EditableZielnormReference>()
 
-const { zielnormReferences, zielnormReferencesForEid } = useZielnormReferences(
-  () => verkuendungEli.value.asNormEli(),
-)
+const { zielnormReferences, zielnormReferencesForEid } =
+  useZielnormReferences(verkuendungEli)
 
 const colorIndex = computed(() => {
   const expressionEliStr = expressionEli.value.toString()
@@ -261,9 +253,7 @@ watch(eIdsToEdit, (val) => {
   else editedZielnormReference.value = zielnormReferencesForEid(...val)
 })
 
-const { data: previewData } = useGetZielnormPreview(() =>
-  verkuendungEli.value.asNormEli(),
-)
+const { data: previewData } = useGetZielnormPreview(verkuendungEli)
 
 const isGegenstandslosExpression = computed(() => {
   if (!previewData.value || !Array.isArray(previewData.value)) return false
@@ -426,7 +416,7 @@ const isGegenstandslosExpression = computed(() => {
       <SplitterPanel :size="40" :min-size="40" class="h-full overflow-auto">
         <RisDokumentExplorer
           v-model:eids-to-edit="eIdsToEdit"
-          v-model:eli="verkuendungEli"
+          :eli="DokumentExpressionEli.fromNormExpressionEli(verkuendungEli)"
           class="h-full"
           :e-id-classes="highlightClasses"
           :disable-selection="true"

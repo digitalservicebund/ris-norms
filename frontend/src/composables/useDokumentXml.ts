@@ -1,6 +1,9 @@
 import type { MaybeRefOrGetter } from "vue"
 import { ref, watch } from "vue"
-import { useGetNormXml, usePutNormXml } from "@/services/normService"
+import {
+  useGetDokumentXml,
+  usePutDokumentXml,
+} from "@/services/dokumentService"
 import type { UseFetchReturn } from "@vueuse/core"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
@@ -10,7 +13,7 @@ import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
  * @param eli a reference to the eli for which the norm xml will be returned.
  *  Changing the value of the reference will load the data for the new eli.
  */
-export function useNormXml(
+export function useDokumentXml(
   eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
 ): UseFetchReturn<string>
 /**
@@ -21,33 +24,33 @@ export function useNormXml(
  *  Changing the value of the reference will load the data for the new eli.
  * @param newXml a reference to the data that should be saved on an update.
  */
-export function useNormXml(
+export function useDokumentXml(
   eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
   newXml: MaybeRefOrGetter<string | undefined | null>,
 ): UseFetchReturn<string> & {
   update: UseFetchReturn<string>
 }
-export function useNormXml(
+export function useDokumentXml(
   eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
   newXml?: MaybeRefOrGetter<string | undefined | null>,
 ): UseFetchReturn<string> & {
   update?: UseFetchReturn<string>
 } {
   if (!newXml) {
-    return useGetNormXml(eli)
+    return useGetDokumentXml(eli)
   }
 
   // We want to also update the data with the data returned from the PUT-request.
   const data = ref<string | null>(null)
-  const getNormXml: UseFetchReturn<string> = useGetNormXml(eli)
-  watch(getNormXml.data, () => {
-    data.value = getNormXml.data.value
+  const getDokumentXml: UseFetchReturn<string> = useGetDokumentXml(eli)
+  watch(getDokumentXml.data, () => {
+    data.value = getDokumentXml.data.value
   })
 
-  const putNormXml = usePutNormXml(newXml, eli)
-  watch(putNormXml.data, () => {
-    data.value = putNormXml.data.value
+  const putDokumentXml = usePutDokumentXml(newXml, eli)
+  watch(putDokumentXml.data, () => {
+    data.value = putDokumentXml.data.value
   })
 
-  return { ...getNormXml, data, update: putNormXml }
+  return { ...getDokumentXml, data, update: putDokumentXml }
 }

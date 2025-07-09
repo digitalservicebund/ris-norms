@@ -14,8 +14,8 @@ import de.bund.digitalservice.ris.norms.application.exception.DokumentNotFoundEx
 import de.bund.digitalservice.ris.norms.application.exception.NormNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadNormUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadProprietaryFromDokumentUseCase;
-import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietaryFrameFromDokumentUseCase;
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateProprietarySingleElementFromDokumentUseCase;
+import de.bund.digitalservice.ris.norms.application.port.input.UpdateRahmenMetadataUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Proprietary;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
@@ -42,7 +42,7 @@ class ProprietaryControllerTest {
   private LoadProprietaryFromDokumentUseCase loadProprietaryFromDokumentUseCase;
 
   @MockitoBean
-  private UpdateProprietaryFrameFromDokumentUseCase updateProprietaryFrameFromDokumentUseCase;
+  private UpdateRahmenMetadataUseCase updateRahmenMetadataUseCase;
 
   @MockitoBean
   private UpdateProprietarySingleElementFromDokumentUseCase updateProprietarySingleElementFromDokumentUseCase;
@@ -170,9 +170,7 @@ class ProprietaryControllerTest {
       // Given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
-      when(
-        updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(any())
-      ).thenReturn(
+      when(updateRahmenMetadataUseCase.updateRahmenMetadata(any())).thenReturn(
         Fixtures.loadNormFromDisk(
           "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
         ).getRahmenMetadata()
@@ -210,16 +208,13 @@ class ProprietaryControllerTest {
         .andExpect(jsonPath("organisationsEinheit").value("Aktuelle Organisationseinheit"))
         .andExpect(jsonPath("ressort").value("Bundesministerium der Justiz"));
 
-      verify(
-        updateProprietaryFrameFromDokumentUseCase,
-        times(1)
-      ).updateProprietaryFrameFromDokument(
+      verify(updateRahmenMetadataUseCase, times(1)).updateRahmenMetadata(
         argThat(
           query ->
             query
-              .dokumentExpressionEli()
+              .normExpressionEli()
               .toString()
-              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1") &&
+              .equals("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu") &&
             query.inputMetadata().fna().equals("new-fna") &&
             query.inputMetadata().typ().equals("new-typ") &&
             query.inputMetadata().subtyp().equals("new-subtyp") &&
@@ -239,9 +234,7 @@ class ProprietaryControllerTest {
       // given
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
 
-      when(
-        updateProprietaryFrameFromDokumentUseCase.updateProprietaryFrameFromDokument(any())
-      ).thenThrow(
+      when(updateRahmenMetadataUseCase.updateRahmenMetadata(any())).thenThrow(
         new NormNotFoundException(
           NormExpressionEli.fromString("eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu")
         )

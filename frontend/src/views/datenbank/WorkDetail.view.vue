@@ -72,7 +72,7 @@ const treeNodesExpressions = computed<TreeNode[]>(() =>
           formatDate(NormExpressionEli.fromString(expr.eli).pointInTime) +
           (expr.gegenstandslos ? " (gegenstandslos)" : ""),
         data: {
-          route: `/datenbank/${workEli.value}/expression/${DokumentExpressionEli.fromNormExpressionEli(expr.eli).toString()}`,
+          route: `/datenbank/${workEli.value}/expression/${DokumentExpressionEli.fromNormExpressionEli(NormExpressionEli.fromString(expr.eli)).toString()}`,
         },
       }))
     : [],

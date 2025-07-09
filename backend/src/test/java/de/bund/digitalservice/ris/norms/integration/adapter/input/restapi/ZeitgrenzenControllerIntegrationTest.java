@@ -18,7 +18,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.NormPublishState;
 import de.bund.digitalservice.ris.norms.domain.entity.Roles;
 import de.bund.digitalservice.ris.norms.domain.entity.Zeitgrenze;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.integration.BaseIntegrationTest;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -33,7 +33,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WithMockUser(roles = { Roles.NORMS_USER })
-class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
+class ZeitgrenzenControllerIntegrationTest extends BaseIntegrationTest {
 
   @Autowired
   private MockMvc mockMvc;
@@ -60,36 +60,32 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsGetZeitgrenzenAndReturns404() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu";
 
       // When // Then
       mockMvc
         .perform(get("/api/v1/norms/{eli}/zeitgrenzen", eli).accept(MediaType.APPLICATION_JSON))
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
-        .andExpect(jsonPath("title").value("Regelungstext not found"))
+        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+        .andExpect(jsonPath("title").value("Norm not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
+            "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu does not exist"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen"
           )
         )
-        .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist")
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"));
     }
 
     @Test
     void itCallsGetZeitgrenzeAndReturnsJson() throws Exception {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
-      );
+      var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu");
 
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
@@ -114,7 +110,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsUpdateZeitgrenzenAndReturns404() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist";
+      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu";
 
       // When // Then
       mockMvc
@@ -127,28 +123,25 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
             )
         )
         .andExpect(status().isNotFound())
-        .andExpect(jsonPath("type").value("/errors/regelungstext-not-found"))
-        .andExpect(jsonPath("title").value("Regelungstext not found"))
+        .andExpect(jsonPath("type").value("/errors/norm-not-found"))
+        .andExpect(jsonPath("title").value("Norm not found"))
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Regelungstext with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist does not exist"
+            "Norm with eli eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu does not exist"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen"
           )
         )
-        .andExpect(
-          jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/thisEliDoesNotExist")
-        );
+        .andExpect(jsonPath("eli").value("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu"));
     }
 
     @Test
     void itCallsUpdateZeitgrenzenDateNull() throws Exception {
       // When
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
@@ -160,7 +153,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
       // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+          put("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("[{\"date\": null, \"art\": \"INKRAFT\"}]")
@@ -172,7 +165,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("detail").value("Date must not be null"))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen"
           )
         );
     }
@@ -180,7 +173,6 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsUpdateZeitgrenzenArtNull() throws Exception {
       // When
-      var eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
       dokumentRepository.save(
         DokumentMapper.mapToDto(
           Fixtures.loadRegelungstextFromDisk(
@@ -192,7 +184,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
       // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+          put("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("[{\"date\": \"2023-12-30\", \"art\": null}]")
@@ -204,20 +196,18 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("detail").value("Art must not be null"))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen"
           )
         );
     }
 
     @Test
     void itCallsUpdateZeitgrenzenDateMalformed() throws Exception {
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
-
       // When
       // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+          put("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("[{\"date\": \"THISISNODATE\", \"art\": \"INKRAFT\"}]")
@@ -228,20 +218,18 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(400))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen"
           )
         );
     }
 
     @Test
     void itCallsUpdateZeitgrenzenArtMalformed() throws Exception {
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
-
       // When
       // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+          put("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("[{\"date\": \"2020-01-01\", \"art\": \"NONEXISTENT\"}]")
@@ -252,20 +240,18 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(400))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen"
           )
         );
     }
 
     @Test
     void itCallsUpdateZeitgrenzenMultipleSameDateArtCombinations() throws Exception {
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
-
       // When
       // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+          put("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content(
@@ -283,7 +269,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("detail").value("Not all combinations of date + art are unique."))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen"
           )
         );
     }
@@ -291,8 +277,6 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsUpdateZeitgrenzenWithMoreThanTheAllowedNumberOfItems() throws Exception {
       // Given
-      final String eli = "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1";
-
       LocalDate currentDate = LocalDate.parse("2023-12-30");
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
       StringBuilder payload = new StringBuilder();
@@ -310,7 +294,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
       // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+          put("/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content(payload.toString())
@@ -322,7 +306,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("detail").value("A maximum of 100 time boundaries is supported"))
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/regelungstext-verkuendung-1/zeitgrenzen"
+            "/api/v1/norms/eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/zeitgrenzen"
           )
         );
     }
@@ -330,10 +314,6 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsUpdateZeitgrenzenAdd() throws Exception {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
-      );
-
       var regelungstext = Fixtures.loadRegelungstextFromDisk(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
       );
@@ -353,7 +333,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
       // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+          put("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content(
@@ -376,7 +356,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
 
       final Optional<DokumentDto> loadedFromDb =
         dokumentRepository.findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
-          eli.toString()
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
         );
       assertThat(loadedFromDb).isPresent();
 
@@ -398,15 +378,11 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsUpdateZeitgrenzenWithEmptyList() throws Exception {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
-      );
-
       var norm = Fixtures.loadAndSaveNormFixture(
         dokumentRepository,
         binaryFileRepository,
         normManifestationRepository,
-        ZeitgrenzeControllerIntegrationTest.class,
+        ZeitgrenzenControllerIntegrationTest.class,
         "norm-with-only-unused-geltungszeit",
         NormPublishState.UNPUBLISHED
       );
@@ -421,7 +397,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
       // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+          put("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("[]")
@@ -431,7 +407,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
 
       final Optional<DokumentDto> loadedFromDb =
         dokumentRepository.findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
-          eli.toString()
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
         );
       assertThat(loadedFromDb).isPresent();
       final Dokument dokument = DokumentMapper.mapToDomain(loadedFromDb.get());
@@ -441,15 +417,11 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsUpdateZeitgrenzenOnXMLWithoutModsMetadata() throws Exception {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
-      );
-
       var norm = Fixtures.loadAndSaveNormFixture(
         dokumentRepository,
         binaryFileRepository,
         normManifestationRepository,
-        ZeitgrenzeControllerIntegrationTest.class,
+        ZeitgrenzenControllerIntegrationTest.class,
         "norm-without-mods-metadata",
         NormPublishState.UNPUBLISHED
       );
@@ -459,7 +431,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
       // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+          put("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("[{\"date\": \"2023-12-30\", \"art\": \"AUSSERKRAFT\"}]")
@@ -472,7 +444,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
 
       final Optional<DokumentDto> loadedFromDb =
         dokumentRepository.findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
-          eli.toString()
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
         );
       assertThat(loadedFromDb).isPresent();
 
@@ -487,15 +459,11 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
     @Test
     void itCallsUpdateZeitgrenzenOnXMLWithoutRisMetadata() throws Exception {
       // Given
-      var eli = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
-      );
-
       var norm = Fixtures.loadAndSaveNormFixture(
         dokumentRepository,
         binaryFileRepository,
         normManifestationRepository,
-        ZeitgrenzeControllerIntegrationTest.class,
+        ZeitgrenzenControllerIntegrationTest.class,
         "norm-without-ris-metadata",
         NormPublishState.UNPUBLISHED
       );
@@ -505,7 +473,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
       // Then
       mockMvc
         .perform(
-          put("/api/v1/norms/{eli}/zeitgrenzen", eli)
+          put("/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zeitgrenzen")
             .accept(MediaType.APPLICATION_JSON)
             .contentType(MediaType.APPLICATION_JSON)
             .content("[{\"date\": \"2023-12-30\", \"art\": \"AUSSERKRAFT\"}]")
@@ -517,7 +485,7 @@ class ZeitgrenzeControllerIntegrationTest extends BaseIntegrationTest {
 
       final Optional<DokumentDto> loadedFromDb =
         dokumentRepository.findFirstByEliDokumentExpressionOrderByEliDokumentManifestationDesc(
-          eli.toString()
+          "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
         );
       assertThat(loadedFromDb).isPresent();
       final Dokument dokument = DokumentMapper.mapToDomain(loadedFromDb.get());
