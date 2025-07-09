@@ -101,23 +101,7 @@ test.describe("Bestandskorrektur editor", { tag: ["@RISDEV-8359"] }, () => {
 
   test.describe("404 redirects", () => {
     const expressionUrl =
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/textkonsolidierung/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1"
-
-    test("redirects to 404 when verkuendung returns 404", async ({ page }) => {
-      await page.route("**/api/v1/verkuendungen/**", (route) =>
-        route.fulfill({
-          status: 404,
-          body: JSON.stringify({
-            type: "/errors/not-found",
-            title: "Not found",
-            status: 404,
-          }),
-        }),
-      )
-
-      await page.goto(expressionUrl)
-      await expect(page.getByText("404 - Seite nicht gefunden")).toBeVisible()
-    })
+      "./datenbank/textbearbeitung/eli/bund/bgbl-1/1964/s593/2222-02-02/1/deu/regelungstext-verkuendung-1"
 
     test("shows an error if the Xml can't be loaded", async ({ page }) => {
       await page.route("**/api/v1/norms/**", async (route) => {
