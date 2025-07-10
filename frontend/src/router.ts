@@ -5,10 +5,7 @@ import { createRouter, createWebHistory } from "vue-router"
 import { toValue } from "vue"
 import { useNormGuidService } from "@/services/normGuidService"
 import { createNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
-import {
-  DokumentExpressionEli,
-  PATH_PARAMETER_SUBTYPE,
-} from "@/lib/eli/DokumentExpressionEli"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import {
   PATH_PARAMETER_LANGUAGE,
   PATH_PARAMETER_POINT_IN_TIME,
@@ -153,7 +150,7 @@ const routes: readonly RouteRecordRaw[] = [
         component: () => import("@/views/datenbank/WorkDetail.view.vue"),
         children: [
           {
-            path: `:eli${PATH_PARAMETER_POINT_IN_TIME}/:eli${PATH_PARAMETER_VERSION}/:eli${PATH_PARAMETER_LANGUAGE}/:eli${PATH_PARAMETER_SUBTYPE}`,
+            path: `:eli${PATH_PARAMETER_POINT_IN_TIME}/:eli${PATH_PARAMETER_VERSION}/:eli${PATH_PARAMETER_LANGUAGE}`,
             name: "DatenbankWorkExpressionDetail",
             component: () =>
               import("@/views/datenbank/WorkExpressionDetail.view.vue"),
