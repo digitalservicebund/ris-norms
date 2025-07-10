@@ -47,7 +47,7 @@ test.describe(
       await page.getByRole("link", { name: "01.01.1000" }).click()
 
       await expect(page).toHaveURL(
-        "/app/datenbank/eli/bund/bgbl-1/1000/s1/expression/eli/bund/bgbl-1/1000/s1/1000-01-01/1/deu/regelungstext-verkuendung-1",
+        "/app/datenbank/eli/bund/bgbl-1/1000/s1/1000-01-01/1/deu",
       )
 
       await expect(
@@ -56,9 +56,7 @@ test.describe(
     })
 
     test("shows table of contents with correct items", async ({ page }) => {
-      await page.goto(
-        "./datenbank/eli/bund/bgbl-1/1000/s1/expression/eli/bund/bgbl-1/1000/s1/1000-01-01/1/deu/regelungstext-verkuendung-1",
-      )
+      await page.goto("./datenbank/eli/bund/bgbl-1/1000/s1/1000-01-01/1/deu")
 
       await expect(
         page.getByRole("heading", { name: "Inhaltsübersicht" }),
@@ -83,9 +81,7 @@ test.describe(
     })
 
     test("shows preview section with correct content", async ({ page }) => {
-      await page.goto(
-        "./datenbank/eli/bund/bgbl-1/1000/s1/expression/eli/bund/bgbl-1/1000/s1/1000-01-01/1/deu/regelungstext-verkuendung-1",
-      )
+      await page.goto("./datenbank/eli/bund/bgbl-1/1000/s1/1000-01-01/1/deu")
 
       await expect(
         page.getByRole("heading", { name: "Vorschau" }),
@@ -99,9 +95,7 @@ test.describe(
     test("navigates to metadata view when clicking Metadaten button", async ({
       page,
     }) => {
-      await page.goto(
-        "./datenbank/eli/bund/bgbl-1/1000/s1/expression/eli/bund/bgbl-1/1000/s1/1000-01-01/1/deu/regelungstext-verkuendung-1",
-      )
+      await page.goto("./datenbank/eli/bund/bgbl-1/1000/s1/1000-01-01/1/deu")
 
       await expect(
         page.getByRole("button", { name: "Metadaten" }),
