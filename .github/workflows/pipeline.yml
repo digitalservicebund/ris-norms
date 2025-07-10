@@ -144,8 +144,8 @@ jobs:
   # ######################
 
   deploy-production-job:
-    if: ${{ false }}
-    # if: ${{ github.ref == 'refs/heads/main' }}
+    # if: ${{ false }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs:
       - smoketest
       - deploy-uat-job
