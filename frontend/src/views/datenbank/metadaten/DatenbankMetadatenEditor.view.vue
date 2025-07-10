@@ -18,9 +18,9 @@ const selectedEid = useEidPathParameter()
         class="h-full overflow-auto bg-white"
       >
         <RisMetadataEditorNavigation
-          route-name-editor-element="ExpressionMetadataEditorElement"
-          route-name-editor-outline-element="ExpressionMetadataEditorOutlineElement"
-          route-name-editor-rahmen="ExpressionMetadataEditorRahmen"
+          route-name-editor-element="DatenbankMetadatenEditorElement"
+          route-name-editor-outline-element="DatenbankMetadatenEditorOutlineElement"
+          route-name-editor-rahmen="DatenbankMetadatenEditorRahmen"
           :dokument-expression-eli="expressionEli"
           :selected-e-id="selectedEid"
         />

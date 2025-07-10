@@ -116,7 +116,7 @@ function toggleNode(node: TreeNode) {
           </h2>
           <div class="flex flex-row gap-8">
             <RouterLink
-              :to="`/${DokumentExpressionEli.fromNormExpressionEli(expressionEli)}/metadata`"
+              :to="`/datenbank/${DokumentExpressionEli.fromNormExpressionEli(expressionEli)}/metadaten`"
             >
               <Button severity="primary" label="Metadaten bearbeiten" />
             </RouterLink>

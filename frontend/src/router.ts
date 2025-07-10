@@ -122,6 +122,40 @@ const routes: readonly RouteRecordRaw[] = [
           ),
       },
       {
+        path: `${createNormExpressionEliPathParameter("verkuendung")}/metadaten/${createDokumentExpressionEliPathParameter()}`,
+        name: "VerkuendungMetadatenEditor",
+        component: () =>
+          import(
+            "@/views/verkuendungen/verkuendungDetail/metadaten/VerkuendungMetadatenEditor.view.vue"
+          ),
+        children: [
+          {
+            path: "",
+            name: "VerkuendungMetadatenEditorRahmen",
+            component: () =>
+              import(
+                "@/views/verkuendungen/verkuendungDetail/metadaten/rahmen/VerkuendungMetadatenEditorRahmen.vue"
+              ),
+          },
+          {
+            path: "element/:eid",
+            name: "VerkuendungMetadatenEditorElement",
+            component: () =>
+              import(
+                "@/views/verkuendungen/verkuendungDetail/metadaten/element/VerkuendungMetadatenEditorElement.view.vue"
+              ),
+          },
+          {
+            path: "outline/:eid",
+            name: "VerkuendungMetadatenEditorOutlineElement",
+            component: () =>
+              import(
+                "@/views/verkuendungen/verkuendungDetail/metadaten/outline-element/VerkuendungMetadatenEditorOutlineElement.view.vue"
+              ),
+          },
+        ],
+      },
+      {
         path:
           `${createNormExpressionEliPathParameter("verkuendung")}` +
           `/textkonsolidierung/${GUID_ROUTE_PATH}`,
@@ -158,50 +192,50 @@ const routes: readonly RouteRecordRaw[] = [
         ],
       },
       {
-        path: `/datenbank/textbearbeitung/${createDokumentExpressionEliPathParameter()}`,
+        path: `textbearbeitung/${createDokumentExpressionEliPathParameter()}`,
         name: "DatenbankExpressionTextbearbeitung",
         component: () =>
           import(
             "@/views/datenbank/bestandskorrektur/ExpressionBestandskorrekturEditor.view.vue"
           ),
       },
+      {
+        path: `${createDokumentExpressionEliPathParameter()}/metadaten`,
+        name: "DatenbankMetadatenEditor",
+        component: () =>
+          import(
+            "@/views/datenbank/metadaten/DatenbankMetadatenEditor.view.vue"
+          ),
+        children: [
+          {
+            path: "",
+            name: "DatenbankMetadatenEditorRahmen",
+            component: () =>
+              import(
+                "@/views/datenbank/metadaten/rahmen/DatenbankMetadatenEditorRahmen.vue"
+              ),
+          },
+          {
+            path: "element/:eid",
+            name: "DatenbankMetadatenEditorElement",
+            component: () =>
+              import(
+                "@/views/datenbank/metadaten/element/DatenbankMetadatenEditorElement.view.vue"
+              ),
+          },
+          {
+            path: "outline/:eid",
+            name: "DatenbankMetadatenEditorOutlineElement",
+            component: () =>
+              import(
+                "@/views/datenbank/metadaten/outline-element/DatenbankMetadatenEditorOutlineElement.view.vue"
+              ),
+          },
+        ],
+      },
     ],
   },
 
-  {
-    path: `/${createDokumentExpressionEliPathParameter()}/metadata`,
-    name: "ExpressionMetadataEditor",
-    component: () =>
-      import(
-        "@/views/expression/metadata-editor/ExpressionMetadataEditor.view.vue"
-      ),
-    children: [
-      {
-        path: "",
-        name: "ExpressionMetadataEditorRahmen",
-        component: () =>
-          import(
-            "@/views/expression/metadata-editor/rahmen/ExpressionMetadataEditorRahmen.view.vue"
-          ),
-      },
-      {
-        path: "element/:eid",
-        name: "ExpressionMetadataEditorElement",
-        component: () =>
-          import(
-            "@/views/expression/metadata-editor/element/ExpressionMetadataEditorElement.view.vue"
-          ),
-      },
-      {
-        path: "outline/:eid",
-        name: "ExpressionMetadataEditorOutlineElement",
-        component: () =>
-          import(
-            "@/views/expression/metadata-editor/outline-element/ExpressionMetadataEditorOutlineElement.view.vue"
-          ),
-      },
-    ],
-  },
   {
     path: `/${GUID_ROUTE_PATH}/:any(.*)*`,
     component: () => null,
