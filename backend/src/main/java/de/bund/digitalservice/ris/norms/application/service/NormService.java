@@ -403,6 +403,8 @@ public class NormService
           true,
           isOrphan(affectedExpressionElisOpt.get(), geltungszeiten, eli),
           isSystemExpression(affectedExpressionElisOpt.get(), eli)
+            ? Zielnorm.CreatedBy.SYSTEM
+            : Zielnorm.CreatedBy.THIS_VERKUENDUNG
         )
       );
     } else {
@@ -469,7 +471,7 @@ public class NormService
   /*
 This method is applying the algorithm described in ADR 0020
  */
-  private Zielnorm.CreatedBy isSystemExpression(
+  private boolean isSystemExpression(
     AmendedNormExpressions amendedNormExpressions,
     NormExpressionEli expressionEli
   ) {
@@ -481,11 +483,7 @@ This method is applying the algorithm described in ADR 0020
       .find(expressionEli)
       .map(NormExpression::getCreatedByZeitgrenze)
       .orElse(false);
-    if (createdByReplacing && !createdByZeitgrenze) {
-      return Zielnorm.CreatedBy.SYSTEM;
-    } else {
-      return Zielnorm.CreatedBy.THIS_VERKUENDUNG;
-    }
+    return createdByReplacing && !createdByZeitgrenze;
   }
 
   /*
@@ -515,6 +513,7 @@ This method is applying the algorithm described in ADR 0020
       .takeWhile(expr -> !expr.equals(normExpression))
       .anyMatch(NormExpression::getCreatedByZeitgrenze);
 
+    // Following are the cases 1, 2 and 3.1 of the ADR 0020
     final boolean isCase1 = createdByZeitgrenze && !createdByReplacing && zeitgrenzeMissing;
     final boolean isCase2 =
       !createdByZeitgrenze && createdByReplacing && !hasAnyPrecedingWithZeitgrenze;
