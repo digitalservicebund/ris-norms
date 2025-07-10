@@ -1,16 +1,12 @@
 package de.bund.digitalservice.ris.norms.config;
 
 import de.bund.digitalservice.ris.norms.adapter.output.s3.S3MockClient;
-import java.net.URI;
 import java.net.URISyntaxException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
 /**
@@ -44,7 +40,11 @@ public class PortalPrototypeOtcObsConfig {
   @Bean(name = "portalPrototypeS3Client")
   @Profile({ "production" })
   public S3Client portalPrototypeS3Client() throws URISyntaxException {
-    return createS3Client(portalPrototypeAccessKeyId, portalPrototypeSecretAccessKey);
+    return S3ClientFactory.create(
+      portalPrototypeAccessKeyId,
+      portalPrototypeSecretAccessKey,
+      endpoint
+    );
   }
 
   /**
@@ -58,16 +58,5 @@ public class PortalPrototypeOtcObsConfig {
   @Profile("!staging & !uat & !production")
   public S3Client portalPrototypeS3MockClient() {
     return new S3MockClient();
-  }
-
-  private S3Client createS3Client(final String accessKeyId, final String secretAccessKey)
-    throws URISyntaxException {
-    return S3Client.builder()
-      .credentialsProvider(
-        StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey))
-      )
-      .endpointOverride(new URI(endpoint))
-      .region(Region.of("eu-de"))
-      .build();
   }
 }
