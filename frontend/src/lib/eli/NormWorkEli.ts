@@ -1,3 +1,8 @@
+export const PATH_PARAMETER_JURISDICTION = `Jurisdiction(bund)`
+export const PATH_PARAMETER_AGENT = `Agent(bgbl-1|bgbl-2|banz-at)`
+export const PATH_PARAMETER_YEAR = `Year([12][0-9]{3})`
+export const PATH_PARAMETER_NATURAL_IDENTIFIER = `NaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)`
+
 /**
  * European legislation identifier on work level for a Norm
  */

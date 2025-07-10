@@ -10,11 +10,10 @@ import SplitterPanel from "primevue/splitterpanel"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { formatDate } from "@/lib/dateTime"
 import { useElementId } from "@/composables/useElementId"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import type { TreeNode } from "primevue/treenode"
 import { Tree } from "primevue"
 import { RouterLink, useRoute } from "vue-router"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 
 const workEli = useNormWorkEliPathParameter()
 const { expressionsHeadingId } = useElementId()
@@ -45,17 +44,12 @@ const breadcrumbs = computed<HeaderBreadcrumb[]>(() => {
   ]
 
   if (route.name === "DatenbankWorkExpressionDetail") {
-    const expressionEli = useDokumentExpressionEliPathParameter("expression")
+    const expressionEli = useNormExpressionEliPathParameter()
     return [
       ...base,
       {
         key: "expressionInforceDate",
-        title: () =>
-          formatDate(
-            DokumentExpressionEli.fromString(
-              expressionEli.value?.toString() ?? "",
-            ).pointInTime,
-          ),
+        title: () => formatDate(expressionEli.value.pointInTime),
       },
     ]
   }
@@ -72,7 +66,7 @@ const treeNodesExpressions = computed<TreeNode[]>(() =>
           formatDate(NormExpressionEli.fromString(expr.eli).pointInTime) +
           (expr.gegenstandslos ? " (gegenstandslos)" : ""),
         data: {
-          route: `/datenbank/${workEli.value}/expression/${DokumentExpressionEli.fromNormExpressionEli(NormExpressionEli.fromString(expr.eli)).toString()}`,
+          route: `/datenbank/${NormExpressionEli.fromString(expr.eli).toString()}`,
         },
       }))
     : [],

@@ -1,7 +1,18 @@
 import type { ComputedRef } from "vue"
 import { computed } from "vue"
 import { useRoute } from "vue-router"
-import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import {
+  NormExpressionEli,
+  PATH_PARAMETER_LANGUAGE,
+  PATH_PARAMETER_POINT_IN_TIME,
+  PATH_PARAMETER_VERSION,
+} from "@/lib/eli/NormExpressionEli"
+import {
+  PATH_PARAMETER_AGENT,
+  PATH_PARAMETER_JURISDICTION,
+  PATH_PARAMETER_NATURAL_IDENTIFIER,
+  PATH_PARAMETER_YEAR,
+} from "@/lib/eli/NormWorkEli"
 
 /**
  * Returns a string containing a set of named path params that can be used
@@ -23,13 +34,13 @@ export function createNormExpressionEliPathParameter(prefix?: string) {
   // route.
   return [
     "eli",
-    `:${name}Jurisdiction(bund)`,
-    `:${name}Agent(bgbl-1|bgbl-2|banz-at)`,
-    `:${name}Year([12][0-9]{3})`,
-    `:${name}NaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)`,
-    `:${name}PointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})`,
-    `:${name}Version([0-9]+)`,
-    `:${name}Language(deu)`,
+    `:${name}${PATH_PARAMETER_JURISDICTION}`,
+    `:${name}${PATH_PARAMETER_AGENT}`,
+    `:${name}${PATH_PARAMETER_YEAR}`,
+    `:${name}${PATH_PARAMETER_NATURAL_IDENTIFIER}`,
+    `:${name}${PATH_PARAMETER_POINT_IN_TIME}`,
+    `:${name}${PATH_PARAMETER_VERSION}`,
+    `:${name}${PATH_PARAMETER_LANGUAGE}`,
   ].join("/")
 }
 

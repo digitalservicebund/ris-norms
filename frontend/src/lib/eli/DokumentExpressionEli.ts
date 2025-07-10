@@ -1,6 +1,8 @@
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { NormWorkEli } from "@/lib/eli/NormWorkEli"
 
+export const PATH_PARAMETER_SUBTYPE = `Subtype(regelungstext-verkuendung-[0-9]+|anlage-regelungstext-[0-9]+|bekanntmachungstext-[0-9]+|rechtsetzungsdokument-[0-9]+)`
+
 /**
  * European legislation identifier on expression level for a Dokument of a Norm
  */

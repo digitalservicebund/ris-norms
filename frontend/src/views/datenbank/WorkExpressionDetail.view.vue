@@ -10,24 +10,27 @@ import { useGetNormToc } from "@/services/tocService"
 import type { TreeNode } from "primevue/treenode"
 import { Tree } from "primevue"
 import { RouterLink } from "vue-router"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
-const expressionEli = useDokumentExpressionEliPathParameter("expression")
+const expressionEli = useNormExpressionEliPathParameter()
 const { tocHeadingId, expressionHtmlHeadingId } = useElementId()
 
 const {
   data: normExpressionHtml,
   isFetching: isFetchingNormExpressionHtml,
   error: normExpressionHtmlError,
-} = useGetNormHtml(() => expressionEli.value.asNormEli())
+} = useGetNormHtml(expressionEli)
 
 const {
   data: toc,
   error: tocError,
   isFetching: tocIsFetching,
-} = useGetNormToc(expressionEli)
+} = useGetNormToc(() =>
+  DokumentExpressionEli.fromNormExpressionEli(expressionEli.value),
+)
 
 const expandedKeys = ref<Record<string, boolean>>({})
 const selectionKeys = ref<Record<string, boolean>>({})
@@ -112,10 +115,14 @@ function toggleNode(node: TreeNode) {
             Vorschau
           </h2>
           <div class="flex flex-row gap-8">
-            <RouterLink :to="`/${expressionEli}/metadata`">
+            <RouterLink
+              :to="`/${DokumentExpressionEli.fromNormExpressionEli(expressionEli)}/metadata`"
+            >
               <Button severity="primary" label="Metadaten bearbeiten" />
             </RouterLink>
-            <RouterLink :to="`/datenbank/textbearbeitung/${expressionEli}`">
+            <RouterLink
+              :to="`/datenbank/textbearbeitung/${DokumentExpressionEli.fromNormExpressionEli(expressionEli)}`"
+            >
               <Button severity="primary" label="Text bearbeiten" />
             </RouterLink>
           </div>

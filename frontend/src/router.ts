@@ -6,6 +6,11 @@ import { toValue } from "vue"
 import { useNormGuidService } from "@/services/normGuidService"
 import { createNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import {
+  PATH_PARAMETER_LANGUAGE,
+  PATH_PARAMETER_POINT_IN_TIME,
+  PATH_PARAMETER_VERSION,
+} from "@/lib/eli/NormExpressionEli"
 
 const GUID_ROUTE_PATH = `:guid([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})`
 
@@ -145,7 +150,7 @@ const routes: readonly RouteRecordRaw[] = [
         component: () => import("@/views/datenbank/WorkDetail.view.vue"),
         children: [
           {
-            path: `expression/${createDokumentExpressionEliPathParameter("expression")}`,
+            path: `:eli${PATH_PARAMETER_POINT_IN_TIME}/:eli${PATH_PARAMETER_VERSION}/:eli${PATH_PARAMETER_LANGUAGE}`,
             name: "DatenbankWorkExpressionDetail",
             component: () =>
               import("@/views/datenbank/WorkExpressionDetail.view.vue"),
