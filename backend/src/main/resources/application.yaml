@@ -77,7 +77,7 @@ publish:
   cron: "0 0 0 * * 1-5" # Runs daily at 0am (Europe/Berlin), Monday to Friday
   portal-prototype:
     enabled: false
-    cron: "0 30 8 * * *" # Runs daily at 6:30am (Europe/Berlin)
+    cron: "0 30 6 * * *" # Runs daily at 6:30am (Europe/Berlin)
 
 frontend:
   auth:
