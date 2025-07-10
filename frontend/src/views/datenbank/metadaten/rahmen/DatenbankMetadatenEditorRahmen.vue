@@ -3,18 +3,9 @@ import { useHeaderContext } from "@/components/RisHeader.vue"
 import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import Button from "primevue/button"
 import RisMetadataEditorRahmen from "@/components/metadata-editor/rahmen/RisMetadataEditorRahmen.vue"
-import { onBeforeUnmount } from "vue"
 
 const dokumentExpressionEli = useDokumentExpressionEliPathParameter()
 const { actionTeleportTarget } = useHeaderContext()
-
-const headerContext = useHeaderContext()
-
-const cleanupBreadcrumb = headerContext.pushBreadcrumb({
-  title: "Rahmen",
-})
-
-onBeforeUnmount(() => cleanupBreadcrumb())
 </script>
 
 <template>

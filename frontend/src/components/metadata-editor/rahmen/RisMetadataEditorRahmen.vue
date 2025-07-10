@@ -26,9 +26,10 @@ import type { RahmenProprietary } from "@/types/proprietary"
 import { produce } from "immer"
 import InputText from "primevue/inputtext"
 import { useToast } from "@/composables/useToast"
-import { computed, ref, watch } from "vue"
+import { computed, onBeforeUnmount, ref, watch } from "vue"
 import Select from "primevue/select"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { useHeaderContext } from "@/components/RisHeader.vue"
 
 const props = defineProps<{
   dokumentExpressionEli: DokumentExpressionEli
@@ -291,6 +292,14 @@ watch(hasSaved, (finished) => {
     showToast()
   }
 })
+
+const { pushBreadcrumb } = useHeaderContext()
+
+const cleanupBreadcrumb = pushBreadcrumb({
+  title: "Rahmen",
+})
+
+onBeforeUnmount(() => cleanupBreadcrumb())
 </script>
 
 <template>
