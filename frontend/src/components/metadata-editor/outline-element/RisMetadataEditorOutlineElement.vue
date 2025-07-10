@@ -5,6 +5,8 @@ import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import { useGetElement, useGetElementHtml } from "@/services/elementService"
 import Message from "primevue/message"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { onBeforeUnmount, ref, watch } from "vue"
+import { useHeaderContext } from "@/components/RisHeader.vue"
 
 const props = defineProps<{
   dokumentExpressionEli: DokumentExpressionEli
@@ -28,6 +30,23 @@ const {
   () => props.dokumentExpressionEli,
   () => props.eId,
 )
+
+const { pushBreadcrumb } = useHeaderContext()
+
+const cleanupBreadcrumb = ref<() => void>()
+
+watch(
+  () => element.value,
+  () => {
+    cleanupBreadcrumb.value?.()
+    cleanupBreadcrumb.value = pushBreadcrumb({
+      title: element.value?.title ?? "...",
+    })
+  },
+  { immediate: true },
+)
+
+onBeforeUnmount(() => cleanupBreadcrumb.value?.())
 </script>
 
 <template>

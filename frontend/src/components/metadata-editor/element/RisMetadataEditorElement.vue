@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { useGetElement, useGetElementHtml } from "@/services/elementService"
-import { computed, ref, watch } from "vue"
+import { computed, onBeforeUnmount, ref, watch } from "vue"
 import type { ElementProprietary } from "@/types/proprietary"
 import {
   useGetElementProprietary,
@@ -15,6 +15,7 @@ import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RadioButton from "primevue/radiobutton"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
+import { useHeaderContext } from "@/components/RisHeader.vue"
 
 const props = defineProps<{
   dokumentExpressionEli: DokumentExpressionEli
@@ -115,6 +116,23 @@ watch(hasSaved, (finished) => {
     showToast()
   }
 })
+
+const { pushBreadcrumb } = useHeaderContext()
+
+const cleanupBreadcrumb = ref<() => void>()
+
+watch(
+  () => element.value,
+  () => {
+    cleanupBreadcrumb.value?.()
+    cleanupBreadcrumb.value = pushBreadcrumb({
+      title: element.value?.title ?? "...",
+    })
+  },
+  { immediate: true },
+)
+
+onBeforeUnmount(() => cleanupBreadcrumb.value?.())
 </script>
 
 <template>

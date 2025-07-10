@@ -4,13 +4,52 @@ import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { Splitter, SplitterPanel } from "primevue"
 import RisMetadataEditorNavigation from "@/components/metadata-editor/RisMetadataEditorNavigation.vue"
+import { computed } from "vue"
+import { useGetNorm } from "@/services/normService"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { formatDate } from "@/lib/dateTime"
+import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 
 const expressionEli = useDokumentExpressionEliPathParameter()
 const selectedEid = useEidPathParameter()
+
+const {
+  data: normExpression,
+  error: normExpressionError,
+  isFinished: normExpressionLoaded,
+} = useGetNorm(() => expressionEli.value.asNormEli())
+
+const pointInTime = computed(() => {
+  return NormExpressionEli.fromString(expressionEli.value.toString())
+    .pointInTime
+})
+
+const formattedDate = computed(() => formatDate(pointInTime.value))
+
+const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
+  {
+    key: "norm",
+    title: () =>
+      normExpression.value
+        ? `${normExpression.value.title} (${normExpression.value.shortTitle})`
+        : "...",
+    to: { name: "DatenbankWorkDetail" },
+  },
+  {
+    key: "expressionDate",
+    title: () => (formattedDate.value ? `${formattedDate.value}` : "..."),
+    to: { name: "DatenbankWorkExpressionDetail" },
+  },
+  { key: "metadaten", title: "Metadaten" },
+])
 </script>
 
 <template>
-  <RisViewLayout header-back-destination="history-back">
+  <RisViewLayout
+    :breadcrumbs
+    :errors="[normExpressionError]"
+    :loading="!normExpressionLoaded"
+  >
     <Splitter class="h-full" layout="horizontal">
       <SplitterPanel
         :size="20"

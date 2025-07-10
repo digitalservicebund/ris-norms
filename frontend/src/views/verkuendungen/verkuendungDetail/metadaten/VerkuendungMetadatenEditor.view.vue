@@ -4,13 +4,53 @@ import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { Splitter, SplitterPanel } from "primevue"
 import RisMetadataEditorNavigation from "@/components/metadata-editor/RisMetadataEditorNavigation.vue"
+import { useGetVerkuendungService } from "@/services/verkuendungService"
+import { useGetNorm } from "@/services/normService"
+import { computed } from "vue"
+import { getFrbrDisplayText } from "@/lib/frbr"
+import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 
+const verkuendungEli = useNormExpressionEliPathParameter("verkuendung")
 const expressionEli = useDokumentExpressionEliPathParameter()
 const selectedEid = useEidPathParameter()
+
+// BREADCRUMBS
+const {
+  data: verkuendung,
+  error: verkuendungError,
+  isFinished: verkuendungHasFinished,
+} = useGetVerkuendungService(verkuendungEli)
+
+const {
+  data: normExpression,
+  error: normExpressionError,
+  isFinished: normExpressionLoaded,
+} = useGetNorm(() => expressionEli.value.asNormEli())
+
+const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
+  {
+    key: "verkuendung",
+    title: () => getFrbrDisplayText(verkuendung.value) ?? "...",
+    to: `/verkuendungen/${verkuendungEli.value.toString()}`,
+  },
+  {
+    key: "norm",
+    title: () =>
+      normExpression.value
+        ? `${normExpression.value.title} (${normExpression.value.shortTitle})`
+        : "...",
+  },
+  { key: "metadaten", title: "Metadaten" },
+])
 </script>
 
 <template>
-  <RisViewLayout header-back-destination="history-back">
+  <RisViewLayout
+    :breadcrumbs
+    :errors="[verkuendungError, normExpressionError]"
+    :loading="!verkuendungHasFinished || !normExpressionLoaded"
+  >
     <Splitter class="h-full" layout="horizontal">
       <SplitterPanel
         :size="20"
