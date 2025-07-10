@@ -45,7 +45,7 @@ const breadcrumbs = computed<HeaderBreadcrumb[]>(() => {
   ]
 
   if (route.name === "DatenbankWorkExpressionDetail") {
-    const expressionEli = useDokumentExpressionEliPathParameter("expression")
+    const expressionEli = useDokumentExpressionEliPathParameter()
     return [
       ...base,
       {
@@ -72,7 +72,7 @@ const treeNodesExpressions = computed<TreeNode[]>(() =>
           formatDate(NormExpressionEli.fromString(expr.eli).pointInTime) +
           (expr.gegenstandslos ? " (gegenstandslos)" : ""),
         data: {
-          route: `/datenbank/${workEli.value}/expression/${DokumentExpressionEli.fromNormExpressionEli(NormExpressionEli.fromString(expr.eli)).toString()}`,
+          route: `/datenbank/${DokumentExpressionEli.fromNormExpressionEli(NormExpressionEli.fromString(expr.eli)).toString()}`,
         },
       }))
     : [],

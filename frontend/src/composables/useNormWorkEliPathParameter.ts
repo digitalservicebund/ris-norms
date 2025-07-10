@@ -1,7 +1,13 @@
 import type { ComputedRef } from "vue"
 import { computed } from "vue"
 import { useRoute } from "vue-router"
-import { NormWorkEli } from "@/lib/eli/NormWorkEli"
+import {
+  NormWorkEli,
+  PATH_PARAMETER_AGENT,
+  PATH_PARAMETER_JURISDICTION,
+  PATH_PARAMETER_NATURAL_IDENTIFIER,
+  PATH_PARAMETER_YEAR,
+} from "@/lib/eli/NormWorkEli"
 
 /**
  * Creates a path pattern for route definition for a NormWorkEli.
@@ -11,10 +17,10 @@ export function createNormWorkEliPathParameter(prefix?: string): string {
 
   return [
     "eli",
-    `:${name}Jurisdiction(bund)`,
-    `:${name}Agent(bgbl-1|bgbl-2|banz-at)`,
-    `:${name}Year([12][0-9]{3})`,
-    `:${name}NaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)`,
+    `:${name}${PATH_PARAMETER_JURISDICTION}`,
+    `:${name}${PATH_PARAMETER_AGENT}`,
+    `:${name}${PATH_PARAMETER_YEAR}`,
+    `:${name}${PATH_PARAMETER_NATURAL_IDENTIFIER}`,
   ].join("/")
 }
 

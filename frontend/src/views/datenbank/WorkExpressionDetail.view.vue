@@ -14,7 +14,7 @@ import { useDokumentExpressionEliPathParameter } from "@/composables/useDokument
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 
-const expressionEli = useDokumentExpressionEliPathParameter("expression")
+const expressionEli = useDokumentExpressionEliPathParameter()
 const { tocHeadingId, expressionHtmlHeadingId } = useElementId()
 
 const {

@@ -1,5 +1,9 @@
 import { NormWorkEli } from "@/lib/eli/NormWorkEli"
 
+export const PATH_PARAMETER_POINT_IN_TIME = `PointInTime([12][0-9]{3}-[0-9]{2}-[0-9]{2})`
+export const PATH_PARAMETER_VERSION = `Version([0-9]+)`
+export const PATH_PARAMETER_LANGUAGE = `Language(deu)`
+
 /**
  * European legislation identifier on expression level for a Norm
  */
