@@ -62,7 +62,7 @@ onBeforeUnmount(() => cleanupBreadcrumb.value?.())
       <RisErrorCallout :error="elementError" />
     </div>
 
-    <div v-else class="flex flex-col overflow-hidden p-24">
+    <div v-else class="flex flex-col overflow-hidden">
       <div class="flex gap-16">
         <div class="grow">
           <h2 class="ris-label2-bold">
