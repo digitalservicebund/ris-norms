@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
@@ -64,6 +65,7 @@ class TableOfContentsServiceTest {
         )
       )
     );
+
     // Assert overall structure size
     assertThat(toc).hasSize(1);
 
@@ -202,5 +204,62 @@ class TableOfContentsServiceTest {
     assertThat(article6.heading()).isEqualTo("Übergangsregelung");
     assertThat(article6.type()).isEqualTo("article");
     assertThat(article6.children()).isEmpty();
+  }
+
+  @Test
+  void itRetrievesTocWithEingebundeneStammform() {
+    // Given
+    final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
+      TableOfContentsServiceTest.class,
+      "regelungstext-with-eingebundene-stammform/regelungstext-verkuendung-1.xml"
+    );
+
+    final Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
+      TableOfContentsServiceTest.class,
+      "regelungstext-with-eingebundene-stammform/regelungstext-verkuendung-2.xml"
+    );
+
+    when(
+      loadRegelungstextPort.loadRegelungstext(
+        new LoadRegelungstextPort.Options(regelungstext1.getExpressionEli())
+      )
+    ).thenReturn(Optional.of(regelungstext1));
+
+    when(
+      loadRegelungstextPort.loadRegelungstext(
+        new LoadRegelungstextPort.Options(regelungstext2.getExpressionEli())
+      )
+    ).thenReturn(Optional.of(regelungstext2));
+
+    // When
+    final List<TableOfContentsItem> toc = tableOfContentsService.loadTocFromRegelungstext(
+      new LoadTocFromRegelungstextUseCase.Options(regelungstext1.getExpressionEli())
+    );
+
+    // Then
+    verify(loadRegelungstextPort, times(1)).loadRegelungstext(
+      argThat(command ->
+        Objects.equals(
+          command.eli().toString(),
+          "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/regelungstext-verkuendung-1"
+        )
+      )
+    );
+
+    // Assert overall structure size
+    assertThat(toc).hasSize(10);
+
+    var eingebundeneStammformArtikel = toc.getFirst();
+
+    // Assert eingebundene Stammform is correctly identified
+    assertThat(eingebundeneStammformArtikel.hasEingebundeneStammform()).isTrue();
+
+    // Assert eingebundene Stammform title
+    assertThat(eingebundeneStammformArtikel.heading()).isEqualTo(
+      "Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)"
+    );
+
+    // Assert that other articles don't claim to have an eingebundene Stammform
+    assertThat(toc.get(1).hasEingebundeneStammform()).isFalse();
   }
 }

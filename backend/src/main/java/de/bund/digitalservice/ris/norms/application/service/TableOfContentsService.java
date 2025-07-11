@@ -6,9 +6,12 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstex
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.TableOfContentsItem;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Element;
@@ -81,7 +84,7 @@ public class TableOfContentsService implements LoadTocFromRegelungstextUseCase {
     );
 
     // heading (article has it optional)
-    final String heading = NodeParser.getElementFromExpression("./heading", element)
+    String heading = NodeParser.getElementFromExpression("./heading", element)
       .map(e -> cleanText(e.getTextContent()))
       .orElse(null);
 
@@ -93,7 +96,45 @@ public class TableOfContentsService implements LoadTocFromRegelungstextUseCase {
       ? List.of()
       : getChildren(element);
 
-    return new TableOfContentsItem(eId, marker, heading, type, children);
+    // eingebundene Stammform
+    var hasEingebundeneStammform = false;
+    var stammformEli = getEingebundeneStammformEli(element);
+    if (stammformEli.isPresent()) {
+      hasEingebundeneStammform = true;
+      heading = getHeadingForEingebundeneStammform(stammformEli.get()).orElse(null);
+    }
+
+    return new TableOfContentsItem(eId, marker, heading, type, hasEingebundeneStammform, children);
+  }
+
+  private Optional<DokumentEli> getEingebundeneStammformEli(Element element) {
+    return NodeParser.getElementFromExpression(
+      "componentRef[@showAs=\"regelungstext-eingebundene-stammform\"]",
+      element
+    ).map(contentRef -> {
+        var stammformEliRaw = contentRef.getAttribute("src");
+        // The src of an eingebundene Stammform has an extra file extension, which is not part of
+        // any type of ELI we support. Removing it to get a regular Dokument Expression ELI
+        if (stammformEliRaw.endsWith(".xml")) {
+          stammformEliRaw = stammformEliRaw.substring(0, stammformEliRaw.length() - 4);
+        }
+
+        return DokumentExpressionEli.fromString(stammformEliRaw);
+      });
+  }
+
+  private Optional<String> getHeadingForEingebundeneStammform(DokumentEli stammformEli) {
+    return loadRegelungstextPort
+      .loadRegelungstext(new LoadRegelungstextPort.Options(stammformEli))
+      .map(stammformRegelungstext -> {
+        return NodeParser.getElementFromExpression(
+          "//longTitle",
+          stammformRegelungstext.getDocument()
+        )
+          .orElse(null)
+          .getTextContent();
+      })
+      .map(longTitle -> cleanText(longTitle));
   }
 
   private String cleanText(String text) {
