@@ -22,13 +22,21 @@ class TableOfContentsResponseMapperTest {
       false,
       Collections.emptyList()
     );
+    final TableOfContentsItem childItemWithStammform = new TableOfContentsItem(
+      new EId("child-n2"),
+      "child-marker",
+      "child-stammform-heading",
+      "child-type",
+      true,
+      Collections.emptyList()
+    );
     final TableOfContentsItem parentItem = new TableOfContentsItem(
       new EId("parent-n1"),
       "parent-marker",
       "parent-heading",
       "parent-type",
       false,
-      List.of(childItem)
+      List.of(childItem, childItemWithStammform)
     );
 
     final List<TableOfContentsItem> tableOfContents = List.of(parentItem);
@@ -44,14 +52,26 @@ class TableOfContentsResponseMapperTest {
     assertThat(parentResponse.getMarker()).isEqualTo("parent-marker");
     assertThat(parentResponse.getHeading()).isEqualTo("parent-heading");
     assertThat(parentResponse.getType()).isEqualTo("parent-type");
-    assertThat(parentResponse.getChildren()).hasSize(1);
+    assertThat(parentResponse.getHasEingebundeneStammform()).isFalse();
+    assertThat(parentResponse.getChildren()).hasSize(2);
 
     final TableOfContentsResponseSchema childResponse = parentResponse.getChildren().getFirst();
     assertThat(childResponse.getId()).hasToString("child-n1");
     assertThat(childResponse.getMarker()).isEqualTo("child-marker");
     assertThat(childResponse.getHeading()).isEqualTo("child-heading");
     assertThat(childResponse.getType()).isEqualTo("child-type");
+    assertThat(childResponse.getHasEingebundeneStammform()).isFalse();
     assertThat(childResponse.getChildren()).isEmpty();
+
+    final TableOfContentsResponseSchema childWithStammformResponse = parentResponse
+      .getChildren()
+      .get(1);
+    assertThat(childWithStammformResponse.getId()).hasToString("child-n2");
+    assertThat(childWithStammformResponse.getMarker()).isEqualTo("child-marker");
+    assertThat(childWithStammformResponse.getHeading()).isEqualTo("child-stammform-heading");
+    assertThat(childWithStammformResponse.getType()).isEqualTo("child-type");
+    assertThat(childWithStammformResponse.getHasEingebundeneStammform()).isTrue();
+    assertThat(childWithStammformResponse.getChildren()).isEmpty();
   }
 
   @Test
