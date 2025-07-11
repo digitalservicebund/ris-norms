@@ -9,6 +9,7 @@ import java.util.List;
  * @param marker - containing the "akn:num" of the XML node
  * @param heading - containing the "akn:heading" of the XML node
  * @param type - containing the tag name of the XML node
+ * @param hasEingebundeneStammform - true if the article contains an eingebunden Stammform
  * @param children - containing, if any, further {@link TableOfContentsItem}
  */
 public record TableOfContentsItem(
@@ -16,5 +17,6 @@ public record TableOfContentsItem(
   String marker,
   String heading,
   String type,
+  Boolean hasEingebundeneStammform,
   List<TableOfContentsItem> children
 ) {}

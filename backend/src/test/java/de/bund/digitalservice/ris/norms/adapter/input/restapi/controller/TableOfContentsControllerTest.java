@@ -39,6 +39,7 @@ class TableOfContentsControllerTest {
       "child-marker",
       "child-heading",
       "child-type",
+      false,
       Collections.emptyList()
     );
     final TableOfContentsItem parentItem = new TableOfContentsItem(
@@ -46,6 +47,7 @@ class TableOfContentsControllerTest {
       "parent-marker",
       "parent-heading",
       "parent-type",
+      false,
       List.of(childItem)
     );
     when(loadTocFromRegelungstextUseCase.loadTocFromRegelungstext(any())).thenReturn(
