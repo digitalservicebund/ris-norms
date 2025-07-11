@@ -114,7 +114,7 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
                     <RouterLink
                       :to="
                         section === 'textkonsolidierung'
-                          ? `/verkuendungen/${verkuendungEli.toString()}/textkonsolidierung/${data.documentExpressionEli}`
+                          ? `/verkuendungen/${verkuendungEli.toString()}/textkonsolidierung/${data.normExpressionEli}`
                           : `/verkuendungen/${verkuendungEli.toString()}/metadaten/${data.documentExpressionEli}`
                       "
                       class="ris-link2-regular"
