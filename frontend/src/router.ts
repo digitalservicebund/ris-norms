@@ -201,7 +201,7 @@ const routes: readonly RouteRecordRaw[] = [
         ],
       },
       {
-        path: `${createDokumentExpressionEliPathParameter()}/textbearbeitung`,
+        path: `${createNormExpressionEliPathParameter()}/textbearbeitung`,
         name: "DatenbankExpressionTextbearbeitung",
         component: () =>
           import(

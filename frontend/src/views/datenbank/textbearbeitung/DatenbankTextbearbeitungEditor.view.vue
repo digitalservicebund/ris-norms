@@ -5,12 +5,11 @@ import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import { type HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useToast } from "@/composables/useToast"
 import { formatDate } from "@/lib/dateTime"
-import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { useGetNorm } from "@/services/normService"
 import { useGetNormToc } from "@/services/tocService"
 import {
@@ -25,8 +24,9 @@ import type { TreeNode } from "primevue/treenode"
 import { computed, ref, watch } from "vue"
 import IcBaselineCheck from "~icons/ic/baseline-check"
 import { useDokumentXml } from "@/composables/useDokumentXml"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 
-const expressionEli = useDokumentExpressionEliPathParameter()
+const expressionEli = useNormExpressionEliPathParameter()
 
 // BREADCRUMBS
 
@@ -34,14 +34,11 @@ const {
   data: normExpression,
   error: normExpressionError,
   isFinished: normExpressionLoaded,
-} = useGetNorm(() => expressionEli.value.asNormEli())
+} = useGetNorm(expressionEli)
 
-const pointInTime = computed(() => {
-  return NormExpressionEli.fromString(expressionEli.value.toString())
-    .pointInTime
-})
-
-const formattedDate = computed(() => formatDate(pointInTime.value))
+const formattedDate = computed(() =>
+  formatDate(expressionEli.value.pointInTime),
+)
 
 const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
   {
@@ -63,7 +60,9 @@ const {
   data: toc,
   error: tocError,
   isFetching: tocIsFetching,
-} = useGetNormToc(expressionEli)
+} = useGetNormToc(() =>
+  DokumentExpressionEli.fromNormExpressionEli(expressionEli.value),
+)
 
 const treeNodes = computed<TreeNode[]>(() =>
   toc.value?.length
@@ -128,7 +127,10 @@ const {
     isFinished: hasSaved,
     error: saveError,
   },
-} = useDokumentXml(expressionEli, newExpressionXml)
+} = useDokumentXml(
+  () => DokumentExpressionEli.fromNormExpressionEli(expressionEli.value),
+  newExpressionXml,
+)
 
 const currentXml = ref("")
 
