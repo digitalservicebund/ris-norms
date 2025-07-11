@@ -19,6 +19,7 @@ class TableOfContentsResponseMapperTest {
       "child-marker",
       "child-heading",
       "child-type",
+      false,
       Collections.emptyList()
     );
     final TableOfContentsItem parentItem = new TableOfContentsItem(
@@ -26,6 +27,7 @@ class TableOfContentsResponseMapperTest {
       "parent-marker",
       "parent-heading",
       "parent-type",
+      false,
       List.of(childItem)
     );
 
