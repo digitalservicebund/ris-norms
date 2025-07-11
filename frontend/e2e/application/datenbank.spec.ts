@@ -13,6 +13,46 @@ test.describe(
       ).toBeVisible()
     })
 
+    test.describe("URL-based pagination", () => {
+      test.beforeEach(async ({ page }) => {
+        await page.route("**/norms?**", async (route) => {
+          const content = Array.from({ length: 150 }, (_, i) => ({
+            eli: `eli/bund/bgbl-1/2024/${i + 1}`,
+            title: `Test Norm ${i + 1}`,
+          }))
+
+          await route.fulfill({
+            status: 200,
+            contentType: "application/json",
+            body: JSON.stringify({
+              content,
+              page: {
+                size: 100,
+                number: 0,
+                totalElements: content.length,
+                totalPages: 2,
+              },
+            }),
+          })
+        })
+      })
+
+      test("updates URL when navigating pages", async ({ page }) => {
+        await page.goto("./datenbank")
+        expect(page.url()).not.toContain("page=")
+        await page.getByRole("button", { name: "Weiter" }).click()
+        expect(page.url()).toContain("page=2")
+        await page.getByRole("button", { name: "Zurück" }).click()
+        expect(page.url()).not.toContain("page=")
+      })
+
+      test("loads correct page from URL parameter", async ({ page }) => {
+        await page.goto("./datenbank?page=2")
+        await expect(page.getByText("Seite 2 von 2")).toBeVisible()
+        expect(page.url()).toContain("page=2")
+      })
+    })
+
     test("shows table with returned data from API", async ({ page }) => {
       await page.route("**/norms?**", async (route) => {
         const content = Array.from({ length: 10 }, (_, i) => ({
