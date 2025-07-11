@@ -1,21 +1,19 @@
 <script setup lang="ts">
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { useGetElement, useGetElementHtml } from "@/services/elementService"
-import { computed, onBeforeUnmount, ref, watch } from "vue"
+import { onBeforeUnmount, ref, watch } from "vue"
 import type { ElementProprietary } from "@/types/proprietary"
 import {
   useGetElementProprietary,
   usePutElementProprietary,
 } from "@/services/proprietaryService"
-import { useElementId } from "@/composables/useElementId"
-import { produce } from "immer"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useToast } from "@/composables/useToast"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
-import RadioButton from "primevue/radiobutton"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import { useHeaderContext } from "@/components/RisHeader.vue"
+import RisMetadataEditorElementForm from "@/components/metadata-editor/element/RisMetadataEditorElementForm.vue"
 
 const props = defineProps<{
   dokumentExpressionEli: DokumentExpressionEli
@@ -64,24 +62,6 @@ const {
 
 watch(savedData, (newData) => {
   localData.value = newData
-})
-
-/* -------------------------------------------------- *
- * Metadata form                                      *
- * -------------------------------------------------- */
-
-const { artNormSnId, artNormAnId, artNormUnId } = useElementId()
-
-const artNorm = computed<string | undefined>({
-  get() {
-    return localData.value?.artDerNorm
-  },
-  set(value) {
-    localData.value = produce(localData.value, (draft) => {
-      if (!draft) return
-      draft.artDerNorm = value
-    })
-  },
 })
 
 /* -------------------------------------------------- *
@@ -186,49 +166,8 @@ onBeforeUnmount(() => cleanupBreadcrumb.value?.())
 
           <RisErrorCallout v-else-if="fetchError" :error="fetchError" />
 
-          <form
-            v-else
-            class="grid grid-cols-[max-content_1fr] items-center gap-x-16 gap-y-14 overflow-auto"
-            @submit.prevent
-          >
-            <fieldset class="contents">
-              <legend class="ris-label2-bold col-span-2">Dokumenttyp</legend>
+          <RisMetadataEditorElementForm v-model="localData" />
 
-              <fieldset class="col-span-2 contents">
-                <legend class="self-start">Art der Norm</legend>
-
-                <div class="space-y-10">
-                  <div class="flex items-center">
-                    <RadioButton
-                      v-model="artNorm"
-                      :input-id="artNormSnId"
-                      value="SN"
-                      name="artNorm"
-                    />
-                    <label :for="artNormSnId">SN - Stammnorm</label>
-                  </div>
-                  <div class="flex items-center">
-                    <RadioButton
-                      v-model="artNorm"
-                      :input-id="artNormAnId"
-                      value="ÄN"
-                      name="artNorm"
-                    />
-                    <label :for="artNormAnId">ÄN - Änderungsnorm</label>
-                  </div>
-                  <div class="flex items-center">
-                    <RadioButton
-                      v-model="artNorm"
-                      :input-id="artNormUnId"
-                      value="ÜN"
-                      name="artNorm"
-                    />
-                    <label :for="artNormUnId">ÜN - Übergangsnorm</label>
-                  </div>
-                </div>
-              </fieldset>
-            </fieldset>
-          </form>
           <slot
             name="save"
             :disabled="isFetching || !!fetchError"
