@@ -42,13 +42,21 @@ class TableOfContentsControllerTest {
       false,
       Collections.emptyList()
     );
+    final TableOfContentsItem childItemWithStammform = new TableOfContentsItem(
+      new EId("child-n2"),
+      "child-marker",
+      "child-stammform-heading",
+      "child-type",
+      true,
+      Collections.emptyList()
+    );
     final TableOfContentsItem parentItem = new TableOfContentsItem(
       new EId("parent-n1"),
       "parent-marker",
       "parent-heading",
       "parent-type",
       false,
-      List.of(childItem)
+      List.of(childItem, childItemWithStammform)
     );
     when(loadTocFromRegelungstextUseCase.loadTocFromRegelungstext(any())).thenReturn(
       List.of(parentItem)
@@ -62,10 +70,17 @@ class TableOfContentsControllerTest {
       .andExpect(jsonPath("$[0].marker").value("parent-marker"))
       .andExpect(jsonPath("$[0].heading").value("parent-heading"))
       .andExpect(jsonPath("$[0].type").value("parent-type"))
+      .andExpect(jsonPath("$[0].hasEingebundeneStammform").value("false"))
       .andExpect(jsonPath("$[0].children[0].id").value("child-n1"))
       .andExpect(jsonPath("$[0].children[0].marker").value("child-marker"))
       .andExpect(jsonPath("$[0].children[0].heading").value("child-heading"))
-      .andExpect(jsonPath("$[0].children[0].type").value("child-type"));
+      .andExpect(jsonPath("$[0].children[0].type").value("child-type"))
+      .andExpect(jsonPath("$[0].children[0].hasEingebundeneStammform").value("false"))
+      .andExpect(jsonPath("$[0].children[1].id").value("child-n2"))
+      .andExpect(jsonPath("$[0].children[1].marker").value("child-marker"))
+      .andExpect(jsonPath("$[0].children[1].heading").value("child-stammform-heading"))
+      .andExpect(jsonPath("$[0].children[1].type").value("child-type"))
+      .andExpect(jsonPath("$[0].children[1].hasEingebundeneStammform").value("true"));
   }
 
   @Test

@@ -16,5 +16,6 @@ public class TableOfContentsResponseSchema {
   private String marker;
   private String heading;
   private String type;
+  private Boolean hasEingebundeneStammform;
   final List<TableOfContentsResponseSchema> children = new ArrayList<>();
 }

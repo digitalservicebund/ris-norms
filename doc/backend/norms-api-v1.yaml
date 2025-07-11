@@ -1179,10 +1179,13 @@ components:
           description: The marker of the item (e.g. § 1)
         heading:
           type: string
-          description: The heading of the item, if present
+          description: The heading of the item, if present. If the article contains an eingebundene Stammform, this will be the long title of the Stammform.
         type:
           type: string
           description: The type of the item (e.g. section or chapter)
+        hasEingebundeneStammform:
+          type: boolean
+          description: True if the article contains an eingebundene Stammform
         children:
           type: array
           description: Nested children elements of the table of contents
