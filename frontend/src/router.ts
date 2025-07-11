@@ -5,7 +5,10 @@ import { createRouter, createWebHistory } from "vue-router"
 import { toValue } from "vue"
 import { useNormGuidService } from "@/services/normGuidService"
 import { createNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import {
+  DokumentExpressionEli,
+  PATH_PARAMETER_SUBTYPE,
+} from "@/lib/eli/DokumentExpressionEli"
 import {
   PATH_PARAMETER_LANGUAGE,
   PATH_PARAMETER_POINT_IN_TIME,
@@ -188,6 +191,12 @@ const routes: readonly RouteRecordRaw[] = [
             name: "DatenbankWorkExpressionDetail",
             component: () =>
               import("@/views/datenbank/WorkExpressionDetail.view.vue"),
+            children: [
+              {
+                path: `:eli${PATH_PARAMETER_SUBTYPE}`,
+                redirect: { name: "DatenbankWorkExpressionDetail" },
+              },
+            ],
           },
         ],
       },
@@ -238,6 +247,12 @@ const routes: readonly RouteRecordRaw[] = [
 
   {
     path: `/${GUID_ROUTE_PATH}/:any(.*)*`,
+    component: () => null,
+    beforeEnter: beforeRouteEnterGuidToDokumentExpressionEliRedirect,
+  },
+
+  {
+    path: `/datenbank/${GUID_ROUTE_PATH}/:any(.*)*`,
     component: () => null,
     beforeEnter: beforeRouteEnterGuidToDokumentExpressionEliRedirect,
   },
