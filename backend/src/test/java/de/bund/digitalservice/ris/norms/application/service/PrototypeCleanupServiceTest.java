@@ -2,12 +2,10 @@ package de.bund.digitalservice.ris.norms.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.Metadata;
-import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.List;
+import java.util.function.Predicate;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -144,6 +142,8 @@ class PrototypeCleanupServiceTest {
 
     norm
       .getDokumente()
+      .stream()
+      .filter(Predicate.not(Rechtsetzungsdokument.class::isInstance)) // only this document type can't have lifecycle
       .forEach(dokument -> {
         List<Node> eventRefs = NodeParser.nodeListToList(
           dokument.getDocument().getElementsByTagName("akn:eventRef")

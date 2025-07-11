@@ -107,22 +107,6 @@
                                value="xml"/>
             </akn:FRBRManifestation>
          </akn:identification>
-        <akn:lifecycle eId="meta-n1_lebzykl-n1"
-                       GUID="206a6403-76aa-4c9a-b03b-8c3d510d81db"
-                       source="attributsemantik-noch-undefiniert">
-          <akn:eventRef eId="meta-n1_lebzykl-n1_ereignis-n1"
-                        GUID="e545b87d-3f02-4fd1-b199-089f19c395c3"
-                        date="1964-08-05"
-                        source="attributsemantik-noch-undefiniert"
-                        type="generation"
-                        refersTo="ausfertigung"/>
-          <akn:eventRef eId="meta-n1_lebzykl-n1_ereignis-n2"
-                        GUID="3f84ea91-54e6-44c7-8e24-009d68a7c911"
-                        date="1964-09-21"
-                        source="attributsemantik-noch-undefiniert"
-                        type="generation"
-                        refersTo="inkrafttreten"/>
-        </akn:lifecycle>
         <akn:notes source="attributsemantik-noch-undefiniert">
           <akn:note GUID="62ef7b71-c670-4639-ba9e-7216f237e9c1"
                     eId="meta-n1_editfnote-n1"
