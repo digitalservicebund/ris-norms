@@ -74,7 +74,7 @@ const routes: readonly RouteRecordRaw[] = [
         component: () => import("@/views/verkuendungen/Verkuendungen.view.vue"),
       },
       {
-        path: `/verkuendungen/${createNormExpressionEliPathParameter("verkuendung")}/textkonsolidierung/${createDokumentExpressionEliPathParameter("expression")}`,
+        path: `/verkuendungen/${createNormExpressionEliPathParameter("verkuendung")}/textkonsolidierung/${createNormExpressionEliPathParameter("expression")}`,
         name: "VerkuendungExpressionTextkonsolidierungEditor",
         component: () =>
           import(
@@ -163,7 +163,7 @@ const routes: readonly RouteRecordRaw[] = [
           `${createNormExpressionEliPathParameter("verkuendung")}` +
           `/textkonsolidierung/${GUID_ROUTE_PATH}`,
         component: () => null,
-        beforeEnter: beforeRouteEnterGuidToDokumentExpressionEliRedirect,
+        beforeEnter: beforeRouteEnterGuidToNormExpressionEliRedirect,
       },
       {
         path: `${GUID_ROUTE_PATH}/:any(.*)*`,

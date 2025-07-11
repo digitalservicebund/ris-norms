@@ -7,7 +7,6 @@ import { type HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useElementId } from "@/composables/useElementId"
 import { useDokumentXml } from "@/composables/useDokumentXml"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
@@ -18,7 +17,6 @@ import {
   type EditableZielnormReference,
 } from "@/composables/useZielnormReferences"
 import { formatDate } from "@/lib/dateTime"
-import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetNorm } from "@/services/normService"
 import { useGetNormToc } from "@/services/tocService"
@@ -47,7 +45,7 @@ import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressi
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 const verkuendungEli = useNormExpressionEliPathParameter("verkuendung")
-const expressionEli = useDokumentExpressionEliPathParameter("expression")
+const expressionEli = useNormExpressionEliPathParameter("expression")
 
 // BREADCRUMBS
 const {
@@ -60,7 +58,7 @@ const {
   data: normExpression,
   error: normExpressionError,
   isFinished: normExpressionLoaded,
-} = useGetNorm(() => expressionEli.value.asNormEli())
+} = useGetNorm(expressionEli)
 
 const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
   {
@@ -83,7 +81,9 @@ const {
   data: toc,
   error: tocError,
   isFetching: tocIsFetching,
-} = useGetNormToc(expressionEli)
+} = useGetNormToc(() =>
+  DokumentExpressionEli.fromNormExpressionEli(expressionEli.value),
+)
 
 const treeNodes = computed<TreeNode[]>(() =>
   toc.value?.length
@@ -117,22 +117,25 @@ function toggleNode(node: TreeNode) {
   expandedKeys.value[node.key] = !expandedKeys.value[node.key]
 }
 
-const pointInTime = computed(() => {
-  return NormExpressionEli.fromString(expressionEli.value.toString())
-    .pointInTime
-})
-
-const formattedDate = computed(() => formatDate(pointInTime.value))
+const formattedDate = computed(() =>
+  formatDate(expressionEli.value.pointInTime),
+)
 
 const { data: zielnormen } = useGetZielnormReferences(verkuendungEli)
 const groupedZielnormen = useGroupedZielnormen(zielnormen)
 
 // NAVIGATION
-const currentEli = computed(() => expressionEli.value.toString())
+const currentEli = computed(() => expressionEli.value)
 
 const currentZielnormGroup = computed(() => {
   return groupedZielnormen.value?.find((group) =>
-    group.expressions.some((expr) => expr.eli === currentEli.value),
+    group.expressions.some(
+      (expr) =>
+        expr.eli ===
+        DokumentExpressionEli.fromNormExpressionEli(
+          currentEli.value,
+        ).toString(),
+    ),
   )
 })
 
@@ -149,7 +152,11 @@ const sequence = computed(() => {
     .map((expr) => expr.eli)
 })
 
-const currentIndex = computed(() => sequence.value.indexOf(currentEli.value))
+const currentIndex = computed(() =>
+  sequence.value.indexOf(
+    DokumentExpressionEli.fromNormExpressionEli(currentEli.value).toString(),
+  ),
+)
 
 const hasPrev = computed(() => currentIndex.value > 0)
 
@@ -192,7 +199,10 @@ const {
     isFinished: hasSaved,
     error: saveError,
   },
-} = useDokumentXml(expressionEli, newExpressionXml)
+} = useDokumentXml(
+  () => DokumentExpressionEli.fromNormExpressionEli(currentEli.value),
+  newExpressionXml,
+)
 
 const currentXml = ref("")
 
@@ -214,9 +224,8 @@ watch(hasSaved, (finished) => {
 })
 
 // RIS DOCUMENT EXPLORER
-const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(
-  computed(() => expressionEli.value.asNormEli()),
-)
+const { data: zeitgrenzen, error: zeitgrenzenError } =
+  useGetZeitgrenzen(expressionEli)
 
 const eIdsToEdit = ref<string[]>([])
 
@@ -226,7 +235,11 @@ const { zielnormReferences, zielnormReferencesForEid } =
   useZielnormReferences(verkuendungEli)
 
 const colorIndex = computed(() => {
-  const expressionEliStr = expressionEli.value.toString()
+  const expressionEliStr = DokumentExpressionEli.fromNormExpressionEli(
+    expressionEli.value,
+  )
+    .toString()
+    .toString()
 
   for (const zielnorm of groupedZielnormen.value) {
     const index = zielnorm.expressions.findIndex(
@@ -260,8 +273,7 @@ const isGegenstandslosExpression = computed(() => {
 
   for (const item of previewData.value) {
     const found = item.expressions.find(
-      (expr) =>
-        expr.normExpressionEli.toString() === expressionEli.value.toString(),
+      (expr) => expr.normExpressionEli === expressionEli.value,
     )
     if (found?.isGegenstandslos) return true
   }
