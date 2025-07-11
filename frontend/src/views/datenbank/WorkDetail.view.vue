@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
-import { ref, computed } from "vue"
+import { ref, computed, watch, nextTick } from "vue"
 import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import { useGetNormWork, useGetNormExpressions } from "@/services/normService"
 import { useNormWorkEliPathParameter } from "@/composables/useNormWorkEliPathParameter"
@@ -60,21 +60,49 @@ const selectionKeysExpressions = ref<Record<string, boolean>>({})
 
 const treeNodesExpressions = computed<TreeNode[]>(() =>
   normExpressions.value?.length
-    ? normExpressions.value.map<TreeNode>((expr) => ({
-        key: expr.eli,
-        label:
-          formatDate(NormExpressionEli.fromString(expr.eli).pointInTime) +
-          (expr.gegenstandslos ? " (gegenstandslos)" : ""),
-        data: {
-          route: `/datenbank/${NormExpressionEli.fromString(expr.eli).toString()}`,
-        },
-      }))
+    ? normExpressions.value.map<TreeNode>((expr) => {
+        const basePath = `/datenbank/${NormExpressionEli.fromString(expr.eli).toString()}`
+        const eidPath = route.params.eid ? `/${route.params.eid}` : ""
+
+        return {
+          key: expr.eli,
+          label:
+            formatDate(NormExpressionEli.fromString(expr.eli).pointInTime) +
+            (expr.gegenstandslos ? " (gegenstandslos)" : ""),
+          data: {
+            route: basePath + eidPath,
+          },
+        }
+      })
     : [],
 )
 
-const handleExpressionNodeSelect = (node: TreeNode) => {
-  selectionKeysExpressions.value = { [node.key]: true }
+const handleExpressionNodeUnselect = (node: TreeNode) => {
+  nextTick(() => {
+    selectionKeysExpressions.value = { [node.key]: true }
+  })
 }
+
+watch(
+  [() => route.path, treeNodesExpressions],
+  ([currentPath, nodes]) => {
+    if (nodes.length) {
+      const activeNode = nodes.find((node) => {
+        return (
+          currentPath.includes(node.data.route) ||
+          currentPath === node.data.route
+        )
+      })
+
+      if (activeNode) {
+        selectionKeysExpressions.value = { [activeNode.key]: true }
+      } else {
+        selectionKeysExpressions.value = {}
+      }
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -104,7 +132,7 @@ const handleExpressionNodeSelect = (node: TreeNode) => {
             :value="treeNodesExpressions"
             selection-mode="single"
             :aria-labelledby="expressionsHeadingId"
-            @node-select="handleExpressionNodeSelect"
+            @node-unselect="handleExpressionNodeUnselect"
           >
             <template #default="{ node }">
               <RouterLink
