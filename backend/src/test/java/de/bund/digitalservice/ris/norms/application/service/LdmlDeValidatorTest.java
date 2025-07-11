@@ -256,5 +256,18 @@ class LdmlDeValidatorTest {
       // When // Then
       assertThatCode(() -> ldmlDeValidator.validateSchematron(norm)).doesNotThrowAnyException();
     }
+
+    @Test
+    void itHasNoSchematronErrorsBecauseWithinDisabledList() {
+      // Given
+      Norm norm = Fixtures.loadNormFromDisk(
+        LdmlDeValidatorTest.class,
+        "vereinsgesetz-disabled-rules",
+        true
+      );
+
+      // When // Then
+      assertThatCode(() -> ldmlDeValidator.validateSchematron(norm)).doesNotThrowAnyException();
+    }
   }
 }
