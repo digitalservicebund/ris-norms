@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import type { DropdownItem } from "@/types/dropdownItem"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
-import { useHeaderContext } from "@/components/RisHeader.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import { useElementId } from "@/composables/useElementId"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import Checkbox from "primevue/checkbox"
 import type { DocumentTypeValue } from "@/lib/proprietary"
@@ -26,21 +24,23 @@ import {
 } from "@/services/proprietaryService"
 import type { RahmenProprietary } from "@/types/proprietary"
 import { produce } from "immer"
-import Button from "primevue/button"
 import InputText from "primevue/inputtext"
 import { useToast } from "@/composables/useToast"
-import { computed, ref, watch } from "vue"
+import { computed, onBeforeUnmount, ref, watch } from "vue"
 import Select from "primevue/select"
+import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { useHeaderContext } from "@/components/RisHeader.vue"
 
-const dokumentExpressionEli = useDokumentExpressionEliPathParameter()
-const { actionTeleportTarget } = useHeaderContext()
+const props = defineProps<{
+  dokumentExpressionEli: DokumentExpressionEli
+}>()
 
 /* -------------------------------------------------- *
  * API handling                                       *
  * -------------------------------------------------- */
 
 const { data: normData } = useGetNorm(() =>
-  dokumentExpressionEli.value.asNormEli(),
+  props.dokumentExpressionEli.asNormEli(),
 )
 
 const localData = ref<RahmenProprietary | null>(null)
@@ -49,7 +49,7 @@ const {
   data,
   isFetching,
   error: fetchError,
-} = useGetRahmenProprietary(dokumentExpressionEli)
+} = useGetRahmenProprietary(() => props.dokumentExpressionEli)
 
 watch(data, (newData) => {
   localData.value = newData
@@ -61,7 +61,9 @@ const {
   isFinished: hasSaved,
   error: saveError,
   execute: save,
-} = usePutRahmenProprietary(localData, dokumentExpressionEli).put(localData)
+} = usePutRahmenProprietary(localData, () => props.dokumentExpressionEli).put(
+  localData,
+)
 
 watch(savedData, (newData) => {
   localData.value = newData
@@ -269,7 +271,7 @@ const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetNormHtml(() => dokumentExpressionEli.value.asNormEli())
+} = useGetNormHtml(() => props.dokumentExpressionEli.asNormEli())
 
 const sentryTraceId = useSentryTraceId()
 const { add: addToast, addError: addErrorToast } = useToast()
@@ -290,6 +292,14 @@ watch(hasSaved, (finished) => {
     showToast()
   }
 })
+
+const { pushBreadcrumb } = useHeaderContext()
+
+const cleanupBreadcrumb = pushBreadcrumb({
+  title: "Rahmen",
+})
+
+onBeforeUnmount(() => cleanupBreadcrumb())
 </script>
 
 <template>
@@ -465,18 +475,12 @@ watch(hasSaved, (finished) => {
           </fieldset>
         </form>
 
-        <!-- Save button -->
-        <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
-          <div class="relative">
-            <Button
-              :disabled="isFetching || !!fetchError"
-              :loading="isSaving"
-              severity="primary"
-              label="Speichern"
-              @click="save()"
-            />
-          </div>
-        </Teleport>
+        <slot
+          name="save"
+          :disabled="isFetching || !!fetchError"
+          :loading="isSaving"
+          :save="save"
+        />
       </section>
     </div>
   </div>

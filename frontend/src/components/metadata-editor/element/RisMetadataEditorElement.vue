@@ -1,33 +1,35 @@
 <script setup lang="ts">
-import RisLawPreview from "@/components/RisLawPreview.vue"
-import RisErrorCallout from "@/components/RisErrorCallout.vue"
-import { useHeaderContext } from "@/components/RisHeader.vue"
-import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
-import { useEidPathParameter } from "@/composables/useEidPathParameter"
-import { useElementId } from "@/composables/useElementId"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
-import { useSentryTraceId } from "@/composables/useSentryTraceId"
+import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { useGetElement, useGetElementHtml } from "@/services/elementService"
+import { computed, onBeforeUnmount, ref, watch } from "vue"
+import type { ElementProprietary } from "@/types/proprietary"
 import {
   useGetElementProprietary,
   usePutElementProprietary,
 } from "@/services/proprietaryService"
-import type { ElementProprietary } from "@/types/proprietary"
+import { useElementId } from "@/composables/useElementId"
 import { produce } from "immer"
-import Button from "primevue/button"
+import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useToast } from "@/composables/useToast"
+import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
+import RisLawPreview from "@/components/RisLawPreview.vue"
 import RadioButton from "primevue/radiobutton"
-import { computed, ref, watch } from "vue"
+import RisErrorCallout from "@/components/RisErrorCallout.vue"
+import { useHeaderContext } from "@/components/RisHeader.vue"
 
-const dokumentExpressionEli = useDokumentExpressionEliPathParameter()
-const elementEid = useEidPathParameter()
-const { actionTeleportTarget } = useHeaderContext()
+const props = defineProps<{
+  dokumentExpressionEli: DokumentExpressionEli
+  eId: string
+}>()
 
 const {
   data: element,
   isFetching: elementIsLoading,
   error: elementError,
-} = useGetElement(dokumentExpressionEli, elementEid)
+} = useGetElement(
+  () => props.dokumentExpressionEli,
+  () => props.eId,
+)
 
 /* -------------------------------------------------- *
  * API handling                                       *
@@ -39,7 +41,10 @@ const {
   data,
   isFetching,
   error: fetchError,
-} = useGetElementProprietary(dokumentExpressionEli, elementEid)
+} = useGetElementProprietary(
+  () => props.dokumentExpressionEli,
+  () => props.eId,
+)
 
 watch(data, (newData) => {
   localData.value = newData
@@ -51,7 +56,11 @@ const {
   isFinished: hasSaved,
   error: saveError,
   execute: save,
-} = usePutElementProprietary(localData, dokumentExpressionEli, elementEid)
+} = usePutElementProprietary(
+  localData,
+  () => props.dokumentExpressionEli,
+  () => props.eId,
+)
 
 watch(savedData, (newData) => {
   localData.value = newData
@@ -83,7 +92,10 @@ const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetElementHtml(dokumentExpressionEli, elementEid)
+} = useGetElementHtml(
+  () => props.dokumentExpressionEli,
+  () => props.eId,
+)
 
 const sentryTraceId = useSentryTraceId()
 const { add: addToast, addError: addErrorToast } = useToast()
@@ -104,6 +116,23 @@ watch(hasSaved, (finished) => {
     showToast()
   }
 })
+
+const { pushBreadcrumb } = useHeaderContext()
+
+const cleanupBreadcrumb = ref<() => void>()
+
+watch(
+  () => element.value,
+  () => {
+    cleanupBreadcrumb.value?.()
+    cleanupBreadcrumb.value = pushBreadcrumb({
+      title: element.value?.title ?? "...",
+    })
+  },
+  { immediate: true },
+)
+
+onBeforeUnmount(() => cleanupBreadcrumb.value?.())
 </script>
 
 <template>
@@ -200,17 +229,12 @@ watch(hasSaved, (finished) => {
               </fieldset>
             </fieldset>
           </form>
-          <!-- Save button -->
-          <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
-            <div class="relative">
-              <Button
-                :disabled="isFetching || !!fetchError"
-                :loading="isSaving"
-                label="Speichern"
-                @click="save()"
-              />
-            </div>
-          </Teleport>
+          <slot
+            name="save"
+            :disabled="isFetching || !!fetchError"
+            :loading="isSaving"
+            :save="save"
+          />
         </section>
       </div>
     </div>

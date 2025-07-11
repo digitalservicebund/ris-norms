@@ -1,14 +1,14 @@
 import type { RahmenProprietary } from "@/types/proprietary"
 import { expect } from "@playwright/test"
 import { test } from "@e2e/utils/testWithAuth"
-import { MetadataEditorRahmenPage } from "@e2e/pages/metadataEditorRahmen"
+import { DatenbankMetadataEditorRahmenPage } from "@e2e/pages/datenbankMetadataEditorRahmen"
 import { uploadAmendingLaw } from "@e2e/utils/uploadWithForce"
 
 test.describe("preview", { tag: ["@RISDEV-6266"] }, () => {
   test("displays the title and preview", async ({ page }) => {
     // Given
     await page.goto(
-      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/metadata",
+      "./datenbank/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/metadaten",
     )
 
     const preview = page.getByRole("region", { name: "Vorschau" })
@@ -40,16 +40,12 @@ test.describe("preview", { tag: ["@RISDEV-6266"] }, () => {
     )
 
     await page.goto(
-      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/metadata",
+      "./datenbank/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/metadaten",
     )
-
-    const previewRegion = page.getByRole("region", {
-      name: "Vorschau",
-    })
 
     // Then
     await expect(
-      previewRegion.getByText("Ein unbekannter Fehler ist aufgetreten."),
+      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
     ).toBeVisible()
 
     await expect(
@@ -93,7 +89,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
   })
 
   test("displays metadata for the expression", async ({ page }) => {
-    const metadataPage = new MetadataEditorRahmenPage(page)
+    const metadataPage = new DatenbankMetadataEditorRahmenPage(page)
 
     // When
     await metadataPage.goto()
@@ -125,7 +121,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
   })
 
   test("saves changes", async ({ page }) => {
-    const metadataPage = new MetadataEditorRahmenPage(page)
+    const metadataPage = new DatenbankMetadataEditorRahmenPage(page)
 
     await metadataPage.goto()
 
@@ -186,7 +182,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
   })
 
   test("is updated with backend state after saving", async ({ page }) => {
-    const metadataPage = new MetadataEditorRahmenPage(page)
+    const metadataPage = new DatenbankMetadataEditorRahmenPage(page)
 
     await metadataPage.goto()
 
@@ -234,7 +230,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
 
   test.describe("Dokumenttyp", () => {
     test("displays the value as unknown", async ({ page }) => {
-      const metadataPage = new MetadataEditorRahmenPage(page)
+      const metadataPage = new DatenbankMetadataEditorRahmenPage(page)
 
       // Given
       await page.route(
@@ -261,7 +257,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
     })
 
     test("displays the value as empty", async ({ page }) => {
-      const metadataPage = new MetadataEditorRahmenPage(page)
+      const metadataPage = new DatenbankMetadataEditorRahmenPage(page)
 
       // Given
       await page.route(
@@ -288,7 +284,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
   test("shows an error if the metadata could not be loaded", async ({
     page,
   }) => {
-    const metadataPage = new MetadataEditorRahmenPage(page)
+    const metadataPage = new DatenbankMetadataEditorRahmenPage(page)
 
     // Given
     await page.route(
@@ -313,7 +309,7 @@ test.describe("metadata view", { tag: ["@RISDEV-6266"] }, () => {
   test("displays a success message when the data has been saved", async ({
     page,
   }) => {
-    const metadataPage = new MetadataEditorRahmenPage(page)
+    const metadataPage = new DatenbankMetadataEditorRahmenPage(page)
     // Given
     await metadataPage.goto()
 

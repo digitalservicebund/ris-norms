@@ -115,7 +115,7 @@ const mappedItems = computed<MappedRisZielnormenListItem[]>(() =>
                       :to="
                         section === 'textkonsolidierung'
                           ? `/verkuendungen/${verkuendungEli.toString()}/textkonsolidierung/${data.documentExpressionEli}`
-                          : `/${data.documentExpressionEli}/metadata`
+                          : `/verkuendungen/${verkuendungEli.toString()}/metadaten/${data.documentExpressionEli}`
                       "
                       class="ris-link2-regular"
                     >

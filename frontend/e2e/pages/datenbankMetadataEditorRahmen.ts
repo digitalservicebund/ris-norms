@@ -1,7 +1,7 @@
 import type { Locator, Page } from "@playwright/test"
 import type { RahmenProprietary } from "@/types/proprietary"
 
-export class MetadataEditorRahmenPage {
+export class DatenbankMetadataEditorRahmenPage {
   readonly page: Page
 
   readonly fnaInput: Locator
@@ -56,7 +56,7 @@ export class MetadataEditorRahmenPage {
 
   async goto() {
     await this.page.goto(
-      "./eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/metadata",
+      "./datenbank/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/metadaten",
     )
   }
 
