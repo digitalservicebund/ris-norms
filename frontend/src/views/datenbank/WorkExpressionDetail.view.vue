@@ -164,7 +164,7 @@ const handlePreviewRendered = () => {
               <Button severity="primary" label="Metadaten bearbeiten" />
             </RouterLink>
             <RouterLink
-              :to="`/datenbank/textbearbeitung/${DokumentExpressionEli.fromNormExpressionEli(expressionEli)}`"
+              :to="`/datenbank/${DokumentExpressionEli.fromNormExpressionEli(expressionEli)}/textbearbeitung`"
             >
               <Button severity="primary" label="Text bearbeiten" />
             </RouterLink>
