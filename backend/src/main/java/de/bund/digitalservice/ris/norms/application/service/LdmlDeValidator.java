@@ -45,6 +45,11 @@ import org.xml.sax.SAXParseException;
 @Service
 public class LdmlDeValidator {
 
+  private static final List<String> DISABLED_SCHEMATRON_RULES = List.of(
+    "SCH-00110-005",
+    "SCH-00071-005"
+  );
+
   private final Transformer schematronValidationTransformer;
   private final XsdSchemaService xsdSchemaService;
 
@@ -293,14 +298,22 @@ public class LdmlDeValidator {
 
     var xPathEIdCache = new HashMap<String, EId>();
     var errors = Stream.concat(failedAssertMessages, successfulReportMessages)
-      .filter(node ->
+      .filter(node -> {
         // Allow warnings
-        Optional.ofNullable(node.getAttributes().getNamedItem("role"))
+        boolean isNotWarning = Optional.ofNullable(node.getAttributes().getNamedItem("role"))
           .map(role -> !role.getNodeValue().equals("warn"))
           // This should not happen, but if it does, assume the message should be included, i.e. only exclude items
           // if they're explicitly declared as "warn"
-          .orElse(true)
-      )
+          .orElse(true);
+
+        // Ignore disabled rules
+        String ruleId = Optional.ofNullable(node.getAttributes().getNamedItem("id"))
+          .orElseGet(() -> node.getPreviousSibling().getAttributes().getNamedItem("id"))
+          .getNodeValue();
+        boolean isNotIgnored = !DISABLED_SCHEMATRON_RULES.contains(ruleId);
+
+        return isNotWarning && isNotIgnored;
+      })
       .map(node -> {
         // The location includes an XPath with expanded QNames
         // (Q{namespace}<localPart>).
