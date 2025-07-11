@@ -137,7 +137,7 @@ const routes: readonly RouteRecordRaw[] = [
             name: "VerkuendungMetadatenEditorRahmen",
             component: () =>
               import(
-                "@/views/verkuendungen/verkuendungDetail/metadaten/rahmen/VerkuendungMetadatenEditorRahmen.vue"
+                "@/views/verkuendungen/verkuendungDetail/metadaten/rahmen/VerkuendungMetadatenEditorRahmen.view.vue"
               ),
           },
           {
@@ -221,7 +221,7 @@ const routes: readonly RouteRecordRaw[] = [
             name: "DatenbankMetadatenEditorRahmen",
             component: () =>
               import(
-                "@/views/datenbank/metadaten/rahmen/DatenbankMetadatenEditorRahmen.vue"
+                "@/views/datenbank/metadaten/rahmen/DatenbankMetadatenEditorRahmen.view.vue"
               ),
           },
           {
