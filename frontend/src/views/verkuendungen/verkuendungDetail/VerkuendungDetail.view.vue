@@ -68,12 +68,7 @@ const groupedZielnormen = useGroupedZielnormen(zielnormen)
     :header-back-destination="{ name: 'Home' }"
     :loading="isFetchingVerkuendung"
   >
-    <RisErrorCallout
-      v-if="verkuendung == null"
-      error="Fehler beim Laden der Verkündung"
-    />
-
-    <Splitter v-else class="h-full" layout="horizontal">
+    <Splitter v-if="verkuendung" class="h-full" layout="horizontal">
       <SplitterPanel
         :size="66"
         :min-size="33"
