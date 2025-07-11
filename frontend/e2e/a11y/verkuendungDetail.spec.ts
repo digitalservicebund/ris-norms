@@ -10,7 +10,7 @@ test.describe(
       page,
     }) => {
       await page.goto(
-        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
       )
 
       await expect(

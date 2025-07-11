@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity.eli;
 
+import de.bund.digitalservice.ris.norms.domain.entity.DokumentType;
 import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidEliException;
 import java.net.URI;
 import java.time.LocalDate;
@@ -100,6 +101,29 @@ public final class DokumentExpressionEli implements DokumentEli, Comparable<Doku
       normEli.getVersion(),
       normEli.getLanguage(),
       subtype
+    );
+  }
+
+  /**
+   * Create an eli for a Dokument from the eli for a norm.
+   * @param normEli the eli for the norm of the Dokument
+   * @param dokumentType the type of the Dokument
+   * @param subtypeIndex the index of the type
+   * @return the eli for the Dokument
+   */
+  public static DokumentExpressionEli fromNormEli(
+    NormExpressionEli normEli,
+    DokumentType dokumentType,
+    int subtypeIndex
+  ) {
+    return new DokumentExpressionEli(
+      normEli.getAgent(),
+      normEli.getYear(),
+      normEli.getNaturalIdentifier(),
+      normEli.getPointInTime(),
+      normEli.getVersion(),
+      normEli.getLanguage(),
+      "%s-%s".formatted(dokumentType.fileName, subtypeIndex)
     );
   }
 

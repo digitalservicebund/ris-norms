@@ -3,32 +3,25 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import java.util.AbstractSet;
-import java.util.Iterator;
-import java.util.stream.Stream;
-import lombok.Getter;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * Collection of {@link NormExpressionEli}s that are amended by this Verkündung
+ * Collection of {@link NormExpression}s that are amended by this Verkündung. Not implementing AbstractCollection or AbstractSet
+ * because all operations adding/removing/contains/find are done with just the expression eli (text content of the child nodes)
  * See also: ADR-0016
+ * @param element the element node
  */
-@Getter
-public class AmendedNormExpressions extends AbstractSet<NormExpressionEli> {
-
+public record AmendedNormExpressions(Element element) {
   public static final Namespace NAMESPACE = Namespace.METADATEN_NORMS_APPLICATION_MODS;
   public static final String TAG_NAME = "amended-norm-expressions";
-  public static final String NORM_EXPRESSION_TAG_NAME = "norm-expression";
-
-  private final Element element;
-
-  public AmendedNormExpressions(Element element) {
-    this.element = element;
-  }
 
   /**
    * Creates a new norms:amended-norm-expressions element and appends it to the given node.
+   *
    * @param parentNode the node under which a new {@link AmendedNormExpressions} should be created.
    * @return the newly created {@link AmendedNormExpressions}
    */
@@ -36,47 +29,43 @@ public class AmendedNormExpressions extends AbstractSet<NormExpressionEli> {
     return new AmendedNormExpressions(NodeCreator.createElement(NAMESPACE, TAG_NAME, parentNode));
   }
 
-  @Override
-  public boolean add(NormExpressionEli normExpressionEli) {
-    if (contains(normExpressionEli)) {
-      return false;
-    }
-
-    var newNode = NodeCreator.createElement(NAMESPACE, NORM_EXPRESSION_TAG_NAME, getElement());
-    newNode.setTextContent(normExpressionEli.toString());
-
-    return true;
+  /**
+   * Adds a new  {@link NormExpression} to this node, if the expression eli was not already present, otherwise it updates the attributes of the already existing node
+   *
+   * @param normExpressionEli                    - the expression eli
+   * @param createdByZeitgrenze                  - if the expression was created by a zeitgrenze
+   * @param createdByReplacingExistingExpression - if the expression was created replacing an existing one
+   */
+  public void add(
+    NormExpressionEli normExpressionEli,
+    boolean createdByZeitgrenze,
+    boolean createdByReplacingExistingExpression
+  ) {
+    find(normExpressionEli).ifPresentOrElse(
+        normExpression -> {
+          normExpression.setCreatedByZeitgrenze(createdByZeitgrenze);
+          normExpression.setCreatedByReplacingExisting(createdByReplacingExistingExpression);
+        },
+        () ->
+          NormExpression.createAndAppend(
+            element,
+            normExpressionEli,
+            createdByZeitgrenze,
+            createdByReplacingExistingExpression
+          )
+      );
   }
 
-  @Override
-  public Stream<NormExpressionEli> stream() {
-    return NodeParser.getNodesFromExpression(
-      "./%s/text()".formatted(AmendedNormExpressions.NORM_EXPRESSION_TAG_NAME),
-      getElement()
-    )
-      .stream()
-      .map(Node::getNodeValue)
-      .map(NormExpressionEli::fromString);
-  }
-
-  @Override
-  public Iterator<NormExpressionEli> iterator() {
-    return stream().iterator();
-  }
-
-  @Override
-  public int size() {
-    return (int) stream().count();
-  }
-
-  @Override
-  public boolean remove(Object o) {
-    if (!(o instanceof NormExpressionEli normExpressionEli)) {
-      return false;
-    }
+  /**
+   * Removes the child when it matches the passed expression eli
+   *
+   * @param expressionEli the expression eli
+   * @return true/false
+   */
+  public boolean remove(final NormExpressionEli expressionEli) {
     return NodeParser.getNodeFromExpression(
-      "./%s[text()='%s']".formatted(NORM_EXPRESSION_TAG_NAME, normExpressionEli.toString()),
-      getElement()
+      "./%s[text()='%s']".formatted(NormExpression.TAG_NAME, expressionEli.toString()),
+      element()
     )
       .map(node -> {
         node.getParentNode().removeChild(node);
@@ -85,16 +74,43 @@ public class AmendedNormExpressions extends AbstractSet<NormExpressionEli> {
       .orElse(false);
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (o == null || getClass() != o.getClass()) return false;
-    // ignoring element. We only care about the content of it and that is checked by the implementation in AbstractSet
-    return super.equals(o);
+  /**
+   * Checks if the node contains a {@link NormExpression} with the same expression eli
+   *
+   * @param normExpressionEli - the expression eli
+   * @return true/false
+   */
+  public boolean contains(NormExpressionEli normExpressionEli) {
+    return getNormExpressions()
+      .stream()
+      .anyMatch(f -> f.getNormExpressionEli().equals(normExpressionEli));
   }
 
-  @Override
-  public int hashCode() {
-    // ignoring element. We only care about the content of it and that is hashed by the implementation in AbstractSet
-    return super.hashCode();
+  /**
+   * Looks for an entry with the same expression eli
+   *
+   * @param normExpressionEli - the expression eli
+   * @return an {@link Optional} with a possible {@link NormExpression}
+   */
+  public Optional<NormExpression> find(NormExpressionEli normExpressionEli) {
+    return getNormExpressions()
+      .stream()
+      .filter(e -> e.getNormExpressionEli().equals(normExpressionEli))
+      .findFirst();
+  }
+
+  /**
+   * Retrieves the list of norm expressions, sorted by their expression elis
+   * @return the list
+   */
+  public List<NormExpression> getNormExpressions() {
+    return NodeParser.getElementsFromExpression(
+      "./%s".formatted(NormExpression.TAG_NAME),
+      element()
+    )
+      .stream()
+      .map(NormExpression::new)
+      .sorted(Comparator.comparing(NormExpression::getNormExpressionEli))
+      .toList();
   }
 }

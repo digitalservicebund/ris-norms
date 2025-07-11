@@ -179,6 +179,10 @@ public class LdmlDeElementSorter {
       case "artDerNorm" -> Optional.of(
         new SchemaType(Namespace.METADATEN_RIS, "ArtDerNormFrameType")
       );
+      // There are two types for documentRef elements but both allow the exact same content, so just default to one.
+      case "documentRef" -> Optional.of(
+        new SchemaType(Namespace.INHALTSDATEN, "teildokumentVerweis")
+      );
       default -> throw new LdmlDeElementSortingException(
         "Too many possible types for %s (%s) in schema".formatted(
           tagName,

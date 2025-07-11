@@ -10,7 +10,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadZeitgrenzenUs
 import de.bund.digitalservice.ris.norms.application.port.input.UpdateZeitgrenzenUseCase;
 import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Zeitgrenze;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Size;
 import java.util.Comparator;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 /** Controller for listing and managing time boundaries of a {@link Dokument}. */
 @RestController
 @RequestMapping(
-  "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/{subtype}/zeitgrenzen"
+  "/api/v1/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}/zeitgrenzen"
 )
 public class ZeitgrenzenController {
 
@@ -45,11 +45,11 @@ public class ZeitgrenzenController {
    */
   @GetMapping(produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<ZeitgrenzeResponseSchema>> getZeitgrenzen(
-    final DokumentExpressionEli eli
+    final NormExpressionEli eli
   ) {
     return ResponseEntity.ok(
       loadZeitgrenzenUseCase
-        .loadZeitgrenzenFromDokument(new LoadZeitgrenzenUseCase.Options(eli))
+        .loadZeitgrenzen(new LoadZeitgrenzenUseCase.Options(eli))
         .stream()
         .sorted(Comparator.comparing(Zeitgrenze::getDate))
         .map(ZeitgrenzeMapper::fromUseCaseData)
@@ -67,7 +67,7 @@ public class ZeitgrenzenController {
    */
   @PutMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE })
   public ResponseEntity<List<ZeitgrenzeResponseSchema>> updateZeitgrenzen(
-    final DokumentExpressionEli eli,
+    final NormExpressionEli eli,
     @RequestBody @Valid @UniqueZeitgrenzeDateArtConstraint @Size(
       max = 100,
       message = "A maximum of 100 time boundaries is supported"
@@ -75,7 +75,7 @@ public class ZeitgrenzenController {
   ) {
     return ResponseEntity.ok(
       updateZeitgrenzenUseCase
-        .updateZeitgrenzenOfDokument(
+        .updateZeitgrenzen(
           new UpdateZeitgrenzenUseCase.Options(eli, ZeitgrenzeMapper.fromRequestSchema(zeitgrenzen))
         )
         .stream()

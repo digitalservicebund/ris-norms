@@ -1,6 +1,8 @@
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { NormWorkEli } from "@/lib/eli/NormWorkEli"
 
+export const PATH_PARAMETER_SUBTYPE = `Subtype(regelungstext-verkuendung-[0-9]+|anlage-regelungstext-[0-9]+|bekanntmachungstext-[0-9]+|rechtsetzungsdokument-[0-9]+)`
+
 /**
  * European legislation identifier on expression level for a Dokument of a Norm
  */
@@ -55,6 +57,28 @@ export class DokumentExpressionEli {
       parseInt(match?.groups?.version ?? "0", 10),
       match?.groups?.language ?? "",
       match?.groups?.subtype ?? "",
+    )
+  }
+
+  /**
+   * Create a DokumentExpressionEli from a NormExpressionEli string
+   *
+   * @param eli The NormExpressionEli string
+   * @param subtype The document subtype (default: "regelungstext-verkuendung-1")
+   * @return the DokumentExpressionEli
+   */
+  static fromNormExpressionEli(
+    eli: NormExpressionEli,
+    subtype: string = "regelungstext-verkuendung-1",
+  ): DokumentExpressionEli {
+    return new DokumentExpressionEli(
+      eli.agent,
+      eli.year,
+      eli.naturalIdentifier,
+      eli.pointInTime,
+      eli.version,
+      eli.language,
+      subtype,
     )
   }
 

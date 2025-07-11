@@ -3,7 +3,8 @@ import type { Norm } from "@/types/norm"
 import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
-import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
 
 /**
  * Returns the norm from the API. Reloads when the parameters change.
@@ -14,7 +15,7 @@ import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
  * @returns Reactive fetch wrapper
  */
 export function useNormService(
-  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
+  eli: MaybeRefOrGetter<NormExpressionEli | undefined>,
   options?: {
     /**
      * Render metadata in the HTML preview. Note that this is only applicable
@@ -81,60 +82,6 @@ export function useGetNormHtml(
 }
 
 /**
- * Convenience shorthand for `useNormService` that sets the correct
- * configuration for getting the raw XML of the norm.
- *
- * @param eli ELI of the norm
- * @param options Optional additional filters and queries
- * @param [fetchOptions={}] Optional configuration for fetch behavior
- * @returns Reactive fetch wrapper
- */
-export function useGetNormXml(
-  eli: Parameters<typeof useNormService>["0"],
-  options?: Parameters<typeof useNormService>["1"],
-  fetchOptions?: Parameters<typeof useNormService>["2"],
-): UseFetchReturn<string> & PromiseLike<UseFetchReturn<string>> {
-  return useNormService(eli, options, {
-    refetch: true,
-    ...fetchOptions,
-    beforeFetch(c) {
-      c.options.headers = { ...c.options.headers, Accept: "application/xml" }
-    },
-  }).text()
-}
-
-/**
- * Convenience shorthand for `useNormService` that sets the correct
- * configuration for putting the raw XML of the norm.
- *
- * @param updateData the new xml of the norm
- * @param eli ELI of the norm
- * @param options Optional additional filters and queries
- * @param [fetchOptions={}] Optional configuration for fetch behavior
- * @returns Reactive fetch wrapper
- */
-export function usePutNormXml(
-  updateData: MaybeRefOrGetter<string | null | undefined>,
-  eli: Parameters<typeof useNormService>["0"],
-  options?: Parameters<typeof useNormService>["1"],
-  fetchOptions?: Parameters<typeof useNormService>["2"],
-): UseFetchReturn<string> {
-  return useNormService(eli, options, {
-    immediate: false,
-    ...fetchOptions,
-    beforeFetch(c) {
-      c.options.headers = {
-        ...c.options.headers,
-        "Content-Type": "application/xml",
-        Accept: "application/xml",
-      }
-    },
-  })
-    .text()
-    .put(updateData)
-}
-
-/**
  * Fetches a paginated list of all norm works from the API.
  * Refetches automatically when the page or size parameters change.
  *
@@ -168,4 +115,52 @@ export function useGetNorms(
   })
 
   return useApiFetch<NormsPage>(url, { refetch: true, ...fetchOptions }).json()
+}
+
+/**
+ * Fetches a norm work from the API.
+ * Refetches automatically when the workEli parameters change.
+ *
+ * @param workEli The ELI of the norm work
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper with the norm work data
+ */
+export function useGetNormWork(
+  workEli: MaybeRefOrGetter<NormWorkEli | undefined>,
+  fetchOptions: UseFetchOptions = {},
+): UseFetchReturn<NormWork> {
+  const url = computed(() => {
+    const eliVal = toValue(workEli)
+    if (!eliVal) return INVALID_URL
+    return `/norms/${eliVal}`
+  })
+  return useApiFetch<NormWork>(url, { refetch: true, ...fetchOptions }).json()
+}
+
+export type NormExpression = {
+  eli: string
+  gegenstandslos: boolean
+}
+
+/**
+ * Fetches the expressions of a norm work from the API.
+ * Refetches automatically when the workEli parameters change.
+ *
+ * @param workEli The ELI of the norm work
+ * @param [fetchOptions={}] Optional configuration for fetch behavior
+ * @returns Reactive fetch wrapper with the norm expressions data
+ */
+export function useGetNormExpressions(
+  workEli: MaybeRefOrGetter<NormWorkEli | undefined>,
+  fetchOptions: UseFetchOptions = {},
+): UseFetchReturn<NormExpression[]> {
+  const url = computed(() => {
+    const eliVal = toValue(workEli)
+    if (!eliVal) return INVALID_URL
+    return `/norms/${eliVal}/expressions`
+  })
+  return useApiFetch<NormExpression[]>(url, {
+    refetch: true,
+    ...fetchOptions,
+  }).json()
 }

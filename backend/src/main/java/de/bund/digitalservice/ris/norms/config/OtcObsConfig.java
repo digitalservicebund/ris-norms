@@ -1,15 +1,11 @@
 package de.bund.digitalservice.ris.norms.config;
 
 import de.bund.digitalservice.ris.norms.adapter.output.s3.S3MockClient;
-import java.net.URI;
 import java.net.URISyntaxException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
-import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 
 /**
@@ -56,7 +52,7 @@ public class OtcObsConfig {
   @Bean(name = "privateS3Client")
   @Profile({ "staging", "uat", "production" })
   public S3Client privateS3Client() throws URISyntaxException {
-    return createS3Client(privateAccessKeyId, privateSecretAccessKey);
+    return S3ClientFactory.create(privateAccessKeyId, privateSecretAccessKey, endpoint);
   }
 
   /**
@@ -70,7 +66,7 @@ public class OtcObsConfig {
   @Bean(name = "publicS3Client")
   @Profile({ "staging", "uat", "production" })
   public S3Client publicS3Client() throws URISyntaxException {
-    return createS3Client(publicAccessKeyId, publicSecretAccessKey);
+    return S3ClientFactory.create(publicAccessKeyId, publicSecretAccessKey, endpoint);
   }
 
   /**
@@ -84,7 +80,7 @@ public class OtcObsConfig {
   @Bean(name = "eVerkuendungS3Client")
   @Profile({ "staging", "uat", "production" })
   public S3Client eVerkuendungS3Client() throws URISyntaxException {
-    return createS3Client(eVerkuendungAccessKeyId, eVerkuendungSecretAccessKey);
+    return S3ClientFactory.create(eVerkuendungAccessKeyId, eVerkuendungSecretAccessKey, endpoint);
   }
 
   /**
@@ -124,16 +120,5 @@ public class OtcObsConfig {
   @Profile("!staging & !uat & !production")
   public S3Client eVerkuendungS3MockClient() {
     return new S3MockClient();
-  }
-
-  private S3Client createS3Client(final String accessKeyId, final String secretAccessKey)
-    throws URISyntaxException {
-    return S3Client.builder()
-      .credentialsProvider(
-        StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey))
-      )
-      .endpointOverride(new URI(endpoint))
-      .region(Region.of("eu-de"))
-      .build();
   }
 }

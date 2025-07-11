@@ -33,4 +33,6 @@ public class NormResponseSchema {
   private String nachfolgendeVersionId;
 
   private String vorherigeVersionId;
+
+  private boolean isGegenstandslos;
 }

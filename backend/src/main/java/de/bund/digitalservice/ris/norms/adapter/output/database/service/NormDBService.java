@@ -16,7 +16,6 @@ import de.bund.digitalservice.ris.norms.application.port.output.LoadNormExpressi
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifestationElisByPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormWorksPort;
-import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateNormPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.UpdateOrSaveNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.BinaryFile;
@@ -44,7 +43,6 @@ public class NormDBService
   implements
     LoadNormPort,
     LoadNormByGuidPort,
-    UpdateNormPort,
     UpdateOrSaveNormPort,
     UpdateNormPublishStatePort,
     DeleteNormPort,
@@ -97,29 +95,20 @@ public class NormDBService
       .map(NormManifestationMapper::mapToDomain);
   }
 
-  @Override
-  public Optional<Norm> updateNorm(UpdateNormPort.Options options) {
+  private Optional<Norm> updateNorm(Norm norm) {
     Optional<NormManifestationDto> normManifestationDto =
-      normManifestationRepository.findByManifestationEli(
-        options.norm().getManifestationEli().toString()
-      );
+      normManifestationRepository.findByManifestationEli(norm.getManifestationEli().toString());
 
     if (normManifestationDto.isEmpty()) {
       return Optional.empty();
     }
 
-    var dokumentDtos = updateDokumente(
-      options.norm().getManifestationEli(),
-      options.norm().getDokumente()
-    );
-    var binaryFileDtos = updateBinaryFiles(
-      options.norm().getManifestationEli(),
-      options.norm().getBinaryFiles()
-    );
+    var dokumentDtos = updateDokumente(norm.getManifestationEli(), norm.getDokumente());
+    var binaryFileDtos = updateBinaryFiles(norm.getManifestationEli(), norm.getBinaryFiles());
 
     normManifestationDto.get().setDokumente(dokumentDtos);
     normManifestationDto.get().setBinaryFiles(binaryFileDtos);
-    normManifestationDto.get().setPublishState(options.norm().getPublishState());
+    normManifestationDto.get().setPublishState(norm.getPublishState());
 
     return Optional.of(
       NormManifestationMapper.mapToDomain(
@@ -194,7 +183,7 @@ public class NormDBService
 
   @Override
   public Norm updateOrSave(UpdateOrSaveNormPort.Options options) {
-    final Optional<Norm> updatedNorm = updateNorm(new UpdateNormPort.Options(options.norm()));
+    final Optional<Norm> updatedNorm = updateNorm(options.norm());
     if (updatedNorm.isEmpty()) {
       dokumentRepository.saveAllAndFlush(
         options

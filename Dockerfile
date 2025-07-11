@@ -1,4 +1,4 @@
-FROM node:24.3.0 AS frontend
+FROM node:24.4.0 AS frontend
 
 WORKDIR /frontend
 COPY frontend .
@@ -26,7 +26,7 @@ RUN --mount=type=secret,id=SENTRY_DSN \
         fi; \
     ./gradlew build --profile -x integrationTest -x test -x spotlessCheck
 
-FROM cgr.dev/chainguard/jre@sha256:dd41610cc173eb24a5eca49018f2c801cc58b4a52e280d6900d90d3d906a11fe
+FROM cgr.dev/chainguard/jre@sha256:00b369f6098c28d2eebdbf604fc7ff45700c65194b2def484f0683bc12d75ceb
 COPY --from=backend /backend/build/libs/ris-norms-backend-*.jar /app/app.jar
 ENV spring.cloud.bootstrap.enabled=true
 EXPOSE 8080

@@ -19,14 +19,6 @@
     },
     {
       "matchDepNames": [
-        "software.amazon.awssdk:bom",
-        "software.amazon.awssdk:s3"
-      ],
-      "allowedVersions": "2.29.x",
-      "description": "Allow only patch updates for AWS SDK in the 2.29.x series. With new minor version 2.30.x we have some issue with the integrity checks when communicating with OTC OBS"
-    },
-    {
-      "matchDepNames": [
         "org.apache.tomcat.embed:tomcat-embed-core",
         "org.apache.tomcat.embed:tomcat-embed-el",
         "org.apache.tomcat.embed:tomcat-embed-websocket"

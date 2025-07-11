@@ -52,6 +52,7 @@ public class NormResponseMapper {
           .map(UUID::toString)
           .orElse(null)
       )
+      .isGegenstandslos(norm.isGegenstandlos())
       .build();
   }
 }

@@ -160,7 +160,7 @@ describe("createNormWorkEliPathParameter", () => {
       "eli/:eliJurisdiction(bund)" +
       "/:eliAgent(bgbl-1|bgbl-2|banz-at)" +
       "/:eliYear([12][0-9]{3})" +
-      "/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)"
+      "/:eliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)"
 
     expect(path).toBe(expectedPath)
   })
@@ -171,7 +171,7 @@ describe("createNormWorkEliPathParameter", () => {
         `eli/:${prefix}EliJurisdiction(bund)` +
           `/:${prefix}EliAgent(bgbl-1|bgbl-2|banz-at)` +
           `/:${prefix}EliYear([12][0-9]{3})` +
-          `/:${prefix}EliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)`,
+          `/:${prefix}EliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)`,
       ),
     )
 
@@ -188,7 +188,7 @@ describe("createNormWorkEliPathParameter", () => {
       "eli/:testEliJurisdiction(bund)" +
       "/:testEliAgent(bgbl-1|bgbl-2|banz-at)" +
       "/:testEliYear([12][0-9]{3})" +
-      "/:testEliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+)"
+      "/:testEliNaturalIdentifier(s[0-9]+[a-zäöüß]*|[0-9]+-?\\d*)"
 
     expect(path).toEqual(expectedPath)
   })

@@ -1,9 +1,9 @@
-import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
 import type { Zeitgrenze } from "@/types/zeitgrenze"
 import type { UseFetchReturn } from "@vueuse/core"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
+import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
 /**
  * Fetches the HTML content of a Norms Geltungszeiten article as HTML.
@@ -14,11 +14,11 @@ import { computed, toValue } from "vue"
  * @returns HTML string
  */
 export function useGeltungszeitenHtml(
-  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
+  eli: MaybeRefOrGetter<NormExpressionEli | undefined>,
 ): UseFetchReturn<string> {
   const url = computed(
     () =>
-      `/norms/${toValue(eli)}/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten`,
+      `/norms/${toValue(eli)}/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten`,
   )
 
   return useApiFetch(
@@ -34,7 +34,7 @@ export function useGeltungszeitenHtml(
  * @returns List of Zeitgrenzen
  */
 export function useGetZeitgrenzen(
-  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
+  eli: MaybeRefOrGetter<NormExpressionEli | undefined>,
 ): UseFetchReturn<Zeitgrenze[]> {
   const url = computed(() => {
     const eliVal = toValue(eli)
@@ -54,7 +54,7 @@ export function useGetZeitgrenzen(
  * @returns The updated list of Zeitgrenzen
  */
 export function usePutZeitgrenzen(
-  eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
+  eli: MaybeRefOrGetter<NormExpressionEli | undefined>,
   dates: MaybeRefOrGetter<Zeitgrenze[] | null>,
 ): UseFetchReturn<Zeitgrenze[]> {
   return useApiFetch(

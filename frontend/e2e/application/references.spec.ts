@@ -49,7 +49,9 @@ test("should be able to add a new ref and edit it's refersTo and href and delete
 
   await newRefRegion
     .getByRole("textbox", { name: "ELI mit Zielstelle" })
-    .fill("eli/bund/test")
+    .fill(
+      "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_buch-2_kapitel-1_art-2.xml",
+    )
 
   await page.waitForRequest(/renderings/)
 
@@ -66,7 +68,9 @@ test("should be able to add a new ref and edit it's refersTo and href and delete
   )
   await expect(
     newRefRegion.getByRole("textbox", { name: "ELI mit Zielstelle" }),
-  ).toHaveValue("eli/bund/test")
+  ).toHaveValue(
+    "eli/bund/bgbl-1/1002/1/1002-01-01/1/deu/regelungstext-verkuendung-1/hauptteil-1_buch-2_kapitel-1_art-2.xml",
+  )
 
   await newRefRegion.getByRole("button", { name: "Löschen" }).click()
   await page.waitForRequest(/renderings/)
