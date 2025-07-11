@@ -146,6 +146,14 @@
                <akn:p GUID="ad2edab0-725d-4459-9731-6c28173ea10b"
                       eId="meta-n1_editfnote-n1_text-n1">*T (+++ Textnachweis ab: 1.1.1999 +++)</akn:p>
             </akn:note>
+           <akn:note GUID="62ef7b71-c670-4639-ba9e-7216f237e9c1"
+                     eId="meta-n1_editfnote-n2"
+                     marker="#"
+                     placement="bottom"
+                     refersTo="aenderungsfussnote">
+             <akn:p GUID="8d2edab0-725d-4459-9731-6c28173ea10c"
+                    eId="meta-n1_editfnote-n2_text-n1">Test changing note</akn:p>
+           </akn:note>
          </akn:notes>
          <!-- Diese Metadaten sind die Konstituenten für die Schematron-Validierung besitzen keine fachliche Korrektheit. -->
          <akn:proprietary eId="meta-n1_proprietary-n1"

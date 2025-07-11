@@ -107,6 +107,40 @@
                                value="xml"/>
             </akn:FRBRManifestation>
          </akn:identification>
+        <akn:lifecycle eId="meta-n1_lebzykl-n1"
+                       GUID="206a6403-76aa-4c9a-b03b-8c3d510d81db"
+                       source="attributsemantik-noch-undefiniert">
+          <akn:eventRef eId="meta-n1_lebzykl-n1_ereignis-n1"
+                        GUID="e545b87d-3f02-4fd1-b199-089f19c395c3"
+                        date="1964-08-05"
+                        source="attributsemantik-noch-undefiniert"
+                        type="generation"
+                        refersTo="ausfertigung"/>
+          <akn:eventRef eId="meta-n1_lebzykl-n1_ereignis-n2"
+                        GUID="3f84ea91-54e6-44c7-8e24-009d68a7c911"
+                        date="1964-09-21"
+                        source="attributsemantik-noch-undefiniert"
+                        type="generation"
+                        refersTo="inkrafttreten"/>
+        </akn:lifecycle>
+        <akn:notes source="attributsemantik-noch-undefiniert">
+          <akn:note GUID="62ef7b71-c670-4639-ba9e-7216f237e9c1"
+                    eId="meta-n1_editfnote-n1"
+                    marker="#"
+                    placement="bottom"
+                    refersTo="kommentierende-fussnote">
+            <akn:p GUID="ad2edab0-725d-4459-9731-6c28173ea10b"
+                   eId="meta-n1_editfnote-n1_text-n1">*T (+++ Textnachweis ab: 1.1.1999 +++)</akn:p>
+          </akn:note>
+          <akn:note GUID="62ef7b71-c670-4639-ba9e-7216f237e9c1"
+                    eId="meta-n1_editfnote-n2"
+                    marker="#"
+                    placement="bottom"
+                    refersTo="aenderungsfussnote">
+            <akn:p GUID="8d2edab0-725d-4459-9731-6c28173ea10c"
+                   eId="meta-n1_editfnote-n2_text-n1">Test changing note</akn:p>
+          </akn:note>
+        </akn:notes>
          <akn:proprietary eId="meta-n1_proprietary-n1"
                           GUID="7bd9d0dd-6dfe-4307-a699-fcce5ea3f03c"
                           source="attributsemantik-noch-undefiniert">
@@ -122,6 +156,22 @@
                   <breg:federfuehrend ab="2019-11-22" bis="unbestimmt">Bundesministerium des Innern und für Heimat</breg:federfuehrend>
                </breg:federfuehrung>
             </breg:legalDocML.de_metadaten>
+           <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+             <ris:subtyp>rechtsverordnung</ris:subtyp>
+             <ris:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>
+             <ris:normgeber>DEU</ris:normgeber>
+             <ris:beschliessendesOrgan qualifizierteMehrheit="true">Bundestag</ris:beschliessendesOrgan>
+             <ris:organisationsEinheit>Aktuelle Organisationseinheit</ris:organisationsEinheit>
+             <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
+             <ris:einzelelement href="#art-z20">
+               <ris:artDerNorm>SN</ris:artDerNorm>
+             </ris:einzelelement>
+             <ris:inkraft date="1964-08-05"/>
+             <ris:ausserkraft date="2030-01-01"/>
+             <ris:vollzitat>Gesetz vom 5. August 1964 (BGBl. 1964 I S. 593)</ris:vollzitat>
+             <ris:standangabe type="stand">zuletzt geändert durch Art. 2 Abs. 2 G v.7.11.2024 I Nr. 351</ris:standangabe>
+             <ris:stand>praetext</ris:stand>
+           </ris:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="a37a1c6d-8525-3c40-9819-fbe4482000c7" eId="rdokhauptteil-n1">
