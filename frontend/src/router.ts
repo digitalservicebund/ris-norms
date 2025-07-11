@@ -205,7 +205,7 @@ const routes: readonly RouteRecordRaw[] = [
         name: "DatenbankExpressionTextbearbeitung",
         component: () =>
           import(
-            "@/views/datenbank/bestandskorrektur/ExpressionBestandskorrekturEditor.view.vue"
+            "@/views/datenbank/textbearbeitung/DatenbankTextbearbeitungEditor.view.vue"
           ),
       },
       {
