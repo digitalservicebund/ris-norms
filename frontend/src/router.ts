@@ -150,7 +150,7 @@ const routes: readonly RouteRecordRaw[] = [
         component: () => import("@/views/datenbank/WorkDetail.view.vue"),
         children: [
           {
-            path: `:eli${PATH_PARAMETER_POINT_IN_TIME}/:eli${PATH_PARAMETER_VERSION}/:eli${PATH_PARAMETER_LANGUAGE}`,
+            path: `:eli${PATH_PARAMETER_POINT_IN_TIME}/:eli${PATH_PARAMETER_VERSION}/:eli${PATH_PARAMETER_LANGUAGE}/:eid?`,
             name: "DatenbankWorkExpressionDetail",
             component: () =>
               import("@/views/datenbank/WorkExpressionDetail.view.vue"),

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed } from "vue"
+import { ref, computed, watch, nextTick } from "vue"
 import { useGetNormHtml } from "@/services/normService"
 import Splitter from "primevue/splitter"
 import SplitterPanel from "primevue/splitterpanel"
@@ -9,7 +9,7 @@ import Button from "primevue/button"
 import { useGetNormToc } from "@/services/tocService"
 import type { TreeNode } from "primevue/treenode"
 import { Tree } from "primevue"
-import { RouterLink } from "vue-router"
+import { RouterLink, useRoute, useRouter } from "vue-router"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
@@ -17,7 +17,8 @@ import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 const expressionEli = useNormExpressionEliPathParameter()
 const { tocHeadingId, expressionHtmlHeadingId } = useElementId()
-
+const route = useRoute()
+const router = useRouter()
 const {
   data: normExpressionHtml,
   isFetching: isFetchingNormExpressionHtml,
@@ -50,6 +51,14 @@ const handleNodeSelect = (node: TreeNode) => {
   selectionKeys.value = { [node.key]: true }
   toggleNode(node)
   gotoEid(node.key)
+
+  router.push({
+    name: "DatenbankWorkExpressionDetail",
+    params: {
+      ...route.params,
+      eid: node.key,
+    },
+  })
 }
 
 const selectedEids = ref<string[]>([])
@@ -63,6 +72,39 @@ const previewRef = ref<InstanceType<typeof RisLawPreview> | null>(null)
 
 function toggleNode(node: TreeNode) {
   expandedKeys.value[node.key] = !expandedKeys.value[node.key]
+}
+
+watch(
+  [() => route.params.eid, treeNodes, normExpressionHtml],
+  ([eid, nodes, htmlContent]) => {
+    if (eid && nodes.length && htmlContent) {
+      const matchingNode = nodes.find((n) => n.key === eid)
+
+      if (matchingNode) {
+        selectionKeys.value = { [String(eid)]: true }
+        selectedEids.value = [String(eid)]
+
+        nextTick(() => {
+          previewRef.value?.scrollToText(String(eid))
+        })
+      } else {
+        router.replace({
+          name: "DatenbankWorkExpressionDetail",
+          params: { ...route.params, eid: undefined },
+        })
+        selectionKeys.value = {}
+        selectedEids.value = []
+      }
+    }
+  },
+  { immediate: true },
+)
+
+const handlePreviewRendered = () => {
+  const eid = route.params.eid
+  if (eid && selectionKeys.value[String(eid)]) {
+    previewRef.value?.scrollToText(String(eid))
+  }
 }
 </script>
 
@@ -91,6 +133,7 @@ function toggleNode(node: TreeNode) {
         :value="treeNodes"
         selection-mode="single"
         @node-select="handleNodeSelect"
+        @node-unselect.prevent
       >
         <template #default="{ node }">
           <button
@@ -147,6 +190,7 @@ function toggleNode(node: TreeNode) {
           :content="normExpressionHtml ?? ''"
           :selected="selectedEids"
           class="-mx-24"
+          @rendered="handlePreviewRendered"
         />
       </section>
     </SplitterPanel>
