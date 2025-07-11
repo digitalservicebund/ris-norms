@@ -155,6 +155,12 @@
                <regtxt:typ>gesetz</regtxt:typ>
                <regtxt:form>stammform</regtxt:form>
             </regtxt:legalDocML.de_metadaten>
+           <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+             <breg:federfuehrung>
+               <breg:federfuehrend ab="1964-08-05" bis="2019-11-22">Bundesministerium der Justiz</breg:federfuehrend>
+               <breg:federfuehrend ab="2019-11-22" bis="unbestimmt">Bundesministerium des Innern und für Heimat</breg:federfuehrend>
+             </breg:federfuehrung>
+           </breg:legalDocML.de_metadaten>
             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
                <ris:subtyp>rechtsverordnung</ris:subtyp>
                <ris:bezeichnungInVorlage>Bezeichnung gemäß Vorlage</ris:bezeichnungInVorlage>

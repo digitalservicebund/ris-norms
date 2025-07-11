@@ -162,7 +162,7 @@ public class Proprietary {
               .filter(f -> LocalDate.parse(f.getAttribute("ab")).isAfter(date))
               .min(Comparator.comparing(f -> LocalDate.parse(f.getAttribute("ab"))));
 
-            // 3. Create the new <meta:federfuehrend> element
+            // 3. Create the new <breg:federfuehrend> element
             final Element federfuehrungNode = NodeParser.getElementFromExpression(
               "./federfuehrung",
               parent
