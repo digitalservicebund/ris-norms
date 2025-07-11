@@ -6,7 +6,7 @@
         xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/"
         xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/"
         xmlns:meta-ds="http://MetadatenRIS.LegalDocML.de/1.8.1/"
-        xmlns:meta-bund="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/"
+        xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/"
         exclude-result-prefixes="#all"
 >
 
@@ -90,7 +90,7 @@
                     <tr>
                         <td>Federführung</td>
                         <td>
-                            <xsl:apply-templates mode="#current" select="//meta-bund:federfuehrung"/>
+                            <xsl:apply-templates mode="#current" select="//breg:federfuehrung"/>
                         </td>
                     </tr>
                     <tr>
@@ -136,8 +136,8 @@
         </section>
     </xsl:template>
 
-    <xsl:template match="//meta-bund:federfuehrung" mode="metadata">
-        <xsl:for-each select="meta-bund:federfuehrend">
+    <xsl:template match="//breg:federfuehrung" mode="metadata">
+        <xsl:for-each select="breg:federfuehrend">
             <li><xsl:value-of select="."/></li>
         </xsl:for-each>
     </xsl:template>

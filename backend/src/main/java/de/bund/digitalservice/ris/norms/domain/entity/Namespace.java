@@ -9,7 +9,7 @@ import lombok.Getter;
 public enum Namespace {
   INHALTSDATEN("http://Inhaltsdaten.LegalDocML.de/1.8.1/", "akn"),
   METADATEN_RIS("http://MetadatenRIS.LegalDocML.de/1.8.1/", "ris"),
-  METADATEN_BUNDESREGIERUNG("http://MetadatenBundesregierung.LegalDocML.de/1.8.1/", "meta"),
+  METADATEN_BUNDESREGIERUNG("http://MetadatenBundesregierung.LegalDocML.de/1.8.1/", "breg"),
   METADATEN_NORMS_APPLICATION_MODS("http://MetadatenMods.LegalDocML.de/1.8.1/", "norms"),
   METADATEN_RECHTSETZUNGSDOKUMENT(
     "http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/",

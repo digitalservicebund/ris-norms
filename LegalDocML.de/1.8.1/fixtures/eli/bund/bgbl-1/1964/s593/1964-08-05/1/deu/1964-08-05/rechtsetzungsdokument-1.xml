@@ -116,12 +116,12 @@
                <redok:fna>754-28-1</redok:fna>
                <redok:gesta>nicht-vorhanden</redok:gesta>
             </redok:legalDocML.de_metadaten>
-            <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
-               <meta:federfuehrung>
-                  <meta:federfuehrend ab="1964-08-05" bis="2019-11-22">Bundesministerium der Justiz</meta:federfuehrend>
-                  <meta:federfuehrend ab="2019-11-22" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
-               </meta:federfuehrung>
-            </meta:legalDocML.de_metadaten>
+            <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+               <breg:federfuehrung>
+                  <breg:federfuehrend ab="1964-08-05" bis="2019-11-22">Bundesministerium der Justiz</breg:federfuehrend>
+                  <breg:federfuehrend ab="2019-11-22" bis="unbestimmt">Bundesministerium des Innern und für Heimat</breg:federfuehrend>
+               </breg:federfuehrung>
+            </breg:legalDocML.de_metadaten>
          </akn:proprietary>
       </akn:meta>
       <akn:collectionBody GUID="a37a1c6d-8525-3c40-9819-fbe4482000c7" eId="rdokhauptteil-n1">

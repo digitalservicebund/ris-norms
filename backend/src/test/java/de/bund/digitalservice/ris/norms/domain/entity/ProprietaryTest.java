@@ -236,12 +236,12 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-             <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
-                <meta:federfuehrung>
-                    <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
-                    <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
-                </meta:federfuehrung>
-             </meta:legalDocML.de_metadaten>
+             <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+                <breg:federfuehrung>
+                    <breg:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</breg:federfuehrend>
+                    <breg:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</breg:federfuehrend>
+                </breg:federfuehrung>
+             </breg:legalDocML.de_metadaten>
            </akn:proprietary>
           """
         )
@@ -268,9 +268,9 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
-                  <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
-              </meta:legalDocML.de_metadaten>
+              <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+                  <breg:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</breg:federfuehrend>
+              </breg:legalDocML.de_metadaten>
            </akn:proprietary>
           """
         )
@@ -287,8 +287,8 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
-              </meta:legalDocML.de_metadaten>
+              <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+              </breg:legalDocML.de_metadaten>
            </akn:proprietary>
           """
         )
@@ -910,12 +910,12 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
-                <meta:federfuehrung>
-                    <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
-                    <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
-                </meta:federfuehrung>
-              </meta:legalDocML.de_metadaten>
+              <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+                <breg:federfuehrung>
+                    <breg:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</breg:federfuehrend>
+                    <breg:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</breg:federfuehrend>
+                </breg:federfuehrung>
+              </breg:legalDocML.de_metadaten>
           </akn:proprietary>
           """
         )
@@ -948,12 +948,12 @@ class ProprietaryTest {
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <meta:legalDocML.de_metadaten xmlns:meta="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
-                <meta:federfuehrung>
-                    <meta:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta:federfuehrend>
-                    <meta:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</meta:federfuehrend>
-                </meta:federfuehrung>
-              </meta:legalDocML.de_metadaten>
+              <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+                <breg:federfuehrung>
+                    <breg:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</breg:federfuehrend>
+                    <breg:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</breg:federfuehrend>
+                </breg:federfuehrung>
+              </breg:legalDocML.de_metadaten>
           </akn:proprietary>
           """
         )

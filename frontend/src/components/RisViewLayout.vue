@@ -16,6 +16,7 @@ const {
   headerBackDestination = undefined,
   redirectOn404 = true,
   loading = false,
+  disableLoadingDebounce = false,
 } = defineProps<{
   /**
    * Destination of the back button of the header component. A header will be
@@ -48,6 +49,12 @@ const {
    * `error` has a 404 status.
    */
   redirectOn404?: boolean
+
+  /**
+   * If set to true, will disable the debouncing of the loading state,
+   * making the loading spinner appear immediately without delay.
+   */
+  disableLoadingDebounce?: boolean
 }>()
 
 const slots = defineSlots<{
@@ -72,6 +79,10 @@ watchDebounced(
   },
   { debounce: 300 },
 )
+
+const effectiveLoading = computed(() =>
+  disableLoadingDebounce ? loading : debouncedLoading.value,
+)
 </script>
 
 <template>
@@ -79,7 +90,7 @@ watchDebounced(
     class="grid h-[calc(100dvh-5rem)] grid-cols-1 grid-rows-[5rem_1fr] overflow-hidden bg-gray-100 has-[[data-pc-name=splitter]]:bg-white"
   >
     <div
-      v-if="debouncedLoading"
+      v-if="effectiveLoading"
       class="row-span-2 flex items-center justify-center p-24"
     >
       <RisLoadingSpinner />
