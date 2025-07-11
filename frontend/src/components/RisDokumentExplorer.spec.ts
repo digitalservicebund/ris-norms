@@ -16,9 +16,27 @@ describe("risDokumentExplorer", () => {
       vi.doMock("@/services/tocService", () => ({
         useGetNormToc: () => ({
           data: ref<TocItem[]>([
-            { id: "eid-1", marker: "§ 1", heading: "Test 1", type: "article" },
-            { id: "eid-2", marker: "§ 2", heading: "Test 2", type: "article" },
-            { id: "eid-3", marker: "§ 3", heading: "Test 3", type: "article" },
+            {
+              id: "eid-1",
+              marker: "§ 1",
+              heading: "Test 1",
+              type: "article",
+              hasEingebundeneStammform: true,
+            },
+            {
+              id: "eid-2",
+              marker: "§ 2",
+              heading: "Test 2",
+              type: "article",
+              hasEingebundeneStammform: false,
+            },
+            {
+              id: "eid-3",
+              marker: "§ 3",
+              heading: "Test 3",
+              type: "article",
+              hasEingebundeneStammform: false,
+            },
           ]),
           error: ref(null),
           isFetching: ref(false),
@@ -133,9 +151,27 @@ describe("risDokumentExplorer", () => {
       vi.doMock("@/services/tocService", () => ({
         useGetNormToc: () => ({
           data: ref<TocItem[]>([
-            { id: "eid-1", marker: "§ 1", heading: "Test 1", type: "article" },
-            { id: "eid-2", marker: "§ 2", heading: "Test 2", type: "article" },
-            { id: "eid-3", marker: "§ 3", heading: "Test 3", type: "article" },
+            {
+              id: "eid-1",
+              marker: "§ 1",
+              heading: "Test 1",
+              type: "article",
+              hasEingebundeneStammform: true,
+            },
+            {
+              id: "eid-2",
+              marker: "§ 2",
+              heading: "Test 2",
+              type: "article",
+              hasEingebundeneStammform: false,
+            },
+            {
+              id: "eid-3",
+              marker: "§ 3",
+              heading: "Test 3",
+              type: "article",
+              hasEingebundeneStammform: false,
+            },
           ]),
           error: ref(null),
           isFetching: ref(false),
