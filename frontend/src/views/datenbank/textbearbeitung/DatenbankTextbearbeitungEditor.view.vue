@@ -47,10 +47,12 @@ const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
       normExpression.value
         ? `${normExpression.value.title} (${normExpression.value.shortTitle})`
         : "...",
+    to: { name: "DatenbankWorkDetail" },
   },
   {
     key: "expressionDate",
     title: () => (formattedDate.value ? `${formattedDate.value}` : "..."),
+    to: { name: "DatenbankWorkExpressionDetail" },
   },
   { key: "textbearbeitung", title: "Textbearbeitung" },
 ])
