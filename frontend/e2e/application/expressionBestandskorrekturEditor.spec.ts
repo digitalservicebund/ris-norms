@@ -20,7 +20,7 @@ test.describe("Bestandskorrektur editor", { tag: ["@RISDEV-8359"] }, () => {
 
     test("loads TOC", async ({ page }) => {
       await page.goto(
-        "./datenbank/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-verkuendung-1/textbearbeitung",
+        "./datenbank/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/textbearbeitung",
       )
 
       const nav = page.getByRole("complementary", { name: "Inhaltsübersicht" })
@@ -35,7 +35,7 @@ test.describe("Bestandskorrektur editor", { tag: ["@RISDEV-8359"] }, () => {
 
     test("loads editor", async ({ page }) => {
       await page.goto(
-        "./datenbank/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-verkuendung-1/textbearbeitung",
+        "./datenbank/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/textbearbeitung",
       )
 
       const editor = page.getByRole("textbox")
@@ -50,7 +50,7 @@ test.describe("Bestandskorrektur editor", { tag: ["@RISDEV-8359"] }, () => {
 
     test("loads TOC and clicking node scrolls to element", async ({ page }) => {
       await page.goto(
-        "./datenbank/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-verkuendung-1/textbearbeitung",
+        "./datenbank/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/textbearbeitung",
       )
 
       const toc = page.getByRole("complementary", { name: "Inhaltsübersicht" })
@@ -64,7 +64,7 @@ test.describe("Bestandskorrektur editor", { tag: ["@RISDEV-8359"] }, () => {
 
     test("edit text and verifies on reload", async ({ page }) => {
       await page.goto(
-        "./datenbank/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/regelungstext-verkuendung-1/textbearbeitung",
+        "./datenbank/eli/bund/bgbl-1/1964/321/2017-03-16/1/deu/textbearbeitung",
       )
 
       const editor = page.getByRole("textbox")
@@ -83,7 +83,7 @@ test.describe("Bestandskorrektur editor", { tag: ["@RISDEV-8359"] }, () => {
 
     test("xml editing locked when norm is gegenstandslos", async ({ page }) => {
       await page.goto(
-        "./datenbank/eli/bund/bgbl-1/1964/s593/2222-02-02/1/deu/regelungstext-verkuendung-1/textbearbeitung",
+        "./datenbank/eli/bund/bgbl-1/1964/s593/2222-02-02/1/deu/textbearbeitung",
       )
 
       const message = page.getByText(
@@ -101,7 +101,7 @@ test.describe("Bestandskorrektur editor", { tag: ["@RISDEV-8359"] }, () => {
 
   test.describe("404 redirects", () => {
     const expressionUrl =
-      "./datenbank/eli/bund/bgbl-1/1964/s593/2222-02-02/1/deu/regelungstext-verkuendung-1/textbearbeitung"
+      "./datenbank/eli/bund/bgbl-1/1964/s593/2222-02-02/1/deu/textbearbeitung"
 
     test("shows an error if the Xml can't be loaded", async ({ page }) => {
       await page.route("**/api/v1/norms/**", async (route) => {
