@@ -2,25 +2,51 @@
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
-import { useEidPathParameter } from "@/composables/useEidPathParameter"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useGetElement, useGetElementHtml } from "@/services/elementService"
 import Message from "primevue/message"
+import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { onBeforeUnmount, ref, watch } from "vue"
+import { useHeaderContext } from "@/components/RisHeader.vue"
 
-const dokumentExpressionEli = useDokumentExpressionEliPathParameter()
-const elementEid = useEidPathParameter()
+const props = defineProps<{
+  dokumentExpressionEli: DokumentExpressionEli
+  eId: string
+}>()
 
 const {
   data: element,
   isFetching: elementIsLoading,
   error: elementError,
-} = useGetElement(dokumentExpressionEli, elementEid)
+} = useGetElement(
+  () => props.dokumentExpressionEli,
+  () => props.eId,
+)
 
 const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetElementHtml(dokumentExpressionEli, elementEid)
+} = useGetElementHtml(
+  () => props.dokumentExpressionEli,
+  () => props.eId,
+)
+
+const { pushBreadcrumb } = useHeaderContext()
+
+const cleanupBreadcrumb = ref<() => void>()
+
+watch(
+  () => element.value,
+  () => {
+    cleanupBreadcrumb.value?.()
+    cleanupBreadcrumb.value = pushBreadcrumb({
+      title: element.value?.title ?? "...",
+    })
+  },
+  { immediate: true },
+)
+
+onBeforeUnmount(() => cleanupBreadcrumb.value?.())
 </script>
 
 <template>
@@ -36,7 +62,7 @@ const {
       <RisErrorCallout :error="elementError" />
     </div>
 
-    <div v-else class="flex flex-col overflow-hidden p-24">
+    <div v-else class="flex flex-col overflow-hidden">
       <div class="flex gap-16">
         <div class="grow">
           <h2 class="ris-label2-bold">

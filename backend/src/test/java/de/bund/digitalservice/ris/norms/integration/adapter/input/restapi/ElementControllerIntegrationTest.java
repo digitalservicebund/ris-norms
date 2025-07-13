@@ -83,7 +83,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/NONEXISTENT_EID"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z9999"
           ).accept(MediaType.TEXT_HTML)
         )
         // Then
@@ -93,12 +93,12 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Element with eid NONEXISTENT_EID does not exist in norm with eli eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
+            "Element with eid art-z9999 does not exist in norm with eli eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/NONEXISTENT_EID"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z9999"
           )
         )
         .andExpect(
@@ -106,7 +106,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
             "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
           )
         )
-        .andExpect(jsonPath("eid").value("NONEXISTENT_EID"));
+        .andExpect(jsonPath("eid").value("art-z9999"));
     }
 
     @Test
@@ -185,7 +185,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
       mockMvc
         .perform(
           get(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/NONEXISTENT_EID"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z9999"
           ).accept(MediaType.APPLICATION_JSON)
         )
         // Then
@@ -195,12 +195,12 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
         .andExpect(jsonPath("status").value(404))
         .andExpect(
           jsonPath("detail").value(
-            "Element with eid NONEXISTENT_EID does not exist in norm with eli eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
+            "Element with eid art-z9999 does not exist in norm with eli eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
           )
         )
         .andExpect(
           jsonPath("instance").value(
-            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/NONEXISTENT_EID"
+            "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/elements/art-z9999"
           )
         )
         .andExpect(
@@ -208,7 +208,7 @@ class ElementControllerIntegrationTest extends BaseIntegrationTest {
             "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1"
           )
         )
-        .andExpect(jsonPath("eid").value("NONEXISTENT_EID"));
+        .andExpect(jsonPath("eid").value("art-z9999"));
     }
 
     @Test

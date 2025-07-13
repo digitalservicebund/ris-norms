@@ -3,14 +3,14 @@ import { expect } from "@playwright/test"
 import { logAccessibilityViolations, useAxeBuilder } from "../utils/a11y"
 
 test.describe(
-  "accessibility check for Metadata page",
+  "accessibility check for Verkündung Metadata page",
   { tag: ["@RISDEV-7851"] },
   () => {
     test("should have no detectable accessibility violations", async ({
       page,
     }) => {
       await page.goto(
-        "./eli/bund/bgbl-1/1964/s593/2017-03-16/4/deu/regelungstext-verkuendung-1/metadata",
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/metadaten/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1",
       )
 
       const nav = page.getByRole("complementary", {
