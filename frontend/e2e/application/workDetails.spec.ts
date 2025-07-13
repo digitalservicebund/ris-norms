@@ -189,7 +189,7 @@ test.describe(
         await page.getByRole("button", { name: "Metadaten" }).click()
 
         await expect(page).toHaveURL(
-          "/app/eli/bund/bgbl-1/1000/s1/1000-01-01/1/deu/regelungstext-verkuendung-1/metadata",
+          "/app/datenbank/eli/bund/bgbl-1/1000/s1/1000-01-01/1/deu/regelungstext-verkuendung-1/metadaten",
         )
         await expect(
           page.getByRole("heading", { name: "Rahmen" }),
