@@ -12,13 +12,13 @@ import { formatDate } from "@/lib/dateTime"
 import { useElementId } from "@/composables/useElementId"
 import type { TreeNode } from "primevue/treenode"
 import { Tree } from "primevue"
-import { RouterLink, useRoute } from "vue-router"
+import { useRoute, useRouter } from "vue-router"
 import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 
 const workEli = useNormWorkEliPathParameter()
 const { expressionsHeadingId } = useElementId()
 const route = useRoute()
-
+const router = useRouter()
 const {
   data: normWork,
   isFetching: isFetchingNormWork,
@@ -83,6 +83,11 @@ const handleExpressionNodeUnselect = (node: TreeNode) => {
   })
 }
 
+const handleExpressionSelect = (node: TreeNode) => {
+  selectionKeysExpressions.value = { [node.key]: true }
+  router.push(node.data.route)
+}
+
 watch(
   [() => route.path, treeNodesExpressions],
   ([currentPath, nodes]) => {
@@ -132,15 +137,16 @@ watch(
             :value="treeNodesExpressions"
             selection-mode="single"
             :aria-labelledby="expressionsHeadingId"
+            @node-select="handleExpressionSelect"
             @node-unselect="handleExpressionNodeUnselect"
           >
             <template #default="{ node }">
-              <RouterLink
-                :to="node.data.route"
-                class="ris-label2-regular w-full text-black"
+              <button
+                class="ris-label2-regular w-full cursor-pointer text-left text-black"
+                @click="() => handleExpressionSelect(node)"
               >
                 {{ node.label }}
-              </RouterLink>
+              </button>
             </template>
           </Tree>
 

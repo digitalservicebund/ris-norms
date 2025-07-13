@@ -22,7 +22,9 @@ test.describe(
 
       async navigateToExpressionDetail(page: Page) {
         await page.goto(`./datenbank/${testData.workEli}`)
-        await page.getByRole("link", { name: testData.expressionDate }).click()
+        await page
+          .getByRole("button", { name: testData.expressionDate })
+          .click()
       },
 
       getExpressionTreeItem(page: Page) {
@@ -77,7 +79,7 @@ test.describe(
         const expressionItems = expressionsSection.getByRole("treeitem")
         await expect(expressionItems).toHaveCount(1)
         await expect(
-          page.getByRole("link", { name: testData.expressionDate }),
+          page.getByRole("button", { name: testData.expressionDate }),
         ).toBeVisible()
       })
     })
