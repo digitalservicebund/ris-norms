@@ -160,7 +160,19 @@ public class Fixtures {
     Set<BinaryFile> binaryFiles = new HashSet<>();
     NormManifestationEli normManifestationEli = null;
 
-    for (File file : Objects.requireNonNull(folder.listFiles())) {
+    var files = folder.listFiles();
+
+    if (files == null) {
+      throw new RuntimeException(
+        "Could not find folder for fixture files (%s)".formatted(folderName)
+      );
+    }
+
+    if (files.length == 0) {
+      throw new RuntimeException("Could not find any fixture files in %s".formatted(folderName));
+    }
+
+    for (File file : files) {
       if (file.isDirectory()) {
         continue;
       }
@@ -203,7 +215,14 @@ public class Fixtures {
         }
       } catch (InvalidDokumentTypeException ignored) {
         try {
-          assert normManifestationEli != null;
+          if (normManifestationEli == null) {
+            throw new RuntimeException(
+              "Could not load binary file %s as no rechtsetzungsdokument is loaded so far (normManifestationEli == null)".formatted(
+                file.getName()
+              )
+            );
+          }
+
           binaryFiles.add(
             loadBinaryFileFromDisk(
               file.toURI().toURL(),
