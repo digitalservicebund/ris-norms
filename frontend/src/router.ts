@@ -53,7 +53,7 @@ const beforeRouteEnterGuidToNormExpressionEliRedirect: NavigationGuardWithThis<
   return {
     path: to.path.replace(
       guid,
-      DokumentExpressionEli.fromString(eli).asNormEli.toString(),
+      DokumentExpressionEli.fromString(eli).asNormEli().toString(),
     ),
   }
 }
