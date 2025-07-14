@@ -120,15 +120,12 @@ public class TableOfContentsService implements LoadTocFromRegelungstextUseCase {
   private Optional<String> getHeadingForEingebundeneStammform(DokumentEli stammformEli) {
     return loadRegelungstextPort
       .loadRegelungstext(new LoadRegelungstextPort.Options(stammformEli))
-      .map(stammformRegelungstext -> {
-        return NodeParser.getElementFromExpression(
-          "//longTitle",
-          stammformRegelungstext.getDocument()
-        )
+      .map(stammformRegelungstext ->
+        NodeParser.getElementFromExpression("//longTitle", stammformRegelungstext.getDocument())
           .orElse(null)
-          .getTextContent();
-      })
-      .map(longTitle -> cleanText(longTitle));
+          .getTextContent()
+      )
+      .map(this::cleanText);
   }
 
   private String cleanText(String text) {
