@@ -55,16 +55,16 @@ export function createNormExpressionEliPathParameter(prefix?: string) {
 export function useNormExpressionEliPathParameter(
   prefix?: string,
 ): ComputedRef<NormExpressionEli> {
-  const { params } = useRoute()
+  const route = useRoute()
   const name = prefix ? `${prefix}Eli` : "eli"
 
   return computed(() => {
-    const agent = params[`${name}Agent`]
-    const year = params[`${name}Year`]
-    const naturalIdentifier = params[`${name}NaturalIdentifier`]
-    const pointInTime = params[`${name}PointInTime`]
-    const version = params[`${name}Version`]
-    const language = params[`${name}Language`]
+    const agent = route.params[`${name}Agent`]
+    const year = route.params[`${name}Year`]
+    const naturalIdentifier = route.params[`${name}NaturalIdentifier`]
+    const pointInTime = route.params[`${name}PointInTime`]
+    const version = route.params[`${name}Version`]
+    const language = route.params[`${name}Language`]
 
     if (
       typeof agent != "string" ||
