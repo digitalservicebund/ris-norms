@@ -51,14 +51,14 @@ describe("risTextEditorTableOfContents", () => {
   it("should select and expand items", async () => {
     const user = userEvent.setup()
 
-    const selectNodeSpy = vi.fn()
+    const selectSpy = vi.fn()
 
     render(RisTextEditorTableOfContents, {
       props: {
         toc: toc,
         isFetching: false,
         fetchError: null,
-        onSelectNode: selectNodeSpy,
+        onSelect: selectSpy,
       },
     })
 
@@ -70,9 +70,9 @@ describe("risTextEditorTableOfContents", () => {
       screen.getByRole("button", { name: "2. Buch Beispiele für Strukturen" }),
     )
 
-    expect(selectNodeSpy).toHaveBeenLastCalledWith(
+    expect(selectSpy).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        key: "hauptteil-n1_buch-n2",
+        eId: "hauptteil-n1_buch-n2",
       }),
     )
 
@@ -81,9 +81,9 @@ describe("risTextEditorTableOfContents", () => {
 
     await user.click(screen.getByRole("button", { name: "Art 2" }))
 
-    expect(selectNodeSpy).toHaveBeenLastCalledWith(
+    expect(selectSpy).toHaveBeenLastCalledWith(
       expect.objectContaining({
-        key: "art-z2",
+        eId: "art-z2",
       }),
     )
   })

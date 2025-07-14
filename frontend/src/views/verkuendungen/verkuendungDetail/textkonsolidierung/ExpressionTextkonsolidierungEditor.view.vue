@@ -33,7 +33,6 @@ import {
   Splitter,
   SplitterPanel,
 } from "primevue"
-import type { TreeNode } from "primevue/treenode"
 import { computed, ref, watch } from "vue"
 import { RouterLink } from "vue-router"
 import IcBaselineArrowBack from "~icons/ic/baseline-arrow-back"
@@ -84,8 +83,8 @@ const {
   DokumentExpressionEli.fromNormExpressionEli(expressionEli.value),
 )
 
-const handleNodeSelect = (node: TreeNode) => {
-  gotoEid(node.key)
+const handleTocSelect = ({ eId }: { eId: string }) => {
+  gotoEid(eId)
 }
 
 const { expressionPointInTimeLabelId } = useElementId()
@@ -278,7 +277,7 @@ const isGegenstandslosExpression = computed(() => {
           :toc="toc"
           :is-fetching="tocIsFetching"
           :fetch-error="tocError"
-          @select-node="handleNodeSelect"
+          @select="handleTocSelect"
         >
           <template #top-navigation>
             <div

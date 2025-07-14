@@ -18,7 +18,6 @@ import {
   Splitter,
   SplitterPanel,
 } from "primevue"
-import type { TreeNode } from "primevue/treenode"
 import { computed, ref, watch } from "vue"
 import IcBaselineCheck from "~icons/ic/baseline-check"
 import { useDokumentXml } from "@/composables/useDokumentXml"
@@ -64,8 +63,8 @@ const {
   DokumentExpressionEli.fromNormExpressionEli(expressionEli.value),
 )
 
-const handleNodeSelect = (node: TreeNode) => {
-  gotoEid(node.key)
+const handleTocSelect = ({ eId }: { eId: string }) => {
+  gotoEid(eId)
 }
 
 // EDITOR
@@ -145,7 +144,7 @@ const isGegenstandslosExpression = computed(
           :toc="toc"
           :is-fetching="tocIsFetching"
           :fetch-error="tocError"
-          @select-node="handleNodeSelect"
+          @select="handleTocSelect"
         />
       </SplitterPanel>
 

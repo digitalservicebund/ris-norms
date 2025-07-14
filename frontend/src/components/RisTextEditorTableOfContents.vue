@@ -15,7 +15,7 @@ const props = defineProps<{
 }>()
 
 const emit = defineEmits<{
-  selectNode: [TreeNode]
+  select: [{ eId: string }]
 }>()
 
 const { tocHeadingId } = useElementId()
@@ -43,7 +43,7 @@ const selectionKeys = ref<Record<string, boolean>>({})
 const handleNodeSelect = (node: TreeNode) => {
   selectionKeys.value = { [node.key]: true }
   expandedKeys.value[node.key] = true
-  emit("selectNode", node)
+  emit("select", { eId: node.key })
 }
 </script>
 
