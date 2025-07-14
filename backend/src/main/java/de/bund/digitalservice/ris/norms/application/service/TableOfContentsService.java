@@ -7,7 +7,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.TableOfContentsItem;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,15 +111,9 @@ public class TableOfContentsService implements LoadTocFromRegelungstextUseCase {
     return NodeParser.getElementFromExpression(
       "componentRef[@showAs=\"regelungstext-eingebundene-stammform\"]",
       element
-    ).map(contentRef -> {
-        var stammformEliRaw = contentRef.getAttribute("src");
-        // The src of an eingebundene Stammform has an extra file extension, which is not part of
-        // any type of ELI we support. Removing it to get a regular Dokument Expression ELI
-        if (stammformEliRaw.endsWith(".xml")) {
-          stammformEliRaw = stammformEliRaw.substring(0, stammformEliRaw.length() - 4);
-        }
-
-        return DokumentExpressionEli.fromString(stammformEliRaw);
+    ).map(componentRef -> {
+        var stammformEliRaw = componentRef.getAttribute("src");
+        return DokumentManifestationEli.fromString(stammformEliRaw);
       });
   }
 

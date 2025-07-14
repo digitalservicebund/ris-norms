@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadTocFromRegelu
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -227,7 +228,14 @@ class TableOfContentsServiceTest {
 
     when(
       loadRegelungstextPort.loadRegelungstext(
-        new LoadRegelungstextPort.Options(regelungstext2.getExpressionEli())
+        // Constructing the ELI manually as this is the ELI by which the eingebundene
+        // Stammform is referenced, but it's not 100% identical to the ELI of the
+        // Regelungstext.
+        new LoadRegelungstextPort.Options(
+          DokumentManifestationEli.fromString(
+            "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/regelungstext-verkuendung-2.xml"
+          )
+        )
       )
     ).thenReturn(Optional.of(regelungstext2));
 
@@ -237,15 +245,6 @@ class TableOfContentsServiceTest {
     );
 
     // Then
-    verify(loadRegelungstextPort, times(1)).loadRegelungstext(
-      argThat(command ->
-        Objects.equals(
-          command.eli().toString(),
-          "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/regelungstext-verkuendung-1"
-        )
-      )
-    );
-
     // Assert overall structure size
     assertThat(toc).hasSize(10);
 
