@@ -16,7 +16,7 @@ bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref 
 errorprone = "com.google.errorprone:error_prone_core:2.40.0"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
-jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:8.0.0"
+jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:8.0.1"
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 jspecify = "org.jspecify:jspecify:1.0.0"
