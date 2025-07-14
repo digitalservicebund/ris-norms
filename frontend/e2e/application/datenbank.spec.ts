@@ -39,11 +39,14 @@ test.describe(
 
       test("updates URL when navigating pages", async ({ page }) => {
         await page.goto("./datenbank")
-        expect(page.url()).not.toContain("page=")
+        await expect(
+          page.getByRole("heading", { name: "Datenbank" }),
+        ).toBeVisible()
+        expect(page.url()).toContain("page=1")
         await page.getByRole("button", { name: "Weiter" }).click()
         expect(page.url()).toContain("page=2")
         await page.getByRole("button", { name: "Zurück" }).click()
-        expect(page.url()).not.toContain("page=")
+        expect(page.url()).toContain("page=1")
       })
 
       test("loads correct page from URL parameter", async ({ page }) => {

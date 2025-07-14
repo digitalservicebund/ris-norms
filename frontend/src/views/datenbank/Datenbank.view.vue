@@ -9,7 +9,7 @@ import { useRoute, useRouter } from "vue-router"
 const route = useRoute()
 const router = useRouter()
 
-const currentPage = ref(Math.max(0, (Number(route.query.page) || 1) - 1))
+const currentPage = ref(0)
 const pageSize = ref(100)
 
 watch(
@@ -17,6 +17,7 @@ watch(
   (newPage) => {
     currentPage.value = Math.max(0, (Number(newPage) || 1) - 1)
   },
+  { immediate: true },
 )
 
 const {
@@ -34,7 +35,7 @@ function onPageChange(page: number) {
   router.push({
     query: {
       ...route.query,
-      page: userPage > 1 ? userPage : undefined,
+      page: userPage.toString(),
     },
   })
 }
@@ -48,15 +49,27 @@ watch(
 
       if (requestedPage > maxPage) {
         router.replace({
-          query: { ...route.query, page: maxPage > 1 ? maxPage : undefined },
+          query: { ...route.query, page: maxPage.toString() },
         })
       } else if (requestedPage < 1) {
         router.replace({
-          query: { ...route.query, page: undefined },
+          query: { ...route.query, page: "1" },
         })
       }
     }
   },
+)
+
+watch(
+  [() => data.value?.page.totalPages, () => route.query.page],
+  ([totalPages, pageParam]) => {
+    if (totalPages && totalPages > 1 && !pageParam) {
+      router.replace({
+        query: { ...route.query, page: "1" },
+      })
+    }
+  },
+  { immediate: true },
 )
 </script>
 
