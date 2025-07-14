@@ -53,7 +53,7 @@ const beforeRouteEnterGuidToNormExpressionEliRedirect: NavigationGuardWithThis<
   return {
     path: to.path.replace(
       guid,
-      DokumentExpressionEli.fromString(eli).asNormEli.toString(),
+      DokumentExpressionEli.fromString(eli).asNormEli().toString(),
     ),
   }
 }
@@ -74,7 +74,7 @@ const routes: readonly RouteRecordRaw[] = [
         component: () => import("@/views/verkuendungen/Verkuendungen.view.vue"),
       },
       {
-        path: `/verkuendungen/${createNormExpressionEliPathParameter("verkuendung")}/textkonsolidierung/${createDokumentExpressionEliPathParameter("expression")}`,
+        path: `/verkuendungen/${createNormExpressionEliPathParameter("verkuendung")}/textkonsolidierung/${createNormExpressionEliPathParameter("expression")}`,
         name: "VerkuendungExpressionTextkonsolidierungEditor",
         component: () =>
           import(
@@ -163,7 +163,7 @@ const routes: readonly RouteRecordRaw[] = [
           `${createNormExpressionEliPathParameter("verkuendung")}` +
           `/textkonsolidierung/${GUID_ROUTE_PATH}`,
         component: () => null,
-        beforeEnter: beforeRouteEnterGuidToDokumentExpressionEliRedirect,
+        beforeEnter: beforeRouteEnterGuidToNormExpressionEliRedirect,
       },
       {
         path: `${GUID_ROUTE_PATH}/:any(.*)*`,
@@ -201,11 +201,11 @@ const routes: readonly RouteRecordRaw[] = [
         ],
       },
       {
-        path: `textbearbeitung/${createDokumentExpressionEliPathParameter()}`,
+        path: `${createNormExpressionEliPathParameter()}/textbearbeitung`,
         name: "DatenbankExpressionTextbearbeitung",
         component: () =>
           import(
-            "@/views/datenbank/bestandskorrektur/ExpressionBestandskorrekturEditor.view.vue"
+            "@/views/datenbank/textbearbeitung/DatenbankTextbearbeitungEditor.view.vue"
           ),
       },
       {
