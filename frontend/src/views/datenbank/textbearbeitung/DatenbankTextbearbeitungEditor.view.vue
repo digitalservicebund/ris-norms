@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
-import RisErrorCallout from "@/components/RisErrorCallout.vue"
+import RisTextEditorTableOfContents from "@/components/RisTextEditorTableOfContents.vue"
 import { type HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
-import { useElementId } from "@/composables/useElementId"
 import { useSentryTraceId } from "@/composables/useSentryTraceId"
 import { useToast } from "@/composables/useToast"
 import { formatDate } from "@/lib/dateTime"
@@ -18,7 +17,6 @@ import {
   Message,
   Splitter,
   SplitterPanel,
-  Tree,
 } from "primevue"
 import type { TreeNode } from "primevue/treenode"
 import { computed, ref, watch } from "vue"
@@ -66,36 +64,8 @@ const {
   DokumentExpressionEli.fromNormExpressionEli(expressionEli.value),
 )
 
-const treeNodes = computed<TreeNode[]>(() =>
-  toc.value?.length
-    ? toc.value.map<TreeNode>((i) => ({
-        key: i.id,
-        label: i.marker || "Unbenanntes Element",
-        data: { sublabel: i.heading || null },
-        children: [],
-      }))
-    : [],
-)
-
-const { tocHeadingId } = useElementId()
-const expandedKeys = ref<Record<string, boolean>>({})
-const selectionKeys = ref<Record<string, boolean>>({})
-
-watch(expressionEli, (newVal, oldVal) => {
-  if (newVal !== oldVal) {
-    expandedKeys.value = {}
-    selectionKeys.value = {}
-  }
-})
-
 const handleNodeSelect = (node: TreeNode) => {
-  selectionKeys.value = { [node.key]: true }
-  toggleNode(node)
   gotoEid(node.key)
-}
-
-function toggleNode(node: TreeNode) {
-  expandedKeys.value[node.key] = !expandedKeys.value[node.key]
 }
 
 // EDITOR
@@ -103,7 +73,7 @@ const codeEditorRef = ref<InstanceType<typeof RisCodeEditor> | null>(null)
 const sentryTraceId = useSentryTraceId()
 const { add: addToast, addError: addErrorToast } = useToast()
 
-const gotoEid = (eid: string) => {
+function gotoEid(eid: string) {
   codeEditorRef.value?.scrollToText(`eId="${eid}"`)
 }
 
@@ -170,51 +140,13 @@ const isGegenstandslosExpression = computed(
         :min-size="20"
         class="h-full overflow-auto bg-white"
       >
-        <aside :aria-labelledby="tocHeadingId">
-          <div
-            v-if="tocIsFetching"
-            class="mt-24 flex items-center justify-center"
-          >
-            <RisLoadingSpinner />
-          </div>
-
-          <RisErrorCallout
-            v-else-if="tocError"
-            :error="tocError"
-            class="m-16 mt-8"
-          />
-
-          <RisEmptyState
-            v-else-if="!toc || !toc.length"
-            text-content="Keine Artikel gefunden."
-            class="m-16 mt-8"
-          />
-          <div v-else class="flex-1 overflow-auto">
-            <h2 :id="tocHeadingId" class="ris-body1-bold mx-20 mt-16 mb-10">
-              Inhaltsübersicht
-            </h2>
-            <Tree
-              v-model:expanded-keys="expandedKeys"
-              v-model:selection-keys="selectionKeys"
-              :aria-labelledby="tocHeadingId"
-              :value="treeNodes"
-              selection-mode="single"
-              @node-select="handleNodeSelect"
-            >
-              <template #default="{ node }">
-                <button
-                  class="cursor-pointer pl-4 text-left group-hover:underline!"
-                  @click="() => toggleNode(node)"
-                >
-                  <span class="block">{{ node.label }}</span>
-                  <span class="block font-normal">{{
-                    node.data.sublabel
-                  }}</span>
-                </button>
-              </template>
-            </Tree>
-          </div>
-        </aside>
+        <RisTextEditorTableOfContents
+          :key="expressionEli.toString()"
+          :toc="toc"
+          :is-fetching="tocIsFetching"
+          :fetch-error="tocError"
+          @select-node="handleNodeSelect"
+        />
       </SplitterPanel>
 
       <SplitterPanel

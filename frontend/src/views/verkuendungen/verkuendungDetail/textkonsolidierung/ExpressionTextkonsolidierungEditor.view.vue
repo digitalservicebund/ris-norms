@@ -2,7 +2,6 @@
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisDokumentExplorer from "@/components/RisDokumentExplorer.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
-import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import { type HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisHighlightColorSwatch from "@/components/RisHighlightColorSwatch.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
@@ -33,7 +32,6 @@ import {
   Message,
   Splitter,
   SplitterPanel,
-  Tree,
 } from "primevue"
 import type { TreeNode } from "primevue/treenode"
 import { computed, ref, watch } from "vue"
@@ -43,6 +41,7 @@ import IcBaselineArrowForward from "~icons/ic/baseline-arrow-forward"
 import IcBaselineCheck from "~icons/ic/baseline-check"
 import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import RisTextEditorTableOfContents from "@/components/RisTextEditorTableOfContents.vue"
 
 const verkuendungEli = useNormExpressionEliPathParameter("verkuendung")
 const expressionEli = useNormExpressionEliPathParameter("expression")
@@ -85,37 +84,11 @@ const {
   DokumentExpressionEli.fromNormExpressionEli(expressionEli.value),
 )
 
-const treeNodes = computed<TreeNode[]>(() =>
-  toc.value?.length
-    ? toc.value.map<TreeNode>((i) => ({
-        key: i.id,
-        label: i.marker || "Unbenanntes Element",
-        data: { sublabel: i.heading || null },
-        children: [],
-      }))
-    : [],
-)
-
-const { tocHeadingId, expressionPointInTimeLabelId } = useElementId()
-const expandedKeys = ref<Record<string, boolean>>({})
-const selectionKeys = ref<Record<string, boolean>>({})
-
-watch(expressionEli, (newVal, oldVal) => {
-  if (newVal !== oldVal) {
-    expandedKeys.value = {}
-    selectionKeys.value = {}
-  }
-})
-
 const handleNodeSelect = (node: TreeNode) => {
-  selectionKeys.value = { [node.key]: true }
-  toggleNode(node)
   gotoEid(node.key)
 }
 
-function toggleNode(node: TreeNode) {
-  expandedKeys.value[node.key] = !expandedKeys.value[node.key]
-}
+const { expressionPointInTimeLabelId } = useElementId()
 
 const formattedDate = computed(() =>
   formatDate(expressionEli.value.pointInTime),
@@ -300,26 +273,14 @@ const isGegenstandslosExpression = computed(() => {
         :min-size="20"
         class="h-full overflow-auto bg-white"
       >
-        <aside :aria-labelledby="tocHeadingId">
-          <div
-            v-if="tocIsFetching"
-            class="mt-24 flex items-center justify-center"
-          >
-            <RisLoadingSpinner />
-          </div>
-
-          <RisErrorCallout
-            v-else-if="tocError"
-            :error="tocError"
-            class="m-16 mt-8"
-          />
-
-          <RisEmptyState
-            v-else-if="!toc || !toc.length"
-            text-content="Keine Artikel gefunden."
-            class="m-16 mt-8"
-          />
-          <div v-else class="flex-1 overflow-auto">
+        <RisTextEditorTableOfContents
+          :key="expressionEli.toString()"
+          :toc="toc"
+          :is-fetching="tocIsFetching"
+          :fetch-error="tocError"
+          @select-node="handleNodeSelect"
+        >
+          <template #top-navigation>
             <div
               class="sticky top-0 z-10 flex items-center justify-between gap-8 border-b border-gray-400 p-16"
             >
@@ -366,31 +327,8 @@ const isGegenstandslosExpression = computed(() => {
                 <span class="sr-only">Nächste Version</span>
               </RouterLink>
             </div>
-            <h2 :id="tocHeadingId" class="ris-body1-bold mx-20 mt-16 mb-10">
-              Inhaltsübersicht
-            </h2>
-            <Tree
-              v-model:expanded-keys="expandedKeys"
-              v-model:selection-keys="selectionKeys"
-              :aria-labelledby="tocHeadingId"
-              :value="treeNodes"
-              selection-mode="single"
-              @node-select="handleNodeSelect"
-            >
-              <template #default="{ node }">
-                <button
-                  class="cursor-pointer pl-4 text-left group-hover:underline!"
-                  @click="() => toggleNode(node)"
-                >
-                  <span class="block">{{ node.label }}</span>
-                  <span class="block font-normal">{{
-                    node.data.sublabel
-                  }}</span>
-                </button>
-              </template>
-            </Tree>
-          </div>
-        </aside>
+          </template>
+        </RisTextEditorTableOfContents>
       </SplitterPanel>
 
       <SplitterPanel
