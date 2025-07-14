@@ -25,6 +25,7 @@ describe("risDatenbankTable", () => {
         currentPage: 0,
         pageSize: 100,
       },
+      global: { stubs: { RouterLink: true }, renderStubDefaultSlot: true },
     })
 
     expect(screen.getByRole("table")).toBeInTheDocument()
@@ -46,6 +47,7 @@ describe("risDatenbankTable", () => {
         currentPage: 1,
         pageSize: 100,
       },
+      global: { stubs: { RouterLink: true }, renderStubDefaultSlot: true },
     })
     expect(screen.getByText("Seite 2 von 2")).toBeInTheDocument()
   })
@@ -63,6 +65,7 @@ describe("risDatenbankTable", () => {
         currentPage: 0,
         pageSize: 2,
       },
+      global: { stubs: { RouterLink: true }, renderStubDefaultSlot: true },
     })
     const weiter = screen.getByText("Weiter")
     expect(weiter).toBeInTheDocument()
@@ -83,6 +86,7 @@ describe("risDatenbankTable", () => {
         currentPage: 1,
         pageSize: 2,
       },
+      global: { stubs: { RouterLink: true }, renderStubDefaultSlot: true },
     })
     const zurueck = screen.getByText("Zurück")
     expect(zurueck).toBeInTheDocument()
@@ -98,6 +102,7 @@ describe("risDatenbankTable", () => {
         currentPage: 0,
         pageSize: 2,
       },
+      global: { stubs: { RouterLink: true }, renderStubDefaultSlot: true },
     })
     expect(screen.queryByText("Zurück")).not.toBeVisible()
     expect(screen.queryByText("Weiter")).not.toBeVisible()
