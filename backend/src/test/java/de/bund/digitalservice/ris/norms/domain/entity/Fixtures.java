@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
@@ -172,7 +174,23 @@ public class Fixtures {
       throw new RuntimeException("Could not find any fixture files in %s".formatted(folderName));
     }
 
-    for (File file : files) {
+    // ensure rechtsetzungsdokument is loaded first so the normManifestationEli is filled for binary files
+    var sortedFiles = Arrays.stream(files)
+      .sorted(
+        Comparator.comparing(File::getName, (nameA, nameB) -> {
+          if (
+            nameA.contains(DokumentType.RECHTSETZUNGSDOKUMENT.fileName) &&
+            nameB.contains(DokumentType.RECHTSETZUNGSDOKUMENT.fileName)
+          ) return 0;
+          if (nameA.contains(DokumentType.RECHTSETZUNGSDOKUMENT.fileName)) return -1;
+          if (nameB.contains(DokumentType.RECHTSETZUNGSDOKUMENT.fileName)) return 1;
+
+          return 0;
+        })
+      )
+      .toList();
+
+    for (File file : sortedFiles) {
       if (file.isDirectory()) {
         continue;
       }
