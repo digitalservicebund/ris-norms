@@ -2,11 +2,11 @@
 import { watch, ref, computed } from "vue"
 import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
-import type { ZielnormReleaseStatusDomain } from "@/services/zielnormReleaseService"
+import type { NormReleaseStatusDomain } from "@/services/normReleaseService"
 import {
-  useGetZielnormReleaseStatus,
-  usePostZielnormRelease,
-} from "@/services/zielnormReleaseService"
+  useGetNormReleaseStatus,
+  usePostNormRelease,
+} from "@/services/normReleaseService"
 import { ConfirmDialog, Column, DataTable, useConfirm } from "primevue"
 import Button from "primevue/button"
 import { useElementId } from "@/composables/useElementId"
@@ -17,7 +17,7 @@ import { useToast } from "@/composables/useToast"
 import { useGetNormWork } from "@/services/normService"
 
 const normWorkEli = useNormWorkEliPathParameter()
-const releaseStatus = ref<ZielnormReleaseStatusDomain | null>(null)
+const releaseStatus = ref<NormReleaseStatusDomain | null>(null)
 const toast = useToast()
 
 const confirm = useConfirm()
@@ -26,7 +26,7 @@ const {
   data: initialReleaseStatus,
   error: releaseStatusError,
   isFetching: isFetchingReleaseStatus,
-} = useGetZielnormReleaseStatus(normWorkEli)
+} = useGetNormReleaseStatus(normWorkEli)
 
 watch(initialReleaseStatus, (val) => {
   if (val) releaseStatus.value = val
@@ -36,7 +36,7 @@ const {
   execute: postRelease,
   data: postData,
   error: postError,
-} = usePostZielnormRelease(normWorkEli)
+} = usePostNormRelease(normWorkEli)
 
 const {
   data: normWork,

@@ -13,7 +13,7 @@ vi.mock("@/lib/auth", () => {
   }
 })
 
-describe("useGetZielnormReleaseStatus", () => {
+describe("useGetNormReleaseStatus", () => {
   beforeEach(() => {
     vi.resetAllMocks()
     vi.resetModules()
@@ -41,11 +41,9 @@ describe("useGetZielnormReleaseStatus", () => {
 
     vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-    const { useGetZielnormReleaseStatus } = await import(
-      "./zielnormReleaseService"
-    )
+    const { useGetNormReleaseStatus } = await import("./normReleaseService")
 
-    const result = useGetZielnormReleaseStatus(
+    const result = useGetNormReleaseStatus(
       NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"),
     )
 
@@ -72,12 +70,10 @@ describe("useGetZielnormReleaseStatus", () => {
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("[]"))
 
-    const { useGetZielnormReleaseStatus } = await import(
-      "./zielnormReleaseService"
-    )
+    const { useGetNormReleaseStatus } = await import("./normReleaseService")
 
     const eli = ref(undefined)
-    useGetZielnormReleaseStatus(eli)
+    useGetNormReleaseStatus(eli)
     await flushPromises()
 
     expect(fetchSpy).not.toHaveBeenCalled()
@@ -95,12 +91,10 @@ describe("useGetZielnormReleaseStatus", () => {
       ),
     )
 
-    const { useGetZielnormReleaseStatus } = await import(
-      "./zielnormReleaseService"
-    )
+    const { useGetNormReleaseStatus } = await import("./normReleaseService")
 
     const eli = ref(NormWorkEli.fromString("eli/bund/bgbl-1/2021/1"))
-    useGetZielnormReleaseStatus(eli, { immediate: true, refetch: true })
+    useGetNormReleaseStatus(eli, { immediate: true, refetch: true })
 
     await vi.waitFor(() => expect(fetchSpy).toHaveBeenCalledTimes(1))
 
@@ -109,7 +103,7 @@ describe("useGetZielnormReleaseStatus", () => {
   })
 })
 
-describe("usePostZielnormRelease", () => {
+describe("usePostNormRelease", () => {
   beforeEach(() => {
     vi.resetAllMocks()
     vi.resetModules()
@@ -141,9 +135,9 @@ describe("usePostZielnormRelease", () => {
 
     vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-    const { usePostZielnormRelease } = await import("./zielnormReleaseService")
+    const { usePostNormRelease } = await import("./normReleaseService")
 
-    const service = usePostZielnormRelease(
+    const service = usePostNormRelease(
       ref(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")),
     )
 
@@ -192,9 +186,9 @@ describe("usePostZielnormRelease", () => {
 
     vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-    const { usePostZielnormRelease } = await import("./zielnormReleaseService")
+    const { usePostNormRelease } = await import("./normReleaseService")
 
-    const service = usePostZielnormRelease(
+    const service = usePostNormRelease(
       ref(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593")),
     )
 

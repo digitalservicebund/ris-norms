@@ -7,7 +7,7 @@ import { computed, ref, toValue, watch } from "vue"
 
 export type ReleaseType = "praetext" | "volldokumentation"
 
-type ZielnormReleaseStatus = {
+type NormReleaseStatus = {
   normWorkEli: string
   title: string
   shortTitle: string
@@ -20,7 +20,7 @@ type ZielnormReleaseStatus = {
       | "VOLLDOKUMENTATION_RELEASED"
   }[]
 }
-export type ZielnormReleaseStatusDomain = {
+export type NormReleaseStatusDomain = {
   normWorkEli: NormWorkEli
   title: string
   shortTitle: string
@@ -35,8 +35,8 @@ export type ZielnormReleaseStatusDomain = {
 }
 
 export function mapReleaseStatusResponseToDomain(
-  response: ZielnormReleaseStatus,
-): ZielnormReleaseStatusDomain {
+  response: NormReleaseStatus,
+): NormReleaseStatusDomain {
   return {
     normWorkEli: NormWorkEli.fromString(response.normWorkEli),
     title: response.title,
@@ -49,22 +49,22 @@ export function mapReleaseStatusResponseToDomain(
   }
 }
 
-type UseGetZielnormReleaseStatusReturn = Omit<
-  UseFetchReturn<ZielnormReleaseStatusDomain | null>,
+type UseGetNormReleaseStatusReturn = Omit<
+  UseFetchReturn<NormReleaseStatusDomain | null>,
   "get" | "post" | "put" | "delete" | "patch" | "head" | "options"
 >
 
 /**
- * Fetches the release statuses of expressions belonging to a Zielnorm.
+ * Fetches the release statuses of expressions belonging to a norm.
  *
- * @param eli Work ELI of the Zielnorm
+ * @param eli Work ELI of the norm
  * @param [fetchOptions={}] Additional options for the fetching
- * * @returns Reactive fetch wrapper for Zielnorm release status
+ * * @returns Reactive fetch wrapper for norm release status
  */
-export function useGetZielnormReleaseStatus(
+export function useGetNormReleaseStatus(
   eli: MaybeRefOrGetter<NormWorkEli | undefined>,
   fetchOptions: UseFetchOptions = {},
-): UseGetZielnormReleaseStatusReturn {
+): UseGetNormReleaseStatusReturn {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
@@ -74,9 +74,9 @@ export function useGetZielnormReleaseStatus(
   const { data, ...rest } = useApiFetch(url, {
     refetch: true,
     ...fetchOptions,
-  }).json<ZielnormReleaseStatus>()
+  }).json<NormReleaseStatus>()
 
-  const mappedData = ref<ZielnormReleaseStatusDomain | null>(null)
+  const mappedData = ref<NormReleaseStatusDomain | null>(null)
   watch(
     data,
     (newData) => {
@@ -90,9 +90,9 @@ export function useGetZielnormReleaseStatus(
 }
 
 /**
- * Posts a release request for the given Zielnorm with a releaseType
+ * Posts a release request for the given norm with a releaseType
  */
-export function usePostZielnormRelease(
+export function usePostNormRelease(
   eli: MaybeRefOrGetter<NormWorkEli | undefined>,
 ) {
   const url = computed(() => {
@@ -107,9 +107,9 @@ export function usePostZielnormRelease(
     ...rest
   } = useApiFetch(url, {
     immediate: false,
-  }).json<ZielnormReleaseStatus>()
+  }).json<NormReleaseStatus>()
 
-  const mappedData = ref<ZielnormReleaseStatusDomain | null>(null)
+  const mappedData = ref<NormReleaseStatusDomain | null>(null)
 
   watch(
     rawData,
