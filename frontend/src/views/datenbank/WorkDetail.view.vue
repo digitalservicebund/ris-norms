@@ -12,8 +12,9 @@ import { formatDate } from "@/lib/dateTime"
 import { useElementId } from "@/composables/useElementId"
 import type { TreeNode } from "primevue/treenode"
 import { Tree } from "primevue"
-import { useRoute, useRouter } from "vue-router"
+import { RouterLink, useRoute, useRouter } from "vue-router"
 import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
+import Button from "primevue/button"
 
 const workEli = useNormWorkEliPathParameter()
 const { expressionsHeadingId } = useElementId()
@@ -117,6 +118,11 @@ watch(
     :errors="[normWorkError, normExpressionsError]"
     :loading="isLoading"
   >
+    <template #headerAction>
+      <RouterLink :to="{ name: 'DatenbankAbgabe' }">
+        <Button severity="primary" label="Abgeben" />
+      </RouterLink>
+    </template>
     <Splitter class="h-full" layout="horizontal">
       <SplitterPanel
         :size="20"
