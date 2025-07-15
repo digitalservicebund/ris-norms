@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { useHeaderContext } from "@/components/RisHeader.vue"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import Button from "primevue/button"
 import RisMetadataEditorRahmen from "@/components/metadata-editor/rahmen/RisMetadataEditorRahmen.vue"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 
-const dokumentExpressionEli = useDokumentExpressionEliPathParameter()
+const normExpressionEli = useNormExpressionEliPathParameter()
 const { actionTeleportTarget } = useHeaderContext()
 </script>
 
 <template>
-  <RisMetadataEditorRahmen :dokument-expression-eli="dokumentExpressionEli">
+  <RisMetadataEditorRahmen :norm-expression-eli="normExpressionEli">
     <template #save="{ disabled, loading, save }">
       <Teleport v-if="actionTeleportTarget" :to="actionTeleportTarget">
         <div class="relative">

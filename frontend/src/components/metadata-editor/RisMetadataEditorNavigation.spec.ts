@@ -1,10 +1,10 @@
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { render, screen, within } from "@testing-library/vue"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { defineComponent, ref } from "vue"
 import type { TocItem } from "@/types/toc"
 import { createRouter, createWebHashHistory, type Router } from "vue-router"
 import { userEvent } from "@testing-library/user-event"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
 const tocTestData = [
   {
@@ -115,8 +115,8 @@ describe("risMetadataEditorNavigation", () => {
         routeNameEditorElement: "ElementEditor",
         routeNameEditorOutlineElement: "OutlineElementEditor",
         routeNameEditorRahmen: "RahmenEditor",
-        dokumentExpressionEli: DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+        normExpressionEli: NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu",
         ),
         selectedEId: "art-z3",
       },
@@ -171,8 +171,8 @@ describe("risMetadataEditorNavigation", () => {
         routeNameEditorElement: "ElementEditor",
         routeNameEditorOutlineElement: "OutlineElementEditor",
         routeNameEditorRahmen: "RahmenEditor",
-        dokumentExpressionEli: DokumentExpressionEli.fromString(
-          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+        normExpressionEli: NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu",
         ),
         selectedEId: "art-z3",
       },

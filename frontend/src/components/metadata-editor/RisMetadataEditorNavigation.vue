@@ -12,7 +12,8 @@ import { useGetNormToc } from "@/services/tocService"
 import type { TocItem } from "@/types/toc"
 import { useRouter } from "vue-router"
 import { useElementId } from "@/composables/useElementId"
-import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
 const router = useRouter()
 const { sidebarNavigationId } = useElementId()
@@ -21,7 +22,7 @@ const props = defineProps<{
   routeNameEditorElement: string
   routeNameEditorOutlineElement: string
   routeNameEditorRahmen: string
-  dokumentExpressionEli: DokumentExpressionEli
+  normExpressionEli: NormExpressionEli
   selectedEId: string | undefined
 }>()
 
@@ -29,7 +30,9 @@ const {
   data: tocItems,
   isFetching: tocIsLoading,
   error: tocError,
-} = useGetNormToc(() => props.dokumentExpressionEli)
+} = useGetNormToc(() =>
+  DokumentExpressionEli.fromNormExpressionEli(props.normExpressionEli),
+)
 
 const expandedKeys = ref<Record<string, boolean>>({})
 const selectionKeys = ref<Record<string, boolean>>({})

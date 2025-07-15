@@ -10,7 +10,7 @@ test.describe(
       page,
     }) => {
       await page.goto(
-        "./datenbank/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1/metadaten",
+        "./datenbank/eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/metadaten",
       )
 
       const nav = page.getByRole("complementary", {

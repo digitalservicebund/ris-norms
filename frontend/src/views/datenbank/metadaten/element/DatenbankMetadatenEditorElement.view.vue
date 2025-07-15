@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import Button from "primevue/button"
 import { useHeaderContext } from "@/components/RisHeader.vue"
 import RisMetadataEditorElement from "@/components/metadata-editor/element/RisMetadataEditorElement.vue"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { computed } from "vue"
 
-const dokumentExpressionEli = useDokumentExpressionEliPathParameter()
+const normExpressionEli = useNormExpressionEliPathParameter()
+const dokumentExpressionEli = computed(() =>
+  DokumentExpressionEli.fromNormExpressionEli(normExpressionEli.value),
+)
 const elementEid = useEidPathParameter()
 
 const { actionTeleportTarget } = useHeaderContext()

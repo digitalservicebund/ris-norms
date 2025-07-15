@@ -158,9 +158,7 @@ const handlePreviewRendered = () => {
             Vorschau
           </h2>
           <div class="flex flex-row gap-8">
-            <RouterLink
-              :to="`/datenbank/${DokumentExpressionEli.fromNormExpressionEli(expressionEli)}/metadaten`"
-            >
+            <RouterLink :to="`/datenbank/${expressionEli}/metadaten`">
               <Button severity="primary" label="Metadaten bearbeiten" />
             </RouterLink>
             <RouterLink :to="`/datenbank/${expressionEli}/textbearbeitung`">
