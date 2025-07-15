@@ -12,18 +12,21 @@ const tocTestData = [
     marker: "2. Buch",
     heading: "Beispiele für Strukturen",
     type: "book",
+    hasEingebundeneStammform: false,
     children: [
       {
         id: "hauptteil-n1_buch-n2_kapitel-n1",
         marker: "",
         heading: "Implementierung",
         type: "chapter",
+        hasEingebundeneStammform: false,
         children: [
           {
             id: "art-z3",
             marker: "§ 3",
             heading: "Implementierung der neuen Strukturen",
             type: "article",
+            hasEingebundeneStammform: false,
             children: [],
           },
           {
@@ -31,6 +34,7 @@ const tocTestData = [
             marker: "§ 4",
             heading: "Finanzielle Unterstützung",
             type: "article",
+            hasEingebundeneStammform: false,
             children: [],
           },
           {
@@ -38,6 +42,7 @@ const tocTestData = [
             marker: "§ 5",
             heading: "Evaluierung und Anpassung",
             type: "article",
+            hasEingebundeneStammform: false,
             children: [],
           },
           {
@@ -45,6 +50,7 @@ const tocTestData = [
             marker: "§ 5a",
             heading: "Stammverweis",
             type: "article",
+            hasEingebundeneStammform: false,
             children: [],
           },
         ],
@@ -56,12 +62,14 @@ const tocTestData = [
     marker: "3. Buch",
     heading: "Beispiele Teil I",
     type: "book",
+    hasEingebundeneStammform: false,
     children: [
       {
         id: "art-z6",
         marker: "§ 6",
         heading: "Beispielartikel",
         type: "article",
+        hasEingebundeneStammform: false,
         children: [],
       },
     ],

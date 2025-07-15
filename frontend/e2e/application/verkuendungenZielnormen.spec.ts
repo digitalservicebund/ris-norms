@@ -115,58 +115,117 @@ test.describe("Geltungszeiten-Artikel", { tag: ["@RISDEV-6946"] }, () => {
   })
 })
 
-test.describe("table of contents", { tag: ["@RISDEV-6946"] }, () => {
-  test("shows the table of contents of the Verkündung", async ({ page }) => {
-    await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen",
-    )
+test.describe(
+  "table of contents",
+  { tag: ["@RISDEV-6946", "@RISDEV-8575"] },
+  () => {
+    test("shows the table of contents of the Verkündung", async ({ page }) => {
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnormen",
+      )
 
-    const toc = page.getByRole("tree", { name: "Inhaltsverzeichnis" })
+      const toc = page.getByRole("tree", { name: "Inhaltsverzeichnis" })
 
-    await expect(toc).toHaveText(
-      "Artikel 1\nÄnderung des Vereinsgesetzes\nArtikel 3\nInkrafttreten",
-      { useInnerText: true },
-    )
-  })
+      await expect(
+        toc.getByRole("button", {
+          name: "Unbenanntes Element Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        }),
+      ).toBeVisible()
 
-  test("shows an error if the table contents can't be loaded", async ({
-    page,
-  }) => {
-    await page.route(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/toc",
-      async (route) => {
-        await route.fulfill({ status: 500, json: {} })
-      },
-    )
+      await expect(
+        toc.getByRole("button", {
+          name: "Artikel 2 Änderung des Bundesgleichstellungsgesetzes",
+        }),
+      ).toBeVisible()
 
-    await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen",
-    )
+      await expect(
+        toc.getByRole("button", {
+          name: "Artikel 3 Änderung des Soldatengesetzes",
+        }),
+      ).toBeVisible()
 
-    await expect(
-      page.getByText("Ein unbekannter Fehler ist aufgetreten."),
-    ).toBeVisible()
-  })
+      await expect(
+        toc.getByRole("button", {
+          name: "Artikel 4 Änderung der Gleichstellungsbeauftragten-Wahlverordnung Soldatinnen",
+        }),
+      ).toBeVisible()
 
-  test("shows an empty state if the Verkündung has no content", async ({
-    page,
-  }) => {
-    await page.route(
-      "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/toc",
-      async (route) => {
-        await route.fulfill({ status: 200, json: [] })
-      },
-    )
+      await expect(
+        toc.getByRole("button", {
+          name: "Artikel 5 Änderung der Soldaten-Haushaltshilfen-Verordnung",
+        }),
+      ).toBeVisible()
 
-    await page.goto(
-      "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen",
-    )
+      await expect(
+        toc.getByRole("button", {
+          name: "Artikel 6 Änderung des Beamtenversorgungsgesetzes",
+        }),
+      ).toBeVisible()
 
-    await expect(page.getByText("Keine Artikel gefunden.")).toBeVisible()
-  })
-})
+      await expect(
+        toc.getByRole("button", {
+          name: "Artikel 7 Änderung des Soldatenversorgungsgesetzes",
+        }),
+      ).toBeVisible()
 
-test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
+      await expect(
+        toc.getByRole("button", {
+          name: "Artikel 8 Änderung des Soldatenversorgungsgesetzes",
+        }),
+      ).toBeVisible()
+
+      await expect(
+        toc.getByRole("button", {
+          name: "Artikel 9 Änderung des Unterhaltssicherungsgesetzes",
+        }),
+      ).toBeVisible()
+
+      await expect(
+        toc.getByRole("button", {
+          name: "Artikel 10 Inkrafttreten, Außerkrafttreten",
+        }),
+      ).toBeVisible()
+    })
+
+    test("shows an error if the table contents can't be loaded", async ({
+      page,
+    }) => {
+      await page.route(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/toc",
+        async (route) => {
+          await route.fulfill({ status: 500, json: {} })
+        },
+      )
+
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen",
+      )
+
+      await expect(
+        page.getByText("Ein unbekannter Fehler ist aufgetreten."),
+      ).toBeVisible()
+    })
+
+    test("shows an empty state if the Verkündung has no content", async ({
+      page,
+    }) => {
+      await page.route(
+        "/api/v1/norms/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1/toc",
+        async (route) => {
+          await route.fulfill({ status: 200, json: [] })
+        },
+      )
+
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen",
+      )
+
+      await expect(page.getByText("Keine Artikel gefunden.")).toBeVisible()
+    })
+  },
+)
+
+test.describe("detail", { tag: ["@RISDEV-6946", "@RISDEV-8575"] }, () => {
   test("displays the preview of an Artikel", async ({ page }) => {
     await page.goto(
       "./verkuendungen/eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/zielnormen",
@@ -181,6 +240,30 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
       page
         .getByRole("complementary", { name: "Änderungsgesetz" })
         .getByText("Änderung des Vereinsgesetzes"),
+    ).toBeVisible()
+  })
+
+  test("displays a reference to an eingebundene Stammform in an Artikel", async ({
+    page,
+  }) => {
+    await page.goto(
+      "./verkuendungen/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnormen",
+    )
+
+    await page
+      .getByRole("tree", { name: "Inhaltsverzeichnis" })
+      .getByRole("button", {
+        name: /Soldatinnen- und Soldatengleichstellungsgesetz/,
+      })
+      .click()
+
+    const preview = page.getByRole("complementary", { name: "Änderungsgesetz" })
+
+    await expect(preview.getByText("Unbenanntes Element")).toBeVisible()
+    await expect(
+      preview.getByText(
+        "Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+      ),
     ).toBeVisible()
   })
 
@@ -264,7 +347,7 @@ test.describe("Artikel detail", { tag: ["@RISDEV-6946"] }, () => {
   })
 })
 
-test.describe("editing form", { tag: ["@RISDEV-6946"] }, () => {
+test.describe("Artikel editing form", { tag: ["@RISDEV-6946"] }, () => {
   let zeitgrenzenIds: string[] = []
 
   test.beforeAll(async ({ authenticatedRequest: request }) => {
