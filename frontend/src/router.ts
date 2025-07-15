@@ -201,6 +201,12 @@ const routes: readonly RouteRecordRaw[] = [
         ],
       },
       {
+        path: `${createNormWorkEliPathParameter()}/abgabe`,
+        name: "DatenbankAbgabe",
+        component: () =>
+          import("@/views/datenbank/abgabe/DatenbankAbgabe.view.vue"),
+      },
+      {
         path: `${createNormExpressionEliPathParameter()}/textbearbeitung`,
         name: "DatenbankExpressionTextbearbeitung",
         component: () =>
