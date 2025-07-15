@@ -84,7 +84,10 @@ const routes: readonly RouteRecordRaw[] = [
       {
         path: `/verkuendungen/${createNormExpressionEliPathParameter("verkuendung")}/zielnorm/${createNormWorkEliPathParameter("zielnorm")}/abgabe`,
         name: "Abgabe",
-        component: () => import("@/views/verkuendungen/abgabe/Abgabe.view.vue"),
+        component: () =>
+          import(
+            "@/views/verkuendungen/verkuendungDetail/abgabe/VerkuendungAbgabe.view.vue"
+          ),
       },
       {
         path: "upload",
