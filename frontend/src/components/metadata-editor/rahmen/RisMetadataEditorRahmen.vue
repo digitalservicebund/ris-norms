@@ -11,21 +11,20 @@ import {
 import type { RahmenProprietary } from "@/types/proprietary"
 import { useToast } from "@/composables/useToast"
 import { onBeforeUnmount, ref, watch } from "vue"
-import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { useHeaderContext } from "@/components/RisHeader.vue"
 import RisMetadataEditorRahmenForm from "@/components/metadata-editor/rahmen/RisMetadataEditorRahmenForm.vue"
+import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
 const props = defineProps<{
-  dokumentExpressionEli: DokumentExpressionEli
+  normExpressionEli: NormExpressionEli
 }>()
 
 /* -------------------------------------------------- *
  * API handling                                       *
  * -------------------------------------------------- */
 
-const { data: normData } = useGetNorm(() =>
-  props.dokumentExpressionEli.asNormEli(),
-)
+const { data: normData } = useGetNorm(() => props.normExpressionEli)
 
 const localData = ref<RahmenProprietary | null>(null)
 
@@ -33,7 +32,9 @@ const {
   data,
   isFetching,
   error: fetchError,
-} = useGetRahmenProprietary(() => props.dokumentExpressionEli)
+} = useGetRahmenProprietary(() =>
+  DokumentExpressionEli.fromNormExpressionEli(props.normExpressionEli),
+)
 
 watch(data, (newData) => {
   localData.value = newData
@@ -45,9 +46,9 @@ const {
   isFinished: hasSaved,
   error: saveError,
   execute: save,
-} = usePutRahmenProprietary(localData, () => props.dokumentExpressionEli).put(
-  localData,
-)
+} = usePutRahmenProprietary(localData, () =>
+  DokumentExpressionEli.fromNormExpressionEli(props.normExpressionEli),
+).put(localData)
 
 watch(savedData, (newData) => {
   localData.value = newData
@@ -61,7 +62,7 @@ const {
   data: render,
   isFetching: renderIsLoading,
   error: renderError,
-} = useGetNormHtml(() => props.dokumentExpressionEli.asNormEli())
+} = useGetNormHtml(() => props.normExpressionEli)
 
 const sentryTraceId = useSentryTraceId()
 const { add: addToast, addError: addErrorToast } = useToast()

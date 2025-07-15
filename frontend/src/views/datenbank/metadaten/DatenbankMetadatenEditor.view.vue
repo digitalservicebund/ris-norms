@@ -1,30 +1,26 @@
 <script setup lang="ts">
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { Splitter, SplitterPanel } from "primevue"
 import RisMetadataEditorNavigation from "@/components/metadata-editor/RisMetadataEditorNavigation.vue"
 import { computed } from "vue"
 import { useGetNorm } from "@/services/normService"
-import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { formatDate } from "@/lib/dateTime"
 import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 
-const expressionEli = useDokumentExpressionEliPathParameter()
+const expressionEli = useNormExpressionEliPathParameter()
 const selectedEid = useEidPathParameter()
 
 const {
   data: normExpression,
   error: normExpressionError,
   isFinished: normExpressionLoaded,
-} = useGetNorm(() => expressionEli.value.asNormEli())
+} = useGetNorm(expressionEli)
 
-const pointInTime = computed(() => {
-  return NormExpressionEli.fromString(expressionEli.value.toString())
-    .pointInTime
-})
-
-const formattedDate = computed(() => formatDate(pointInTime.value))
+const formattedDate = computed(() =>
+  formatDate(expressionEli.value.pointInTime),
+)
 
 const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
   {
@@ -60,7 +56,7 @@ const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
           route-name-editor-element="DatenbankMetadatenEditorElement"
           route-name-editor-outline-element="DatenbankMetadatenEditorOutlineElement"
           route-name-editor-rahmen="DatenbankMetadatenEditorRahmen"
-          :dokument-expression-eli="expressionEli"
+          :norm-expression-eli="expressionEli"
           :selected-e-id="selectedEid"
         />
       </SplitterPanel>

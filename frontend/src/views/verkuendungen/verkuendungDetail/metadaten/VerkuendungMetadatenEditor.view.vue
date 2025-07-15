@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useDokumentExpressionEliPathParameter } from "@/composables/useDokumentExpressionEliPathParameter"
 import { useEidPathParameter } from "@/composables/useEidPathParameter"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { Splitter, SplitterPanel } from "primevue"
@@ -12,7 +11,7 @@ import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 
 const verkuendungEli = useNormExpressionEliPathParameter("verkuendung")
-const expressionEli = useDokumentExpressionEliPathParameter()
+const expressionEli = useNormExpressionEliPathParameter()
 const selectedEid = useEidPathParameter()
 
 // BREADCRUMBS
@@ -26,7 +25,7 @@ const {
   data: normExpression,
   error: normExpressionError,
   isFinished: normExpressionLoaded,
-} = useGetNorm(() => expressionEli.value.asNormEli())
+} = useGetNorm(expressionEli)
 
 const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
   {
@@ -61,7 +60,7 @@ const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
           route-name-editor-element="VerkuendungMetadatenEditorElement"
           route-name-editor-outline-element="VerkuendungMetadatenEditorOutlineElement"
           route-name-editor-rahmen="VerkuendungMetadatenEditorRahmen"
-          :dokument-expression-eli="expressionEli"
+          :norm-expression-eli="expressionEli"
           :selected-e-id="selectedEid"
         />
       </SplitterPanel>

@@ -125,7 +125,7 @@ const routes: readonly RouteRecordRaw[] = [
           ),
       },
       {
-        path: `${createNormExpressionEliPathParameter("verkuendung")}/metadaten/${createDokumentExpressionEliPathParameter()}`,
+        path: `${createNormExpressionEliPathParameter("verkuendung")}/metadaten/${createNormExpressionEliPathParameter()}`,
         name: "VerkuendungMetadatenEditor",
         component: () =>
           import(
@@ -209,7 +209,7 @@ const routes: readonly RouteRecordRaw[] = [
           ),
       },
       {
-        path: `${createDokumentExpressionEliPathParameter()}/metadaten`,
+        path: `${createNormExpressionEliPathParameter()}/metadaten`,
         name: "DatenbankMetadatenEditor",
         component: () =>
           import(
@@ -242,17 +242,16 @@ const routes: readonly RouteRecordRaw[] = [
           },
         ],
       },
+      {
+        path: `${GUID_ROUTE_PATH}/:any(.*)*`,
+        component: () => null,
+        beforeEnter: beforeRouteEnterGuidToNormExpressionEliRedirect,
+      },
     ],
   },
 
   {
     path: `/${GUID_ROUTE_PATH}/:any(.*)*`,
-    component: () => null,
-    beforeEnter: beforeRouteEnterGuidToDokumentExpressionEliRedirect,
-  },
-
-  {
-    path: `/datenbank/${GUID_ROUTE_PATH}/:any(.*)*`,
     component: () => null,
     beforeEnter: beforeRouteEnterGuidToDokumentExpressionEliRedirect,
   },

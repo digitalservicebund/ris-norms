@@ -8,7 +8,7 @@ test.describe("preview", { tag: ["@RISDEV-6266"] }, () => {
   test("displays the title and preview", async ({ page }) => {
     // Given
     await page.goto(
-      "./datenbank/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/metadaten",
+      "./datenbank/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/metadaten",
     )
 
     const preview = page.getByRole("region", { name: "Vorschau" })
@@ -40,7 +40,7 @@ test.describe("preview", { tag: ["@RISDEV-6266"] }, () => {
     )
 
     await page.goto(
-      "./datenbank/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/metadaten",
+      "./datenbank/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/metadaten",
     )
 
     // Then
