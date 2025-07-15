@@ -48,7 +48,9 @@ const breadcrumbs = computed<HeaderBreadcrumb[]>(() => [
   {
     key: "normWorkTitle",
     title: () => normWork.value?.title ?? "...",
+    to: { name: "DatenbankWorkDetail" },
   },
+  { key: "abgabe", title: "Abgabe" },
 ])
 
 const { abgabeHeadingId } = useElementId()
