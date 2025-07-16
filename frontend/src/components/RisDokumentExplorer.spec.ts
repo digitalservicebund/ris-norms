@@ -16,9 +16,27 @@ describe("risDokumentExplorer", () => {
       vi.doMock("@/services/tocService", () => ({
         useGetNormToc: () => ({
           data: ref<TocItem[]>([
-            { id: "eid-1", marker: "§ 1", heading: "Test 1", type: "article" },
-            { id: "eid-2", marker: "§ 2", heading: "Test 2", type: "article" },
-            { id: "eid-3", marker: "§ 3", heading: "Test 3", type: "article" },
+            {
+              id: "eid-1",
+              marker: "§ 1",
+              heading: "Test 1",
+              type: "article",
+              hasEingebundeneStammform: true,
+            },
+            {
+              id: "eid-2",
+              marker: "§ 2",
+              heading: "Test 2",
+              type: "article",
+              hasEingebundeneStammform: false,
+            },
+            {
+              id: "eid-3",
+              marker: "§ 3",
+              heading: "Test 3",
+              type: "article",
+              hasEingebundeneStammform: false,
+            },
           ]),
           error: ref(null),
           isFetching: ref(false),
@@ -133,9 +151,27 @@ describe("risDokumentExplorer", () => {
       vi.doMock("@/services/tocService", () => ({
         useGetNormToc: () => ({
           data: ref<TocItem[]>([
-            { id: "eid-1", marker: "§ 1", heading: "Test 1", type: "article" },
-            { id: "eid-2", marker: "§ 2", heading: "Test 2", type: "article" },
-            { id: "eid-3", marker: "§ 3", heading: "Test 3", type: "article" },
+            {
+              id: "eid-1",
+              marker: "§ 1",
+              heading: "Test 1",
+              type: "article",
+              hasEingebundeneStammform: true,
+            },
+            {
+              id: "eid-2",
+              marker: "§ 2",
+              heading: "Test 2",
+              type: "article",
+              hasEingebundeneStammform: false,
+            },
+            {
+              id: "eid-3",
+              marker: "§ 3",
+              heading: "Test 3",
+              type: "article",
+              hasEingebundeneStammform: false,
+            },
           ]),
           error: ref(null),
           isFetching: ref(false),
@@ -168,9 +204,24 @@ describe("risDokumentExplorer", () => {
 
       vi.doMock("@/services/tocService", () => ({
         useGetNormToc: () => ({
-          data: ref([]),
+          data: ref<TocItem[]>([
+            {
+              id: "eid-1",
+              marker: "§ 1",
+              heading: "Test 1",
+              type: "article",
+              hasEingebundeneStammform: true,
+            },
+            {
+              id: "eid-2",
+              marker: "§ 2",
+              heading: "Test 2",
+              type: "article",
+              hasEingebundeneStammform: false,
+            },
+          ]),
           error: ref(null),
-          isFetching: ref(true),
+          isFetching: ref(false),
         }),
       }))
     })
@@ -193,11 +244,39 @@ describe("risDokumentExplorer", () => {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
-          eid: "example-eid",
+          eid: "eid-2",
         },
       })
 
       expect(screen.getByText("Artikel content")).toBeInTheDocument()
+    })
+
+    it("shows a placeholder for elements with eingebundener Stammform", async () => {
+      const getElementHtml = vi.fn(() => ({}))
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: getElementHtml,
+      }))
+
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+          ),
+          eid: "eid-1",
+        },
+      })
+
+      expect(getElementHtml).toHaveBeenCalledWith(
+        expect.anything(),
+        expect.objectContaining({ value: undefined }),
+      )
+
+      expect(screen.getByText("§ 1")).toBeInTheDocument()
+      expect(screen.getByText("Test 1")).toBeInTheDocument()
     })
 
     it("shows an error if the element HTML could not be loaded", async () => {
@@ -218,7 +297,7 @@ describe("risDokumentExplorer", () => {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
-          eid: "example-eid",
+          eid: "eid-2",
         },
       })
 
@@ -245,7 +324,7 @@ describe("risDokumentExplorer", () => {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
-          eid: "example-eid",
+          eid: "eid-2",
         },
       })
 
@@ -272,7 +351,7 @@ describe("risDokumentExplorer", () => {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
-          eid: "example-eid",
+          eid: "eid-2",
         },
       })
 
@@ -301,7 +380,7 @@ describe("risDokumentExplorer", () => {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
-          eid: "example-eid",
+          eid: "eid-2",
         },
       })
 
@@ -337,7 +416,7 @@ describe("risDokumentExplorer", () => {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
-          eid: "example-eid",
+          eid: "eid-2",
           eidsToEdit: ["eid-1"],
         },
       })
@@ -376,7 +455,7 @@ describe("risDokumentExplorer", () => {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
-          eid: "example-eid",
+          eid: "eid-2",
         },
       })
 
@@ -413,7 +492,7 @@ describe("risDokumentExplorer", () => {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
-          eid: "example-eid",
+          eid: "eid-2",
         },
       })
 
@@ -455,7 +534,7 @@ describe("risDokumentExplorer", () => {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
-          eid: "example-eid",
+          eid: "eid-2",
         },
       })
 
@@ -497,7 +576,7 @@ describe("risDokumentExplorer", () => {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
-          eid: "example-eid",
+          eid: "eid-2",
         },
       })
 
@@ -539,7 +618,7 @@ describe("risDokumentExplorer", () => {
           eli: DokumentExpressionEli.fromString(
             "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
           ),
-          eid: "example-eid",
+          eid: "eid-2",
           eIdClasses: { "eid-1": ["example"] },
         },
       })

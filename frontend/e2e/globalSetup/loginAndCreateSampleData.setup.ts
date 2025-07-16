@@ -40,6 +40,7 @@ setup("create sample data", async ({ authenticatedRequest: request }) => {
     "bgbl-1_1002_2_mods-subsitution_01/aenderungsgesetz",
     "bgbl-1_2017_s419/aenderungsgesetz",
     "bgbl-1_2023_413/aenderungsgesetz",
+    "bgbl-1_2024_17",
   ]
 
   for (const folder of folders) {

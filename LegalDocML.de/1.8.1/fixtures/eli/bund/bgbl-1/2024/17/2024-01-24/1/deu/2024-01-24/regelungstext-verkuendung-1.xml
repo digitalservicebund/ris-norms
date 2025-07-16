@@ -588,7 +588,7 @@
             <akn:paragraph GUID="2aca653e-64c2-4c30-8207-b90c63273645" eId="art-z2_abs-z">
                <akn:num GUID="2f634c86-2754-469a-af5a-c97ba45aa30a"
                         eId="art-z2_abs-z_bezeichnung-n1"/>
-               <akn:content GUID="5a72e09f-49fd-46d8-9c89-da031a2385bb"
+               <akn:content GUID="a5fac215-ddc8-411d-8e92-1bd300bdaf8e"
                             eId="art-z2_abs-z_inhalt-n1">
                   <akn:blockList GUID="081871ff-bcd0-42ee-843e-59a7b372698e"
                                  eId="art-z2_abs-z_inhalt-n1_liste-n1">
@@ -657,7 +657,7 @@
             <akn:paragraph GUID="5efb1308-5b1c-4dbd-b3fd-23ad92520d30" eId="art-z4_abs-z">
                <akn:num GUID="6c8bb94d-a105-42f1-92f9-7d05152c081e"
                         eId="art-z4_abs-z_bezeichnung-n1"/>
-               <akn:content GUID="684bb7ef-c040-4b41-ac3f-6ba32fcc12cb"
+               <akn:content GUID="ac92eb84-2867-461e-9a21-9aa9a619cd1d"
                             eId="art-z4_abs-z_inhalt-n1">
                   <akn:blockList GUID="d263c92f-8781-4b1a-a95b-8dfba408094e"
                                  eId="art-z4_abs-z_inhalt-n1_liste-n1">
@@ -1441,7 +1441,7 @@
             <akn:paragraph GUID="51423edd-1f90-450b-b801-c3aaa130faf4" eId="art-z6_abs-z">
                <akn:num GUID="7ff73b22-8ec7-45f2-80f8-6eb9dcb064f0"
                         eId="art-z6_abs-z_bezeichnung-n1"/>
-               <akn:content GUID="6783f537-eca3-4308-bf5a-8c9eeebc1b9a"
+               <akn:content GUID="ebdae5db-9a2a-41d1-b7cc-f56926b5da1f"
                             eId="art-z6_abs-z_inhalt-n1">
                   <akn:blockList GUID="12c4a437-dcf7-43bf-8081-b99566a1a412"
                                  eId="art-z6_abs-z_inhalt-n1_liste-n1">
@@ -1688,7 +1688,7 @@
             <akn:paragraph GUID="32dc42ef-dae2-4e25-9718-b40ce41c8352" eId="art-z7_abs-z">
                <akn:num GUID="49486470-34bb-4393-a789-cc837a1ded70"
                         eId="art-z7_abs-z_bezeichnung-n1"/>
-               <akn:content GUID="366557ad-39db-4895-9868-a0611aaa8a65"
+               <akn:content GUID="c708bd68-b4df-48df-abdd-1ef6a2e44959"
                             eId="art-z7_abs-z_inhalt-n1">
                   <akn:blockList GUID="228bc31a-f631-40c5-aa37-bd43f88e910d"
                                  eId="art-z7_abs-z_inhalt-n1_liste-n1">
@@ -1932,7 +1932,7 @@
             <akn:paragraph GUID="02d84c11-4f03-435c-8a9a-e5a210dc4796" eId="art-z8_abs-z">
                <akn:num GUID="9b5d613b-4c0c-4f1e-9c83-4f64c2e52652"
                         eId="art-z8_abs-z_bezeichnung-n1"/>
-               <akn:content GUID="57bccc0f-c2e3-499b-bf07-4a3537192923"
+               <akn:content GUID="23052f36-9e1a-47e4-bcba-bb97a245bc77"
                             eId="art-z8_abs-z_inhalt-n1">
                   <akn:blockList GUID="184b14b4-1e94-42bd-9bcd-6e1800f057a7"
                                  eId="art-z8_abs-z_inhalt-n1_liste-n1">

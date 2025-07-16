@@ -26,12 +26,14 @@ describe("useGetNormToc", () => {
         marker: "§ 1",
         heading: "Article 1",
         type: "article",
+        hasEingebundeneStammform: false,
         children: [
           {
             id: "1.1",
             marker: "1.",
             heading: "First Point",
             type: "section",
+            hasEingebundeneStammform: false,
             children: [],
           },
           {
@@ -39,6 +41,7 @@ describe("useGetNormToc", () => {
             marker: "2.",
             heading: "Second Point",
             type: "section",
+            hasEingebundeneStammform: false,
             children: [],
           },
         ],
@@ -48,6 +51,7 @@ describe("useGetNormToc", () => {
         marker: "§ 2",
         heading: "Inkrafttreten",
         type: "article",
+        hasEingebundeneStammform: true,
         children: [],
       },
     ]
