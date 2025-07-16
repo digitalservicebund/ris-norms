@@ -821,10 +821,6 @@
                            eId="art-z5a_bezeichnung-n1">§ 5a</akn:num>
                   <akn:heading GUID="3ee186ed-0378-408c-af0c-a1141976ce8a"
                                eId="art-z5a_überschrift-n1">Stammverweis</akn:heading>
-                  <akn:componentRef src="eli-noch-undefiniert"
-                                    showAs="regelungstext-eingebundene-stammform"
-                                    GUID="b7a86030-d74b-4baa-b0e3-ff5a09f7147d"
-                                    eId="art-z5a_stfmverweis-n1"/>
                </akn:article>
             </akn:chapter>
          </akn:book>
@@ -1069,10 +1065,6 @@
       </akn:body>
       <akn:attachments GUID="c064f624-4722-4d13-9533-e4cb65ce129f" eId="anlagen-n1">
          <akn:attachment GUID="972b19e1-0e01-4125-82de-34ae1b8c5b57" eId="anlagen-n1_anlage-n1">
-            <akn:documentRef href="eli-noch-undefiniert"
-                             showAs="/akn/ontology/de/concept/documenttype/bund/anlage-regelungstext"
-                             GUID="abeb80ea-b0bc-414b-b605-fbf0939c3933"
-                             eId="anlagen-n1_anlage-n1_verweis-n1"/>
          </akn:attachment>
       </akn:attachments>
    </akn:act>
