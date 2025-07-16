@@ -7,6 +7,8 @@ spring:
         sources:
           - name: database-config
           - name: oauth2-config
+          - labels:
+              spring-config: "true"
       secrets:
         enabled: true
         fail-fast: true
