@@ -11,6 +11,9 @@ import org.w3c.dom.Element;
 @Getter
 public class CustomModsMetadata {
 
+  public static final Namespace NAMESPACE = Namespace.METADATEN_NORMS_APPLICATION_MODS;
+  public static final String TAG_NAME = "legalDocML.de_metadaten";
+
   private final Element element;
 
   public CustomModsMetadata(Element element) {

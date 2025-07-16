@@ -1,5 +1,7 @@
 package de.bund.digitalservice.ris.norms.application.service;
 
+import de.bund.digitalservice.ris.norms.domain.entity.AmendedNormExpressions;
+import de.bund.digitalservice.ris.norms.domain.entity.CustomModsMetadata;
 import de.bund.digitalservice.ris.norms.domain.entity.Geltungszeiten;
 import de.bund.digitalservice.ris.norms.domain.entity.Namespace;
 import de.bund.digitalservice.ris.norms.domain.entity.ZielnormReferences;
@@ -20,9 +22,21 @@ import org.w3c.dom.Node;
 public class LdmlDeEmptyElementRemover {
 
   private static final Map<Namespace, Set<String>> ELEMENTS_TO_REMOVE_IF_EMPTY = Set.of(
-    new ElementType(Geltungszeiten.NAMESPACE, Geltungszeiten.TAG_NAME),
+    new ElementType(Namespace.INHALTSDATEN, "proprietary"),
+    new ElementType(Namespace.INHALTSDATEN, "analysis"),
+    new ElementType(Namespace.INHALTSDATEN, "activeModifications"),
+    new ElementType(Namespace.INHALTSDATEN, "passiveModifications"),
+    new ElementType(Namespace.INHALTSDATEN, "notes"),
+    new ElementType(Namespace.INHALTSDATEN, "lifecycle"),
+    new ElementType(Namespace.INHALTSDATEN, "components"),
+    new ElementType(Namespace.METADATEN_BUNDESREGIERUNG, "legalDocML.de_metadaten"),
+    new ElementType(Namespace.METADATEN_BUNDESREGIERUNG, "federfuehrung"),
+    new ElementType(Namespace.METADATEN_RIS, "legalDocML.de_metadaten"),
+    new ElementType(Namespace.METADATEN_RIS, "einzelelement"),
+    new ElementType(CustomModsMetadata.NAMESPACE, CustomModsMetadata.TAG_NAME),
     new ElementType(ZielnormReferences.NAMESPACE, ZielnormReferences.TAG_NAME),
-    new ElementType(Namespace.METADATEN_RIS, "einzelelement")
+    new ElementType(Geltungszeiten.NAMESPACE, Geltungszeiten.TAG_NAME),
+    new ElementType(AmendedNormExpressions.NAMESPACE, AmendedNormExpressions.TAG_NAME)
   )
     .stream()
     .collect(

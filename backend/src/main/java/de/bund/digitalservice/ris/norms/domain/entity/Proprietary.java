@@ -258,8 +258,8 @@ public class Proprietary {
     return this.getCustomModsMetadata().orElseGet(() -> {
         final Element risMetadaten = getOrCreateMetadataParent(Namespace.METADATEN_RIS);
         final var newElement = NodeCreator.createElement(
-          Namespace.METADATEN_NORMS_APPLICATION_MODS,
-          "legalDocML.de_metadaten",
+          CustomModsMetadata.NAMESPACE,
+          CustomModsMetadata.TAG_NAME,
           risMetadaten
         );
         return new CustomModsMetadata(newElement);
