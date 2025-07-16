@@ -41,6 +41,7 @@ class NormServiceTest {
     LoadExpressionsOfNormWorkPort.class
   );
   final LdmlDeElementSorter ldmlDeElementSorter = mock(LdmlDeElementSorter.class);
+  final LdmlDeEmptyElementRemover ldmlDeEmptyElementRemover = new LdmlDeEmptyElementRemover();
   final LdmlDeValidator ldmlDeValidator = mock(LdmlDeValidator.class);
 
   final NormService service = new NormService(
@@ -55,6 +56,7 @@ class NormServiceTest {
     loadNormWorksPort,
     loadExpressionsOfNormWorkPort,
     ldmlDeElementSorter,
+    ldmlDeEmptyElementRemover,
     ldmlDeValidator
   );
 

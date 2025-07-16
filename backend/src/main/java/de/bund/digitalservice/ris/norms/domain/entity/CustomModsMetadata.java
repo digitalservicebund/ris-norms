@@ -59,15 +59,6 @@ public class CustomModsMetadata {
   }
 
   /**
-   * Remove the {@link Geltungszeiten} element
-   */
-  public void removeGeltungszeiten() {
-    getGeltungszeiten().ifPresent(geltungszeiten ->
-      getElement().removeChild(geltungszeiten.getElement())
-    );
-  }
-
-  /**
    * Is the given {@link Zeitgrenze} currently in use?
    * @param zeitgrenze the {@link Zeitgrenze} to check
    * @return true if it is in use, false otherwise
@@ -98,15 +89,6 @@ public class CustomModsMetadata {
   public ZielnormReferences getOrCreateZielnormenReferences() {
     return getZielnormenReferences().orElseGet(() ->
       ZielnormReferences.createAndAppend(getElement())
-    );
-  }
-
-  /**
-   * Remove the {@link ZielnormReferences} element
-   */
-  public void removeZielnormenReferences() {
-    getZielnormenReferences().ifPresent(zielnormReferences ->
-      getElement().removeChild(zielnormReferences.getElement())
     );
   }
 }
