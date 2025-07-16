@@ -51,6 +51,7 @@ public class NormService
   private final LoadNormWorksPort loadNormWorksPort;
   private final LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort;
   private final LdmlDeElementSorter ldmlDeElementSorter;
+  private final LdmlDeEmptyElementRemover ldmlDeEmptyElementRemover;
   private final LdmlDeValidator ldmlDeValidator;
 
   public NormService(
@@ -65,6 +66,7 @@ public class NormService
     LoadNormWorksPort loadNormWorksPort,
     LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort,
     LdmlDeElementSorter ldmlDeElementSorter,
+    LdmlDeEmptyElementRemover ldmlDeEmptyElementRemover,
     LdmlDeValidator ldmlDeValidator
   ) {
     this.loadNormPort = loadNormPort;
@@ -78,6 +80,7 @@ public class NormService
     this.loadNormWorksPort = loadNormWorksPort;
     this.loadExpressionsOfNormWorkPort = loadExpressionsOfNormWorkPort;
     this.ldmlDeElementSorter = ldmlDeElementSorter;
+    this.ldmlDeEmptyElementRemover = ldmlDeEmptyElementRemover;
     this.ldmlDeValidator = ldmlDeValidator;
   }
 
@@ -161,6 +164,7 @@ public class NormService
       .getDokumente()
       .forEach(dokument -> {
         EidConsistencyGuardian.eliminateDeadReferences(dokument.getDocument());
+        ldmlDeEmptyElementRemover.removeEmptyElements(dokument.getDocument().getDocumentElement());
         EidConsistencyGuardian.correctEids(dokument.getDocument());
         ldmlDeElementSorter.sortElements(dokument.getDocument().getDocumentElement());
       });
@@ -241,9 +245,6 @@ public class NormService
           .forEach(zielnormReferences::remove)
       );
 
-    if (zielnormReferences.isEmpty()) {
-      customModsMetadata.removeZielnormenReferences();
-    }
     proprietary.removeMetadataParentIfEmpty(Namespace.METADATEN_NORMS_APPLICATION_MODS);
 
     updateNorm(norm);
