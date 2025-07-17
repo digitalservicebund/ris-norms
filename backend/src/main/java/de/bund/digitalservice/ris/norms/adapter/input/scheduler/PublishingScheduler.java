@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
  * does not represent a business or application service, but rather a scheduler component for managing
  * periodic task execution. {@code @Component} is a general-purpose annotation for Spring-managed beans,
  * making it suitable for components that handle specific infrastructure or operational tasks like scheduling.</p>
- * <p>Using the {@code @Profile} annotation, this scheduler class will only be instantiated in staging, UAT, and production environments</p>
  */
 @Component
 @Slf4j
