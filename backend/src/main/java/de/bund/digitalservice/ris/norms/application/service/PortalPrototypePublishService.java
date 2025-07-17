@@ -56,6 +56,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
     this.confidentialDataCleanupService = confidentialDataCleanupService;
     this.prototypeCleanupService = prototypeCleanupService;
     this.ldmlDeValidator = ldmlDeValidator;
+    log.info("PortalPrototypePublishService initialized");
   }
 
   @Override

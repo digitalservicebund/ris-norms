@@ -73,6 +73,7 @@ public class PublishService implements PublishNormUseCase {
     this.updateMigrationLogPort = updateMigrationLogPort;
     this.confidentialDataCleanupService = confidentialDataCleanupService;
     this.updateNormPublishStatePort = updateNormPublishStatePort;
+    log.info("PublishService initialized");
   }
 
   @Override
