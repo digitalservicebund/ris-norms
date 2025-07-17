@@ -79,7 +79,9 @@ class ArchitectureFitnessTest {
     "org.xml.sax..",
     "org.slf4j..",
     "org.apache.commons..",
+    "org.springframework.boot.autoconfigure..",
     "org.springframework.boot.jackson..",
+    "org.springframework.core.annotation..",
     "com.fasterxml.jackson..",
   };
 

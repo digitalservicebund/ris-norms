@@ -22,23 +22,14 @@ frontend:
 
 otc:
   obs:
-    endpoint: "not-in-use"
     private:
       bucket-name: private
-      access-key-id: test
-      secret-access-key: test
     public:
       bucket-name: public
-      access-key-id: test
-      secret-access-key: test
     prototype:
       bucket-name: prototype
-      access-key-id: test
-      secret-access-key: test
     everkuendung:
       bucket-name: everkuendung
-      access-key-id: test
-      secret-access-key: test
 
 sentry:
   environment: local
