@@ -68,54 +68,6 @@ public class TestZipHelper {
     return createZip(map, tempDir);
   }
 
-  /**
-   * Create a zip with one file exceeding the single file max size.
-   *
-   * @param tempDir directory where zip will be created
-   * @param sizeInMB file size in MB (should be > 200 to trigger)
-   * @return path to zip file
-   */
-  public static Path createZipWithLargeFile(Path tempDir, int sizeInMB) throws IOException {
-    Path zipPath = tempDir.resolve("large-file.zip");
-    try (ZipOutputStream zipOut = new ZipOutputStream(Files.newOutputStream(zipPath))) {
-      ZipEntry zipEntry = new ZipEntry("large-file.dat");
-      zipOut.putNextEntry(zipEntry);
-
-      // Write sizeInMB megabytes of zeros efficiently
-      byte[] buffer = new byte[1024 * 1024]; // 1MB buffer
-      for (int i = 0; i < sizeInMB; i++) {
-        zipOut.write(buffer);
-      }
-
-      zipOut.closeEntry();
-    }
-    return zipPath;
-  }
-
-  /**
-   * Create a zip with many files that total over the archive max size.
-   * Each file will be 1MB so you can control how many files you add.
-   *
-   * @param tempDir directory where zip will be created
-   * @param totalSizeMB total size in MB (> 200 to trigger)
-   * @return path to zip file
-   */
-  public static Path createZipWithTotalSizeExceedingLimit(Path tempDir, int totalSizeMB)
-    throws IOException {
-    Path zipPath = tempDir.resolve("too-large-archive.zip");
-    try (ZipOutputStream zipOut = new ZipOutputStream(Files.newOutputStream(zipPath))) {
-      byte[] buffer = new byte[1024 * 1024]; // 1MB buffer filled with zeros
-
-      for (int i = 0; i < totalSizeMB; i++) {
-        ZipEntry zipEntry = new ZipEntry("file-" + i + ".dat");
-        zipOut.putNextEntry(zipEntry);
-        zipOut.write(buffer);
-        zipOut.closeEntry();
-      }
-    }
-    return zipPath;
-  }
-
   private static Path createZip(Map<String, String> files, Path tempDir) throws IOException {
     Path zipPath = tempDir.resolve("test.zip");
     try (ZipOutputStream zipOut = new ZipOutputStream(Files.newOutputStream(zipPath))) {
