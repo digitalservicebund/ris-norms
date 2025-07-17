@@ -5,8 +5,6 @@ spring:
         enabled: true
         fail-fast: true
         sources:
-          - name: database-config
-          - name: oauth2-config
           - labels:
               spring-config: "true"
       secrets:
