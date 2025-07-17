@@ -76,6 +76,8 @@ dependencies {
     implementation(libs.squareup.okio.jvm)
     implementation(libs.tika.core)
     implementation(libs.jspecify)
+    implementation(libs.commons.lang3)
+    implementation(libs.nimbus.jose.jwt)
 
     errorprone(libs.nullaway)
     errorprone(libs.errorprone)

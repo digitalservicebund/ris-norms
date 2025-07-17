@@ -13,6 +13,8 @@ aws-bom = "software.amazon.awssdk:bom:2.32.2"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
+# CVE-2025-48924
+commons-lang3 = "org.apache.commons:commons-lang3:3.18.0"
 errorprone = "com.google.errorprone:error_prone_core:2.40.0"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
@@ -22,6 +24,8 @@ jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.38"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.18.0"
+# CVE-2025-53864
+nimbus-jose-jwt = "com.nimbusds:nimbus-jose-jwt:10.0.2"
 nullaway = "com.uber.nullaway:nullaway:0.12.7"
 postgresql = "org.postgresql:postgresql:42.7.7"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.2"
