@@ -1,5 +1,6 @@
 package de.bund.digitalservice.ris.norms.utils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -42,55 +43,41 @@ public class ZipUtils {
       for (ZipEntry entry; (entry = zipInputStream.getNextEntry()) != null; ) {
         zipEntryCount++;
 
+        final String entryName = entry.getName();
+
         if (entry.isDirectory()) {
           throw new IllegalArgumentException(
-            "Zip contains folder (\"%s\"). This is not supported.".formatted(entry.getName())
+            "Zip contains folder (\"%s\"). This is not supported.".formatted(entryName)
           );
         }
 
-        if (
-          entry.getName().contains("/") ||
-          entry.getName().contains("\\") ||
-          entry.getName().contains("..")
-        ) {
+        if (entryName.contains("/") || entryName.contains("\\") || entryName.contains("..")) {
           throw new IllegalArgumentException(
-            "Zip contains path traversals (\"%s\"). This is not supported.".formatted(
-              entry.getName()
-            )
+            "Zip contains path traversals (\"%s\"). This is not supported.".formatted(entryName)
           );
         }
 
-        if (entry.getSize() > MAX_SINGLE_FILE_UNCOMPRESSED_SIZE) {
-          throw new IllegalArgumentException(
-            "File %s is too large to be extracted".formatted(entry.getName())
-          );
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        byte[] temp = new byte[4096];
+        int read;
+        int totalRead = 0;
+
+        while ((read = zipInputStream.read(temp)) != -1) {
+          totalRead += read;
+
+          if (totalRead > MAX_SINGLE_FILE_UNCOMPRESSED_SIZE) {
+            throw new IllegalArgumentException(
+              "File %s is too large to be extracted".formatted(entryName)
+            );
+          }
+
+          buffer.write(temp, 0, read);
         }
 
-        int entrySize = (int) entry.getSize();
-        if (entrySize < 0) {
-          throw new IllegalArgumentException(
-            "File %s is missing filesize information, we can't unpack it".formatted(entry.getName())
-          );
-        }
+        zipArchiveSize += totalRead;
 
-        byte[] entryBytes = new byte[entrySize];
-        int readBytes = zipInputStream.readNBytes(entryBytes, 0, entrySize);
-
-        // We expect the stream to have read the whole file and only have one single byte left that is indicating the end of the stream.
-        // Otherwise, the zip file was modified and the entry size is not correct so it could be a zip-bomb.
-        if (zipInputStream.available() != 1) {
-          throw new IllegalArgumentException(
-            "Expected uncompressed filesize (%s) differs from actual file size for %s".formatted(
-              entrySize,
-              entry.getName()
-            )
-          );
-        }
-
-        zipArchiveSize += readBytes;
-
-        log.debug("Extracted {} (Size: {} bytes)", entry.getName(), readBytes);
-        files.put(entry.getName(), entryBytes);
+        log.debug("Extracted {} (Size: {} bytes)", entryName, totalRead);
+        files.put(entryName, buffer.toByteArray());
 
         if (zipArchiveSize > MAX_UNCOMPRESSED_SIZE) {
           throw new IllegalArgumentException("Archive too large to be extracted");

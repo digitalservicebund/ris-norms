@@ -5,37 +5,76 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Objects;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 import org.springframework.core.io.UrlResource;
 
+/**
+ * Unit tests for ZipUtils.
+ *
+ * <p>Tests use JUnit 5's {@link TempDir} to create temporary directories for generating ZIP files dynamically. This ensures:
+ * <ul>
+ *   <li>Tests do not rely on hardcoded files or commit large binary files in the repo.</li>
+ *   <li>Temporary files are cleaned up automatically after each test.</li>
+ *   <li>Safe isolation between test runs and no pollution of the workspace.</li>
+ * </ul>
+ */
 class ZipUtilsTest {
-
-  private InputStream loadResource(String name) throws IOException {
-    return new UrlResource(
-      Objects.requireNonNull(
-        ZipUtilsTest.class.getResource(ZipUtilsTest.class.getSimpleName() + "/" + name)
-      )
-    ).getInputStream();
-  }
 
   @Nested
   class unzipFileWithoutDirectories {
 
     @Test
     void itUnpacksASimpleArchive() throws IOException {
-      var files = ZipUtils.unzipFileWithoutDirectories(loadResource("valid-archive.zip"));
+      try (
+        InputStream inputStream = new UrlResource(
+          Objects.requireNonNull(
+            ZipUtilsTest.class.getResource(
+              ZipUtilsTest.class.getSimpleName() + "/valid-archive.zip"
+            )
+          )
+        ).getInputStream();
+      ) {
+        var files = ZipUtils.unzipFileWithoutDirectories(inputStream);
 
-      assertThat(files).hasSize(2).containsKeys("rechtsetzungsdokument.xml", "regelungstext-1.xml");
+        assertThat(files)
+          .hasSize(2)
+          .containsKeys("rechtsetzungsdokument.xml", "regelungstext-1.xml");
+      }
     }
 
     @Test
-    void itFailsToUnpackArchiveWithFolder() throws IOException {
-      var inputStream = loadResource("archive-with-folder.zip");
-      assertThatThrownBy(() -> ZipUtils.unzipFileWithoutDirectories(inputStream))
-        .isInstanceOf(IllegalArgumentException.class)
-        .hasMessage("Zip contains folder (\"folder/\"). This is not supported.");
+    void itFailsToUnpackArchiveWithFolder(@TempDir Path tempDir) throws IOException {
+      Path zipPath = TestZipHelper.createZipWithFolder(tempDir);
+      try (InputStream in = Files.newInputStream(zipPath)) {
+        assertThatThrownBy(() -> ZipUtils.unzipFileWithoutDirectories(in))
+          .isInstanceOf(IllegalArgumentException.class)
+          .hasMessageContaining("Zip contains folder");
+      }
+    }
+
+    @Test
+    void itFailsToUnpackArchiveWithPathTraversal(@TempDir Path tempDir) throws IOException {
+      Path zipPath = TestZipHelper.createZipWithPathTraversal(tempDir);
+      try (InputStream in = Files.newInputStream(zipPath)) {
+        assertThatThrownBy(() -> ZipUtils.unzipFileWithoutDirectories(in))
+          .isInstanceOf(IllegalArgumentException.class)
+          .hasMessageContaining("Zip contains path traversals");
+      }
+    }
+
+    @Test
+    void itFailsWhenTooManyFilesAreIncluded(@TempDir Path tempDir) throws IOException {
+      Path zipPath = TestZipHelper.createZipWithTooManyFiles(tempDir);
+      try (InputStream in = Files.newInputStream(zipPath)) {
+        assertThatThrownBy(() -> ZipUtils.unzipFileWithoutDirectories(in))
+          .isInstanceOf(IllegalArgumentException.class)
+          .hasMessage("Too many files to be extracted");
+      }
     }
   }
 }
