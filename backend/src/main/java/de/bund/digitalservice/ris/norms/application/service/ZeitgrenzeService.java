@@ -76,15 +76,6 @@ public class ZeitgrenzeService implements LoadZeitgrenzenUseCase, UpdateZeitgren
       geltungszeiten.add(zeitgrenzenUpdate.art(), zeitgrenzenUpdate.date())
     );
 
-    if (geltungszeiten.isEmpty()) {
-      norm
-        .getRegelungstext1()
-        .getMeta()
-        .getProprietary()
-        .flatMap(Proprietary::getCustomModsMetadata)
-        .ifPresent(CustomModsMetadata::removeGeltungszeiten);
-    }
-
     normService.updateNorm(norm);
 
     return geltungszeiten.stream().toList();

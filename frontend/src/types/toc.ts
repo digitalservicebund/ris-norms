@@ -14,6 +14,9 @@ export type TocItem = {
   /** Type of the element (e.g., article, chapter, etc.) */
   type: string
 
+  /** True if the article contains an eingebundene Stammform */
+  hasEingebundeneStammform: boolean
+
   /** Nested child elements */
   children?: TocItem[]
 }

@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
@@ -10,6 +11,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.LoadTocFromRegelu
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -64,6 +66,7 @@ class TableOfContentsServiceTest {
         )
       )
     );
+
     // Assert overall structure size
     assertThat(toc).hasSize(1);
 
@@ -202,5 +205,60 @@ class TableOfContentsServiceTest {
     assertThat(article6.heading()).isEqualTo("Übergangsregelung");
     assertThat(article6.type()).isEqualTo("article");
     assertThat(article6.children()).isEmpty();
+  }
+
+  @Test
+  void itRetrievesTocWithEingebundeneStammform() {
+    // Given
+    final Regelungstext regelungstext1 = Fixtures.loadRegelungstextFromDisk(
+      TableOfContentsServiceTest.class,
+      "regelungstext-with-eingebundene-stammform/regelungstext-verkuendung-1.xml"
+    );
+
+    final Regelungstext regelungstext2 = Fixtures.loadRegelungstextFromDisk(
+      TableOfContentsServiceTest.class,
+      "regelungstext-with-eingebundene-stammform/regelungstext-verkuendung-2.xml"
+    );
+
+    when(
+      loadRegelungstextPort.loadRegelungstext(
+        new LoadRegelungstextPort.Options(regelungstext1.getExpressionEli())
+      )
+    ).thenReturn(Optional.of(regelungstext1));
+
+    when(
+      loadRegelungstextPort.loadRegelungstext(
+        // Constructing the ELI manually as this is the ELI by which the eingebundene
+        // Stammform is referenced, but it's not 100% identical to the ELI of the
+        // Regelungstext.
+        new LoadRegelungstextPort.Options(
+          DokumentManifestationEli.fromString(
+            "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/regelungstext-verkuendung-2.xml"
+          )
+        )
+      )
+    ).thenReturn(Optional.of(regelungstext2));
+
+    // When
+    final List<TableOfContentsItem> toc = tableOfContentsService.loadTocFromRegelungstext(
+      new LoadTocFromRegelungstextUseCase.Options(regelungstext1.getExpressionEli())
+    );
+
+    // Then
+    // Assert overall structure size
+    assertThat(toc).hasSize(10);
+
+    var eingebundeneStammformArtikel = toc.getFirst();
+
+    // Assert eingebundene Stammform is correctly identified
+    assertThat(eingebundeneStammformArtikel.hasEingebundeneStammform()).isTrue();
+
+    // Assert eingebundene Stammform title
+    assertThat(eingebundeneStammformArtikel.heading()).isEqualTo(
+      "Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)"
+    );
+
+    // Assert that other articles don't claim to have an eingebundene Stammform
+    assertThat(toc.get(1).hasEingebundeneStammform()).isFalse();
   }
 }

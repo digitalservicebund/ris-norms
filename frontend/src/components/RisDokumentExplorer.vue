@@ -55,10 +55,17 @@ const treeNodes = computed<TreeNode[]>(() =>
     ? toc.value.map<TreeNode>((i) => ({
         key: i.id,
         label: i.marker || "Unbenanntes Element",
-        data: { sublabel: i.heading || null },
+        data: {
+          sublabel: i.heading || null,
+          hasEingebundeneStammform: i.hasEingebundeneStammform,
+        },
         children: [],
       }))
     : [],
+)
+
+const selectedTocItem = computed(() =>
+  toc.value?.find((item) => item.id === eid.value),
 )
 
 // Detail view --------------------------------------------
@@ -67,7 +74,12 @@ const {
   data: artikelHtml,
   error: artikelHtmlError,
   isFetching: artikelHtmlIsFetching,
-} = useGetElementHtml(eli, eid)
+} = useGetElementHtml(
+  eli,
+  computed(() =>
+    selectedTocItem.value?.hasEingebundeneStammform ? undefined : eid.value,
+  ),
+)
 
 const { values, toggle, clear } = useMultiSelection<string>()
 
@@ -149,6 +161,15 @@ function onSelect({ originalEvent, eid }: AknElementClickEvent) {
         </Tree>
       </div>
     </template>
+
+    <div v-else-if="selectedTocItem?.hasEingebundeneStammform" class="p-16">
+      <div class="ris-subhead-bold mb-12 border-b border-gray-400 pb-8">
+        {{ selectedTocItem.marker || "Unbenanntes Element" }}
+      </div>
+      <div class="ris-label2-bold border border-gray-400 p-16 text-center">
+        {{ selectedTocItem?.heading }}
+      </div>
+    </div>
 
     <!-- Article detail -->
     <template v-else>

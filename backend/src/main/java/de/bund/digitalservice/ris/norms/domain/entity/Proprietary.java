@@ -7,12 +7,10 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.IntStream;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.apache.commons.lang3.StringUtils;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 
 /**
  * Encapsulates metadata that is found in the proprietary section of the document. This includes
@@ -113,12 +111,6 @@ public class Proprietary {
         metadataNode.setTextContent(newValue);
       } else {
         einzelElement.removeChild(metadataNode);
-        boolean hasElementChildren = IntStream.range(0, einzelElement.getChildNodes().getLength())
-          .mapToObj(i -> einzelElement.getChildNodes().item(i))
-          .anyMatch(node -> node.getNodeType() == Node.ELEMENT_NODE);
-        if (!hasElementChildren) {
-          parent.removeChild(einzelElement);
-        }
       }
     }
   }
@@ -266,8 +258,8 @@ public class Proprietary {
     return this.getCustomModsMetadata().orElseGet(() -> {
         final Element risMetadaten = getOrCreateMetadataParent(Namespace.METADATEN_RIS);
         final var newElement = NodeCreator.createElement(
-          Namespace.METADATEN_NORMS_APPLICATION_MODS,
-          "legalDocML.de_metadaten",
+          CustomModsMetadata.NAMESPACE,
+          CustomModsMetadata.TAG_NAME,
           risMetadaten
         );
         return new CustomModsMetadata(newElement);
