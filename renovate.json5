@@ -58,6 +58,12 @@
       "labels": [
         "backend-updates"
       ]
+    },
+    {
+      "groupName": "CVE-2025-53864",
+      "matchPackageNames": ["com.nimbusds:nimbus-jose-jwt"],
+      "matchUpdateTypes": ["minor", "major"],
+      "enabled": false
     }
   ],
   "customManagers": [
