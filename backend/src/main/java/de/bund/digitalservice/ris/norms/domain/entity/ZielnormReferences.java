@@ -40,7 +40,7 @@ public class ZielnormReferences extends AbstractCollection<ZielnormReference> {
     EId eId,
     NormWorkEli zielnorm
   ) {
-    return ZielnormReference.createAndAppend(getElement(), typ, geltungszeit, eId, zielnorm);
+    return ZielnormReference.createAndAppend(getElement(), typ, geltungszeit, eId, zielnorm, false);
   }
 
   @NotNull

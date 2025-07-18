@@ -78,4 +78,90 @@ class ZielnormReferenceTest {
 
     assertThat(zielnormReference.getZielnorm()).hasToString("eli/bund/bgbl-1/2021/123");
   }
+
+  @Test
+  void getNewWorkTrue() {
+    // Given
+    var zielnormReference = new ZielnormReference(
+      toElement(
+        """
+        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
+           <norms:typ>Änderungsvorschrift</norms:typ>
+           <norms:geltungszeit>gz-1</norms:geltungszeit>
+           <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
+           <norms:zielnorm new-work="true">eli/bund/bgbl-1/2021/123</norms:zielnorm>
+        </norms:zielnorm-reference>
+        """
+      )
+    );
+
+    // When / Then
+    assertThat(zielnormReference.isNewWork()).isTrue();
+  }
+
+  @Test
+  void getNewWorkFalse() {
+    // Given
+    var zielnormReference = new ZielnormReference(
+      toElement(
+        """
+        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
+           <norms:typ>Änderungsvorschrift</norms:typ>
+           <norms:geltungszeit>gz-1</norms:geltungszeit>
+           <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
+           <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
+        </norms:zielnorm-reference>
+        """
+      )
+    );
+
+    // When / Then
+    assertThat(zielnormReference.isNewWork()).isFalse();
+  }
+
+  @Test
+  void setNewWorkFalse() {
+    // Given
+    var zielnormReference = new ZielnormReference(
+      toElement(
+        """
+        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
+           <norms:typ>Änderungsvorschrift</norms:typ>
+           <norms:geltungszeit>gz-1</norms:geltungszeit>
+           <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
+           <norms:zielnorm new-work="true">eli/bund/bgbl-1/2021/123</norms:zielnorm>
+        </norms:zielnorm-reference>
+        """
+      )
+    );
+
+    // When
+    zielnormReference.setNewWork(false);
+
+    // Then
+    assertThat(zielnormReference.isNewWork()).isFalse();
+  }
+
+  @Test
+  void setNewWorkTrue() {
+    // Given
+    var zielnormReference = new ZielnormReference(
+      toElement(
+        """
+        <norms:zielnorm-reference xmlns:norms='http://MetadatenMods.LegalDocML.de/1.8.1/'>
+           <norms:typ>Änderungsvorschrift</norms:typ>
+           <norms:geltungszeit>gz-1</norms:geltungszeit>
+           <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
+           <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
+        </norms:zielnorm-reference>
+        """
+      )
+    );
+
+    // When
+    zielnormReference.setNewWork(true);
+
+    // Then
+    assertThat(zielnormReference.isNewWork()).isTrue();
+  }
 }
