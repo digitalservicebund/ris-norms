@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Tree } from "primevue"
-import { computed, ref } from "vue"
+import { computed, ref, watch } from "vue"
 import type { TreeNode } from "primevue/treenode"
 import { useElementId } from "@/composables/useElementId"
 import type { TocItem } from "@/types/toc"
@@ -12,6 +12,7 @@ const props = defineProps<{
   toc: TocItem[] | null
   isFetching: boolean
   fetchError: unknown
+  selectedEId: string | null
 }>()
 
 const emit = defineEmits<{
@@ -38,17 +39,32 @@ const treeNodes = computed<TreeNode[]>(() => {
 })
 
 const expandedKeys = ref<Record<string, boolean>>({})
-const selectionKeys = ref<Record<string, boolean>>({})
+const selectionKeys = computed(() => {
+  if (props.selectedEId) {
+    return { [props.selectedEId]: true }
+  }
+
+  return {}
+})
 
 const handleNodeSelect = (node: TreeNode) => {
-  selectionKeys.value = { [node.key]: true }
   expandedKeys.value[node.key] = true
   emit("select", { eId: node.key })
 }
+
+watch(
+  () => props.selectedEId,
+  () => {
+    if (props.selectedEId) {
+      expandedKeys.value[props.selectedEId] = true
+    }
+  },
+  { immediate: true },
+)
 </script>
 
 <template>
-  <aside :aria-labelledby="tocHeadingId">
+  <div>
     <div v-if="isFetching" class="mt-24 flex items-center justify-center">
       <RisLoadingSpinner />
     </div>
@@ -86,5 +102,5 @@ const handleNodeSelect = (node: TreeNode) => {
         </template>
       </Tree>
     </div>
-  </aside>
+  </div>
 </template>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
-import RisTextEditorTableOfContents from "@/components/RisTextEditorTableOfContents.vue"
+import RisTableOfContents from "@/components/RisTableOfContents.vue"
 import { type HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
@@ -63,8 +63,11 @@ const {
   DokumentExpressionEli.fromNormExpressionEli(expressionEli.value),
 )
 
+const selectedTocElement = ref<string | null>(null)
+
 const handleTocSelect = ({ eId }: { eId: string }) => {
   gotoEid(eId)
+  selectedTocElement.value = eId
 }
 
 // EDITOR
@@ -139,13 +142,16 @@ const isGegenstandslosExpression = computed(
         :min-size="20"
         class="h-full overflow-auto bg-white"
       >
-        <RisTextEditorTableOfContents
-          :key="expressionEli.toString()"
-          :toc="toc"
-          :is-fetching="tocIsFetching"
-          :fetch-error="tocError"
-          @select="handleTocSelect"
-        />
+        <aside aria-label="Inhaltsverzeichnis">
+          <RisTableOfContents
+            :key="expressionEli.toString()"
+            :toc="toc"
+            :is-fetching="tocIsFetching"
+            :fetch-error="tocError"
+            :selected-e-id="selectedTocElement"
+            @select="handleTocSelect"
+          />
+        </aside>
       </SplitterPanel>
 
       <SplitterPanel
