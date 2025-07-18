@@ -11,7 +11,7 @@ const props = defineProps<{
   toc: TocItem[] | null
   isFetching: boolean
   fetchError: unknown
-  selectedEId: string | null
+  selectedEId?: string | null | undefined
   ariaLabelledby?: string | undefined
 }>()
 
@@ -22,7 +22,7 @@ const emit = defineEmits<{
 function tocToTreeNodes(i: TocItem): TreeNode {
   return {
     key: i.id,
-    label: i.marker || "Unbenanntes Element",
+    label: i.marker,
     data: { sublabel: i.heading || null },
     children: i.children?.map(tocToTreeNodes),
   }
@@ -81,7 +81,7 @@ watch(
   <Tree
     v-else
     v-model:expanded-keys="expandedKeys"
-    v-model:selection-keys="selectionKeys"
+    :selection-keys="selectionKeys"
     :aria-labelledby="ariaLabelledby"
     :value="treeNodes"
     selection-mode="single"
@@ -89,7 +89,10 @@ watch(
   >
     <template #default="{ node }">
       <button class="cursor-pointer pl-4 text-left group-hover:underline!">
-        <span class="block">{{ node.label }}</span>
+        <span v-if="!node.label && !node.data.sublabel" class="block"
+          >Unbekanntes Element</span
+        >
+        <span v-if="node.label" class="block">{{ node.label }}</span>
         <span class="block font-normal">{{ node.data.sublabel }}</span>
       </button>
     </template>
