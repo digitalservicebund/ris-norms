@@ -16,5 +16,8 @@ export const ZielnormReferenceSchema = z.object({
 
   /** Work ELI of the Norm that is targeted by the amending command */
   zielnorm: z.string(),
+
+  /** Whether the Zielnorm reference is referring to a new work */
+  isNewWork: z.boolean(),
 })
 export type ZielnormReference = z.infer<typeof ZielnormReferenceSchema>
