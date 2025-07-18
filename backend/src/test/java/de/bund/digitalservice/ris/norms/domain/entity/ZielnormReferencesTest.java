@@ -66,7 +66,8 @@ class ZielnormReferencesTest {
       "Änderungsvorschrift",
       new Zeitgrenze.Id("gz-2"),
       new EId("art-z1_abs-n1_untergl-n1_listenelem-n3"),
-      NormWorkEli.fromString("eli/bund/bgbl-1/2021/123")
+      NormWorkEli.fromString("eli/bund/bgbl-1/2021/123"),
+      false
     );
 
     assertThat(zielnormReferences).hasSize(3);

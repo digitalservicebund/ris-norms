@@ -215,13 +215,15 @@ public class NormService
               zielnormReferenceUpdateData.typ(),
               zielnormReferenceUpdateData.geltungszeit(),
               zielnormReferenceUpdateData.eId(),
-              zielnormReferenceUpdateData.zielnorm()
+              zielnormReferenceUpdateData.zielnorm(),
+              zielnormReferenceUpdateData.isNewWork()
             )
           );
 
         zielnormReference.setTyp(zielnormReferenceUpdateData.typ());
         zielnormReference.setGeltungszeit(zielnormReferenceUpdateData.geltungszeit());
         zielnormReference.setZielnorm(zielnormReferenceUpdateData.zielnorm());
+        zielnormReference.setNewWork(zielnormReferenceUpdateData.isNewWork());
       });
 
     updateNorm(norm);
