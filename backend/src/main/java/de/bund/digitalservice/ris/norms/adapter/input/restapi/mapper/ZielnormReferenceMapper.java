@@ -43,7 +43,8 @@ public class ZielnormReferenceMapper {
       schema.typ(),
       new Zeitgrenze.Id(schema.geltungszeit()),
       new EId(schema.eId()),
-      NormWorkEli.fromString(schema.zielnorm())
+      NormWorkEli.fromString(schema.zielnorm()),
+      false
     );
   }
 }
