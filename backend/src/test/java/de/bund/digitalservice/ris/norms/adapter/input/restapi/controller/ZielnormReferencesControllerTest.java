@@ -70,7 +70,8 @@ class ZielnormReferencesControllerTest {
         .andExpect(jsonPath("$[0].typ").value(equalTo("Änderungsvorschrift")))
         .andExpect(jsonPath("$[0].geltungszeit").value(equalTo("gz-1")))
         .andExpect(jsonPath("$[0].eId").value(equalTo("art-z1_abs-n1_untergl-n1_listenelem-n1")))
-        .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2021/123")));
+        .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2021/123")))
+        .andExpect(jsonPath("$[0].isNewWork").value(equalTo(false)));
 
       verify(loadZielnormReferencesUseCase, times(1)).loadZielnormReferences(
           assertArg(arg -> {
@@ -94,7 +95,7 @@ class ZielnormReferencesControllerTest {
                    <norms:typ>Änderungsvorschrift</norms:typ>
                    <norms:geltungszeit>gz-1</norms:geltungszeit>
                    <norms:eid>art-z1_abs-n1_untergl-n1_listenelem-n1</norms:eid>
-                   <norms:zielnorm>eli/bund/bgbl-1/2021/123</norms:zielnorm>
+                   <norms:zielnorm new-work="true">eli/bund/bgbl-1/2021/123</norms:zielnorm>
                 </norms:zielnorm-reference>
                 """
               )
@@ -112,7 +113,8 @@ class ZielnormReferencesControllerTest {
                   "eId": "art-z1_abs-n1_untergl-n1_listenelem-n1",
                   "zielnorm": "eli/bund/bgbl-1/2021/123",
                   "geltungszeit": "gz-1",
-                  "typ": "Änderungsvorschrift"
+                  "typ": "Änderungsvorschrift",
+                  "isNewWork": true
                 }
               ]
               """
@@ -125,7 +127,8 @@ class ZielnormReferencesControllerTest {
         .andExpect(jsonPath("$[0].typ").value(equalTo("Änderungsvorschrift")))
         .andExpect(jsonPath("$[0].geltungszeit").value(equalTo("gz-1")))
         .andExpect(jsonPath("$[0].eId").value(equalTo("art-z1_abs-n1_untergl-n1_listenelem-n1")))
-        .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2021/123")));
+        .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2021/123")))
+        .andExpect(jsonPath("$[0].isNewWork").value(equalTo(true)));
 
       verify(updateZielnormReferencesUseCase, times(1)).updateZielnormReferences(
           assertArg(arg -> {
@@ -140,6 +143,7 @@ class ZielnormReferencesControllerTest {
             );
             assertThat(arg.zielnormReferences().getFirst().typ()).isEqualTo("Änderungsvorschrift");
             assertThat(arg.zielnormReferences().getFirst().geltungszeit()).hasToString("gz-1");
+            assertThat(arg.zielnormReferences().getFirst().isNewWork()).isEqualTo(true);
           })
         );
     }
@@ -186,7 +190,8 @@ class ZielnormReferencesControllerTest {
         .andExpect(jsonPath("$[0].typ").value(equalTo("Änderungsvorschrift")))
         .andExpect(jsonPath("$[0].geltungszeit").value(equalTo("gz-1")))
         .andExpect(jsonPath("$[0].eId").value(equalTo("art-z1_abs-n1_untergl-n1_listenelem-n3")))
-        .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2021/123")));
+        .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2021/123")))
+        .andExpect(jsonPath("$[0].isNewWork").value(equalTo(false)));
 
       verify(deleteZielnormReferencesUseCase, times(1)).deleteZielnormReferences(
           assertArg(arg -> {

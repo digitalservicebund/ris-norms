@@ -26,7 +26,8 @@ public class ZielnormReferenceMapper {
       reference.getTyp(),
       reference.getGeltungszeit().toString(),
       reference.getEId().toString(),
-      reference.getZielnorm().toString()
+      reference.getZielnorm().toString(),
+      reference.isNewWork()
     );
   }
 
@@ -44,7 +45,7 @@ public class ZielnormReferenceMapper {
       new Zeitgrenze.Id(schema.geltungszeit()),
       new EId(schema.eId()),
       NormWorkEli.fromString(schema.zielnorm()),
-      false
+      schema.isNewWork()
     );
   }
 }
