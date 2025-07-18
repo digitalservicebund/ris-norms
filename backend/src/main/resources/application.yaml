@@ -84,3 +84,6 @@ frontend:
 logging:
   level:
     de.bund.digitalservice.ris.norms.application.service.PublishService: debug
+
+local:
+  file-storage: .local-storage

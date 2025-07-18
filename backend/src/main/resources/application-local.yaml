@@ -11,9 +11,6 @@ spring:
         jwt:
           issuer-uri: http://localhost:8443/realms/ris
 
-local:
-  file-storage: .local-storage
-
 frontend:
   auth:
     url: http://localhost:8443
