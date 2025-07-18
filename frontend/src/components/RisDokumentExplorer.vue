@@ -94,6 +94,10 @@ function onSelect({ originalEvent, eid }: AknElementClickEvent) {
 
   eidsToEdit.value = values.value
 }
+
+function selectEingebundeneStammform(eid: string) {
+  eidsToEdit.value = [eid]
+}
 </script>
 
 <template>
@@ -166,9 +170,13 @@ function onSelect({ originalEvent, eid }: AknElementClickEvent) {
       <div class="ris-subhead-bold mb-12 border-b border-gray-400 pb-8">
         {{ selectedTocItem.marker || "Unbenanntes Element" }}
       </div>
-      <div class="ris-label2-bold border border-gray-400 p-16 text-center">
+      <button
+        :aria-pressed="eidsToEdit?.includes(selectedTocItem.id)"
+        class="ris-label2-bold block w-full cursor-pointer bg-gray-100 p-16 outline-2 -outline-offset-2 outline-gray-600 outline-dotted hover:bg-gray-200 hover:outline-blue-800 aria-pressed:bg-gray-400 aria-pressed:outline-blue-800 aria-pressed:outline-solid"
+        @click="selectEingebundeneStammform(selectedTocItem.id)"
+      >
         {{ selectedTocItem?.heading }}
-      </div>
+      </button>
     </div>
 
     <!-- Article detail -->
