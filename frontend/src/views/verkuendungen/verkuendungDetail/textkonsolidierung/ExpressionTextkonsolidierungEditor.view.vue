@@ -90,7 +90,7 @@ const handleTocSelect = ({ eId }: { eId: string }) => {
   selectedTocElement.value = eId
 }
 
-const { expressionPointInTimeLabelId } = useElementId()
+const { tocHeadingId, expressionPointInTimeLabelId } = useElementId()
 
 const formattedDate = computed(() =>
   formatDate(expressionEli.value.pointInTime),
@@ -271,7 +271,7 @@ const isGegenstandslosExpression = computed(() => {
   >
     <Splitter class="h-full" layout="horizontal">
       <SplitterPanel :size="20" :min-size="20">
-        <aside aria-label="Inhaltsübersicht" class="flex h-full flex-col">
+        <aside :aria-labelledby="tocHeadingId" class="flex h-full flex-col">
           <div
             class="flex items-center justify-between gap-8 border-b border-gray-400 p-16"
           >
@@ -319,15 +319,21 @@ const isGegenstandslosExpression = computed(() => {
             </RouterLink>
           </div>
 
-          <RisTableOfContents
-            :key="expressionEli.toString()"
-            class="overflow-auto"
-            :toc="toc"
-            :is-fetching="tocIsFetching"
-            :fetch-error="tocError"
-            :selected-e-id="selectedTocElement"
-            @select="handleTocSelect"
-          />
+          <div class="overflow-auto">
+            <h2 :id="tocHeadingId" class="ris-body1-bold mx-20 mt-16 mb-10">
+              Inhaltsübersicht
+            </h2>
+
+            <RisTableOfContents
+              :key="expressionEli.toString()"
+              :toc="toc"
+              :is-fetching="tocIsFetching"
+              :fetch-error="tocError"
+              :selected-e-id="selectedTocElement"
+              :aria-labelledby="tocHeadingId"
+              @select="handleTocSelect"
+            />
+          </div>
         </aside>
       </SplitterPanel>
 

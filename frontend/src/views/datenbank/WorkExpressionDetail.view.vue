@@ -15,7 +15,7 @@ import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import RisTableOfContents from "@/components/RisTableOfContents.vue"
 
 const expressionEli = useNormExpressionEliPathParameter()
-const { expressionHtmlHeadingId } = useElementId()
+const { tocHeadingId, expressionHtmlHeadingId } = useElementId()
 const route = useRoute()
 const router = useRouter()
 const {
@@ -70,11 +70,15 @@ const handlePreviewRendered = () => {
       :min-size="20"
       class="h-full w-full overflow-auto px-8 py-12"
     >
+      <h2 :id="tocHeadingId" class="ris-body1-bold mx-20 mt-16 mb-10">
+        Inhaltsübersicht
+      </h2>
       <RisTableOfContents
         :toc="toc"
         :is-fetching="tocIsFetching"
         :fetch-error="tocError"
         :selected-e-id="route.params.eid as string"
+        :aria-labelledby="tocHeadingId"
         @select="handleNodeSelect"
       />
     </SplitterPanel>

@@ -2,7 +2,6 @@
 import { Tree } from "primevue"
 import { computed, ref, watch } from "vue"
 import type { TreeNode } from "primevue/treenode"
-import { useElementId } from "@/composables/useElementId"
 import type { TocItem } from "@/types/toc"
 import RisErrorCallout from "@/components/RisErrorCallout.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
@@ -13,13 +12,12 @@ const props = defineProps<{
   isFetching: boolean
   fetchError: unknown
   selectedEId: string | null
+  ariaLabelledby?: string | undefined
 }>()
 
 const emit = defineEmits<{
   select: [{ eId: string }]
 }>()
-
-const { tocHeadingId } = useElementId()
 
 function tocToTreeNodes(i: TocItem): TreeNode {
   return {
@@ -64,42 +62,36 @@ watch(
 </script>
 
 <template>
-  <div class="flex-1">
-    <h2 :id="tocHeadingId" class="ris-body1-bold mx-20 mt-16 mb-10">
-      Inhaltsübersicht
-    </h2>
-
-    <div v-if="isFetching" class="mt-24 flex items-center justify-center">
-      <RisLoadingSpinner />
-    </div>
-
-    <RisErrorCallout
-      v-else-if="fetchError"
-      :error="fetchError"
-      class="m-16 mt-8"
-    />
-
-    <RisEmptyState
-      v-else-if="!toc || !toc.length"
-      text-content="Keine Artikel gefunden."
-      class="m-16 mt-8"
-    />
-
-    <Tree
-      v-else
-      v-model:expanded-keys="expandedKeys"
-      v-model:selection-keys="selectionKeys"
-      :aria-labelledby="tocHeadingId"
-      :value="treeNodes"
-      selection-mode="single"
-      @node-select="handleNodeSelect"
-    >
-      <template #default="{ node }">
-        <button class="cursor-pointer pl-4 text-left group-hover:underline!">
-          <span class="block">{{ node.label }}</span>
-          <span class="block font-normal">{{ node.data.sublabel }}</span>
-        </button>
-      </template>
-    </Tree>
+  <div v-if="isFetching" class="mt-24 flex items-center justify-center">
+    <RisLoadingSpinner />
   </div>
+
+  <RisErrorCallout
+    v-else-if="fetchError"
+    :error="fetchError"
+    class="m-16 mt-8"
+  />
+
+  <RisEmptyState
+    v-else-if="!toc || !toc.length"
+    text-content="Keine Artikel gefunden."
+    class="m-16 mt-8"
+  />
+
+  <Tree
+    v-else
+    v-model:expanded-keys="expandedKeys"
+    v-model:selection-keys="selectionKeys"
+    :aria-labelledby="ariaLabelledby"
+    :value="treeNodes"
+    selection-mode="single"
+    @node-select="handleNodeSelect"
+  >
+    <template #default="{ node }">
+      <button class="cursor-pointer pl-4 text-left group-hover:underline!">
+        <span class="block">{{ node.label }}</span>
+        <span class="block font-normal">{{ node.data.sublabel }}</span>
+      </button>
+    </template>
+  </Tree>
 </template>
