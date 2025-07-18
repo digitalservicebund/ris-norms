@@ -18,6 +18,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 @Slf4j
 @Configuration
 @ConditionalOnProperty(value = "otc.obs.prototype.access-key-id")
+@ConditionalOnProperty("publish.portal-prototype.enabled")
 public class PortalPrototypeS3ClientConfig {
 
   @Value("${otc.obs.endpoint}")

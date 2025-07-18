@@ -34,3 +34,6 @@ sentry:
 everkuendung:
   certificate:
     path: file:../local/certs/certificate.pem
+
+local:
+  file-storage: .local-storage
