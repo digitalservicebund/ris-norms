@@ -70,6 +70,8 @@ const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(eli)
 
 const eIdsToEdit = ref<string[]>([])
 
+const selectionIsEingebundeneStammform = ref(false)
+
 const editedZielnormReference = ref<EditableZielnormReference>()
 
 const {
@@ -84,6 +86,10 @@ const {
   zielnormReferences,
   zielnormReferencesForEid,
 } = useZielnormReferences(eli)
+
+function onSelectEingebundeneStammform(isEingebundeneStammform: boolean) {
+  selectionIsEingebundeneStammform.value = isEingebundeneStammform
+}
 
 const isSelected = (eid: string) => {
   return eIdsToEdit.value.includes(eid)
@@ -169,6 +175,7 @@ async function onDeleteZielnormReferences() {
           :eli="DokumentExpressionEli.fromNormExpressionEli(eli)"
           class="h-full"
           :e-id-classes="highlightClasses"
+          @select-eingebundene-stammform="onSelectEingebundeneStammform"
         />
       </SplitterPanel>
 

@@ -275,8 +275,7 @@ describe("risDokumentExplorer", () => {
         expect.objectContaining({ value: undefined }),
       )
 
-      expect(screen.getByText("§ 1")).toBeInTheDocument()
-      expect(screen.getByText("Test 1")).toBeInTheDocument()
+      expect(screen.getByRole("button", { name: "Test 1" })).toBeInTheDocument()
     })
 
     it("shows an error if the element HTML could not be loaded", async () => {
@@ -590,6 +589,65 @@ describe("risDokumentExplorer", () => {
           ["eid-1", "eid-4"],
         ])
         expect(emitted("update:eids-to-edit")).toContainEqual([["eid-2"]])
+      })
+    })
+
+    it("emits an event when selecting a regular element", async () => {
+      const user = userEvent.setup()
+
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref(`
+            <ol>
+              <li class="akn-point" data-eid="eid-1">1</li>
+              <li class="akn-point" data-eid="eid-2">2</li>
+              <li class="akn-point" data-eid="eid-3">3</li>
+            </ol>
+            <div class="akn-paragraph" data-eid="eid-4">4</div>
+          `),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
+
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      const { emitted } = render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+          ),
+          eid: "eid-2",
+        },
+      })
+
+      await vi.waitFor(async () => {
+        await user.click(screen.getByRole("button", { name: "1" }))
+        expect(emitted("selectEingebundeneStammform")).toContainEqual([false])
+      })
+    })
+
+    it("emits an event when selecting an eingebundene Stammform", async () => {
+      const user = userEvent.setup()
+
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      const { emitted } = render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+          ),
+          eid: "eid-1",
+        },
+      })
+
+      await vi.waitFor(async () => {
+        await user.click(screen.getByRole("button", { name: "Test 1" }))
+        expect(emitted("selectEingebundeneStammform")).toContainEqual([true])
       })
     })
 
