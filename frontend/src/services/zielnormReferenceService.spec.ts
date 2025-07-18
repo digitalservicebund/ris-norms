@@ -26,12 +26,14 @@ describe("useZielnormReferencesService", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
       {
         typ: "Aufhebung",
         geltungszeit: "gz-2",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
         zielnorm: "eli/bund/bgbl-1/2019/789",
+        isNewWork: false,
       },
     ]
 
@@ -105,12 +107,14 @@ describe("useGetZielnormReferences", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
       {
         typ: "Aufhebung",
         geltungszeit: "gz-2",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
         zielnorm: "eli/bund/bgbl-1/2019/789",
+        isNewWork: false,
       },
     ]
 
@@ -188,6 +192,7 @@ describe("usePostZielnormReferences", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
     ]
     execute()
@@ -204,6 +209,7 @@ describe("usePostZielnormReferences", () => {
               geltungszeit: "gz-1",
               eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
               zielnorm: "eli/bund/bgbl-1/2021/123",
+              isNewWork: false,
             },
           ]),
         }),

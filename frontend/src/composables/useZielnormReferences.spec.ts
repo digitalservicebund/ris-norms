@@ -18,6 +18,7 @@ describe("useZielnormReferences", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
     ]
 
@@ -57,6 +58,7 @@ describe("useZielnormReferences", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
     ]
 
@@ -103,6 +105,7 @@ describe("useZielnormReferences", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
     ]
 
@@ -144,18 +147,21 @@ describe("useZielnormReferences", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
       {
         typ: "Änderungsvorschrift",
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
       {
         typ: "Änderungsvorschrift",
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-3",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
     ]
 
@@ -204,12 +210,14 @@ describe("useZielnormReferences", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
       {
         typ: "Aufhebung",
         geltungszeit: "gz-2",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
     ]
 
@@ -257,12 +265,14 @@ describe("useZielnormReferences", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
       {
         typ: "Aufhebung",
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
         zielnorm: "eli/bund/bgbl-1/2021/456",
+        isNewWork: false,
       },
     ]
 
@@ -310,6 +320,7 @@ describe("useZielnormReferences", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
     ]
 
@@ -417,6 +428,7 @@ describe("useZielnormReferences", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
     ]
 
@@ -468,12 +480,14 @@ describe("useZielnormReferences", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
       {
         typ: "Änderungsvorschrift",
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
         zielnorm: "eli/bund/bgbl-1/2021/456",
+        isNewWork: false,
       },
     ]
 
@@ -522,12 +536,14 @@ describe("useZielnormReferences", () => {
         geltungszeit: "gz-2",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
       {
         typ: "Änderungsvorschrift",
         geltungszeit: "gz-2",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
         zielnorm: "eli/bund/bgbl-1/2021/456",
+        isNewWork: false,
       },
     ])
   })
@@ -539,12 +555,14 @@ describe("useZielnormReferences", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
       {
         typ: "Änderungsvorschrift",
         geltungszeit: "gz-2",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
         zielnorm: "eli/bund/bgbl-1/2021/123",
+        isNewWork: false,
       },
     ]
 
@@ -596,12 +614,14 @@ describe("useZielnormReferences", () => {
         geltungszeit: "gz-1",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-1",
         zielnorm: "eli/bund/bgbl-1/2021/456",
+        isNewWork: false,
       },
       {
         typ: "Änderungsvorschrift",
         geltungszeit: "gz-2",
         eId: "hauptteil-1_art-1_abs-1_untergl-1_listenelem-2",
         zielnorm: "eli/bund/bgbl-1/2021/456",
+        isNewWork: false,
       },
     ])
   })
