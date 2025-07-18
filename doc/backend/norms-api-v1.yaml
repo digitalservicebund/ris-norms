@@ -1013,6 +1013,8 @@ components:
           $ref: "#/components/schemas/EId"
         zielnorm:
           $ref: "#/components/schemas/NormExpressionEli"
+        isNewWork:
+          type: boolean
 
     Zielnormen:
       type: object
