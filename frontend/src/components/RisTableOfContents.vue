@@ -64,7 +64,11 @@ watch(
 </script>
 
 <template>
-  <div>
+  <div class="flex-1">
+    <h2 :id="tocHeadingId" class="ris-body1-bold mx-20 mt-16 mb-10">
+      Inhaltsübersicht
+    </h2>
+
     <div v-if="isFetching" class="mt-24 flex items-center justify-center">
       <RisLoadingSpinner />
     </div>
@@ -80,27 +84,22 @@ watch(
       text-content="Keine Artikel gefunden."
       class="m-16 mt-8"
     />
-    <div v-else class="flex-1 overflow-auto">
-      <slot name="top-navigation" />
 
-      <h2 :id="tocHeadingId" class="ris-body1-bold mx-20 mt-16 mb-10">
-        Inhaltsübersicht
-      </h2>
-      <Tree
-        v-model:expanded-keys="expandedKeys"
-        v-model:selection-keys="selectionKeys"
-        :aria-labelledby="tocHeadingId"
-        :value="treeNodes"
-        selection-mode="single"
-        @node-select="handleNodeSelect"
-      >
-        <template #default="{ node }">
-          <button class="cursor-pointer pl-4 text-left group-hover:underline!">
-            <span class="block">{{ node.label }}</span>
-            <span class="block font-normal">{{ node.data.sublabel }}</span>
-          </button>
-        </template>
-      </Tree>
-    </div>
+    <Tree
+      v-else
+      v-model:expanded-keys="expandedKeys"
+      v-model:selection-keys="selectionKeys"
+      :aria-labelledby="tocHeadingId"
+      :value="treeNodes"
+      selection-mode="single"
+      @node-select="handleNodeSelect"
+    >
+      <template #default="{ node }">
+        <button class="cursor-pointer pl-4 text-left group-hover:underline!">
+          <span class="block">{{ node.label }}</span>
+          <span class="block font-normal">{{ node.data.sublabel }}</span>
+        </button>
+      </template>
+    </Tree>
   </div>
 </template>

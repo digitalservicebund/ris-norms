@@ -270,71 +270,64 @@ const isGegenstandslosExpression = computed(() => {
     :loading="!verkuendungHasFinished || !normExpressionLoaded"
   >
     <Splitter class="h-full" layout="horizontal">
-      <SplitterPanel
-        :size="20"
-        :min-size="20"
-        class="h-full overflow-auto bg-white"
-      >
-        <aside aria-label="Inhaltsübersicht">
+      <SplitterPanel :size="20" :min-size="20">
+        <aside aria-label="Inhaltsübersicht" class="flex h-full flex-col">
+          <div
+            class="flex items-center justify-between gap-8 border-b border-gray-400 p-16"
+          >
+            <RouterLink
+              :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${previousGuid}`"
+              :class="[
+                'focus:outline-none',
+                hasPrev
+                  ? 'text-blue-800 hover:text-blue-900 focus:ring-2 focus:ring-blue-800'
+                  : 'pointer-events-none cursor-not-allowed text-gray-800 opacity-50',
+              ]"
+              :aria-disabled="!hasPrev"
+            >
+              <IcBaselineArrowBack />
+              <span class="sr-only">Vorherige Version</span>
+            </RouterLink>
+
+            <span :id="expressionPointInTimeLabelId" class="sr-only">
+              Zeitpunkt der Gültigkeit dieser Fassung
+            </span>
+
+            <div
+              class="flex items-center gap-6"
+              :aria-labelledby="expressionPointInTimeLabelId"
+            >
+              <span
+                >Gültig ab:
+                <span class="ris-body2-bold">{{ formattedDate }}</span></span
+              >
+              <RisHighlightColorSwatch :color-index="colorIndex" />
+            </div>
+
+            <RouterLink
+              :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${nextGuid}`"
+              :class="[
+                'focus:outline-none',
+                hasNext
+                  ? 'text-blue-800 hover:text-blue-900 focus:ring-2 focus:ring-blue-800'
+                  : 'pointer-events-none cursor-not-allowed text-gray-800 opacity-50',
+              ]"
+              :aria-disabled="!hasNext"
+            >
+              <IcBaselineArrowForward />
+              <span class="sr-only">Nächste Version</span>
+            </RouterLink>
+          </div>
+
           <RisTableOfContents
             :key="expressionEli.toString()"
+            class="overflow-auto"
             :toc="toc"
             :is-fetching="tocIsFetching"
             :fetch-error="tocError"
             :selected-e-id="selectedTocElement"
             @select="handleTocSelect"
-          >
-            <template #top-navigation>
-              <div
-                class="sticky top-0 z-10 flex items-center justify-between gap-8 border-b border-gray-400 p-16"
-              >
-                <RouterLink
-                  :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${previousGuid}`"
-                  :class="[
-                    'focus:outline-none',
-                    hasPrev
-                      ? 'text-blue-800 hover:text-blue-900 focus:ring-2 focus:ring-blue-800'
-                      : 'pointer-events-none cursor-not-allowed text-gray-800 opacity-50',
-                  ]"
-                  :aria-disabled="!hasPrev"
-                >
-                  <IcBaselineArrowBack />
-                  <span class="sr-only">Vorherige Version</span>
-                </RouterLink>
-
-                <span :id="expressionPointInTimeLabelId" class="sr-only">
-                  Zeitpunkt der Gültigkeit dieser Fassung
-                </span>
-
-                <div
-                  class="flex items-center gap-6"
-                  :aria-labelledby="expressionPointInTimeLabelId"
-                >
-                  <span
-                    >Gültig ab:
-                    <span class="ris-body2-bold">{{
-                      formattedDate
-                    }}</span></span
-                  >
-                  <RisHighlightColorSwatch :color-index="colorIndex" />
-                </div>
-
-                <RouterLink
-                  :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${nextGuid}`"
-                  :class="[
-                    'focus:outline-none',
-                    hasNext
-                      ? 'text-blue-800 hover:text-blue-900 focus:ring-2 focus:ring-blue-800'
-                      : 'pointer-events-none cursor-not-allowed text-gray-800 opacity-50',
-                  ]"
-                  :aria-disabled="!hasNext"
-                >
-                  <IcBaselineArrowForward />
-                  <span class="sr-only">Nächste Version</span>
-                </RouterLink>
-              </div>
-            </template>
-          </RisTableOfContents>
+          />
         </aside>
       </SplitterPanel>
 
