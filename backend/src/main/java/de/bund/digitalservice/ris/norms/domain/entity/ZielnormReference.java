@@ -40,7 +40,7 @@ public class ZielnormReference {
     Zeitgrenze.Id geltungszeit,
     EId eId,
     NormWorkEli zielnorm,
-    Boolean newWork
+    boolean newWork
   ) {
     final var element = NodeCreator.createElement(NAMESPACE, TAG_NAME, parentNode);
     NodeCreator.createElement(NAMESPACE, "typ", element).setTextContent(typ);
@@ -51,7 +51,7 @@ public class ZielnormReference {
 
     var zielnormElement = NodeCreator.createElement(NAMESPACE, "zielnorm", element);
     zielnormElement.setTextContent(zielnorm.toString());
-    if (newWork == true) {
+    if (newWork) {
       zielnormElement.setAttribute("new-work", "true");
     }
 
@@ -150,7 +150,7 @@ public class ZielnormReference {
    */
   public void setNewWork(boolean newWork) {
     var zielnormElement = NodeParser.getMandatoryElementFromExpression("./zielnorm", element);
-    if (newWork == true) {
+    if (newWork) {
       zielnormElement.setAttribute("new-work", "true");
     } else {
       zielnormElement.removeAttribute("new-work");
