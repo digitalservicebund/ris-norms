@@ -26,7 +26,7 @@ RUN --mount=type=secret,id=SENTRY_DSN \
         fi; \
     ./gradlew build --profile -x integrationTest -x test -x spotlessCheck
 
-FROM cgr.dev/chainguard/jre@sha256:6708d521eb7b5825814bf23e166510a0cc35ca4c14c09107781390eb8a37b900
+FROM cgr.dev/chainguard/jre@sha256:71c0dc29e7bf9b8565e2bb69b2ebebc01ecf71dcbed5a9bb4dec530e93cf992d
 COPY --from=backend /backend/build/libs/ris-norms-backend-*.jar /app/app.jar
 ENV spring.cloud.bootstrap.enabled=true
 EXPOSE 8080
