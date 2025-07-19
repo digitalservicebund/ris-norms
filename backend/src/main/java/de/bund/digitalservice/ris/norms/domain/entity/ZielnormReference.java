@@ -31,7 +31,7 @@ public class ZielnormReference {
    * @param geltungszeit the id of the geltungszeitregel
    * @param eId the eId of the element containing the Änderungsbefehl
    * @param zielnorm the ELI of the zielnorm changed by the Änderungsbefehl
-   * @param newWork whether the Zielnorm reference is referring to a new work
+   * @param isNewWork whether the Zielnorm reference is referring to a new work
    * @return the newly created {@link ZielnormReference}
    */
   public static ZielnormReference createAndAppend(
@@ -40,7 +40,7 @@ public class ZielnormReference {
     Zeitgrenze.Id geltungszeit,
     EId eId,
     NormWorkEli zielnorm,
-    boolean newWork
+    boolean isNewWork
   ) {
     final var element = NodeCreator.createElement(NAMESPACE, TAG_NAME, parentNode);
     NodeCreator.createElement(NAMESPACE, "typ", element).setTextContent(typ);
@@ -51,7 +51,7 @@ public class ZielnormReference {
 
     var zielnormElement = NodeCreator.createElement(NAMESPACE, "zielnorm", element);
     zielnormElement.setTextContent(zielnorm.toString());
-    if (newWork) {
+    if (isNewWork) {
       zielnormElement.setAttribute("new-work", "true");
     }
 

@@ -14,4 +14,7 @@ export type ZielnormReference = {
 
   /** Work ELI of the Norm that is targeted by the amending command */
   zielnorm: string
+
+  /** Whether the Zielnorm reference is referring to a new work */
+  isNewWork: boolean
 }

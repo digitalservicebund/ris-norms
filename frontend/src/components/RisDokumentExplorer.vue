@@ -38,6 +38,14 @@ const eid = defineModel<string>("eid")
 /** List of eIds that should be edited */
 const eidsToEdit = defineModel<string[]>("eids-to-edit")
 
+const emit = defineEmits<{
+  /**
+   * Emitted when selectin changes to indicate whether the current selection
+   * is an eingebundene Stammform or regular elements.
+   */
+  selectEingebundeneStammform: [isEingebundeneStammform: boolean]
+}>()
+
 const { documentExplorerHeadingId, tocHeadingId } = useElementId()
 
 // Table of contents --------------------------------------
@@ -93,10 +101,14 @@ function onSelect({ originalEvent, eid }: AknElementClickEvent) {
   }
 
   eidsToEdit.value = values.value
+  emit("selectEingebundeneStammform", false)
 }
 
 function selectEingebundeneStammform(eid: string) {
+  if (disableSelection) return
+
   eidsToEdit.value = [eid]
+  emit("selectEingebundeneStammform", true)
 }
 </script>
 

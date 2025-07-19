@@ -80,7 +80,10 @@ export type ZielnormReferencesStore = {
   deleteZielnormReferencesError: Ref<any> // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are any
 }
 
-export type EditableZielnormReference = Omit<ZielnormReference, "eId" | "typ">
+export type EditableZielnormReference = Omit<
+  ZielnormReference,
+  "eId" | "typ" | "isNewWork"
+>
 
 /**
  * Used in place of an actual value when editing multiple references. A value
@@ -196,6 +199,7 @@ export function useZielnormReferences(
 
     toUpdate = eIds.map<ZielnormReference>((eId) => ({
       ...restoreLastSavedValue(dataVal, eId),
+      isNewWork: false,
       typ: "Änderungsvorschrift",
       eId,
     }))
