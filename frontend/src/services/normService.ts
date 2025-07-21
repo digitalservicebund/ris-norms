@@ -120,7 +120,15 @@ export function useGetNorms(
     return `/norms?${queryParams.toString()}`
   })
 
-  return useApiFetch<NormsPage>(url, { refetch: true, ...fetchOptions }).json()
+  const useFetchReturn = useApiFetch<unknown>(url, {
+    refetch: true,
+    ...fetchOptions,
+  }).json()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() => NormsPageSchema.parse(useFetchReturn.data)),
+  }
 }
 
 /**
