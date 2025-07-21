@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.TableOfContentsResponseSchema;
 import de.bund.digitalservice.ris.norms.domain.entity.TableOfContentsItem;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ class TableOfContentsResponseMapperTest {
       "child-marker",
       "child-heading",
       "child-type",
-      false,
+      null,
       Collections.emptyList()
     );
     final TableOfContentsItem childItemWithStammform = new TableOfContentsItem(
@@ -27,7 +28,9 @@ class TableOfContentsResponseMapperTest {
       "child-marker",
       "child-stammform-heading",
       "child-type",
-      true,
+      DokumentManifestationEli.fromString(
+        "eli/bund/bgbl-1/2024/109/2024-03-27/1/deu/2024-03-27/regelungstext-2.xml"
+      ),
       Collections.emptyList()
     );
     final TableOfContentsItem parentItem = new TableOfContentsItem(
@@ -35,7 +38,7 @@ class TableOfContentsResponseMapperTest {
       "parent-marker",
       "parent-heading",
       "parent-type",
-      false,
+      null,
       List.of(childItem, childItemWithStammform)
     );
 
@@ -52,7 +55,7 @@ class TableOfContentsResponseMapperTest {
     assertThat(parentResponse.getMarker()).isEqualTo("parent-marker");
     assertThat(parentResponse.getHeading()).isEqualTo("parent-heading");
     assertThat(parentResponse.getType()).isEqualTo("parent-type");
-    assertThat(parentResponse.getHasEingebundeneStammform()).isFalse();
+    assertThat(parentResponse.getEingebundeneStammformEli()).isNull();
     assertThat(parentResponse.getChildren()).hasSize(2);
 
     final TableOfContentsResponseSchema childResponse = parentResponse.getChildren().getFirst();
@@ -60,7 +63,7 @@ class TableOfContentsResponseMapperTest {
     assertThat(childResponse.getMarker()).isEqualTo("child-marker");
     assertThat(childResponse.getHeading()).isEqualTo("child-heading");
     assertThat(childResponse.getType()).isEqualTo("child-type");
-    assertThat(childResponse.getHasEingebundeneStammform()).isFalse();
+    assertThat(childResponse.getEingebundeneStammformEli()).isNull();
     assertThat(childResponse.getChildren()).isEmpty();
 
     final TableOfContentsResponseSchema childWithStammformResponse = parentResponse
@@ -70,7 +73,9 @@ class TableOfContentsResponseMapperTest {
     assertThat(childWithStammformResponse.getMarker()).isEqualTo("child-marker");
     assertThat(childWithStammformResponse.getHeading()).isEqualTo("child-stammform-heading");
     assertThat(childWithStammformResponse.getType()).isEqualTo("child-type");
-    assertThat(childWithStammformResponse.getHasEingebundeneStammform()).isTrue();
+    assertThat(childWithStammformResponse.getEingebundeneStammformEli()).hasToString(
+      "eli/bund/bgbl-1/2024/109/2024-03-27/1/deu/2024-03-27/regelungstext-2.xml"
+    );
     assertThat(childWithStammformResponse.getChildren()).isEmpty();
   }
 

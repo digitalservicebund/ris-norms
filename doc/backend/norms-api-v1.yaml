@@ -1185,9 +1185,11 @@ components:
         type:
           type: string
           description: The type of the item (e.g. section or chapter)
-        hasEingebundeneStammform:
-          type: boolean
-          description: True if the article contains an eingebundene Stammform
+        eingebundeneStammformEli:
+          allOf:
+            - $ref: "#/components/schemas/DokumentManifestationEli"
+            - nullable: true
+            - description: ELI of the eingebundene Stammform if the article contains one, empty otherwise
         children:
           type: array
           description: Nested children elements of the table of contents

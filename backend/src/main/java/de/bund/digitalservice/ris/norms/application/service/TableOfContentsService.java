@@ -95,20 +95,21 @@ public class TableOfContentsService implements LoadTocFromRegelungstextUseCase {
     List<TableOfContentsItem> children;
 
     // eingebundene Stammform
-    var hasEingebundeneStammform = false;
+    DokumentManifestationEli eingebundeneStammformEli = null;
+
     if (type.equals("article")) {
       children = List.of();
       var article = new Article(element);
-      var stammformEli = article.getEingebundeneStammform();
-      if (stammformEli.isPresent()) {
-        hasEingebundeneStammform = true;
-        heading = getHeadingForEingebundeneStammform(stammformEli.get()).orElse(null);
+      var eli = article.getEingebundeneStammform();
+      if (eli.isPresent()) {
+        eingebundeneStammformEli = eli.get();
+        heading = getHeadingForEingebundeneStammform(eingebundeneStammformEli).orElse(null);
       }
     } else {
       children = getChildren(element);
     }
 
-    return new TableOfContentsItem(eId, marker, heading, type, hasEingebundeneStammform, children);
+    return new TableOfContentsItem(eId, marker, heading, type, eingebundeneStammformEli, children);
   }
 
   private Optional<String> getHeadingForEingebundeneStammform(
