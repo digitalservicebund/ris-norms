@@ -30,9 +30,6 @@ class ReleaseServiceTest {
   private NormService normService;
 
   @Mock
-  private CreateNewVersionOfNormService createNewVersionOfNormService;
-
-  @Mock
   private LdmlDeElementSorter ldmlDeElementSorter;
 
   @Mock
@@ -57,9 +54,6 @@ class ReleaseServiceTest {
     Norm unpublishedNorm = Fixtures.loadNormFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
-    Norm workingCopy = Fixtures.loadNormFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
-    );
     Norm updatedNorm = Fixtures.loadNormFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
     );
@@ -68,10 +62,7 @@ class ReleaseServiceTest {
 
     when(loadNormExpressionElisPort.loadNormExpressionElis(any())).thenReturn(expressionElis);
     when(normService.loadNorm(any())).thenReturn(unpublishedNorm);
-    when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(
-      workingCopy
-    );
-    when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(workingCopy).thenReturn(updatedNorm);
+    when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(updatedNorm);
 
     // when
     List<Norm> result = releaseService.release(options);
@@ -81,11 +72,10 @@ class ReleaseServiceTest {
 
     verify(loadNormExpressionElisPort).loadNormExpressionElis(any());
     verify(normService).loadNorm(any());
-    verify(createNewVersionOfNormService).createNewManifestation(any(), any());
-    verify(ldmlDeElementSorter, times(2)).sortElements(any());
-    verify(ldmlDeValidator, times(2)).validateXSDSchema((Norm) any());
-    verify(ldmlDeValidator, times(2)).validateSchematron((Norm) any());
-    verify(updateOrSaveNormPort, times(2)).updateOrSave(any());
+    verify(ldmlDeElementSorter, times(1)).sortElements(any());
+    verify(ldmlDeValidator, times(1)).validateXSDSchema((Norm) any());
+    verify(ldmlDeValidator, times(1)).validateSchematron((Norm) any());
+    verify(updateOrSaveNormPort, times(1)).updateOrSave(any());
     verify(pretextCleanupService, times(1)).clean(any());
     verifyNoInteractions(deleteNormPort);
   }
@@ -107,7 +97,6 @@ class ReleaseServiceTest {
     verify(loadNormExpressionElisPort).loadNormExpressionElis(any());
     verifyNoInteractions(
       normService,
-      createNewVersionOfNormService,
       ldmlDeElementSorter,
       ldmlDeValidator,
       updateOrSaveNormPort,
@@ -138,7 +127,6 @@ class ReleaseServiceTest {
 
     verify(normService).loadNorm(any());
     verifyNoInteractions(
-      createNewVersionOfNormService,
       ldmlDeElementSorter,
       ldmlDeValidator,
       updateOrSaveNormPort,
