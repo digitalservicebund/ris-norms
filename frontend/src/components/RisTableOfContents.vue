@@ -45,16 +45,35 @@ const selectionKeys = computed(() => {
   return {}
 })
 
+const findParentIds = (
+  eid: string,
+  nodes: TreeNode[],
+  parents: string[] = [],
+): string[] => {
+  for (const node of nodes) {
+    if (node.key === eid) return parents
+    const found = findParentIds(eid, node.children ?? [], [
+      ...parents,
+      node.key,
+    ])
+    if (found.length) return found
+  }
+  return []
+}
+
 const handleNodeSelect = (node: TreeNode) => {
   expandedKeys.value[node.key] = true
   emit("select", { eId: node.key })
 }
 
 watch(
-  () => props.selectedEId,
+  () => [props.selectedEId, treeNodes.value],
   () => {
     if (props.selectedEId) {
       expandedKeys.value[props.selectedEId] = true
+
+      const parentIds = findParentIds(props.selectedEId, treeNodes.value)
+      parentIds.forEach((id) => (expandedKeys.value[id] = true))
     }
   },
   { immediate: true },

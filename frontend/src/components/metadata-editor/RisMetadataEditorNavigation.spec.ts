@@ -182,27 +182,20 @@ describe("risMetadataEditorNavigation", () => {
         normExpressionEli: NormExpressionEli.fromString(
           "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu",
         ),
-        selectedEId: "art-z3",
+        selectedEId: "art-z4",
       },
     })
 
     await user.click(
-      screen.getByRole("link", {
-        name: "2. Buch",
+      screen.getByRole("button", {
+        name: "2. Buch Beispiele für Strukturen",
       }),
     )
     expect(router.currentRoute.value.name).toBe("OutlineElementEditor")
 
     await user.click(
-      screen.getByRole("link", {
-        name: "Beispiele für Strukturen",
-      }),
-    )
-    expect(router.currentRoute.value.name).toBe("OutlineElementEditor")
-
-    await user.click(
-      screen.getByRole("link", {
-        name: "§ 3",
+      screen.getByRole("button", {
+        name: "§ 3 Implementierung der neuen Strukturen",
       }),
     )
     expect(router.currentRoute.value.name).toBe("ElementEditor")

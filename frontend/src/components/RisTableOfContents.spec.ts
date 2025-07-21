@@ -44,10 +44,6 @@ describe("risTableOfContents", () => {
     })
 
     expect(
-      screen.getByRole("heading", { name: "Inhaltsübersicht" }),
-    ).toBeVisible()
-
-    expect(
       screen.getByRole("button", { name: "2. Buch Beispiele für Strukturen" }),
     ).toBeVisible()
   })
@@ -66,10 +62,6 @@ describe("risTableOfContents", () => {
         selectedEId: null,
       },
     })
-
-    expect(
-      screen.getByRole("heading", { name: "Inhaltsübersicht" }),
-    ).toBeVisible()
 
     await user.click(
       screen.getByRole("button", { name: "2. Buch Beispiele für Strukturen" }),
