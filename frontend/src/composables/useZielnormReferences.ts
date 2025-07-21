@@ -31,6 +31,22 @@ export type ZielnormReferencesStore = {
   zielnormReferencesForEid: (...eIds: string[]) => EditableZielnormReference
 
   /**
+   * Returns a Zielnormen reference that can be used as a backing model for
+   * editing references related to eingebundene Stammformen in the UI. It will
+   * be populated with data based on the provided eId.
+   *
+   * @param eId eId of the element to look up
+   * @param baseEli ELI of the Dokument that contains the eingebundene Stammform.
+   *  This will be used for constructing the Zielnorm ELI, which is deterministic
+   *  and does not need to be specified manually by the user.
+   * @returns Editable Zielnorm reference with data from the eId
+   */
+  zielnormReferencesEingebundeneStammformForEid: (
+    eId: string,
+    baseEli: never,
+  ) => EditableZielnormReference
+
+  /**
    * Updates all Zielnormen references related to the specified eIds.
    * References for eIds that don't exist yet will be created.
    *
@@ -83,7 +99,10 @@ export type ZielnormReferencesStore = {
 export type EditableZielnormReference = Omit<
   ZielnormReference,
   "eId" | "typ" | "isNewWork"
->
+> & {
+  /** Will be set automatically by the service */
+  readonly isNewWork?: boolean
+}
 
 /**
  * Used in place of an actual value when editing multiple references. A value
@@ -148,6 +167,19 @@ export function useZielnormReferences(
     return newReference
   }
 
+  function zielnormReferencesEingebundeneStammformForEid(
+    eId: string,
+  ): EditableZielnormReference {
+    const existingData = (references.value ?? []).find((i) => i.eId === eId)
+    const zielnorm = "eli/bund/bgbl-1/2025/47-11"
+
+    return {
+      isNewWork: true,
+      zielnorm: existingData?.zielnorm ?? zielnorm,
+      geltungszeit: existingData?.geltungszeit ?? "",
+    }
+  }
+
   // Update -------------------------------------------------
 
   let toUpdate: ZielnormReference[] = []
@@ -199,7 +231,7 @@ export function useZielnormReferences(
 
     toUpdate = eIds.map<ZielnormReference>((eId) => ({
       ...restoreLastSavedValue(dataVal, eId),
-      isNewWork: false,
+      isNewWork: dataVal.isNewWork ?? false,
       typ: "Änderungsvorschrift",
       eId,
     }))
@@ -238,6 +270,7 @@ export function useZielnormReferences(
   return {
     zielnormReferences: readonly(references),
     zielnormReferencesForEid,
+    zielnormReferencesEingebundeneStammformForEid,
     updateZielnormReferences: update,
     deleteZielnormReferences: remove,
     isLoadingZielnormReferences: isFetching,

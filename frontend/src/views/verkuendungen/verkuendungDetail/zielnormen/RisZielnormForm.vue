@@ -21,6 +21,12 @@ const { zeitgrenzen = [] } = defineProps<{
 
   /** When true, shows a loading state on the delete button */
   deleting?: boolean
+
+  /**
+   * When true, slightly tweaks the form for handling eingebundene Stammformen:
+   * the labels are adjusted and the ELI input is disabled.
+   */
+  eingebundeneStammform?: boolean
 }>()
 
 /** Zielnorm reference that should be edited */
@@ -94,14 +100,21 @@ const eli = computed({
 <template>
   <form :aria-labelledby="formHeadingId" class="space-y-10">
     <div :id="formHeadingId" class="ris-subhead-bold mb-16">
-      ELIs und Geltungszeitregeln verknüpfen
+      <template v-if="eingebundeneStammform">
+        Geltungszeitregeln verknüpfen
+      </template>
+      <template v-else> ELIs und Geltungszeitregeln verknüpfen </template>
     </div>
 
     <div class="flex flex-col gap-2">
-      <label :for="eliInputId">ELI Zielnormenkomplex</label>
+      <label :for="eliInputId">
+        <template v-if="eingebundeneStammform">ELI</template>
+        <template v-else>ELI Zielnormenkomplex</template>
+      </label>
       <InputText
         :id="eliInputId"
         v-model="eli"
+        :readonly="eingebundeneStammform"
         :placeholder="
           model.zielnorm === INDETERMINATE_VALUE ? 'Mehrere' : undefined
         "

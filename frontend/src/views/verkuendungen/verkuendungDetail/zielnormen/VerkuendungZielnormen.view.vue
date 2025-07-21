@@ -8,6 +8,7 @@ import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisPropertyValue from "@/components/RisPropertyValue.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { useElementId } from "@/composables/useElementId"
+import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 import { useToast } from "@/composables/useToast"
 import { useZeitgrenzenHighlightClasses } from "@/composables/useZeitgrenzenHighlightClasses"
 import {
@@ -15,6 +16,7 @@ import {
   type EditableZielnormReference,
 } from "@/composables/useZielnormReferences"
 import { formatDate } from "@/lib/dateTime"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
 import {
@@ -22,10 +24,8 @@ import {
   useGetZeitgrenzen,
 } from "@/services/zeitgrenzenService"
 import { ConfirmDialog, Splitter, SplitterPanel, useConfirm } from "primevue"
-import { computed, ref, watch } from "vue"
+import { computed, ref, watchEffect } from "vue"
 import RisZielnormForm from "./RisZielnormForm.vue"
-import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 const { add: addToast, addError: addErrorToast } = useToast()
 
@@ -85,6 +85,7 @@ const {
   updateZielnormReferencesError,
   zielnormReferences,
   zielnormReferencesForEid,
+  zielnormReferencesEingebundeneStammformForEid,
 } = useZielnormReferences(eli)
 
 function onSelectEingebundeneStammform(isEingebundeneStammform: boolean) {
@@ -101,9 +102,17 @@ const highlightClasses = useZeitgrenzenHighlightClasses(
   () => zeitgrenzen.value ?? [],
 )
 
-watch(eIdsToEdit, (val) => {
-  if (!val?.length) editedZielnormReference.value = undefined
-  else editedZielnormReference.value = zielnormReferencesForEid(...val)
+watchEffect(() => {
+  if (!eIdsToEdit.value?.length) editedZielnormReference.value = undefined
+  else if (selectionIsEingebundeneStammform.value) {
+    editedZielnormReference.value =
+      // @ts-expect-error baseEli param not yet implemented
+      zielnormReferencesEingebundeneStammformForEid(eIdsToEdit.value[0])
+  } else {
+    editedZielnormReference.value = zielnormReferencesForEid(
+      ...eIdsToEdit.value,
+    )
+  }
 })
 
 async function onSaveZielnormReferences() {
@@ -195,6 +204,7 @@ async function onDeleteZielnormReferences() {
           :zeitgrenzen="zeitgrenzen ?? []"
           :deleting="isDeletingZielnormReferences"
           :updating="isUpdatingZielnormReferences"
+          :eingebundene-stammform="selectionIsEingebundeneStammform"
           @save="onSaveZielnormReferences()"
           @delete="confirmDeleteZielnormReferences()"
         />
