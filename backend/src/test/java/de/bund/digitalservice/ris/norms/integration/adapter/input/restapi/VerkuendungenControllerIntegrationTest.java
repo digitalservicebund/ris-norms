@@ -688,6 +688,38 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
     }
 
     @Test
+    void itShouldReturnZielnormenPreviewForEingebundeneStammform() throws Exception {
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        VerkuendungenControllerIntegrationTest.class,
+        "gleichstellung_bundeswehr_with_eingebundeneStammform",
+        NormPublishState.PUBLISHED
+      );
+
+      mockMvc
+        .perform(
+          get(
+            "/api/v1/verkuendungen/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnormen/expressions/preview"
+          ).accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].normWorkEli").value("eli/bund/bgbl-1/2024/17-1"))
+        .andExpect(jsonPath("$[0].title").value("Soldatinnen- und Soldatengleichstellungsgesetz"))
+        .andExpect(jsonPath("$[0].shortTitle").value("(SGleiG)"))
+        .andExpect(
+          jsonPath("$[0].expressions[0].normExpressionEli").value(
+            "eli/bund/bgbl-1/2024/17-1/2017-03-16/1/deu"
+          )
+        )
+        .andExpect(jsonPath("$[0].expressions[0].isGegenstandslos").value(false))
+        .andExpect(jsonPath("$[0].expressions[0].isCreated").value(false))
+        .andExpect(jsonPath("$[0].expressions[0].isOrphan").value(false))
+        .andExpect(jsonPath("$[0].expressions[0].createdBy").value("diese Verkündung"));
+    }
+
+    @Test
     void itShouldReturnZielnormenPreviewContainingOrphans() throws Exception {
       // amendingLaw
       Fixtures.loadAndSaveNormFixture(
