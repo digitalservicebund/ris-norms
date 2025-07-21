@@ -99,7 +99,7 @@ public class TableOfContentsService implements LoadTocFromRegelungstextUseCase {
     if (type.equals("article")) {
       children = List.of();
       var article = new Article(element);
-      var stammformEli = article.getEingebundeneStammformEli();
+      var stammformEli = article.getEingebundeneStammform();
       if (stammformEli.isPresent()) {
         hasEingebundeneStammform = true;
         heading = getHeadingForEingebundeneStammform(stammformEli.get()).orElse(null);

@@ -95,16 +95,14 @@ public class Article {
   }
 
   /**
-   * Returns the eli, if present, of the embedded norm
-   * @return an optional {@link DokumentManifestationEli}
+   * If an Article references an eingebundene Stammform it finds the eli of the referenced {@link Dokument}
+   * otherwise it returns an empty Optional.
+   *
+   * @return the eli of the referenced {@link Dokument}
    */
-  public Optional<DokumentManifestationEli> getEingebundeneStammformEli() {
-    return NodeParser.getElementFromExpression(
-      "componentRef[@showAs=\"regelungstext-eingebundene-stammform\"]",
-      element
-    ).map(componentRef -> {
-        var stammformEliRaw = componentRef.getAttribute("src");
-        return DokumentManifestationEli.fromString(stammformEliRaw);
-      });
+  public Optional<DokumentManifestationEli> getEingebundeneStammform() {
+    return NodeParser.getValueFromExpression("./componentRef/@src", this.element).map(
+      DokumentManifestationEli::fromString
+    );
   }
 }
