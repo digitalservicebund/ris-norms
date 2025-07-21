@@ -8,6 +8,8 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.jspecify.annotations.NonNull;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,12 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
  * all the input ports. It is annotated with {@link Service} to indicate that it's a service
  * component in the Spring context.
  */
+@Slf4j
 @Service
 public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
 
   private final UpdateOrSaveNormPort updateOrSaveNormPort;
   private final NormService normService;
-  private final CreateNewVersionOfNormService createNewVersionOfNormService;
   private final DeleteNormPort deleteNormPort;
   private final LdmlDeValidator ldmlDeValidator;
   private final LoadNormExpressionElisPort loadNormExpressionElisPort;
@@ -32,7 +34,6 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
   public ReleaseService(
     UpdateOrSaveNormPort updateOrSaveNormPort,
     NormService normService,
-    CreateNewVersionOfNormService createNewVersionOfNormService,
     DeleteNormPort deleteNormPort,
     LdmlDeValidator ldmlDeValidator,
     LoadNormExpressionElisPort loadNormExpressionElisPort,
@@ -41,7 +42,6 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
   ) {
     this.updateOrSaveNormPort = updateOrSaveNormPort;
     this.normService = normService;
-    this.createNewVersionOfNormService = createNewVersionOfNormService;
     this.deleteNormPort = deleteNormPort;
     this.ldmlDeValidator = ldmlDeValidator;
     this.loadNormExpressionElisPort = loadNormExpressionElisPort;
@@ -52,8 +52,7 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
   /**
    * Queue the expression of the given norm for publishing.
    * <p></p>
-   * Previous releases of the same norm of the current date are replaced by this release. Also, new
-   * unpublished manifestations are created for the norm to enable further work on the expression.
+   * Previous releases of the same norm of the current date are replaced by this release.
    * <p></p>
    * NOTE: This is currently not taking care of updating the "nachfolgende-version-id".
    *
@@ -75,51 +74,70 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
       .filter(norm -> NormPublishState.UNPUBLISHED.equals(norm.getPublishState()))
       .toList();
 
-    List<Norm> workingCopies = new ArrayList<>();
+    log.info(
+      "Manifestations to release: {}",
+      manifestationsToPublish
+        .stream()
+        .map(Norm::getManifestationEli)
+        .map(NormManifestationEli::toString)
+        .collect(Collectors.joining())
+    );
+
+    List<Norm> releasedNorms = new ArrayList<>();
     manifestationsToPublish.forEach(manifestationToPublish -> {
       final NormManifestationEli oldManifestationEli = manifestationToPublish.getManifestationEli();
-      setNewStandDerBearbeitung(options.releaseType(), manifestationToPublish);
-      final Norm workingCopy = createNewVersionOfNormService.createNewManifestation(
-        manifestationToPublish,
-        Norm.WORKING_COPY_DATE
+      final ReleaseType effectiveReleaseType = effectiveReleaseType(
+        options.releaseType(),
+        manifestationToPublish
       );
-      ldmlDeElementSorter.sortElements(
-        workingCopy.getRegelungstext1().getDocument().getDocumentElement()
-      );
-      ldmlDeValidator.validateXSDSchema(workingCopy);
-      ldmlDeValidator.validateSchematron(workingCopy);
-      updateOrSaveNormPort.updateOrSave(new UpdateOrSaveNormPort.Options(workingCopy));
-      workingCopies.add(workingCopy);
 
-      if (manifestationToPublish.getReleaseType() == ReleaseType.PRAETEXT_RELEASED) {
+      log.info("Releasing {} as {}", oldManifestationEli, effectiveReleaseType);
+
+      manifestationToPublish.setReleaseType(effectiveReleaseType);
+
+      // copy that still includes the stuff the pretext cleanup might remove
+      var uncleanedCopy = new Norm(manifestationToPublish);
+      if (effectiveReleaseType == ReleaseType.PRAETEXT_RELEASED) {
         pretextCleanupService.clean(manifestationToPublish);
       }
+
       manifestationToPublish.setManifestationDateTo(LocalDate.now());
+
       ldmlDeElementSorter.sortElements(
         manifestationToPublish.getRegelungstext1().getDocument().getDocumentElement()
       );
       ldmlDeValidator.validateXSDSchema(manifestationToPublish);
       ldmlDeValidator.validateSchematron(manifestationToPublish);
       manifestationToPublish.setPublishState(NormPublishState.QUEUED_FOR_PUBLISH);
-      // The manifestationToPublish might create a new point-in-time-manifestation thus a new norm might be created.
+
       final Norm updatedNorm = updateOrSaveNormPort.updateOrSave(
         new UpdateOrSaveNormPort.Options(manifestationToPublish)
       );
-      final boolean newManifestationWasCreatedOnSave =
-        !updatedNorm.getManifestationEli().equals(oldManifestationEli) &&
-        // Do not delete the working copy
-        !Norm.WORKING_COPY_DATE.isEqual(oldManifestationEli.getPointInTimeManifestation());
-      if (newManifestationWasCreatedOnSave) {
+
+      if (effectiveReleaseType == ReleaseType.PRAETEXT_RELEASED) {
+        // save a new working copy that still includes the stuff removed by the pretext cleanup (so the information
+        // isn't lost)
+        var newWorkingCopy = normService.updateNorm(uncleanedCopy);
+        // add the working copy to the released norm list as it includes the release type information which is removed
+        // in the pretext cleanup
+        releasedNorms.add(newWorkingCopy);
+      } else {
+        // Remove the working copy as it has 1:1 the same information as the just published one. A new working copy will
+        // be created when further things are changed.
         deleteNormPort.deleteNorm(
-          new DeleteNormPort.Options(oldManifestationEli, NormPublishState.UNPUBLISHED)
+          new DeleteNormPort.Options(
+            uncleanedCopy.getManifestationEli(),
+            NormPublishState.UNPUBLISHED
+          )
         );
+        releasedNorms.add(updatedNorm);
       }
     });
 
-    return workingCopies;
+    return releasedNorms;
   }
 
-  private static void setNewStandDerBearbeitung(ReleaseType targetReleaseType, Norm norm) {
+  private static ReleaseType effectiveReleaseType(ReleaseType targetReleaseType, Norm norm) {
     ReleaseType currentReleaseType = norm.getReleaseType();
 
     // PRAETEXT_RELEASED and VOLLDOKUMENTATION_RELEASED are not relevant as they remain unchanged.
@@ -127,12 +145,9 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
       targetReleaseType == ReleaseType.PRAETEXT_RELEASED &&
       currentReleaseType == ReleaseType.NOT_RELEASED
     ) {
-      norm.setReleaseType(ReleaseType.PRAETEXT_RELEASED);
+      return ReleaseType.PRAETEXT_RELEASED;
     }
 
-    if (targetReleaseType == ReleaseType.VOLLDOKUMENTATION_RELEASED) {
-      // in all cases set to VOLLDOKUMENTATION_RELEASED
-      norm.setReleaseType(ReleaseType.VOLLDOKUMENTATION_RELEASED);
-    }
+    return targetReleaseType;
   }
 }

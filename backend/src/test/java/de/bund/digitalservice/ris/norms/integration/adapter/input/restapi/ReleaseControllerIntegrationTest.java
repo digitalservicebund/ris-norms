@@ -85,7 +85,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         dokumentRepository,
         binaryFileRepository,
         normManifestationRepository,
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2999-12-31",
         NormPublishState.UNPUBLISHED
       );
 
@@ -149,7 +149,7 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
         dokumentRepository,
         binaryFileRepository,
         normManifestationRepository,
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2999-12-31",
         NormPublishState.UNPUBLISHED
       );
 
@@ -200,6 +200,60 @@ class ReleaseControllerIntegrationTest extends BaseIntegrationTest {
 
       // 1 queued for publish norm (1 rechtsetzungsdokument and 1 reglungstext) + 1 newly created manifestations (1 rechtsetzungsdokument and 1 reglungstext) for further work. The original amending norm should no longer exist
       assertThat(dokumentRepository.findAll()).hasSize(4);
+    }
+
+    @Test
+    void releasingANormAsVolldokumentationRemovesTheWorkingCopy() throws Exception {
+      // Given
+      Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2999-12-31",
+        NormPublishState.UNPUBLISHED
+      );
+
+      // When // Then
+      mockMvc
+        .perform(
+          post("/api/v1/norms/eli/bund/bgbl-1/2017/s419/releases")
+            .content(
+              """
+              {"releaseType": "volldokumentation"}
+              """
+            )
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("normWorkEli", equalTo("eli/bund/bgbl-1/2017/s419")))
+        .andExpect(
+          jsonPath(
+            "title",
+            equalTo("Entwurf eines Zweiten Gesetzes zur Änderung des Vereinsgesetzes")
+          )
+        )
+        .andExpect(jsonPath("shortTitle", equalTo("")))
+        .andExpect(jsonPath("expressions", hasSize(1)))
+        .andExpect(
+          jsonPath(
+            "expressions[0].normExpressionEli",
+            equalTo("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu")
+          )
+        )
+        .andExpect(jsonPath("expressions[0].isGegenstandslos", equalTo(false)))
+        .andExpect(jsonPath("expressions[0].currentStatus", equalTo("VOLLDOKUMENTATION_RELEASED")));
+
+      assertThat(dokumentRepository.findAll()).hasSize(2);
+      assertThat(normManifestationRepository.findAll()).hasSize(1);
+
+      var publishedManifestation = normManifestationRepository.findByManifestationEli(
+        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/%s".formatted(LocalDate.now().toString())
+      );
+      assertThat(publishedManifestation).isPresent();
+      assertThat(publishedManifestation.get().getPublishState()).isEqualTo(
+        NormPublishState.QUEUED_FOR_PUBLISH
+      );
     }
 
     @Test
