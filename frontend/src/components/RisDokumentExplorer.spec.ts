@@ -1,4 +1,5 @@
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { DokumentManifestationEli } from "@/lib/eli/DokumentManifestationEli"
 import type { ErrorResponse } from "@/types/errorResponse"
 import type { TocItem } from "@/types/toc"
 import userEvent from "@testing-library/user-event"
@@ -21,21 +22,21 @@ describe("risDokumentExplorer", () => {
               marker: "§ 1",
               heading: "Test 1",
               type: "article",
-              hasEingebundeneStammform: true,
+              eingebundeneStammformEli: DokumentManifestationEli.fromString(
+                "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml",
+              ),
             },
             {
               id: "eid-2",
               marker: "§ 2",
               heading: "Test 2",
               type: "article",
-              hasEingebundeneStammform: false,
             },
             {
               id: "eid-3",
               marker: "§ 3",
               heading: "Test 3",
               type: "article",
-              hasEingebundeneStammform: false,
             },
           ]),
           error: ref(null),
@@ -156,21 +157,21 @@ describe("risDokumentExplorer", () => {
               marker: "§ 1",
               heading: "Test 1",
               type: "article",
-              hasEingebundeneStammform: true,
+              eingebundeneStammformEli: DokumentManifestationEli.fromString(
+                "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml",
+              ),
             },
             {
               id: "eid-2",
               marker: "§ 2",
               heading: "Test 2",
               type: "article",
-              hasEingebundeneStammform: false,
             },
             {
               id: "eid-3",
               marker: "§ 3",
               heading: "Test 3",
               type: "article",
-              hasEingebundeneStammform: false,
             },
           ]),
           error: ref(null),
@@ -210,14 +211,15 @@ describe("risDokumentExplorer", () => {
               marker: "§ 1",
               heading: "Test 1",
               type: "article",
-              hasEingebundeneStammform: true,
+              eingebundeneStammformEli: DokumentManifestationEli.fromString(
+                "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml",
+              ),
             },
             {
               id: "eid-2",
               marker: "§ 2",
               heading: "Test 2",
               type: "article",
-              hasEingebundeneStammform: false,
             },
           ]),
           error: ref(null),

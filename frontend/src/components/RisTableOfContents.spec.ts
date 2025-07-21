@@ -10,14 +10,12 @@ const toc: TocItem[] = [
     marker: "2. Buch",
     heading: "Beispiele für Strukturen",
     type: "book",
-    hasEingebundeneStammform: false,
     children: [
       {
         id: "art-z1",
         marker: "Art 1",
         heading: "",
         type: "article",
-        hasEingebundeneStammform: false,
         children: [],
       },
       {
@@ -25,7 +23,6 @@ const toc: TocItem[] = [
         marker: "Art 2",
         heading: "",
         type: "article",
-        hasEingebundeneStammform: false,
         children: [],
       },
     ],

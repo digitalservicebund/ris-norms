@@ -65,7 +65,7 @@ const treeNodes = computed<TreeNode[]>(() =>
         label: i.marker || "Unbenanntes Element",
         data: {
           sublabel: i.heading || null,
-          hasEingebundeneStammform: i.hasEingebundeneStammform,
+          hasEingebundeneStammform: !!i.eingebundeneStammformEli,
         },
         children: [],
       }))
@@ -85,7 +85,7 @@ const {
 } = useGetElementHtml(
   eli,
   computed(() =>
-    selectedTocItem.value?.hasEingebundeneStammform ? undefined : eid.value,
+    selectedTocItem.value?.eingebundeneStammformEli ? undefined : eid.value,
   ),
 )
 
@@ -112,7 +112,7 @@ function selectEingebundeneStammform(eid: string) {
 }
 
 const eingebundeneStammformClasses = computed(() =>
-  selectedTocItem.value?.hasEingebundeneStammform
+  selectedTocItem.value?.eingebundeneStammformEli
     ? eIdClasses[selectedTocItem.value.id]
     : undefined,
 )
@@ -184,7 +184,7 @@ const eingebundeneStammformClasses = computed(() =>
       </div>
     </template>
 
-    <div v-else-if="selectedTocItem?.hasEingebundeneStammform" class="p-16">
+    <div v-else-if="selectedTocItem?.eingebundeneStammformEli" class="p-16">
       <div class="ris-subhead-bold mb-12 border-b border-gray-400 pb-8">
         {{ selectedTocItem.marker || "Unbenanntes Element" }}
       </div>

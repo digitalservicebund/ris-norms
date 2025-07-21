@@ -1,4 +1,5 @@
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { DokumentManifestationEli } from "@/lib/eli/DokumentManifestationEli"
 import type { TocItem } from "@/types/toc"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
@@ -26,14 +27,14 @@ describe("useGetNormToc", () => {
         marker: "§ 1",
         heading: "Article 1",
         type: "article",
-        hasEingebundeneStammform: false,
+        eingebundeneStammformEli: undefined,
         children: [
           {
             id: "1.1",
             marker: "1.",
             heading: "First Point",
             type: "section",
-            hasEingebundeneStammform: false,
+            eingebundeneStammformEli: undefined,
             children: [],
           },
           {
@@ -41,7 +42,7 @@ describe("useGetNormToc", () => {
             marker: "2.",
             heading: "Second Point",
             type: "section",
-            hasEingebundeneStammform: false,
+            eingebundeneStammformEli: undefined,
             children: [],
           },
         ],
@@ -51,7 +52,9 @@ describe("useGetNormToc", () => {
         marker: "§ 2",
         heading: "Inkrafttreten",
         type: "article",
-        hasEingebundeneStammform: true,
+        eingebundeneStammformEli: DokumentManifestationEli.fromString(
+          "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml",
+        ),
         children: [],
       },
     ]
