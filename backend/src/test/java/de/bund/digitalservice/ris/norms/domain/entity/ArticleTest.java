@@ -4,6 +4,7 @@ import static de.bund.digitalservice.ris.norms.utils.XmlMapper.toElement;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import org.junit.jupiter.api.Test;
 
 class ArticleTest {
@@ -198,5 +199,31 @@ class ArticleTest {
 
     // then
     assertThat(eli).isEqualTo(expectedRefersTo);
+  }
+
+  @Test
+  void getEingebundeneStammform() {
+    //given
+    String articleString = """
+          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" GUID="64a65b7e-7a03-47c7-b91e-2bd600d858d8"
+                                          eId="art-z"
+                                          period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1">
+                                <akn:componentRef GUID="706c3b05-fead-41b3-bc26-ae0143cb7474"
+                                                  eId="art-z_stfmverweis-n1"
+                                                  showAs="regelungstext-eingebundene-stammform"
+                                                  src="eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/regelungstext-verkuendung-2.xml"/>
+                             </akn:article>
+      """;
+    var article = new Article(toElement(articleString));
+
+    //when
+    var eli = article.getEingebundeneStammform().get();
+
+    //then
+    assertThat(eli).isEqualTo(
+      DokumentManifestationEli.fromString(
+        "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/regelungstext-verkuendung-2.xml"
+      )
+    );
   }
 }
