@@ -5,6 +5,7 @@ import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
 import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
+import { z } from "zod"
 
 /**
  * Returns the norm from the API. Reloads when the parameters change.
@@ -81,6 +82,23 @@ export function useGetNormHtml(
   }).text()
 }
 
+export const NormWorkSchema = z.object({
+  eli: z.string(),
+  title: z.string(),
+})
+export type NormWork = z.infer<typeof NormWorkSchema>
+
+export const NormsPageSchema = z.object({
+  content: z.array(NormWorkSchema),
+  page: z.object({
+    size: z.number(),
+    number: z.number(),
+    totalElements: z.number(),
+    totalPages: z.number(),
+  }),
+})
+export type NormsPage = z.infer<typeof NormsPageSchema>
+
 /**
  * Fetches a paginated list of all norm works from the API.
  * Refetches automatically when the page or size parameters change.
@@ -90,18 +108,6 @@ export function useGetNormHtml(
  * @param [fetchOptions={}] Optional configuration for fetch behavior
  * @returns Reactive fetch wrapper with the paginated norms data
  */
-export type NormWork = { eli: string; title: string }
-
-export type NormsPage = {
-  content: NormWork[]
-  page: {
-    size: number
-    number: number
-    totalElements: number
-    totalPages: number
-  }
-}
-
 export function useGetNorms(
   page: MaybeRefOrGetter<number>,
   size: MaybeRefOrGetter<number>,
@@ -137,10 +143,11 @@ export function useGetNormWork(
   return useApiFetch<NormWork>(url, { refetch: true, ...fetchOptions }).json()
 }
 
-export type NormExpression = {
-  eli: string
-  gegenstandslos: boolean
-}
+export const NormExpressionSchema = z.object({
+  eli: z.string(),
+  gegenstandslos: z.boolean(),
+})
+export type NormExpression = z.infer<typeof NormExpressionSchema>
 
 /**
  * Fetches the expressions of a norm work from the API.
