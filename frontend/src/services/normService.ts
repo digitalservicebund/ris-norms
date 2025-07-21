@@ -1,5 +1,6 @@
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
 import type { Norm } from "@/types/norm"
+import { NormSchema } from "@/types/norm"
 import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
@@ -25,7 +26,7 @@ export function useNormService(
     showMetadata?: boolean
   },
   fetchOptions: UseFetchOptions = {},
-): UseFetchReturn<Norm> {
+): UseFetchReturn<unknown> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
@@ -39,7 +40,7 @@ export function useNormService(
     return `/norms/${eliVal}?${queryParams.toString()}`
   })
 
-  return useApiFetch<Norm>(url, fetchOptions)
+  return useApiFetch<unknown>(url, fetchOptions)
 }
 
 /**
@@ -51,12 +52,20 @@ export function useNormService(
  * @param [fetchOptions={}] Optional configuration for fetch behavior
  * @returns Reactive fetch wrapper
  */
-export const useGetNorm: typeof useNormService = (
-  eli,
-  options,
-  fetchOptions,
-) => {
-  return useNormService(eli, options, { refetch: true, ...fetchOptions }).json()
+export function useGetNorm(
+  eli: Parameters<typeof useNormService>["0"],
+  options?: Parameters<typeof useNormService>["1"],
+  fetchOptions?: Parameters<typeof useNormService>["2"],
+): UseFetchReturn<Norm> {
+  const useFetchReturn = useNormService(eli, options, {
+    refetch: true,
+    ...fetchOptions,
+  }).json()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() => NormSchema.parse(useFetchReturn.data)),
+  }
 }
 
 /**
@@ -148,7 +157,15 @@ export function useGetNormWork(
     if (!eliVal) return INVALID_URL
     return `/norms/${eliVal}`
   })
-  return useApiFetch<NormWork>(url, { refetch: true, ...fetchOptions }).json()
+  const useFetchReturn = useApiFetch<unknown>(url, {
+    refetch: true,
+    ...fetchOptions,
+  }).json()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() => NormWorkSchema.parse(useFetchReturn.data)),
+  }
 }
 
 export const NormExpressionSchema = z.object({
@@ -174,8 +191,15 @@ export function useGetNormExpressions(
     if (!eliVal) return INVALID_URL
     return `/norms/${eliVal}/expressions`
   })
-  return useApiFetch<NormExpression[]>(url, {
+  const useFetchReturn = useApiFetch<unknown>(url, {
     refetch: true,
     ...fetchOptions,
   }).json()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      z.array(NormExpressionSchema).parse(useFetchReturn.data),
+    ),
+  }
 }
