@@ -233,7 +233,7 @@ class TableOfContentsServiceTest {
         // Regelungstext.
         new LoadRegelungstextPort.Options(
           DokumentManifestationEli.fromString(
-            "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/regelungstext-verkuendung-2.xml"
+            "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml"
           )
         )
       )

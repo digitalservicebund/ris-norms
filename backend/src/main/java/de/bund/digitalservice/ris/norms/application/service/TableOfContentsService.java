@@ -7,7 +7,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.TableOfContentsItem;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +111,9 @@ public class TableOfContentsService implements LoadTocFromRegelungstextUseCase {
     return new TableOfContentsItem(eId, marker, heading, type, hasEingebundeneStammform, children);
   }
 
-  private Optional<String> getHeadingForEingebundeneStammform(DokumentEli stammformEli) {
+  private Optional<String> getHeadingForEingebundeneStammform(
+    DokumentManifestationEli stammformEli
+  ) {
     return loadRegelungstextPort
       .loadRegelungstext(new LoadRegelungstextPort.Options(stammformEli))
       .flatMap(Regelungstext::getLongAndShortTitle)

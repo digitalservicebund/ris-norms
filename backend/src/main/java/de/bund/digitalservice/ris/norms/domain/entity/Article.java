@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
@@ -99,7 +98,7 @@ public class Article {
    * Returns the eli, if present, of the embedded norm
    * @return an optional {@link DokumentManifestationEli}
    */
-  public Optional<DokumentEli> getEingebundeneStammformEli() {
+  public Optional<DokumentManifestationEli> getEingebundeneStammformEli() {
     return NodeParser.getElementFromExpression(
       "componentRef[@showAs=\"regelungstext-eingebundene-stammform\"]",
       element
