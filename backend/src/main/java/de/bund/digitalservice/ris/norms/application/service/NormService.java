@@ -297,7 +297,7 @@ public class NormService
         var latestZielnormExpression = loadNorm(new EliOptions(zielnormWorkEli));
         return new Zielnorm(
           zielnormWorkEli,
-          latestZielnormExpression.getTitle().orElse(null),
+          latestZielnormExpression.getLongTitle().orElse(null),
           latestZielnormExpression.getShortTitle().orElse(null),
           generateZielnormPreviewExpressions(verkuendungNorm, zielnormWorkEli)
         );

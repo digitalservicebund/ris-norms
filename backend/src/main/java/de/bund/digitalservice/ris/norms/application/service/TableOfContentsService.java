@@ -3,11 +3,11 @@ package de.bund.digitalservice.ris.norms.application.service;
 import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFoundException;
 import de.bund.digitalservice.ris.norms.application.port.input.LoadTocFromRegelungstextUseCase;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadRegelungstextPort;
+import de.bund.digitalservice.ris.norms.domain.entity.Article;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.TableOfContentsItem;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.ArrayList;
 import java.util.List;
@@ -92,39 +92,29 @@ public class TableOfContentsService implements LoadTocFromRegelungstextUseCase {
     final String type = element.getLocalName();
 
     // children
-    final List<TableOfContentsItem> children = type.equals("article")
-      ? List.of()
-      : getChildren(element);
+    List<TableOfContentsItem> children;
 
     // eingebundene Stammform
     var hasEingebundeneStammform = false;
-    var stammformEli = getEingebundeneStammformEli(element);
-    if (stammformEli.isPresent()) {
-      hasEingebundeneStammform = true;
-      heading = getHeadingForEingebundeneStammform(stammformEli.get()).orElse(null);
+    if (type.equals("article")) {
+      children = List.of();
+      var article = new Article(element);
+      var stammformEli = article.getEingebundeneStammformEli();
+      if (stammformEli.isPresent()) {
+        hasEingebundeneStammform = true;
+        heading = getHeadingForEingebundeneStammform(stammformEli.get()).orElse(null);
+      }
+    } else {
+      children = getChildren(element);
     }
 
     return new TableOfContentsItem(eId, marker, heading, type, hasEingebundeneStammform, children);
   }
 
-  private Optional<DokumentEli> getEingebundeneStammformEli(Element element) {
-    return NodeParser.getElementFromExpression(
-      "componentRef[@showAs=\"regelungstext-eingebundene-stammform\"]",
-      element
-    ).map(componentRef -> {
-        var stammformEliRaw = componentRef.getAttribute("src");
-        return DokumentManifestationEli.fromString(stammformEliRaw);
-      });
-  }
-
   private Optional<String> getHeadingForEingebundeneStammform(DokumentEli stammformEli) {
     return loadRegelungstextPort
       .loadRegelungstext(new LoadRegelungstextPort.Options(stammformEli))
-      .map(stammformRegelungstext ->
-        NodeParser.getElementFromExpression("//longTitle", stammformRegelungstext.getDocument())
-          .orElse(null)
-          .getTextContent()
-      )
+      .flatMap(Regelungstext::getLongAndShortTitle)
       .map(this::cleanText);
   }
 

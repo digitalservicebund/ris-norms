@@ -20,7 +20,7 @@ public class NormResponseMapper {
   public static NormResponseSchema fromUseCaseData(final Norm norm) {
     return NormResponseSchema.builder()
       .eli(norm.getRegelungstext1().getExpressionEli().toString())
-      .title(norm.getTitle().orElse(null))
+      .title(norm.getLongTitle().orElse(null))
       .frbrName(norm.getRegelungstext1().getMeta().getFRBRWork().getFRBRname().orElse(null))
       .frbrNumber(norm.getRegelungstext1().getMeta().getFRBRWork().getFRBRnumber().orElse(null))
       .frbrDateVerkuendung(norm.getRegelungstext1().getMeta().getFRBRWork().getFBRDate())

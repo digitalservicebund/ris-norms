@@ -1,7 +1,9 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
 import java.util.UUID;
@@ -71,18 +73,6 @@ public class Article {
   }
 
   /**
-   * Returns the ELI of the affected document as {@link String} from a {@link Node} in a {@link
-   * Norm}.
-   *
-   * @return The ELI of the affected document of the article
-   */
-  public DokumentExpressionEli getMandatoryAffectedDocumentEli() {
-    return DokumentExpressionEli.fromString(
-      NodeParser.getValueFromMandatoryNodeFromExpression(AFFECTED_DOCUMENT_XPATH, this.element)
-    );
-  }
-
-  /**
    * Sets a new href for the affected document
    *
    * @param href The ELI of the affected document of the article
@@ -106,12 +96,16 @@ public class Article {
   }
 
   /**
-   * Checks weather the {@link Article} refers to a Geltungszeitregel (which would define when a law e.g. enters
-   * into force)
-   *
-   * @return {@link Boolean}
+   * Returns the eli, if present, of the embedded norm
+   * @return an optional {@link DokumentManifestationEli}
    */
-  public Boolean isGeltungszeitregel() {
-    return getRefersTo().orElse("").equals("geltungszeitregel");
+  public Optional<DokumentEli> getEingebundeneStammformEli() {
+    return NodeParser.getElementFromExpression(
+      "componentRef[@showAs=\"regelungstext-eingebundene-stammform\"]",
+      element
+    ).map(componentRef -> {
+        var stammformEliRaw = componentRef.getAttribute("src");
+        return DokumentManifestationEli.fromString(stammformEliRaw);
+      });
   }
 }

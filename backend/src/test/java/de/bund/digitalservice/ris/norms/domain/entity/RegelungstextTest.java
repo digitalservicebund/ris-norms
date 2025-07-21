@@ -120,7 +120,7 @@ class RegelungstextTest {
   }
 
   @Test
-  void getTitle() {
+  void getLongTitle() {
     // given
     final var regelungstext = Fixtures.loadRegelungstextFromDisk(
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
@@ -128,7 +128,7 @@ class RegelungstextTest {
     final String expectedTitle = "Gesetz zur Regelung des öffentlichen Vereinsrechts";
 
     // when
-    final String actualTitle = regelungstext.getTitle().get();
+    final String actualTitle = regelungstext.getLongTitle().get();
 
     // then
     assertThat(actualTitle).contains(expectedTitle);

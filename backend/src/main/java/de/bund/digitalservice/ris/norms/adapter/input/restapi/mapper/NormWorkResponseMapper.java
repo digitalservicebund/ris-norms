@@ -32,7 +32,7 @@ public class NormWorkResponseMapper {
   public static NormWorkResponseSchema fromUseCaseData(final Norm norm) {
     return NormWorkResponseSchema.builder()
       .eli(norm.getWorkEli().toString())
-      .title(norm.getTitle().orElse(null))
+      .title(norm.getLongTitle().orElse(null))
       .build();
   }
 }

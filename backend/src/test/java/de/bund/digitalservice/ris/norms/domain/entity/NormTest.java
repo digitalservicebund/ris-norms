@@ -94,13 +94,13 @@ class NormTest {
   }
 
   @Test
-  void getTitle() {
+  void getLongTitle() {
     // given
     var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
     String expectedTitle = "Gesetz zur Regelung des öffentlichen Vereinsrechts";
 
     // when
-    String actualTitle = norm.getTitle().get();
+    String actualTitle = norm.getLongTitle().get();
 
     // then
     assertThat(actualTitle).contains(expectedTitle);

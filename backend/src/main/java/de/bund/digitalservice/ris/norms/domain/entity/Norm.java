@@ -235,8 +235,8 @@ public class Norm {
    *
    * @return The title
    */
-  public Optional<String> getTitle() {
-    return getRegelungstext1().getTitle();
+  public Optional<String> getLongTitle() {
+    return getRegelungstext1().getLongTitle();
   }
 
   /**

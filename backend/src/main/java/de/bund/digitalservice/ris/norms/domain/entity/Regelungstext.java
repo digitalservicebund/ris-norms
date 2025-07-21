@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import lombok.Getter;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * Represents the "Regelungstext" of a norm in LDML.de.
@@ -33,7 +34,7 @@ public non-sealed class Regelungstext extends Dokument {
    *
    * @return The title
    */
-  public Optional<String> getTitle() {
+  public Optional<String> getLongTitle() {
     return NodeParser.getValueFromExpression("//longTitle/*/docTitle", getDocument());
   }
 
@@ -47,6 +48,17 @@ public non-sealed class Regelungstext extends Dokument {
       "//longTitle/*/shortTitle/*[@refersTo=\"amtliche-abkuerzung\"]",
       getDocument()
     ).or(() -> NodeParser.getValueFromExpression("//longTitle/*/shortTitle", getDocument()));
+  }
+
+  /**
+   * Returns the long and the short title as {@link String}.
+   *
+   * @return The long and short title concatenated.
+   */
+  public Optional<String> getLongAndShortTitle() {
+    return NodeParser.getElementFromExpression("//longTitle", getDocument()).map(
+      Node::getTextContent
+    );
   }
 
   /**
