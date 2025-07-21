@@ -143,7 +143,7 @@ class ZielnormReferencesControllerTest {
             );
             assertThat(arg.zielnormReferences().getFirst().typ()).isEqualTo("Änderungsvorschrift");
             assertThat(arg.zielnormReferences().getFirst().geltungszeit()).hasToString("gz-1");
-            assertThat(arg.zielnormReferences().getFirst().isNewWork()).isEqualTo(true);
+            assertThat(arg.zielnormReferences().getFirst().isNewWork()).isTrue();
           })
         );
     }
