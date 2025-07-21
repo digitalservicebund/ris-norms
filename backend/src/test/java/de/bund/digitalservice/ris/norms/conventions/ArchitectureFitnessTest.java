@@ -210,7 +210,7 @@ class ArchitectureFitnessTest {
       .andShould()
       .beAnnotatedWith(Service.class)
       // Ignore {@link BucketService} as it is not annotated with @Service as multiple configurations of it exist
-      // that are managed by {@link BucketServiceConfiguration}
+      // that are managed by {@link PublishingBucketServiceConfiguration}
       .orShould(be(BucketService.class));
     rule.check(classes);
   }

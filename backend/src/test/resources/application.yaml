@@ -33,3 +33,7 @@ sentry:
 everkuendung:
   certificate:
     path: classpath:certs/test-certificate.pem
+
+publish:
+  enabled: true
+  cron: "0 0 0 * * 1-5"

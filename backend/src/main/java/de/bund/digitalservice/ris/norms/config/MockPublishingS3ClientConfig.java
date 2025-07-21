@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.config;
 import de.bund.digitalservice.ris.norms.adapter.output.s3.S3MockClient;
 import de.bund.digitalservice.ris.norms.utils.ConditionalOnMissingProperty;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -16,6 +17,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 @Slf4j
 @Configuration
 @ConditionalOnMissingProperty(value = "otc.obs.public.access-key-id")
+@ConditionalOnProperty("publish.enabled")
 public class MockPublishingS3ClientConfig {
 
   /**

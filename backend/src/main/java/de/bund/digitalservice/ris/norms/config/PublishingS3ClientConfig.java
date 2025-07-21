@@ -18,6 +18,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 @Slf4j
 @Configuration
 @ConditionalOnProperty(value = "otc.obs.public.access-key-id")
+@ConditionalOnProperty("publish.enabled")
 public class PublishingS3ClientConfig {
 
   @Value("${otc.obs.endpoint}")
