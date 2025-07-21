@@ -14,13 +14,16 @@ import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.w3c.dom.Element;
 
 class NormServiceTest {
 
@@ -794,6 +797,199 @@ class NormServiceTest {
       verify(loadNormExpressionElisPort, times(1)).loadNormExpressionElis(
         new LoadNormExpressionElisPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/1964/s593"))
       );
+    }
+
+    @Test
+    void itExtractsElisFromEingebundeneStammform() {
+      //given
+      Norm normVerkuendung = Fixtures.loadNormFromDisk(
+        NormServiceTest.class,
+        "gleichstellung_bundeswehr_with_eingebundeneStammform"
+      );
+
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Options(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2024/17/2024-01-24/1/deu")
+          )
+        )
+      ).thenReturn(Optional.of(normVerkuendung));
+
+      //when
+      var preview = service.loadZielnormExpressions(
+        new LoadZielnormenExpressionsUseCase.Options(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2024/17/2024-01-24/1/deu")
+        )
+      );
+
+      //than
+      assertThat(preview).hasSize(1);
+      assertThat(preview.getFirst().normWorkEli()).hasToString("eli/bund/bgbl-1/2024/17-1");
+      assertThat(preview.getFirst().title()).hasToString(
+        "Soldatinnen- und Soldatengleichstellungsgesetz"
+      );
+      assertThat(preview.getFirst().shortTitle()).hasToString("(SGleiG)");
+      assertThat(preview.getFirst().expressions())
+        .hasSize(1)
+        .containsExactly(
+          new Zielnorm.Expression(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2024/17-1/2017-03-16/1/deu"),
+            false,
+            false,
+            false,
+            Zielnorm.CreatedBy.THIS_VERKUENDUNG
+          )
+        );
+
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Options(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2024/17/2024-01-24/1/deu")
+        )
+      );
+    }
+
+    @Test
+    void itExtractsElisFromEingebundeneStammformWhenPreviouslySavedInDatabase() {
+      //given
+      Norm normVerkuendung = Fixtures.loadNormFromDisk(
+        NormServiceTest.class,
+        "gleichstellung_bundeswehr_with_eingebundeneStammform"
+      );
+
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Options(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2024/17/2024-01-24/1/deu")
+          )
+        )
+      ).thenReturn(Optional.of(normVerkuendung));
+
+      Dokument regelungstextEingebundeneStammform = normVerkuendung
+        .getDokumente()
+        .stream()
+        .filter(d ->
+          d
+            .getManifestationEli()
+            .equals(
+              DokumentManifestationEli.fromString(
+                "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml"
+              )
+            )
+        )
+        .findFirst()
+        .get();
+      Norm eingebundeneStammform = Norm.builder()
+        .dokumente(Set.of(regelungstextEingebundeneStammform))
+        .build();
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Options(NormWorkEli.fromString("eli/bund/bgbl-1/2024/17-1"))
+        )
+      ).thenReturn(Optional.of(eingebundeneStammform));
+
+      //when
+      var preview = service.loadZielnormExpressions(
+        new LoadZielnormenExpressionsUseCase.Options(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2024/17/2024-01-24/1/deu")
+        )
+      );
+
+      //than
+      assertThat(preview).hasSize(1);
+      assertThat(preview.getFirst().normWorkEli()).hasToString("eli/bund/bgbl-1/2024/17-1");
+      assertThat(preview.getFirst().title()).hasToString(
+        "Soldatinnen- und Soldatengleichstellungsgesetz"
+      );
+      assertThat(preview.getFirst().shortTitle()).hasToString("(SGleiG)");
+      assertThat(preview.getFirst().expressions())
+        .hasSize(1)
+        .containsExactly(
+          new Zielnorm.Expression(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2024/17/2024-01-24/1/deu"),
+            false,
+            true,
+            false,
+            Zielnorm.CreatedBy.THIS_VERKUENDUNG
+          )
+        );
+
+      verify(loadNormPort, times(1)).loadNorm(
+        new LoadNormPort.Options(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2024/17/2024-01-24/1/deu")
+        )
+      );
+    }
+
+    @Test
+    void itReturnsEmptyListWhenNoZielnormReferencesExist() {
+      // given
+      Norm noZielnorm = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05"
+      );
+
+      when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(noZielnorm));
+
+      // when
+      var result = service.loadZielnormExpressions(
+        new LoadZielnormenExpressionsUseCase.Options(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+        )
+      );
+
+      // then
+      assertThat(result).isEmpty();
+
+      verify(loadNormPort, times(1)).loadNorm(any());
+    }
+
+    @Test
+    void itFailsWhenEingebundeneStammformArticleIsMissing() {
+      // given
+      Norm invalidNorm = Fixtures.loadNormFromDisk(
+        NormServiceTest.class,
+        "gleichstellung_bundeswehr_with_eingebundeneStammform"
+      );
+      Element zielnorm = invalidNorm
+        .getRegelungstext1()
+        .getMeta()
+        .getProprietary()
+        .flatMap(Proprietary::getCustomModsMetadata)
+        .flatMap(CustomModsMetadata::getZielnormenReferences)
+        .get()
+        .stream()
+        .findFirst()
+        .get()
+        .getElement();
+      NodeParser.getElementFromExpression("./eid", zielnorm)
+        .get()
+        .setTextContent("eli/bund/bgbl-1/2222/s222/2222-02-22/2/deu");
+
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Options(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+          )
+        )
+      ).thenReturn(Optional.of(invalidNorm));
+      when(
+        loadNormPort.loadNorm(
+          new LoadNormPort.Options(
+            NormExpressionEli.fromString("eli/bund/bgbl-1/2222/s222/2222-02-22/2/deu")
+          )
+        )
+      ).thenReturn(Optional.empty());
+
+      // when/then
+      LoadZielnormenExpressionsUseCase.Options options =
+        new LoadZielnormenExpressionsUseCase.Options(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu")
+        );
+
+      assertThatThrownBy(() -> service.loadZielnormExpressions(options))
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageContaining(
+          "Reference was wrong: No article found for EId eli/bund/bgbl-1/2222/s222/2222-02-22/2/deu"
+        );
     }
 
     @Test

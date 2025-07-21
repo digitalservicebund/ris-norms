@@ -14,6 +14,8 @@ import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -279,7 +281,8 @@ public class NormService
   private List<Zielnorm> loadZielnormenPreview(final NormExpressionEli eli) {
     var verkuendungNorm = loadNorm(new LoadNormUseCase.EliOptions(eli));
 
-    List<NormWorkEli> zielnormWorkElis = verkuendungNorm
+    // we need two lists one for laws that get changed but already exist in the database and one with laws that exist as "eingebundene Stammform"
+    Map<Boolean, List<NormWorkEli>> partitionedZielnormWorkElis = verkuendungNorm
       .getRegelungstext1()
       .getMeta()
       .getProprietary()
@@ -287,22 +290,155 @@ public class NormService
       .flatMap(CustomModsMetadata::getZielnormenReferences)
       .stream()
       .flatMap(ZielnormReferences::stream)
-      .map(ZielnormReference::getZielnorm)
-      .distinct()
-      .toList();
+      .collect(
+        Collectors.partitioningBy(
+          ZielnormReference::isNewWork,
+          Collectors.mapping(
+            ZielnormReference::getZielnorm,
+            Collectors.collectingAndThen(Collectors.toSet(), ArrayList::new)
+          )
+        )
+      );
 
-    return zielnormWorkElis
+    Stream<Zielnorm> zielnormsChange = partitionedZielnormWorkElis
+      .getOrDefault(false, Collections.emptyList())
       .stream()
       .map(zielnormWorkEli -> {
         var latestZielnormExpression = loadNorm(new EliOptions(zielnormWorkEli));
         return new Zielnorm(
           zielnormWorkEli,
-          latestZielnormExpression.getLongTitle().orElse(null),
-          latestZielnormExpression.getShortTitle().orElse(null),
+          latestZielnormExpression.getLongTitle().orElse(""),
+          latestZielnormExpression.getShortTitle().orElse(""),
           generateZielnormPreviewExpressions(verkuendungNorm, zielnormWorkEli)
         );
+      });
+
+    Stream<Zielnorm> zielnormsNew = partitionedZielnormWorkElis
+      .getOrDefault(true, Collections.emptyList())
+      .stream()
+      .map(zielnormWorkEli -> {
+        try {
+          Norm latestZielnormExpression = loadNorm(new EliOptions(zielnormWorkEli));
+          return new Zielnorm(
+            zielnormWorkEli,
+            latestZielnormExpression.getLongTitle().map(String::trim).orElse(""),
+            latestZielnormExpression.getShortTitle().map(String::trim).orElse(""),
+            List.of(
+              new Zielnorm.Expression(
+                latestZielnormExpression.getExpressionEli(),
+                false,
+                true,
+                false,
+                Zielnorm.CreatedBy.THIS_VERKUENDUNG
+              )
+            )
+          );
+        } catch (NormNotFoundException e) {
+          Norm latestZielnormExpression = extractNorm(verkuendungNorm, zielnormWorkEli);
+          return new Zielnorm(
+            zielnormWorkEli,
+            latestZielnormExpression.getLongTitle().map(String::trim).orElse(""),
+            latestZielnormExpression.getShortTitle().map(String::trim).orElse(""),
+            List.of(
+              new Zielnorm.Expression(
+                NormExpressionEli.fromWorkEli(
+                  zielnormWorkEli,
+                  getGeltungszeit(verkuendungNorm, zielnormWorkEli),
+                  1,
+                  latestZielnormExpression.getExpressionEli().getLanguage()
+                ),
+                false,
+                false,
+                false,
+                Zielnorm.CreatedBy.THIS_VERKUENDUNG
+              )
+            )
+          );
+        }
+      });
+    return Stream.concat(zielnormsChange, zielnormsNew).toList();
+  }
+
+  private Norm extractNorm(Norm verkuendung, final NormWorkEli zielNormWorkEli) {
+    Dokument regelungstext1 = verkuendung
+      .getRegelungstext1()
+      .getMeta()
+      .getProprietary()
+      .flatMap(Proprietary::getCustomModsMetadata)
+      .flatMap(CustomModsMetadata::getZielnormenReferences)
+      .stream()
+      .flatMap(ZielnormReferences::stream)
+      .filter(z -> z.getZielnorm().equals(zielNormWorkEli))
+      .flatMap(zielnormReference -> {
+        Article referencingArticle = verkuendung
+          .getRegelungstext1()
+          .getArticles()
+          .stream()
+          .filter(article -> article.getEid().equals(zielnormReference.getEId()))
+          .findFirst()
+          .orElseThrow(() ->
+            new IllegalStateException(
+              "Reference was wrong: No article found for EId " + zielnormReference.getEId()
+            )
+          );
+
+        return referencingArticle
+          .getEingebundeneStammform()
+          .map(eli ->
+            verkuendung
+              .getDokumente()
+              .stream()
+              .filter(d -> d.getManifestationEli().equals(eli))
+              .findFirst()
+              .orElseThrow(() ->
+                new IllegalStateException("There was no Reglungstext found for eli " + eli)
+              )
+          )
+          .stream();
       })
-      .toList();
+      .findFirst()
+      .orElseThrow(() ->
+        new IllegalStateException(
+          "There was no Reglungstext found for zielNormWorkEli " + zielNormWorkEli
+        )
+      );
+
+    return Norm.builder()
+      .publishState(NormPublishState.UNPUBLISHED)
+      .dokumente(Set.of(regelungstext1))
+      .build();
+  }
+
+  private LocalDate getGeltungszeit(Norm verkuendung, final NormWorkEli zielNormWorkEli) {
+    Zeitgrenze.Id geltungszeitId = verkuendung
+      .getRegelungstext1()
+      .getMeta()
+      .getProprietary()
+      .flatMap(Proprietary::getCustomModsMetadata)
+      .flatMap(CustomModsMetadata::getZielnormenReferences)
+      .stream()
+      .flatMap(ZielnormReferences::stream)
+      .filter(z -> z.getZielnorm().equals(zielNormWorkEli))
+      .findFirst()
+      .map(ZielnormReference::getGeltungszeit)
+      .orElseThrow(() ->
+        new IllegalStateException("No Geltungszeit id found for " + zielNormWorkEli)
+      );
+
+    return verkuendung
+      .getRegelungstext1()
+      .getMeta()
+      .getProprietary()
+      .flatMap(Proprietary::getCustomModsMetadata)
+      .flatMap(CustomModsMetadata::getGeltungszeiten)
+      .filter(zeiten -> zeiten.stream().anyMatch(zeit -> zeit.getId().equals(geltungszeitId)))
+      .stream()
+      .flatMap(Collection::stream)
+      .findFirst()
+      .map(Zeitgrenze::getDate)
+      .orElseThrow(() ->
+        new IllegalStateException("No Zeitgrenze found for Norm with eli " + zielNormWorkEli)
+      );
   }
 
   /**
@@ -317,7 +453,7 @@ public class NormService
    * <br>
    * Every existing expression of a date after the first change to the Zielnorm needs to be set to
    * gegenstandlos and a new expression needs to be created as this expression than needs to include
-   * the changes of the now gegenstandlose expression as well as the once from the previous changes
+   * the changes of the now gegenstandlose expression as well as the ones from the previous changes
    * due to the Verkündung.
    */
   private List<Zielnorm.Expression> generateZielnormPreviewExpressions(
