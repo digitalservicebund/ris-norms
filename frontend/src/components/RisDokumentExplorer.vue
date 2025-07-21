@@ -110,6 +110,12 @@ function selectEingebundeneStammform(eid: string) {
   eidsToEdit.value = [eid]
   emit("selectEingebundeneStammform", true)
 }
+
+const eingebundeneStammformClasses = computed(() =>
+  selectedTocItem.value?.hasEingebundeneStammform
+    ? eIdClasses[selectedTocItem.value.id]
+    : undefined,
+)
 </script>
 
 <template>
@@ -184,7 +190,11 @@ function selectEingebundeneStammform(eid: string) {
       </div>
       <button
         :aria-pressed="eidsToEdit?.includes(selectedTocItem.id)"
-        class="ris-label2-bold block w-full cursor-pointer bg-gray-100 p-16 outline-2 -outline-offset-2 outline-gray-600 outline-dotted hover:bg-gray-200 hover:outline-blue-800 aria-pressed:bg-gray-400 aria-pressed:outline-blue-800 aria-pressed:outline-solid"
+        :class="[
+          'eingebundene-stammform-button ris-label2-bold block w-full cursor-pointer p-16',
+          eingebundeneStammformClasses,
+          { selected: eidsToEdit?.includes(selectedTocItem.id) },
+        ]"
         @click="selectEingebundeneStammform(selectedTocItem.id)"
       >
         {{ selectedTocItem?.heading }}
@@ -227,6 +237,7 @@ function selectEingebundeneStammform(eid: string) {
 
 <style scoped>
 @layer components {
+  .eingebundene-stammform-button,
   :deep(.akn-paragraph),
   :deep(.akn-point) {
     background-color: var(--color-gray-100);

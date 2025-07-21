@@ -685,5 +685,27 @@ describe("risDokumentExplorer", () => {
         expect(screen.getByRole("button", { name: "1" })).toHaveClass("example")
       })
     })
+
+    it("adds classes for eId highlighting of eingebundene Stammform", async () => {
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+          ),
+          eid: "eid-1",
+          eIdClasses: { "eid-1": ["example"] },
+        },
+      })
+
+      await vi.waitFor(() => {
+        expect(screen.getByRole("button", { name: "Test 1" })).toHaveClass(
+          "example",
+        )
+      })
+    })
   })
 })
