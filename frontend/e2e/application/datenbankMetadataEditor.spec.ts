@@ -25,25 +25,26 @@ test.describe("table of contents", { tag: ["@RISDEV-6266"] }, () => {
 
     const nav = page.getByRole("complementary", { name: "Inhaltsverzeichnis" })
 
-    await expect(nav.getByRole("link")).not.toHaveCount(0)
-
-    const expectedLinks = [
-      "Rahmen",
-      "1. Buch",
-      "Strukturen und Gliederungsebenen",
-      "2. Buch",
-      "Beispiele für Strukturen",
-      "3. Buch",
-      "Beispiele Teil I",
-      "4. Buch",
-      "Beispielbuch",
-      "5. Buch",
-      "Übergangsregelungen und Geltungszeiten",
-    ]
-
-    for (const linkText of expectedLinks) {
-      await expect(nav.getByRole("link", { name: linkText })).toBeVisible()
-    }
+    await expect(nav.getByRole("link", { name: "Rahmen" })).toBeVisible()
+    await expect(
+      nav.getByRole("button", {
+        name: "1. Buch Strukturen und Gliederungsebenen",
+      }),
+    ).toBeVisible()
+    await expect(
+      nav.getByRole("button", { name: "2. Buch Beispiele für Strukturen" }),
+    ).toBeVisible()
+    await expect(
+      nav.getByRole("button", { name: "3. Buch Beispiele Teil I" }),
+    ).toBeVisible()
+    await expect(
+      nav.getByRole("button", { name: "4. Buch Beispielbuch" }),
+    ).toBeVisible()
+    await expect(
+      nav.getByRole("button", {
+        name: "5. Buch Übergangsregelungen und Geltungszeiten",
+      }),
+    ).toBeVisible()
   })
 
   test("shows an error when the toc elements could not be loaded", async ({

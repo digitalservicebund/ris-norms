@@ -25,8 +25,8 @@ test.describe("navigate to page", { tag: ["@RISDEV-6266"] }, () => {
     )
 
     await page
-      .getByRole("link", {
-        name: "Erster Abschnitt",
+      .getByRole("button", {
+        name: "Erster Abschnitt Zusammenarbeit, Aufgaben der Verfassungsschutzbehörden",
       })
       .click()
 

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest"
 import { render, screen } from "@testing-library/vue"
 import { userEvent } from "@testing-library/user-event"
-import RisTextEditorTableOfContents from "@/components/RisTextEditorTableOfContents.vue"
+import RisTableOfContents from "@/components/RisTableOfContents.vue"
 import type { TocItem } from "@/types/toc"
 
 const toc: TocItem[] = [
@@ -32,19 +32,16 @@ const toc: TocItem[] = [
   },
 ]
 
-describe("risTextEditorTableOfContents", () => {
+describe("risTableOfContents", () => {
   it("should render", () => {
-    render(RisTextEditorTableOfContents, {
+    render(RisTableOfContents, {
       props: {
         toc: toc,
         isFetching: false,
         fetchError: null,
+        selectedEId: null,
       },
     })
-
-    expect(
-      screen.getByRole("heading", { name: "Inhaltsübersicht" }),
-    ).toBeVisible()
 
     expect(
       screen.getByRole("button", { name: "2. Buch Beispiele für Strukturen" }),
@@ -56,18 +53,15 @@ describe("risTextEditorTableOfContents", () => {
 
     const selectSpy = vi.fn()
 
-    render(RisTextEditorTableOfContents, {
+    render(RisTableOfContents, {
       props: {
         toc: toc,
         isFetching: false,
         fetchError: null,
         onSelect: selectSpy,
+        selectedEId: null,
       },
     })
-
-    expect(
-      screen.getByRole("heading", { name: "Inhaltsübersicht" }),
-    ).toBeVisible()
 
     await user.click(
       screen.getByRole("button", { name: "2. Buch Beispiele für Strukturen" }),
@@ -92,11 +86,12 @@ describe("risTextEditorTableOfContents", () => {
   })
 
   it("shows loading state", () => {
-    render(RisTextEditorTableOfContents, {
+    render(RisTableOfContents, {
       props: {
         toc: toc,
         isFetching: true,
         fetchError: null,
+        selectedEId: null,
       },
     })
 
@@ -104,11 +99,12 @@ describe("risTextEditorTableOfContents", () => {
   })
 
   it("shows error state", () => {
-    render(RisTextEditorTableOfContents, {
+    render(RisTableOfContents, {
       props: {
         toc: toc,
         isFetching: false,
         fetchError: "error",
+        selectedEId: null,
       },
     })
 

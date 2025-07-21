@@ -53,8 +53,8 @@ test.describe("navigate to page", { tag: ["@RISDEV-6266"] }, () => {
 
     // When
     await page
-      .getByRole("link", {
-        name: "Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
+      .getByRole("button", {
+        name: "§ 6 Gegenseitige Unterrichtung der Verfassungsschutzbehörden",
       })
       .click()
 

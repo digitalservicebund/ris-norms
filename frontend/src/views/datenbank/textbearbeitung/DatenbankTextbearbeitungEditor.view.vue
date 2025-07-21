@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import RisCodeEditor from "@/components/editor/RisCodeEditor.vue"
 import RisEmptyState from "@/components/RisEmptyState.vue"
-import RisTextEditorTableOfContents from "@/components/RisTextEditorTableOfContents.vue"
+import RisTableOfContents from "@/components/RisTableOfContents.vue"
 import { type HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
@@ -22,10 +22,12 @@ import { computed, ref, watch } from "vue"
 import IcBaselineCheck from "~icons/ic/baseline-check"
 import { useDokumentXml } from "@/composables/useDokumentXml"
 import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
+import { useElementId } from "@/composables/useElementId"
 
 const expressionEli = useNormExpressionEliPathParameter()
 
 // BREADCRUMBS
+const { tocHeadingId } = useElementId()
 
 const {
   data: normExpression,
@@ -63,8 +65,11 @@ const {
   DokumentExpressionEli.fromNormExpressionEli(expressionEli.value),
 )
 
+const selectedTocElement = ref<string | null>(null)
+
 const handleTocSelect = ({ eId }: { eId: string }) => {
   gotoEid(eId)
+  selectedTocElement.value = eId
 }
 
 // EDITOR
@@ -139,13 +144,21 @@ const isGegenstandslosExpression = computed(
         :min-size="20"
         class="h-full overflow-auto bg-white"
       >
-        <RisTextEditorTableOfContents
-          :key="expressionEli.toString()"
-          :toc="toc"
-          :is-fetching="tocIsFetching"
-          :fetch-error="tocError"
-          @select="handleTocSelect"
-        />
+        <aside :aria-labelledby="tocHeadingId">
+          <h2 :id="tocHeadingId" class="ris-body1-bold mx-20 mt-16 mb-10">
+            Inhaltsübersicht
+          </h2>
+
+          <RisTableOfContents
+            :key="expressionEli.toString()"
+            :toc="toc"
+            :is-fetching="tocIsFetching"
+            :fetch-error="tocError"
+            :selected-e-id="selectedTocElement"
+            :aria-labelledby="tocHeadingId"
+            @select="handleTocSelect"
+          />
+        </aside>
       </SplitterPanel>
 
       <SplitterPanel

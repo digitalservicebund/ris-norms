@@ -40,7 +40,7 @@ import IcBaselineArrowForward from "~icons/ic/baseline-arrow-forward"
 import IcBaselineCheck from "~icons/ic/baseline-check"
 import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
-import RisTextEditorTableOfContents from "@/components/RisTextEditorTableOfContents.vue"
+import RisTableOfContents from "@/components/RisTableOfContents.vue"
 
 const verkuendungEli = useNormExpressionEliPathParameter("verkuendung")
 const expressionEli = useNormExpressionEliPathParameter("expression")
@@ -83,11 +83,14 @@ const {
   DokumentExpressionEli.fromNormExpressionEli(expressionEli.value),
 )
 
+const selectedTocElement = ref<string | null>(null)
+
 const handleTocSelect = ({ eId }: { eId: string }) => {
   gotoEid(eId)
+  selectedTocElement.value = eId
 }
 
-const { expressionPointInTimeLabelId } = useElementId()
+const { tocHeadingId, expressionPointInTimeLabelId } = useElementId()
 
 const formattedDate = computed(() =>
   formatDate(expressionEli.value.pointInTime),
@@ -267,67 +270,71 @@ const isGegenstandslosExpression = computed(() => {
     :loading="!verkuendungHasFinished || !normExpressionLoaded"
   >
     <Splitter class="h-full" layout="horizontal">
-      <SplitterPanel
-        :size="20"
-        :min-size="20"
-        class="h-full overflow-auto bg-white"
-      >
-        <RisTextEditorTableOfContents
-          :key="expressionEli.toString()"
-          :toc="toc"
-          :is-fetching="tocIsFetching"
-          :fetch-error="tocError"
-          @select="handleTocSelect"
-        >
-          <template #top-navigation>
-            <div
-              class="sticky top-0 z-10 flex items-center justify-between gap-8 border-b border-gray-400 p-16"
+      <SplitterPanel :size="20" :min-size="20">
+        <aside :aria-labelledby="tocHeadingId" class="flex h-full flex-col">
+          <div
+            class="flex items-center justify-between gap-8 border-b border-gray-400 p-16"
+          >
+            <RouterLink
+              :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${previousGuid}`"
+              :class="[
+                'focus:outline-none',
+                hasPrev
+                  ? 'text-blue-800 hover:text-blue-900 focus:ring-2 focus:ring-blue-800'
+                  : 'pointer-events-none cursor-not-allowed text-gray-800 opacity-50',
+              ]"
+              :aria-disabled="!hasPrev"
             >
-              <RouterLink
-                :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${previousGuid}`"
-                :class="[
-                  'focus:outline-none',
-                  hasPrev
-                    ? 'text-blue-800 hover:text-blue-900 focus:ring-2 focus:ring-blue-800'
-                    : 'pointer-events-none cursor-not-allowed text-gray-800 opacity-50',
-                ]"
-                :aria-disabled="!hasPrev"
-              >
-                <IcBaselineArrowBack />
-                <span class="sr-only">Vorherige Version</span>
-              </RouterLink>
+              <IcBaselineArrowBack />
+              <span class="sr-only">Vorherige Version</span>
+            </RouterLink>
 
-              <span :id="expressionPointInTimeLabelId" class="sr-only">
-                Zeitpunkt der Gültigkeit dieser Fassung
-              </span>
+            <span :id="expressionPointInTimeLabelId" class="sr-only">
+              Zeitpunkt der Gültigkeit dieser Fassung
+            </span>
 
-              <div
-                class="flex items-center gap-6"
-                :aria-labelledby="expressionPointInTimeLabelId"
+            <div
+              class="flex items-center gap-6"
+              :aria-labelledby="expressionPointInTimeLabelId"
+            >
+              <span
+                >Gültig ab:
+                <span class="ris-body2-bold">{{ formattedDate }}</span></span
               >
-                <span
-                  >Gültig ab:
-                  <span class="ris-body2-bold">{{ formattedDate }}</span></span
-                >
-                <RisHighlightColorSwatch :color-index="colorIndex" />
-              </div>
-
-              <RouterLink
-                :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${nextGuid}`"
-                :class="[
-                  'focus:outline-none',
-                  hasNext
-                    ? 'text-blue-800 hover:text-blue-900 focus:ring-2 focus:ring-blue-800'
-                    : 'pointer-events-none cursor-not-allowed text-gray-800 opacity-50',
-                ]"
-                :aria-disabled="!hasNext"
-              >
-                <IcBaselineArrowForward />
-                <span class="sr-only">Nächste Version</span>
-              </RouterLink>
+              <RisHighlightColorSwatch :color-index="colorIndex" />
             </div>
-          </template>
-        </RisTextEditorTableOfContents>
+
+            <RouterLink
+              :to="`/verkuendungen/${verkuendungEli}/textkonsolidierung/${nextGuid}`"
+              :class="[
+                'focus:outline-none',
+                hasNext
+                  ? 'text-blue-800 hover:text-blue-900 focus:ring-2 focus:ring-blue-800'
+                  : 'pointer-events-none cursor-not-allowed text-gray-800 opacity-50',
+              ]"
+              :aria-disabled="!hasNext"
+            >
+              <IcBaselineArrowForward />
+              <span class="sr-only">Nächste Version</span>
+            </RouterLink>
+          </div>
+
+          <div class="overflow-auto">
+            <h2 :id="tocHeadingId" class="ris-body1-bold mx-20 mt-16 mb-10">
+              Inhaltsübersicht
+            </h2>
+
+            <RisTableOfContents
+              :key="expressionEli.toString()"
+              :toc="toc"
+              :is-fetching="tocIsFetching"
+              :fetch-error="tocError"
+              :selected-e-id="selectedTocElement"
+              :aria-labelledby="tocHeadingId"
+              @select="handleTocSelect"
+            />
+          </div>
+        </aside>
       </SplitterPanel>
 
       <SplitterPanel
