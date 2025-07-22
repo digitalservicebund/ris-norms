@@ -1,9 +1,11 @@
+import type { SimpleUseFetchReturn } from "@/services/apiService"
 import { useApiFetch } from "@/services/apiService"
 import type { Article } from "@/types/article"
+import { ArticleSchema } from "@/types/article"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
-import type { UseFetchReturn } from "@vueuse/core"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { z } from "zod"
 
 /**
  * Get the data of all articles inside a norm.
@@ -13,8 +15,8 @@ import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
  */
 export function useArticles(
   eli: MaybeRefOrGetter<DokumentExpressionEli>,
-): UseFetchReturn<Article[]> {
-  return useApiFetch(
+): SimpleUseFetchReturn<Article[]> {
+  const useFetchReturn = useApiFetch<unknown>(
     computed(() => {
       return `/norms/${toValue(eli)}/articles`
     }),
@@ -22,6 +24,13 @@ export function useArticles(
       refetch: true,
     },
   )
-    .json()
+    .json<unknown>()
     .get()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      z.array(ArticleSchema).nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }
