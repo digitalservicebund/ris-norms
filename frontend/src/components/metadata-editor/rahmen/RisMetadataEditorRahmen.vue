@@ -48,7 +48,7 @@ const {
   execute: save,
 } = usePutRahmenProprietary(localData, () =>
   DokumentExpressionEli.fromNormExpressionEli(props.normExpressionEli),
-).put(localData)
+)
 
 watch(savedData, (newData) => {
   localData.value = newData

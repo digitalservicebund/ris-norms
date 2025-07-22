@@ -9,7 +9,7 @@ const localData = defineModel<RahmenProprietary | null>()
 
 const { artNormSnId, artNormAnId, artNormUnId } = useElementId()
 
-const artNorm = computed<string | undefined>({
+const artNorm = computed<string | undefined | null>({
   get() {
     return localData.value?.artDerNorm
   },

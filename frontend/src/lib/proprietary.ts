@@ -144,7 +144,7 @@ export function getDocumentTypeFromMetadata(
  * @param artNormType - the type
  */
 export function isArtNormTypePresent(
-  artNorm: string | undefined,
+  artNorm: string | undefined | null,
   artNormType: string,
 ): boolean {
   return artNorm?.split(",").includes(artNormType) ?? false
@@ -157,10 +157,10 @@ export function isArtNormTypePresent(
  * @param value if true or false
  */
 export function udpateArtNorm(
-  artNorm: string | undefined,
+  artNorm: string | undefined | null,
   artNormType: string,
   value: boolean,
-): string | undefined {
+): string | undefined | null {
   if (value) {
     if (!isArtNormTypePresent(artNorm, artNormType)) {
       return artNorm ? `${artNorm},${artNormType}` : artNormType
