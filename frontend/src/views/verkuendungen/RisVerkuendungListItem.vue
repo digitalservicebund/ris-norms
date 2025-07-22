@@ -8,13 +8,13 @@ const props = defineProps<{
   eli: string
 
   /** Name in the bibliographic record of the norm. */
-  frbrName?: string
+  frbrName?: string | null
 
   /** Number in the bibliographic record of the norm. */
-  frbrNumber?: string
+  frbrNumber?: string | null
 
   /** Verkuendung date in the bibliographic record of the norm. */
-  frbrDateVerkuendung?: string
+  frbrDateVerkuendung?: string | null
 }>()
 
 const gazetteOrMediumUpper = computed(() => {

@@ -8,7 +8,7 @@ export type DatenbankTableItem = {
   /** Work ELI of the norm */
   eli: string
   /** Title of the latest manifestation of the latest expression */
-  title: string
+  title: string | null
 }
 
 defineProps<{

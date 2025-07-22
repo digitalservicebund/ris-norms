@@ -189,7 +189,7 @@ const isGegenstandslosExpression = computed(
           ref="codeEditorRef"
           v-model="currentXml"
           class="h-full border-2 border-blue-800"
-          :readonly="isGegenstandslosExpression"
+          :readonly="isGegenstandslosExpression ?? false"
         />
       </SplitterPanel>
     </Splitter>
@@ -197,7 +197,9 @@ const isGegenstandslosExpression = computed(
     <template #headerAction>
       <Button
         label="Speichern"
-        :disabled="isSaving || !currentXml || isGegenstandslosExpression"
+        :disabled="
+          isSaving || !currentXml || isGegenstandslosExpression || false
+        "
         :loading="isSaving"
         @click="handleSave(currentXml)"
       >
