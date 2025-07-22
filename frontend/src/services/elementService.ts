@@ -1,5 +1,10 @@
-import { INVALID_URL, useApiFetch } from "@/services/apiService"
+import {
+  INVALID_URL,
+  type SimpleUseFetchReturn,
+  useApiFetch,
+} from "@/services/apiService"
 import type { Element } from "@/types/element"
+import { ElementSchema } from "@/types/element"
 import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
@@ -22,7 +27,7 @@ export function useElementService(
   eli: MaybeRefOrGetter<DokumentExpressionEli | undefined>,
   eid: MaybeRefOrGetter<string | undefined>,
   fetchOptions: UseFetchOptions = {},
-): UseFetchReturn<Element> {
+): UseFetchReturn<unknown> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     const eidVal = toValue(eid)
@@ -34,7 +39,7 @@ export function useElementService(
     return `/norms/${eliVal}/elements/${eidVal}`
   })
 
-  return useApiFetch(url, fetchOptions)
+  return useApiFetch<unknown>(url, fetchOptions)
 }
 
 /**
@@ -46,15 +51,22 @@ export function useElementService(
  * @param [fetchOptions={}] Optional configuration for fetch behavior
  * @returns Reactive fetch wrapper
  */
-export const useGetElement: typeof useElementService = (
-  eli,
-  eid,
-  fetchOptions,
-) =>
-  useElementService(eli, eid, {
+export function useGetElement(
+  eli: Parameters<typeof useElementService>["0"],
+  eid: Parameters<typeof useElementService>["1"],
+  fetchOptions: Parameters<typeof useElementService>["2"] = {},
+): SimpleUseFetchReturn<Element> {
+  const useFetchReturn = useElementService(eli, eid, {
     refetch: true,
     ...fetchOptions,
-  }).json()
+  }).json<unknown>()
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      ElementSchema.nullable().parse(useFetchReturn.data.value),
+    ),
+  }
+}
 
 /**
  * Convenience shorthand for `useElementService` that sets the correct

@@ -1,26 +1,29 @@
-export type ElementType =
-  | "article"
-  | "book"
-  | "chapter"
-  | "conclusions"
-  | "part"
-  | "preamble"
-  | "preface"
-  | "section"
-  | "subsection"
-  | "subtitle"
-  | "title"
+import { z } from "zod"
+
+export const ElementTypeSchema = z.enum([
+  "article",
+  "book",
+  "chapter",
+  "conclusions",
+  "part",
+  "preamble",
+  "preface",
+  "section",
+  "subsection",
+  "subtitle",
+  "title",
+])
+export type ElementType = z.infer<typeof ElementTypeSchema>
 
 /**
  * Describes an element inside a norm.
  */
-export type Element = {
+export const ElementSchema = z.object({
   /** Title of the element. May be empty string if no title can be inferred. */
-  title: string
-
+  title: z.string(),
   /** eId of the element. */
-  eid: string
-
+  eid: z.string(),
   /** Node name of the element. */
-  type: ElementType
-}
+  type: ElementTypeSchema,
+})
+export type Element = z.infer<typeof ElementSchema>
