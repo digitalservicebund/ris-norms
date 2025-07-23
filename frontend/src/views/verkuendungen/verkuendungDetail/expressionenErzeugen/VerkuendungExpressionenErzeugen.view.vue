@@ -16,6 +16,7 @@ import { ConfirmDialog, useConfirm } from "primevue"
 import { ref, watch, watchEffect } from "vue"
 import RisZielnormenPreviewList from "./RisZielnormenPreviewList.vue"
 import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
+import type { ZielnormPreview } from "@/types/zielnormPreview"
 
 const eli = useNormExpressionEliPathParameter()
 
@@ -39,12 +40,22 @@ const {
 } = useGetVerkuendungService(eli)
 
 const {
-  data: previewData,
+  data: fetchedPreviewData,
   error: previewError,
   execute: fetchPreviewData,
   isFinished: previewIsFinished,
   isFetching: previewIsFetching,
 } = useGetZielnormPreview(eli)
+
+const previewData = ref<ZielnormPreview[] | null>(null)
+
+watch(
+  fetchedPreviewData,
+  () => {
+    previewData.value = fetchedPreviewData.value
+  },
+  { immediate: true },
+)
 
 // Loading state for the view that is only true for the initial load.
 // Prevents flickering when syncing data before submitting the create
