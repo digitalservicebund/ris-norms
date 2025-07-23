@@ -4,7 +4,7 @@ import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
-import type { NormReleaseStatusDomain } from "@/services/normReleaseService"
+import type { NormReleaseStatus } from "@/services/normReleaseService"
 import {
   useGetNormReleaseStatus,
   usePostNormRelease,
@@ -27,7 +27,7 @@ import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressi
 
 const zielnormEli = useNormWorkEliPathParameter("zielnorm")
 const verkuendungEli = useNormExpressionEliPathParameter("verkuendung")
-const releaseStatus = ref<NormReleaseStatusDomain | null>(null)
+const releaseStatus = ref<NormReleaseStatus | null>(null)
 const toast = useToast()
 
 const confirm = useConfirm()

@@ -2,7 +2,7 @@
 import { watch, ref, computed } from "vue"
 import type { HeaderBreadcrumb } from "@/components/RisHeader.vue"
 import RisViewLayout from "@/components/RisViewLayout.vue"
-import type { NormReleaseStatusDomain } from "@/services/normReleaseService"
+import type { NormReleaseStatus } from "@/services/normReleaseService"
 import {
   useGetNormReleaseStatus,
   usePostNormRelease,
@@ -17,7 +17,7 @@ import { useToast } from "@/composables/useToast"
 import { useGetNormWork } from "@/services/normService"
 
 const normWorkEli = useNormWorkEliPathParameter()
-const releaseStatus = ref<NormReleaseStatusDomain | null>(null)
+const releaseStatus = ref<NormReleaseStatus | null>(null)
 const toast = useToast()
 
 const confirm = useConfirm()
