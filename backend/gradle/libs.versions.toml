@@ -9,7 +9,7 @@ spring-boot = "3.5.3"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
-aws-bom = "software.amazon.awssdk:bom:2.32.4"
+aws-bom = "software.amazon.awssdk:bom:2.32.6"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
@@ -57,7 +57,7 @@ dependency-license-report = "com.github.jk1.dependency-license-report:2.9"
 errorprone = "net.ltgt.errorprone:4.3.0"
 sentry = "io.sentry.jvm.gradle:5.8.0"
 sonarqube = "org.sonarqube:6.2.0.5505"
-spotless = "com.diffplug.spotless:7.2.0"
+spotless = "com.diffplug.spotless:7.2.1"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = "io.spring.dependency-management:1.1.7"
 test-logger = "com.adarshr.test-logger:4.0.0"
