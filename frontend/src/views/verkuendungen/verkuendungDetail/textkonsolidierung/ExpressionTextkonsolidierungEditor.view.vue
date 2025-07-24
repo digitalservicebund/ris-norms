@@ -111,8 +111,6 @@ const currentZielnormGroup = computed(() =>
 )
 
 const sequence = computed(() => {
-  console.log("currentZielnormGroup", currentZielnormGroup.value)
-
   if (!currentZielnormGroup.value) return []
 
   return currentZielnormGroup.value.expressions
