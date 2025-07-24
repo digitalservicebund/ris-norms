@@ -138,16 +138,13 @@ public class ReleaseService implements ReleaseAllNormExpressionsUseCase {
   }
 
   private static ReleaseType effectiveReleaseType(ReleaseType targetReleaseType, Norm norm) {
-    ReleaseType currentReleaseType = norm.getReleaseType();
-
-    // PRAETEXT_RELEASED and VOLLDOKUMENTATION_RELEASED are not relevant as they remain unchanged.
-    if (
-      targetReleaseType == ReleaseType.PRAETEXT_RELEASED &&
-      currentReleaseType == ReleaseType.NOT_RELEASED
-    ) {
-      return ReleaseType.PRAETEXT_RELEASED;
-    }
-
-    return targetReleaseType;
+    return switch (targetReleaseType) {
+      case VOLLDOKUMENTATION_RELEASED -> ReleaseType.VOLLDOKUMENTATION_RELEASED;
+      case PRAETEXT_RELEASED -> switch (norm.getReleaseType()) {
+        case VOLLDOKUMENTATION_RELEASED -> ReleaseType.VOLLDOKUMENTATION_RELEASED;
+        case PRAETEXT_RELEASED, NOT_RELEASED -> ReleaseType.PRAETEXT_RELEASED;
+      };
+      case NOT_RELEASED -> throw new IllegalStateException("Cannot release a norm as NOT_RELEASED");
+    };
   }
 }
