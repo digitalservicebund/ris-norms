@@ -4,9 +4,6 @@ import { computed } from "vue"
 import IcBaselineChevronRight from "~icons/ic/baseline-chevron-right"
 
 const props = defineProps<{
-  /** ELI of the norm. */
-  eli: string
-
   /** Name in the bibliographic record of the norm. */
   frbrName?: string | null
 

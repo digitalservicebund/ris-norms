@@ -33,7 +33,6 @@ const { isFetching, error, data: amendingLaws } = useVerkuendungenService()
         >
           <RisVerkuendungListItem
             :key="amendingLaw.eli"
-            :eli="amendingLaw.eli"
             :frbr-name="amendingLaw.frbrName"
             :frbr-number="amendingLaw.frbrNumber"
             :frbr-date-verkuendung="amendingLaw.frbrDateVerkuendung"
