@@ -102,13 +102,17 @@ const groupedZielnormen = useGroupedZielnormen(zielnormen)
 // NAVIGATION
 const currentEli = computed(() => expressionEli.value)
 
-const currentZielnormGroup = computed(() => {
-  return groupedZielnormen.value?.find((group) =>
-    group.expressions.some((expr) => expr.eli === currentEli.value),
-  )
-})
+const currentZielnormGroup = computed(() =>
+  groupedZielnormen.value?.find((group) =>
+    group.expressions.some((expr) =>
+      expr.eli.asNormEli().equals(currentEli.value),
+    ),
+  ),
+)
 
 const sequence = computed(() => {
+  console.log("currentZielnormGroup", currentZielnormGroup.value)
+
   if (!currentZielnormGroup.value) return []
 
   return currentZielnormGroup.value.expressions
@@ -116,17 +120,14 @@ const sequence = computed(() => {
     .filter((eli) => {
       const match = previewData.value
         ?.flatMap((d) => d.expressions)
-        .find((e) => e.normExpressionEli === eli)
+        .find((e) => e.normExpressionEli.equals(eli))
       return !match?.isGegenstandslos
     })
 })
 
-const currentIndex = computed(() => {
-  const i = sequence.value.findIndex((eli) => currentEli.value === eli)
-  console.log("CURRENT_INDEX", i, sequence.value, currentEli.value)
-
-  return i
-})
+const currentIndex = computed(() =>
+  sequence.value.findIndex((eli) => currentEli.value.equals(eli)),
+)
 
 const hasPrev = computed(() => currentIndex.value > 0)
 

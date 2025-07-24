@@ -110,4 +110,10 @@ export class DokumentExpressionEli {
   toString(): string {
     return `eli/bund/${this.agent}/${this.year}/${this.naturalIdentifier}/${this.pointInTime}/${this.version}/${this.language}/${this.subtype}`
   }
+
+  equals(other: DokumentExpressionEli): boolean {
+    if (other === this) return true
+    else if (!(other instanceof DokumentExpressionEli)) return false
+    else return other.toString() === this.toString()
+  }
 }

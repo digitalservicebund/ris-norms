@@ -30,9 +30,13 @@ describe("normExpressionEli", () => {
 
   it("equals", () => {
     expect(
-      NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
-    ).toEqual(
-      NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
-    )
+      NormExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu",
+      ).equals(
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu",
+        ),
+      ),
+    ).toBe(true)
   })
 })

@@ -40,7 +40,6 @@ describe("normWorkEli", () => {
         "eli/bund/bgbl-1/2021/s4/2024-01-01/1/deu",
       )
 
-      // @ts-expect-error -- Deliberately testing invalid use
       expect(a.equals(b)).toBe(false)
     })
 

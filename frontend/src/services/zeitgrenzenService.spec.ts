@@ -1,4 +1,3 @@
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 import type { Zeitgrenze } from "@/types/zeitgrenze"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
@@ -293,8 +292,8 @@ describe("zeitgrenzenService", () => {
       await flushPromises()
       expect(fetchSpy).not.toHaveBeenCalled()
 
-      eli.value = DokumentExpressionEli.fromString(
-        "eli/bund/bgbl-1/2023/413/2023-12-30/1/deu/regelungstext-verkuendung-1",
+      eli.value = NormExpressionEli.fromString(
+        "eli/bund/bgbl-1/2023/413/2023-12-30/1/deu",
       )
 
       await flushPromises()
