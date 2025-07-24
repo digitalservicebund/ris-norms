@@ -19,7 +19,6 @@ import RisVerkuendungHeader from "./RisVerkuendungHeader.vue"
 import RisZielnormenList from "./RisZielnormenList.vue"
 import { useGroupedZielnormen } from "./useGroupedZielnormen"
 import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 const eli = useNormExpressionEliPathParameter()
 
@@ -111,9 +110,7 @@ const groupedZielnormen = useGroupedZielnormen(zielnormen)
             <div v-else class="flex flex-col">
               <RisZielnormenList
                 :items="groupedZielnormen"
-                :verkuendung-eli="
-                  DokumentExpressionEli.fromString(verkuendung.eli).asNormEli()
-                "
+                :verkuendung-eli="verkuendung.eli.asNormEli()"
               />
             </div>
           </template>

@@ -8,7 +8,10 @@ import type { Norm } from "@/types/norm"
  * @returns Formatted label or `undefined` if required information is missing
  */
 export function getFrbrDisplayText(
-  norm: Norm | undefined | null,
+  norm:
+    | Pick<Norm, "frbrDateVerkuendung" | "frbrNumber" | "frbrName">
+    | undefined
+    | null,
 ): string | undefined {
   if (!norm) return undefined
 

@@ -1,11 +1,12 @@
 import { z } from "zod"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Describes an verkuendung.
  */
 export const VerkuendungSchema = z.object({
   /** ELI of the verkuendung */
-  eli: z.string(),
+  eli: z.string().transform(DokumentExpressionEli.fromString),
   /** Official long title */
   title: z.string().nullable().optional(),
   /** Short title */
