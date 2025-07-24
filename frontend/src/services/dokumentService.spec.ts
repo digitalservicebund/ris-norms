@@ -21,7 +21,9 @@ describe("useDokumentService", () => {
 
   it("provides the data from the API", async () => {
     const fixture: Norm = {
-      eli: "fake/eli",
+      eli: DokumentExpressionEli.fromString(
+        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
+      ),
       title: "Example norm",
     }
 

@@ -2,8 +2,6 @@ import type { Norm } from "@/types/norm"
 import type { ComputedRef, MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
 import type { RisZielnormenListItem } from "./RisZielnormenList.vue"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
-import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 
 /**
  * Takes a flat list of Norm expressions and groups them based on their work ELI.
@@ -20,14 +18,12 @@ export function useGroupedZielnormen(
 
     const groups = zielnormenVal
       .toSorted((a, b) => {
-        const dateA = NormExpressionEli.fromString(a.eli).pointInTime
-        const dateB = NormExpressionEli.fromString(b.eli).pointInTime
+        const dateA = a.eli.pointInTime
+        const dateB = b.eli.pointInTime
         return dateA.localeCompare(dateB)
       })
       .reduce((all, current) => {
-        const eli = DokumentExpressionEli.fromString(current.eli)
-          .asNormWorkEli()
-          .toString()
+        const eli = current.eli.asNormWorkEli().toString()
 
         const group = all.get(eli) ?? {
           eli,

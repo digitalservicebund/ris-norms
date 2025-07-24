@@ -1,11 +1,12 @@
 import { z } from "zod"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 /**
  * Describes a norm.
  */
 export const NormSchema = z.object({
   /** Eli of the norm */
-  eli: z.string(),
+  eli: z.string().transform(DokumentExpressionEli.fromString),
   /** Title of the law */
   title: z.string().nullable().optional(),
   /** Short title */

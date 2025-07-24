@@ -6,7 +6,6 @@ describe("risVerkuendungListItem", () => {
   it("should render overview of open print amending law", () => {
     render(RisVerkuendungListItem, {
       props: {
-        eli: "someEli",
         frbrName: "GazetteName",
         frbrDateVerkuendung: "2021-01-01",
         frbrNumber: "s456",
@@ -18,7 +17,6 @@ describe("risVerkuendungListItem", () => {
   it("should render overview of open digital amending law", () => {
     render(RisVerkuendungListItem, {
       props: {
-        eli: "someEli",
         frbrName: "DigitalGazette",
         frbrDateVerkuendung: "2019-01-01",
         frbrNumber: "123",

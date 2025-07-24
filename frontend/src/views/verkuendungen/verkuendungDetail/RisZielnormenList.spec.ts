@@ -6,6 +6,7 @@ import type { Router } from "vue-router"
 import { createRouter, createWebHashHistory } from "vue-router"
 import RisZielnormenList from "./RisZielnormenList.vue"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 describe("risZielnormenList", () => {
   let global = {}
@@ -66,7 +67,9 @@ describe("risZielnormenList", () => {
             fna: "4711-1",
             expressions: [
               {
-                eli: "eli/bund/bgbl-1/2017/s1/2017-03-15/1/deu/regelungstext-verkuendung-1",
+                eli: DokumentExpressionEli.fromString(
+                  "eli/bund/bgbl-1/2017/s1/2017-03-15/1/deu/regelungstext-verkuendung-1",
+                ),
                 fna: "4711-1",
                 frbrDateVerkuendung: "2017-03-15",
                 frbrName: "BGBl. I",

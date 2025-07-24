@@ -34,7 +34,10 @@ describe("uploadService", () => {
 
       await vi.waitUntil(() => isFinished.value)
 
-      expect(data.value).toEqual(expectedNorm)
+      expect(data.value?.eli.toString()).toEqual(
+        "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+      )
+      expect(data.value?.title).toEqual("Test Norm")
       expect(fetchSpy).toHaveBeenCalledWith(
         `/api/v1/verkuendungen?force=true`,
         expect.objectContaining({

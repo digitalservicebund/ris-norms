@@ -104,13 +104,7 @@ const currentEli = computed(() => expressionEli.value)
 
 const currentZielnormGroup = computed(() => {
   return groupedZielnormen.value?.find((group) =>
-    group.expressions.some(
-      (expr) =>
-        expr.eli ===
-        DokumentExpressionEli.fromNormExpressionEli(
-          currentEli.value,
-        ).toString(),
-    ),
+    group.expressions.some((expr) => expr.eli === currentEli.value),
   )
 })
 
@@ -121,7 +115,7 @@ const sequence = computed(() => {
     .filter((expr) => {
       const match = previewData.value
         ?.flatMap((d) => d.expressions)
-        .find((e) => e.normExpressionEli.toString() === expr.eli)
+        .find((e) => e.normExpressionEli === expr.eli?.asNormEli())
       return !match?.isGegenstandslos
     })
     .map((expr) => expr.eli)
@@ -129,7 +123,7 @@ const sequence = computed(() => {
 
 const currentIndex = computed(() =>
   sequence.value.indexOf(
-    DokumentExpressionEli.fromNormExpressionEli(currentEli.value).toString(),
+    DokumentExpressionEli.fromNormExpressionEli(currentEli.value),
   ),
 )
 
@@ -210,15 +204,9 @@ const { zielnormReferences, zielnormReferencesForEid } =
   useZielnormReferences(verkuendungEli)
 
 const colorIndex = computed(() => {
-  const expressionEliStr = DokumentExpressionEli.fromNormExpressionEli(
-    expressionEli.value,
-  )
-    .toString()
-    .toString()
-
   for (const zielnorm of groupedZielnormen.value) {
     const index = zielnorm.expressions.findIndex(
-      (expr) => expr.eli === expressionEliStr,
+      (expr) => expr.eli.asNormEli() === expressionEli.value,
     )
     if (index !== -1) return index
   }

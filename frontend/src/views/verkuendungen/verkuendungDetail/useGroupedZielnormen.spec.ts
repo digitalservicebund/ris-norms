@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest"
 import { useGroupedZielnormen } from "./useGroupedZielnormen"
 import { ref } from "vue"
 import type { Norm } from "@/types/norm"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 describe("useGroupedZielnormen", () => {
   it("returns empty array if the input is null", () => {
@@ -17,7 +18,9 @@ describe("useGroupedZielnormen", () => {
   it("returns a single group with data grouped by the ELI", () => {
     const data: Norm[] = [
       {
-        eli: "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1",
+        eli: DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1",
+        ),
         fna: "754-28-1",
         frbrDateVerkuendung: "2017-03-15",
         frbrName: "BGBl. I",
@@ -27,7 +30,9 @@ describe("useGroupedZielnormen", () => {
         title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
       },
       {
-        eli: "eli/bund/bgbl-1/2017/s593/2017-03-16/1/deu/regelungstext-verkuendung-1",
+        eli: DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s593/2017-03-16/1/deu/regelungstext-verkuendung-1",
+        ),
         fna: "754-28-2",
         frbrDateVerkuendung: "2017-03-16",
         frbrName: "BGBl. I",
@@ -37,7 +42,9 @@ describe("useGroupedZielnormen", () => {
         title: "Gesetz zur Regelung des öffentlichen Foo",
       },
       {
-        eli: "eli/bund/bgbl-1/2017/s593/2017-03-17/1/deu/regelungstext-verkuendung-1",
+        eli: DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s593/2017-03-17/1/deu/regelungstext-verkuendung-1",
+        ),
         fna: "754-28-3",
         frbrDateVerkuendung: "2017-03-17",
         frbrName: "BGBl. I",
@@ -58,7 +65,9 @@ describe("useGroupedZielnormen", () => {
         shortTitle: "Vereinsgesetz",
         expressions: [
           {
-            eli: "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1",
+            eli: DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1",
+            ),
             fna: "754-28-1",
             frbrDateVerkuendung: "2017-03-15",
             frbrName: "BGBl. I",
@@ -68,7 +77,9 @@ describe("useGroupedZielnormen", () => {
             title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
           },
           {
-            eli: "eli/bund/bgbl-1/2017/s593/2017-03-16/1/deu/regelungstext-verkuendung-1",
+            eli: DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2017/s593/2017-03-16/1/deu/regelungstext-verkuendung-1",
+            ),
             fna: "754-28-2",
             frbrDateVerkuendung: "2017-03-16",
             frbrName: "BGBl. I",
@@ -78,7 +89,9 @@ describe("useGroupedZielnormen", () => {
             title: "Gesetz zur Regelung des öffentlichen Foo",
           },
           {
-            eli: "eli/bund/bgbl-1/2017/s593/2017-03-17/1/deu/regelungstext-verkuendung-1",
+            eli: DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2017/s593/2017-03-17/1/deu/regelungstext-verkuendung-1",
+            ),
             fna: "754-28-3",
             frbrDateVerkuendung: "2017-03-17",
             frbrName: "BGBl. I",
@@ -95,7 +108,9 @@ describe("useGroupedZielnormen", () => {
   it("returns a multipls groups with data grouped by the ELI", () => {
     const data: Norm[] = [
       {
-        eli: "eli/bund/bgbl-1/2018/s500/2018-03-15/1/deu/regelungstext-verkuendung-1",
+        eli: DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2018/s500/2018-03-15/1/deu/regelungstext-verkuendung-1",
+        ),
         fna: "754-28-1",
         frbrDateVerkuendung: "2018-03-15",
         frbrName: "BGBl. I",
@@ -105,7 +120,9 @@ describe("useGroupedZielnormen", () => {
         title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
       },
       {
-        eli: "eli/bund/bgbl-1/2020/s400/2020-03-16/1/deu/regelungstext-verkuendung-1",
+        eli: DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2020/s400/2020-03-16/1/deu/regelungstext-verkuendung-1",
+        ),
         fna: "754-28-2",
         frbrDateVerkuendung: "2020-03-16",
         frbrName: "BGBl. I",
@@ -115,7 +132,9 @@ describe("useGroupedZielnormen", () => {
         title: "Gesetz zur Regelung des öffentlichen Foo",
       },
       {
-        eli: "eli/bund/bgbl-1/2018/s300/2018-03-17/1/deu/regelungstext-verkuendung-1",
+        eli: DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2018/s300/2018-03-17/1/deu/regelungstext-verkuendung-1",
+        ),
         fna: "754-28-3",
         frbrDateVerkuendung: "2018-03-17",
         frbrName: "BGBl. I",
@@ -136,7 +155,9 @@ describe("useGroupedZielnormen", () => {
         shortTitle: "Vereinsgesetz",
         expressions: [
           {
-            eli: "eli/bund/bgbl-1/2018/s500/2018-03-15/1/deu/regelungstext-verkuendung-1",
+            eli: DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2018/s500/2018-03-15/1/deu/regelungstext-verkuendung-1",
+            ),
             fna: "754-28-1",
             frbrDateVerkuendung: "2018-03-15",
             frbrName: "BGBl. I",
@@ -154,7 +175,9 @@ describe("useGroupedZielnormen", () => {
         shortTitle: "Bar",
         expressions: [
           {
-            eli: "eli/bund/bgbl-1/2018/s300/2018-03-17/1/deu/regelungstext-verkuendung-1",
+            eli: DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2018/s300/2018-03-17/1/deu/regelungstext-verkuendung-1",
+            ),
             fna: "754-28-3",
             frbrDateVerkuendung: "2018-03-17",
             frbrName: "BGBl. I",
@@ -172,7 +195,9 @@ describe("useGroupedZielnormen", () => {
         shortTitle: "Foo",
         expressions: [
           {
-            eli: "eli/bund/bgbl-1/2020/s400/2020-03-16/1/deu/regelungstext-verkuendung-1",
+            eli: DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2020/s400/2020-03-16/1/deu/regelungstext-verkuendung-1",
+            ),
             fna: "754-28-2",
             frbrDateVerkuendung: "2020-03-16",
             frbrName: "BGBl. I",
@@ -189,7 +214,9 @@ describe("useGroupedZielnormen", () => {
   it("sorts expressions by date", () => {
     const data: Norm[] = [
       {
-        eli: "eli/bund/bgbl-1/2017/s593/2017-03-17/1/deu/regelungstext-verkuendung-1",
+        eli: DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s593/2017-03-17/1/deu/regelungstext-verkuendung-1",
+        ),
         fna: "754-28-3",
         frbrDateVerkuendung: "2017-03-17",
         frbrName: "BGBl. I",
@@ -199,7 +226,9 @@ describe("useGroupedZielnormen", () => {
         title: "Gesetz zur Regelung des öffentlichen Bar",
       },
       {
-        eli: "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1",
+        eli: DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1",
+        ),
         fna: "754-28-1",
         frbrDateVerkuendung: "2017-03-15",
         frbrName: "BGBl. I",
@@ -209,7 +238,9 @@ describe("useGroupedZielnormen", () => {
         title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
       },
       {
-        eli: "eli/bund/bgbl-1/2017/s593/2017-03-16/1/deu/regelungstext-verkuendung-1",
+        eli: DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2017/s593/2017-03-16/1/deu/regelungstext-verkuendung-1",
+        ),
         fna: "754-28-2",
         frbrDateVerkuendung: "2017-03-16",
         frbrName: "BGBl. I",
@@ -230,7 +261,9 @@ describe("useGroupedZielnormen", () => {
         shortTitle: "Vereinsgesetz",
         expressions: [
           {
-            eli: "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1",
+            eli: DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2017/s593/2017-03-15/1/deu/regelungstext-verkuendung-1",
+            ),
             fna: "754-28-1",
             frbrDateVerkuendung: "2017-03-15",
             frbrName: "BGBl. I",
@@ -240,7 +273,9 @@ describe("useGroupedZielnormen", () => {
             title: "Gesetz zur Regelung des öffentlichen Vereinsrechts",
           },
           {
-            eli: "eli/bund/bgbl-1/2017/s593/2017-03-16/1/deu/regelungstext-verkuendung-1",
+            eli: DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2017/s593/2017-03-16/1/deu/regelungstext-verkuendung-1",
+            ),
             fna: "754-28-2",
             frbrDateVerkuendung: "2017-03-16",
             frbrName: "BGBl. I",
@@ -250,7 +285,9 @@ describe("useGroupedZielnormen", () => {
             title: "Gesetz zur Regelung des öffentlichen Foo",
           },
           {
-            eli: "eli/bund/bgbl-1/2017/s593/2017-03-17/1/deu/regelungstext-verkuendung-1",
+            eli: DokumentExpressionEli.fromString(
+              "eli/bund/bgbl-1/2017/s593/2017-03-17/1/deu/regelungstext-verkuendung-1",
+            ),
             fna: "754-28-3",
             frbrDateVerkuendung: "2017-03-17",
             frbrName: "BGBl. I",

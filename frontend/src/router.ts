@@ -5,10 +5,7 @@ import { createRouter, createWebHistory } from "vue-router"
 import { toValue } from "vue"
 import { useNormGuidService } from "@/services/normGuidService"
 import { createNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
-import {
-  DokumentExpressionEli,
-  PATH_PARAMETER_SUBTYPE,
-} from "@/lib/eli/DokumentExpressionEli"
+import { PATH_PARAMETER_SUBTYPE } from "@/lib/eli/DokumentExpressionEli"
 import {
   PATH_PARAMETER_LANGUAGE,
   PATH_PARAMETER_POINT_IN_TIME,
@@ -32,7 +29,7 @@ const beforeRouteEnterGuidToDokumentExpressionEliRedirect: NavigationGuardWithTh
     return { name: "NotFound" }
   }
 
-  return { path: to.path.replace(guid, eli) }
+  return { path: to.path.replace(guid, eli.toString()) }
 }
 
 /**
@@ -51,10 +48,7 @@ const beforeRouteEnterGuidToNormExpressionEliRedirect: NavigationGuardWithThis<
   }
 
   return {
-    path: to.path.replace(
-      guid,
-      DokumentExpressionEli.fromString(eli).asNormEli().toString(),
-    ),
+    path: to.path.replace(guid, eli.asNormEli().toString()),
   }
 }
 

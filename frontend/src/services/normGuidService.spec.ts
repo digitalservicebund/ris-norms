@@ -1,7 +1,8 @@
-import type { Norm } from "@/types/norm"
+import type { NormSchema } from "@/types/norm"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
+import type { z } from "zod"
 
 vi.mock("@/lib/auth", () => {
   return {
@@ -19,8 +20,8 @@ describe("useNormGuidService", () => {
   })
 
   it("provides the data from the API", async () => {
-    const fixture: Norm = {
-      eli: "fake/eli",
+    const fixture: z.input<typeof NormSchema> = {
+      eli: "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       title: "Example norm",
     }
 

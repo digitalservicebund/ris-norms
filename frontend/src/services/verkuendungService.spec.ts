@@ -53,7 +53,7 @@ describe("verkuendungService", () => {
       const data = result.data.value!
 
       expect(data.length).toBe(1)
-      expect(data[0].eli).toBe(
+      expect(data[0].eli.toString()).toBe(
         "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/regelungstext-verkuendung-1",
       )
 
@@ -152,12 +152,17 @@ describe("verkuendungService", () => {
 
       const { data } = useGetZielnormReferences(eli)
 
-      expect(data.value).toEqual(mockZielnormen)
       expect(data.value?.length).toBe(2)
-      expect(data.value?.[0].eli).toBe(
+      expect(data.value?.[0].eli.toString()).toBe(
         "eli/bund/bgbl-1/2002/123/2002-05-15/1/deu/regelungstext-verkuendung-1",
       )
+      expect(data.value?.[0].status).toBe("inForce")
+      expect(data.value?.[0].frbrDateVerkuendung).toBe("2002-05-15")
+      expect(data.value?.[1].eli.toString()).toBe(
+        "eli/bund/bgbl-1/2004/789/2004-07-21/1/deu/regelungstext-verkuendung-1",
+      )
       expect(data.value?.[1].status).toBe("outOfForce")
+      expect(data.value?.[1].frbrDateVerkuendung).toBe("2004-07-21")
       expect(useApiFetch).toHaveBeenCalledTimes(1)
     })
   })

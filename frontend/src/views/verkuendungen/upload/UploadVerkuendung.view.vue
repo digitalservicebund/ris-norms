@@ -23,7 +23,6 @@ import { useToast } from "@/composables/useToast"
 import { computed, ref, useTemplateRef } from "vue"
 import { useRouter } from "vue-router"
 import IcBaselineErrorOutline from "~icons/ic/baseline-error-outline"
-import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 const { addAuthorizationHeader } = useAuthentication()
 
@@ -86,9 +85,7 @@ function onUploaded(event: FileUploadUploadEvent) {
     const responseData: Norm = JSON.parse(event.xhr.responseText)
 
     if (responseData.eli) {
-      router.push(
-        `/verkuendungen/${DokumentExpressionEli.fromString(responseData.eli).asNormEli()}`,
-      )
+      router.push(`/verkuendungen/${responseData.eli.asNormEli()}`)
     } else throw new Error()
 
     addToast({
@@ -163,9 +160,7 @@ async function forceUpload() {
       life: 10000,
     })
     if (data.value.eli) {
-      await router.push(
-        `/verkuendungen/${DokumentExpressionEli.fromString(data.value.eli).asNormEli()}`,
-      )
+      await router.push(`/verkuendungen/${data.value.eli.asNormEli()}`)
     }
   } else if (error.value) {
     addToast({
