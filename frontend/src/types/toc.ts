@@ -1,22 +1,23 @@
+import { z } from "zod"
+
 /**
  * Represents an item in the Table of Contents (ToC).
  */
-export type TocItem = {
+export const TocItemSchema = z.object({
   /** Unique identifier (EID) of the element */
-  id: string
-
+  id: z.string(),
   /** Section marker (e.g., "§ 1") */
-  marker: string
-
+  marker: z.string(),
   /** Title of the element (optional) */
-  heading?: string | null
-
+  heading: z.string().nullable().optional(),
   /** Type of the element (e.g., article, chapter, etc.) */
-  type: string
-
+  type: z.string(),
   /** True if the article contains an eingebundene Stammform */
-  hasEingebundeneStammform: boolean
-
+  hasEingebundeneStammform: z.boolean(),
   /** Nested child elements */
-  children?: TocItem[]
-}
+  get children() {
+    return z.array(TocItemSchema).optional()
+  },
+})
+
+export type TocItem = z.infer<typeof TocItemSchema>

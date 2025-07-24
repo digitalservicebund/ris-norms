@@ -1,23 +1,26 @@
+import { z } from "zod"
+
 /**
  * Describes an verkuendung.
  */
-export interface Verkuendung {
+export const VerkuendungSchema = z.object({
   /** ELI of the verkuendung */
-  eli: string
+  eli: z.string(),
   /** Official long title */
-  title?: string
+  title: z.string().nullable().optional(),
   /** Short title */
-  shortTitle?: string
+  shortTitle: z.string().nullable().optional(),
   /** Fundstellennachweis (FNA) */
-  fna?: string
+  fna: z.string().nullable().optional(),
   /** Amtsblatt name */
-  frbrName?: string
+  frbrName: z.string().nullable().optional(),
   /** Amtsblatt number */
-  frbrNumber?: string
+  frbrNumber: z.string().nullable().optional(),
   /** Date of publication (Veröffentlichungsdatum) */
-  frbrDateVerkuendung?: string
+  frbrDateVerkuendung: z.string().nullable().optional(),
   /** Date of issue (Ausfertigungsdatum) */
-  dateAusfertigung?: string
+  dateAusfertigung: z.string().nullable().optional(),
   /** Date of first processing (Datenlieferungsdatum) */
-  importedAt?: string
-}
+  importedAt: z.string().nullable().optional(),
+})
+export type Verkuendung = z.infer<typeof VerkuendungSchema>

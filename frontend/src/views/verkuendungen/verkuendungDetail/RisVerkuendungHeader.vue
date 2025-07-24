@@ -5,15 +5,15 @@ import { computed } from "vue"
 
 const props = defineProps<{
   /** Title of the Verkündung */
-  title?: string
+  title?: string | null
   /** Publication date of the Verkündung in the format YYYY-MM-DD */
-  veroeffentlichungsdatum?: string
+  veroeffentlichungsdatum?: string | null
   /** Creation date of the Verkündung in the format YYYY-MM-DD */
-  ausfertigungsdatum?: string
+  ausfertigungsdatum?: string | null
   /** Import date of the Verkündung in the format YYYY-MM-DD */
-  datenlieferungsdatum?: string
+  datenlieferungsdatum?: string | null
   /** FNA of the Verkündung */
-  fna?: string
+  fna?: string | null
 }>()
 
 const formattedVeroeffentlichungsdatum = computed(() =>

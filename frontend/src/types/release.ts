@@ -1,8 +1,10 @@
-/** Release information about an verkuendung. */
-export interface Release {
-  /** Time stamp of when the verkuendung has been released. */
-  releaseAt: string
+import { z } from "zod"
 
+/** Release information about an verkuendung. */
+export const ReleaseSchema = z.object({
+  /** Time stamp of when the verkuendung has been released. */
+  releaseAt: z.string(),
   /** ELIs of the norm manifestations that are published. */
-  norms: string[]
-}
+  norms: z.array(z.string()),
+})
+export type Release = z.infer<typeof ReleaseSchema>

@@ -1,16 +1,25 @@
+import type { SimpleUseFetchReturn } from "@/services/apiService"
 import { useApiFetch } from "@/services/apiService"
-import type { UseFetchReturn } from "@vueuse/core"
 import type { Norm } from "@/types/norm"
+import { NormSchema } from "@/types/norm"
 import type { Verkuendung } from "@/types/verkuendung"
+import { VerkuendungSchema } from "@/types/verkuendung"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
 import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { z } from "zod"
 
 /**
  * Load all verkuendungen from the API.
  */
-export function useVerkuendungenService(): UseFetchReturn<Norm[]> {
-  return useApiFetch("/verkuendungen").json()
+export function useVerkuendungenService(): SimpleUseFetchReturn<Norm[]> {
+  const useFetchReturn = useApiFetch("/verkuendungen").json<unknown>()
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      z.array(NormSchema).nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }
 
 /**
@@ -20,10 +29,16 @@ export function useVerkuendungenService(): UseFetchReturn<Norm[]> {
  */
 export function useGetVerkuendungService(
   eli: MaybeRefOrGetter<NormExpressionEli>,
-): UseFetchReturn<Verkuendung> {
+): SimpleUseFetchReturn<Verkuendung> {
   const url = computed(() => `/verkuendungen/${toValue(eli)}`)
 
-  return useApiFetch(url, { refetch: true }).json()
+  const useFetchReturn = useApiFetch(url, { refetch: true }).json<unknown>()
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      VerkuendungSchema.nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }
 
 /**
@@ -33,7 +48,13 @@ export function useGetVerkuendungService(
  */
 export function useGetZielnormReferences(
   eli: MaybeRefOrGetter<NormExpressionEli>,
-): UseFetchReturn<Norm[]> {
+): SimpleUseFetchReturn<Norm[]> {
   const url = computed(() => `/verkuendungen/${toValue(eli)}/zielnormen`)
-  return useApiFetch(url, { refetch: true }).json()
+  const useFetchReturn = useApiFetch(url, { refetch: true }).json<unknown>()
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      z.array(NormSchema).nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }

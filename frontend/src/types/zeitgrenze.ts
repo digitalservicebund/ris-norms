@@ -1,24 +1,18 @@
-/**
- * Specifies different types of Zeitgrenzen.
- */
-export type ZeitgrenzeArt = "INKRAFT" | "AUSSERKRAFT"
+import { z } from "zod"
 
-/**
- * Describes a Zeitgrenze (= a point in time where changes to a Norm go
- * into effect or expire).
- */
-export type Zeitgrenze = {
+export const ZeitgrenzeArtSchema = z.enum(["INKRAFT", "AUSSERKRAFT"])
+export type ZeitgrenzeArt = z.infer<typeof ZeitgrenzeArtSchema>
+
+export const ZeitgrenzeSchema = z.object({
   /* Unique identifier of the Zeitgrenze */
-  id: string
-
+  id: z.string(),
   /** Date of the Zeitgrenze in the format YYYY-MM-DD */
-  date: string
-
+  date: z.string(),
   /** Type of the change happening at that Zeitgrenze */
-  art: ZeitgrenzeArt
-
+  art: ZeitgrenzeArtSchema,
   /**
    * Is the zeitgrenze used by a zielnorm-reference?
    */
-  inUse?: boolean
-}
+  inUse: z.boolean().optional(),
+})
+export type Zeitgrenze = z.infer<typeof ZeitgrenzeSchema>

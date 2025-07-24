@@ -1,10 +1,13 @@
+import type { SimpleUseFetchReturn } from "@/services/apiService"
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
 import type { Norm } from "@/types/norm"
+import { NormSchema } from "@/types/norm"
 import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
 import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
+import { z } from "zod"
 
 /**
  * Returns the norm from the API. Reloads when the parameters change.
@@ -24,7 +27,7 @@ export function useNormService(
     showMetadata?: boolean
   },
   fetchOptions: UseFetchOptions = {},
-): UseFetchReturn<Norm> {
+): UseFetchReturn<unknown> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
@@ -38,7 +41,7 @@ export function useNormService(
     return `/norms/${eliVal}?${queryParams.toString()}`
   })
 
-  return useApiFetch<Norm>(url, fetchOptions)
+  return useApiFetch<unknown>(url, fetchOptions)
 }
 
 /**
@@ -50,12 +53,22 @@ export function useNormService(
  * @param [fetchOptions={}] Optional configuration for fetch behavior
  * @returns Reactive fetch wrapper
  */
-export const useGetNorm: typeof useNormService = (
-  eli,
-  options,
-  fetchOptions,
-) => {
-  return useNormService(eli, options, { refetch: true, ...fetchOptions }).json()
+export function useGetNorm(
+  eli: Parameters<typeof useNormService>["0"],
+  options?: Parameters<typeof useNormService>["1"],
+  fetchOptions?: Parameters<typeof useNormService>["2"],
+): SimpleUseFetchReturn<Norm> {
+  const useFetchReturn = useNormService(eli, options, {
+    refetch: true,
+    ...fetchOptions,
+  }).json<unknown>()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      NormSchema.nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }
 
 /**
@@ -81,6 +94,23 @@ export function useGetNormHtml(
   }).text()
 }
 
+export const NormWorkSchema = z.object({
+  eli: z.string(),
+  title: z.string().nullable(),
+})
+export type NormWork = z.infer<typeof NormWorkSchema>
+
+export const NormsPageSchema = z.object({
+  content: z.array(NormWorkSchema),
+  page: z.object({
+    size: z.number(),
+    number: z.number(),
+    totalElements: z.number(),
+    totalPages: z.number(),
+  }),
+})
+export type NormsPage = z.infer<typeof NormsPageSchema>
+
 /**
  * Fetches a paginated list of all norm works from the API.
  * Refetches automatically when the page or size parameters change.
@@ -90,23 +120,11 @@ export function useGetNormHtml(
  * @param [fetchOptions={}] Optional configuration for fetch behavior
  * @returns Reactive fetch wrapper with the paginated norms data
  */
-export type NormWork = { eli: string; title: string }
-
-export type NormsPage = {
-  content: NormWork[]
-  page: {
-    size: number
-    number: number
-    totalElements: number
-    totalPages: number
-  }
-}
-
 export function useGetNorms(
   page: MaybeRefOrGetter<number>,
   size: MaybeRefOrGetter<number>,
   fetchOptions: UseFetchOptions = {},
-): UseFetchReturn<NormsPage> {
+): SimpleUseFetchReturn<NormsPage> {
   const url = computed(() => {
     const queryParams = new URLSearchParams()
     queryParams.append("page", String(toValue(page)))
@@ -114,7 +132,17 @@ export function useGetNorms(
     return `/norms?${queryParams.toString()}`
   })
 
-  return useApiFetch<NormsPage>(url, { refetch: true, ...fetchOptions }).json()
+  const useFetchReturn = useApiFetch<unknown>(url, {
+    refetch: true,
+    ...fetchOptions,
+  }).json<unknown>()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      NormsPageSchema.nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }
 
 /**
@@ -128,19 +156,30 @@ export function useGetNorms(
 export function useGetNormWork(
   workEli: MaybeRefOrGetter<NormWorkEli | undefined>,
   fetchOptions: UseFetchOptions = {},
-): UseFetchReturn<NormWork> {
+): SimpleUseFetchReturn<NormWork> {
   const url = computed(() => {
     const eliVal = toValue(workEli)
     if (!eliVal) return INVALID_URL
     return `/norms/${eliVal}`
   })
-  return useApiFetch<NormWork>(url, { refetch: true, ...fetchOptions }).json()
+  const useFetchReturn = useApiFetch<unknown>(url, {
+    refetch: true,
+    ...fetchOptions,
+  }).json<unknown>()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      NormWorkSchema.nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }
 
-export type NormExpression = {
-  eli: string
-  gegenstandslos: boolean
-}
+export const NormExpressionSchema = z.object({
+  eli: z.string(),
+  gegenstandslos: z.boolean(),
+})
+export type NormExpression = z.infer<typeof NormExpressionSchema>
 
 /**
  * Fetches the expressions of a norm work from the API.
@@ -153,14 +192,21 @@ export type NormExpression = {
 export function useGetNormExpressions(
   workEli: MaybeRefOrGetter<NormWorkEli | undefined>,
   fetchOptions: UseFetchOptions = {},
-): UseFetchReturn<NormExpression[]> {
+): SimpleUseFetchReturn<NormExpression[]> {
   const url = computed(() => {
     const eliVal = toValue(workEli)
     if (!eliVal) return INVALID_URL
     return `/norms/${eliVal}/expressions`
   })
-  return useApiFetch<NormExpression[]>(url, {
+  const useFetchReturn = useApiFetch(url, {
     refetch: true,
     ...fetchOptions,
-  }).json()
+  }).json<unknown>()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      z.array(NormExpressionSchema).nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }

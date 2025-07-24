@@ -1,7 +1,12 @@
 import type { ElementProprietary, RahmenProprietary } from "@/types/proprietary"
+import {
+  ElementProprietarySchema,
+  RahmenProprietarySchema,
+} from "@/types/proprietary"
 import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
+import type { SimpleUseFetchReturn } from "./apiService"
 import { INVALID_URL, useApiFetch } from "./apiService"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
@@ -30,7 +35,7 @@ export function useProprietaryService(
     eid: MaybeRefOrGetter<string | undefined> | null
   },
   fetchOptions: UseFetchOptions = {},
-): UseFetchReturn<RahmenProprietary | ElementProprietary> {
+): UseFetchReturn<unknown> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     const eidVal = toValue(options.eid)
@@ -43,7 +48,7 @@ export function useProprietaryService(
     return eidVal ? `${baseUrl}/${eidVal}` : baseUrl
   })
 
-  return useApiFetch<RahmenProprietary>(url, fetchOptions)
+  return useApiFetch(url, fetchOptions)
 }
 
 /**
@@ -57,12 +62,19 @@ export function useProprietaryService(
 export function useGetRahmenProprietary(
   eli: Parameters<typeof useProprietaryService>["0"],
   fetchOptions?: Parameters<typeof useProprietaryService>["2"],
-): UseFetchReturn<RahmenProprietary> {
-  return useProprietaryService(
+): SimpleUseFetchReturn<RahmenProprietary> {
+  const useFetchReturn = useProprietaryService(
     eli,
     { eid: null },
     { refetch: true, ...fetchOptions },
-  ).json()
+  ).json<unknown>()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      RahmenProprietarySchema.nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }
 
 /**
@@ -78,14 +90,21 @@ export function usePutRahmenProprietary(
   updateData: MaybeRefOrGetter<RahmenProprietary | null>,
   eli: Parameters<typeof useProprietaryService>["0"],
   fetchOptions?: Parameters<typeof useProprietaryService>["2"],
-): UseFetchReturn<RahmenProprietary> {
-  return useProprietaryService(
+): SimpleUseFetchReturn<RahmenProprietary> {
+  const useFetchReturn = useProprietaryService(
     eli,
     { eid: null },
     { immediate: false, ...fetchOptions },
   )
-    .json()
+    .json<unknown>()
     .put(updateData)
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      RahmenProprietarySchema.nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }
 
 /**
@@ -101,12 +120,19 @@ export function useGetElementProprietary(
   eli: Parameters<typeof useProprietaryService>["0"],
   eid: Parameters<typeof useProprietaryService>["1"]["eid"],
   fetchOptions?: Parameters<typeof useProprietaryService>["2"],
-): UseFetchReturn<ElementProprietary> {
-  return useProprietaryService(
+): SimpleUseFetchReturn<ElementProprietary> {
+  const useFetchReturn = useProprietaryService(
     eli,
     { eid },
     { refetch: true, ...fetchOptions },
-  ).json()
+  ).json<unknown>()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      ElementProprietarySchema.nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }
 
 /**
@@ -124,12 +150,19 @@ export function usePutElementProprietary(
   eli: Parameters<typeof useProprietaryService>["0"],
   eid: Parameters<typeof useProprietaryService>["1"]["eid"],
   fetchOptions?: Parameters<typeof useProprietaryService>["2"],
-): UseFetchReturn<ElementProprietary> {
-  return useProprietaryService(
+): SimpleUseFetchReturn<ElementProprietary> {
+  const useFetchReturn = useProprietaryService(
     eli,
     { eid },
     { immediate: false, ...fetchOptions },
   )
-    .json()
+    .json<unknown>()
     .put(updateData)
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      ElementProprietarySchema.nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }

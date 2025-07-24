@@ -245,7 +245,9 @@ describe("zeitgrenzenService", () => {
 
     it("returns the updated Zeitgrenzen", async () => {
       vi.spyOn(global, "fetch").mockResolvedValue(
-        new Response(JSON.stringify([{ date: "2025-11-01", art: "INKRAFT" }])),
+        new Response(
+          JSON.stringify([{ id: "id", date: "2025-11-01", art: "INKRAFT" }]),
+        ),
       )
 
       const { usePutZeitgrenzen } = await import(
@@ -266,7 +268,9 @@ describe("zeitgrenzenService", () => {
       await execute()
       await flushPromises()
 
-      expect(data.value).toEqual([{ date: "2025-11-01", art: "INKRAFT" }])
+      expect(data.value).toEqual([
+        { id: "id", date: "2025-11-01", art: "INKRAFT" },
+      ])
     })
 
     it("only refetches when executed manually", async () => {

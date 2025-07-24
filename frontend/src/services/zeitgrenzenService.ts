@@ -1,9 +1,12 @@
+import type { SimpleUseFetchReturn } from "@/services/apiService"
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
 import type { Zeitgrenze } from "@/types/zeitgrenze"
+import { ZeitgrenzeSchema } from "@/types/zeitgrenze"
 import type { UseFetchReturn } from "@vueuse/core"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
 import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { z } from "zod"
 
 /**
  * Fetches the HTML content of a Norms Geltungszeiten article as HTML.
@@ -35,14 +38,23 @@ export function useGeltungszeitenHtml(
  */
 export function useGetZeitgrenzen(
   eli: MaybeRefOrGetter<NormExpressionEli | undefined>,
-): UseFetchReturn<Zeitgrenze[]> {
+): SimpleUseFetchReturn<Zeitgrenze[]> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
     return `/norms/${eliVal}/zeitgrenzen`
   })
 
-  return useApiFetch(url, { refetch: true }).json().get()
+  const useFetchReturn = useApiFetch(url, { refetch: true })
+    .json<unknown>()
+    .get()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      z.array(ZeitgrenzeSchema).nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }
 
 /**
@@ -56,8 +68,8 @@ export function useGetZeitgrenzen(
 export function usePutZeitgrenzen(
   eli: MaybeRefOrGetter<NormExpressionEli | undefined>,
   dates: MaybeRefOrGetter<Zeitgrenze[] | null>,
-): UseFetchReturn<Zeitgrenze[]> {
-  return useApiFetch(
+): SimpleUseFetchReturn<Zeitgrenze[]> {
+  const useFetchReturn = useApiFetch(
     computed(() => {
       const eliVal = toValue(eli)
       if (!eliVal) return INVALID_URL
@@ -65,6 +77,13 @@ export function usePutZeitgrenzen(
     }),
     { immediate: false, refetch: false },
   )
-    .json()
+    .json<unknown>()
     .put(computed(() => JSON.stringify(toValue(dates) ?? [])))
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      z.array(ZeitgrenzeSchema).nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }

@@ -35,7 +35,9 @@ describe("useNormGuidService", () => {
 
     const { useNormGuidService } = await import("./normGuidService")
 
-    const result = useNormGuidService("e7abd358-32cb-4fc2-8a1a-b033961f3708")
+    const result = await useNormGuidService(
+      "e7abd358-32cb-4fc2-8a1a-b033961f3708",
+    )
     expect(result.data.value).toBeTruthy()
 
     vi.doUnmock("@/services/apiService")
@@ -48,7 +50,7 @@ describe("useNormGuidService", () => {
 
     const { useNormGuidService } = await import("./normGuidService")
 
-    useNormGuidService("e7abd358-32cb-4fc2-8a1a-b033961f3708")
+    await useNormGuidService("e7abd358-32cb-4fc2-8a1a-b033961f3708")
 
     await vi.waitFor(() =>
       expect(fetchSpy).toHaveBeenCalledWith(
@@ -66,7 +68,7 @@ describe("useNormGuidService", () => {
     const { useNormGuidService } = await import("./normGuidService")
 
     const guid = ref(undefined)
-    useNormGuidService(guid)
+    await useNormGuidService(guid)
     await flushPromises()
     expect(fetchSpy).not.toHaveBeenCalled()
   })

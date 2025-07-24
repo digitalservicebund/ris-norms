@@ -30,7 +30,7 @@ describe("uploadService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response(JSON.stringify(expectedNorm)))
 
-      const { data, isFinished } = useForceUploadFile(mockFile)
+      const { data, isFinished } = await useForceUploadFile(mockFile)
 
       await vi.waitUntil(() => isFinished.value)
 
@@ -61,7 +61,7 @@ describe("uploadService", () => {
           new Response(JSON.stringify(expectedError), { status: 500 }),
         )
 
-      const { error, isFinished } = useForceUploadFile(mockFile)
+      const { error, isFinished } = await useForceUploadFile(mockFile)
 
       await vi.waitUntil(() => isFinished.value)
 

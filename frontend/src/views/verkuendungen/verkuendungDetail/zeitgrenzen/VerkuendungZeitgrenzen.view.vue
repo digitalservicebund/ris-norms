@@ -22,6 +22,7 @@ import { computed, ref, watch } from "vue"
 import IcBaselineCheck from "~icons/ic/baseline-check"
 import RisZeitgrenzenList from "./RisZeitgrenzenList.vue"
 import { useNormExpressionEliPathParameter } from "@/composables/useNormExpressionEliPathParameter"
+import type { Zeitgrenze } from "@/types/zeitgrenze"
 
 const eli = useNormExpressionEliPathParameter()
 
@@ -50,11 +51,17 @@ const {
   error: geltungszeitenHtmlError,
 } = useGeltungszeitenHtml(eli)
 
+const zeitgrenzen = ref<Zeitgrenze[] | null>(null)
+
 const {
-  data: zeitgrenzen,
+  data: loadedZeitgrenzen,
   error: zeitgrenzenError,
   isFetching: isFetchingZeitgrenzen,
 } = useGetZeitgrenzen(eli)
+
+watch(loadedZeitgrenzen, () => {
+  zeitgrenzen.value = loadedZeitgrenzen.value
+})
 
 const {
   data: updatedZeitgrenzen,

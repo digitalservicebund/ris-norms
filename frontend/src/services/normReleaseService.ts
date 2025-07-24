@@ -1,58 +1,34 @@
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import { NormWorkEli } from "@/lib/eli/NormWorkEli"
+import type { SimpleUseFetchReturn } from "@/services/apiService"
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
-import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
+import type { UseFetchOptions } from "@vueuse/core"
 import type { MaybeRefOrGetter } from "vue"
-import { computed, ref, toValue, watch } from "vue"
+import { computed, toValue } from "vue"
+import { z } from "zod"
 
 export type ReleaseType = "praetext" | "volldokumentation"
 
-type NormReleaseStatus = {
-  normWorkEli: string
-  title: string
-  shortTitle: string
-  expressions: {
-    normExpressionEli: string
-    isGegenstandslos: boolean
-    currentStatus:
-      | "NOT_RELEASED"
-      | "PRAETEXT_RELEASED"
-      | "VOLLDOKUMENTATION_RELEASED"
-  }[]
-}
-export type NormReleaseStatusDomain = {
-  normWorkEli: NormWorkEli
-  title: string
-  shortTitle: string
-  expressions: {
-    normExpressionEli: NormExpressionEli
-    isGegenstandslos: boolean
-    currentStatus:
-      | "NOT_RELEASED"
-      | "PRAETEXT_RELEASED"
-      | "VOLLDOKUMENTATION_RELEASED"
-  }[]
-}
+export const NormReleaseStatusSchema = z.object({
+  normWorkEli: z.string().transform((eli) => NormWorkEli.fromString(eli)),
+  title: z.string(),
+  shortTitle: z.string(),
+  expressions: z.array(
+    z.object({
+      normExpressionEli: z
+        .string()
+        .transform((eli) => NormExpressionEli.fromString(eli)),
+      isGegenstandslos: z.boolean(),
+      currentStatus: z.enum([
+        "NOT_RELEASED",
+        "PRAETEXT_RELEASED",
+        "VOLLDOKUMENTATION_RELEASED",
+      ]),
+    }),
+  ),
+})
 
-export function mapReleaseStatusResponseToDomain(
-  response: NormReleaseStatus,
-): NormReleaseStatusDomain {
-  return {
-    normWorkEli: NormWorkEli.fromString(response.normWorkEli),
-    title: response.title,
-    shortTitle: response.shortTitle,
-    expressions: response.expressions.map((expr) => ({
-      normExpressionEli: NormExpressionEli.fromString(expr.normExpressionEli),
-      isGegenstandslos: expr.isGegenstandslos,
-      currentStatus: expr.currentStatus,
-    })),
-  }
-}
-
-type UseGetNormReleaseStatusReturn = Omit<
-  UseFetchReturn<NormReleaseStatusDomain | null>,
-  "get" | "post" | "put" | "delete" | "patch" | "head" | "options"
->
+export type NormReleaseStatus = z.infer<typeof NormReleaseStatusSchema>
 
 /**
  * Fetches the release statuses of expressions belonging to a norm.
@@ -64,29 +40,24 @@ type UseGetNormReleaseStatusReturn = Omit<
 export function useGetNormReleaseStatus(
   eli: MaybeRefOrGetter<NormWorkEli | undefined>,
   fetchOptions: UseFetchOptions = {},
-): UseGetNormReleaseStatusReturn {
+): SimpleUseFetchReturn<NormReleaseStatus> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
     return `/norms/${eliVal}/releases`
   })
 
-  const { data, ...rest } = useApiFetch(url, {
+  const useFetchReturn = useApiFetch(url, {
     refetch: true,
     ...fetchOptions,
-  }).json<NormReleaseStatus>()
+  }).json<unknown>()
 
-  const mappedData = ref<NormReleaseStatusDomain | null>(null)
-  watch(
-    data,
-    (newData) => {
-      if (newData === null) mappedData.value = null
-      else mappedData.value = mapReleaseStatusResponseToDomain(newData)
-    },
-    { immediate: true },
-  )
-
-  return { ...rest, data: mappedData }
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      NormReleaseStatusSchema.nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }
 
 /**
@@ -94,40 +65,28 @@ export function useGetNormReleaseStatus(
  */
 export function usePostNormRelease(
   eli: MaybeRefOrGetter<NormWorkEli | undefined>,
-) {
+): Omit<SimpleUseFetchReturn<NormReleaseStatus>, "execute"> & {
+  execute: (releaseType: ReleaseType) => Promise<unknown>
+} {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
     return `/norms/${eliVal}/releases`
   })
 
-  const {
-    data: rawData,
-    post,
-    ...rest
-  } = useApiFetch(url, {
+  const useFetchReturn = useApiFetch(url, {
     immediate: false,
-  }).json<NormReleaseStatus>()
-
-  const mappedData = ref<NormReleaseStatusDomain | null>(null)
-
-  watch(
-    rawData,
-    (newData) => {
-      mappedData.value = newData
-        ? mapReleaseStatusResponseToDomain(newData)
-        : null
-    },
-    { immediate: true },
-  )
+  }).json<unknown>()
 
   const execute = async (releaseType: ReleaseType) => {
-    return await post({ releaseType }).execute()
+    return await useFetchReturn.post({ releaseType }).execute()
   }
 
   return {
-    ...rest,
-    data: mappedData,
+    ...useFetchReturn,
+    data: computed(() =>
+      NormReleaseStatusSchema.nullable().parse(useFetchReturn.data.value),
+    ),
     execute,
   }
 }

@@ -1,11 +1,14 @@
+import { z } from "zod"
+
 /**
  * Describes an article that is found in a norm
  */
-export interface Article {
+export const ArticleSchema = z.object({
   /** Eid of the article within the law */
-  eid: string
+  eid: z.string(),
   /** Title of the article */
-  title: string
+  title: z.string(),
   /** List position of the article */
-  enumeration: string
-}
+  enumeration: z.string(),
+})
+export type Article = z.infer<typeof ArticleSchema>

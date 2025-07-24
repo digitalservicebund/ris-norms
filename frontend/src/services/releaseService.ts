@@ -1,18 +1,21 @@
+import type { SimpleUseFetchReturn } from "@/services/apiService"
 import { useApiFetch } from "@/services/apiService"
 import type { Release } from "@/types/release"
+import { ReleaseSchema } from "@/types/release"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
 import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { z } from "zod"
 
-function useReleaseService<T>(
+function useReleaseService(
   eli: MaybeRefOrGetter<NormExpressionEli>,
   fetchOptions: UseFetchOptions = {},
-): UseFetchReturn<T> {
+): UseFetchReturn<unknown> {
   return useApiFetch(
     computed(() => `/norms/${toValue(eli)}/releases`),
     fetchOptions,
-  ).json()
+  )
 }
 
 /**
@@ -22,10 +25,19 @@ function useReleaseService<T>(
  */
 export function useGetReleases(
   eli: MaybeRefOrGetter<NormExpressionEli>,
-): UseFetchReturn<Release[]> {
-  return useReleaseService<Release[]>(eli, {
+): SimpleUseFetchReturn<Release[]> {
+  const useFetchReturn = useReleaseService(eli, {
     refetch: true,
-  }).get()
+  })
+    .json<unknown>()
+    .get()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      z.array(ReleaseSchema).nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }
 
 /**
@@ -36,7 +48,16 @@ export function useGetReleases(
 export function usePostRelease(
   eli: MaybeRefOrGetter<NormExpressionEli>,
 ): UseFetchReturn<Release> {
-  return useReleaseService<Release>(eli, {
+  const useFetchReturn = useReleaseService(eli, {
     immediate: false,
-  }).post()
+  })
+    .json()
+    .post()
+
+  return {
+    ...useFetchReturn,
+    data: computed(() =>
+      ReleaseSchema.nullable().parse(useFetchReturn.data.value),
+    ),
+  }
 }

@@ -1,21 +1,22 @@
-import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
-import type { NormWorkEli } from "@/lib/eli/NormWorkEli"
+import { z } from "zod"
+import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { NormWorkEli } from "@/lib/eli/NormWorkEli"
 
 /**
  * Detail of an expression in the Zielnorm preview.
  */
-export type ZielnormPreviewExpression = {
+export const ZielnormPreviewExpressionSchema = z.object({
   /** ELI of the expression */
-  normExpressionEli: NormExpressionEli
+  normExpressionEli: z.string().transform(NormExpressionEli.fromString),
 
   /** Will the expression be gegenstandslos once the zielnorm-references are applied? */
-  isGegenstandslos: boolean
+  isGegenstandslos: z.boolean(),
 
   /** Does this expression already exist in the system? */
-  isCreated: boolean
+  isCreated: z.boolean(),
 
   /** Is this expression an orphan? */
-  isOrphan: boolean
+  isOrphan: z.boolean(),
 
   /**
    * Explanation for the reason that this expression will be set to gegenstandslos
@@ -27,23 +28,27 @@ export type ZielnormPreviewExpression = {
    * - "System" - It's created automatically by the system. Usually when replacing a
    *   now gegenstandslose expression
    */
-  createdBy: "diese Verkündung" | "andere Verkündung" | "System"
-}
+  createdBy: z.enum(["diese Verkündung", "andere Verkündung", "System"]),
+})
+export type ZielnormPreviewExpression = z.infer<
+  typeof ZielnormPreviewExpressionSchema
+>
 
 /**
  * Information about a Zielnorm that will be set to gegenstandslos or created
  * when applying a Zielnorm reference of a Verkündung.
  */
-export type ZielnormPreview = {
+export const ZielnormPreviewSchema = z.object({
   /** ELI of the Zielnorm */
-  normWorkEli: NormWorkEli
+  normWorkEli: z.string().transform(NormWorkEli.fromString),
 
   /** Title of the Zielnorm */
-  title: string
+  title: z.string(),
 
   /** Short title of the Zielnorm */
-  shortTitle: string
+  shortTitle: z.string().nullable(),
 
   /** List of Expressions of the Zielnorm */
-  expressions: ZielnormPreviewExpression[]
-}
+  expressions: z.array(ZielnormPreviewExpressionSchema),
+})
+export type ZielnormPreview = z.infer<typeof ZielnormPreviewSchema>

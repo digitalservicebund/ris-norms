@@ -1,5 +1,4 @@
 import { INVALID_URL, useApiFetch } from "@/services/apiService"
-import type { Norm } from "@/types/norm"
 import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import type { MaybeRefOrGetter } from "vue"
 import { computed, toValue } from "vue"
@@ -23,7 +22,7 @@ export function useDokumentService(
     showMetadata?: boolean
   },
   fetchOptions: UseFetchOptions = {},
-): UseFetchReturn<Norm> {
+): UseFetchReturn<unknown> {
   const url = computed(() => {
     const eliVal = toValue(eli)
     if (!eliVal) return INVALID_URL
@@ -37,7 +36,7 @@ export function useDokumentService(
     return `/norms/${eliVal}?${queryParams.toString()}`
   })
 
-  return useApiFetch<Norm>(url, fetchOptions)
+  return useApiFetch(url, fetchOptions)
 }
 
 /**

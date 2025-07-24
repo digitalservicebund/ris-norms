@@ -3,6 +3,8 @@ import { NormWorkEli } from "@/lib/eli/NormWorkEli"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
+import type { ZielnormPreviewSchema } from "@/types/zielnormPreview"
+import type { z } from "zod"
 
 vi.mock("@/lib/auth", () => {
   return {
@@ -20,7 +22,7 @@ describe("useGetZielnormPreview", () => {
   })
 
   it("provides the data from the API", async () => {
-    const fixture = [
+    const fixture: z.input<typeof ZielnormPreviewSchema>[] = [
       {
         title: "Beispielnorm",
         shortTitle: "Beispielnorm",
@@ -36,6 +38,7 @@ describe("useGetZielnormPreview", () => {
             createdBy: "diese Verkündung",
             isCreated: true,
             isGegenstandslos: false,
+            isOrphan: false,
             normExpressionEli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
           },
         ],
@@ -73,6 +76,7 @@ describe("useGetZielnormPreview", () => {
             createdBy: "diese Verkündung",
             isCreated: true,
             isGegenstandslos: false,
+            isOrphan: false,
             normExpressionEli: NormExpressionEli.fromString(
               "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
             ),
@@ -128,7 +132,7 @@ describe("useCreateZielnormExpressions", () => {
   })
 
   it("provides the data from the API", async () => {
-    const fixture = {
+    const fixture: z.input<typeof ZielnormPreviewSchema> = {
       title: "Beispielnorm 2",
       shortTitle: "Beispielnorm 2",
       normWorkEli: "eli/bund/bgbl-1/2025/2",
@@ -137,6 +141,7 @@ describe("useCreateZielnormExpressions", () => {
           createdBy: "diese Verkündung",
           isCreated: true,
           isGegenstandslos: false,
+          isOrphan: false,
           normExpressionEli: "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
         },
       ],
@@ -170,6 +175,7 @@ describe("useCreateZielnormExpressions", () => {
           createdBy: "diese Verkündung",
           isCreated: true,
           isGegenstandslos: false,
+          isOrphan: false,
           normExpressionEli: NormExpressionEli.fromString(
             "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu",
           ),
