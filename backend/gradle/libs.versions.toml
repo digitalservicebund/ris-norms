@@ -1,11 +1,11 @@
 [versions]
-flyway = "11.10.3"
+flyway = "11.10.4"
 # @keep
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "6.9.2"
 org-bouncycastle = "1.81"
 org-testcontainers = "1.21.3"
-spring-boot = "3.5.3"
+spring-boot = "3.5.4"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
