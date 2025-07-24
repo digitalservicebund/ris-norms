@@ -1,3 +1,4 @@
+import type { DokumentManifestationEli } from "@/lib/eli/DokumentManifestationEli"
 import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import {
   useDeleteZielnormReferences,
@@ -43,7 +44,7 @@ export type ZielnormReferencesStore = {
    */
   zielnormReferencesEingebundeneStammformForEid: (
     eId: string,
-    baseEli: never,
+    baseEli: DokumentManifestationEli,
   ) => EditableZielnormReference
 
   /**
@@ -169,13 +170,13 @@ export function useZielnormReferences(
 
   function zielnormReferencesEingebundeneStammformForEid(
     eId: string,
+    baseEli: DokumentManifestationEli,
   ): EditableZielnormReference {
     const existingData = (references.value ?? []).find((i) => i.eId === eId)
-    const zielnorm = "eli/bund/bgbl-1/2025/47-11"
 
     return {
       isNewWork: true,
-      zielnorm: existingData?.zielnorm ?? zielnorm,
+      zielnorm: existingData?.zielnorm ?? baseEli.asNormWorkEli().toString(),
       geltungszeit: existingData?.geltungszeit ?? "",
     }
   }

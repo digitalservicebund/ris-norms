@@ -5,10 +5,11 @@ import type { AknElementClickEvent } from "@/components/RisLawPreview.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { useElementId } from "@/composables/useElementId"
+import { useMultiSelection } from "@/composables/useMultiSelection"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { DokumentManifestationEli } from "@/lib/eli/DokumentManifestationEli"
 import { useGetElementHtml } from "@/services/elementService"
 import { useGetNormToc } from "@/services/tocService"
-import { useMultiSelection } from "@/composables/useMultiSelection"
 import Button from "primevue/button"
 import Tree from "primevue/tree"
 import type { TreeNode } from "primevue/treenode"
@@ -43,7 +44,7 @@ const emit = defineEmits<{
    * Emitted when selectin changes to indicate whether the current selection
    * is an eingebundene Stammform or regular elements.
    */
-  selectEingebundeneStammform: [isEingebundeneStammform: boolean]
+  selectEingebundeneStammform: [eli: DokumentManifestationEli | null]
 }>()
 
 const { documentExplorerHeadingId, tocHeadingId } = useElementId()
@@ -101,14 +102,17 @@ function onSelect({ originalEvent, eid }: AknElementClickEvent) {
   }
 
   eidsToEdit.value = values.value
-  emit("selectEingebundeneStammform", false)
+  emit("selectEingebundeneStammform", null)
 }
 
-function selectEingebundeneStammform(eid: string) {
+function selectEingebundeneStammform(
+  eid: string,
+  eli: DokumentManifestationEli,
+) {
   if (disableSelection) return
 
   eidsToEdit.value = [eid]
-  emit("selectEingebundeneStammform", true)
+  emit("selectEingebundeneStammform", eli)
 }
 
 const eingebundeneStammformClasses = computed(() =>
@@ -195,7 +199,12 @@ const eingebundeneStammformClasses = computed(() =>
           eingebundeneStammformClasses,
           { selected: eidsToEdit?.includes(selectedTocItem.id) },
         ]"
-        @click="selectEingebundeneStammform(selectedTocItem.id)"
+        @click="
+          selectEingebundeneStammform(
+            selectedTocItem.id,
+            selectedTocItem.eingebundeneStammformEli,
+          )
+        "
       >
         {{ selectedTocItem?.heading }}
       </button>

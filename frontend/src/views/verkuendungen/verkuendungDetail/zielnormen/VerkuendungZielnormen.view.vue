@@ -17,6 +17,7 @@ import {
 } from "@/composables/useZielnormReferences"
 import { formatDate } from "@/lib/dateTime"
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { DokumentManifestationEli } from "@/lib/eli/DokumentManifestationEli"
 import { getFrbrDisplayText } from "@/lib/frbr"
 import { useGetVerkuendungService } from "@/services/verkuendungService"
 import {
@@ -70,7 +71,9 @@ const { data: zeitgrenzen, error: zeitgrenzenError } = useGetZeitgrenzen(eli)
 
 const eIdsToEdit = ref<string[]>([])
 
-const selectionIsEingebundeneStammform = ref(false)
+const eingebundeneStammformSelection = ref<DokumentManifestationEli | null>(
+  null,
+)
 
 const editedZielnormReference = ref<EditableZielnormReference>()
 
@@ -88,8 +91,8 @@ const {
   zielnormReferencesEingebundeneStammformForEid,
 } = useZielnormReferences(eli)
 
-function onSelectEingebundeneStammform(isEingebundeneStammform: boolean) {
-  selectionIsEingebundeneStammform.value = isEingebundeneStammform
+function onSelectEingebundeneStammform(eli: DokumentManifestationEli | null) {
+  eingebundeneStammformSelection.value = eli
 }
 
 const isSelected = (eid: string) => {
@@ -104,10 +107,12 @@ const highlightClasses = useZeitgrenzenHighlightClasses(
 
 watchEffect(() => {
   if (!eIdsToEdit.value?.length) editedZielnormReference.value = undefined
-  else if (selectionIsEingebundeneStammform.value) {
+  else if (eingebundeneStammformSelection.value) {
     editedZielnormReference.value =
-      // @ts-expect-error baseEli param not yet implemented
-      zielnormReferencesEingebundeneStammformForEid(eIdsToEdit.value[0])
+      zielnormReferencesEingebundeneStammformForEid(
+        eIdsToEdit.value[0],
+        eingebundeneStammformSelection.value,
+      )
   } else {
     editedZielnormReference.value = zielnormReferencesForEid(
       ...eIdsToEdit.value,
@@ -204,7 +209,7 @@ async function onDeleteZielnormReferences() {
           :zeitgrenzen="zeitgrenzen ?? []"
           :deleting="isDeletingZielnormReferences"
           :updating="isUpdatingZielnormReferences"
-          :eingebundene-stammform="selectionIsEingebundeneStammform"
+          :eingebundene-stammform="!!eingebundeneStammformSelection"
           @save="onSaveZielnormReferences()"
           @delete="confirmDeleteZielnormReferences()"
         />

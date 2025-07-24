@@ -4,6 +4,7 @@ import type { ZielnormReference } from "@/types/zielnormReference"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
 import { INDETERMINATE_VALUE } from "./useZielnormReferences"
+import { DokumentManifestationEli } from "@/lib/eli/DokumentManifestationEli"
 
 describe("useZielnormReferences", () => {
   beforeEach(() => {
@@ -416,9 +417,12 @@ describe("useZielnormReferences", () => {
           ),
         )
 
-      const refs =
-        // @ts-expect-error baseEli param not yet implemented
-        zielnormReferencesEingebundeneStammformForEid("hauptteil-1_art-1")
+      const refs = zielnormReferencesEingebundeneStammformForEid(
+        "hauptteil-1_art-1",
+        DokumentManifestationEli.fromString(
+          "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml",
+        ),
+      )
 
       expect(refs).toEqual({
         geltungszeit: "gz-1",
@@ -459,12 +463,16 @@ describe("useZielnormReferences", () => {
           ),
         )
 
-      // @ts-expect-error baseEli param not yet implemented
-      const refs = zielnormReferencesEingebundeneStammformForEid("fake-eid")
+      const refs = zielnormReferencesEingebundeneStammformForEid(
+        "fake-eid",
+        DokumentManifestationEli.fromString(
+          "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml",
+        ),
+      )
 
       expect(refs).toEqual({
         geltungszeit: "",
-        zielnorm: "eli/bund/bgbl-1/2025/47-11",
+        zielnorm: "eli/bund/bgbl-1/2024/17-1",
         isNewWork: true,
       })
     })

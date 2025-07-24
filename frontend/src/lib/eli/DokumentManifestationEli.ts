@@ -1,3 +1,5 @@
+import { NormWorkEli } from "./NormWorkEli"
+
 /**
  * European legislation identifier on manifestation level for a dokument of a norm
  */
@@ -84,7 +86,7 @@ export class DokumentManifestationEli {
   }
 
   /**
-   * Create a {@link DokumentManifestationEli} that contains the parts of this eli but no point-in-time-manifestation
+   * Create a DokumentManifestationEli that contains the parts of this eli but no point-in-time-manifestation
    *
    * @return a manifestation eli without a point-in-time-manifestation
    */
@@ -104,6 +106,22 @@ export class DokumentManifestationEli {
       this.subtype,
       this.format,
     )
+  }
+
+  /**
+   * Create a NormWorkEli that contains the part of this ELI.
+   *
+   * @returns Norm Work ELI
+   */
+  asNormWorkEli(): NormWorkEli {
+    let match
+    let naturalIdentifier = this.naturalIdentifier
+    if ((match = this.subtype.match(/-(\d+)$/))) {
+      const subtypeCounter = Number.parseInt(match[1]) - 1
+      if (subtypeCounter > 0) naturalIdentifier += `-${subtypeCounter}`
+    }
+
+    return new NormWorkEli(this.agent, this.year, naturalIdentifier)
   }
 
   equals(o: unknown): boolean {

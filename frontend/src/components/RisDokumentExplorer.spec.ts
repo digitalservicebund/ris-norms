@@ -627,7 +627,7 @@ describe("risDokumentExplorer", () => {
 
       await vi.waitFor(async () => {
         await user.click(screen.getByRole("button", { name: "1" }))
-        expect(emitted("selectEingebundeneStammform")).toContainEqual([false])
+        expect(emitted("selectEingebundeneStammform")).toContainEqual([null])
       })
     })
 
@@ -649,7 +649,11 @@ describe("risDokumentExplorer", () => {
 
       await vi.waitFor(async () => {
         await user.click(screen.getByRole("button", { name: "Test 1" }))
-        expect(emitted("selectEingebundeneStammform")).toContainEqual([true])
+        expect(emitted("selectEingebundeneStammform")).toContainEqual([
+          DokumentManifestationEli.fromString(
+            "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml",
+          ),
+        ])
       })
     })
 

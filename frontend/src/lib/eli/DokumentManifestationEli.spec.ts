@@ -80,4 +80,20 @@ describe("dokumentManifestationEli", () => {
       )
     })
   })
+
+  describe("asNormWorkEli", () => {
+    it("returns a Norm work ELI with a counter", () => {
+      const eli = DokumentManifestationEli.fromString(
+        "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/regelungstext-verkuendung-2.xml",
+      ).asNormWorkEli()
+      expect(eli.toString()).toBe("eli/bund/bgbl-1/2024/17-1")
+    })
+
+    it("returns a Norm work ELI without a counter", () => {
+      const eli = DokumentManifestationEli.fromString(
+        "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/regelungstext-verkuendung-1.xml",
+      ).asNormWorkEli()
+      expect(eli.toString()).toBe("eli/bund/bgbl-1/2024/17")
+    })
+  })
 })
