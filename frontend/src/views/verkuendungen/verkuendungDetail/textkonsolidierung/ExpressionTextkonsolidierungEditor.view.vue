@@ -112,20 +112,21 @@ const sequence = computed(() => {
   if (!currentZielnormGroup.value) return []
 
   return currentZielnormGroup.value.expressions
-    .filter((expr) => {
+    .map((expr) => expr.eli.asNormEli())
+    .filter((eli) => {
       const match = previewData.value
         ?.flatMap((d) => d.expressions)
-        .find((e) => e.normExpressionEli === expr.eli?.asNormEli())
+        .find((e) => e.normExpressionEli === eli)
       return !match?.isGegenstandslos
     })
-    .map((expr) => expr.eli)
 })
 
-const currentIndex = computed(() =>
-  sequence.value.indexOf(
-    DokumentExpressionEli.fromNormExpressionEli(currentEli.value),
-  ),
-)
+const currentIndex = computed(() => {
+  const i = sequence.value.findIndex((eli) => currentEli.value === eli)
+  console.log("CURRENT_INDEX", i, sequence.value, currentEli.value)
+
+  return i
+})
 
 const hasPrev = computed(() => currentIndex.value > 0)
 
