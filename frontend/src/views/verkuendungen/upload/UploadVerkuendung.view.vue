@@ -8,6 +8,7 @@ import { isErrorResponse } from "@/lib/errorResponseMapper"
 import { useForceUploadFile } from "@/services/uploadService"
 import type { ErrorResponse } from "@/types/errorResponse"
 import type { Norm } from "@/types/norm"
+import { NormSchema } from "@/types/norm"
 import { RisCopyableLabel } from "@digitalservicebund/ris-ui/components"
 import Button from "primevue/button"
 import ConfirmDialog from "primevue/confirmdialog"
@@ -82,7 +83,9 @@ function onUploaded(event: FileUploadUploadEvent) {
   isLoading.value = false
 
   try {
-    const responseData: Norm = JSON.parse(event.xhr.responseText)
+    const responseData: Norm = NormSchema.parse(
+      JSON.parse(event.xhr.responseText),
+    )
 
     if (responseData.eli) {
       router.push(`/verkuendungen/${responseData.eli.asNormEli()}`)
