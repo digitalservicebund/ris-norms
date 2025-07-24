@@ -78,6 +78,7 @@ dependencies {
     implementation(libs.jspecify)
     implementation(libs.commons.lang3)
     implementation(libs.nimbus.jose.jwt)
+    implementation(libs.google.protobuf.java)
 
     errorprone(libs.nullaway)
     errorprone(libs.errorprone)
