@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest"
 import { ref } from "vue"
 import { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
 
 describe("verkuendungService", () => {
   beforeEach(() => {
@@ -96,7 +97,11 @@ describe("verkuendungService", () => {
 
       const { data } = useGetVerkuendungService(eli)
 
-      expect(data.value).toEqual(mockVerkuendung)
+      expect(data.value?.eli).toEqual(
+        DokumentExpressionEli.fromString(
+          "eli/bund/bgbl-1/2025/s65/2025-02-27/1/deu/regelungstext-verkuendung-1",
+        ),
+      )
       expect(data.value?.title).toBe(
         "Gesetz zur Anpassung des Mutterschutzgesetzes",
       )
