@@ -294,4 +294,22 @@ describe("risZielnormForm", () => {
 
     expect(emitted("delete")).toBeTruthy()
   })
+
+  it("adjusts for eingebundene Stammformen", () => {
+    render(RisZielnormForm, {
+      props: {
+        modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
+        zeitgrenzen: [
+          { id: "gz-1", art: "INKRAFT", date: "2025-04-29" },
+          { id: "gz-2", art: "AUSSERKRAFT", date: "2025-04-30" },
+        ],
+        eingebundeneStammform: true,
+      },
+    })
+
+    expect(
+      screen.getByText("Geltungszeitregeln verknüpfen"),
+    ).toBeInTheDocument()
+    expect(screen.getByRole("textbox", { name: "ELI" })).toHaveValue("eli")
+  })
 })

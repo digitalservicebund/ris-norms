@@ -64,7 +64,8 @@ class ZielnormReferencesControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("$[0].geltungszeit").value(equalTo("5e2f4f78-a0a1-4c55-9ef7-ad2821161915"))
         )
         .andExpect(jsonPath("$[0].eId").value(equalTo("art-z1_abs-z_untergl-n1_listenelem-n1")))
-        .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/1964/s593")));
+        .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/1964/s593")))
+        .andExpect(jsonPath("$[0].isNewWork").value(equalTo(false)));
     }
   }
 
@@ -93,13 +94,22 @@ class ZielnormReferencesControllerIntegrationTest extends BaseIntegrationTest {
                   "eId": "art-z1_abs-z_untergl-n1_listenelem-n1",
                   "zielnorm": "eli/bund/bgbl-1/2022/1",
                   "geltungszeit": "f55bfc5b-8260-43d1-a32c-45d3bb3e5e63",
-                  "typ": "Änderungsvorschrift"
+                  "typ": "Änderungsvorschrift",
+                  "isNewWork": false
                 },
                 {
                   "eId": "art-z1_abs-z_untergl-n1_listenelem-n2",
                   "zielnorm": "eli/bund/bgbl-1/2023/12",
                   "geltungszeit": "973ad752-a875-4028-adbe-636698517a5e",
-                  "typ": "Änderungsvorschrift"
+                  "typ": "Änderungsvorschrift",
+                  "isNewWork": false
+                },
+                {
+                  "eId": "art-z2",
+                  "zielnorm": "eli/bund/bgbl-1/2017/s419-1",
+                  "geltungszeit": "973ad752-a875-4028-adbe-636698517a5e",
+                  "typ": "Änderungsvorschrift",
+                  "isNewWork": true
                 }
               ]
               """
@@ -115,13 +125,23 @@ class ZielnormReferencesControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(jsonPath("$[0].eId").value(equalTo("art-z1_abs-z_untergl-n1_listenelem-n1")))
         .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/2022/1")))
+        .andExpect(jsonPath("$[0].isNewWork").value(equalTo(false)))
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[1].typ").value(equalTo("Änderungsvorschrift")))
         .andExpect(
           jsonPath("$[1].geltungszeit").value(equalTo("973ad752-a875-4028-adbe-636698517a5e"))
         )
         .andExpect(jsonPath("$[1].eId").value(equalTo("art-z1_abs-z_untergl-n1_listenelem-n2")))
-        .andExpect(jsonPath("$[1].zielnorm").value(equalTo("eli/bund/bgbl-1/2023/12")));
+        .andExpect(jsonPath("$[1].zielnorm").value(equalTo("eli/bund/bgbl-1/2023/12")))
+        .andExpect(jsonPath("$[1].isNewWork").value(equalTo(false)))
+        .andExpect(jsonPath("$[2]").exists())
+        .andExpect(jsonPath("$[2].typ").value(equalTo("Änderungsvorschrift")))
+        .andExpect(
+          jsonPath("$[2].geltungszeit").value(equalTo("973ad752-a875-4028-adbe-636698517a5e"))
+        )
+        .andExpect(jsonPath("$[2].eId").value(equalTo("art-z2")))
+        .andExpect(jsonPath("$[2].zielnorm").value(equalTo("eli/bund/bgbl-1/2017/s419-1")))
+        .andExpect(jsonPath("$[2].isNewWork").value(equalTo(true)));
     }
 
     @Test
@@ -168,7 +188,8 @@ class ZielnormReferencesControllerIntegrationTest extends BaseIntegrationTest {
           jsonPath("$[1].geltungszeit").value(equalTo("07fdc138-1509-4165-9ec7-f26f9d5c8cb8"))
         )
         .andExpect(jsonPath("$[1].eId").value(equalTo("art-z1_abs-z_untergl-n1_listenelem-n2")))
-        .andExpect(jsonPath("$[1].zielnorm").value(equalTo("eli/bund/bgbl-1/2023/12")));
+        .andExpect(jsonPath("$[1].zielnorm").value(equalTo("eli/bund/bgbl-1/2023/12")))
+        .andExpect(jsonPath("$[0].isNewWork").value(equalTo(false)));
 
       mockMvc
         .perform(
@@ -184,13 +205,15 @@ class ZielnormReferencesControllerIntegrationTest extends BaseIntegrationTest {
         )
         .andExpect(jsonPath("$[0].eId").value(equalTo("art-z1_abs-z_untergl-n1_listenelem-n1")))
         .andExpect(jsonPath("$[0].zielnorm").value(equalTo("eli/bund/bgbl-1/1964/s593")))
+        .andExpect(jsonPath("$[0].isNewWork").value(equalTo(false)))
         .andExpect(jsonPath("$[1]").exists())
         .andExpect(jsonPath("$[1].typ").value(equalTo("Änderungsvorschrift")))
         .andExpect(
           jsonPath("$[1].geltungszeit").value(equalTo("07fdc138-1509-4165-9ec7-f26f9d5c8cb8"))
         )
         .andExpect(jsonPath("$[1].eId").value(equalTo("art-z1_abs-z_untergl-n1_listenelem-n2")))
-        .andExpect(jsonPath("$[1].zielnorm").value(equalTo("eli/bund/bgbl-1/2023/12")));
+        .andExpect(jsonPath("$[1].zielnorm").value(equalTo("eli/bund/bgbl-1/2023/12")))
+        .andExpect(jsonPath("$[1].isNewWork").value(equalTo(false)));
     }
   }
 

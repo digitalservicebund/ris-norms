@@ -2,6 +2,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
 
 import de.bund.digitalservice.ris.norms.domain.entity.ZielnormReference;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Schema for a {@link ZielnormReference}
@@ -9,10 +10,12 @@ import jakarta.validation.constraints.NotEmpty;
  * @param geltungszeit the id of the geltungszeit
  * @param eId the eId of the element creating the reference
  * @param zielnorm the work eli of the zielnorm
+ * @param isNewWork whether the Zielnorm reference is referring to a new work
  */
 public record ZielnormReferenceSchema(
   @NotEmpty String typ,
   @NotEmpty String geltungszeit,
   @NotEmpty String eId,
-  @NotEmpty String zielnorm
+  @NotEmpty String zielnorm,
+  @NotNull boolean isNewWork
 ) {}

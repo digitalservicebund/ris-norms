@@ -1,4 +1,5 @@
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import { DokumentManifestationEli } from "@/lib/eli/DokumentManifestationEli"
 import type { ErrorResponse } from "@/types/errorResponse"
 import type { TocItem } from "@/types/toc"
 import userEvent from "@testing-library/user-event"
@@ -21,21 +22,21 @@ describe("risDokumentExplorer", () => {
               marker: "§ 1",
               heading: "Test 1",
               type: "article",
-              hasEingebundeneStammform: true,
+              eingebundeneStammformEli: DokumentManifestationEli.fromString(
+                "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml",
+              ),
             },
             {
               id: "eid-2",
               marker: "§ 2",
               heading: "Test 2",
               type: "article",
-              hasEingebundeneStammform: false,
             },
             {
               id: "eid-3",
               marker: "§ 3",
               heading: "Test 3",
               type: "article",
-              hasEingebundeneStammform: false,
             },
           ]),
           error: ref(null),
@@ -156,21 +157,21 @@ describe("risDokumentExplorer", () => {
               marker: "§ 1",
               heading: "Test 1",
               type: "article",
-              hasEingebundeneStammform: true,
+              eingebundeneStammformEli: DokumentManifestationEli.fromString(
+                "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml",
+              ),
             },
             {
               id: "eid-2",
               marker: "§ 2",
               heading: "Test 2",
               type: "article",
-              hasEingebundeneStammform: false,
             },
             {
               id: "eid-3",
               marker: "§ 3",
               heading: "Test 3",
               type: "article",
-              hasEingebundeneStammform: false,
             },
           ]),
           error: ref(null),
@@ -210,14 +211,15 @@ describe("risDokumentExplorer", () => {
               marker: "§ 1",
               heading: "Test 1",
               type: "article",
-              hasEingebundeneStammform: true,
+              eingebundeneStammformEli: DokumentManifestationEli.fromString(
+                "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml",
+              ),
             },
             {
               id: "eid-2",
               marker: "§ 2",
               heading: "Test 2",
               type: "article",
-              hasEingebundeneStammform: false,
             },
           ]),
           error: ref(null),
@@ -275,8 +277,7 @@ describe("risDokumentExplorer", () => {
         expect.objectContaining({ value: undefined }),
       )
 
-      expect(screen.getByText("§ 1")).toBeInTheDocument()
-      expect(screen.getByText("Test 1")).toBeInTheDocument()
+      expect(screen.getByRole("button", { name: "Test 1" })).toBeInTheDocument()
     })
 
     it("shows an error if the element HTML could not be loaded", async () => {
@@ -593,6 +594,69 @@ describe("risDokumentExplorer", () => {
       })
     })
 
+    it("emits an event when selecting a regular element", async () => {
+      const user = userEvent.setup()
+
+      vi.doMock("@/services/elementService", () => ({
+        useGetElementHtml: () => ({
+          data: ref(`
+            <ol>
+              <li class="akn-point" data-eid="eid-1">1</li>
+              <li class="akn-point" data-eid="eid-2">2</li>
+              <li class="akn-point" data-eid="eid-3">3</li>
+            </ol>
+            <div class="akn-paragraph" data-eid="eid-4">4</div>
+          `),
+          error: ref(null),
+          isFetching: ref(false),
+        }),
+      }))
+
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      const { emitted } = render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+          ),
+          eid: "eid-2",
+        },
+      })
+
+      await vi.waitFor(async () => {
+        await user.click(screen.getByRole("button", { name: "1" }))
+        expect(emitted("selectEingebundeneStammform")).toContainEqual([null])
+      })
+    })
+
+    it("emits an event when selecting an eingebundene Stammform", async () => {
+      const user = userEvent.setup()
+
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      const { emitted } = render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+          ),
+          eid: "eid-1",
+        },
+      })
+
+      await vi.waitFor(async () => {
+        await user.click(screen.getByRole("button", { name: "Test 1" }))
+        expect(emitted("selectEingebundeneStammform")).toContainEqual([
+          DokumentManifestationEli.fromString(
+            "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml",
+          ),
+        ])
+      })
+    })
+
     it("adds classes for eId highlighting", async () => {
       vi.doMock("@/services/elementService", () => ({
         useGetElementHtml: () => ({
@@ -625,6 +689,28 @@ describe("risDokumentExplorer", () => {
 
       await vi.waitFor(() => {
         expect(screen.getByRole("button", { name: "1" })).toHaveClass("example")
+      })
+    })
+
+    it("adds classes for eId highlighting of eingebundene Stammform", async () => {
+      const { default: RisDokumentExplorer } = await import(
+        "./RisDokumentExplorer.vue"
+      )
+
+      render(RisDokumentExplorer, {
+        props: {
+          eli: DokumentExpressionEli.fromString(
+            "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
+          ),
+          eid: "eid-1",
+          eIdClasses: { "eid-1": ["example"] },
+        },
+      })
+
+      await vi.waitFor(() => {
+        expect(screen.getByRole("button", { name: "Test 1" })).toHaveClass(
+          "example",
+        )
       })
     })
   })

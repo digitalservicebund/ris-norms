@@ -226,16 +226,16 @@ class TableOfContentsServiceTest {
       )
     ).thenReturn(Optional.of(regelungstext1));
 
+    var eingebundeneStammformEli = DokumentManifestationEli.fromString(
+      "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml"
+    );
+
     when(
       loadRegelungstextPort.loadRegelungstext(
         // Constructing the ELI manually as this is the ELI by which the eingebundene
         // Stammform is referenced, but it's not 100% identical to the ELI of the
         // Regelungstext.
-        new LoadRegelungstextPort.Options(
-          DokumentManifestationEli.fromString(
-            "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml"
-          )
-        )
+        new LoadRegelungstextPort.Options(eingebundeneStammformEli)
       )
     ).thenReturn(Optional.of(regelungstext2));
 
@@ -251,7 +251,9 @@ class TableOfContentsServiceTest {
     var eingebundeneStammformArtikel = toc.getFirst();
 
     // Assert eingebundene Stammform is correctly identified
-    assertThat(eingebundeneStammformArtikel.hasEingebundeneStammform()).isTrue();
+    assertThat(eingebundeneStammformArtikel.eingebundeneStammformEli()).isEqualTo(
+      eingebundeneStammformEli
+    );
 
     // Assert eingebundene Stammform title
     assertThat(eingebundeneStammformArtikel.heading()).isEqualTo(
@@ -259,6 +261,6 @@ class TableOfContentsServiceTest {
     );
 
     // Assert that other articles don't claim to have an eingebundene Stammform
-    assertThat(toc.get(1).hasEingebundeneStammform()).isFalse();
+    assertThat(toc.get(1).eingebundeneStammformEli()).isNull();
   }
 }

@@ -5,10 +5,11 @@ import type { AknElementClickEvent } from "@/components/RisLawPreview.vue"
 import RisLawPreview from "@/components/RisLawPreview.vue"
 import RisLoadingSpinner from "@/components/RisLoadingSpinner.vue"
 import { useElementId } from "@/composables/useElementId"
+import { useMultiSelection } from "@/composables/useMultiSelection"
 import type { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
+import type { DokumentManifestationEli } from "@/lib/eli/DokumentManifestationEli"
 import { useGetElementHtml } from "@/services/elementService"
 import { useGetNormToc } from "@/services/tocService"
-import { useMultiSelection } from "@/composables/useMultiSelection"
 import Button from "primevue/button"
 import Tree from "primevue/tree"
 import type { TreeNode } from "primevue/treenode"
@@ -38,6 +39,14 @@ const eid = defineModel<string>("eid")
 /** List of eIds that should be edited */
 const eidsToEdit = defineModel<string[]>("eids-to-edit")
 
+const emit = defineEmits<{
+  /**
+   * Emitted when selectin changes to indicate whether the current selection
+   * is an eingebundene Stammform or regular elements.
+   */
+  selectEingebundeneStammform: [eli: DokumentManifestationEli | null]
+}>()
+
 const { documentExplorerHeadingId, tocHeadingId } = useElementId()
 
 // Table of contents --------------------------------------
@@ -57,7 +66,7 @@ const treeNodes = computed<TreeNode[]>(() =>
         label: i.marker || "Unbenanntes Element",
         data: {
           sublabel: i.heading || null,
-          hasEingebundeneStammform: i.hasEingebundeneStammform,
+          hasEingebundeneStammform: !!i.eingebundeneStammformEli,
         },
         children: [],
       }))
@@ -77,7 +86,7 @@ const {
 } = useGetElementHtml(
   eli,
   computed(() =>
-    selectedTocItem.value?.hasEingebundeneStammform ? undefined : eid.value,
+    selectedTocItem.value?.eingebundeneStammformEli ? undefined : eid.value,
   ),
 )
 
@@ -93,11 +102,24 @@ function onSelect({ originalEvent, eid }: AknElementClickEvent) {
   }
 
   eidsToEdit.value = values.value
+  emit("selectEingebundeneStammform", null)
 }
 
-function selectEingebundeneStammform(eid: string) {
+function selectEingebundeneStammform(
+  eid: string,
+  eli: DokumentManifestationEli,
+) {
+  if (disableSelection) return
+
   eidsToEdit.value = [eid]
+  emit("selectEingebundeneStammform", eli)
 }
+
+const eingebundeneStammformClasses = computed(() =>
+  selectedTocItem.value?.eingebundeneStammformEli
+    ? eIdClasses[selectedTocItem.value.id]
+    : undefined,
+)
 </script>
 
 <template>
@@ -166,14 +188,23 @@ function selectEingebundeneStammform(eid: string) {
       </div>
     </template>
 
-    <div v-else-if="selectedTocItem?.hasEingebundeneStammform" class="p-16">
+    <div v-else-if="selectedTocItem?.eingebundeneStammformEli" class="p-16">
       <div class="ris-subhead-bold mb-12 border-b border-gray-400 pb-8">
         {{ selectedTocItem.marker || "Unbenanntes Element" }}
       </div>
       <button
         :aria-pressed="eidsToEdit?.includes(selectedTocItem.id)"
-        class="ris-label2-bold block w-full cursor-pointer bg-gray-100 p-16 outline-2 -outline-offset-2 outline-gray-600 outline-dotted hover:bg-gray-200 hover:outline-blue-800 aria-pressed:bg-gray-400 aria-pressed:outline-blue-800 aria-pressed:outline-solid"
-        @click="selectEingebundeneStammform(selectedTocItem.id)"
+        :class="[
+          'eingebundene-stammform-button ris-label2-bold block w-full cursor-pointer p-16',
+          eingebundeneStammformClasses,
+          { selected: eidsToEdit?.includes(selectedTocItem.id) },
+        ]"
+        @click="
+          selectEingebundeneStammform(
+            selectedTocItem.id,
+            selectedTocItem.eingebundeneStammformEli,
+          )
+        "
       >
         {{ selectedTocItem?.heading }}
       </button>
@@ -215,6 +246,7 @@ function selectEingebundeneStammform(eid: string) {
 
 <style scoped>
 @layer components {
+  .eingebundene-stammform-button,
   :deep(.akn-paragraph),
   :deep(.akn-point) {
     background-color: var(--color-gray-100);

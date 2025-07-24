@@ -31,11 +31,13 @@ public interface UpdateZielnormReferencesUseCase {
    * @param geltungszeit the new id of the geltungszeitregel
    * @param eId the eId of the element referencing the Änderungsbefehl. If a {@link ZielnormReference} for this eId already exists it is updated, otherwise a new reference will be created.
    * @param zielnorm the ELI of the zielnorm targeted by the Änderungsbefehl
+   * @param isNewWork whether the Zielnorm reference is referring to a new work
    */
   record ZielnormReferenceUpdateData(
     String typ,
     Zeitgrenze.Id geltungszeit,
     EId eId,
-    NormWorkEli zielnorm
+    NormWorkEli zielnorm,
+    boolean isNewWork
   ) {}
 }

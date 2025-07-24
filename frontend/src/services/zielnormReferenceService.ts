@@ -43,15 +43,19 @@ export function useGetZielnormReferences(
     ...fetchOptions,
   }).json<unknown>()
 
-  return {
-    ...useFetchReturn,
-    data: computed(() =>
-      z
+  const data = computed({
+    get() {
+      return z
         .array(ZielnormReferenceSchema)
         .nullable()
-        .parse(useFetchReturn.data.value),
-    ),
-  }
+        .parse(useFetchReturn.data.value)
+    },
+    set(val) {
+      useFetchReturn.data.value = val
+    },
+  })
+
+  return { ...useFetchReturn, data }
 }
 
 /**
@@ -73,15 +77,19 @@ export function usePostZielnormReferences(
     .json<unknown>()
     .post(updateData)
 
-  return {
-    ...useFetchReturn,
-    data: computed(() =>
-      z
+  const data = computed({
+    get() {
+      return z
         .array(ZielnormReferenceSchema)
         .nullable()
-        .parse(useFetchReturn.data.value),
-    ),
-  }
+        .parse(useFetchReturn.data.value)
+    },
+    set(val) {
+      useFetchReturn.data.value = val
+    },
+  })
+
+  return { ...useFetchReturn, data }
 }
 
 /**
@@ -103,13 +111,17 @@ export function useDeleteZielnormReferences(
     .json<unknown>()
     .delete(updateData)
 
-  return {
-    ...useFetchReturn,
-    data: computed(() =>
-      z
+  const data = computed({
+    get() {
+      return z
         .array(ZielnormReferenceSchema)
         .nullable()
-        .parse(useFetchReturn.data.value),
-    ),
-  }
+        .parse(useFetchReturn.data.value)
+    },
+    set(val) {
+      useFetchReturn.data.value = val
+    },
+  })
+
+  return { ...useFetchReturn, data }
 }

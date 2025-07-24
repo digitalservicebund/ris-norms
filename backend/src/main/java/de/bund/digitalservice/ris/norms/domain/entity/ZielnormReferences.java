@@ -34,13 +34,31 @@ public class ZielnormReferences extends AbstractCollection<ZielnormReference> {
     return new ZielnormReferences(NodeCreator.createElement(NAMESPACE, TAG_NAME, parentNode));
   }
 
+  /**
+   * Add a new Zielnorm reference to the list.
+   *
+   * @param typ the typ of the reference
+   * @param geltungszeit the id of the geltungszeitregel
+   * @param eId the eId of the element containing the Änderungsbefehl
+   * @param zielnorm the ELI of the zielnorm changed by the Änderungsbefehl
+   * @param isNewWork whether the Zielnorm reference is referring to a new work
+   * @return newly created Zielnorm reference
+   */
   public ZielnormReference add(
     String typ,
     Zeitgrenze.Id geltungszeit,
     EId eId,
-    NormWorkEli zielnorm
+    NormWorkEli zielnorm,
+    boolean isNewWork
   ) {
-    return ZielnormReference.createAndAppend(getElement(), typ, geltungszeit, eId, zielnorm, false);
+    return ZielnormReference.createAndAppend(
+      getElement(),
+      typ,
+      geltungszeit,
+      eId,
+      zielnorm,
+      isNewWork
+    );
   }
 
   @NotNull

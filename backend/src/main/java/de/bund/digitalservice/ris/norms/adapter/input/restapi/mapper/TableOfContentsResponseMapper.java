@@ -33,7 +33,9 @@ public class TableOfContentsResponseMapper {
       .marker(item.marker())
       .heading(item.heading())
       .type(item.type())
-      .hasEingebundeneStammform(item.hasEingebundeneStammform())
+      .eingebundeneStammformEli(
+        item.eingebundeneStammformEli() != null ? item.eingebundeneStammformEli().toString() : null
+      )
       .build();
     schema.getChildren().addAll(fromTableOfContents(item.children()));
     return schema;

@@ -1,8 +1,10 @@
 import { DokumentExpressionEli } from "@/lib/eli/DokumentExpressionEli"
-import type { TocItem } from "@/types/toc"
+import { DokumentManifestationEli } from "@/lib/eli/DokumentManifestationEli"
+import type { TocItemSchema } from "@/types/toc"
 import { flushPromises } from "@vue/test-utils"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 import { ref } from "vue"
+import type { z } from "zod"
 
 vi.mock("@/lib/auth", () => {
   return {
@@ -20,20 +22,20 @@ describe("useGetNormToc", () => {
   })
 
   it("fetches the table of contents from the API", async () => {
-    const fixture: TocItem[] = [
+    const fixture: z.input<typeof TocItemSchema>[] = [
       {
         id: "1",
         marker: "§ 1",
         heading: "Article 1",
         type: "article",
-        hasEingebundeneStammform: false,
+        eingebundeneStammformEli: null,
         children: [
           {
             id: "1.1",
             marker: "1.",
             heading: "First Point",
             type: "section",
-            hasEingebundeneStammform: false,
+            eingebundeneStammformEli: null,
             children: [],
           },
           {
@@ -41,7 +43,7 @@ describe("useGetNormToc", () => {
             marker: "2.",
             heading: "Second Point",
             type: "section",
-            hasEingebundeneStammform: false,
+            eingebundeneStammformEli: null,
             children: [],
           },
         ],
@@ -51,7 +53,8 @@ describe("useGetNormToc", () => {
         marker: "§ 2",
         heading: "Inkrafttreten",
         type: "article",
-        hasEingebundeneStammform: true,
+        eingebundeneStammformEli:
+          "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml",
         children: [],
       },
     ]
@@ -73,7 +76,43 @@ describe("useGetNormToc", () => {
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1",
       ),
     )
-    expect(result.data.value).toEqual(fixture)
+    expect(result.data.value).toEqual([
+      {
+        id: "1",
+        marker: "§ 1",
+        heading: "Article 1",
+        type: "article",
+        eingebundeneStammformEli: null,
+        children: [
+          {
+            id: "1.1",
+            marker: "1.",
+            heading: "First Point",
+            type: "section",
+            eingebundeneStammformEli: null,
+            children: [],
+          },
+          {
+            id: "1.2",
+            marker: "2.",
+            heading: "Second Point",
+            type: "section",
+            eingebundeneStammformEli: null,
+            children: [],
+          },
+        ],
+      },
+      {
+        id: "2",
+        marker: "§ 2",
+        heading: "Inkrafttreten",
+        type: "article",
+        eingebundeneStammformEli: DokumentManifestationEli.fromString(
+          "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml",
+        ),
+        children: [],
+      },
+    ])
 
     vi.doUnmock("@/services/apiService")
   })

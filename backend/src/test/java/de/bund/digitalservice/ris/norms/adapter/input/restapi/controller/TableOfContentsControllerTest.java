@@ -11,6 +11,7 @@ import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
 import de.bund.digitalservice.ris.norms.domain.entity.eid.EId;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import java.util.Collections;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -39,7 +40,7 @@ class TableOfContentsControllerTest {
       "child-marker",
       "child-heading",
       "child-type",
-      false,
+      null,
       Collections.emptyList()
     );
     final TableOfContentsItem childItemWithStammform = new TableOfContentsItem(
@@ -47,7 +48,9 @@ class TableOfContentsControllerTest {
       "child-marker",
       "child-stammform-heading",
       "child-type",
-      true,
+      DokumentManifestationEli.fromString(
+        "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml"
+      ),
       Collections.emptyList()
     );
     final TableOfContentsItem parentItem = new TableOfContentsItem(
@@ -55,7 +58,7 @@ class TableOfContentsControllerTest {
       "parent-marker",
       "parent-heading",
       "parent-type",
-      false,
+      null,
       List.of(childItem, childItemWithStammform)
     );
     when(loadTocFromRegelungstextUseCase.loadTocFromRegelungstext(any())).thenReturn(
@@ -70,17 +73,21 @@ class TableOfContentsControllerTest {
       .andExpect(jsonPath("$[0].marker").value("parent-marker"))
       .andExpect(jsonPath("$[0].heading").value("parent-heading"))
       .andExpect(jsonPath("$[0].type").value("parent-type"))
-      .andExpect(jsonPath("$[0].hasEingebundeneStammform").value("false"))
+      .andExpect(jsonPath("$[0].eingebundeneStammformEli").isEmpty())
       .andExpect(jsonPath("$[0].children[0].id").value("child-n1"))
       .andExpect(jsonPath("$[0].children[0].marker").value("child-marker"))
       .andExpect(jsonPath("$[0].children[0].heading").value("child-heading"))
       .andExpect(jsonPath("$[0].children[0].type").value("child-type"))
-      .andExpect(jsonPath("$[0].children[0].hasEingebundeneStammform").value("false"))
+      .andExpect(jsonPath("$[0].children[0].eingebundeneStammformEli").isEmpty())
       .andExpect(jsonPath("$[0].children[1].id").value("child-n2"))
       .andExpect(jsonPath("$[0].children[1].marker").value("child-marker"))
       .andExpect(jsonPath("$[0].children[1].heading").value("child-stammform-heading"))
       .andExpect(jsonPath("$[0].children[1].type").value("child-type"))
-      .andExpect(jsonPath("$[0].children[1].hasEingebundeneStammform").value("true"));
+      .andExpect(
+        jsonPath("$[0].children[1].eingebundeneStammformEli").value(
+          "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24/regelungstext-verkuendung-2.xml"
+        )
+      );
   }
 
   @Test

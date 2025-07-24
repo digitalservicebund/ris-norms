@@ -1,3 +1,4 @@
+import type { DokumentManifestationEli } from "@/lib/eli/DokumentManifestationEli"
 import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
 import {
   useDeleteZielnormReferences,
@@ -29,6 +30,22 @@ export type ZielnormReferencesStore = {
    * @returns Editable Zielnormen reference with data from the eIds
    */
   zielnormReferencesForEid: (...eIds: string[]) => EditableZielnormReference
+
+  /**
+   * Returns a Zielnormen reference that can be used as a backing model for
+   * editing references related to eingebundene Stammformen in the UI. It will
+   * be populated with data based on the provided eId.
+   *
+   * @param eId eId of the element to look up
+   * @param baseEli ELI of the Dokument that contains the eingebundene Stammform.
+   *  This will be used for constructing the Zielnorm ELI, which is deterministic
+   *  and does not need to be specified manually by the user.
+   * @returns Editable Zielnorm reference with data from the eId
+   */
+  zielnormReferencesEingebundeneStammformForEid: (
+    eId: string,
+    baseEli: DokumentManifestationEli,
+  ) => EditableZielnormReference
 
   /**
    * Updates all Zielnormen references related to the specified eIds.
@@ -80,7 +97,13 @@ export type ZielnormReferencesStore = {
   deleteZielnormReferencesError: Ref<any> // eslint-disable-line @typescript-eslint/no-explicit-any -- Errors are any
 }
 
-export type EditableZielnormReference = Omit<ZielnormReference, "eId" | "typ">
+export type EditableZielnormReference = Omit<
+  ZielnormReference,
+  "eId" | "typ" | "isNewWork"
+> & {
+  /** Will be set automatically by the service */
+  readonly isNewWork?: boolean
+}
 
 /**
  * Used in place of an actual value when editing multiple references. A value
@@ -145,6 +168,19 @@ export function useZielnormReferences(
     return newReference
   }
 
+  function zielnormReferencesEingebundeneStammformForEid(
+    eId: string,
+    baseEli: DokumentManifestationEli,
+  ): EditableZielnormReference {
+    const existingData = (references.value ?? []).find((i) => i.eId === eId)
+
+    return {
+      isNewWork: true,
+      zielnorm: existingData?.zielnorm ?? baseEli.asNormWorkEli().toString(),
+      geltungszeit: existingData?.geltungszeit ?? "",
+    }
+  }
+
   // Update -------------------------------------------------
 
   let toUpdate: ZielnormReference[] = []
@@ -196,6 +232,7 @@ export function useZielnormReferences(
 
     toUpdate = eIds.map<ZielnormReference>((eId) => ({
       ...restoreLastSavedValue(dataVal, eId),
+      isNewWork: dataVal.isNewWork ?? false,
       typ: "Änderungsvorschrift",
       eId,
     }))
@@ -234,6 +271,7 @@ export function useZielnormReferences(
   return {
     zielnormReferences: readonly(references),
     zielnormReferencesForEid,
+    zielnormReferencesEingebundeneStammformForEid,
     updateZielnormReferences: update,
     deleteZielnormReferences: remove,
     isLoadingZielnormReferences: isFetching,
