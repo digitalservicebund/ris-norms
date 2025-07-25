@@ -105,4 +105,14 @@ public class Article {
       DokumentManifestationEli::fromString
     );
   }
+
+  /**
+   * Sets a new {@link DokumentManifestationEli} to reference an eingebundene Stammform
+   *
+   * @param manifestationEli new reference to eingebundene Stammform
+   */
+  public void setEingebundeneStammform(DokumentManifestationEli manifestationEli) {
+    var toUpdate = NodeParser.getElementFromExpression("./componentRef", this.element);
+    toUpdate.ifPresent(compRef -> compRef.setAttribute("src", manifestationEli.toString()));
+  }
 }
