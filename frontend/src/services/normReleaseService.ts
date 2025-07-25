@@ -12,7 +12,7 @@ export type ReleaseType = "praetext" | "volldokumentation"
 export const NormReleaseStatusSchema = z.object({
   normWorkEli: z.string().transform((eli) => NormWorkEli.fromString(eli)),
   title: z.string(),
-  shortTitle: z.string(),
+  shortTitle: z.string().nullable(),
   expressions: z.array(
     z.object({
       normExpressionEli: z
