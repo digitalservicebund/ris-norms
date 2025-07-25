@@ -919,3 +919,286 @@ test.describe("Artikel editing form", { tag: ["@RISDEV-6946"] }, () => {
     ).toBeVisible()
   })
 })
+
+test.describe(
+  "eingebundene Stammform editing form",
+  { tag: ["@RISDEV-8575"] },
+  () => {
+    let zeitgrenzenIds: string[] = []
+
+    test.beforeAll(async ({ authenticatedRequest: request }) => {
+      // Prepare Zeitgrenzen
+      zeitgrenzenIds = await setZeitgrenzen(
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu",
+        ),
+        [
+          { id: "", date: "2017-03-16", art: "INKRAFT" },
+          { id: "", date: "2025-05-30", art: "INKRAFT" },
+          { id: "", date: "2025-06-20", art: "AUSSERKRAFT" },
+        ],
+        request,
+      )
+    })
+
+    test.beforeEach(async ({ authenticatedRequest: request }) => {
+      setZielnormReferences(
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu",
+        ),
+        null,
+        request,
+      )
+    })
+
+    test("shows an error if the Zeitgrenzen can't be loaded", async ({
+      page,
+    }) => {
+      await page.route(
+        "/api/v1/norms/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zeitgrenzen",
+        async (route) => {
+          await route.fulfill({ status: 500, json: {} })
+        },
+      )
+
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnormen",
+      )
+
+      await expect(
+        page.getByText("Ein unbekannter Fehler ist aufgetreten."),
+      ).toBeVisible()
+    })
+
+    test("shows an error if the Zielnormen references can't be loaded", async ({
+      page,
+    }) => {
+      await page.route(
+        "/api/v1/norms/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zeitgrenzen",
+        async (route) => {
+          await route.fulfill({ status: 500, json: {} })
+        },
+      )
+
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnormen",
+      )
+
+      await expect(
+        page.getByText("Ein unbekannter Fehler ist aufgetreten."),
+      ).toBeVisible()
+    })
+
+    test("shows the Zeitgrenzen", async ({ page }) => {
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnormen",
+      )
+
+      await page
+        .getByRole("button", {
+          name: "Unbenanntes Element Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        })
+        .click()
+
+      const article = page.getByRole("button", {
+        name: "Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        exact: true,
+      })
+
+      await article.click()
+
+      await page.getByRole("combobox", { name: "Geltungszeitregel" }).click()
+
+      await expect(
+        page.getByRole("option", { name: "16.03.2017 (Inkrafttreten)" }),
+      ).toBeVisible()
+      await expect(
+        page.getByRole("option", { name: "30.05.2025 (Inkrafttreten)" }),
+      ).toBeVisible()
+      await expect(
+        page.getByRole("option", { name: "20.06.2025 (Außerkrafttreten)" }),
+      ).toBeVisible()
+    })
+
+    test("computes the ELI of the eingebundene Stammform work", async ({
+      page,
+    }) => {
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnormen",
+      )
+
+      await page
+        .getByRole("button", {
+          name: "Unbenanntes Element Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        })
+        .click()
+
+      const article = page.getByRole("button", {
+        name: "Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        exact: true,
+      })
+
+      await article.click()
+
+      await expect(page.getByRole("textbox", { name: "ELI" })).toHaveValue(
+        "eli/bund/bgbl-1/2024/17-1",
+      )
+    })
+
+    test("allows editing and saving Geltungszeitregel", async ({ page }) => {
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnormen",
+      )
+
+      await page
+        .getByRole("button", {
+          name: "Unbenanntes Element Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        })
+        .click()
+
+      const article = page.getByRole("button", {
+        name: "Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        exact: true,
+      })
+
+      await article.click()
+
+      await page.getByRole("combobox", { name: "Geltungszeitregel" }).click()
+      await page
+        .getByRole("option", { name: "16.03.2017 (Inkrafttreten)" })
+        .click()
+
+      await page.getByRole("button", { name: "Speichern" }).click()
+
+      await expect(page.getByText("Gespeichert!")).toBeVisible()
+
+      await page.reload()
+
+      await page
+        .getByRole("button", {
+          name: "Unbenanntes Element Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        })
+        .click()
+      await article.click()
+
+      await expect(
+        page.getByRole("combobox", { name: "Geltungszeitregel" }),
+      ).toHaveText("16.03.2017 (Inkrafttreten)")
+    })
+
+    test("allows deleting references", async ({
+      page,
+      authenticatedRequest: request,
+    }) => {
+      await request.post(
+        "/api/v1/norms/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnorm-references",
+        {
+          data: [
+            {
+              geltungszeit: zeitgrenzenIds[0],
+              zielnorm: "eli/bund/bgbl-1/2024/109-1",
+              typ: "Änderungsvorschrift",
+              eId: "art-n1",
+              isNewWork: true,
+            },
+          ],
+        },
+      )
+
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnormen",
+      )
+
+      await page
+        .getByRole("button", {
+          name: "Unbenanntes Element Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        })
+        .click()
+
+      const article = page.getByRole("button", {
+        name: "Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        exact: true,
+      })
+
+      await article.click()
+      await page.getByRole("button", { name: "Einträge entfernen" }).click()
+      await page
+        .getByRole("alertdialog")
+        .getByRole("button", { name: "Entfernen" })
+        .click()
+
+      await expect(page.getByText("Gelöscht")).toBeVisible()
+      await expect(
+        page.getByText("Bitte wählen Sie einen Artikel und eine Änderung aus."),
+      ).toBeVisible()
+    })
+
+    test("shows an error when saving fails", async ({
+      page,
+      authenticatedRequest: request,
+    }) => {
+      await request.delete(
+        "/api/v1/norms/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnorm-references",
+        { data: ["art-n1"] },
+      )
+
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnormen",
+      )
+
+      await page
+        .getByRole("button", {
+          name: "Unbenanntes Element Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        })
+        .click()
+
+      const article = page.getByRole("button", {
+        name: "Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        exact: true,
+      })
+
+      await article.click()
+
+      await page.getByRole("button", { name: "Speichern" }).click()
+
+      await expect(page.getByText("Fehler: Eingabefehler")).toBeVisible()
+    })
+
+    test("shows an error when deleting fails", async ({ page }) => {
+      await page.route(
+        "/api/v1/norms/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnorm-references",
+        async (route) => {
+          if (route.request().method() === "DELETE") {
+            await route.fulfill({ status: 500, json: {} })
+          } else await route.continue()
+        },
+      )
+
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/zielnormen",
+      )
+
+      await page
+        .getByRole("button", {
+          name: "Unbenanntes Element Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        })
+        .click()
+
+      const article = page.getByRole("button", {
+        name: "Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)",
+        exact: true,
+      })
+
+      await article.click()
+      await page.getByRole("button", { name: "Einträge entfernen" }).click()
+      await page
+        .getByRole("alertdialog")
+        .getByRole("button", { name: "Entfernen" })
+        .click()
+
+      await expect(
+        page.getByText("Fehler: Ein unbekannter Fehler ist aufgetreten"),
+      ).toBeVisible()
+    })
+  },
+)
