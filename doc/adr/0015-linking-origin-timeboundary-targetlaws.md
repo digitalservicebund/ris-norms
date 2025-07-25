@@ -4,7 +4,8 @@
 
 ## Status
 
-Accepted
+- Accepted
+- Updated with property `new-work` on 25.07.2025
 
 ## Context
 
@@ -29,8 +30,10 @@ We will use a custom metadata structure within the ris metadata node (`<ris:lega
     - `<norms:geltungszeit>`: A reference to a `norms:geltungszeit` using its id.
     - `<norms:eid>`: The eId of the node within the `akn:body` containing the amending statement.
     - `<norms:zielnorm>`: The Work-ELI of the target norm being referenced.
+        - attribute `new-work`: `true` when the Zielnorm is a new work that will be created based on this reference; otherwise `false` or not present. This is needed for eingebundene Stammformen (embedded documents, i.e. new norms that are announced as part of an amending law).
 
 Example:
+
 ```
 <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
     <norms:geltungszeiten>
@@ -67,7 +70,9 @@ Example:
     </norms:zielnorm-references>
 </norms:legalDocML.de_metadaten>
 ```
+
 This structure ensures:
+
 - that time boundaries can be stored independently of the modifications (also relevant when not dealing with amending laws)
 - that there will be as many `<norms:zielnorm-reference>` elements as there are amending statements
 
@@ -87,11 +92,13 @@ This structure ensures:
 The alternatives are ordered from most to least feasible/beneficial:
 
 1. **Annotate the amending statements with two new custom attributes** (`geltungszeit` and `zielnorm`):
+
    - More "logical" since the amending statements themselves would contain the necessary information.
    - Less centralized.
    - Would require iterating through the entire `akn:body` since the elements containing the annotations (`akn:point`, `akn:paragraph`, etc.) are not known in advance.
 
 2. **Continuing using the "mods"**:
+
    - Already implemented (code and knowledge exist), making it more future-proof.
    - However:
      - It is uncertain whether we will receive mods as input (at least within the current project timeline).
