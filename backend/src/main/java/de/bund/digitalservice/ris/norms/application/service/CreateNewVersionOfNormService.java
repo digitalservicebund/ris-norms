@@ -211,6 +211,21 @@ public class CreateNewVersionOfNormService {
         )
       );
 
+    newManifestation
+      .getRegelungstext1()
+      .getArticles()
+      .stream()
+      .filter(article -> article.getEingebundeneStammform().isPresent())
+      .forEach(article -> {
+        DokumentManifestationEli old = article.getEingebundeneStammform().get();
+        var newEli = DokumentManifestationEli.fromExpressionEli(
+          old.asExpressionEli(),
+          pointInTimeManifestation,
+          old.getFormat()
+        );
+        article.setEingebundeneStammform(newEli);
+      });
+
     return newManifestation;
   }
 

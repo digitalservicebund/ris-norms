@@ -6,13 +6,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormByGuidPort;
-import de.bund.digitalservice.ris.norms.domain.entity.FRBRExpression;
-import de.bund.digitalservice.ris.norms.domain.entity.FRBRManifestation;
-import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
+import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
@@ -340,5 +340,42 @@ class CreateNewVersionOfNormServiceTest {
       "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2024-01-01/regelungstext-verkuendung-1.xml"
     );
     assertThat(manifestationOldExpression.getFBRDate()).isEqualTo("2024-01-01");
+  }
+
+  @Test
+  void createNewManifestationWithUpdatingComponentRef() {
+    // Given
+    Norm norm = Fixtures.loadNormFromDisk(
+      CreateNewVersionOfNormServiceTest.class,
+      "gleichstellung_bundeswehr_with_eingebundeneStammform"
+    );
+
+    // When
+    var result = createNewVersionOfNormService.createNewManifestation(
+      norm,
+      LocalDate.parse("2222-02-22")
+    );
+
+    // Then
+    Article updatedArticle = result
+      .getRegelungstext1()
+      .getArticles()
+      .stream()
+      .filter(article -> article.getEingebundeneStammform().isPresent())
+      .findFirst()
+      .get();
+
+    assertThat(updatedArticle.getEingebundeneStammform()).isPresent();
+    DokumentManifestationEli expected = DokumentManifestationEli.fromString(
+      "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2222-02-22/regelungstext-verkuendung-2.xml"
+    );
+    DokumentManifestationEli actual = updatedArticle.getEingebundeneStammform().get();
+    assertThat(actual).isEqualTo(expected);
+    List<DokumentManifestationEli> dokumentElis = result
+      .getDokumente()
+      .stream()
+      .map(Dokument::getManifestationEli)
+      .toList();
+    assertThat(dokumentElis).contains(expected);
   }
 }
