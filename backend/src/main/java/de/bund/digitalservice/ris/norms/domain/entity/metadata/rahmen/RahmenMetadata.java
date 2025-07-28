@@ -40,6 +40,10 @@ public class RahmenMetadata {
     getRegelungstextRahmenMetadata().forEach(m -> m.setTyp(typ));
   }
 
+  public void setForm(@Nullable String form) {
+    getRegelungstextRahmenMetadata().forEach(m -> m.setForm(form));
+  }
+
   public Optional<String> getSubtyp() {
     return getRegelungstextRahmenMetadata()
       .findAny()

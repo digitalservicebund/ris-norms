@@ -3,6 +3,7 @@ package de.bund.digitalservice.ris.norms.domain.entity;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.Getter;
 import org.w3c.dom.Element;
 
@@ -84,5 +85,41 @@ public class FRBRWork extends FRBR {
    */
   public Optional<String> getFRBRnumber() {
     return NodeParser.getValueFromExpression("./FRBRnumber/@value", getElement());
+  }
+
+  /**
+   * Set the value of the FRBRsubtype element
+   * @param subtype the new subtype
+   */
+  public void setFRBRsubtype(final String subtype) {
+    final Element fRBRAuthor = NodeParser.getMandatoryElementFromExpression(
+      "./FRBRsubtype",
+      getElement()
+    );
+    fRBRAuthor.setAttribute(VALUE_ATTIBUTE, subtype);
+  }
+
+  /**
+   * Set the value of the FRBRnumber element (this contains the page or edition number of the announcement)
+   * @param number the new number
+   */
+  public void setFRBRnumber(final String number) {
+    final Element fRBRAuthor = NodeParser.getMandatoryElementFromExpression(
+      "./FRBRnumber",
+      getElement()
+    );
+    fRBRAuthor.setAttribute(VALUE_ATTIBUTE, number);
+  }
+
+  /**
+   * Sets the FRBRalias for the übergreifende id.
+   *
+   * @param uuid the new uuid
+   */
+  public void setUebergreifendeId(final UUID uuid) {
+    NodeParser.getMandatoryElementFromExpression(
+      "./FRBRalias[@name='übergreifende-id']",
+      getElement()
+    ).setAttribute(VALUE_ATTIBUTE, uuid.toString());
   }
 }

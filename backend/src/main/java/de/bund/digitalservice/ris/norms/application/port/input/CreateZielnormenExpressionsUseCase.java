@@ -3,7 +3,10 @@ package de.bund.digitalservice.ris.norms.application.port.input;
 import de.bund.digitalservice.ris.norms.domain.entity.Zielnorm;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
+import de.bund.digitalservice.ris.norms.utils.exceptions.NormsAppException;
+import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Use case for creating the expressions of a {@link List} of Zielnormen (targeted legal norms) in response to changes introduced by a specified Verkündung (enactment).
@@ -28,4 +31,34 @@ public interface CreateZielnormenExpressionsUseCase {
    * @param affectedWorkEli The work ELI of the affected norm
    */
   record Options(NormExpressionEli verkuendungEli, NormWorkEli affectedWorkEli) {}
+
+  /**
+   * A new work already exists in the system
+   */
+  class ExpressionOfNewWorkAlreadyExistsException
+    extends RuntimeException
+    implements NormsAppException {
+
+    private final String eli;
+
+    public ExpressionOfNewWorkAlreadyExistsException(final String eli) {
+      super("Expression %s of new work already exists".formatted(eli));
+      this.eli = eli;
+    }
+
+    @Override
+    public URI getType() {
+      return URI.create("/errors/new-work-already-exists");
+    }
+
+    @Override
+    public String getTitle() {
+      return "Expression %s of new work already exists".formatted(eli);
+    }
+
+    @Override
+    public Map<String, Object> getProperties() {
+      return Map.of("eli", eli);
+    }
+  }
 }

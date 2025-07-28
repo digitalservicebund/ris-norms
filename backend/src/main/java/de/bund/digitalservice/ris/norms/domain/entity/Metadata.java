@@ -17,6 +17,7 @@ import lombok.Getter;
 public enum Metadata {
   // Metadaten Regelungstext
   TYP(Namespace.METADATEN_REGELUNGSTEXT, "./typ", "typ"),
+  FORM(Namespace.METADATEN_REGELUNGSTEXT, "./form", "form"),
 
   // Metadaten Rechtsetzungsdokument
   FNA(Namespace.METADATEN_RECHTSETZUNGSDOKUMENT, "./fna", "fna"),

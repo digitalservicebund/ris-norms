@@ -24,6 +24,10 @@ public final class RegelungstextRahmenMetadata extends DokumentRahmenMetadata {
     meta.getOrCreateProprietary().setMetadataValue(Metadata.TYP, typ);
   }
 
+  public void setForm(@Nullable String form) {
+    meta.getOrCreateProprietary().setMetadataValue(Metadata.FORM, form);
+  }
+
   public Optional<String> getSubtyp() {
     return meta.getProprietary().flatMap(p -> p.getMetadataValue(Metadata.SUBTYP));
   }

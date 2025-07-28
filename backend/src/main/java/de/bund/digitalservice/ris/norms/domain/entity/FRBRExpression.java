@@ -166,6 +166,17 @@ public class FRBRExpression extends FRBR {
   }
 
   /**
+   * Deletes the FRBRalias with the previous version id.
+   *
+   */
+  public void deleteAliasPreviousVersionId() {
+    NodeParser.getElementFromExpression(
+      "./FRBRalias[@name='vorherige-version-id']",
+      getElement()
+    ).ifPresent(node -> node.getParentNode().removeChild(node));
+  }
+
+  /**
    * Deletes the FRBRalias with the next version id.
    *
    */

@@ -6,10 +6,14 @@ import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFo
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
+import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RahmenMetadata;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
+import de.bund.digitalservice.ris.norms.utils.NodeCreator;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
@@ -20,6 +24,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Service class within the application core part of the backend. It is responsible for implementing
@@ -429,18 +437,14 @@ public class NormService
 
     return verkuendung
       .getRegelungstext1()
-      .getMeta()
-      .getProprietary()
-      .flatMap(Proprietary::getCustomModsMetadata)
-      .flatMap(CustomModsMetadata::getGeltungszeiten)
-      .filter(zeiten -> zeiten.stream().anyMatch(zeit -> zeit.getId().equals(geltungszeitId)))
+      .getZeitgrenzen()
       .stream()
-      .flatMap(Collection::stream)
+      .filter(geltungszeit -> geltungszeit.getId().equals(geltungszeitId))
       .findFirst()
-      .map(Zeitgrenze::getDate)
       .orElseThrow(() ->
         new IllegalStateException("No Zeitgrenze found for Norm with eli " + zielNormWorkEli)
-      );
+      )
+      .getDate();
   }
 
   /**
@@ -695,6 +699,19 @@ This method is applying the algorithm described in ADR 0020
       .toList();
   }
 
+  private boolean isNewWork(Norm verkuendungNorm, NormWorkEli zielnormWorkEli) {
+    return verkuendungNorm
+      .getRegelungstext1()
+      .getMeta()
+      .getProprietary()
+      .flatMap(Proprietary::getCustomModsMetadata)
+      .flatMap(CustomModsMetadata::getZielnormenReferences)
+      .stream()
+      .flatMap(ZielnormReferences::stream)
+      .filter(zielnormReference -> zielnormReference.getZielnorm().equals(zielnormWorkEli))
+      .anyMatch(ZielnormReference::isNewWork);
+  }
+
   private Zielnorm createZielNormen(final Norm verkuendungNorm, final Zielnorm zielnorm) {
     final AmendedNormExpressions amendedNormExpressions = verkuendungNorm
       .getRegelungstext1()
@@ -703,7 +720,7 @@ This method is applying the algorithm described in ADR 0020
       .getOrCreateCustomModsMetadata()
       .getOrCreateAmendedNormExpressions();
 
-    final List<LocalDate> geltungszeiten = findGeltungszeitenForZielnorm(
+    final List<LocalDate> geltungszeitenForZielnorm = findGeltungszeitenForZielnorm(
       verkuendungNorm,
       zielnorm.normWorkEli()
     );
@@ -711,21 +728,32 @@ This method is applying the algorithm described in ADR 0020
     // Keeping track of removed orphans so that their info is not returned in the Zielnorm object
     final List<NormExpressionEli> removedOrphans = new ArrayList<>();
 
-    zielnorm
-      .expressions()
-      .stream()
-      // Don't include those that should become gegenstandslos because they will me mark as gegenstandslos when the replacing new expression is created
-      .filter(f -> !f.isGegenstandslos())
-      .forEach(expression ->
-        processExpression(
-          expression,
-          zielnorm,
-          amendedNormExpressions,
-          geltungszeiten,
-          removedOrphans,
-          verkuendungNorm
-        )
+    final boolean isNewWork = isNewWork(verkuendungNorm, zielnorm.normWorkEli());
+    if (isNewWork) {
+      createNewWork(
+        zielnorm,
+        amendedNormExpressions,
+        geltungszeitenForZielnorm,
+        removedOrphans,
+        verkuendungNorm
       );
+    } else {
+      zielnorm
+        .expressions()
+        .stream()
+        // Don't include those that should become gegenstandslos because they will me mark as gegenstandslos when the replacing new expression is created
+        .filter(f -> !f.isGegenstandslos())
+        .forEach(expression ->
+          processExpression(
+            expression,
+            zielnorm,
+            amendedNormExpressions,
+            geltungszeitenForZielnorm,
+            removedOrphans,
+            verkuendungNorm
+          )
+        );
+    }
 
     cleanUpOrphanAmendedExpressions(zielnorm, amendedNormExpressions, removedOrphans);
 
@@ -752,11 +780,187 @@ This method is applying the algorithm described in ADR 0020
     );
   }
 
+  private void createNewWork(
+    Zielnorm zielnorm,
+    AmendedNormExpressions amendedNormExpressions,
+    List<LocalDate> geltungszeitenForZielnorm,
+    List<NormExpressionEli> removedOrphans,
+    Norm verkuendungNorm
+  ) {
+    zielnorm
+      .expressions()
+      .forEach(expression -> {
+        if (!expression.isCreated()) {
+          // 1. Not created yet
+          // load norm from verkuendung using the target work eli, since computed expression eli may differ from eli of saved document (different zeitgrenze)
+          // no need to use create-service with working-copy-date, because the embedded norm will have already that date, because of updating first the verkündung with geltungszeitregel and threfore creating a working-copy, also of embedded norms
+          var embeddedNorm = extractNorm(verkuendungNorm, zielnorm.normWorkEli());
+          var newNorm = new Norm(embeddedNorm);
+          newNorm
+            .getDokumente()
+            .forEach(dokument -> {
+              final DokumentManifestationEli dokumentManifestationEli =
+                dokument.getManifestationEli();
+              final String newNaturalIdentifier = expression
+                .normExpressionEli()
+                .getNaturalIdentifier();
+              final LocalDate newPointIntTime = expression.normExpressionEli().getPointInTime();
+              dokumentManifestationEli.setNaturalIdentifier(newNaturalIdentifier);
+              dokumentManifestationEli.setPointInTime(newPointIntTime);
+              final String newSubtype = dokumentManifestationEli
+                .getSubtype()
+                .replaceAll("-(\\d+)$", "-1");
+              dokumentManifestationEli.setSubtype(newSubtype);
+              dokument.getMeta().getFRBRManifestation().setEli(dokumentManifestationEli);
+              dokument.getMeta().getFRBRManifestation().setURI(dokumentManifestationEli.toUri());
+              dokument
+                .getMeta()
+                .getFRBRExpression()
+                .setEli(dokumentManifestationEli.asExpressionEli());
+              dokument
+                .getMeta()
+                .getFRBRExpression()
+                .setURI(dokumentManifestationEli.asExpressionEli().toUri());
+              dokument
+                .getMeta()
+                .getFRBRExpression()
+                .setFBRDate(newPointIntTime.toString(), "verkuendung");
+              dokument.getMeta().getFRBRWork().setEli(dokumentManifestationEli.asWorkEli());
+              dokument.getMeta().getFRBRWork().setURI(dokumentManifestationEli.asWorkEli().toUri());
+              dokument.getMeta().getFRBRWork().setFRBRnumber(newNaturalIdentifier);
+              dokument.getMeta().getFRBRWork().setFRBRsubtype(newSubtype);
+              // New GUID for übergreifende-id and aktuelle-version-id
+              dokument.setGuid(UUID.randomUUID());
+              dokument.setUebergreifendeGuid(UUID.randomUUID());
+              // Remove just in case previous and next GUIDs
+              dokument.getMeta().getFRBRExpression().deleteAliasPreviousVersionId();
+              dokument.getMeta().getFRBRExpression().deleteAliasNextVersionId();
+            });
+          // set regtxt:form to stammform
+          final RahmenMetadata rahmenMetadata = newNorm.getRahmenMetadata();
+          rahmenMetadata.setForm("stammform");
+
+          var rechtsetzungsdokument = createRechtsetzungsdokumentFromRegelungstext(
+            new Regelungstext(newNorm.getRegelungstext1()),
+            verkuendungNorm.getRechtsetzungsdokument()
+          );
+          newNorm.getDokumente().add(rechtsetzungsdokument);
+          updateNorm(newNorm);
+          amendedNormExpressions.add(expression.normExpressionEli(), true, false);
+        } else if (!amendedNormExpressions.contains(expression.normExpressionEli())) {
+          // 2. Created but not present in amended-norm-expressions, should not be the case
+          throw new ExpressionOfNewWorkAlreadyExistsException(
+            expression.normExpressionEli().toString()
+          );
+        } else if (amendedNormExpressions.contains(expression.normExpressionEli())) {
+          // 3     created and present in amended-norm-expressions
+          if (geltungszeitenForZielnorm.contains(expression.normExpressionEli().getPointInTime())) {
+            // 3.a.  override
+            // Just don't do anything, we have created already the new work and it's content can't have changed
+            log.info("Overriding %s".formatted(expression.normExpressionEli()));
+          } else {
+            // 3.b.  orphan
+            boolean deleted = removeOrphan(expression.normExpressionEli());
+            if (deleted) {
+              amendedNormExpressions.remove(expression.normExpressionEli());
+              removedOrphans.add(expression.normExpressionEli());
+            }
+          }
+        }
+      });
+  }
+
+  private Rechtsetzungsdokument createRechtsetzungsdokumentFromRegelungstext(
+    final Regelungstext regelungstext,
+    final Rechtsetzungsdokument rechtsetzungsdokument
+  ) {
+    // Replace <akn:act> element with <akn:documentCollection>
+    DokumentManifestationEli dokumentManifestationEli = regelungstext.getManifestationEli();
+    Meta oldMeta = regelungstext.getMeta();
+    Document doc = regelungstext.getDocument();
+    var actElement = NodeParser.getMandatoryElementFromExpression(".//act", doc);
+    actElement.getParentNode().removeChild(actElement);
+    Element documentCollection = NodeCreator.createElement(
+      Namespace.INHALTSDATEN,
+      "documentCollection",
+      doc.getDocumentElement()
+    );
+    documentCollection.setAttribute(
+      "name",
+      "/akn/ontology/de/concept/documenttype/bund/rechtsetzungsdokument"
+    );
+
+    // Copy meta but only identification and proprietary
+    Element newMetaElement = NodeCreator.createElementWithEidAndGuid(
+      Namespace.INHALTSDATEN,
+      "meta",
+      documentCollection
+    );
+    final NodeList nodes = oldMeta.getElement().getChildNodes();
+    for (int i = 0; i < nodes.getLength(); i++) {
+      final Node node = nodes.item(i);
+      if (
+        node.getNodeType() == Node.ELEMENT_NODE &&
+        List.of("akn:identification", "akn:proprietary").contains(node.getNodeName())
+      ) {
+        newMetaElement.appendChild(node);
+      }
+    }
+    // Patch FRBR @values
+    final Meta newMeta = new Meta(newMetaElement);
+    newMeta.getFRBRWork().setFRBRsubtype("rechtsetzungsdokument-1");
+    var eli = newMeta.getFRBRManifestation().getEli();
+    eli.setSubtype("rechtsetzungsdokument-1");
+    newMeta.getFRBRWork().setEli(eli.asWorkEli());
+    newMeta.getFRBRExpression().setEli(eli.asExpressionEli());
+    newMeta.getFRBRManifestation().setEli(eli);
+    newMeta.getFRBRManifestation().setURI(eli.toUri());
+
+    // TODO Replace regtxt metadata with redok, but from where do we get the redok metadata? for now from rechtsetzungsdokument of verkündung
+    var proprietary = newMeta.getOrCreateProprietary();
+    proprietary
+      .getMetadataParent(Namespace.METADATEN_REGELUNGSTEXT)
+      .ifPresent(regtxtMetadata -> proprietary.getElement().removeChild(regtxtMetadata));
+    rechtsetzungsdokument
+      .getMeta()
+      .getOrCreateProprietary()
+      .getMetadataParent(Namespace.METADATEN_RECHTSETZUNGSDOKUMENT)
+      .ifPresent(redokMetadata -> {
+        // To copy 1 node from 1 doc to another doc we need to import the node first using the owner document
+        Node imported = proprietary.getElement().getOwnerDocument().importNode(redokMetadata, true);
+        proprietary.getElement().appendChild(imported);
+      });
+
+    // Add <collectionBody> → <component> → <documentRef>
+    Element collectionBody = NodeCreator.createElementWithEidAndGuid(
+      Namespace.INHALTSDATEN,
+      "collectionBody",
+      documentCollection
+    );
+    Element component = NodeCreator.createElementWithEidAndGuid(
+      Namespace.INHALTSDATEN,
+      "component",
+      collectionBody
+    );
+    Element documentRef = NodeCreator.createElementWithEidAndGuid(
+      Namespace.INHALTSDATEN,
+      "documentRef",
+      component
+    );
+    documentRef.setAttribute("href", dokumentManifestationEli.asNormEli() + "/regelungstext-1.xml");
+    documentRef.setAttribute(
+      "showAs",
+      "/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
+    );
+
+    return new Rechtsetzungsdokument(doc);
+  }
+
   private void processExpression(
     Zielnorm.Expression expression,
     Zielnorm zielnorm,
     AmendedNormExpressions amendedNormExpressions,
-    List<LocalDate> geltungszeiten,
+    List<LocalDate> geltungszeitenForZielnorm,
     List<NormExpressionEli> removedOrphans,
     Norm verkuendungNorm
   ) {
@@ -766,7 +970,7 @@ This method is applying the algorithm described in ADR 0020
         expressionEli,
         zielnorm,
         amendedNormExpressions,
-        geltungszeiten,
+        geltungszeitenForZielnorm,
         removedOrphans
       );
     } else if (!expression.isCreated()) {
@@ -778,11 +982,11 @@ This method is applying the algorithm described in ADR 0020
     NormExpressionEli expressionEli,
     Zielnorm zielnorm,
     AmendedNormExpressions amendedNormExpressions,
-    List<LocalDate> geltungszeiten,
+    List<LocalDate> geltungszeitenForZielnorm,
     List<NormExpressionEli> removedOrphans
   ) {
     // Expression is already created, and it is contained in the amended-norm-expressions, meaning needs to be overriden
-    if (geltungszeiten.contains(expressionEli.getPointInTime())) {
+    if (geltungszeitenForZielnorm.contains(expressionEli.getPointInTime())) {
       Norm norm = loadNormPort
         .loadNorm(new LoadNormPort.Options(expressionEli))
         .orElseThrow(() ->
@@ -871,6 +1075,7 @@ This method is applying the algorithm described in ADR 0020
     }
   }
 
+  /** Clean the orphans whose expressions eli present in amended-norm-expressions BUT the zielnorm-references would not produce that expressions */
   private void cleanUpOrphanAmendedExpressions(
     Zielnorm zielnorm,
     AmendedNormExpressions amendedNormExpressions,
@@ -879,6 +1084,7 @@ This method is applying the algorithm described in ADR 0020
     amendedNormExpressions
       .getNormExpressions()
       .stream()
+      .filter(f -> f.getNormExpressionEli().asWorkEli().equals(zielnorm.normWorkEli()))
       .filter(normExpression ->
         zielnorm
           .expressions()
