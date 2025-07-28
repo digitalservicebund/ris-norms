@@ -21,7 +21,6 @@ import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Element;
@@ -1188,7 +1187,6 @@ class NormServiceTest {
     }
 
     @Test
-    @Disabled("TODO")
     void itCreatesNewStammform() {
       final Norm amendingLawWithEs = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24"
@@ -1220,11 +1218,11 @@ class NormServiceTest {
         loadNormPort.loadNorm(new LoadNormPort.Options(amendingLawWithEs.getExpressionEli()))
       ).thenReturn(Optional.of(amendingLawWithEs));
 
-      // Mock saving regelungstext of new work
-      //      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(
-      //              newWork
-      //      );
-      //      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(mock(Norm.class));
+      // Mock saving new work
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(
+        amendingLawWithEs
+      );
+      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(mock(Norm.class));
 
       // Mock saving updated amending law
       when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(

@@ -1440,6 +1440,52 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       assertTimeLine(expressionsEliAfter);
     }
 
+    @Test
+    void itShouldCreateNewWorkFromEs() throws Exception {
+      var amendingNormWithEs = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24",
+        NormPublishState.UNPUBLISHED
+      );
+
+      // Expressions to be created not yet existent
+      final String newWorkEli = "eli/bund/bgbl-1/2024/17-1";
+
+      assertThat(
+        normManifestationRepository.findFirstByWorkEliOrderByManifestationEliDesc(newWorkEli)
+      ).isEmpty();
+
+      mockMvc
+        .perform(
+          post(
+            String.format(
+              "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
+              amendingNormWithEs.getExpressionEli(),
+              newWorkEli
+            )
+          ).accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("normWorkEli").value(newWorkEli))
+        .andExpect(jsonPath("title").value("Soldatinnen- und Soldatengleichstellungsgesetz"))
+        .andExpect(jsonPath("shortTitle").value("(SGleiG)"))
+        .andExpect(
+          jsonPath("expressions[0].normExpressionEli").value(
+            "eli/bund/bgbl-1/2024/17-1/2020-01-01/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[0].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[0].isCreated").value(true))
+        .andExpect(jsonPath("expressions[0].createdBy").value("diese Verkündung"))
+        .andExpect(jsonPath("expressions[1]").doesNotExist());
+
+      assertThat(
+        normManifestationRepository.findFirstByWorkEliOrderByManifestationEliDesc(newWorkEli)
+      ).isPresent();
+    }
+
     /**
      * This method tests the timeline for the given expressions ELIs (that should belong to the same work), meaning checks
      * if the previous/current/next GUIDs are properly set. It does it for every subtype of the norm (regelungstext / rechtsetzungsdokument, etc)

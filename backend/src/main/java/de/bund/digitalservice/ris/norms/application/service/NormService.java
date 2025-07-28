@@ -856,7 +856,7 @@ This method is applying the algorithm described in ADR 0020
           // 3     created and present in amended-norm-expressions
           if (geltungszeitenForZielnorm.contains(expression.normExpressionEli().getPointInTime())) {
             // 3.a.  override
-            // Just don't do anything, we have created already the new work and it's content can't have changed
+            // Just don't do anything, we have created already the new work, and it's content can't have changed
             log.info("Overriding %s".formatted(expression.normExpressionEli()));
           } else {
             // 3.b.  orphan
@@ -916,7 +916,7 @@ This method is applying the algorithm described in ADR 0020
     newMeta.getFRBRManifestation().setEli(eli);
     newMeta.getFRBRManifestation().setURI(eli.toUri());
 
-    // TODO Replace regtxt metadata with redok, but from where do we get the redok metadata? for now from rechtsetzungsdokument of verkündung
+    // TODO: (Victor del Campo, 2025-07-28) Replace regtxt metadata with redok, but for now from rechtsetzungsdokument of verkündung
     var proprietary = newMeta.getOrCreateProprietary();
     proprietary
       .getMetadataParent(Namespace.METADATEN_REGELUNGSTEXT)
