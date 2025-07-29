@@ -32,12 +32,26 @@ public class RahmenMetadata {
     getRechtsetzungsdokumentRahmenMetadata().forEach(m -> m.setFna(fna));
   }
 
+  public Optional<String> getGesta() {
+    return getRechtsetzungsdokumentRahmenMetadata()
+      .findAny()
+      .flatMap(RechtsetzungsdokumentRahmenMetadata::getGesta);
+  }
+
   public Optional<String> getTyp() {
     return getRegelungstextRahmenMetadata().findAny().flatMap(RegelungstextRahmenMetadata::getTyp);
   }
 
   public void setTyp(@Nullable String typ) {
     getRegelungstextRahmenMetadata().forEach(m -> m.setTyp(typ));
+  }
+
+  public Optional<String> getForm() {
+    return getRegelungstextRahmenMetadata().findAny().flatMap(RegelungstextRahmenMetadata::getForm);
+  }
+
+  public void setForm(@Nullable String form) {
+    getRegelungstextRahmenMetadata().forEach(m -> m.setForm(form));
   }
 
   public Optional<String> getSubtyp() {

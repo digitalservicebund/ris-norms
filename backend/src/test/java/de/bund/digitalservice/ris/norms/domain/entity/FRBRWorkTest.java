@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import de.bund.digitalservice.ris.norms.utils.exceptions.MandatoryNodeNotFoundException;
+import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.w3c.dom.Element;
 
@@ -178,6 +179,21 @@ class FRBRWorkTest {
   }
 
   @Test
+  void getFRBRSubtype() {
+    final FRBRWork frbrWork = new FRBRWork(
+      XmlMapper.toElement(
+        """
+        <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1_ident-n1_frbrwork-n1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
+                    <akn:FRBRsubtype value="rechtsetzungsdokument-1"/>
+                    </akn:FRBRWork>
+                       """
+      )
+    );
+
+    assertThat(frbrWork.getFRBRsubtype()).contains("rechtsetzungsdokument-1");
+  }
+
+  @Test
   void setFRBRName() {
     final FRBRWork frbrWork = new FRBRWork(
       XmlMapper.toElement(
@@ -210,5 +226,58 @@ class FRBRWorkTest {
     assertThat(NodeParser.getValueFromExpression("//FRBRauthor/@href", element)).contains(
       "recht.bund.de/institution/bundespraesident"
     );
+  }
+
+  @Test
+  void setFRBRsubtype() {
+    final Element element = XmlMapper.toElement(
+      """
+      <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1_ident-n1_frbrexpression-n1">
+          <akn:FRBRsubtype value="gesetzblaetter"/>
+      </akn:FRBRWork>
+      """
+    );
+    final FRBRWork frbrWork = new FRBRWork(element);
+
+    frbrWork.setFRBRsubtype("amtliche-veroeffentlichung");
+
+    assertThat(NodeParser.getValueFromExpression("//FRBRsubtype/@value", element)).contains(
+      "amtliche-veroeffentlichung"
+    );
+  }
+
+  @Test
+  void setFRBRnumber() {
+    final Element element = XmlMapper.toElement(
+      """
+      <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1_ident-n1_frbrexpression-n1">
+          <akn:FRBRnumber value="1"/>
+      </akn:FRBRWork>
+      """
+    );
+    final FRBRWork frbrWork = new FRBRWork(element);
+
+    frbrWork.setFRBRnumber("42");
+
+    assertThat(NodeParser.getValueFromExpression("//FRBRnumber/@value", element)).contains("42");
+  }
+
+  @Test
+  void setUebergreifendeId() {
+    final Element element = XmlMapper.toElement(
+      """
+      <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1_ident-n1_frbrexpression-n1">
+          <akn:FRBRalias name="übergreifende-id" value="00000000-0000-0000-0000-000000000000"/>
+      </akn:FRBRWork>
+      """
+    );
+    final FRBRWork frbrWork = new FRBRWork(element);
+
+    final UUID newId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
+    frbrWork.setUebergreifendeId(newId);
+
+    assertThat(
+      NodeParser.getValueFromExpression("//FRBRalias[@name='übergreifende-id']/@value", element)
+    ).contains("123e4567-e89b-12d3-a456-426614174000");
   }
 }

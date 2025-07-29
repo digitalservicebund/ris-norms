@@ -19,6 +19,7 @@ public class ZielnormReference {
 
   public static final Namespace NAMESPACE = Namespace.METADATEN_NORMS_APPLICATION_MODS;
   public static final String TAG_NAME = "zielnorm-reference";
+  public static final String ATTRIBUTE_NAME_NEW_WORK = "new-work";
 
   private final Element element;
 
@@ -52,7 +53,7 @@ public class ZielnormReference {
     var zielnormElement = NodeCreator.createElement(NAMESPACE, "zielnorm", element);
     zielnormElement.setTextContent(zielnorm.toString());
     if (isNewWork) {
-      zielnormElement.setAttribute("new-work", "true");
+      zielnormElement.setAttribute(ATTRIBUTE_NAME_NEW_WORK, "true");
     }
 
     return new ZielnormReference(element);
@@ -138,7 +139,10 @@ public class ZielnormReference {
    * @return true if referring to a new work
    */
   public boolean isNewWork() {
-    var newWork = NodeParser.getValueFromExpression("./zielnorm/@new-work", getElement());
+    var newWork = NodeParser.getValueFromExpression(
+      "./zielnorm/@" + ATTRIBUTE_NAME_NEW_WORK,
+      getElement()
+    );
     return newWork.isPresent() && newWork.get().equals("true");
   }
 
@@ -151,9 +155,9 @@ public class ZielnormReference {
   public void setNewWork(boolean newWork) {
     var zielnormElement = NodeParser.getMandatoryElementFromExpression("./zielnorm", element);
     if (newWork) {
-      zielnormElement.setAttribute("new-work", "true");
+      zielnormElement.setAttribute(ATTRIBUTE_NAME_NEW_WORK, "true");
     } else {
-      zielnormElement.removeAttribute("new-work");
+      zielnormElement.removeAttribute(ATTRIBUTE_NAME_NEW_WORK);
     }
   }
 }

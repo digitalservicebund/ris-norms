@@ -89,6 +89,15 @@ public abstract sealed class Dokument
   }
 
   /**
+   * Sets the übergreifende-id {@link UUID} in the {@link Dokument}.
+   *
+   * @param guid the new value
+   */
+  public void setUebergreifendeGuid(UUID guid) {
+    getMeta().getFRBRWork().setUebergreifendeId(guid);
+  }
+
+  /**
    * Returns a {@link Meta} instance from a {@link Document} in a {@link Dokument}.
    *
    * @return the meta node as {@link Meta}

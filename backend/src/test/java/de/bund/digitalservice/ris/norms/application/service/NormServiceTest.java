@@ -46,6 +46,7 @@ class NormServiceTest {
   final LdmlDeElementSorter ldmlDeElementSorter = mock(LdmlDeElementSorter.class);
   final LdmlDeEmptyElementRemover ldmlDeEmptyElementRemover = new LdmlDeEmptyElementRemover();
   final LdmlDeValidator ldmlDeValidator = mock(LdmlDeValidator.class);
+  final CreateNewWorkService createNewWorkService = mock(CreateNewWorkService.class);
 
   final NormService service = new NormService(
     loadNormPort,
@@ -60,7 +61,8 @@ class NormServiceTest {
     loadExpressionsOfNormWorkPort,
     ldmlDeElementSorter,
     ldmlDeEmptyElementRemover,
-    ldmlDeValidator
+    ldmlDeValidator,
+    createNewWorkService
   );
 
   @Nested
@@ -1178,6 +1180,68 @@ class NormServiceTest {
       assertThat(createdExpressions.expressions()).hasSize(1);
       assertThat(createdExpressions.expressions().getFirst().normExpressionEli()).isEqualTo(
         amendedExpression.getExpressionEli()
+      );
+      assertThat(createdExpressions.expressions().getFirst().isGegenstandslos()).isFalse();
+      assertThat(createdExpressions.expressions().getFirst().isCreated()).isTrue();
+      assertThat(createdExpressions.expressions().getFirst().createdBy()).isEqualTo(
+        Zielnorm.CreatedBy.THIS_VERKUENDUNG
+      );
+    }
+
+    @Test
+    void itCreatesNewWork() {
+      final Norm amendingLawWithEs = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24"
+      );
+      final List<Zielnorm.Expression> expressionen = new ArrayList<>();
+      expressionen.add(
+        new Zielnorm.Expression(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2024/17-1/2024-01-24/1/deu"),
+          false,
+          false,
+          false,
+          Zielnorm.CreatedBy.THIS_VERKUENDUNG
+        )
+      );
+      final List<Zielnorm> zielNormen = new ArrayList<>();
+      final NormWorkEli zielWorkEli = NormWorkEli.fromString("eli/bund/bgbl-1/2024/17-1");
+      final Zielnorm zielnorm = new Zielnorm(
+        zielWorkEli,
+        "Soldatinnen- und Soldatengleichstellungsgesetz",
+        "(SGleiG)",
+        expressionen
+      );
+      zielNormen.add(zielnorm);
+      NormService spiedService = spy(service);
+      doReturn(zielNormen).when(spiedService).loadZielnormExpressions(any());
+
+      // Mock load amending law
+      when(
+        loadNormPort.loadNorm(new LoadNormPort.Options(amendingLawWithEs.getExpressionEli()))
+      ).thenReturn(Optional.of(amendingLawWithEs));
+
+      // Mock saving new work
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(
+        amendingLawWithEs
+      );
+      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(mock(Norm.class));
+
+      // Mock saving updated amending law
+      when(createNewVersionOfNormService.createNewManifestation(any(), any())).thenReturn(
+        amendingLawWithEs
+      );
+      when(updateOrSaveNormPort.updateOrSave(any())).thenReturn(mock(Norm.class));
+
+      var createdExpressions = spiedService.createZielnormExpressions(
+        new CreateZielnormenExpressionsUseCase.Options(
+          amendingLawWithEs.getExpressionEli(),
+          zielWorkEli
+        )
+      );
+
+      assertThat(createdExpressions.expressions()).hasSize(1);
+      assertThat(createdExpressions.expressions().getFirst().normExpressionEli()).hasToString(
+        "eli/bund/bgbl-1/2024/17-1/2024-01-24/1/deu"
       );
       assertThat(createdExpressions.expressions().getFirst().isGegenstandslos()).isFalse();
       assertThat(createdExpressions.expressions().getFirst().isCreated()).isTrue();

@@ -449,6 +449,9 @@
                    <norms:zielnorm new-work="true">eli/bund/bgbl-1/2024/17-1</norms:zielnorm>
                  </norms:zielnorm-reference>
                </norms:zielnorm-references>
+                <norms:amended-norm-expressions>
+                   <norms:norm-expression created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2024/17-1/2020-01-01/1/deu</norms:norm-expression>
+                </norms:amended-norm-expressions>
              </norms:legalDocML.de_metadaten>
            </ris:legalDocML.de_metadaten>
          </akn:proprietary>
