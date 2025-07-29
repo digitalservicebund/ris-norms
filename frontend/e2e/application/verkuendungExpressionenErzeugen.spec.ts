@@ -542,26 +542,25 @@ test.describe(
         row.getByText("eli/bund/bgbl-1/2024/17-1/2017-03-16/1/deu"),
       ).toBeVisible()
 
-      // TODO: Uncomment to test creation once it's been implemented
-      // await page.getByRole("button", { name: "Expressionen erzeugen" }).click()
+      await page.getByRole("button", { name: "Expressionen erzeugen" }).click()
 
-      // await expect(
-      //   page.getByText(
-      //     "Sind Sie sicher, dass Sie die Expressionen erzeugen möchten?",
-      //   ),
-      // ).toBeVisible()
+      await expect(
+        page.getByText(
+          "Sind Sie sicher, dass Sie die Expressionen erzeugen möchten?",
+        ),
+      ).toBeVisible()
 
-      // await page.getByRole("button", { name: "Erzeugen", exact: true }).click()
+      await page.getByRole("button", { name: "Erzeugen", exact: true }).click()
 
-      // await expect(
-      //   page.getByText("Expressionen erfolgreich erzeugt"),
-      // ).toBeVisible()
+      await expect(
+        page.getByText("Expressionen erfolgreich erzeugt"),
+      ).toBeVisible()
 
-      // await expect(
-      //   row.getByText("eli/bund/bgbl-1/2024/17-1/2017-03-16/1/deu"),
-      // ).toBeVisible()
+      await expect(
+        row.getByText("eli/bund/bgbl-1/2024/17-1/2017-03-16/1/deu"),
+      ).toBeVisible()
 
-      // await expect(row.getByText("Expression erzeugt")).toBeVisible()
+      await expect(row.getByText("Expression erzeugt")).toBeVisible()
     })
   },
 )
