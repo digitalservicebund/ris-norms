@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Service for creating new expressions and manifestations of a norm.
@@ -24,7 +23,7 @@ public class CreateNewWorkService {
   /**
    * Creates a completely new work out of an embedded norm, the Rechtsetzungsdokument of the Verkündung and the generated expression eli for the new norm computed by the zielnorm-reference
    * The Rechtsetzungsdokument of the new work is created out of the newly created Regelungstext. The redok metadata are copied from the Rechtsetzungsdokument of the Verkündung.
-   * @param embeddedNorm taking out of the Verkündung (not loaded from the DB)
+   * @param embeddedNorm taken out of the Verkündung (not loaded from the DB)
    * @param rechtsetzungsdokumentVerkuendung needed for the redok metadata of the new Rechtsetzungsdokument of the new work
    * @param expressionEli the expression eli to be used for the new work
    * @return the new work
@@ -40,9 +39,9 @@ public class CreateNewWorkService {
       .forEach(dokument -> {
         final DokumentManifestationEli dokumentManifestationEli = dokument.getManifestationEli();
         final String newNaturalIdentifier = expressionEli.getNaturalIdentifier();
-        final LocalDate newPointIntTime = expressionEli.getPointInTime();
+        final LocalDate newPointInTime = expressionEli.getPointInTime();
         dokumentManifestationEli.setNaturalIdentifier(newNaturalIdentifier);
-        dokumentManifestationEli.setPointInTime(newPointIntTime);
+        dokumentManifestationEli.setPointInTime(newPointInTime);
         dokumentManifestationEli.setPointInTimeManifestation(Norm.WORKING_COPY_DATE);
         final String newSubtype = dokumentManifestationEli
           .getSubtype()
@@ -55,10 +54,7 @@ public class CreateNewWorkService {
           .getMeta()
           .getFRBRExpression()
           .setURI(dokumentManifestationEli.asExpressionEli().toUri());
-        dokument
-          .getMeta()
-          .getFRBRExpression()
-          .setFBRDate(newPointIntTime.toString(), "verkuendung");
+        dokument.getMeta().getFRBRExpression().setFBRDate(newPointInTime.toString(), "verkuendung");
         dokument.getMeta().getFRBRWork().setEli(dokumentManifestationEli.asWorkEli());
         dokument.getMeta().getFRBRWork().setURI(dokumentManifestationEli.asWorkEli().toUri());
         dokument.getMeta().getFRBRWork().setFRBRnumber(newNaturalIdentifier);
@@ -109,16 +105,14 @@ public class CreateNewWorkService {
       "meta",
       documentCollection
     );
-    final NodeList nodes = oldMeta.getElement().getChildNodes();
-    for (int i = 0; i < nodes.getLength(); i++) {
-      final Node node = nodes.item(i);
-      if (
-        node.getNodeType() == Node.ELEMENT_NODE &&
-        List.of("akn:identification", "akn:proprietary").contains(node.getNodeName())
-      ) {
-        newMetaElement.appendChild(node);
-      }
-    }
+    NodeParser.nodeListToList(oldMeta.getElement().getChildNodes()).forEach(child -> {
+        if (
+          child.getNodeType() == Node.ELEMENT_NODE &&
+          List.of("akn:identification", "akn:proprietary").contains(child.getNodeName())
+        ) {
+          newMetaElement.appendChild(child);
+        }
+      });
     // Patch FRBR @values
     final Meta newMeta = new Meta(newMetaElement);
     newMeta.getFRBRWork().setFRBRsubtype("rechtsetzungsdokument-1");

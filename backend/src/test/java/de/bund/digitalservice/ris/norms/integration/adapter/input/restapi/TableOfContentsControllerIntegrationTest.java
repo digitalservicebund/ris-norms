@@ -91,7 +91,7 @@ class TableOfContentsControllerIntegrationTest extends BaseIntegrationTest {
       .perform(get("/api/v1/norms/" + eli + "/toc").accept(MediaType.APPLICATION_JSON_VALUE))
       // then
       .andExpect(status().isOk())
-      .andExpect(jsonPath("$[0].id").value("art-z1"))
+      .andExpect(jsonPath("$[0].id").value("art-z"))
       .andExpect(jsonPath("$[0].marker").value(""))
       .andExpect(
         jsonPath("$[0].heading").value("Soldatinnen- und Soldatengleichstellungsgesetz (SGleiG)")

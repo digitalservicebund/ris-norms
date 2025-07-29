@@ -26,7 +26,7 @@ class CreateNewWorkServiceTest {
   );
 
   @Test
-  void createNewExpressionWithSameDate() {
+  void createNewWork() {
     // Given
     var verkuendung = Fixtures.loadNormFromDisk(
       "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24"

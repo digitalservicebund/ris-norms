@@ -42,7 +42,7 @@ public interface CreateZielnormenExpressionsUseCase {
     private final String eli;
 
     public ExpressionOfNewWorkAlreadyExistsException(final String eli) {
-      super("Expression %s of new work already exists".formatted(eli));
+      super("New work already exists: %s".formatted(eli));
       this.eli = eli;
     }
 
@@ -53,7 +53,7 @@ public interface CreateZielnormenExpressionsUseCase {
 
     @Override
     public String getTitle() {
-      return "Expression %s of new work already exists".formatted(eli);
+      return "New work already exists";
     }
 
     @Override
