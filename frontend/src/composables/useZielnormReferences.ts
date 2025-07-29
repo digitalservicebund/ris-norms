@@ -1,5 +1,6 @@
 import type { DokumentManifestationEli } from "@/lib/eli/DokumentManifestationEli"
 import type { NormExpressionEli } from "@/lib/eli/NormExpressionEli"
+import { NormWorkEli } from "@/lib/eli/NormWorkEli"
 import {
   useDeleteZielnormReferences,
   useGetZielnormReferences,
@@ -168,6 +169,19 @@ export function useZielnormReferences(
     return newReference
   }
 
+  function getNewWorkEli(baseEli: DokumentManifestationEli): NormWorkEli {
+    // The ELI of a new work is the counter of the subtype minus 1, see LDML.de
+    // 1.8.1 section 6.3.2
+    let match
+    let naturalIdentifier = baseEli.naturalIdentifier
+    if ((match = baseEli.subtype.match(/-(\d+)$/))) {
+      const subtypeCounter = Number.parseInt(match[1]) - 1
+      if (subtypeCounter > 0) naturalIdentifier += `-${subtypeCounter}`
+    }
+
+    return new NormWorkEli(baseEli.agent, baseEli.year, naturalIdentifier)
+  }
+
   function zielnormReferencesEingebundeneStammformForEid(
     eId: string,
     baseEli: DokumentManifestationEli,
@@ -176,7 +190,7 @@ export function useZielnormReferences(
 
     return {
       isNewWork: true,
-      zielnorm: existingData?.zielnorm ?? baseEli.asNormWorkEli().toString(),
+      zielnorm: existingData?.zielnorm ?? getNewWorkEli(baseEli).toString(),
       geltungszeit: existingData?.geltungszeit ?? "",
     }
   }
