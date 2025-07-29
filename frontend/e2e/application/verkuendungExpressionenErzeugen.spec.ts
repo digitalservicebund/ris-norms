@@ -478,3 +478,90 @@ test.describe("orphaned expressions", { tag: ["@RISDEV-8137"] }, () => {
     ).toBeHidden()
   })
 })
+
+test.describe(
+  "expressions with eingebundener Stammform",
+  { tag: ["@RISDEV-8576"] },
+  () => {
+    test.beforeAll(async ({ authenticatedRequest: request }) => {
+      await setZielnormReferences(
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu",
+        ),
+        null,
+        request,
+      )
+
+      // Prepare Zeitgrenzen
+      const zeitgrenzenIds = await setZeitgrenzen(
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu",
+        ),
+        [
+          { id: "", date: "2017-03-16", art: "INKRAFT" },
+          { id: "", date: "2025-05-30", art: "INKRAFT" },
+          { id: "", date: "2025-06-20", art: "AUSSERKRAFT" },
+        ],
+        request,
+      )
+
+      await setZielnormReferences(
+        NormExpressionEli.fromString(
+          "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu",
+        ),
+        [
+          {
+            geltungszeit: zeitgrenzenIds[0],
+            zielnorm: "eli/bund/bgbl-1/2024/17-1",
+            isNewWork: true,
+            typ: "Änderungsvorschrift",
+            eId: "art-z",
+          },
+        ],
+        request,
+      )
+    })
+
+    test("creates expressions with eingebundener Stammform", async ({
+      page,
+    }) => {
+      await page.goto(
+        "./verkuendungen/eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/expressionen-erzeugen",
+      )
+
+      await page.getByRole("button", { name: "Soldatinnen- und" }).click()
+
+      const row = page.getByRole("row")
+
+      // Assert that the expression has not been created yet. Note that this will
+      // only work with a clean DB since creating expressions can not easily be
+      // reversed.
+      await expect(row.getByText("Noch nicht erzeugt")).toBeVisible()
+
+      await expect(
+        row.getByText("eli/bund/bgbl-1/2024/17-1/2017-03-16/1/deu"),
+      ).toBeVisible()
+
+      // TODO: Uncomment to test creation once it's been implemented
+      // await page.getByRole("button", { name: "Expressionen erzeugen" }).click()
+
+      // await expect(
+      //   page.getByText(
+      //     "Sind Sie sicher, dass Sie die Expressionen erzeugen möchten?",
+      //   ),
+      // ).toBeVisible()
+
+      // await page.getByRole("button", { name: "Erzeugen", exact: true }).click()
+
+      // await expect(
+      //   page.getByText("Expressionen erfolgreich erzeugt"),
+      // ).toBeVisible()
+
+      // await expect(
+      //   row.getByText("eli/bund/bgbl-1/2024/17-1/2017-03-16/1/deu"),
+      // ).toBeVisible()
+
+      // await expect(row.getByText("Expression erzeugt")).toBeVisible()
+    })
+  },
+)
