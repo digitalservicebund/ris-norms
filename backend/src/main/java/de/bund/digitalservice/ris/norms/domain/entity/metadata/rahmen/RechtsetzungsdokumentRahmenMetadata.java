@@ -28,6 +28,10 @@ public final class RechtsetzungsdokumentRahmenMetadata extends DokumentRahmenMet
     meta.getOrCreateProprietary().setMetadataValue(Metadata.FNA, fna);
   }
 
+  public Optional<String> getGesta() {
+    return meta.getProprietary().flatMap(p -> p.getMetadataValue(Metadata.GESTA));
+  }
+
   /**
    * Gets the ressort metadatum
    * @return the value of the metadatum or null if it isn't set

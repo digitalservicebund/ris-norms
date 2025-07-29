@@ -6,14 +6,10 @@ import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFo
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
-import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RahmenMetadata;
 import de.bund.digitalservice.ris.norms.utils.EidConsistencyGuardian;
-import de.bund.digitalservice.ris.norms.utils.NodeCreator;
-import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.time.LocalDate;
 import java.util.*;
@@ -24,10 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Service class within the application core part of the backend. It is responsible for implementing
@@ -63,6 +55,7 @@ public class NormService
   private final LdmlDeElementSorter ldmlDeElementSorter;
   private final LdmlDeEmptyElementRemover ldmlDeEmptyElementRemover;
   private final LdmlDeValidator ldmlDeValidator;
+  private final CreateNewWorkService createNewWorkService;
 
   public NormService(
     LoadNormPort loadNormPort,
@@ -77,7 +70,8 @@ public class NormService
     LoadExpressionsOfNormWorkPort loadExpressionsOfNormWorkPort,
     LdmlDeElementSorter ldmlDeElementSorter,
     LdmlDeEmptyElementRemover ldmlDeEmptyElementRemover,
-    LdmlDeValidator ldmlDeValidator
+    LdmlDeValidator ldmlDeValidator,
+    CreateNewWorkService createNewWorkService
   ) {
     this.loadNormPort = loadNormPort;
     this.loadNormByGuidPort = loadNormByGuidPort;
@@ -92,6 +86,7 @@ public class NormService
     this.ldmlDeElementSorter = ldmlDeElementSorter;
     this.ldmlDeEmptyElementRemover = ldmlDeEmptyElementRemover;
     this.ldmlDeValidator = ldmlDeValidator;
+    this.createNewWorkService = createNewWorkService;
   }
 
   @Override
@@ -795,56 +790,11 @@ This method is applying the algorithm described in ADR 0020
           // load norm from verkuendung using the target work eli, since computed expression eli may differ from eli of saved document (different zeitgrenze)
           // no need to use create-service with working-copy-date, because the embedded norm will have already that date, because of updating first the verkündung with geltungszeitregel and threfore creating a working-copy, also of embedded norms
           var embeddedNorm = extractNorm(verkuendungNorm, zielnorm.normWorkEli());
-          var newNorm = new Norm(embeddedNorm);
-          newNorm
-            .getDokumente()
-            .forEach(dokument -> {
-              final DokumentManifestationEli dokumentManifestationEli =
-                dokument.getManifestationEli();
-              final String newNaturalIdentifier = expression
-                .normExpressionEli()
-                .getNaturalIdentifier();
-              final LocalDate newPointIntTime = expression.normExpressionEli().getPointInTime();
-              dokumentManifestationEli.setNaturalIdentifier(newNaturalIdentifier);
-              dokumentManifestationEli.setPointInTime(newPointIntTime);
-              final String newSubtype = dokumentManifestationEli
-                .getSubtype()
-                .replaceAll("-(\\d+)$", "-1");
-              dokumentManifestationEli.setSubtype(newSubtype);
-              dokument.getMeta().getFRBRManifestation().setEli(dokumentManifestationEli);
-              dokument.getMeta().getFRBRManifestation().setURI(dokumentManifestationEli.toUri());
-              dokument
-                .getMeta()
-                .getFRBRExpression()
-                .setEli(dokumentManifestationEli.asExpressionEli());
-              dokument
-                .getMeta()
-                .getFRBRExpression()
-                .setURI(dokumentManifestationEli.asExpressionEli().toUri());
-              dokument
-                .getMeta()
-                .getFRBRExpression()
-                .setFBRDate(newPointIntTime.toString(), "verkuendung");
-              dokument.getMeta().getFRBRWork().setEli(dokumentManifestationEli.asWorkEli());
-              dokument.getMeta().getFRBRWork().setURI(dokumentManifestationEli.asWorkEli().toUri());
-              dokument.getMeta().getFRBRWork().setFRBRnumber(newNaturalIdentifier);
-              dokument.getMeta().getFRBRWork().setFRBRsubtype(newSubtype);
-              // New GUID for übergreifende-id and aktuelle-version-id
-              dokument.setGuid(UUID.randomUUID());
-              dokument.setUebergreifendeGuid(UUID.randomUUID());
-              // Remove just in case previous and next GUIDs
-              dokument.getMeta().getFRBRExpression().deleteAliasPreviousVersionId();
-              dokument.getMeta().getFRBRExpression().deleteAliasNextVersionId();
-            });
-          // set regtxt:form to stammform
-          final RahmenMetadata rahmenMetadata = newNorm.getRahmenMetadata();
-          rahmenMetadata.setForm("stammform");
-
-          var rechtsetzungsdokument = createRechtsetzungsdokumentFromRegelungstext(
-            new Regelungstext(newNorm.getRegelungstext1()),
-            verkuendungNorm.getRechtsetzungsdokument()
+          var newNorm = createNewWorkService.createNewWork(
+            embeddedNorm,
+            verkuendungNorm.getRechtsetzungsdokument(),
+            expression.normExpressionEli()
           );
-          newNorm.getDokumente().add(rechtsetzungsdokument);
           updateNorm(newNorm);
           amendedNormExpressions.add(expression.normExpressionEli(), true, false);
         } else if (!amendedNormExpressions.contains(expression.normExpressionEli())) {
@@ -856,8 +806,14 @@ This method is applying the algorithm described in ADR 0020
           // 3     created and present in amended-norm-expressions
           if (geltungszeitenForZielnorm.contains(expression.normExpressionEli().getPointInTime())) {
             // 3.a.  override
-            // Just don't do anything, we have created already the new work, and it's content can't have changed
-            log.info("Overriding %s".formatted(expression.normExpressionEli()));
+            // Just do the same as if where not yet created, without adding the expression eli to amended-norm-expressions
+            var embeddedNorm = extractNorm(verkuendungNorm, zielnorm.normWorkEli());
+            var newNorm = createNewWorkService.createNewWork(
+              embeddedNorm,
+              verkuendungNorm.getRechtsetzungsdokument(),
+              expression.normExpressionEli()
+            );
+            updateNorm(newNorm);
           } else {
             // 3.b.  orphan
             boolean deleted = removeOrphan(expression.normExpressionEli());
@@ -868,92 +824,6 @@ This method is applying the algorithm described in ADR 0020
           }
         }
       });
-  }
-
-  private Rechtsetzungsdokument createRechtsetzungsdokumentFromRegelungstext(
-    final Regelungstext regelungstext,
-    final Rechtsetzungsdokument rechtsetzungsdokument
-  ) {
-    // Replace <akn:act> element with <akn:documentCollection>
-    DokumentManifestationEli dokumentManifestationEli = regelungstext.getManifestationEli();
-    Meta oldMeta = regelungstext.getMeta();
-    Document doc = regelungstext.getDocument();
-    var actElement = NodeParser.getMandatoryElementFromExpression(".//act", doc);
-    actElement.getParentNode().removeChild(actElement);
-    Element documentCollection = NodeCreator.createElement(
-      Namespace.INHALTSDATEN,
-      "documentCollection",
-      doc.getDocumentElement()
-    );
-    documentCollection.setAttribute(
-      "name",
-      "/akn/ontology/de/concept/documenttype/bund/rechtsetzungsdokument"
-    );
-
-    // Copy meta but only identification and proprietary
-    Element newMetaElement = NodeCreator.createElementWithEidAndGuid(
-      Namespace.INHALTSDATEN,
-      "meta",
-      documentCollection
-    );
-    final NodeList nodes = oldMeta.getElement().getChildNodes();
-    for (int i = 0; i < nodes.getLength(); i++) {
-      final Node node = nodes.item(i);
-      if (
-        node.getNodeType() == Node.ELEMENT_NODE &&
-        List.of("akn:identification", "akn:proprietary").contains(node.getNodeName())
-      ) {
-        newMetaElement.appendChild(node);
-      }
-    }
-    // Patch FRBR @values
-    final Meta newMeta = new Meta(newMetaElement);
-    newMeta.getFRBRWork().setFRBRsubtype("rechtsetzungsdokument-1");
-    var eli = newMeta.getFRBRManifestation().getEli();
-    eli.setSubtype("rechtsetzungsdokument-1");
-    newMeta.getFRBRWork().setEli(eli.asWorkEli());
-    newMeta.getFRBRExpression().setEli(eli.asExpressionEli());
-    newMeta.getFRBRManifestation().setEli(eli);
-    newMeta.getFRBRManifestation().setURI(eli.toUri());
-
-    // TODO: (Victor del Campo, 2025-07-28) Replace regtxt metadata with redok, but for now from rechtsetzungsdokument of verkündung
-    var proprietary = newMeta.getOrCreateProprietary();
-    proprietary
-      .getMetadataParent(Namespace.METADATEN_REGELUNGSTEXT)
-      .ifPresent(regtxtMetadata -> proprietary.getElement().removeChild(regtxtMetadata));
-    rechtsetzungsdokument
-      .getMeta()
-      .getOrCreateProprietary()
-      .getMetadataParent(Namespace.METADATEN_RECHTSETZUNGSDOKUMENT)
-      .ifPresent(redokMetadata -> {
-        // To copy 1 node from 1 doc to another doc we need to import the node first using the owner document
-        Node imported = proprietary.getElement().getOwnerDocument().importNode(redokMetadata, true);
-        proprietary.getElement().appendChild(imported);
-      });
-
-    // Add <collectionBody> → <component> → <documentRef>
-    Element collectionBody = NodeCreator.createElementWithEidAndGuid(
-      Namespace.INHALTSDATEN,
-      "collectionBody",
-      documentCollection
-    );
-    Element component = NodeCreator.createElementWithEidAndGuid(
-      Namespace.INHALTSDATEN,
-      "component",
-      collectionBody
-    );
-    Element documentRef = NodeCreator.createElementWithEidAndGuid(
-      Namespace.INHALTSDATEN,
-      "documentRef",
-      component
-    );
-    documentRef.setAttribute("href", dokumentManifestationEli.asNormEli() + "/regelungstext-1.xml");
-    documentRef.setAttribute(
-      "showAs",
-      "/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung"
-    );
-
-    return new Rechtsetzungsdokument(doc);
   }
 
   private void processExpression(

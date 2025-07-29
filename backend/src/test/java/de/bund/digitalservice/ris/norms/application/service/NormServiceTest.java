@@ -46,6 +46,7 @@ class NormServiceTest {
   final LdmlDeElementSorter ldmlDeElementSorter = mock(LdmlDeElementSorter.class);
   final LdmlDeEmptyElementRemover ldmlDeEmptyElementRemover = new LdmlDeEmptyElementRemover();
   final LdmlDeValidator ldmlDeValidator = mock(LdmlDeValidator.class);
+  final CreateNewWorkService createNewWorkService = mock(CreateNewWorkService.class);
 
   final NormService service = new NormService(
     loadNormPort,
@@ -60,7 +61,8 @@ class NormServiceTest {
     loadExpressionsOfNormWorkPort,
     ldmlDeElementSorter,
     ldmlDeEmptyElementRemover,
-    ldmlDeValidator
+    ldmlDeValidator,
+    createNewWorkService
   );
 
   @Nested
@@ -1187,7 +1189,7 @@ class NormServiceTest {
     }
 
     @Test
-    void itCreatesNewStammform() {
+    void itCreatesNewWork() {
       final Norm amendingLawWithEs = Fixtures.loadNormFromDisk(
         "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24"
       );

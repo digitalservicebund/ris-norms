@@ -179,6 +179,21 @@ class FRBRWorkTest {
   }
 
   @Test
+  void getFRBRSubtype() {
+    final FRBRWork frbrWork = new FRBRWork(
+      XmlMapper.toElement(
+        """
+        <akn:FRBRWork xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1_ident-n1_frbrwork-n1" GUID="3385defa-f0e5-4c6d-a2d4-17388afd5d51">
+                    <akn:FRBRsubtype value="rechtsetzungsdokument-1"/>
+                    </akn:FRBRWork>
+                       """
+      )
+    );
+
+    assertThat(frbrWork.getFRBRsubtype()).contains("rechtsetzungsdokument-1");
+  }
+
+  @Test
   void setFRBRName() {
     final FRBRWork frbrWork = new FRBRWork(
       XmlMapper.toElement(

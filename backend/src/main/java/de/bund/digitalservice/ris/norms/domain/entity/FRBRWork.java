@@ -88,6 +88,15 @@ public class FRBRWork extends FRBR {
   }
 
   /**
+   * Returns the FRBRsubtype as {@link String} from the FRBRWork in a {@link Norm}.
+   *
+   * @return The FRBRsubtype
+   */
+  public Optional<String> getFRBRsubtype() {
+    return NodeParser.getValueFromExpression("./FRBRsubtype/@value", getElement());
+  }
+
+  /**
    * Set the value of the FRBRsubtype element
    * @param subtype the new subtype
    */

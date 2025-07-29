@@ -1486,6 +1486,148 @@ class VerkuendungenControllerIntegrationTest extends BaseIntegrationTest {
       ).isPresent();
     }
 
+    @Test
+    void itShouldThrowErrorIfNewWorkAlreadyExists() throws Exception {
+      // Amending law with eS but without entry in amended-norm-expressions for es
+      var amendingNormWithEs = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24",
+        NormPublishState.UNPUBLISHED
+      );
+
+      var newWork = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        VerkuendungenControllerIntegrationTest.class,
+        "new-work-soldatinnen-gesetz",
+        NormPublishState.UNPUBLISHED
+      );
+
+      // New work already exists
+      assertThat(
+        normManifestationRepository.findFirstByWorkEliOrderByManifestationEliDesc(
+          newWork.getWorkEli().toString()
+        )
+      ).isPresent();
+
+      mockMvc
+        .perform(
+          post(
+            String.format(
+              "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
+              amendingNormWithEs.getExpressionEli(),
+              newWork.getWorkEli().toString()
+            )
+          ).accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isInternalServerError())
+        .andExpect(jsonPath("type", equalTo("/errors/internal-server-error")))
+        .andExpect(jsonPath("title", equalTo("Internal Server Error")))
+        .andExpect(jsonPath("detail", equalTo("An unexpected error has occurred")));
+    }
+
+    @Test
+    void itShouldReCreateOnOverride() throws Exception {
+      var amendingNormWithEs = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        VerkuendungenControllerIntegrationTest.class,
+        "amending-law-with-es-and-amended-norm-expression",
+        NormPublishState.UNPUBLISHED
+      );
+
+      var newWork = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        VerkuendungenControllerIntegrationTest.class,
+        "new-work-soldatinnen-gesetz",
+        NormPublishState.UNPUBLISHED
+      );
+
+      // New work already exists
+      assertThat(
+        normManifestationRepository.findAllByExpressionEli(newWork.getExpressionEli().toString())
+      ).hasSize(1);
+
+      mockMvc
+        .perform(
+          post(
+            String.format(
+              "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
+              amendingNormWithEs.getExpressionEli(),
+              newWork.getWorkEli().toString()
+            )
+          ).accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("normWorkEli").value(newWork.getWorkEli().toString()))
+        .andExpect(jsonPath("title").value("Soldatinnen- und Soldatengleichstellungsgesetz"))
+        .andExpect(jsonPath("shortTitle").value("(SGleiG)"))
+        .andExpect(
+          jsonPath("expressions[0].normExpressionEli").value(
+            "eli/bund/bgbl-1/2024/17-1/2020-01-01/1/deu"
+          )
+        )
+        .andExpect(jsonPath("expressions[0].isGegenstandslos").value(false))
+        .andExpect(jsonPath("expressions[0].isCreated").value(true))
+        .andExpect(jsonPath("expressions[0].createdBy").value("diese Verkündung"))
+        .andExpect(jsonPath("expressions[1]").doesNotExist());
+
+      // Output is 2 because of the creation of new manifestation with working-copy-date
+      assertThat(
+        normManifestationRepository.findAllByExpressionEli(newWork.getExpressionEli().toString())
+      ).hasSize(2);
+    }
+
+    @Test
+    void itShouldDeleteOrphaNewWork() throws Exception {
+      var amendingNormWithEs = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        VerkuendungenControllerIntegrationTest.class,
+        "amending-law-with-es-and-amended-norm-expression-but-no-zielnorm-reference",
+        NormPublishState.UNPUBLISHED
+      );
+
+      var newWork = Fixtures.loadAndSaveNormFixture(
+        dokumentRepository,
+        binaryFileRepository,
+        normManifestationRepository,
+        VerkuendungenControllerIntegrationTest.class,
+        "new-work-soldatinnen-gesetz",
+        NormPublishState.UNPUBLISHED
+      );
+
+      // New work already exists
+      assertThat(
+        normManifestationRepository.findFirstByWorkEliOrderByManifestationEliDesc(
+          newWork.getWorkEli().toString()
+        )
+      ).isPresent();
+
+      mockMvc
+        .perform(
+          post(
+            String.format(
+              "/api/v1/verkuendungen/%s/zielnormen/%s/expressions/create",
+              amendingNormWithEs.getExpressionEli(),
+              newWork.getWorkEli().toString()
+            )
+          ).accept(MediaType.APPLICATION_JSON)
+        )
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("normWorkEli").value(newWork.getWorkEli().toString()))
+        .andExpect(jsonPath("title").value("Soldatinnen- und Soldatengleichstellungsgesetz"))
+        .andExpect(jsonPath("shortTitle").value("(SGleiG)"))
+        .andExpect(jsonPath("expressions[0]").doesNotExist());
+    }
+
     /**
      * This method tests the timeline for the given expressions ELIs (that should belong to the same work), meaning checks
      * if the previous/current/next GUIDs are properly set. It does it for every subtype of the norm (regelungstext / rechtsetzungsdokument, etc)
