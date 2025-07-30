@@ -408,9 +408,40 @@ public class NormService
         )
       );
 
+    Set<Dokument> dokumente = new HashSet<>();
+    Set<BinaryFile> binaryFiles = new HashSet<>();
+    dokumente.add(regelungstext1);
+
+    // Get additional Dokument references by eli from regelungstext1
+    regelungstext1
+      .getReferencedDokumentAndBinaryFileElis()
+      .forEach(eli -> {
+        Optional<Dokument> maybeDokument = verkuendung
+          .getDokumente()
+          .stream()
+          .filter(d -> d.getManifestationEli().equals(eli))
+          .findFirst();
+        if (maybeDokument.isPresent()) {
+          dokumente.add(maybeDokument.get());
+        } else {
+          BinaryFile binaryFile = verkuendung
+            .getBinaryFiles()
+            .stream()
+            .filter(b -> b.getDokumentManifestationEli().equals(eli))
+            .findFirst()
+            .orElseThrow(() ->
+              new IllegalStateException(
+                "Referenced Dokument or BinaryFile not found for eli " + eli
+              )
+            );
+          binaryFiles.add(binaryFile);
+        }
+      });
+
     return Norm.builder()
       .publishState(NormPublishState.UNPUBLISHED)
-      .dokumente(Set.of(regelungstext1))
+      .dokumente(dokumente)
+      .binaryFiles(binaryFiles)
       .build();
   }
 

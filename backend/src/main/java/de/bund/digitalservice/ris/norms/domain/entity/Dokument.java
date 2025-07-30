@@ -183,6 +183,21 @@ public abstract sealed class Dokument
       .toList();
   }
 
+  /**
+   * Returns the list of {@link DokumentManifestationEli} of all referenced attachments in the document
+   * @return the list of elis
+   */
+  public List<DokumentManifestationEli> getReferencedDokumentAndBinaryFileElis() {
+    return NodeParser.getNodesFromExpression(
+      "//componentRef/@src|//documentRef/@href|//img/@src",
+      document
+    )
+      .stream()
+      .map(Node::getNodeValue)
+      .map(DokumentManifestationEli::fromString)
+      .toList();
+  }
+
   public DokumentRahmenMetadata getRahmenMetadata() {
     return new DokumentRahmenMetadata(getMeta());
   }
