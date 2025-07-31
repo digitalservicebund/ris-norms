@@ -8,8 +8,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RahmenMetadata;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.io.UrlResource;
 
@@ -100,5 +99,64 @@ class CreateNewWorkServiceTest {
     assertThat(rahmenMetadata.getGesta()).isEqualTo(
       verkuendung.getRechtsetzungsdokument().getRahmenMetadata().getGesta()
     );
+  }
+
+  @Test
+  void createNewWorkSubtypingOffeneStruktur() {
+    // Given
+    var verkuendung = Fixtures.loadNormFromDisk(
+      CreateNewWorkServiceTest.class,
+      "amending-law-with-es-and-several-offene-strukturen"
+    );
+    var verkuendungRegelungstext = verkuendung.getRegelungstext1();
+    var embeddedNormRegelugnstext = verkuendung
+      .getRegelungstexte()
+      .stream()
+      .filter(f -> f != verkuendungRegelungstext)
+      .findFirst()
+      .get();
+    Set<Dokument> dokumente = new HashSet<>();
+    dokumente.add(embeddedNormRegelugnstext);
+    embeddedNormRegelugnstext
+      .getReferencedDokumentAndBinaryFileElis()
+      .forEach(eli -> {
+        verkuendung
+          .getDokumente()
+          .stream()
+          .filter(dokument -> dokument.getManifestationEli().equals(eli))
+          .findFirst()
+          .ifPresent(dokumente::add);
+      });
+    var embeddedNorm = Norm.builder().dokumente(dokumente).build();
+    var expressionEli = NormExpressionEli.fromString("eli/bund/bgbl-1/2024/17-1/2020-01-01/1/deu");
+
+    // When
+    final Norm newWork = createNewWorkService.createNewWork(
+      embeddedNorm,
+      verkuendung.getRechtsetzungsdokument(),
+      expressionEli
+    );
+
+    // Then
+    long numberOfOffeneStrukturen = newWork
+      .getDokumente()
+      .stream()
+      .filter(OffeneStruktur.class::isInstance)
+      .count();
+    assertThat(numberOfOffeneStrukturen).isEqualTo(3);
+
+    final List<Dokument> sortedOffeneStrukturen = newWork
+      .getDokumente()
+      .stream()
+      .filter(OffeneStruktur.class::isInstance)
+      .sorted(Comparator.comparing(Dokument::getManifestationEli))
+      .toList();
+
+    for (int i = 0; i < sortedOffeneStrukturen.size(); i++) {
+      int subtypeNumber = i + 1;
+      assertThat(
+        sortedOffeneStrukturen.get(i).getMeta().getFRBRWork().getFRBRsubtype()
+      ).hasValueSatisfying(subtype -> assertThat(subtype).endsWith(String.valueOf(subtypeNumber)));
+    }
   }
 }

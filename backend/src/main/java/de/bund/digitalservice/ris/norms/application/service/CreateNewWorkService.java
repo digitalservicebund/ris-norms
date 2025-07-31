@@ -7,8 +7,10 @@ import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.RahmenMeta
 import de.bund.digitalservice.ris.norms.utils.NodeCreator;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,8 +36,14 @@ public class CreateNewWorkService {
     NormExpressionEli expressionEli
   ) {
     var newNorm = new Norm(embeddedNorm);
+
+    // Counter needed
+    AtomicInteger counterOffeneStruktur = new AtomicInteger(1);
     newNorm
       .getDokumente()
+      // Sorting for the subtype, so that when replacing anlage-regelungstext-X with the counter they are already sorted
+      .stream()
+      .sorted(Comparator.comparing(Dokument::getManifestationEli))
       .forEach(dokument -> {
         final DokumentManifestationEli dokumentManifestationEli = dokument.getManifestationEli();
         final String newNaturalIdentifier = expressionEli.getNaturalIdentifier();
@@ -43,10 +51,20 @@ public class CreateNewWorkService {
         dokumentManifestationEli.setNaturalIdentifier(newNaturalIdentifier);
         dokumentManifestationEli.setPointInTime(newPointInTime);
         dokumentManifestationEli.setPointInTimeManifestation(Norm.WORKING_COPY_DATE);
-        final String newSubtype = dokumentManifestationEli
-          .getSubtype()
-          .replaceAll("-(\\d+)$", "-1");
+
+        String newSubtype = "";
+        if (dokument instanceof Regelungstext) {
+          // For regelungstext is just simple, we only have 1
+          newSubtype = dokumentManifestationEli.getSubtype().replaceAll("-(\\d+)$", "-1");
+        } else if (dokument instanceof OffeneStruktur) {
+          // For offeneStruktur we may have >1 and we just need to number them using the counter
+          newSubtype = dokumentManifestationEli
+            .getSubtype()
+            .replaceAll("-(\\d+)$", "-" + counterOffeneStruktur);
+          counterOffeneStruktur.getAndIncrement();
+        }
         dokumentManifestationEli.setSubtype(newSubtype);
+
         dokument.getMeta().getFRBRManifestation().setEli(dokumentManifestationEli);
         dokument.getMeta().getFRBRManifestation().setURI(dokumentManifestationEli.toUri());
         dokument.getMeta().getFRBRExpression().setEli(dokumentManifestationEli.asExpressionEli());

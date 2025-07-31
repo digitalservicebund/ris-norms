@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Represents a binary file of a norm in LDML.de.
@@ -13,7 +14,9 @@ import lombok.Getter;
 @AllArgsConstructor
 public class BinaryFile {
 
-  private final DokumentManifestationEli dokumentManifestationEli;
+  @Setter
+  private DokumentManifestationEli dokumentManifestationEli;
+
   private final byte[] content;
 
   @Override

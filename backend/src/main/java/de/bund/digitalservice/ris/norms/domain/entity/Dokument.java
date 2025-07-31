@@ -168,17 +168,31 @@ public abstract sealed class Dokument
    * @return a List of filenames
    */
   public List<String> getReferencedDokumentAndBinaryFileFileNames() {
+    return getReferencedDokumentAndBinaryFileElis()
+      .stream()
+      .map(DokumentManifestationEli::getFileName)
+      .toList();
+  }
+
+  /**
+   * Returns the list of {@link DokumentManifestationEli} of all referenced attachments in the document
+   * @return the list of elis
+   */
+  public List<DokumentManifestationEli> getReferencedDokumentAndBinaryFileElis() {
     return NodeParser.getNodesFromExpression(
       "//componentRef/@src|//documentRef/@href|//img/@src",
       document
     )
       .stream()
       .map(Node::getNodeValue)
-      .map(value -> {
-        if (value.contains("/")) {
-          return DokumentManifestationEli.fromString(value).getFileName();
+      .map(m -> {
+        if (m.contains("/")) {
+          return DokumentManifestationEli.fromString(m);
+        } else {
+          return DokumentManifestationEli.fromString(
+            this.getManifestationEli().asNormEli() + "/" + m
+          );
         }
-        return value;
       })
       .toList();
   }
