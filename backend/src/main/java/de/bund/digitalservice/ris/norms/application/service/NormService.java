@@ -6,6 +6,7 @@ import de.bund.digitalservice.ris.norms.application.exception.RegelungstextNotFo
 import de.bund.digitalservice.ris.norms.application.port.input.*;
 import de.bund.digitalservice.ris.norms.application.port.output.*;
 import de.bund.digitalservice.ris.norms.domain.entity.*;
+import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormWorkEli;
@@ -410,39 +411,65 @@ public class NormService
 
     Set<Dokument> dokumente = new HashSet<>();
     Set<BinaryFile> binaryFiles = new HashSet<>();
-    dokumente.add(regelungstext1);
+    Set<DokumentManifestationEli> visitedElis = new HashSet<>();
 
-    // Get additional Dokument references by eli from regelungstext1
-    regelungstext1
-      .getReferencedDokumentAndBinaryFileElis()
-      .forEach(eli -> {
-        Optional<Dokument> maybeDokument = verkuendung
-          .getDokumente()
-          .stream()
-          .filter(d -> d.getManifestationEli().equals(eli))
-          .findFirst();
-        if (maybeDokument.isPresent()) {
-          dokumente.add(maybeDokument.get());
-        } else {
-          BinaryFile binaryFile = verkuendung
-            .getBinaryFiles()
-            .stream()
-            .filter(b -> b.getDokumentManifestationEli().equals(eli))
-            .findFirst()
-            .orElseThrow(() ->
-              new IllegalStateException(
-                "Referenced Dokument or BinaryFile not found for eli " + eli
-              )
-            );
-          binaryFiles.add(binaryFile);
-        }
-      });
+    collectDokumenteAndBinaryFiles(
+      regelungstext1,
+      verkuendung,
+      dokumente,
+      binaryFiles,
+      visitedElis
+    );
 
     return Norm.builder()
       .publishState(NormPublishState.UNPUBLISHED)
       .dokumente(dokumente)
       .binaryFiles(binaryFiles)
       .build();
+  }
+
+  private void collectDokumenteAndBinaryFiles(
+    Dokument dokument,
+    Norm verkuendung,
+    Set<Dokument> dokumente,
+    Set<BinaryFile> binaryFiles,
+    Set<DokumentManifestationEli> visitedElis
+  ) {
+    // Add current Dokument
+    dokumente.add(dokument);
+
+    for (DokumentManifestationEli eli : dokument.getReferencedDokumentAndBinaryFileElis()) {
+      if (!visitedElis.add(eli)) {
+        continue; // Already processed this eli
+      }
+
+      Optional<Dokument> maybeDokument = verkuendung
+        .getDokumente()
+        .stream()
+        .filter(d -> d.getManifestationEli().equals(eli))
+        .findFirst();
+
+      if (maybeDokument.isPresent()) {
+        Dokument referencedDokument = maybeDokument.get();
+        collectDokumenteAndBinaryFiles(
+          referencedDokument,
+          verkuendung,
+          dokumente,
+          binaryFiles,
+          visitedElis
+        );
+      } else {
+        BinaryFile binaryFile = verkuendung
+          .getBinaryFiles()
+          .stream()
+          .filter(b -> b.getDokumentManifestationEli().equals(eli))
+          .findFirst()
+          .orElseThrow(() ->
+            new IllegalStateException("Referenced Dokument or BinaryFile not found for eli " + eli)
+          );
+        binaryFiles.add(binaryFile);
+      }
+    }
   }
 
   private LocalDate getGeltungszeit(Norm verkuendung, final NormWorkEli zielNormWorkEli) {

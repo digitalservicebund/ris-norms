@@ -212,6 +212,19 @@ public class CreateNewVersionOfNormService {
       );
 
     newManifestation
+      .getBinaryFiles()
+      .forEach(binaryFile ->
+        binaryFile.setDokumentManifestationEli(
+          DokumentManifestationEli.fromNormEli(
+            newManifestationEli,
+            binaryFile.getDokumentManifestationEli().getSubtype(),
+            binaryFile.getDokumentManifestationEli().getFormat()
+          )
+        )
+      );
+
+    // TODO we need to replace all references, also including offene-struktur and binary files?
+    newManifestation
       .getRegelungstext1()
       .getArticles()
       .stream()
