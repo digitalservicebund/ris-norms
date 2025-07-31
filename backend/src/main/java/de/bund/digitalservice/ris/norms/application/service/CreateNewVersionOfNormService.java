@@ -7,6 +7,7 @@ import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
+import de.bund.digitalservice.ris.norms.utils.NodeParser;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
@@ -223,21 +224,27 @@ public class CreateNewVersionOfNormService {
         )
       );
 
-    // TODO we need to replace all references, also including offene-struktur and binary files?
+    // replace point-in-time-manifestation of all references
     newManifestation
-      .getRegelungstext1()
-      .getArticles()
-      .stream()
-      .filter(article -> article.getEingebundeneStammform().isPresent())
-      .forEach(article -> {
-        DokumentManifestationEli old = article.getEingebundeneStammform().get();
-        var newEli = DokumentManifestationEli.fromExpressionEli(
-          old.asExpressionEli(),
-          pointInTimeManifestation,
-          old.getFormat()
-        );
-        article.setEingebundeneStammform(newEli);
-      });
+      .getDokumente()
+      .forEach(dokument ->
+        NodeParser.getNodesFromExpression(
+          "//componentRef/@src|//documentRef/@href|//img/@src",
+          dokument.getDocument()
+        ).forEach(node -> {
+            String originalValue = node.getNodeValue();
+            if (originalValue.contains("/")) {
+              // a lot of test data have references with only file names
+              DokumentManifestationEli eli = DokumentManifestationEli.fromString(originalValue);
+              DokumentManifestationEli newEli = DokumentManifestationEli.fromExpressionEli(
+                eli.asExpressionEli(),
+                pointInTimeManifestation,
+                eli.getFormat()
+              );
+              node.setNodeValue(newEli.toString());
+            }
+          })
+      );
 
     return newManifestation;
   }
