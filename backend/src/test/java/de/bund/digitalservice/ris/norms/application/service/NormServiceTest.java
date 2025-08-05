@@ -1249,5 +1249,51 @@ class NormServiceTest {
         Zielnorm.CreatedBy.THIS_VERKUENDUNG
       );
     }
+
+    @Test
+    void itThrowsWhenExpressionOfWorkAlreadyExists() {
+      // Given
+      final Norm amendingLawWithEs = Fixtures.loadNormFromDisk(
+        "eli/bund/bgbl-1/2024/17/2024-01-24/1/deu/2024-01-24"
+      );
+      final List<Zielnorm.Expression> expressionen = new ArrayList<>();
+      expressionen.add(
+        new Zielnorm.Expression(
+          NormExpressionEli.fromString("eli/bund/bgbl-1/2024/17-1/2024-01-24/1/deu"),
+          false,
+          true,
+          false,
+          Zielnorm.CreatedBy.THIS_VERKUENDUNG
+        )
+      );
+      final List<Zielnorm> zielNormen = new ArrayList<>();
+      final NormWorkEli zielWorkEli = NormWorkEli.fromString("eli/bund/bgbl-1/2024/17-1");
+      final Zielnorm zielnorm = new Zielnorm(
+        zielWorkEli,
+        "Soldatinnen- und Soldatengleichstellungsgesetz",
+        "(SGleiG)",
+        expressionen
+      );
+      zielNormen.add(zielnorm);
+
+      NormService spiedService = spy(service);
+      doReturn(zielNormen).when(spiedService).loadZielnormExpressions(any());
+      // Mock load amending law
+      when(
+        loadNormPort.loadNorm(new LoadNormPort.Options(amendingLawWithEs.getExpressionEli()))
+      ).thenReturn(Optional.of(amendingLawWithEs));
+
+      // When // Then
+      assertThatThrownBy(() ->
+        spiedService.createZielnormExpressions(
+          new CreateZielnormenExpressionsUseCase.Options(
+            amendingLawWithEs.getExpressionEli(),
+            zielWorkEli
+          )
+        )
+      ).isInstanceOf(
+        CreateZielnormenExpressionsUseCase.ExpressionOfNewWorkAlreadyExistsException.class
+      ); // Then
+    }
   }
 }
