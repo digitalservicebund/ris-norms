@@ -382,7 +382,7 @@ jobs:
 
       # Frontend unit test report
       - name: frontend unit test report - download artifact
-        uses: actions/download-artifact@448e3f862ab3ef47aa50ff917776823c9946035b
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: frontend-unit-test-report
           path: tmp/frontend-unit-test-report
@@ -426,7 +426,7 @@ jobs:
 
       # ER diagram
       - name: ER-diagram - Download artifact
-        uses: actions/download-artifact@448e3f862ab3ef47aa50ff917776823c9946035b
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: erdiagram
           path: tmp/erdiagram-reports
@@ -438,7 +438,7 @@ jobs:
 
       # backend unit test report
       - name: unit test report - download artifact
-        uses: actions/download-artifact@448e3f862ab3ef47aa50ff917776823c9946035b
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: backend-unit-test-report
           path: tmp/backend-unit-test-report
@@ -451,7 +451,7 @@ jobs:
 
       # backend integration test report
       - name: integration test report - download artifact
-        uses: actions/download-artifact@448e3f862ab3ef47aa50ff917776823c9946035b
+        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0
         with:
           name: backend-integration-test-report
           path: tmp/backend-integration-test-report
