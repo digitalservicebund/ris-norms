@@ -51,7 +51,7 @@ setup("create sample data", async ({ authenticatedRequest: request }) => {
     const formData = new FormData()
     formData.append(
       "file",
-      new Blob([zipContent], { type: "application/zip" }),
+      new Blob([new Uint8Array(zipContent)], { type: "application/zip" }),
       folder,
     )
     formData.append("force", String(true))
