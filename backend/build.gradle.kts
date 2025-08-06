@@ -363,6 +363,10 @@ sonar {
         property("sonar.projectKey", "digitalservicebund_ris-norms-backend")
         property("sonar.organization", "digitalservicebund")
         property("sonar.host.url", "https://sonarcloud.io")
+        property(
+            "sonar.coverage.exclusions",
+            "**/config/**,**/Application.java",
+        )
     }
 }
 
