@@ -119,6 +119,14 @@ tasks {
     register<Test>("integrationTest") {
         description = "Runs the integration tests."
         group = "verification"
+
+        // Before gradle 9.x.x, classpath and test classes from test source set where automatically used, now it must be explicitely done
+        testClassesDirs =
+            sourceSets.test
+                .get()
+                .output.classesDirs
+        classpath = sourceSets.test.get().runtimeClasspath
+
         useJUnitPlatform {
             includeTags("integration")
         }
