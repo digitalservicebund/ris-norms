@@ -28,7 +28,7 @@ lombok = "org.projectlombok:lombok:1.18.38"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.18.0"
 # CVE-2025-53864
 nimbus-jose-jwt = "com.nimbusds:nimbus-jose-jwt:10.0.2"
-nullaway = "com.uber.nullaway:nullaway:0.12.7"
+nullaway = "com.uber.nullaway:nullaway:0.12.8"
 postgresql = "org.postgresql:postgresql:42.7.7"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.2"
 saxon-he = "net.sf.saxon:Saxon-HE:12.8"
