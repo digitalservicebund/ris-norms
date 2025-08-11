@@ -30,7 +30,7 @@ mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.18.0"
 nimbus-jose-jwt = "com.nimbusds:nimbus-jose-jwt:10.0.2"
 nullaway = "com.uber.nullaway:nullaway:0.12.8"
 postgresql = "org.postgresql:postgresql:42.7.7"
-prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.2"
+prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.3"
 saxon-he = "net.sf.saxon:Saxon-HE:12.8"
 schxslt = "name.dmaus.schxslt:schxslt:1.10.1"
 shedlock = { module = "net.javacrumbs.shedlock:shedlock-spring", version.ref = "net-javacrumbs-shedlock" }
