@@ -161,7 +161,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -220,7 +220,7 @@ jobs:
       security-events: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@77137e9dc3ab1b329b7c8a38c2eb7475850a14e8
         env:
@@ -266,7 +266,7 @@ jobs:
     # Running on main only https://digitalservicebund.slack.com/archives/C046VD44ZEH/p1706516240974409
     if: ${{ github.ref == 'refs/heads/main' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           fetch-depth: 0
       - name: Detect secrets in incoming commits with Talisman
@@ -289,7 +289,7 @@ jobs:
       - deploy-staging-job
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -342,7 +342,7 @@ jobs:
     steps:
       # First checkout ris-norms because of ADRs
       - name: Checkout ris-norms repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           path: ris-norms
 
@@ -354,7 +354,7 @@ jobs:
           ls -l tmp/adr-source
 
       # Then checkout ris-reports (will override ris-norms check-out)
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           repository: ${{ env.reports-repo }}
           ssh-key: ${{ secrets.REPORTS_DEPLOY_KEY }}
