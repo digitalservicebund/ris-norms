@@ -33,7 +33,7 @@
   "dependencies": {
     "@codemirror/lang-xml": "~6.1.0",
     "@digitalservicebund/ris-ui": "~3.11.0",
-    "@sentry/vue": "~10.3.0",
+    "@sentry/vue": "~10.4.0",
     "@types/lodash.sortby": "~4.7.9",
     "@types/uuid": "~10.0.0",
     "@vueuse/core": "~13.6.0",
@@ -54,7 +54,7 @@
     "@eslint/js": "~9.33.0",
     "@iconify-json/ic": "~1.2.2",
     "@playwright/test": "~1.54.0",
-    "@sentry/vite-plugin": "~4.0.0",
+    "@sentry/vite-plugin": "~4.1.0",
     "@tailwindcss/postcss": "^4.0.7",
     "@testing-library/jest-dom": "~6.6.3",
     "@testing-library/user-event": "~14.6.1",
