@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-node-access -- Mistakes `select` for node access */
 import { describe, expect, it } from "vitest"
 import { useMultiSelection } from "./useMultiSelection"
 
