@@ -79,7 +79,7 @@ public record EId(String value) {
   /**
    * Creates the expected EId for the given node given that the eId of the parent node is correct.
    *
-   * <p>See LDML.de 1.8.1 Section 7.1.1 Syntax eines @eId-Attributs
+   * <p>See LDML.de 1.8.2 Section 7.1.1 Syntax eines @eId-Attributs
    *
    * @param element the node for which the eId should be calculated
    * @return the expected EId for that node

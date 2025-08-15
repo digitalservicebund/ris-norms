@@ -26,7 +26,7 @@ leads to the expressions created in use case 1. and 2. to be incorrectly marked 
 ## Decision
 
 We will extend the element `<norms:amended-norm-expressions>` of the custom metadata namespace
-`http://MetadatenMods.LegalDocML.de/1.8.1/`
+`http://MetadatenMods.LegalDocML.de/1.8.2/`
 introduced in ADR-0016.
 
 Each `<norms:amended-norm-expression>` element will include two new mandatory attributes:
@@ -45,7 +45,7 @@ By combining these two attributes, we can distinguish between the different use 
 Example:
 
 ```
-<norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
+<norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/">
     <norms:amended-norm-expressions>
         <!-- New "normal" expression -->
         <norms:norm-expression created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/1964/s593/2017-03-16/1/deu</norms:norm-expression>

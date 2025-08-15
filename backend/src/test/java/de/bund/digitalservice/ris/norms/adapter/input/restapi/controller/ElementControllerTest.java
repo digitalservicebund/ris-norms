@@ -91,7 +91,7 @@ class ElementControllerTest {
     void returnsJsonWithElementEidTitleAndType() throws Exception {
       // given
       var elementNode = """
-            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1"
+            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="art-z1"
                         GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
                         period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
                         refersTo="hauptaenderung">

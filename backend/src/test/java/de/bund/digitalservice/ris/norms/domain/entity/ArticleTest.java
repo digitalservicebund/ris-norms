@@ -13,7 +13,7 @@ class ArticleTest {
   void getGuid() {
     // given
     String articleString = """
-      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung"></akn:article>
+      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung"></akn:article>
       """;
 
     var article = new Article(toElement(articleString));
@@ -30,7 +30,7 @@ class ArticleTest {
   void getEnumeration() {
     // given
     String articleString = """
-      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
+      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
         <akn:num eId="art-z1_bezeichnung-n1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">
           Artikel 1
         </akn:num>
@@ -50,7 +50,7 @@ class ArticleTest {
   void getEid() {
     // given
     String articleString = """
-      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
+      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
       </akn:article>
       """;
 
@@ -68,7 +68,7 @@ class ArticleTest {
   void getMandatoryEid() {
     // given
     String articleString = """
-      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
+      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
           </akn:article>
           """;
 
@@ -86,7 +86,7 @@ class ArticleTest {
   void getHeading() {
     // given
     String articleString = """
-      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
+      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
          <akn:heading eId="art-z1_überschrift-n1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
       </akn:article>
       """;
@@ -105,7 +105,7 @@ class ArticleTest {
   void getAffectedDocumentEli() {
     // given
     String articleString = """
-      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
+      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
             <akn:num eId="art-z1_bezeichnung-n1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">Artikel 1</akn:num>
          <akn:heading eId="art-z1_überschrift-n1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
          <!-- Absatz (1) -->
@@ -138,7 +138,7 @@ class ArticleTest {
   void setAffectedDocumentEli() {
     // given
     String articleString = """
-      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
+      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
                 <akn:num eId="art-z1_bezeichnung-n1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">Artikel 1</akn:num>
              <akn:heading eId="art-z1_überschrift-n1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
              <!-- Absatz (1) -->
@@ -173,7 +173,7 @@ class ArticleTest {
   void getRefersTo() {
     // given
     String articleString = """
-      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
+      <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="art-z1" GUID="cdbfc728-a070-42d9-ba2f-357945afef06" period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1" refersTo="hauptaenderung">
                 <akn:num eId="art-z1_bezeichnung-n1" GUID="25a9acae-7463-4490-bc3f-8258b629d7e9">Artikel 1</akn:num>
              <akn:heading eId="art-z1_überschrift-n1" GUID="92827aa8-8118-4207-9f93-589345f0bab6">Änderung des Vereinsgesetzes</akn:heading>
              <!-- Absatz (1) -->
@@ -205,7 +205,7 @@ class ArticleTest {
   void getEingebundeneStammform() {
     //given
     String articleString = """
-          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" GUID="64a65b7e-7a03-47c7-b91e-2bd600d858d8"
+          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" GUID="64a65b7e-7a03-47c7-b91e-2bd600d858d8"
                                           eId="art-z"
                                           period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1">
                                 <akn:componentRef GUID="706c3b05-fead-41b3-bc26-ae0143cb7474"
@@ -231,7 +231,7 @@ class ArticleTest {
   void setEingebundeneStammform() {
     //given
     String articleString = """
-          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" GUID="64a65b7e-7a03-47c7-b91e-2bd600d858d8"
+          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" GUID="64a65b7e-7a03-47c7-b91e-2bd600d858d8"
                                           eId="art-z"
                                           period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1">
                                 <akn:componentRef GUID="706c3b05-fead-41b3-bc26-ae0143cb7474"

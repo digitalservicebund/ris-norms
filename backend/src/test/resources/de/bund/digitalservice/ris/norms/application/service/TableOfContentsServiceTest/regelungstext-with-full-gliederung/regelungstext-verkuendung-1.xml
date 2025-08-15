@@ -11,10 +11,10 @@
 	Veröffentlicht unter der Lizenz CC-BY-3.0 (Creative Commons Namensnennung 3.0)
 	##################################################################################
 -->
-<?xml-model href="/LegalDocML.de/1.8.1/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+<?xml-model href="/LegalDocML.de/1.8.2/schema/legalDocML.de.sch" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.2/ /LegalDocML.de/1.8.2/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.2/ /LegalDocML.de/1.8.2/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.2/ /LegalDocML.de/1.8.2/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.2/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.2/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.2/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.2/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
         <!-- Metadaten -->
       <akn:meta eId="meta-n1" GUID="7e5837c8-b967-45be-924b-c95956c4aa94">
@@ -171,7 +171,7 @@
          <akn:proprietary eId="meta-n1_proprietary-n1"
                           GUID="fe419055-3201-41b1-b096-402eabcbe6a1"
                           source="attributsemantik-noch-undefiniert">
-            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.2/">
                <regtxt:typ>gesetz</regtxt:typ>
                <regtxt:form>mantelform</regtxt:form>
             </regtxt:legalDocML.de_metadaten>
@@ -407,7 +407,7 @@
                                                             Rechtsvorschriften vorsehen. Bitte ordnen Sie alle
                                                             Artikel, die bestehende Rechtsvorschriften ändern,
                                                             nach der Reihenfolge ihrer Gliederungsnummern im
-                                                            Fundstellennachweis A 
+                                                            Fundstellennachweis A
                                        </akn:listIntroduction>
                                           <!-- Teilsatz 1. -->
                                           <akn:item eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1"
@@ -431,7 +431,7 @@
                                                                   GUID="1213e042-dbf9-46b8-8a73-a80486b10bba">
                                                       <akn:listIntroduction eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listeneing-n1"
                                                                             GUID="19c413f6-bdea-4f0c-9f82-2ff76fa78031">
-                                                       sie weitere 
+                                                       sie weitere
                                                    </akn:listIntroduction>
                                                       <!-- Teilsatz aa) -->
                                                       <akn:item eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1"
@@ -452,7 +452,7 @@
                                                                         GUID="7fffe598-ff43-4f33-8223-739386231c1d">
                                                             <akn:listIntroduction eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_liste-n1_listeneing-n1"
                                                                                   GUID="cee4dae6-5336-426a-8995-a8d28d1c5e71">
-                                                             Änderungen 
+                                                             Änderungen
                                                          </akn:listIntroduction>
                                                             <!-- Teilsatz aaa) -->
                                                             <akn:item eId="art-z1_abs-z1_inhalt-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1"
@@ -549,7 +549,7 @@
                                                       GUID="cd09c696-5c04-4c76-937d-6a85e01b0143">
                                           <akn:listIntroduction eId="art-z2_abs-z2_inhalt-n1_liste-n1_listeneing-n1"
                                                                 GUID="c06e96e9-9457-4952-91ff-db5ae9d4e487">
-                                          Das ist ein Test ob in der 
+                                          Das ist ein Test ob in der
                                        </akn:listIntroduction>
                                           <!-- Teilsatz 1. -->
                                           <akn:item eId="art-z2_abs-z2_inhalt-n1_liste-n1_listenelem-n1"

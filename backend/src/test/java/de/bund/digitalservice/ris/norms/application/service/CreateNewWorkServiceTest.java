@@ -18,7 +18,7 @@ class CreateNewWorkServiceTest {
   private final LdmlDeValidator ldmlDeValidator = new LdmlDeValidator(
     new UrlResource(
       Objects.requireNonNull(
-        LdmlDeValidator.class.getResource("/LegalDocML.de/1.8.1/schema/legalDocML.de.xsl")
+        LdmlDeValidator.class.getResource("/LegalDocML.de/1.8.2/schema/legalDocML.de.xsl")
       )
     ),
     Fixtures.getXsdSchemaService()

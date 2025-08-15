@@ -42,7 +42,7 @@ class ZeitgrenzenControllerTest {
       var customModsMetadata = new CustomModsMetadata(
         toElement(
           """
-          <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
+          <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/">
             <norms:geltungszeiten>
                 <norms:geltungszeit id="gz-1" art="inkraft">2020-01-01</norms:geltungszeit>
                 <norms:geltungszeit id="gz-2" art="ausserkraft">2024-01-01</norms:geltungszeit>
@@ -127,7 +127,7 @@ class ZeitgrenzenControllerTest {
       var customModsMetadata = new CustomModsMetadata(
         toElement(
           """
-          <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
+          <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/">
             <norms:geltungszeiten>
                 <norms:geltungszeit id="gz-1" art="inkraft">2025-02-20</norms:geltungszeit>
                 <norms:geltungszeit id="gz-2" art="ausserkraft">2023-05-01</norms:geltungszeit>

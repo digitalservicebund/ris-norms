@@ -171,7 +171,7 @@ export function useZielnormReferences(
 
   function getNewWorkEli(baseEli: DokumentManifestationEli): NormWorkEli {
     // The ELI of a new work is the counter of the subtype minus 1, see LDML.de
-    // 1.8.1 section 6.3.2
+    // 1.8.2 section 6.3.2
     const match = /-(\d+)$/.exec(baseEli.subtype)
     let naturalIdentifier = baseEli.naturalIdentifier
     if (match) {

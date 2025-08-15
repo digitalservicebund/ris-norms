@@ -199,7 +199,7 @@ test(
     await page.getByRole("button", { name: "Hochladen" }).click()
 
     await expect(
-      page.getByText("Das LDML.de 1.8.1-Dokument ist nicht gültig."),
+      page.getByText("Das LDML.de 1.8.2-Dokument ist nicht gültig."),
     ).toBeVisible()
   },
 )

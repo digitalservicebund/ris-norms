@@ -28,7 +28,7 @@ export function createNormExpressionEliPathParameter(prefix?: string) {
   const name = prefix ? `${prefix}Eli` : "eli"
 
   // The regular expressions for the parts of the ELI are based on the definitions
-  // from LDML.de 1.8.1 for ELIs for "Verkündungsfassungen und Neufassungen". It was
+  // from LDML.de 1.8.2 for ELIs for "Verkündungsfassungen und Neufassungen". It was
   // not possible to put the ELI in just one combined path parameter as vue-router
   // replaces slashes in path parameters automatically by %2F when routing to a new
   // route.

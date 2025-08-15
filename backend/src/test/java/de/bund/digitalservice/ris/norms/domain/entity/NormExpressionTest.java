@@ -13,7 +13,7 @@ class NormExpressionTest {
   @Test
   void createAndAppend_setsAllValuesCorrectly() {
     var parent = toElement(
-      "<norms:amended-norm-expressions xmlns:norms=\"http://MetadatenMods.LegalDocML.de/1.8.1/\"/>"
+      "<norms:amended-norm-expressions xmlns:norms=\"http://MetadatenMods.LegalDocML.de/1.8.2/\"/>"
     );
     var eli = NormExpressionEli.fromString("eli/bund/bgbl-1/2023/413/2023-12-29/1/deu");
 
@@ -29,7 +29,7 @@ class NormExpressionTest {
     var normExpression = new NormExpression(
       toElement(
         """
-              <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" created-by-zeitgrenze="true" created-by-replacing-existing-expression="false"></norms:norm-expression>
+              <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/" created-by-zeitgrenze="true" created-by-replacing-existing-expression="false"></norms:norm-expression>
         """
       )
     );
@@ -44,7 +44,7 @@ class NormExpressionTest {
     var normExpression = new NormExpression(
       toElement(
         """
-              <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">not-valid-expression-eli</norms:norm-expression>
+              <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/" created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">not-valid-expression-eli</norms:norm-expression>
         """
       )
     );
@@ -59,7 +59,7 @@ class NormExpressionTest {
     var normExpression = new NormExpression(
       toElement(
         """
-              <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
+              <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/" created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
         """
       )
     );
@@ -73,7 +73,7 @@ class NormExpressionTest {
     var normExpression = new NormExpression(
       toElement(
         """
-              <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
+              <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/" created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
         """
       )
     );
@@ -85,7 +85,7 @@ class NormExpressionTest {
     var normExpression = new NormExpression(
       toElement(
         """
-              <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/" created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
+              <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/" created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
         """
       )
     );
@@ -96,7 +96,7 @@ class NormExpressionTest {
   void equalsAndHashCode_workCorrectly() {
     var element1 = toElement(
       """
-      <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/"
+      <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/"
         created-by-zeitgrenze="true"
         created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
       """
@@ -104,7 +104,7 @@ class NormExpressionTest {
 
     var element2 = toElement(
       """
-      <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/"
+      <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/"
         created-by-zeitgrenze="true"
         created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
       """
@@ -121,7 +121,7 @@ class NormExpressionTest {
   void equals_returnsFalseWhenAttributesDiffer() {
     var e1 = toElement(
       """
-      <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/"
+      <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/"
         created-by-zeitgrenze="false"
         created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
       """
@@ -129,7 +129,7 @@ class NormExpressionTest {
 
     var e2 = toElement(
       """
-      <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/"
+      <norms:norm-expression xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/"
         created-by-zeitgrenze="true"
         created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
       """

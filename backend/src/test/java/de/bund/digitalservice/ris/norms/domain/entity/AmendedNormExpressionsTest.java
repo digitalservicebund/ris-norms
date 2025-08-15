@@ -13,7 +13,7 @@ class AmendedNormExpressionsTest {
     var amendedNormExpressions = new AmendedNormExpressions(
       toElement(
         """
-        <norms:amended-norm-expressions xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
+        <norms:amended-norm-expressions xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/">
           <norms:norm-expression created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
           <norms:norm-expression created-by-zeitgrenze="false" created-by-replacing-existing-expression="true">eli/bund/bgbl-1/2023/413/2024-01-11/2/deu</norms:norm-expression>
           <norms:norm-expression created-by-zeitgrenze="true" created-by-replacing-existing-expression="true">eli/bund/bgbl-1/2023/413/2024-02-12/1/deu
@@ -47,7 +47,7 @@ class AmendedNormExpressionsTest {
     var amendedNormExpressions = new AmendedNormExpressions(
       toElement(
         """
-        <norms:amended-norm-expressions xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
+        <norms:amended-norm-expressions xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/">
           <norms:norm-expression created-by-zeitgrenze="false" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
         </norms:amended-norm-expressions>
         """
@@ -79,7 +79,7 @@ class AmendedNormExpressionsTest {
     var amendedNormExpressions = new AmendedNormExpressions(
       toElement(
         """
-         <norms:amended-norm-expressions xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
+         <norms:amended-norm-expressions xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/">
               <norms:norm-expression created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
               <norms:norm-expression created-by-zeitgrenze="false" created-by-replacing-existing-expression="true">eli/bund/bgbl-1/2023/413/2024-01-11/2/deu</norms:norm-expression>
               <norms:norm-expression created-by-zeitgrenze="true" created-by-replacing-existing-expression="true">eli/bund/bgbl-1/2023/413/2024-02-12/1/deu</norms:norm-expression>
@@ -102,7 +102,7 @@ class AmendedNormExpressionsTest {
     var amendedNormExpressions = new AmendedNormExpressions(
       toElement(
         """
-          <norms:amended-norm-expressions xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
+          <norms:amended-norm-expressions xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/">
             <norms:norm-expression created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
           </norms:amended-norm-expressions>
         """
@@ -121,7 +121,7 @@ class AmendedNormExpressionsTest {
     var amendedNormExpressions = new AmendedNormExpressions(
       toElement(
         """
-          <norms:amended-norm-expressions xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
+          <norms:amended-norm-expressions xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/">
             <norms:norm-expression created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
           </norms:amended-norm-expressions>
         """
@@ -145,7 +145,7 @@ class AmendedNormExpressionsTest {
     var amendedNormExpressions = new AmendedNormExpressions(
       toElement(
         """
-          <norms:amended-norm-expressions xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
+          <norms:amended-norm-expressions xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/">
             <norms:norm-expression created-by-zeitgrenze="true" created-by-replacing-existing-expression="false">eli/bund/bgbl-1/2023/413/2024-02-12/1/deu</norms:norm-expression>
             <norms:norm-expression created-by-zeitgrenze="false" created-by-replacing-existing-expression="true">eli/bund/bgbl-1/2023/413/2023-12-29/1/deu</norms:norm-expression>
           </norms:amended-norm-expressions>

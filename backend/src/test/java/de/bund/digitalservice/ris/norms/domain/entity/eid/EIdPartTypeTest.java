@@ -11,12 +11,12 @@ class EIdPartTypeTest {
   @ParameterizedTest
   @CsvSource(
     {
-      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.1/\" />,ändbefehl",
-      "<akn:list xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.1/\" />,untergl",
-      "<akn:li xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.1/\" />,listenelem",
-      "<akn:point xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.1/\" />,listenelem",
-      "<akn:passiveModifications xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.1/\" />,pasmod",
-      "<akn:article xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.1/\" />,art",
+      "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.2/\" />,ändbefehl",
+      "<akn:list xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.2/\" />,untergl",
+      "<akn:li xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.2/\" />,listenelem",
+      "<akn:point xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.2/\" />,listenelem",
+      "<akn:passiveModifications xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.2/\" />,pasmod",
+      "<akn:article xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.2/\" />,art",
     }
   )
   void itShouldGetTheCorrectEIdPartTypeForAknElements(String xml, String eIdPartName) {

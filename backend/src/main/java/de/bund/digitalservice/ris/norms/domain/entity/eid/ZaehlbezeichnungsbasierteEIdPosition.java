@@ -18,7 +18,7 @@ public record ZaehlbezeichnungsbasierteEIdPosition(String value) implements EIdP
       "normalize-space(lower-case(./num/text()))",
       node
     )
-      .map(a -> a.replaceAll("(§ )|(art\\. )|(art )|(artikel )", ""))
+      .map(a -> a.replaceAll("(§§ )|(§ )|(art\\. )|(art )|(artikel )", ""))
       .map(a -> a.replaceAll("(\\()(\\d+[a-z]*)(\\))", "$2"))
       .map(a -> a.replaceAll("[-_.]", "~"))
       .map(a -> UriUtils.encode(a, StandardCharsets.UTF_8).toLowerCase());

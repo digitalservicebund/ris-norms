@@ -15,7 +15,7 @@ class EidConsistencyGuardianTest {
   void itDoesNotCorrectAnything() {
     var sampleXml = """
       <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="meta-n1">
            <akn:p eId="meta-n1_text-n1">
                <akn:ref eId="meta-n1_text-n1_ref-n1"></akn:ref>
                <akn:ref eId="meta-n1_text-n1_ref-n2"></akn:ref>
@@ -45,7 +45,7 @@ class EidConsistencyGuardianTest {
   void itCorrectsEidGaps() {
     var sampleXml = """
       <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="meta-n1">
            <akn:p eId="meta-n1_text-n1">
                <akn:ref eId="meta-n1_text-n1_ref-n1"></akn:ref>
                <akn:ref eId="meta-n1_text-n1_ref-n2"></akn:ref>
@@ -65,7 +65,7 @@ class EidConsistencyGuardianTest {
     // Then
     var expectedXml = """
       <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="meta-n1">
            <akn:p eId="meta-n1_text-n1">
                <akn:ref eId="meta-n1_text-n1_ref-n1"></akn:ref>
                <akn:ref eId="meta-n1_text-n1_ref-n2"></akn:ref>
@@ -89,7 +89,7 @@ class EidConsistencyGuardianTest {
   void itCorrectsEidOrder() {
     var sampleXml = """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="meta-n1">
                <akn:p eId="meta-n1_text-n2">
                    <akn:ref eId="meta-n1_text-n2_ref-n1"></akn:ref>
                    <akn:ref eId="meta-n1_text-n2_ref-n2"></akn:ref>
@@ -109,7 +109,7 @@ class EidConsistencyGuardianTest {
     // Then
     var expectedXml = """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="meta-n1">
                <akn:p eId="meta-n1_text-n1">
                    <akn:ref eId="meta-n1_text-n1_ref-n1"></akn:ref>
                    <akn:ref eId="meta-n1_text-n1_ref-n2"></akn:ref>
@@ -134,7 +134,7 @@ class EidConsistencyGuardianTest {
   void itCorrectsEidTypes() {
     var sampleXml = """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="meta-n1">
                <akn:p eId="meta-n1_text-n1">
                    <akn:ref eId="meta-n1_text-n1_text-n1"></akn:ref>
                    <akn:ref eId="meta-n1_text-n1_text-n2"></akn:ref>
@@ -150,7 +150,7 @@ class EidConsistencyGuardianTest {
     // Then
     var expectedXml = """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="meta-n1">
                <akn:p eId="meta-n1_text-n1">
                    <akn:ref eId="meta-n1_text-n1_ref-n1"></akn:ref>
                    <akn:ref eId="meta-n1_text-n1_ref-n2"></akn:ref>
@@ -171,7 +171,7 @@ class EidConsistencyGuardianTest {
   void itCorrectsMissingEids() {
     var sampleXml = """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="meta-n1">
                <akn:p>
                    <akn:ref></akn:ref>
                    <akn:ref></akn:ref>
@@ -187,7 +187,7 @@ class EidConsistencyGuardianTest {
     // Then
     var expectedXml = """
           <root>
-      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1">
+      <akn:meta xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="meta-n1">
                <akn:p eId="meta-n1_text-n1">
                    <akn:ref eId="meta-n1_text-n1_ref-n1"></akn:ref>
                    <akn:ref eId="meta-n1_text-n1_ref-n2"></akn:ref>

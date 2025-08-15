@@ -252,7 +252,7 @@ class NodeParserTest {
 
   @ParameterizedTest
   @CsvSource(
-    { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}act/@name" }
+    { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}act/@name" }
   )
   void xPathsWorkWithoutNamespaceAwareness(String xPath) {
     var regelungstext = Fixtures.loadRegelungstextFromDisk(
@@ -268,7 +268,7 @@ class NodeParserTest {
 
   @ParameterizedTest
   @CsvSource(
-    { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.8.1/}act/@name" }
+    { "//act/@name", "//*:act/@name", "//Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}act/@name" }
   )
   void xPathsWorkWithNamespaceAwareness(String xPath) {
     var regelungstext = Fixtures.loadRegelungstextFromDisk(

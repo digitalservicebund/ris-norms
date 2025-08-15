@@ -59,7 +59,7 @@ class PretextCleanupServiceTest {
     assertThat(proprietary.getMetadataParent(Namespace.METADATEN_RIS)).isEmpty();
   }
 
-  // An anlage-text should not have any metadata as stated in LDMl.de 1.8.1 "2.2.2 Anlage zu einem Regelungstext", but just in case testing also
+  // An anlage-text should not have any metadata as stated in LDMl.de 1.8.2 "2.2.2 Anlage zu einem Regelungstext", but just in case testing also
   @Test
   void cleanAnlageText() {
     var norm = Fixtures.loadNormFromDisk(

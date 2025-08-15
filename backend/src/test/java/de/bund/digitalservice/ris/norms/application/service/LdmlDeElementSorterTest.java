@@ -20,7 +20,7 @@ class LdmlDeElementSorterTest {
   @Test
   void itSortsElements() {
     var elementNode = """
-          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1"
+          <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="art-z1"
                       GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
                       period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
                       refersTo="hauptaenderung">
@@ -39,7 +39,7 @@ class LdmlDeElementSorterTest {
     final Diff diff = DiffBuilder.compare(
       Input.from(
         """
-            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="art-z1"
+            <akn:article xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="art-z1"
                         GUID="cdbfc728-a070-42d9-ba2f-357945afef06"
                         period="#meta-n1_geltzeiten-n1_geltungszeitgr-n1"
                         refersTo="hauptaenderung">
@@ -62,16 +62,16 @@ class LdmlDeElementSorterTest {
   @Test
   void itSortsElementsWithDifferentNamespaces() {
     var elementNode = """
-      <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
-         <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
-            <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
+      <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/">
+         <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
+            <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/">
                <norms:geltungszeiten>
                   <norms:geltungszeit id="cd95811a-63ac-4710-b8aa-fdae33131399" art="inkraft">2017-03-16</norms:geltungszeit>
                </norms:geltungszeiten>
             </norms:legalDocML.de_metadaten>
             <ris:fna>310-5</ris:fna>
          </ris:legalDocML.de_metadaten>
-         <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+         <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.2/">
             <regtxt:form>stammform</regtxt:form>
             <regtxt:typ>gesetz</regtxt:typ>
          </regtxt:legalDocML.de_metadaten>
@@ -84,16 +84,16 @@ class LdmlDeElementSorterTest {
     final Diff diff = DiffBuilder.compare(
       Input.from(
         """
-            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
-             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+            <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/">
+             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                 <ris:fna>310-5</ris:fna>
-                <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
+                <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/">
                    <norms:geltungszeiten>
                       <norms:geltungszeit id="cd95811a-63ac-4710-b8aa-fdae33131399" art="inkraft">2017-03-16</norms:geltungszeit>
                    </norms:geltungszeiten>
                 </norms:legalDocML.de_metadaten>
              </ris:legalDocML.de_metadaten>
-             <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+             <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.2/">
                 <regtxt:typ>gesetz</regtxt:typ>
                 <regtxt:form>stammform</regtxt:form>
              </regtxt:legalDocML.de_metadaten>

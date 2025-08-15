@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- NOTE: THIS FILES CONTAINS ERRORS AND SHOULD NOT BE USED ANYMORE. -->
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.2/ /LegalDocML.de/1.8.2/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.2/ /LegalDocML.de/1.8.2/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.2/ /LegalDocML.de/1.8.2/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.2/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.2/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.2/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.2/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <akn:meta GUID="bbb5e6be-08f2-4dc3-b17a-529e09f8da8b" eId="meta-n1">
          <akn:identification source="attributsemantik-noch-undefiniert"
@@ -124,7 +124,7 @@
          <akn:proprietary source="attributsemantik-noch-undefiniert"
                           GUID="2a01e95a-f73a-4999-aa87-6997f5c18589"
                           eId="meta-n1_proprietary-n1">
-            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.2/">
                <regtxt:typ>gesetz</regtxt:typ>
                <regtxt:form>stammform</regtxt:form>
             </regtxt:legalDocML.de_metadaten>
@@ -240,7 +240,7 @@
                                     eId="art-z3_abs-z1_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="c40e99f6-efbb-4f14-b2f7-0f44bd56308c"
                                               eId="art-z3_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
-                         Aufgabe der Verfassungsschutzbehörden des Bundes und der Länder ist die Sammlung und Auswertung von Informationen, insbesondere von sach- und personen*-bezogenen Auskünften, Nachrichten und Unterlagen, über 
+                         Aufgabe der Verfassungsschutzbehörden des Bundes und der Länder ist die Sammlung und Auswertung von Informationen, insbesondere von sach- und personen*-bezogenen Auskünften, Nachrichten und Unterlagen, über
                      </akn:listIntroduction>
                         <akn:item GUID="5dbfc1d5-967e-4316-957b-e647516daf43"
                                   eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
@@ -275,7 +275,7 @@
                                     eId="art-z3_abs-z2_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="314e3dc3-5256-416c-892e-53dbc7827c45"
                                               eId="art-z3_abs-z2_inhalt-n1_liste-n1_listeneing-n1">
-                         Die Verfassungsschutzbehörden des Bundes und der Länder wirken mit 
+                         Die Verfassungsschutzbehörden des Bundes und der Länder wirken mit
                      </akn:listIntroduction>
                         <akn:item GUID="cc5c4e65-cda2-4b8b-8f92-ff613ac15b2b"
                                   eId="art-z3_abs-z2_inhalt-n1_liste-n1_listenelem-n1">
@@ -325,7 +325,7 @@
                                     eId="art-z4_abs-z1_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="1caa76ea-621a-4209-9250-a104b078c3a5"
                                               eId="art-z4_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
-                         Im Sinne dieses Gesetzes sind 
+                         Im Sinne dieses Gesetzes sind
                      </akn:listIntroduction>
                         <akn:item GUID="b020a850-5b25-4117-8473-efb1919dc831"
                                   eId="art-z4_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
@@ -360,7 +360,7 @@
                                     eId="art-z4_abs-z2_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="00cc1f9d-03aa-4964-9a48-08e8c97f63cc"
                                               eId="art-z4_abs-z2_inhalt-n1_liste-n1_listeneing-n1">
-                         Zur freiheitlichen demokratischen Grundordnung im Sinne dieses Gesetzes zählen: 
+                         Zur freiheitlichen demokratischen Grundordnung im Sinne dieses Gesetzes zählen:
                      </akn:listIntroduction>
                         <akn:item GUID="2c17618d-334a-417d-b40a-711ebb3088f9"
                                   eId="art-z4_abs-z2_inhalt-n1_liste-n1_listenelem-n1">
@@ -429,7 +429,7 @@
                                     eId="art-z5_abs-z1_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="823e163d-7484-4de8-b237-08b36522b074"
                                               eId="art-z5_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
-                         Das Bundesamt für Verfassungsschutz darf in einem Lande im Benehmen mit der Landesbehörde für Verfassungsschutz Informationen, Auskünfte, Nachrichten und Unterlagen im Sinne des § 3 sammeln. Bei Bestrebungen und Tätigkeiten im Sinne des § 3 Abs. 1 Nr. 1 bis 4 ist Voraussetzung, daß 
+                         Das Bundesamt für Verfassungsschutz darf in einem Lande im Benehmen mit der Landesbehörde für Verfassungsschutz Informationen, Auskünfte, Nachrichten und Unterlagen im Sinne des § 3 sammeln. Bei Bestrebungen und Tätigkeiten im Sinne des § 3 Abs. 1 Nr. 1 bis 4 ist Voraussetzung, daß
                      </akn:listIntroduction>
                         <akn:item GUID="ccb9ec29-f5ee-4fdd-be1a-00299c483b0a"
                                   eId="art-z5_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
@@ -487,7 +487,7 @@
                                     eId="art-z5_abs-z3_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="fd3c2e30-0fc9-4f27-8e43-88bf12e44328"
                                               eId="art-z5_abs-z3_inhalt-n1_liste-n1_listeneing-n1">
-                         Das Bundesamt für Verfassungsschutz koordiniert die Zusammenarbeit der Verfassungsschutzbehörden. Die Koordinierung schließt insbesondere die Vereinbarung von 
+                         Das Bundesamt für Verfassungsschutz koordiniert die Zusammenarbeit der Verfassungsschutzbehörden. Die Koordinierung schließt insbesondere die Vereinbarung von
                      </akn:listIntroduction>
                         <akn:item GUID="c08e39f8-0e83-49a8-89a7-6d4451477250"
                                   eId="art-z5_abs-z3_inhalt-n1_liste-n1_listenelem-n1">
@@ -522,7 +522,7 @@
                                     eId="art-z5_abs-z4_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="36339741-b2d5-4079-b6f7-74a234a66fd0"
                                               eId="art-z5_abs-z4_inhalt-n1_liste-n1_listeneing-n1">
-                         Das Bundesamt für Verfassungsschutz unterstützt als Zentralstelle die Landesbehörden für Verfassungsschutz bei der Erfüllung ihrer Aufgaben nach § 3 insbesondere durch 
+                         Das Bundesamt für Verfassungsschutz unterstützt als Zentralstelle die Landesbehörden für Verfassungsschutz bei der Erfüllung ihrer Aufgaben nach § 3 insbesondere durch
                      </akn:listIntroduction>
                         <akn:item GUID="0a5e9bd0-127c-4d28-98ed-53c6b3914131"
                                   eId="art-z5_abs-z4_inhalt-n1_liste-n1_listenelem-n1">
@@ -564,7 +564,7 @@
                                     eId="art-z5_abs-z5_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="bd12a5ec-9363-42f6-a386-c027bb2edcb1"
                                               eId="art-z5_abs-z5_inhalt-n1_liste-n1_listeneing-n1">
-                         Dem Bundesamt für Verfassungsschutz obliegt der für Aufgaben nach § 3 erforderliche Dienstverkehr mit zuständigen öffentlichen Stellen anderer Staaten. Die Landesbehörden für Verfassungsschutz können solchen Dienstverkehr führen 
+                         Dem Bundesamt für Verfassungsschutz obliegt der für Aufgaben nach § 3 erforderliche Dienstverkehr mit zuständigen öffentlichen Stellen anderer Staaten. Die Landesbehörden für Verfassungsschutz können solchen Dienstverkehr führen
                      </akn:listIntroduction>
                         <akn:item GUID="bee722cf-c547-4233-9dcf-00ccf58d9d9d"
                                   eId="art-z5_abs-z5_inhalt-n1_liste-n1_listenelem-n1">
@@ -732,7 +732,7 @@
                                     eId="art-z8a_abs-z2_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="ad89bfdd-4cb0-444d-92cf-eca72ad0174a"
                                               eId="art-z8a_abs-z2_inhalt-n1_liste-n1_listeneing-n1">
-                         Das Bundesamt für Verfassungsschutz darf im Einzelfall Auskunft einholen bei 
+                         Das Bundesamt für Verfassungsschutz darf im Einzelfall Auskunft einholen bei
                      </akn:listIntroduction>
                         <akn:item GUID="b552eb05-c2a7-4762-bf59-fdf588b8cf33"
                                   eId="art-z8a_abs-z2_inhalt-n1_liste-n1_listenelem-n1">
@@ -770,7 +770,7 @@
                                           eId="art-z8a_abs-z2_inhalt-n1_liste-n1_listenelem-n5_liste-n1">
                               <akn:listIntroduction GUID="68c6691c-f234-4f0c-82b9-1d9a5b67d75f"
                                                     eId="art-z8a_abs-z2_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listeneing-n1">
-                               denjenigen, die geschäftsmäßig Teledienste erbringen oder daran mitwirken, zu 
+                               denjenigen, die geschäftsmäßig Teledienste erbringen oder daran mitwirken, zu
                            </akn:listIntroduction>
                               <akn:item GUID="fae9ae95-44b6-41c6-ba47-88af2a522597"
                                         eId="art-z8a_abs-z2_inhalt-n1_liste-n1_listenelem-n5_liste-n1_listenelem-n1">
@@ -807,7 +807,7 @@
                                     eId="art-z8a_abs-z3_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="2e803827-c0a9-475e-a575-72e6e7a9e587"
                                               eId="art-z8a_abs-z3_inhalt-n1_liste-n1_listeneing-n1">
-                         Anordnungen nach den Absätzen 2 und 2a dürfen sich nur gegen Personen richten, bei denen 
+                         Anordnungen nach den Absätzen 2 und 2a dürfen sich nur gegen Personen richten, bei denen
                      </akn:listIntroduction>
                         <akn:item GUID="fda35602-1718-406a-ad51-9f8d630f6b52"
                                   eId="art-z8a_abs-z3_inhalt-n1_liste-n1_listenelem-n1">
@@ -824,7 +824,7 @@
                                           eId="art-z8a_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1">
                               <akn:listIntroduction GUID="e9d49059-f867-49ab-9f53-d747e4789a8d"
                                                     eId="art-z8a_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listeneing-n1">
-                               auf Grund bestimmter Tatsachen anzunehmen ist 
+                               auf Grund bestimmter Tatsachen anzunehmen ist
                            </akn:listIntroduction>
                               <akn:item GUID="296433fa-b21b-4eb0-b1d2-bb81fb6b7314"
                                         eId="art-z8a_abs-z3_inhalt-n1_liste-n1_listenelem-n2_liste-n1_listenelem-n1">
@@ -943,7 +943,7 @@
                                     eId="art-z8b_abs-z8_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="6c499b35-62b0-479c-a81d-a74ce1b9043c"
                                               eId="art-z8b_abs-z8_inhalt-n1_liste-n1_listeneing-n1">
-                         Das Bundesministerium des Innern, für Bau und Heimat wird ermächtigt, durch Rechtsverordnung im Einvernehmen mit dem Bundeskanzleramt, dem Bundesministerium für Wirtschaft und Energie, dem Bundesministerium für Verkehr und digitale Infrastruktur, dem Bundesministerium der Justiz und für Verbraucherschutz und dem Bundesministerium der Verteidigung ohne Zustimmung des Bundesrates zu bestimmen, dass Auskünfte nach § 8a Absatz 1 mit Ausnahme der Auskünfte nach § 8a Absatz 1 Satz 1 Nummer 4, auch soweit andere Vorschriften hierauf verweisen, ganz oder teilweise auf maschinell verwertbaren Datenträgern oder durch Datenfernübertragung übermittelt werden müssen. Dabei können insbesondere geregelt werden 
+                         Das Bundesministerium des Innern, für Bau und Heimat wird ermächtigt, durch Rechtsverordnung im Einvernehmen mit dem Bundeskanzleramt, dem Bundesministerium für Wirtschaft und Energie, dem Bundesministerium für Verkehr und digitale Infrastruktur, dem Bundesministerium der Justiz und für Verbraucherschutz und dem Bundesministerium der Verteidigung ohne Zustimmung des Bundesrates zu bestimmen, dass Auskünfte nach § 8a Absatz 1 mit Ausnahme der Auskünfte nach § 8a Absatz 1 Satz 1 Nummer 4, auch soweit andere Vorschriften hierauf verweisen, ganz oder teilweise auf maschinell verwertbaren Datenträgern oder durch Datenfernübertragung übermittelt werden müssen. Dabei können insbesondere geregelt werden
                      </akn:listIntroduction>
                         <akn:item GUID="df637290-7ebb-4fb0-9149-7f262ee87f98"
                                   eId="art-z8b_abs-z8_inhalt-n1_liste-n1_listenelem-n1">
@@ -1033,7 +1033,7 @@
                                     eId="art-z8d_abs-z1_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="a636a701-41d1-483b-8ae1-4e68a1cef871"
                                               eId="art-z8d_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
-                         Soweit dies auf Grund tatsächlicher Anhaltspunkte im Einzelfall zur Aufklärung bestimmter Bestrebungen oder Tätigkeiten nach § 3 Absatz 1 erforderlich ist, darf das Bundesamt für Verfassungsschutz Auskunft verlangen von demjenigen, der geschäftsmäßig 
+                         Soweit dies auf Grund tatsächlicher Anhaltspunkte im Einzelfall zur Aufklärung bestimmter Bestrebungen oder Tätigkeiten nach § 3 Absatz 1 erforderlich ist, darf das Bundesamt für Verfassungsschutz Auskunft verlangen von demjenigen, der geschäftsmäßig
                      </akn:listIntroduction>
                         <akn:item GUID="af8da193-af3d-454e-9809-4fe0f2a945b8"
                                   eId="art-z8d_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
@@ -1121,7 +1121,7 @@
                                     eId="art-z9_abs-z1_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="0e295446-dc62-4d70-9da1-94751fccb721"
                                               eId="art-z9_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
-                         Das Bundesamt für Verfassungsschutz darf Informationen, insbesondere personenbezogene Daten, mit den Mitteln gemäß § 8 Abs. 2 erheben, wenn Tatsachen die Annahme rechtfertigen, daß 
+                         Das Bundesamt für Verfassungsschutz darf Informationen, insbesondere personenbezogene Daten, mit den Mitteln gemäß § 8 Abs. 2 erheben, wenn Tatsachen die Annahme rechtfertigen, daß
                      </akn:listIntroduction>
                         <akn:item GUID="7ca0fd48-444a-431a-b538-7d1274f88819"
                                   eId="art-z9_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
@@ -1158,7 +1158,7 @@
                                     eId="art-z9_abs-z3_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="5c5ca78f-a4b1-40fa-9646-861385083013"
                                               eId="art-z9_abs-z3_inhalt-n1_liste-n1_listeneing-n1">
-                         Bei Erhebungen nach Absatz 2 und solchen nach Absatz 1, die in ihrer Art und Schwere einer Beschränkung des Brief-, Post- und Fernmelde*-geheimnisses gleichkommen, wozu insbesondere das Abhören und Aufzeichnen des nicht öffentlich gesprochenen Wortes mit dem verdeckten Einsatz technischer Mittel gehören, ist 
+                         Bei Erhebungen nach Absatz 2 und solchen nach Absatz 1, die in ihrer Art und Schwere einer Beschränkung des Brief-, Post- und Fernmelde*-geheimnisses gleichkommen, wozu insbesondere das Abhören und Aufzeichnen des nicht öffentlich gesprochenen Wortes mit dem verdeckten Einsatz technischer Mittel gehören, ist
                      </akn:listIntroduction>
                         <akn:item GUID="57acf68f-e530-4c78-a692-d90ef84239ef"
                                   eId="art-z9_abs-z3_inhalt-n1_liste-n1_listenelem-n1">
@@ -1212,7 +1212,7 @@
                                     eId="art-z9a_abs-z2_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="c67c24f9-09e1-4972-9615-90ac0f944c71"
                                               eId="art-z9a_abs-z2_inhalt-n1_liste-n1_listeneing-n1">
-                         Verdeckte Mitarbeiter dürfen weder zur Gründung von Bestrebungen nach § 3 Absatz 1 Nummer 1, 3 oder 4 noch zur steuernden Einflussnahme auf derartige Bestrebungen eingesetzt werden. Sie dürfen in solchen Personenzusammenschlüssen oder für solche Personenzusammenschlüsse, einschließlich strafbare Vereinigungen, tätig werden, um deren Bestrebungen aufzuklären. Im Übrigen ist im Einsatz eine Beteiligung an Bestrebungen zulässig, wenn sie 
+                         Verdeckte Mitarbeiter dürfen weder zur Gründung von Bestrebungen nach § 3 Absatz 1 Nummer 1, 3 oder 4 noch zur steuernden Einflussnahme auf derartige Bestrebungen eingesetzt werden. Sie dürfen in solchen Personenzusammenschlüssen oder für solche Personenzusammenschlüsse, einschließlich strafbare Vereinigungen, tätig werden, um deren Bestrebungen aufzuklären. Im Übrigen ist im Einsatz eine Beteiligung an Bestrebungen zulässig, wenn sie
                      </akn:listIntroduction>
                         <akn:item GUID="33d6571b-7544-471a-9dfc-d5450ff05eea"
                                   eId="art-z9a_abs-z2_inhalt-n1_liste-n1_listenelem-n1">
@@ -1247,7 +1247,7 @@
                                     eId="art-z9a_abs-z3_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="f4b814ff-daa1-473d-9492-e24504549a0e"
                                               eId="art-z9a_abs-z3_inhalt-n1_liste-n1_listeneing-n1">
-                         Die Staatsanwaltschaft kann von der Verfolgung von im Einsatz begangenen Vergehen absehen oder eine bereits erhobene Klage in jeder Lage des Verfahrens zurücknehmen und das Verfahren einstellen, wenn 
+                         Die Staatsanwaltschaft kann von der Verfolgung von im Einsatz begangenen Vergehen absehen oder eine bereits erhobene Klage in jeder Lage des Verfahrens zurücknehmen und das Verfahren einstellen, wenn
                      </akn:listIntroduction>
                         <akn:item GUID="e60736d9-4371-4120-a2a3-915151e75696"
                                   eId="art-z9a_abs-z3_inhalt-n1_liste-n1_listenelem-n1">
@@ -1292,7 +1292,7 @@
                                     eId="art-z9b_abs-z2_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="8c22a6e1-35ab-444b-a1d6-7797f1c84d5e"
                                               eId="art-z9b_abs-z2_inhalt-n1_liste-n1_listeneing-n1">
-                         Über die Verpflichtung von Vertrauensleuten entscheidet der Behördenleiter oder sein Vertreter. Als Vertrauensleute dürfen Personen nicht angeworben und eingesetzt werden, die 
+                         Über die Verpflichtung von Vertrauensleuten entscheidet der Behördenleiter oder sein Vertreter. Als Vertrauensleute dürfen Personen nicht angeworben und eingesetzt werden, die
                      </akn:listIntroduction>
                         <akn:item GUID="07ba603b-bd15-465e-bd17-b61117afb81b"
                                   eId="art-z9b_abs-z2_inhalt-n1_liste-n1_listenelem-n1">
@@ -1349,7 +1349,7 @@
                                     eId="art-z10_abs-z1_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="eaee2b6d-4c2d-4f68-9f96-1aa32337cb8f"
                                               eId="art-z10_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
-                         Das Bundesamt für Verfassungsschutz darf zur Erfüllung seiner Aufgaben personenbezogene Daten in Dateien speichern, verändern und nutzen, wenn 
+                         Das Bundesamt für Verfassungsschutz darf zur Erfüllung seiner Aufgaben personenbezogene Daten in Dateien speichern, verändern und nutzen, wenn
                      </akn:listIntroduction>
                         <akn:item GUID="7bfe94c8-f3b9-4672-88ea-94f72d555a27"
                                   eId="art-z10_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
@@ -1524,7 +1524,7 @@
                                     eId="art-z14_abs-z1_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="01c5fd24-74e9-4b78-84f4-5fb6c1e60a5d"
                                               eId="art-z14_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
-                         Für jede automatisierte Datei beim Bundesamt für Verfassungsschutz nach § 6 oder § 10 sind in einer Dateianordnung, die der Zustimmung des Bundesministeriums des Innern, für Bau und Heimat bedarf, festzulegen: 
+                         Für jede automatisierte Datei beim Bundesamt für Verfassungsschutz nach § 6 oder § 10 sind in einer Dateianordnung, die der Zustimmung des Bundesministeriums des Innern, für Bau und Heimat bedarf, festzulegen:
                      </akn:listIntroduction>
                         <akn:item GUID="8e1c8d95-b412-44f4-83aa-eb852debb40c"
                                   eId="art-z14_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
@@ -1622,7 +1622,7 @@
                                     eId="art-z15_abs-z2_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="67006ca1-ce9e-4e3a-b152-62ff184bd3c4"
                                               eId="art-z15_abs-z2_inhalt-n1_liste-n1_listeneing-n1">
-                         Die Auskunftserteilung unterbleibt, soweit 
+                         Die Auskunftserteilung unterbleibt, soweit
                      </akn:listIntroduction>
                         <akn:item GUID="5f9bfe7f-95e7-4923-90fa-6bba1df91996"
                                   eId="art-z15_abs-z2_inhalt-n1_liste-n1_listenelem-n1">
@@ -1785,7 +1785,7 @@
                                     eId="art-z18_abs-z3_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="26d60a66-e872-444a-bee0-d343ad858207"
                                               eId="art-z18_abs-z3_inhalt-n1_liste-n1_listeneing-n1">
-                         Das Bundesamt für Verfassungsschutz darf zur Erfüllung seiner Aufgaben die Staatsanwaltschaften und, vorbehaltlich der staatsanwaltschaftlichen Sachleitungsbefugnis, die Polizeien sowie andere Behörden um Übermittlung der zur Erfüllung seiner Aufgaben erforderlichen Informationen einschließlich personenbezogener Daten ersuchen, wenn sie nicht aus allgemein zugänglichen Quellen oder nur mit übermäßigem Aufwand oder nur durch eine den Betroffenen stärker belastende Maßnahme erhoben werden können. Unter den gleichen Voraussetzungen dürfen Verfassungsschutzbehörden der Länder 
+                         Das Bundesamt für Verfassungsschutz darf zur Erfüllung seiner Aufgaben die Staatsanwaltschaften und, vorbehaltlich der staatsanwaltschaftlichen Sachleitungsbefugnis, die Polizeien sowie andere Behörden um Übermittlung der zur Erfüllung seiner Aufgaben erforderlichen Informationen einschließlich personenbezogener Daten ersuchen, wenn sie nicht aus allgemein zugänglichen Quellen oder nur mit übermäßigem Aufwand oder nur durch eine den Betroffenen stärker belastende Maßnahme erhoben werden können. Unter den gleichen Voraussetzungen dürfen Verfassungsschutzbehörden der Länder
                      </akn:listIntroduction>
                         <akn:item GUID="3d09ca5e-3497-4b2d-ba76-c1524661689c"
                                   eId="art-z18_abs-z3_inhalt-n1_liste-n1_listenelem-n1">
@@ -1848,7 +1848,7 @@
                                     eId="art-z19_abs-z1_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="8e16d31e-e44f-47fc-bc3c-6864d493c2d9"
                                               eId="art-z19_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
-                         Das Bundesamt für Verfassungsschutz darf personenbezogene Daten, die mit den Mitteln nach § 8 Absatz 2 erhoben worden sind, an die Staatsanwaltschaften, die Finanzbehörden nach § 386 Absatz 1 der Abgabenordnung, die Polizeien, die mit der Steuerfahndung betrauten Dienststellen der Landesfinanzbehörden, die Behörden des Zollfahndungsdienstes sowie andere Zolldienststellen, soweit diese Aufgaben nach dem Bundespolizeigesetz wahrnehmen, übermitteln, soweit dies erforderlich ist zur 
+                         Das Bundesamt für Verfassungsschutz darf personenbezogene Daten, die mit den Mitteln nach § 8 Absatz 2 erhoben worden sind, an die Staatsanwaltschaften, die Finanzbehörden nach § 386 Absatz 1 der Abgabenordnung, die Polizeien, die mit der Steuerfahndung betrauten Dienststellen der Landesfinanzbehörden, die Behörden des Zollfahndungsdienstes sowie andere Zolldienststellen, soweit diese Aufgaben nach dem Bundespolizeigesetz wahrnehmen, übermitteln, soweit dies erforderlich ist zur
                      </akn:listIntroduction>
                         <akn:item GUID="b60290f9-ab9e-4721-bf6f-1c08ac9ceee9"
                                   eId="art-z19_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
@@ -2048,7 +2048,7 @@
                                     eId="art-z22a_abs-z6_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="0ca56a04-5f36-4ec8-afb0-6a96eddde735"
                                               eId="art-z22a_abs-z6_inhalt-n1_liste-n1_listeneing-n1">
-                         Das Bundesamt für Verfassungsschutz hat für die gemeinsame Datei in einer Dateianordnung die Angaben nach § 14 Abs. 1 Satz 1 Nr. 1 bis 7 sowie weiter festzulegen: 
+                         Das Bundesamt für Verfassungsschutz hat für die gemeinsame Datei in einer Dateianordnung die Angaben nach § 14 Abs. 1 Satz 1 Nr. 1 bis 7 sowie weiter festzulegen:
                      </akn:listIntroduction>
                         <akn:item GUID="c2ce2c74-296c-4214-a01a-22b5dd90732a"
                                   eId="art-z22a_abs-z6_inhalt-n1_liste-n1_listenelem-n1">
@@ -2133,7 +2133,7 @@
                                     eId="art-z22b_abs-z1_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="7b29fe14-99f4-4225-991a-5cc1d02addc9"
                                               eId="art-z22b_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
-                         Das Bundesamt für Verfassungsschutz kann für die Zusammenarbeit mit ausländischen öffentlichen Stellen, die mit nachrichtendienstlichen Aufgaben betraut sind (ausländische Nachrichtendienste), zur Erforschung von Bestrebungen oder Tätigkeiten, die sich auf bestimmte Ereignisse oder Personenkreise beziehen, gemeinsame Dateien einrichten, wenn 
+                         Das Bundesamt für Verfassungsschutz kann für die Zusammenarbeit mit ausländischen öffentlichen Stellen, die mit nachrichtendienstlichen Aufgaben betraut sind (ausländische Nachrichtendienste), zur Erforschung von Bestrebungen oder Tätigkeiten, die sich auf bestimmte Ereignisse oder Personenkreise beziehen, gemeinsame Dateien einrichten, wenn
                      </akn:listIntroduction>
                         <akn:item GUID="1092eaeb-570f-4df2-aee9-bb9e6a0d9450"
                                   eId="art-z22b_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
@@ -2202,7 +2202,7 @@
                                     eId="art-z22b_abs-z5_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="be800df2-1e30-40ad-9b0f-79b60b39e0ac"
                                               eId="art-z22b_abs-z5_inhalt-n1_liste-n1_listeneing-n1">
-                         Die Ziele der Zusammenarbeit und das Nähere der Datenverwendung sind vor Beginn der Zusammenarbeit zwischen den teilnehmenden Nachrichtendiensten zur Gewährleistung eines angemessenen Datenschutzniveaus und zum Ausschluss unangemessener Verwendung schriftlich festzulegen, insbesondere: 
+                         Die Ziele der Zusammenarbeit und das Nähere der Datenverwendung sind vor Beginn der Zusammenarbeit zwischen den teilnehmenden Nachrichtendiensten zur Gewährleistung eines angemessenen Datenschutzniveaus und zum Ausschluss unangemessener Verwendung schriftlich festzulegen, insbesondere:
                      </akn:listIntroduction>
                         <akn:item GUID="fd752096-9005-4bee-a614-efaa2624fe85"
                                   eId="art-z22b_abs-z5_inhalt-n1_liste-n1_listenelem-n1">
@@ -2233,7 +2233,7 @@
                                           eId="art-z22b_abs-z5_inhalt-n1_liste-n1_listenelem-n4_liste-n1">
                               <akn:listIntroduction GUID="72a174c8-1d55-4605-98bc-c157e6bd502d"
                                                     eId="art-z22b_abs-z5_inhalt-n1_liste-n1_listenelem-n4_liste-n1_listeneing-n1">
-                               Zusage, 
+                               Zusage,
                            </akn:listIntroduction>
                               <akn:item GUID="33e77f6a-f4f9-4d87-b9d6-fa61549b668f"
                                         eId="art-z22b_abs-z5_inhalt-n1_liste-n1_listenelem-n4_liste-n1_listenelem-n1">
@@ -2289,7 +2289,7 @@
                                     eId="art-z22c_abs-z_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="a717fdd5-44c2-46bc-bb7d-19e6791f8439"
                                               eId="art-z22c_abs-z_inhalt-n1_liste-n1_listeneing-n1">
-                         Das Bundesamt für Verfassungsschutz darf an gemeinsamen Dateien, die von ausländischen Nachrichtendiensten errichtet sind, teilnehmen. § 22b Absatz 1 bis 4 und 6 gilt entsprechend. Dabei gilt § 22b Absatz 1 Nummer 3 mit der Maßgabe, dass verlässlich zuzusagen ist, dass 
+                         Das Bundesamt für Verfassungsschutz darf an gemeinsamen Dateien, die von ausländischen Nachrichtendiensten errichtet sind, teilnehmen. § 22b Absatz 1 bis 4 und 6 gilt entsprechend. Dabei gilt § 22b Absatz 1 Nummer 3 mit der Maßgabe, dass verlässlich zuzusagen ist, dass
                      </akn:listIntroduction>
                         <akn:item GUID="6697f4d7-397f-4b26-b596-9fea013abc7c"
                                   eId="art-z22c_abs-z_inhalt-n1_liste-n1_listenelem-n1">
@@ -2325,7 +2325,7 @@
                                     eId="art-z23_abs-z_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="3b7237e9-460b-4519-b4b1-dccd1801a7f4"
                                               eId="art-z23_abs-z_inhalt-n1_liste-n1_listeneing-n1">
-                         Die Übermittlung nach den Vorschriften dieses Abschnitts unterbleibt, wenn 
+                         Die Übermittlung nach den Vorschriften dieses Abschnitts unterbleibt, wenn
                      </akn:listIntroduction>
                         <akn:item GUID="b7dfb6bb-2d65-4527-aa16-3d2cce1c80f2"
                                   eId="art-z23_abs-z_inhalt-n1_liste-n1_listenelem-n1">
@@ -2435,7 +2435,7 @@
                                     eId="art-z27_abs-z_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="a5f3dd6b-cf82-4027-94e5-381815896b18"
                                               eId="art-z27_abs-z_inhalt-n1_liste-n1_listeneing-n1">
-                         Bei der Erfüllung der Aufgaben nach § 3 durch das Bundesamt für Verfassungsschutz findet das Bundesdatenschutzgesetz wie folgt Anwendung: 
+                         Bei der Erfüllung der Aufgaben nach § 3 durch das Bundesamt für Verfassungsschutz findet das Bundesdatenschutzgesetz wie folgt Anwendung:
                      </akn:listIntroduction>
                         <akn:item GUID="bcad8715-1626-403d-940f-2f0e7a5472da"
                                   eId="art-z27_abs-z_inhalt-n1_liste-n1_listenelem-n1">
@@ -2489,7 +2489,7 @@
                                     eId="art-z28_abs-z3_inhalt-n1_liste-n1">
                         <akn:listIntroduction GUID="7da11529-fb7f-49aa-b83b-881db0e43782"
                                               eId="art-z28_abs-z3_inhalt-n1_liste-n1_listeneing-n1">
-                         Das Bundesamt für Verfassungsschutz ist verpflichtet, die Bundesbeauftragte oder den Bundesbeauftragten für den Datenschutz und die Informationsfreiheit und ihre oder seine schriftlich besonders Beauftragten bei der Erfüllung ihrer oder seiner Aufgaben zu unterstützen. Den in Satz 1 genannten Personen ist dabei insbesondere 
+                         Das Bundesamt für Verfassungsschutz ist verpflichtet, die Bundesbeauftragte oder den Bundesbeauftragten für den Datenschutz und die Informationsfreiheit und ihre oder seine schriftlich besonders Beauftragten bei der Erfüllung ihrer oder seiner Aufgaben zu unterstützen. Den in Satz 1 genannten Personen ist dabei insbesondere
                      </akn:listIntroduction>
                         <akn:item GUID="3c2ec6db-3660-40a1-9926-e1cd07739be9"
                                   eId="art-z28_abs-z3_inhalt-n1_liste-n1_listenelem-n1">

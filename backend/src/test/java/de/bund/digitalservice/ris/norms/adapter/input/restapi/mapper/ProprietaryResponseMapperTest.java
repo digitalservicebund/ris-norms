@@ -36,11 +36,11 @@ class ProprietaryResponseMapperTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                       <ris:artDerNorm>SN</ris:artDerNorm>
                    </ris:einzelelement>
@@ -66,11 +66,11 @@ class ProprietaryResponseMapperTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                    </ris:einzelelement>
               </ris:legalDocML.de_metadaten>
@@ -94,11 +94,11 @@ class ProprietaryResponseMapperTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
               </ris:legalDocML.de_metadaten>
           </akn:proprietary>
           """
@@ -120,7 +120,7 @@ class ProprietaryResponseMapperTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">

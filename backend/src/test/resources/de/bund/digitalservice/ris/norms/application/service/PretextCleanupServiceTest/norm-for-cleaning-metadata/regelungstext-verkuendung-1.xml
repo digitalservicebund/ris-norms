@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+<akn:akomaNtoso xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.1/ /LegalDocML.de/1.8.1/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.1/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.1/norms-application-only-metadata.xsd">
+                xsi:schemaLocation="http://Inhaltsdaten.LegalDocML.de/1.8.2/ /LegalDocML.de/1.8.2/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd http://MetadatenBundesregierung.LegalDocML.de/1.8.2/ /LegalDocML.de/1.8.2/schema/legalDocML.de-metadaten-bundesregierung.xsd http://MetadatenRegelungstext.LegalDocML.de/1.8.2/ /LegalDocML.de/1.8.2/schema/legalDocML.de-metadaten-regelungstext.xsd http://MetadatenRIS.LegalDocML.de/1.8.2/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.2/legalDocML.de-metadaten-ris.xsd http://MetadatenMods.LegalDocML.de/1.8.2/ /LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.2/norms-application-only-metadata.xsd">
    <akn:act name="/akn/ontology/de/concept/documenttype/bund/regelungstext-verkuendung">
       <akn:meta GUID="24742477-cfd0-4df5-8df1-8da2ed8100e9" eId="meta-n1">
          <akn:identification source="attributsemantik-noch-undefiniert"
@@ -130,16 +130,16 @@
          <akn:proprietary source="attributsemantik-noch-undefiniert"
                           GUID="6c70b4b7-ad96-4a65-a752-829195eb359d"
                           eId="meta-n1_proprietary-n1">
-            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.2/">
                <regtxt:typ>gesetz</regtxt:typ>
                <regtxt:form>stammform</regtxt:form>
             </regtxt:legalDocML.de_metadaten>
-            <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+            <meta-breg:legalDocML.de_metadaten xmlns:meta-breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.2/">
                <meta-breg:federfuehrung>
                   <meta-breg:federfuehrend ab="2002-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</meta-breg:federfuehrend>
                </meta-breg:federfuehrung>
             </meta-breg:legalDocML.de_metadaten>
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                <ris:inkraft date="2021-04-16"/>
             </ris:legalDocML.de_metadaten>
          </akn:proprietary>
@@ -505,7 +505,7 @@
                                  eId="art-z3_abs-z1_inhalt-n1_liste-n1">
                      <akn:listIntroduction GUID="a89f54e6-6706-47d0-940a-7c371a6c0538"
                                            eId="art-z3_abs-z1_inhalt-n1_liste-n1_listeneing-n1">
-                     Interessenvertreterinnen und Interessenvertreter stellen im Lobbyregister die folgenden Informationen bereit: 
+                     Interessenvertreterinnen und Interessenvertreter stellen im Lobbyregister die folgenden Informationen bereit:
                   </akn:listIntroduction>
                      <akn:item GUID="43fca950-2c17-400a-a12d-a72507b84d6f"
                                eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n1">
@@ -630,7 +630,7 @@
                                        eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1">
                            <akn:listIntroduction GUID="1cad020b-1d05-4afc-b1f6-8ccd0e421f09"
                                                  eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1_listeneing-n1">
-                           Angaben zu einzelnen Zuwendungen und Zuschüssen der öffentlichen Hand sowie zu einzelnen Schenkungen Dritter in Stufen von jeweils 10 000 Euro, sofern jeweils ein Betrag von 20 000 Euro oder der Gesamtwert von 20 000 Euro bezogen auf eine Geberin oder einen Geber in einem Kalenderjahr überschritten wird, nämlich 
+                           Angaben zu einzelnen Zuwendungen und Zuschüssen der öffentlichen Hand sowie zu einzelnen Schenkungen Dritter in Stufen von jeweils 10 000 Euro, sofern jeweils ein Betrag von 20 000 Euro oder der Gesamtwert von 20 000 Euro bezogen auf eine Geberin oder einen Geber in einem Kalenderjahr überschritten wird, nämlich
                         </akn:listIntroduction>
                            <akn:item GUID="28a739ff-b9b8-4aef-bc07-90a2cfe5d90c"
                                      eId="art-z3_abs-z1_inhalt-n1_liste-n1_listenelem-n7_liste-n1_listenelem-n1">

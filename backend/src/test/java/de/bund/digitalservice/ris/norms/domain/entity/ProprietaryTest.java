@@ -23,18 +23,18 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/">
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.2/">
               <redok:fna>754-28-1</redok:fna>
               <redok:gesta>i am gesta</redok:gesta>
             </redok:legalDocML.de_metadaten>
-            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.2/">
               <regtxt:typ>gesetz</regtxt:typ>
             </regtxt:legalDocML.de_metadaten>
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
               <ris:subtyp>new-subtyp</ris:subtyp>
               <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
               <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
@@ -70,15 +70,15 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-              <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+              <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
                 eId="meta-n1_proprietary-n1"
                 GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                 source="attributsemantik-noch-undefiniert">
-                <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/">
+                <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.2/">
                 </redok:legalDocML.de_metadaten>
-                <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+                <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.2/">
                 </regtxt:legalDocML.de_metadaten>
-                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+                <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                 </ris:legalDocML.de_metadaten>
               </akn:proprietary>
           """
@@ -102,7 +102,7 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-              <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+              <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
                 eId="meta-n1_proprietary-n1"
                 GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
                 source="attributsemantik-noch-undefiniert">
@@ -132,11 +132,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                       <ris:artDerNorm>SN</ris:artDerNorm>
                   </ris:einzelelement>
@@ -159,11 +159,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                   </ris:einzelelement>
                </ris:legalDocML.de_metadaten>
@@ -184,11 +184,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                </ris:legalDocML.de_metadaten>
           </akn:proprietary>
           """
@@ -207,7 +207,7 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
@@ -232,11 +232,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-             <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+             <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.2/">
                 <breg:federfuehrung>
                     <breg:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</breg:federfuehrend>
                     <breg:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</breg:federfuehrend>
@@ -264,11 +264,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+              <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.2/">
                   <breg:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</breg:federfuehrend>
               </breg:legalDocML.de_metadaten>
            </akn:proprietary>
@@ -283,11 +283,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+              <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.2/">
               </breg:legalDocML.de_metadaten>
            </akn:proprietary>
           """
@@ -301,7 +301,7 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
@@ -321,18 +321,18 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/">
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.2/">
               <redok:fna>754-28-1</redok:fna>
               <redok:gesta>i am gesta</redok:gesta>
             </redok:legalDocML.de_metadaten>
-            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.2/">
               <regtxt:typ>gesetz</regtxt:typ>
             </regtxt:legalDocML.de_metadaten>
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
               <ris:subtyp>new-subtyp</ris:subtyp>
               <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
               <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
@@ -404,15 +404,15 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/">
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.2/">
             </redok:legalDocML.de_metadaten>
-            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.2/">
             </regtxt:legalDocML.de_metadaten>
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
              </ris:legalDocML.de_metadaten>
           </akn:proprietary>
           """
@@ -473,7 +473,7 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
@@ -536,18 +536,18 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/">
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.2/">
               <redok:fna>754-28-1</redok:fna>
               <redok:gesta>i am gesta</redok:gesta>
             </redok:legalDocML.de_metadaten>
-            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.2/">
               <regtxt:typ>gesetz</regtxt:typ>
             </regtxt:legalDocML.de_metadaten>
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
               <ris:subtyp>new-subtyp</ris:subtyp>
               <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
               <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
@@ -605,18 +605,18 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/">
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.2/">
               <redok:fna>754-28-1</redok:fna>
               <redok:gesta>i am gesta</redok:gesta>
             </redok:legalDocML.de_metadaten>
-            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.1/">
+            <regtxt:legalDocML.de_metadaten xmlns:regtxt="http://MetadatenRegelungstext.LegalDocML.de/1.8.2/">
               <regtxt:typ>gesetz</regtxt:typ>
             </regtxt:legalDocML.de_metadaten>
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
               <ris:subtyp>new-subtyp</ris:subtyp>
               <ris:bezeichnungInVorlage>new-bezeichnungInVorlage</ris:bezeichnungInVorlage>
               <ris:artDerNorm>SN,ÄN,ÜN</ris:artDerNorm>
@@ -679,11 +679,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                       <ris:artDerNorm>SN</ris:artDerNorm>
                    </ris:einzelelement>
@@ -708,11 +708,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                    </ris:einzelelement>
               </ris:legalDocML.de_metadaten>
@@ -734,7 +734,7 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
               </ris:legalDocML.de_metadaten>
           """
         )
@@ -754,7 +754,7 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
@@ -777,11 +777,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                       <ris:artDerNorm>SN</ris:artDerNorm>
                    </ris:einzelelement>
@@ -805,11 +805,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                       <ris:artDerNorm>SN</ris:artDerNorm>
                    </ris:einzelelement>
@@ -833,11 +833,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+              <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                   <ris:einzelelement href="#hauptteil-n1_abschnitt-n0_art-n1">
                       <ris:artDerNorm>SN</ris:artDerNorm>
                       <ris:typ>Typ</ris:typ>
@@ -872,11 +872,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+              <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.2/">
                 <breg:federfuehrung>
                     <breg:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</breg:federfuehrend>
                     <breg:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</breg:federfuehrend>
@@ -910,11 +910,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-              <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.1/">
+              <breg:legalDocML.de_metadaten xmlns:breg="http://MetadatenBundesregierung.LegalDocML.de/1.8.2/">
                 <breg:federfuehrung>
                     <breg:federfuehrend ab="2022-12-01" bis="unbestimmt">Bundesministerium des Innern und für Heimat</breg:federfuehrend>
                     <breg:federfuehrend ab="2002-10-01" bis="2022-11-30">Bundesministerium der Justiz</breg:federfuehrend>
@@ -960,11 +960,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                <ris:inkraft date="1985-12-25" />
              </ris:legalDocML.de_metadaten>
            </akn:proprietary>
@@ -979,11 +979,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+             <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                <ris:ausserkraft date="1985-12-31" />
              </ris:legalDocML.de_metadaten>
            </akn:proprietary>
@@ -1002,12 +1002,12 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
-              <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.1/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
+              <norms:legalDocML.de_metadaten xmlns:norms="http://MetadatenMods.LegalDocML.de/1.8.2/">
                 <norms:geltungszeiten>
                   <norms:geltungszeit id="gz-1" art="inkraft">2017-03-16</norms:geltungszeit>
                 </norms:geltungszeiten>
@@ -1033,11 +1033,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
 
             </ris:legalDocML.de_metadaten>
            </akn:proprietary>
@@ -1055,7 +1055,7 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
@@ -1078,11 +1078,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/"/>
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/"/>
            </akn:proprietary>
           """
         )
@@ -1097,11 +1097,11 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/"
+           <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/"
             eId="meta-n1_proprietary-n1"
             GUID="952262d3-de92-4c1d-a06d-95aa94f5f21c"
             source="attributsemantik-noch-undefiniert">
-            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.1/">
+            <ris:legalDocML.de_metadaten xmlns:ris="http://MetadatenRIS.LegalDocML.de/1.8.2/">
                 <ris:inkraft>2020-01-01</ris:inkraft>
             </ris:legalDocML.de_metadaten>
            </akn:proprietary>
@@ -1122,8 +1122,8 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
-            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/">
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/">
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.2/">
               <redok:gegenstandlos seit="2020-01-01" />
             </redok:legalDocML.de_metadaten>
           </akn:proprietary>
@@ -1142,8 +1142,8 @@ class ProprietaryTest {
       final Proprietary proprietary = new Proprietary(
         XmlMapper.toElement(
           """
-          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/">
-            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/">
+          <akn:proprietary xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/">
+            <redok:legalDocML.de_metadaten xmlns:redok="http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.2/">
             </redok:legalDocML.de_metadaten>
           </akn:proprietary>
           """

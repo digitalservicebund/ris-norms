@@ -40,7 +40,7 @@ export function createNewRefElement(parentElement: Node) {
   }
 
   const aknRef = parentElement.ownerDocument.createElementNS(
-    "http://Inhaltsdaten.LegalDocML.de/1.8.1/",
+    "http://Inhaltsdaten.LegalDocML.de/1.8.2/",
     "ref",
   )
   aknRef.setAttribute("eId", getNextRefEId(parentElement))

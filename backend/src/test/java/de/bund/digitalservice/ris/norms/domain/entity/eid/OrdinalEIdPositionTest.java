@@ -15,7 +15,7 @@ class OrdinalEIdPositionTest {
     @Test
     void itShouldProvidePositionForNodeWithSiblingsWithSameEIdTypeWithoutNestedNum() {
       var node = XmlMapper.toElement(
-        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.1/\" eId=\"art-z6_abs-z3_inhalt-n3\"><akn:p eId=\"art-n6_abs-n3_inhalt-z3_text-n1\">Some text 1</akn:p><akn:ref eId=\"art-z6_abs-z3_inhalt-n3_ref-n1\">Some other element</akn:ref><akn:p eId=\"art-z6_abs-z3_inhalt-n3_text-n1\">Some text 2</akn:p><akn:p eId=\"art-z6_abs-z3_inhalt-n3_text-n2\">Some text 3</akn:p></akn:mod>"
+        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.2/\" eId=\"art-z6_abs-z3_inhalt-n3\"><akn:p eId=\"art-n6_abs-n3_inhalt-z3_text-n1\">Some text 1</akn:p><akn:ref eId=\"art-z6_abs-z3_inhalt-n3_ref-n1\">Some other element</akn:ref><akn:p eId=\"art-z6_abs-z3_inhalt-n3_text-n1\">Some text 2</akn:p><akn:p eId=\"art-z6_abs-z3_inhalt-n3_text-n2\">Some text 3</akn:p></akn:mod>"
       );
       // when
       var eIdPosition = OrdinalEIdPosition.findEIdPosition(
@@ -29,7 +29,7 @@ class OrdinalEIdPositionTest {
     @Test
     void itShouldProvidePositionForNodeWithoutSiblings() {
       var node = XmlMapper.toElement(
-        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.1/\" />"
+        "<akn:mod xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.2/\" />"
       );
       // when
       var eIdPosition = OrdinalEIdPosition.findEIdPosition(node, EIdPartType.AENDBEFEHL);
@@ -42,7 +42,7 @@ class OrdinalEIdPositionTest {
       // given
       var node = XmlMapper.toElement(
         """
-        <akn:book xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="buch-n1">
+        <akn:book xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="buch-n1">
           <akn:section eId="buch-n1_abschnitt-n1">
             <akn:article eId="art-z1"><akn:num>1</akn:num>
               <akn:quotedStructure>
@@ -89,7 +89,7 @@ class OrdinalEIdPositionTest {
       // given
       var node = XmlMapper.toElement(
         """
-        <akn:book xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="buch-n1">
+        <akn:book xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="buch-n1">
           <akn:section eId="buch-n1_abschnitt-n1">
             <akn:article eId="art-z5"><akn:num>5</akn:num></akn:article>
             <akn:article eId="art-n2"><akn:num refersTo="ordinale-zaehlung-eid"/></akn:article>

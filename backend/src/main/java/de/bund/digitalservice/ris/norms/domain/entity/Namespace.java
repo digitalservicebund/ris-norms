@@ -7,15 +7,15 @@ import lombok.Getter;
  */
 @Getter
 public enum Namespace {
-  INHALTSDATEN("http://Inhaltsdaten.LegalDocML.de/1.8.1/", "akn"),
-  METADATEN_RIS("http://MetadatenRIS.LegalDocML.de/1.8.1/", "ris"),
-  METADATEN_BUNDESREGIERUNG("http://MetadatenBundesregierung.LegalDocML.de/1.8.1/", "breg"),
-  METADATEN_NORMS_APPLICATION_MODS("http://MetadatenMods.LegalDocML.de/1.8.1/", "norms"),
+  INHALTSDATEN("http://Inhaltsdaten.LegalDocML.de/1.8.2/", "akn"),
+  METADATEN_RIS("http://MetadatenRIS.LegalDocML.de/1.8.2/", "ris"),
+  METADATEN_BUNDESREGIERUNG("http://MetadatenBundesregierung.LegalDocML.de/1.8.2/", "breg"),
+  METADATEN_NORMS_APPLICATION_MODS("http://MetadatenMods.LegalDocML.de/1.8.2/", "norms"),
   METADATEN_RECHTSETZUNGSDOKUMENT(
-    "http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.1/",
+    "http://MetadatenRechtsetzungsdokument.LegalDocML.de/1.8.2/",
     "redok"
   ),
-  METADATEN_REGELUNGSTEXT("http://MetadatenRegelungstext.LegalDocML.de/1.8.1/", "regtxt"),
+  METADATEN_REGELUNGSTEXT("http://MetadatenRegelungstext.LegalDocML.de/1.8.2/", "regtxt"),
   MATHML("http://www.w3.org/1998/Math/MathML", "math");
 
   /**

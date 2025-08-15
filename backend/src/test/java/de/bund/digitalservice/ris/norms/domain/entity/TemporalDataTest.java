@@ -13,7 +13,7 @@ class TemporalDataTest {
     final TemporalData temporalData = new TemporalData(
       XmlMapper.toElement(
         """
-               <akn:temporalData xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1_geltzeiten-n1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
+               <akn:temporalData xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="meta-n1_geltzeiten-n1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
                      <akn:temporalGroup eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1" GUID="ee45119b-2485-4115-b587-da54b95e3ebd">
                         <akn:timeInterval eId="meta-n1_geltzeiten-n1_geltungszeitgr-n1_gelzeitintervall-n1" GUID="a43d0287-920d-4fbb-91d1-42fd7e03fe16"
                                           start="#meta-n1_lebzykl-n1_ereignis-n2" refersTo="geltungszeit"/>
@@ -36,7 +36,7 @@ class TemporalDataTest {
     final TemporalData temporalData = new TemporalData(
       XmlMapper.toElement(
         """
-        <akn:temporalData xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.1/" eId="meta-n1_geltzeiten-n1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
+        <akn:temporalData xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="meta-n1_geltzeiten-n1" GUID="58a31120-e277-4a33-a093-6a3637fd603d" source="attributsemantik-noch-undefiniert">
          </akn:temporalData>
         """
       )

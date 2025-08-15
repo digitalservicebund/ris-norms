@@ -45,16 +45,14 @@ import org.xml.sax.SAXParseException;
 @Service
 public class LdmlDeValidator {
 
-  private static final List<String> DISABLED_SCHEMATRON_RULES = List.of(
-    "SCH-00110-005",
-    "SCH-00071-005"
-  );
+  // Empty list for now but we keep it in case we need to disable rules again
+  private static final List<String> DISABLED_SCHEMATRON_RULES = List.of();
 
   private final Transformer schematronValidationTransformer;
   private final XsdSchemaService xsdSchemaService;
 
   public LdmlDeValidator(
-    @Value("classpath:/LegalDocML.de/1.8.1/schema/legalDocML.de.xsl") Resource schematronXslt,
+    @Value("classpath:/LegalDocML.de/1.8.2/schema/legalDocML.de.xsl") Resource schematronXslt,
     XsdSchemaService xsdSchemaService
   ) {
     this.xsdSchemaService = xsdSchemaService;

@@ -53,7 +53,7 @@ class DokumentExpressionControllerIntegrationTest extends BaseIntegrationTest {
       // Given no norm in database
       final String eli = "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1";
       final String xml =
-        "<akn:doc xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.1/\">new</akn:doc>";
+        "<akn:doc xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.2/\">new</akn:doc>";
 
       // When
       mockMvc
