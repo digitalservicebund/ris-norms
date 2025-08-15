@@ -306,6 +306,5 @@ class ArticleServiceTest {
         argThat(argument -> Objects.equals(argument.eli(), eli))
       );
     }
-    // TODO: (Malte Laukötter, 2025-06-13) add test for multiple refersTo
   }
 }

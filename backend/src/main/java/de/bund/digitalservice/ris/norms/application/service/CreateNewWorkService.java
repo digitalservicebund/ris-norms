@@ -141,7 +141,6 @@ public class CreateNewWorkService {
     newMeta.getFRBRManifestation().setEli(eli);
     newMeta.getFRBRManifestation().setURI(eli.toUri());
 
-    // TODO: (Victor del Campo, 2025-07-28) Replace regtxt metadata with redok, but for now from rechtsetzungsdokument of verkündung
     var proprietary = newMeta.getOrCreateProprietary();
     proprietary
       .getMetadataParent(Namespace.METADATEN_REGELUNGSTEXT)

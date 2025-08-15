@@ -52,7 +52,6 @@ class PortalPrototypePublishServiceIntegrationTest extends BaseS3MockIntegration
     // Then
     final Path filePath = getPortalPrototypePath(norm.getRegelungstext1());
     assertThat(Files.exists(filePath)).isTrue();
-    // TODO: (Malte Laukötter, 2025-03-11) validate that the clean up works
   }
 
   @Test

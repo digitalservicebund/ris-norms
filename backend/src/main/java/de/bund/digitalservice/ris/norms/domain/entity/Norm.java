@@ -102,7 +102,6 @@ public class Norm {
       .filter(Rechtsetzungsdokument.class::isInstance)
       .map(Rechtsetzungsdokument.class::cast)
       .findFirst()
-      // TODO: (Malte Laukötter, 2025-05-27) create proper exception
       .orElseThrow(() -> new RuntimeException("Missing Rechtsetzungsdokument"));
   }
 
