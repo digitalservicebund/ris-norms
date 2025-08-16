@@ -9,7 +9,7 @@ spring-boot = "3.5.4"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
-aws-bom = "software.amazon.awssdk:bom:2.32.23"
+aws-bom = "software.amazon.awssdk:bom:2.32.24"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
@@ -25,7 +25,7 @@ jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:8.0.2"
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.38"
-mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.18.0"
+mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.19.0"
 # CVE-2025-53864
 nimbus-jose-jwt = "com.nimbusds:nimbus-jose-jwt:10.0.2"
 nullaway = "com.uber.nullaway:nullaway:0.12.8"
