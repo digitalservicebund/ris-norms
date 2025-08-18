@@ -93,6 +93,6 @@
     "xpath": "~0.0.34"
   },
   "overrides": {
-    "nwsapi": "2.2.21"
+    "nwsapi": "2.2.20"
   }
 }
