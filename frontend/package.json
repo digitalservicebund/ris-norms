@@ -91,5 +91,8 @@
     "vitest": "~3.2.0",
     "vue-tsc": "~3.0.0",
     "xpath": "~0.0.34"
+  },
+  "overrides": {
+    "nwsapi": "2.2.20"
   }
 }
