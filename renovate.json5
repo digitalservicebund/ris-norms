@@ -64,6 +64,12 @@
       "matchPackageNames": ["com.nimbusds:nimbus-jose-jwt"],
       "matchUpdateTypes": ["minor", "major"],
       "enabled": false
+    },
+    {
+      "matchFileNames": ["frontend/**"],
+      "matchPackageNames": ["nwsapi"],
+      "allowedVersions": "2.2.20",
+      "description": "Pin nwsapi to 2.2.20 until CSS selector fix is in place"
     }
   ],
   "customManagers": [
