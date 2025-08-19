@@ -13,6 +13,7 @@ FROM gradle:9.0-jdk21 AS backend
 
 COPY backend /backend
 COPY LegalDocML.de /LegalDocML.de
+COPY .git /.git
 
 WORKDIR /backend
 
