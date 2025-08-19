@@ -24,7 +24,7 @@ export const Sentry: Plugin<{ environment: string; router: Router }> = {
           browserTracingIntegration({ router }),
           captureConsoleIntegration(),
         ],
-        tracesSampleRate: 0.01,
+        tracesSampleRate: 0,
         attachProps: true,
       })
     }
