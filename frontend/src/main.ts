@@ -9,7 +9,7 @@ import { createApp } from "vue"
 import App from "./App.vue"
 import { useAuthentication } from "./lib/auth"
 import router from "./router"
-import { getEnv } from "./services/envService"
+import { envInjectionKey, getEnv } from "./services/envService"
 import "./style.css"
 
 try {
@@ -34,6 +34,8 @@ try {
     clientId: env.authClientId,
     realm: env.authRealm,
   })
+
+  app.provide(envInjectionKey, env)
 
   // Initialize the router after the authentication, otherwise the redirect
   // between guids and elis doesn't work as the request to figure out the eli

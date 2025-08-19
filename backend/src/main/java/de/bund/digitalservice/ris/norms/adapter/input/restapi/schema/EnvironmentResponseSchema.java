@@ -7,10 +7,12 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
  * @param authClientId Client ID that should be used when authenticating
  * @param authUrl      URL of the authentication service
  * @param authRealm    Realm that should be used when authenticating
+ * @param commit       The short-id of the latest git commit
  */
 public record EnvironmentResponseSchema(
   String name,
   String authClientId,
   String authUrl,
-  String authRealm
+  String authRealm,
+  String commit
 ) {}
