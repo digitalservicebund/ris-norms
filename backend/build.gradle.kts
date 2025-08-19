@@ -24,6 +24,7 @@ plugins {
     alias(libs.plugins.version.catalog.update)
     id("checkstyle")
     alias(libs.plugins.sentry)
+    alias(libs.plugins.gradle.git.properties)
 }
 
 group = "de.bund.digitalservice"
@@ -100,6 +101,10 @@ dependencies {
 
     schematronToXsltCompileOnly(libs.schxslt)
     schematronToXsltCompileOnly(libs.saxon.he)
+}
+
+gitProperties {
+    dotGitDirectory = layout.projectDirectory.dir("..").dir(".git")
 }
 
 tasks.withType<JavaCompile>().configureEach {

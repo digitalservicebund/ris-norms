@@ -4,6 +4,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 import de.bund.digitalservice.ris.norms.adapter.input.restapi.schema.EnvironmentResponseSchema;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.info.GitProperties;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +31,12 @@ public class EnvironmentController {
   @Value("${frontend.auth.url}")
   private String frontendAuthUrl;
 
+  private final GitProperties gitProperties;
+
+  public EnvironmentController(GitProperties gitProperties) {
+    this.gitProperties = gitProperties;
+  }
+
   /**
    * Returns information and configuration details for the current environment.
    *
@@ -41,7 +48,8 @@ public class EnvironmentController {
       environmentName,
       frontendAuthClientId,
       frontendAuthUrl,
-      frontendAuthRealm
+      frontendAuthRealm,
+      gitProperties.getShortCommitId()
     );
 
     return ResponseEntity.ok(info);
