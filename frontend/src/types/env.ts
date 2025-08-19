@@ -11,6 +11,4 @@ export type Env = {
   authRealm: string
   /** URL of the authentication service. */
   authUrl: string
-  /** The short-id of the latest git commit */
-  commit: string
 }

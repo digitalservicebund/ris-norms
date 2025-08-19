@@ -1,5 +1,4 @@
 import type { Env } from "@/types/env"
-import type { InjectionKey } from "vue"
 
 /**
  * Fetches configuration for the current environment from the API. Unlike the
@@ -20,5 +19,3 @@ export async function getEnv(): Promise<Env> {
 
   return env
 }
-
-export const envInjectionKey: InjectionKey<Env> = Symbol()
