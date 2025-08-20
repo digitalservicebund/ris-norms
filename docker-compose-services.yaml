@@ -19,7 +19,7 @@ services:
       timeout: 3s
 
   keycloak:
-    image: quay.io/keycloak/keycloak:26.3.2
+    image: quay.io/keycloak/keycloak:26.3.3
     command: ["start-dev", "--import-realm"]
     container_name: keycloak
     environment:
