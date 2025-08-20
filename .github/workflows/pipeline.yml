@@ -130,8 +130,7 @@ jobs:
   # ######################
 
   deploy-uat-job:
-    #    if: ${{ github.ref == 'refs/heads/main' }}
-    if: ${{ false }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs:
       - smoketest
       - deploy-staging-job
