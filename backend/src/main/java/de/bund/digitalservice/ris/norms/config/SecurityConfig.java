@@ -73,11 +73,13 @@ public class SecurityConfig {
         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
       )
       .headers(httpSecurityHeadersConfigurer ->
-        httpSecurityHeadersConfigurer.contentSecurityPolicy(contentSecurityPolicyConfig ->
-          contentSecurityPolicyConfig.policyDirectives(
-            "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; connect-src 'self' *.sentry.io data:"
+        httpSecurityHeadersConfigurer
+          .contentSecurityPolicy(contentSecurityPolicyConfig ->
+            contentSecurityPolicyConfig.policyDirectives(
+              "default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-eval'; connect-src 'self' *.sentry.io data:"
+            )
           )
-        )
+          .contentTypeOptions(contentTypeOptionsConfig -> {})
       );
     return http.build();
   }
