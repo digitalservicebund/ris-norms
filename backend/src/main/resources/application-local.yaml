@@ -37,3 +37,6 @@ everkuendung:
 
 local:
   file-storage: .local-storage
+
+csp:
+  report-uri: ""
