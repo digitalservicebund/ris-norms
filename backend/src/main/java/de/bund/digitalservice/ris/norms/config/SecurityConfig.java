@@ -19,6 +19,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 
 /**
@@ -82,6 +83,11 @@ public class SecurityConfig {
           )
           .contentTypeOptions(contentTypeOptionsConfig -> {})
           .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
+          .referrerPolicy(referrerPolicyConfig ->
+            referrerPolicyConfig.policy(
+              ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN
+            )
+          )
       );
     return http.build();
   }
