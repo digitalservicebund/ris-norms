@@ -88,6 +88,18 @@ public class SecurityConfig {
               ReferrerPolicyHeaderWriter.ReferrerPolicy.STRICT_ORIGIN_WHEN_CROSS_ORIGIN
             )
           )
+          .permissionsPolicyHeader(permissionsPolicyConfig ->
+            permissionsPolicyConfig.policy(
+              "accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), cross-origin-isolated=(), " +
+              "display-capture=(), document-domain=(), encrypted-media=(), execution-while-not-rendered=(), " +
+              "execution-while-out-of-viewport=(), fullscreen=(), geolocation=(), gyroscope=(), keyboard-map=(), " +
+              "magnetometer=(), microphone=(), midi=(), navigation-override=(), payment=(), picture-in-picture=(), " +
+              "publickey-credentials-get=(), screen-wake-lock=(), sync-xhr=(), usb=(), web-share=(), xr-spatial-tracking=(), " +
+              "clipboard-read=(self), clipboard-write=(self), gamepad=(), speaker-selection=(), conversion-measurement=(), " +
+              "focus-without-user-activation=(self), hid=(), idle-detection=(), interest-cohort=(), serial=(), sync-script=(), " +
+              "trust-token-redemption=(), window-placement=(), vertical-scroll=(self)"
+            )
+          )
       );
     return http.build();
   }
