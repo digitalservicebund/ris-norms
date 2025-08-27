@@ -74,7 +74,7 @@ jobs:
 
       - name: Run Trivy vulnerability scan
         if: env.PINNED_DEPS_FOUND == 'true'
-        uses: aquasecurity/trivy-action@c26e17b164b0cdf202a7ad18bb218748d7eac385
+        uses: aquasecurity/trivy-action@644762e8d423e0fc08e4420fbb32413b5232e066
         env:
           ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
@@ -146,7 +146,7 @@ jobs:
 
       - name: Double-check if no CVEs are found
         if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
-        uses: aquasecurity/trivy-action@c26e17b164b0cdf202a7ad18bb218748d7eac385
+        uses: aquasecurity/trivy-action@644762e8d423e0fc08e4420fbb32413b5232e066
         env:
           ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
