@@ -33,10 +33,10 @@
   "dependencies": {
     "@codemirror/lang-xml": "~6.1.0",
     "@digitalservicebund/ris-ui": "~3.11.0",
-    "@sentry/vue": "~10.6.0",
+    "@sentry/vue": "~10.7.0",
     "@types/lodash.sortby": "~4.7.9",
     "@types/uuid": "~10.0.0",
-    "@vueuse/core": "~13.7.0",
+    "@vueuse/core": "~13.8.0",
     "codemirror": "~6.0.1",
     "dayjs": "~1.11.13",
     "immer": "~10.1.1",
