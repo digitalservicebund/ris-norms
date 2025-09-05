@@ -1,5 +1,10 @@
 import type { SimpleUseFetchReturn } from "@/services/apiService"
-import { INVALID_URL, useApiFetch } from "@/services/apiService"
+import {
+  useOpenApiFetch,
+  client,
+  INVALID_URL,
+  useApiFetch,
+} from "@/services/apiService"
 import type { Norm } from "@/types/norm"
 import { NormSchema } from "@/types/norm"
 import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
@@ -54,20 +59,46 @@ export function useNormService(
  * @returns Reactive fetch wrapper
  */
 export function useGetNorm(
-  eli: Parameters<typeof useNormService>["0"],
-  options?: Parameters<typeof useNormService>["1"],
-  fetchOptions?: Parameters<typeof useNormService>["2"],
+  eli: MaybeRefOrGetter<NormExpressionEli | undefined>,
+  options?: {
+    /**
+     * Render metadata in the HTML preview. Note that this is only applicable
+     * if you get the HTML preview, and will fail on other requests.
+     */
+    showMetadata?: boolean
+  },
+  fetchOptions: UseFetchOptions = {},
 ): SimpleUseFetchReturn<Norm> {
-  const useFetchReturn = useNormService(eli, options, {
-    refetch: true,
-    ...fetchOptions,
-  }).json<unknown>()
+  const useFetchReturn = useOpenApiFetch(
+    (abortSignal) => {
+      const expressionEli = toValue(eli)
+
+      if (!expressionEli) {
+        throw new Error("No expression eli")
+      }
+
+      return client.GET(
+        "/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}",
+        {
+          params: {
+            path: { ...expressionEli },
+            query: {
+              showMetadata: options?.showMetadata,
+            },
+          },
+          abortSignal,
+        },
+      )
+    },
+    () => toValue(eli),
+    fetchOptions,
+  )
 
   return {
     ...useFetchReturn,
-    data: computed(() =>
-      NormSchema.nullable().parse(useFetchReturn.data.value),
-    ),
+    data: computed(() => {
+      return NormSchema.parse(toValue(useFetchReturn.data))
+    }),
   }
 }
 
@@ -84,14 +115,35 @@ export function useGetNormHtml(
   eli: Parameters<typeof useNormService>["0"],
   options?: Parameters<typeof useNormService>["1"],
   fetchOptions?: Parameters<typeof useNormService>["2"],
-): UseFetchReturn<string> {
-  return useNormService(eli, options, {
-    refetch: true,
-    ...fetchOptions,
-    beforeFetch(c) {
-      c.options.headers = { ...c.options.headers, Accept: "text/html" }
+): SimpleUseFetchReturn<string> {
+  return useOpenApiFetch(
+    (abortSignal) => {
+      const expressionEli = toValue(eli)
+
+      if (!expressionEli) {
+        throw new Error("No expression eli")
+      }
+
+      return client.GET(
+        "/norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}",
+        {
+          params: {
+            path: { ...expressionEli },
+            query: {
+              showMetadata: options?.showMetadata,
+            },
+          },
+          parseAs: "text",
+          headers: {
+            Accept: "text/html",
+          },
+          abortSignal,
+        },
+      )
     },
-  }).text()
+    () => toValue(eli),
+    fetchOptions,
+  )
 }
 
 export const NormWorkSchema = z.object({

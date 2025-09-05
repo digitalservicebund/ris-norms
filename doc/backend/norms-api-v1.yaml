@@ -298,18 +298,48 @@ paths:
         "404":
           description: Norm not found.
 
-  /norms/{expressionEli}:
+  /norms/eli/bund/{agent}/{year}/{naturalIdentifier}/{pointInTime}/{version}/{language}:
     get:
       tags:
         - Norm expression
       summary: Get a specific norm by its expression ELI
       parameters:
-        - name: expressionEli
+        - name: agent
           in: path
           required: true
           description: Expression ELI of the norm
           schema:
-            $ref: "#/components/schemas/DokumentExpressionEli"
+            type: string
+        - name: year
+          in: path
+          required: true
+          description: Expression ELI of the norm
+          schema:
+            type: string
+        - name: naturalIdentifier
+          in: path
+          required: true
+          description: Expression ELI of the norm
+          schema:
+            type: string
+        - name: pointInTime
+          in: path
+          required: true
+          description: Expression ELI of the norm
+          schema:
+            type: string
+        - name: version
+          in: path
+          required: true
+          description: Expression ELI of the norm
+          schema:
+            type: integer
+        - name: language
+          in: path
+          required: true
+          description: Expression ELI of the norm
+          schema:
+            type: string
         - name: showMetadata
           in: query
           schema:

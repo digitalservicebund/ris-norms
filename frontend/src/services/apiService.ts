@@ -1,7 +1,192 @@
 import { useAuthentication } from "@/lib/auth"
 import { getFallbackError } from "@/lib/errorResponseMapper"
-import type { UseFetchReturn } from "@vueuse/core"
+import type { UseFetchOptions, UseFetchReturn } from "@vueuse/core"
 import { createFetch } from "@vueuse/core"
+
+import type {
+  Middleware,
+  Client,
+  FetchResponse,
+  ParseAsResponse,
+} from "openapi-fetch"
+import createClient from "openapi-fetch"
+import type { paths } from "@/lib/api"
+import type { ShallowRef, ComputedRef, WatchSource } from "vue"
+import { computed, ref, watch } from "vue"
+import type { IsAny } from "@vueuse/shared"
+import type {
+  MediaType,
+  ResponseObjectMap,
+  SuccessResponse,
+} from "openapi-typescript-helpers"
+export const client: Client<paths> = createClient<paths>({ baseUrl: "/api/v1" })
+
+const authMiddleware: Middleware = {
+  async onRequest({ request }) {
+    // Authorize requests
+    const { tryRefresh, getHeaderValue } = useAuthentication()
+
+    const hasValidSession = await tryRefresh()
+    if (!hasValidSession) throw new Error("Invalid Session")
+
+    request.headers.set("Authorization", getHeaderValue())
+
+    return request
+  },
+}
+
+client.use(authMiddleware)
+client.use({
+  async onRequest({ request, schemaPath, params }) {
+    console.log(request.url, schemaPath, params)
+  },
+})
+
+type Callback<T> =
+  IsAny<T> extends true
+    ? (...param: any) => void
+    : [T] extends [void]
+      ? (...param: unknown[]) => void
+      : [T] extends [any[]]
+        ? (...param: T) => void
+        : (...param: [T, ...unknown[]]) => void
+
+/**
+ * Provides (most) of the api of useFetch while allowing to use an openapi-fetch client for loading the data.
+ * @param executeFunction
+ * @param refetchOptions
+ * @param fetchOptions
+ */
+export function useOpenApiFetch<
+  T extends Record<string | number, any>,
+  Options,
+  Media extends MediaType,
+>(
+  executeFunction: (
+    abortSignal: AbortSignal,
+  ) => Promise<FetchResponse<T, Options, Media>>,
+  refetchOptions: WatchSource<unknown>,
+  fetchOptions: UseFetchOptions = {},
+): SimpleUseFetchReturn<
+  ParseAsResponse<SuccessResponse<ResponseObjectMap<T>, Media>, Options>
+> {
+  const isFinished: ShallowRef<boolean> = ref(false)
+  const statusCode: ShallowRef<number | null> = ref(null)
+  const response: ShallowRef<Response | null> = ref(null)
+  const error: ShallowRef<any> = ref(null)
+  const data: ShallowRef<any | null> = ref(null)
+  const isFetching: ShallowRef<boolean> = ref(false)
+
+  const abortController = new AbortController()
+  const canAbort: ComputedRef<boolean> = computed(() => isFetching.value)
+  const aborted: ShallowRef<boolean> = ref(false)
+  const abort = abortController.abort
+  abortController.signal.addEventListener("abort", () => {
+    aborted.value = true
+  })
+
+  const onFetchResponseListener = new Set<Callback<Response>>()
+  const onFetchResponse: (fn: Callback<Response>) => {
+    off: () => void
+  } = (fn) => {
+    onFetchResponseListener.add(fn)
+
+    return {
+      off: () => {
+        onFetchResponseListener.delete(fn)
+      },
+    }
+  }
+  const onFetchErrorListener = new Set<Callback<void>>()
+  const onFetchError: (fn: Callback<void>) => {
+    off: () => void
+  } = (fn) => {
+    onFetchErrorListener.add(fn)
+    return {
+      off: () => {
+        onFetchErrorListener.delete(fn)
+      },
+    }
+  }
+  const onFetchFinallyListener = new Set<Callback<void>>()
+  const onFetchFinally: (fn: Callback<void>) => {
+    off: () => void
+  } = (fn) => {
+    onFetchFinallyListener.add(fn)
+    return {
+      off: () => {
+        onFetchFinallyListener.delete(fn)
+      },
+    }
+  }
+
+  const execute: (throwOnFailed?: boolean) => Promise<any> = async () => {
+    aborted.value = false
+    isFetching.value = true
+    isFinished.value = false
+    response.value = null
+    error.value = null
+
+    try {
+      const result = await executeFunction(abortController.signal)
+
+      response.value = result.response
+      statusCode.value = result.response.status
+      error.value = result.error
+      data.value = result.data
+    } catch (thrownError: unknown) {
+      response.value = null
+      statusCode.value = null
+      error.value = thrownError
+      data.value = null
+    }
+
+    isFetching.value = false
+    isFinished.value = true
+
+    if (data.value) {
+      onFetchResponseListener.forEach((onResponse) => {
+        onResponse(response.value!)
+      })
+    }
+
+    if (error.value) {
+      onFetchErrorListener.forEach((onError) => {
+        onError()
+      })
+    }
+
+    onFetchFinallyListener.forEach((onFinally) => {
+      onFinally()
+    })
+  }
+
+  if (fetchOptions.immediate !== false) {
+    execute()
+  }
+
+  if (fetchOptions.refetch !== true) {
+    watch(refetchOptions, () => {
+      execute()
+    })
+  }
+
+  return {
+    isFetching,
+    isFinished,
+    response,
+    data,
+    error,
+    statusCode,
+    canAbort,
+    aborted,
+    abort,
+    onFetchError,
+    onFetchFinally,
+    onFetchResponse,
+    execute,
+  }
+}
 
 /**
  * The same as UseFetchReturn, but without the methods to get more specific useFetch instances.
