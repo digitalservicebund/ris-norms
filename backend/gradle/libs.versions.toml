@@ -27,9 +27,9 @@ jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.40"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.19.0"
 # CVE-2025-58057
-netty-codec = "io.netty:netty-codec:4.1.125.Final"
+netty-codec = "io.netty:netty-codec:4.2.5.Final"
 # CVE-2025-58056
-netty-codec-http = "io.netty:netty-codec-http:4.1.125.Final"
+netty-codec-http = "io.netty:netty-codec-http:4.2.5.Final"
 # CVE-2025-53864
 nimbus-jose-jwt = "com.nimbusds:nimbus-jose-jwt:10.0.2"
 nullaway = "com.uber.nullaway:nullaway:0.12.9"
