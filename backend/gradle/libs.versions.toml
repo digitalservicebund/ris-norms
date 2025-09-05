@@ -6,6 +6,9 @@ net-javacrumbs-shedlock = "6.10.0"
 org-bouncycastle = "1.81"
 org-testcontainers = "1.21.3"
 spring-boot = "3.5.5"
+# CVE-2025-58057
+# CVE-2025-58056
+io-netty = "4.1.125.Final"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
@@ -27,9 +30,16 @@ jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.40"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.19.0"
 # CVE-2025-58057
-netty-codec = "io.netty:netty-codec:4.2.5.Final"
 # CVE-2025-58056
-netty-codec-http = "io.netty:netty-codec-http:4.2.5.Final"
+netty-codec = { module = "io.netty:netty-codec", version.ref = "io-netty" }
+netty-codec-http = { module = "io.netty:netty-codec-http", version.ref = "io-netty" }
+netty-codec-http2 = { module = "io.netty:netty-codec-http2", version.ref = "io-netty" }
+netty-transport = { module = "io.netty:netty-transport", version.ref = "io-netty" }
+netty-common = { module = "io.netty:netty-common", version.ref = "io-netty" }
+netty-buffer = { module = "io.netty:netty-buffer", version.ref = "io-netty" }
+netty-handler = { module = "io.netty:netty-handler", version.ref = "io-netty" }
+netty-transport-classes-epoll = { module = "io.netty:netty-transport-classes-epoll", version.ref = "io-netty" }
+netty-resolver = { module = "io.netty:netty-resolver", version.ref = "io-netty" }
 # CVE-2025-53864
 nimbus-jose-jwt = "com.nimbusds:nimbus-jose-jwt:10.0.2"
 nullaway = "com.uber.nullaway:nullaway:0.12.9"
