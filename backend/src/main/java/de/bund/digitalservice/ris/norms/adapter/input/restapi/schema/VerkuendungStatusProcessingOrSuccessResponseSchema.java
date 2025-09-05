@@ -3,8 +3,7 @@ package de.bund.digitalservice.ris.norms.adapter.input.restapi.schema;
 /**
  * Schema for an non error response
  *
- * @param verkuendungStatus
+ * @param status
  */
-public record VerkuendungStatusProcessingOrSuccessResponseSchema(
-  String verkuendungStatus
-) implements VerkuendungStatusResponseSchema {}
+public record VerkuendungStatusProcessingOrSuccessResponseSchema(String status) implements
+  VerkuendungStatusResponseSchema {}
