@@ -104,7 +104,7 @@ class EverkuendungApiControllerTest {
           )
         )
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.verkuendungStatus").value("processing"));
+        .andExpect(jsonPath("$.status").value("processing"));
     }
 
     @Test

@@ -142,7 +142,7 @@ class EverkuendungApiControllerIntegrationTest extends BaseS3MockIntegrationTest
           )
         )
         .andExpect(status().isOk())
-        .andExpect(jsonPath("$.verkuendungStatus").value("success"))
+        .andExpect(jsonPath("$.status").value("success"))
         .andExpect(jsonPath("$.type").doesNotExist())
         .andExpect(jsonPath("$.title").doesNotExist())
         .andExpect(jsonPath("$.detail").doesNotExist());
