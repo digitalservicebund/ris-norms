@@ -44,12 +44,11 @@ management:
     liveness-state:
       enabled: true
 
-org:
-  jobrunr:
-    background-job-server:
-      enabled: true
-    miscellaneous:
-      allow-anonymous-data-usage: false
+jobrunr:
+  background-job-server:
+    enabled: true
+  miscellaneous:
+    allow-anonymous-data-usage: false
 
 sentry:
   exception-resolver-order: -2147483647
