@@ -8,11 +8,11 @@ org-testcontainers = "1.21.3"
 spring-boot = "3.5.5"
 # CVE-2025-58057
 # CVE-2025-58056
-io-netty = "4.1.125.Final"
+io-netty = "4.2.5.Final"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
-aws-bom = "software.amazon.awssdk:bom:2.33.3"
+aws-bom = "software.amazon.awssdk:bom:2.33.4"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
