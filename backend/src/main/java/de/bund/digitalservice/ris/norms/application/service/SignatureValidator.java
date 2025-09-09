@@ -8,6 +8,7 @@ import java.security.*;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
  * certificate, incorrect file path, or unsupported signature algorithm), the constructor will throw an exception.
  * This ensures that the service is fully configured and ready for use before any signature validation attempts.
  */
+@Slf4j
 @Service
 public class SignatureValidator {
 
@@ -66,6 +68,7 @@ public class SignatureValidator {
         throw new InvalidSignatureException();
       }
     } catch (SignatureException e) {
+      log.warn("Signature processing failed", e);
       throw new SignatureProcessingException();
     }
   }
