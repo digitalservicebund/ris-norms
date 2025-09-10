@@ -59,6 +59,10 @@ function createAuthentication() {
     return { ...init, Authorization: `Bearer ${keycloak?.token}` }
   }
 
+  function getHeaderValue(): string {
+    return `Bearer ${keycloak?.token}`
+  }
+
   /**
    * Returns the name of the currently active user, if they have a name and
    * authentication has been configured. Otherwise `undefined` is returned.
@@ -115,6 +119,7 @@ function createAuthentication() {
     getUsername,
     isConfigured,
     tryRefresh,
+    getHeaderValue,
   })
 }
 
