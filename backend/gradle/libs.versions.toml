@@ -12,7 +12,7 @@ io-netty = "4.2.6.Final"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
-aws-bom = "software.amazon.awssdk:bom:2.33.6"
+aws-bom = "software.amazon.awssdk:bom:2.33.8"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
@@ -22,7 +22,7 @@ errorprone = "com.google.errorprone:error_prone_core:2.41.0"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 # CVE-2024-7254
-google-protobuf-java = "com.google.protobuf:protobuf-java:4.32.0"
+google-protobuf-java = "com.google.protobuf:protobuf-java:4.32.1"
 jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:8.0.2"
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
