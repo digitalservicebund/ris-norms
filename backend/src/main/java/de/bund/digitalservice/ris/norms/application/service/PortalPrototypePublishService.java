@@ -103,7 +103,7 @@ public class PortalPrototypePublishService implements PublishNormsToPortalProtot
               error.type(),
               error.lineNumber(),
               error.columnNumber(),
-              error.detail()
+              error.details()
             );
           }
           log.error(e.getMessage(), e);

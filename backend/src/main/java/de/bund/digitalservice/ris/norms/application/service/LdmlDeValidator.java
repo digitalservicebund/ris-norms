@@ -106,7 +106,7 @@ public class LdmlDeValidator {
               error.type(),
               error.lineNumber(),
               error.columnNumber(),
-              error.detail(),
+              error.details(),
               dokument.getManifestationEli().toString()
             )
           )
@@ -142,7 +142,7 @@ public class LdmlDeValidator {
               error.type(),
               error.lineNumber(),
               error.columnNumber(),
-              error.detail(),
+              error.details(),
               dokumentName
             )
           )
