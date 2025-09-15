@@ -309,7 +309,7 @@ components:
       required:
         - type
         - file
-        - details
+        - detail
         - line
         - column
       properties:
@@ -320,7 +320,7 @@ components:
           type: string
           description: Name der Datei, in der der Fehler gefunden wurde.
           example: regelungstext-verkuendung-1.xml
-        details:
+        detail:
           type: string
           description: Die Fehlermeldung des XSD-Parsers.
           example: "cvc-complex-type.2.4.a: Invalid content was found starting with element 'author'."
