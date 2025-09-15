@@ -53,14 +53,14 @@ public class LdmlDeSchematronException extends RuntimeException implements Norms
    *
    * @param type the type of the error
    * @param xPath the xPath to the node that causes the error
-   * @param details the error message
+   * @param detail the error message
    * @param eId the eId of the node that causes the error
    * @param eli the eli of the dokument that causes the error
    */
   public record ValidationError(
     String type,
     String xPath,
-    String details,
+    String detail,
     String eId,
     String eli
   ) implements Serializable {}

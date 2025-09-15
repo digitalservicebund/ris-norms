@@ -338,7 +338,7 @@ components:
       required:
         - type
         - eli
-        - details
+        - detail
         - xpath
         - eId
       properties:
@@ -349,7 +349,7 @@ components:
           type: string
           description: Manifestation-ELI der Datei, in der der Fehler gefunden wurde.
           example: eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/2025-01-01/regelungstext-verkuendung-1.xml
-        details:
+        detail:
           type: string
           description: Die vom Schematron ausgelöste Fehlermeldung.
           example: Missing required attribute 'value' on <akn:FRBRthis>.
