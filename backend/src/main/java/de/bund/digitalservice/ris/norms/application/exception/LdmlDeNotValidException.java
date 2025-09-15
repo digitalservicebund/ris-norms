@@ -51,18 +51,18 @@ public class LdmlDeNotValidException extends RuntimeException implements NormsAp
    * @param type the type of the error
    * @param lineNumber the line of the xml file that causes the error
    * @param columnNumber the column of the line of the xml file that causes the error
-   * @param details the error message
+   * @param detail the error message
    * @param file the name of the file in which this error happened. Might be null if the file is not known.
    */
   public record ValidationError(
     URI type,
     int lineNumber,
     int columnNumber,
-    String details,
+    String detail,
     @Nullable String file
   ) implements Serializable {
-    public ValidationError(URI type, int lineNumber, int columnNumber, String details) {
-      this(type, lineNumber, columnNumber, details, null);
+    public ValidationError(URI type, int lineNumber, int columnNumber, String detail) {
+      this(type, lineNumber, columnNumber, detail, null);
     }
   }
 }
