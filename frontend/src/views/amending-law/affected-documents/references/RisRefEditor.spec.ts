@@ -3,6 +3,7 @@ import { render, screen, waitFor } from "@testing-library/vue"
 import { userEvent } from "@testing-library/user-event"
 import RisRefEditor from "@/views/amending-law/affected-documents/references/RisRefEditor.vue"
 import { flushPromises } from "@vue/test-utils"
+import { ButtonStub } from "@/test-utils/ButtonStub"
 
 describe("risRefEditor", () => {
   it("should render a a select for the refersTo and an input for the href", async () => {
@@ -83,6 +84,9 @@ describe("risRefEditor", () => {
     const { emitted } = render(RisRefEditor, {
       props: {
         xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml">§4 Abs. 3 StVO</akn:ref>`,
+      },
+      global: {
+        stubs: { Button: ButtonStub },
       },
     })
 

@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/vue"
 import InputText from "primevue/inputtext"
 import { describe, expect, it } from "vitest"
 import RisZeitgrenzenListItem from "./RisZeitgrenzenListItem.vue"
+import { ButtonStub } from "@/test-utils/ButtonStub"
 
 describe("risZeitgrenzenListItem", () => {
   it("shows the unbestimmt value", () => {
@@ -69,7 +70,7 @@ describe("risZeitgrenzenListItem", () => {
         index: 0,
         modelValue: { id: "1", date: "2025-04-08", art: "AUSSERKRAFT" },
       },
-      global: { stubs: { InputMask: InputText } },
+      global: { stubs: { InputMask: InputText, Button: ButtonStub } },
     })
 
     await user.click(
@@ -147,7 +148,7 @@ describe("risZeitgrenzenListItem", () => {
           inUse: true,
         },
       },
-      global: { stubs: { InputMask: InputText } },
+      global: { stubs: { InputMask: InputText, Button: ButtonStub } },
     })
 
     expect(screen.getByRole("combobox")).toHaveAttribute("aria-disabled")

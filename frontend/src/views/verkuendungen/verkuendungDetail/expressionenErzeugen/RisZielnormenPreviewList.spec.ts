@@ -38,12 +38,12 @@ describe("risZielnormenPreviewList", () => {
 
     expect(
       screen.getByRole("button", {
-        name: "Luftverkehrsteuergesetz (LuftVStG)",
+        name: /Luftverkehrsteuergesetz\s*\(LuftVStG\)/,
       }),
     ).toBeInTheDocument()
     expect(
       screen.getByRole("button", {
-        name: "Berufsbildungsgesetzes (BBiG)",
+        name: /Berufsbildungsgesetzes\s*\(BBiG\)/,
       }),
     ).toBeInTheDocument()
   })
@@ -76,13 +76,13 @@ describe("risZielnormenPreviewList", () => {
 
     await user.click(
       screen.getByRole("button", {
-        name: "Luftverkehrsteuergesetz (LuftVStG)",
+        name: /Luftverkehrsteuergesetz\s*\(LuftVStG\)/,
       }),
     )
 
-    expect(screen.getByRole("table")).toBeInTheDocument()
+    expect(await screen.findByRole("table")).toBeInTheDocument()
     expect(
-      screen.getByRole("button", { name: "Expressionen erzeugen" }),
+      await screen.findByRole("button", { name: "Expressionen erzeugen" }),
     ).toBeInTheDocument()
   })
 
@@ -121,18 +121,18 @@ describe("risZielnormenPreviewList", () => {
 
     await user.click(
       screen.getByRole("button", {
-        name: "Luftverkehrsteuergesetz (LuftVStG)",
+        name: /Luftverkehrsteuergesetz\s*\(LuftVStG\)/,
       }),
     )
 
-    expect(
-      screen.getByRole("button", { name: "Expressionen erzeugen" }),
-    ).toBeDisabled()
+    const createBtn = await screen.findByRole("button", {
+      name: "Expressionen erzeugen",
+    })
+    expect(createBtn).toBeDisabled()
 
     await rerender({ loading: false })
-
     expect(
-      screen.getByRole("button", { name: "Expressionen erzeugen" }),
+      await screen.findByRole("button", { name: "Expressionen erzeugen" }),
     ).not.toBeDisabled()
   })
 })

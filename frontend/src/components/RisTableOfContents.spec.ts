@@ -41,7 +41,9 @@ describe("risTableOfContents", () => {
     })
 
     expect(
-      screen.getByRole("button", { name: "2. Buch Beispiele für Strukturen" }),
+      screen.getByRole("button", {
+        name: /2\. Buch\s*Beispiele für Strukturen/,
+      }),
     ).toBeVisible()
   })
 
@@ -61,7 +63,9 @@ describe("risTableOfContents", () => {
     })
 
     await user.click(
-      screen.getByRole("button", { name: "2. Buch Beispiele für Strukturen" }),
+      screen.getByRole("button", {
+        name: /2\. Buch\s*Beispiele für Strukturen/,
+      }),
     )
 
     expect(selectSpy).toHaveBeenLastCalledWith(

@@ -3,6 +3,7 @@ import RisZielnormForm from "./RisZielnormForm.vue"
 import { render, screen } from "@testing-library/vue"
 import userEvent from "@testing-library/user-event"
 import { INDETERMINATE_VALUE } from "@/composables/useZielnormReferences"
+import { ButtonStub } from "@/test-utils/ButtonStub"
 
 describe("risZielnormForm", () => {
   it("renders the component", () => {
@@ -218,6 +219,7 @@ describe("risZielnormForm", () => {
       props: {
         modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
       },
+      global: { stubs: { Button: ButtonStub } },
     })
 
     await user.click(screen.getByRole("button", { name: "Speichern" }))
@@ -231,6 +233,7 @@ describe("risZielnormForm", () => {
         modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
         updating: true,
       },
+      global: { stubs: { Button: ButtonStub } },
     })
 
     expect(screen.getByRole("button", { name: "Speichern" })).toBeDisabled()
@@ -245,6 +248,7 @@ describe("risZielnormForm", () => {
         modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
         updating: false,
       },
+      global: { stubs: { Button: ButtonStub } },
     })
 
     expect(screen.getByRole("button", { name: "Speichern" })).not.toBeDisabled()
@@ -259,6 +263,7 @@ describe("risZielnormForm", () => {
         modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
         deleting: true,
       },
+      global: { stubs: { Button: ButtonStub } },
     })
 
     expect(screen.getByRole("button", { name: "Speichern" })).toBeDisabled()
@@ -273,6 +278,7 @@ describe("risZielnormForm", () => {
         modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
         deleting: false,
       },
+      global: { stubs: { Button: ButtonStub } },
     })
 
     expect(screen.getByRole("button", { name: "Speichern" })).not.toBeDisabled()
@@ -288,6 +294,7 @@ describe("risZielnormForm", () => {
       props: {
         modelValue: { geltungszeit: "gz-1", zielnorm: "eli" },
       },
+      global: { stubs: { Button: ButtonStub } },
     })
 
     await user.click(screen.getByRole("button", { name: "Einträge entfernen" }))

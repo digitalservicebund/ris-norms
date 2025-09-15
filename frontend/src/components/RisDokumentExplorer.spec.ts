@@ -4,8 +4,28 @@ import type { ErrorResponse } from "@/types/errorResponse"
 import type { TocItem } from "@/types/toc"
 import userEvent from "@testing-library/user-event"
 import { render, screen, within } from "@testing-library/vue"
-import { beforeEach, describe, expect, it, vi } from "vitest"
+import {
+  afterAll,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from "vitest"
 import { ref } from "vue"
+import { config } from "@vue/test-utils"
+import { ButtonStub } from "@/test-utils/ButtonStub"
+
+const prevStubs = { ...(config.global.stubs || {}) }
+
+beforeAll(() => {
+  config.global.stubs = { ...prevStubs, Button: ButtonStub }
+})
+
+afterAll(() => {
+  config.global.stubs = prevStubs
+})
 
 describe("risDokumentExplorer", () => {
   describe("table of contents", () => {

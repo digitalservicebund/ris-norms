@@ -180,14 +180,14 @@ describe("risMetadataEditorNavigation", () => {
 
     await user.click(
       screen.getByRole("button", {
-        name: "2. Buch Beispiele für Strukturen",
+        name: /2\. Buch\s*Beispiele für Strukturen/,
       }),
     )
     expect(router.currentRoute.value.name).toBe("OutlineElementEditor")
 
     await user.click(
       screen.getByRole("button", {
-        name: "§ 3 Implementierung der neuen Strukturen",
+        name: /§\s*3\s*Implementierung der neuen Strukturen/,
       }),
     )
     expect(router.currentRoute.value.name).toBe("ElementEditor")

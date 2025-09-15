@@ -3,6 +3,7 @@ import { render, screen, within } from "@testing-library/vue"
 import InputText from "primevue/inputtext"
 import { describe, expect, it } from "vitest"
 import RisZeitgrenzenList from "./RisZeitgrenzenList.vue"
+import { ButtonStub } from "@/test-utils/ButtonStub"
 
 describe("risZeitgrenzenList", () => {
   it("shows an empty state when the items list is empty", () => {
@@ -91,7 +92,7 @@ describe("risZeitgrenzenList", () => {
           { id: "2", date: "2025-04-10", art: "AUSSERKRAFT" },
         ],
       },
-      global: { stubs: { InputMask: InputText } },
+      global: { stubs: { InputMask: InputText, Button: ButtonStub } },
     })
 
     const [, item] = screen.getAllByRole("listitem")
@@ -115,7 +116,7 @@ describe("risZeitgrenzenList", () => {
           { id: "2", date: "2025-04-10", art: "AUSSERKRAFT" },
         ],
       },
-      global: { stubs: { InputMask: InputText } },
+      global: { stubs: { InputMask: InputText, Button: ButtonStub } },
     })
 
     await user.click(
@@ -176,7 +177,7 @@ describe("risZeitgrenzenList", () => {
           art: "INKRAFT",
         }),
       },
-      global: { stubs: { InputMask: InputText } },
+      global: { stubs: { InputMask: InputText, Button: ButtonStub } },
     })
 
     expect(
