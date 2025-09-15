@@ -4,6 +4,7 @@ import { render, screen, waitFor, within } from "@testing-library/vue"
 import { flushPromises } from "@vue/test-utils"
 import { describe, expect, it } from "vitest"
 import { nextTick } from "vue"
+import { ButtonStub } from "@/test-utils/ButtonStub"
 
 describe("risRefEditorTable", () => {
   it("should not render the ref editor because no akn:ref present in the xml snippet", async () => {
@@ -43,6 +44,7 @@ describe("risRefEditorTable", () => {
         xmlSnippet:
           "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.2/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
       },
+      global: { stubs: { Button: ButtonStub } },
     })
 
     const refEditor2 = screen.getByRole("region", { name: "a second ref" })
@@ -85,6 +87,7 @@ describe("risRefEditorTable", () => {
         xmlSnippet:
           "<akn:quotedText xmlns:akn=\"http://Inhaltsdaten.LegalDocML.de/1.8.2/\" eId='quot-1'>Render of <akn:ref eId='quot-1_ref-1'>a ref</akn:ref> and <akn:ref eId='quot-1_ref-2'>a second ref</akn:ref> and <akn:p eId='quot-1_p-1'>place for a third ref</akn:p></akn:quotedText>",
       },
+      global: { stubs: { Button: ButtonStub } },
     })
 
     await user.click(screen.getByText("Typ"))

@@ -2,6 +2,7 @@ import { render, screen, within } from "@testing-library/vue"
 import RisDatenbankTable from "./RisDatenbankTable.vue"
 import { describe, expect, it } from "vitest"
 import userEvent from "@testing-library/user-event"
+import { ButtonStub } from "@/test-utils/ButtonStub"
 
 describe("risDatenbankTable", () => {
   it("renders the table with ELI and title columns and paginates", async () => {
@@ -65,7 +66,10 @@ describe("risDatenbankTable", () => {
         currentPage: 0,
         pageSize: 2,
       },
-      global: { stubs: { RouterLink: true }, renderStubDefaultSlot: true },
+      global: {
+        stubs: { RouterLink: true, Button: ButtonStub },
+        renderStubDefaultSlot: true,
+      },
     })
     const weiter = screen.getByText("Weiter")
     expect(weiter).toBeInTheDocument()
@@ -86,7 +90,10 @@ describe("risDatenbankTable", () => {
         currentPage: 1,
         pageSize: 2,
       },
-      global: { stubs: { RouterLink: true }, renderStubDefaultSlot: true },
+      global: {
+        stubs: { RouterLink: true, Button: ButtonStub },
+        renderStubDefaultSlot: true,
+      },
     })
     const zurueck = screen.getByText("Zurück")
     expect(zurueck).toBeInTheDocument()

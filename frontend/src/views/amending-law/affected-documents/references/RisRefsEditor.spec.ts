@@ -3,6 +3,7 @@ import { render, screen, within } from "@testing-library/vue"
 import { nextTick, reactive, ref } from "vue"
 import { userEvent } from "@testing-library/user-event"
 import type { RouteLocationRaw } from "vue-router"
+import { ButtonStub } from "@/test-utils/ButtonStub"
 
 const renderData = ref<string>()
 const renderIsFetching = ref<boolean>()
@@ -255,6 +256,7 @@ describe("risRefsEditor", () => {
         hasSaved: false,
         saveError: null,
       },
+      global: { stubs: { Button: ButtonStub } },
     })
 
     await nextTick()
