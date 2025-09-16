@@ -12,7 +12,7 @@ io-netty = "4.2.6.Final"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
-aws-bom = "software.amazon.awssdk:bom:2.33.9"
+aws-bom = "software.amazon.awssdk:bom:2.33.10"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
@@ -66,7 +66,7 @@ testcontainers-core = { module = "org.testcontainers:testcontainers", version.re
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
 testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
 testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:3.8.0"
-tika-core = "org.apache.tika:tika-core:3.2.2"
+tika-core = "org.apache.tika:tika-core:3.2.3"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:2.9"
