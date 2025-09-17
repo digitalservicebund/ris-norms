@@ -120,14 +120,14 @@ public class Meta {
    */
   public Proprietary getOrCreateProprietary() {
     return this.getProprietary().orElseGet(() -> {
-        final var newElement = NodeCreator.createElementWithEidAndGuid(
-          Namespace.INHALTSDATEN,
-          "proprietary",
-          element
-        );
-        newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
-        return new Proprietary(newElement);
-      });
+      final var newElement = NodeCreator.createElementWithEidAndGuid(
+        Namespace.INHALTSDATEN,
+        "proprietary",
+        element
+      );
+      newElement.setAttribute(SOURCE_ATTIBUTE, ATTRIBUTSEMANTIK_NOCH_UNDEFINIERT);
+      return new Proprietary(newElement);
+    });
   }
 
   /**

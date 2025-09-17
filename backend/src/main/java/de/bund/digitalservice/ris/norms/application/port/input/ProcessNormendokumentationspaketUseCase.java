@@ -205,12 +205,12 @@ public interface ProcessNormendokumentationspaketUseCase {
     ) {
       super(
         "The subtype of the manifestation eli for " +
-        fileName +
-        " does not match the file name (Expected: " +
-        fileName.split("\\.")[0] +
-        ", Found: " +
-        eli.getSubtype() +
-        ")."
+          fileName +
+          " does not match the file name (Expected: " +
+          fileName.split("\\.")[0] +
+          ", Found: " +
+          eli.getSubtype() +
+          ")."
       );
       this.fileName = fileName;
       this.expectedSubtype = fileName.split("\\.")[0];
@@ -317,8 +317,8 @@ public interface ProcessNormendokumentationspaketUseCase {
     public UnsupportedFileTypeException(String fileName) {
       super(
         "BinaryFile " +
-        fileName +
-        " is of an unsupported file type. Supported: XML, PDF, JPG, PNG, GIF"
+          fileName +
+          " is of an unsupported file type. Supported: XML, PDF, JPG, PNG, GIF"
       );
       this.fileName = fileName;
     }

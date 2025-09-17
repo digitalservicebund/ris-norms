@@ -85,10 +85,10 @@ class ZaehlbezeichnungsbasierteEIdPositionTest {
         .hasToString(
           // xpath based encoding, similar to the one done by the xsd-schema
           "z" +
-          NodeParser.getValueFromExpression(
-            "lower-case(encode-for-uri(translate(replace(replace(normalize-space(lower-case(./num/text())), '(§ )|(art\\. )|(art )|(artikel )', ''), '(\\()(\\d+[a-z]*)(\\))', '$2'), '-_.', '~~~')))",
-            node
-          ).get()
+            NodeParser.getValueFromExpression(
+              "lower-case(encode-for-uri(translate(replace(replace(normalize-space(lower-case(./num/text())), '(§ )|(art\\. )|(art )|(artikel )', ''), '(\\()(\\d+[a-z]*)(\\))', '$2'), '-_.', '~~~')))",
+              node
+            ).get()
         )
         .hasToString("zartik~%201~1%3f");
     }

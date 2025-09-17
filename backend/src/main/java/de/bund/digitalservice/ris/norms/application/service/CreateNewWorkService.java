@@ -124,13 +124,13 @@ public class CreateNewWorkService {
       documentCollection
     );
     NodeParser.nodeListToList(oldMeta.getElement().getChildNodes()).forEach(child -> {
-        if (
-          child.getNodeType() == Node.ELEMENT_NODE &&
-          List.of("akn:identification", "akn:proprietary").contains(child.getNodeName())
-        ) {
-          newMetaElement.appendChild(child);
-        }
-      });
+      if (
+        child.getNodeType() == Node.ELEMENT_NODE &&
+        List.of("akn:identification", "akn:proprietary").contains(child.getNodeName())
+      ) {
+        newMetaElement.appendChild(child);
+      }
+    });
     // Patch FRBR @values
     final Meta newMeta = new Meta(newMetaElement);
     newMeta.getFRBRWork().setFRBRsubtype("rechtsetzungsdokument-1");

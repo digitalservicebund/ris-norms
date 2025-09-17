@@ -235,7 +235,7 @@ class LdmlDeValidatorTest {
                   "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-VERKF-hrefLiterals.expression.FRBRauthor",
                   "/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}identification[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}FRBRExpression[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}FRBRauthor[1]/@Q{}href",
                   "In der Verkündungsfassung ist das Literal \"recht.bund.de/institution/bundestag\" an dieser Stelle nicht\n" +
-                  "                                    zulässig. Erlaubt sind ausschließlich \"recht.bund.de/institution/bundesregierung\", \"recht.bund.de/institution/bundeskanzler\" sowie \"recht.bund.de/institution/bundespraesident\".",
+                    "                                    zulässig. Erlaubt sind ausschließlich \"recht.bund.de/institution/bundesregierung\", \"recht.bund.de/institution/bundeskanzler\" sowie \"recht.bund.de/institution/bundespraesident\".",
                   "meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1",
                   "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
                 )

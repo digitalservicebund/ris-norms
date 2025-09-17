@@ -49,10 +49,10 @@ public class LdmlDeEmptyElementRemover {
    */
   public void removeEmptyElements(Element element) {
     NodeParser.nodeListToList(element.getChildNodes()).forEach(child -> {
-        if (child.getNodeType() == Node.ELEMENT_NODE) {
-          removeEmptyElements((Element) child);
-        }
-      });
+      if (child.getNodeType() == Node.ELEMENT_NODE) {
+        removeEmptyElements((Element) child);
+      }
+    });
 
     if (!hasChildElements(element)) {
       var elementsToRemoveOfNamespace = ELEMENTS_TO_REMOVE_IF_EMPTY.getOrDefault(

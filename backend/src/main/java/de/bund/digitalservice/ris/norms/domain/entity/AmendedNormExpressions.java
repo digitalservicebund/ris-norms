@@ -42,18 +42,18 @@ public record AmendedNormExpressions(Element element) {
     boolean createdByReplacingExistingExpression
   ) {
     find(normExpressionEli).ifPresentOrElse(
-        normExpression -> {
-          normExpression.setCreatedByZeitgrenze(createdByZeitgrenze);
-          normExpression.setCreatedByReplacingExisting(createdByReplacingExistingExpression);
-        },
-        () ->
-          NormExpression.createAndAppend(
-            element,
-            normExpressionEli,
-            createdByZeitgrenze,
-            createdByReplacingExistingExpression
-          )
-      );
+      normExpression -> {
+        normExpression.setCreatedByZeitgrenze(createdByZeitgrenze);
+        normExpression.setCreatedByReplacingExisting(createdByReplacingExistingExpression);
+      },
+      () ->
+        NormExpression.createAndAppend(
+          element,
+          normExpressionEli,
+          createdByZeitgrenze,
+          createdByReplacingExistingExpression
+        )
+    );
   }
 
   /**

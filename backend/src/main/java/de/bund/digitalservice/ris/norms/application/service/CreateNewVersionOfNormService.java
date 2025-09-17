@@ -232,18 +232,18 @@ public class CreateNewVersionOfNormService {
           "//componentRef/@src|//documentRef/@href|//img/@src",
           dokument.getDocument()
         ).forEach(node -> {
-            String originalValue = node.getNodeValue();
-            if (originalValue.contains("/")) {
-              // a lot of test data have references with only file names
-              DokumentManifestationEli eli = DokumentManifestationEli.fromString(originalValue);
-              DokumentManifestationEli newEli = DokumentManifestationEli.fromExpressionEli(
-                eli.asExpressionEli(),
-                pointInTimeManifestation,
-                eli.getFormat()
-              );
-              node.setNodeValue(newEli.toString());
-            }
-          })
+          String originalValue = node.getNodeValue();
+          if (originalValue.contains("/")) {
+            // a lot of test data have references with only file names
+            DokumentManifestationEli eli = DokumentManifestationEli.fromString(originalValue);
+            DokumentManifestationEli newEli = DokumentManifestationEli.fromExpressionEli(
+              eli.asExpressionEli(),
+              pointInTimeManifestation,
+              eli.getFormat()
+            );
+            node.setNodeValue(newEli.toString());
+          }
+        })
       );
 
     return newManifestation;

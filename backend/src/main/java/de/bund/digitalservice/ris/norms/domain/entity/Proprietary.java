@@ -128,67 +128,65 @@ public class Proprietary {
       String.format("%s[@ab='%s']", Metadata.FEDERFUEHRUNG.getXpath(), date.toString()),
       parent
     ).ifPresentOrElse(
-        nodeFound -> {
-          if (StringUtils.isNotEmpty(newValue)) {
-            nodeFound.setTextContent(newValue);
-          } else {
-            nodeFound.getParentNode().removeChild(nodeFound);
-          }
-        },
-        () -> {
-          if (StringUtils.isNotEmpty(newValue)) {
-            // 2. Get the previous and next nodes
-            final List<Element> federfuehrendNodes = NodeParser.getElementsFromExpression(
-              Metadata.FEDERFUEHRUNG.getXpath(),
-              parent
-            );
-
-            // Find the closest previous and next nodes based on @ab attribute
-            final Optional<Element> previousNode = federfuehrendNodes
-              .stream()
-              .filter(f -> LocalDate.parse(f.getAttribute("ab")).isBefore(date))
-              .max(Comparator.comparing(f -> LocalDate.parse(f.getAttribute("ab"))));
-
-            final Optional<Element> nextNode = federfuehrendNodes
-              .stream()
-              .filter(f -> LocalDate.parse(f.getAttribute("ab")).isAfter(date))
-              .min(Comparator.comparing(f -> LocalDate.parse(f.getAttribute("ab"))));
-
-            // 3. Create the new <breg:federfuehrend> element
-            final Element federfuehrungNode = NodeParser.getElementFromExpression(
-              "./federfuehrung",
-              parent
-            ).orElseGet(() ->
-              NodeCreator.createElement(
-                Metadata.FEDERFUEHRUNG.getNamespace(),
-                "federfuehrung",
-                parent
-              )
-            );
-            final Element newElement = NodeCreator.createElement(
-              Metadata.FEDERFUEHRUNG.getNamespace(),
-              Metadata.FEDERFUEHRUNG.getTag(),
-              federfuehrungNode
-            );
-            newElement.setTextContent(newValue);
-            newElement.setAttribute("ab", date.toString());
-
-            // Set "bis" attribute based on the next node
-            if (nextNode.isPresent()) {
-              final LocalDate nextStart = LocalDate.parse(
-                nextNode.get().getAttribute("ab")
-              ).minusDays(1);
-              newElement.setAttribute("bis", nextStart.toString());
-            } else {
-              newElement.setAttribute("bis", "unbestimmt");
-            }
-            // Set "bis" of the previous node to (date - 1) if exists
-            previousNode.ifPresent(value ->
-              value.setAttribute("bis", date.minusDays(1).toString())
-            );
-          }
+      nodeFound -> {
+        if (StringUtils.isNotEmpty(newValue)) {
+          nodeFound.setTextContent(newValue);
+        } else {
+          nodeFound.getParentNode().removeChild(nodeFound);
         }
-      );
+      },
+      () -> {
+        if (StringUtils.isNotEmpty(newValue)) {
+          // 2. Get the previous and next nodes
+          final List<Element> federfuehrendNodes = NodeParser.getElementsFromExpression(
+            Metadata.FEDERFUEHRUNG.getXpath(),
+            parent
+          );
+
+          // Find the closest previous and next nodes based on @ab attribute
+          final Optional<Element> previousNode = federfuehrendNodes
+            .stream()
+            .filter(f -> LocalDate.parse(f.getAttribute("ab")).isBefore(date))
+            .max(Comparator.comparing(f -> LocalDate.parse(f.getAttribute("ab"))));
+
+          final Optional<Element> nextNode = federfuehrendNodes
+            .stream()
+            .filter(f -> LocalDate.parse(f.getAttribute("ab")).isAfter(date))
+            .min(Comparator.comparing(f -> LocalDate.parse(f.getAttribute("ab"))));
+
+          // 3. Create the new <breg:federfuehrend> element
+          final Element federfuehrungNode = NodeParser.getElementFromExpression(
+            "./federfuehrung",
+            parent
+          ).orElseGet(() ->
+            NodeCreator.createElement(
+              Metadata.FEDERFUEHRUNG.getNamespace(),
+              "federfuehrung",
+              parent
+            )
+          );
+          final Element newElement = NodeCreator.createElement(
+            Metadata.FEDERFUEHRUNG.getNamespace(),
+            Metadata.FEDERFUEHRUNG.getTag(),
+            federfuehrungNode
+          );
+          newElement.setTextContent(newValue);
+          newElement.setAttribute("ab", date.toString());
+
+          // Set "bis" attribute based on the next node
+          if (nextNode.isPresent()) {
+            final LocalDate nextStart = LocalDate.parse(
+              nextNode.get().getAttribute("ab")
+            ).minusDays(1);
+            newElement.setAttribute("bis", nextStart.toString());
+          } else {
+            newElement.setAttribute("bis", "unbestimmt");
+          }
+          // Set "bis" of the previous node to (date - 1) if exists
+          previousNode.ifPresent(value -> value.setAttribute("bis", date.minusDays(1).toString()));
+        }
+      }
+    );
   }
 
   /**
@@ -226,13 +224,13 @@ public class Proprietary {
    */
   public Gegenstandlos getOrCreateGegenstandlos() {
     return getGegenstandlos().orElseGet(() -> {
-        final Element metadataParent = getOrCreateMetadataParent(Gegenstandlos.NAMESPACE);
-        final Gegenstandlos gegenstandlos = new Gegenstandlos(
-          NodeCreator.createElement(Gegenstandlos.NAMESPACE, Gegenstandlos.TAG_NAME, metadataParent)
-        );
-        gegenstandlos.setSinceDate(LocalDate.now().toString());
-        return gegenstandlos;
-      });
+      final Element metadataParent = getOrCreateMetadataParent(Gegenstandlos.NAMESPACE);
+      final Gegenstandlos gegenstandlos = new Gegenstandlos(
+        NodeCreator.createElement(Gegenstandlos.NAMESPACE, Gegenstandlos.TAG_NAME, metadataParent)
+      );
+      gegenstandlos.setSinceDate(LocalDate.now().toString());
+      return gegenstandlos;
+    });
   }
 
   /**
@@ -242,9 +240,9 @@ public class Proprietary {
   public Optional<CustomModsMetadata> getCustomModsMetadata() {
     return NodeParser.getElementFromExpression(
       "./" +
-      getXpathExpression(Namespace.METADATEN_RIS) +
-      "/" +
-      getXpathExpression(Namespace.METADATEN_NORMS_APPLICATION_MODS),
+        getXpathExpression(Namespace.METADATEN_RIS) +
+        "/" +
+        getXpathExpression(Namespace.METADATEN_NORMS_APPLICATION_MODS),
       element
     ).map(CustomModsMetadata::new);
   }
@@ -256,14 +254,14 @@ public class Proprietary {
    */
   public CustomModsMetadata getOrCreateCustomModsMetadata() {
     return this.getCustomModsMetadata().orElseGet(() -> {
-        final Element risMetadaten = getOrCreateMetadataParent(Namespace.METADATEN_RIS);
-        final var newElement = NodeCreator.createElement(
-          CustomModsMetadata.NAMESPACE,
-          CustomModsMetadata.TAG_NAME,
-          risMetadaten
-        );
-        return new CustomModsMetadata(newElement);
-      });
+      final Element risMetadaten = getOrCreateMetadataParent(Namespace.METADATEN_RIS);
+      final var newElement = NodeCreator.createElement(
+        CustomModsMetadata.NAMESPACE,
+        CustomModsMetadata.TAG_NAME,
+        risMetadaten
+      );
+      return new CustomModsMetadata(newElement);
+    });
   }
 
   /**
@@ -273,10 +271,10 @@ public class Proprietary {
    */
   public void removeMetadataParentIfEmpty(final Namespace namespace) {
     getMetadataParent(namespace).ifPresent(metadataParent -> {
-        if (!metadataParent.hasChildNodes()) {
-          element.removeChild(metadataParent);
-        }
-      });
+      if (!metadataParent.hasChildNodes()) {
+        element.removeChild(metadataParent);
+      }
+    });
   }
 
   /**
@@ -322,33 +320,33 @@ public class Proprietary {
       "./einzelelement[@href='#%s']".formatted(eId.toString()),
       parent
     ).orElseGet(() -> {
-        Element einzelElement = NodeCreator.createElement(
-          Namespace.METADATEN_RIS,
-          "einzelelement",
-          parent
-        );
-        einzelElement.setAttribute("href", "#" + eId);
-        return einzelElement;
-      });
+      Element einzelElement = NodeCreator.createElement(
+        Namespace.METADATEN_RIS,
+        "einzelelement",
+        parent
+      );
+      einzelElement.setAttribute("href", "#" + eId);
+      return einzelElement;
+    });
   }
 
   private Optional<Element> findRessortElementByDate(final LocalDate date) {
     return getMetadataParent(Metadata.FEDERFUEHRUNG.getNamespace()).flatMap(parent ->
-        NodeParser.getElementsFromExpression(Metadata.FEDERFUEHRUNG.getXpath(), parent)
-          .stream()
-          .filter(child -> {
-            final String startAttr = child.getAttribute("ab");
-            final String endAttr = child.getAttribute("bis");
-            final LocalDate startDate = LocalDate.parse(startAttr);
-            final LocalDate endDate = endAttr.equals("unbestimmt")
-              ? LocalDate.MAX
-              : LocalDate.parse(endAttr);
-            return (
-              (date.equals(startDate) || date.isAfter(startDate)) &&
-              (date.equals(endDate) || date.isBefore(endDate))
-            );
-          })
-          .findFirst()
-      );
+      NodeParser.getElementsFromExpression(Metadata.FEDERFUEHRUNG.getXpath(), parent)
+        .stream()
+        .filter(child -> {
+          final String startAttr = child.getAttribute("ab");
+          final String endAttr = child.getAttribute("bis");
+          final LocalDate startDate = LocalDate.parse(startAttr);
+          final LocalDate endDate = endAttr.equals("unbestimmt")
+            ? LocalDate.MAX
+            : LocalDate.parse(endAttr);
+          return (
+            (date.equals(startDate) || date.isAfter(startDate)) &&
+            (date.equals(endDate) || date.isBefore(endDate))
+          );
+        })
+        .findFirst()
+    );
   }
 }

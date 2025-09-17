@@ -51,10 +51,10 @@ public class LdmlDeElementSorter {
     sortChildElements(element);
 
     NodeParser.nodeListToList(element.getChildNodes()).forEach(child -> {
-        if (child.getNodeType() == Node.ELEMENT_NODE) {
-          sortElements((Element) child);
-        }
-      });
+      if (child.getNodeType() == Node.ELEMENT_NODE) {
+        sortElements((Element) child);
+      }
+    });
   }
 
   private void sortChildElements(Element element) {
