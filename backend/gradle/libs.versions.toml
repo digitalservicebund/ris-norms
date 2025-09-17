@@ -1,14 +1,14 @@
 [versions]
 flyway = "11.13.0"
+# CVE-2025-58057
+# CVE-2025-58056
+io-netty = "4.2.6.Final"
 # @keep
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "6.10.0"
 org-bouncycastle = "1.81"
 org-testcontainers = "1.21.3"
 spring-boot = "3.5.5"
-# CVE-2025-58057
-# CVE-2025-58056
-io-netty = "4.2.6.Final"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
@@ -29,19 +29,19 @@ jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.40"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.19.0"
+netty-buffer = { module = "io.netty:netty-buffer", version.ref = "io-netty" }
 # CVE-2025-58057
 # CVE-2025-58056
 netty-codec = { module = "io.netty:netty-codec", version.ref = "io-netty" }
 netty-codec-http = { module = "io.netty:netty-codec-http", version.ref = "io-netty" }
 netty-codec-http2 = { module = "io.netty:netty-codec-http2", version.ref = "io-netty" }
-netty-transport = { module = "io.netty:netty-transport", version.ref = "io-netty" }
 netty-common = { module = "io.netty:netty-common", version.ref = "io-netty" }
-netty-buffer = { module = "io.netty:netty-buffer", version.ref = "io-netty" }
 netty-handler = { module = "io.netty:netty-handler", version.ref = "io-netty" }
-netty-transport-classes-epoll = { module = "io.netty:netty-transport-classes-epoll", version.ref = "io-netty" }
 netty-resolver = { module = "io.netty:netty-resolver", version.ref = "io-netty" }
+netty-transport = { module = "io.netty:netty-transport", version.ref = "io-netty" }
+netty-transport-classes-epoll = { module = "io.netty:netty-transport-classes-epoll", version.ref = "io-netty" }
 # CVE-2025-53864
-nimbus-jose-jwt = "com.nimbusds:nimbus-jose-jwt:10.0.2"
+nimbus-jose-jwt = "com.nimbusds:nimbus-jose-jwt:10.5"
 nullaway = "com.uber.nullaway:nullaway:0.12.10"
 postgresql = "org.postgresql:postgresql:42.7.7"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.4"
@@ -53,19 +53,19 @@ spring-boot-devtools = { module = "org.springframework.boot:spring-boot-devtools
 spring-boot-starter-actuator = { module = "org.springframework.boot:spring-boot-starter-actuator" }
 spring-boot-starter-data-jpa = { module = "org.springframework.boot:spring-boot-starter-data-jpa" }
 spring-boot-starter-security = { module = "org.springframework.boot:spring-boot-starter-security" }
-spring-security-oauth2-resource-server = { module = "org.springframework.security:spring-security-oauth2-resource-server" }
-spring-security-oauth2-jose = { module = "org.springframework.security:spring-security-oauth2-jose" }
 spring-boot-starter-test = { module = "org.springframework.boot:spring-boot-starter-test" }
 spring-boot-starter-validation = { module = "org.springframework.boot:spring-boot-starter-validation" }
 spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web" }
 spring-cloud-starter-kubernetes-client-config = "org.springframework.cloud:spring-cloud-starter-kubernetes-client-config:3.3.0"
-spring-security-test = { module = "org.springframework.security:spring-security-test"}
+spring-security-oauth2-jose = { module = "org.springframework.security:spring-security-oauth2-jose" }
+spring-security-oauth2-resource-server = { module = "org.springframework.security:spring-security-oauth2-resource-server" }
+spring-security-test = { module = "org.springframework.security:spring-security-test" }
 # CVE-2023-3635
 squareup-okio-jvm = "com.squareup.okio:okio-jvm:3.16.0"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:junit-jupiter", version.ref = "org-testcontainers" }
-testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
 testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:3.8.0"
+testcontainers-postgres = { module = "org.testcontainers:postgresql", version.ref = "org-testcontainers" }
 tika-core = "org.apache.tika:tika-core:3.2.3"
 
 [plugins]
