@@ -7,3 +7,7 @@ secrets:
 vulnerabilities:
   - id: CVE-2025-55163
     statement: Netty is only used via AWS SDK as an HTTP client, not as an HTTP/2 server; CVE not applicable.
+  - id: CVE-2025-41248
+    statement: We neither use the @EnableMethodSecurity annotation, nor we use any method-level security annotations (@PreAuthorize, @PostAuthorize, @PreFilter, @PostFilter).
+  - id: CVE-2025-41249
+    statement: We neither use the @EnableMethodSecurity annotation, nor we use any method-level security annotations (@PreAuthorize, @PostAuthorize, @PreFilter, @PostFilter).
