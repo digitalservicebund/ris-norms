@@ -1,5 +1,5 @@
 [versions]
-flyway = "11.13.0"
+flyway = "11.13.1"
 # CVE-2025-58057
 # CVE-2025-58056
 io-netty = "4.2.6.Final"
