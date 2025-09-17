@@ -256,10 +256,10 @@ class ZeitgrenzenControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "[" +
-              "{\"date\": \"2023-12-30\", \"art\": \"INKRAFT\"}," +
-              "{\"date\": \"2024-01-01\", \"art\": \"AUSSERKRAFT\"}," +
-              "{\"date\": \"2024-01-01\", \"art\": \"AUSSERKRAFT\"}" +
-              "]"
+                "{\"date\": \"2023-12-30\", \"art\": \"INKRAFT\"}," +
+                "{\"date\": \"2024-01-01\", \"art\": \"AUSSERKRAFT\"}," +
+                "{\"date\": \"2024-01-01\", \"art\": \"AUSSERKRAFT\"}" +
+                "]"
             )
         )
         .andExpect(status().isBadRequest())
@@ -338,10 +338,10 @@ class ZeitgrenzenControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "[" +
-              "{\"date\": \"2017-03-16\", \"art\": \"INKRAFT\"}," +
-              "{\"date\": \"2025-01-01\", \"art\": \"INKRAFT\"}," +
-              "{\"date\": \"2024-01-01\", \"art\": \"AUSSERKRAFT\"}" +
-              "]"
+                "{\"date\": \"2017-03-16\", \"art\": \"INKRAFT\"}," +
+                "{\"date\": \"2025-01-01\", \"art\": \"INKRAFT\"}," +
+                "{\"date\": \"2024-01-01\", \"art\": \"AUSSERKRAFT\"}" +
+                "]"
             )
         )
         .andExpect(status().isOk())

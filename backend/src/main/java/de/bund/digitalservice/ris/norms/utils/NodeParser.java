@@ -171,12 +171,12 @@ public final class NodeParser {
     Node sourceNode
   ) {
     return getNodeFromExpression(xPathExpression, sourceNode).flatMap(node -> {
-        if (node instanceof Element element) {
-          return Optional.of(element);
-        }
+      if (node instanceof Element element) {
+        return Optional.of(element);
+      }
 
-        return Optional.empty();
-      });
+      return Optional.empty();
+    });
   }
 
   /**

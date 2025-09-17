@@ -66,10 +66,10 @@ class PortalPrototypePublishServiceTest {
 
     // Then
     verify(publishNormPort, times(1)).publishNorm(
-        assertArg(arg -> {
-          assertThat(arg.norm().getManifestationEli()).isEqualTo(norm1.getManifestationEli());
-        })
-      );
+      assertArg(arg -> {
+        assertThat(arg.norm().getManifestationEli()).isEqualTo(norm1.getManifestationEli());
+      })
+    );
     verify(confidentialDataCleanupService, times(1)).clean(any());
     verify(deleteAllPublishedDokumentePort, times(1)).deleteAllPublishedDokumente(any());
     verify(publishChangelogPort, times(1)).publishChangelogs(any());

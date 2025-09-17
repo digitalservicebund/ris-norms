@@ -33,24 +33,24 @@ class XmlFormattingResponseBodyAdviceTest {
     );
 
     assertThat((String) result).isEqualToIgnoringWhitespace(
-        """
-        <?xml version="1.0" encoding="UTF-8"?>
-        <akn:doc>
-          <akn:meta>
-            <akn:identification>
-              <akn:FRBRWork>
-                <akn:FRBRthis value="test"/>
-              </akn:FRBRWork>
-            </akn:identification>
-          </akn:meta>
-          <akn:body>
-            <akn:article eId="art-1">
-              <akn:heading>Test</akn:heading>
-            </akn:article>
-          </akn:body>
-        </akn:doc>
-        """
-      );
+      """
+      <?xml version="1.0" encoding="UTF-8"?>
+      <akn:doc>
+        <akn:meta>
+          <akn:identification>
+            <akn:FRBRWork>
+              <akn:FRBRthis value="test"/>
+            </akn:FRBRWork>
+          </akn:identification>
+        </akn:meta>
+        <akn:body>
+          <akn:article eId="art-1">
+            <akn:heading>Test</akn:heading>
+          </akn:article>
+        </akn:body>
+      </akn:doc>
+      """
+    );
   }
 
   @Test

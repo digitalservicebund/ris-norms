@@ -67,13 +67,13 @@ class NormWorkControllerTest {
         .andExpect(jsonPath("title").value("Gesetz zur Regelung des öffentlichen Vereinsrechts"));
 
       verify(loadNormUseCase).loadNorm(
-          assertArg(arg -> {
-            assertThat(arg).isInstanceOf(LoadNormUseCase.EliOptions.class);
-            assertThat(((LoadNormUseCase.EliOptions) arg).eli()).hasToString(
-              "eli/bund/bgbl-1/1964/s593"
-            );
-          })
-        );
+        assertArg(arg -> {
+          assertThat(arg).isInstanceOf(LoadNormUseCase.EliOptions.class);
+          assertThat(((LoadNormUseCase.EliOptions) arg).eli()).hasToString(
+            "eli/bund/bgbl-1/1964/s593"
+          );
+        })
+      );
     }
   }
 

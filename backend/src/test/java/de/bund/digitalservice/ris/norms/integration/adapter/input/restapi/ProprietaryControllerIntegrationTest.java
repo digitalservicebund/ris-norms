@@ -196,15 +196,15 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"typ\": \"verordnung\"," +
-              "\"subtyp\": \"new-subtyp\"," +
-              "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
-              "\"artDerNorm\": \"SN,ÄN,ÜN\"," +
-              "\"staat\": \"DEU\"," +
-              "\"beschliessendesOrgan\": \"Bundestag\"," +
-              "\"qualifizierteMehrheit\": true," +
-              "\"ressort\": \"Bundesministerium der Justiz\"," +
-              "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"
+                "\"typ\": \"verordnung\"," +
+                "\"subtyp\": \"new-subtyp\"," +
+                "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
+                "\"artDerNorm\": \"SN,ÄN,ÜN\"," +
+                "\"staat\": \"DEU\"," +
+                "\"beschliessendesOrgan\": \"Bundestag\"," +
+                "\"qualifizierteMehrheit\": true," +
+                "\"ressort\": \"Bundesministerium der Justiz\"," +
+                "\"organisationsEinheit\": \"Andere Organisationseinheit\"}"
             )
         )
         .andExpect(status().isNotFound())
@@ -244,15 +244,15 @@ class ProprietaryControllerIntegrationTest extends BaseIntegrationTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"typ\": \"verordnung\"," +
-              "\"subtyp\": \"new-subtyp\"," +
-              "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
-              "\"artDerNorm\": \"ÄN,ÜN\"," +
-              "\"staat\": \"DDR\"," +
-              "\"beschliessendesOrgan\": \"LT\"," +
-              "\"qualifizierteMehrheit\": false," +
-              "\"organisationsEinheit\": \"Andere Organisationseinheit\"," +
-              "\"ressort\": \"new ressort\"}"
+                "\"typ\": \"verordnung\"," +
+                "\"subtyp\": \"new-subtyp\"," +
+                "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
+                "\"artDerNorm\": \"ÄN,ÜN\"," +
+                "\"staat\": \"DDR\"," +
+                "\"beschliessendesOrgan\": \"LT\"," +
+                "\"qualifizierteMehrheit\": false," +
+                "\"organisationsEinheit\": \"Andere Organisationseinheit\"," +
+                "\"ressort\": \"new ressort\"}"
             )
         )
         .andExpect(status().isOk())

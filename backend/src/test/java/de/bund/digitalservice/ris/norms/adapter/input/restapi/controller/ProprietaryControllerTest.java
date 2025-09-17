@@ -185,15 +185,15 @@ class ProprietaryControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"typ\": \"new-typ\"," +
-              "\"subtyp\": \"new-subtyp\"," +
-              "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
-              "\"artDerNorm\": \"SN,ÄN,ÜN\"," +
-              "\"staat\": \"DEU\"," +
-              "\"beschliessendesOrgan\": \"Bundestag\"," +
-              "\"qualifizierteMehrheit\": true," +
-              "\"organisationsEinheit\": \"Andere Organisationseinheit\"," +
-              "\"ressort\": \"new ressort\"}"
+                "\"typ\": \"new-typ\"," +
+                "\"subtyp\": \"new-subtyp\"," +
+                "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
+                "\"artDerNorm\": \"SN,ÄN,ÜN\"," +
+                "\"staat\": \"DEU\"," +
+                "\"beschliessendesOrgan\": \"Bundestag\"," +
+                "\"qualifizierteMehrheit\": true," +
+                "\"organisationsEinheit\": \"Andere Organisationseinheit\"," +
+                "\"ressort\": \"new ressort\"}"
             )
         )
         .andExpect(status().isOk())
@@ -249,15 +249,15 @@ class ProprietaryControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(
               "{\"fna\": \"new-fna\"," +
-              "\"typ\": \"new-typ\"," +
-              "\"subtyp\": \"new-subtyp\"," +
-              "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
-              "\"artDerNorm\": \"SN,ÄN,ÜN\"," +
-              "\"staat\": \"DEU\"," +
-              "\"beschliessendesOrgan\": \"Bundestag\"," +
-              "\"qualifizierteMehrheit\": true," +
-              "\"organisationsEinheit\": \"Andere Organisationseinheit\"," +
-              "\"ressort\": \"new ressort\"}"
+                "\"typ\": \"new-typ\"," +
+                "\"subtyp\": \"new-subtyp\"," +
+                "\"bezeichnungInVorlage\": \"new-bezeichnungInVorlage\"," +
+                "\"artDerNorm\": \"SN,ÄN,ÜN\"," +
+                "\"staat\": \"DEU\"," +
+                "\"beschliessendesOrgan\": \"Bundestag\"," +
+                "\"qualifizierteMehrheit\": true," +
+                "\"organisationsEinheit\": \"Andere Organisationseinheit\"," +
+                "\"ressort\": \"new ressort\"}"
             )
         )
         .andExpect(status().isNotFound());

@@ -73,9 +73,9 @@ class ArticleServiceTest {
 
       // when
       assertThatThrownBy(() -> articleService.loadArticleHtml(query)).isInstanceOf(
-          // then
-          NormNotFoundException.class
-        );
+        // then
+        NormNotFoundException.class
+      );
     }
 
     @Test
@@ -98,9 +98,9 @@ class ArticleServiceTest {
 
       // when
       assertThatThrownBy(() -> articleService.loadArticleHtml(query)).isInstanceOf(
-          // then
-          ArticleNotFoundException.class
-        );
+        // then
+        ArticleNotFoundException.class
+      );
     }
   }
 
@@ -268,9 +268,9 @@ class ArticleServiceTest {
       assertThatThrownBy(() ->
         articleService.loadSpecificArticlesXmlFromDokument(query)
       ).isInstanceOf(
-          // Then
-          LoadSpecificArticlesXmlFromDokumentUseCase.NoArticlesOfTypesFoundException.class
-        );
+        // Then
+        LoadSpecificArticlesXmlFromDokumentUseCase.NoArticlesOfTypesFoundException.class
+      );
 
       verify(loadRegelungstextPort, times(1)).loadRegelungstext(
         argThat(argument -> Objects.equals(argument.eli(), eli))
@@ -298,9 +298,9 @@ class ArticleServiceTest {
       assertThatThrownBy(() ->
         articleService.loadSpecificArticlesXmlFromDokument(query)
       ).isInstanceOf(
-          // Then
-          LoadSpecificArticlesXmlFromDokumentUseCase.NoArticlesOfTypesFoundException.class
-        );
+        // Then
+        LoadSpecificArticlesXmlFromDokumentUseCase.NoArticlesOfTypesFoundException.class
+      );
 
       verify(loadRegelungstextPort, times(1)).loadRegelungstext(
         argThat(argument -> Objects.equals(argument.eli(), eli))
