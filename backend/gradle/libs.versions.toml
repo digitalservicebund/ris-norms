@@ -8,7 +8,7 @@ jacoco = "0.8.11"
 net-javacrumbs-shedlock = "6.10.0"
 org-bouncycastle = "1.82"
 org-testcontainers = "1.21.3"
-spring-boot = "3.5.5"
+spring-boot = "3.5.6"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
