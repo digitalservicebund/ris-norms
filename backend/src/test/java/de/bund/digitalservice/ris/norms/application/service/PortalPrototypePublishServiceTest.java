@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
 import de.bund.digitalservice.ris.norms.application.port.output.DeleteAllPublishedDokumentePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormManifestationElisByPublishStatePort;
 import de.bund.digitalservice.ris.norms.application.port.output.LoadNormPort;
@@ -66,9 +67,9 @@ class PortalPrototypePublishServiceTest {
 
     // Then
     verify(publishNormPort, times(1)).publishNorm(
-      assertArg(arg -> {
-        assertThat(arg.norm().getManifestationEli()).isEqualTo(norm1.getManifestationEli());
-      })
+      assertArg(arg ->
+        assertThat(arg.norm().getManifestationEli()).isEqualTo(norm1.getManifestationEli())
+      )
     );
     verify(confidentialDataCleanupService, times(1)).clean(any());
     verify(deleteAllPublishedDokumentePort, times(1)).deleteAllPublishedDokumente(any());
@@ -121,6 +122,54 @@ class PortalPrototypePublishServiceTest {
 
     // Then
     verify(publishNormPort, times(0)).publishNorm(any());
+    verify(deleteAllPublishedDokumentePort, times(0)).deleteAllPublishedDokumente(any());
+    verify(publishChangelogPort, times(0)).publishChangelogs(any());
+  }
+
+  @Test
+  void itShouldNotPublishNormIfNotXSDValid() {
+    // Given
+    var norm1 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
+
+    when(
+      loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
+    ).thenReturn(List.of(norm1.getManifestationEli()));
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm1));
+    when(loadPortalPublishingAllowListPort.loadPortalPublishingAllowListPort()).thenReturn(
+      List.of("Vereinsgesetz")
+    );
+
+    doThrow(new LdmlDeNotValidException(List.of())).when(ldmlDeValidator).validateXSDSchema(norm1);
+
+    // When
+    portalPrototypePublishService.publishNormsToPortalPrototype();
+
+    // Then
+    verify(publishNormPort, times(0)).publishNorm(any());
+    verify(deleteAllPublishedDokumentePort, times(0)).deleteAllPublishedDokumente(any());
+    verify(publishChangelogPort, times(0)).publishChangelogs(any());
+  }
+
+  @Test
+  void itShouldNotPublishNormIfPublishPortFails() {
+    // Given
+    var norm1 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
+
+    when(
+      loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
+    ).thenReturn(List.of(norm1.getManifestationEli()));
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm1));
+    when(loadPortalPublishingAllowListPort.loadPortalPublishingAllowListPort()).thenReturn(
+      List.of("Vereinsgesetz")
+    );
+
+    doThrow(new RuntimeException()).when(publishNormPort).publishNorm(any());
+
+    // When
+    portalPrototypePublishService.publishNormsToPortalPrototype();
+
+    // Then
+    verify(publishNormPort, times(1)).publishNorm(any());
     verify(deleteAllPublishedDokumentePort, times(0)).deleteAllPublishedDokumente(any());
     verify(publishChangelogPort, times(0)).publishChangelogs(any());
   }
