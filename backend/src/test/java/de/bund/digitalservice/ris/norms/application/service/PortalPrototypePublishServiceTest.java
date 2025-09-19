@@ -14,6 +14,7 @@ import de.bund.digitalservice.ris.norms.application.port.output.PublishNormPort;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
 import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -74,6 +75,23 @@ class PortalPrototypePublishServiceTest {
     verify(confidentialDataCleanupService, times(1)).clean(any());
     verify(deleteAllPublishedDokumentePort, times(1)).deleteAllPublishedDokumente(any());
     verify(publishChangelogPort, times(1)).publishChangelogs(any());
+  }
+
+  @Test
+  void itShouldNotPublishNormIfNormNotFound() {
+    // Given
+    var norm1 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
+
+    when(
+      loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
+    ).thenReturn(List.of(norm1.getManifestationEli()));
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.empty());
+
+    // When
+    portalPrototypePublishService.publishNormsToPortalPrototype();
+
+    // Then
+    verify(publishNormPort, never()).publishNorm(any());
   }
 
   @Test
@@ -139,7 +157,14 @@ class PortalPrototypePublishServiceTest {
       List.of("Vereinsgesetz")
     );
 
-    doThrow(new LdmlDeNotValidException(List.of())).when(ldmlDeValidator).validateXSDSchema(norm1);
+    var error = new LdmlDeNotValidException.ValidationError(
+      URI.create("/errors/ldml-de-not-valid/cvc-pattern-valid"),
+      23,
+      64,
+      "cvc-pattern-valid: Value 'invalid-guid-to-break-xsd' is not facet-valid with respect to pattern '([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12})|(\\{[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\})' for type 'GUIDLiterals'."
+    );
+    var exception = new LdmlDeNotValidException(List.of(error));
+    doThrow(exception).when(ldmlDeValidator).validateXSDSchema(norm1);
 
     // When
     portalPrototypePublishService.publishNormsToPortalPrototype();
@@ -172,5 +197,22 @@ class PortalPrototypePublishServiceTest {
     verify(publishNormPort, times(1)).publishNorm(any());
     verify(deleteAllPublishedDokumentePort, times(0)).deleteAllPublishedDokumente(any());
     verify(publishChangelogPort, times(0)).publishChangelogs(any());
+  }
+
+  @Test
+  void itShouldNotPublishNormIfShortTitleIsEmpty() {
+    // Given
+    // Norm without short title
+    var norm1 = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23");
+    when(
+      loadNormManifestationElisByPublishStatePort.loadNormManifestationElisByPublishState(any())
+    ).thenReturn(List.of(norm1.getManifestationEli()));
+    when(loadNormPort.loadNorm(any())).thenReturn(Optional.of(norm1));
+
+    // When
+    portalPrototypePublishService.publishNormsToPortalPrototype();
+
+    // Then
+    verify(publishNormPort, never()).publishNorm(any());
   }
 }
