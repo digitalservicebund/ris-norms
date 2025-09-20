@@ -28,7 +28,7 @@ jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:8.0.2"
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.42"
-mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.19.0"
+mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.20.0"
 netty-buffer = { module = "io.netty:netty-buffer", version.ref = "io-netty" }
 # CVE-2025-58057
 # CVE-2025-58056
