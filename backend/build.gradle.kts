@@ -78,7 +78,6 @@ dependencies {
     implementation(libs.tika.core)
     implementation(libs.jspecify)
     implementation(libs.commons.lang3)
-    implementation(libs.nimbus.jose.jwt)
     implementation(libs.google.protobuf.java)
     implementation(libs.netty.codec)
     implementation(libs.netty.codec.http)

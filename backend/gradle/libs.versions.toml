@@ -40,8 +40,6 @@ netty-handler = { module = "io.netty:netty-handler", version.ref = "io-netty" }
 netty-resolver = { module = "io.netty:netty-resolver", version.ref = "io-netty" }
 netty-transport = { module = "io.netty:netty-transport", version.ref = "io-netty" }
 netty-transport-classes-epoll = { module = "io.netty:netty-transport-classes-epoll", version.ref = "io-netty" }
-# CVE-2025-53864
-nimbus-jose-jwt = "com.nimbusds:nimbus-jose-jwt:10.5"
 nullaway = "com.uber.nullaway:nullaway:0.12.10"
 postgresql = "org.postgresql:postgresql:42.7.8"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.4"
