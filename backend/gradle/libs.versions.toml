@@ -1,8 +1,5 @@
 [versions]
 flyway = "11.13.1"
-# CVE-2025-58057
-# CVE-2025-58056
-io-netty = "4.2.6.Final"
 # @keep
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "6.10.0"
@@ -29,17 +26,6 @@ jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.42"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.20.0"
-netty-buffer = { module = "io.netty:netty-buffer", version.ref = "io-netty" }
-# CVE-2025-58057
-# CVE-2025-58056
-netty-codec = { module = "io.netty:netty-codec", version.ref = "io-netty" }
-netty-codec-http = { module = "io.netty:netty-codec-http", version.ref = "io-netty" }
-netty-codec-http2 = { module = "io.netty:netty-codec-http2", version.ref = "io-netty" }
-netty-common = { module = "io.netty:netty-common", version.ref = "io-netty" }
-netty-handler = { module = "io.netty:netty-handler", version.ref = "io-netty" }
-netty-resolver = { module = "io.netty:netty-resolver", version.ref = "io-netty" }
-netty-transport = { module = "io.netty:netty-transport", version.ref = "io-netty" }
-netty-transport-classes-epoll = { module = "io.netty:netty-transport-classes-epoll", version.ref = "io-netty" }
 nullaway = "com.uber.nullaway:nullaway:0.12.10"
 postgresql = "org.postgresql:postgresql:42.7.8"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.15.4"
