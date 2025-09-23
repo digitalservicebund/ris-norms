@@ -33,7 +33,7 @@
   "dependencies": {
     "@codemirror/lang-xml": "~6.1.0",
     "@digitalservicebund/ris-ui": "~3.14.0",
-    "@sentry/vue": "~10.13.0",
+    "@sentry/vue": "~10.14.0",
     "@types/lodash.sortby": "~4.7.9",
     "@types/uuid": "~11.0.0",
     "@vueuse/core": "~13.9.0",
@@ -74,7 +74,7 @@
     "eslint-import-resolver-typescript": "~4.4.0",
     "eslint-plugin-import": "~2.32.0",
     "eslint-plugin-playwright": "~2.2.0",
-    "eslint-plugin-testing-library": "~7.8.0",
+    "eslint-plugin-testing-library": "~7.9.0",
     "eslint-plugin-vue": "~10.5.0",
     "eslint-plugin-vuejs-accessibility": "~2.4.1",
     "globals": "~16.4.0",
