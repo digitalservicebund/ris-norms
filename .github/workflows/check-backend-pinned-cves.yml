@@ -160,7 +160,7 @@ jobs:
       - name: Create branch and PR
         id: cpr
         if: env.PINNED_DEPS_FOUND == 'true' && env.CHANGES_MADE == 'true'
-        uses: peter-evans/create-pull-request@915d841dae6a4f191bb78faf61a257411d7be4d2
+        uses: peter-evans/create-pull-request@9ec683ee07f9121fdf529b923931dd78d977a5c9
         with:
           token: ${{ secrets.GH_PAT_PUSH_TOKEN }} # so that the PR can be created, GITHUB_TOKEN is not enough
           branch-token: ${{ secrets.GITHUB_TOKEN }} # so that the commit can be signed
