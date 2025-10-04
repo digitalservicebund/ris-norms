@@ -58,7 +58,7 @@ errorprone = "net.ltgt.errorprone:4.3.0"
 gradle-git-properties = "com.gorylenko.gradle-git-properties:2.5.3"
 sentry = "io.sentry.jvm.gradle:5.12.1"
 sonarqube = "org.sonarqube:6.3.1.5724"
-spotless = "com.diffplug.spotless:7.2.1"
+spotless = "com.diffplug.spotless:8.0.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = "io.spring.dependency-management:1.1.7"
 test-logger = "com.adarshr.test-logger:4.0.0"
