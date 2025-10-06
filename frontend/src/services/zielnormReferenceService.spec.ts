@@ -198,7 +198,7 @@ describe("usePostZielnormReferences", () => {
     execute()
 
     await vi.waitFor(() =>
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/zielnorm-references",
         expect.objectContaining({
           headers: expect.objectContaining({ Accept: "application/json" }),
@@ -248,7 +248,7 @@ describe("useDeleteZielnormReferences", async () => {
     execute()
 
     await vi.waitFor(() =>
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/zielnorm-references",
         expect.objectContaining({
           headers: expect.objectContaining({ Accept: "application/json" }),

@@ -47,7 +47,7 @@ describe("articleService", () => {
         },
       ])
 
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         `/api/v1/norms/eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/articles`,
         expect.objectContaining({
           method: "GET",

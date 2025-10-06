@@ -292,7 +292,7 @@ describe("risDokumentExplorer", () => {
         },
       })
 
-      expect(getElementHtml).toHaveBeenCalledWith(
+      expect(getElementHtml).toHaveBeenCalledExactlyOnceWith(
         expect.anything(),
         expect.objectContaining({ value: undefined }),
       )

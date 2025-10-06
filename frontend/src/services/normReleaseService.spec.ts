@@ -142,7 +142,9 @@ describe("usePostNormRelease", () => {
     )
 
     await service.execute("praetext")
-    expect(postMock).toHaveBeenCalledWith({ releaseType: "praetext" })
+    expect(postMock).toHaveBeenCalledExactlyOnceWith({
+      releaseType: "praetext",
+    })
     expect(service.data.value).toEqual({
       title: "Beispielnorm",
       shortTitle: "Beispielnorm",

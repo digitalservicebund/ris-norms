@@ -170,7 +170,7 @@ describe("useElementService", () => {
       )
 
       await vi.waitFor(() =>
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/elements/fake_eid",
           expect.objectContaining({
             headers: {
@@ -197,7 +197,8 @@ describe("useElementService", () => {
       useGetElement(eli, "fake_eid")
 
       await vi.waitFor(() => {
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenNthCalledWith(
+          1,
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/elements/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({
@@ -211,7 +212,8 @@ describe("useElementService", () => {
         "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
       )
       await vi.waitFor(() => {
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenNthCalledWith(
+          2,
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1/elements/fake_eid",
           expect.any(Object),
         )
@@ -240,7 +242,7 @@ describe("useElementService", () => {
       )
 
       await vi.waitFor(() =>
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/elements/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({ Accept: "text/html" }),
@@ -264,7 +266,8 @@ describe("useElementService", () => {
       useGetElementHtml(eli, "fake_eid")
 
       await vi.waitFor(() => {
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenNthCalledWith(
+          1,
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/elements/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({
@@ -278,7 +281,8 @@ describe("useElementService", () => {
         "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
       )
       await vi.waitFor(() => {
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenNthCalledWith(
+          2,
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1/elements/fake_eid",
           expect.any(Object),
         )

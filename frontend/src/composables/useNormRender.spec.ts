@@ -27,7 +27,7 @@ describe("useNormRenderHtml", () => {
     await vi.waitUntil(() => isFinished.value)
     expect(data.value).toBe(`<html>Metadata shown</html>`)
 
-    expect(fetchSpy).toHaveBeenCalledWith(
+    expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
       "/api/v1/renderings?showMetadata=true",
       expect.objectContaining({
         method: "POST",
@@ -52,7 +52,7 @@ describe("useNormRenderHtml", () => {
     await vi.waitUntil(() => isFinished.value)
     expect(data.value).toBe(`<html>Metadata shown</html>`)
 
-    expect(fetchSpy).toHaveBeenCalledWith(
+    expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
       "/api/v1/renderings?snippet=true",
       expect.objectContaining({
         method: "POST",

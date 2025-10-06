@@ -38,7 +38,7 @@ describe("uploadService", () => {
         "eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1",
       )
       expect(data.value?.title).toEqual("Test Norm")
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         `/api/v1/verkuendungen?force=true`,
         expect.objectContaining({
           method: "POST",
@@ -69,7 +69,7 @@ describe("uploadService", () => {
       await vi.waitUntil(() => isFinished.value)
 
       expect(error.value).toEqual(expectedError)
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         `/api/v1/verkuendungen?force=true`,
         expect.objectContaining({
           method: "POST",

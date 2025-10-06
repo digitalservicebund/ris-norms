@@ -58,7 +58,7 @@ describe("verkuendungService", () => {
       )
 
       const { useApiFetch } = await import("@/services/apiService")
-      expect(useApiFetch).toHaveBeenCalledWith("/verkuendungen")
+      expect(useApiFetch).toHaveBeenCalledExactlyOnceWith("/verkuendungen")
     })
   })
 

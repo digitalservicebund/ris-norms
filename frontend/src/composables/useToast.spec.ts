@@ -38,7 +38,7 @@ describe("useToast", () => {
     const { add: addToast } = useToast()
     addToast({ summary: "Example", severity: "success" })
 
-    expect(add).toHaveBeenCalledWith(
+    expect(add).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({
         summary: "Example",
         life: 5_000,
@@ -50,7 +50,7 @@ describe("useToast", () => {
     const { add: addToast } = useToast()
     addToast({ summary: "Example", severity: "info" })
 
-    expect(add).toHaveBeenCalledWith(
+    expect(add).toHaveBeenLastCalledWith(
       expect.objectContaining({
         summary: "Example",
         life: 5_000,
@@ -62,7 +62,7 @@ describe("useToast", () => {
     const { add: addToast } = useToast()
     addToast({ summary: "Example", severity: "warn" })
 
-    expect(add).toHaveBeenCalledWith(
+    expect(add).toHaveBeenLastCalledWith(
       expect.objectContaining({
         summary: "Example",
         life: 10_000,
@@ -74,7 +74,7 @@ describe("useToast", () => {
     const { add: addToast } = useToast()
     addToast({ summary: "Example", severity: "warn", life: null })
 
-    expect(add).toHaveBeenCalledWith(
+    expect(add).toHaveBeenLastCalledWith(
       expect.objectContaining({
         summary: "Example",
         life: undefined,
@@ -86,7 +86,7 @@ describe("useToast", () => {
     const { add: addToast } = useToast()
     addToast({ summary: "Example", severity: "warn", life: 123 })
 
-    expect(add).toHaveBeenCalledWith(
+    expect(add).toHaveBeenLastCalledWith(
       expect.objectContaining({
         summary: "Example",
         life: 123,
@@ -98,7 +98,7 @@ describe("useToast", () => {
     const { remove: removeToast } = useToast()
     removeToast({ summary: "Example" })
 
-    expect(remove).toHaveBeenCalledWith(
+    expect(remove).toHaveBeenCalledExactlyOnceWith(
       expect.objectContaining({
         summary: "Example",
       }),
@@ -109,14 +109,14 @@ describe("useToast", () => {
     const { removeGroup: removeToastGroup } = useToast()
     removeToastGroup("example")
 
-    expect(removeGroup).toHaveBeenCalledWith("example")
+    expect(removeGroup).toHaveBeenCalledExactlyOnceWith("example")
   })
 
   it("removes all groups", () => {
     const { removeAllGroups: removeAllToastGroups } = useToast()
     removeAllToastGroups()
 
-    expect(removeAllGroups).toHaveBeenCalledWith()
+    expect(removeAllGroups).toHaveBeenCalledExactlyOnceWith()
   })
 
   describe("addError", () => {
@@ -125,7 +125,7 @@ describe("useToast", () => {
       const { addError } = useToast()
       addError(source)
 
-      expect(add).toHaveBeenCalledWith(
+      expect(add).toHaveBeenLastCalledWith(
         expect.objectContaining({
           summary: "Fehler: Error of type /errors/foo",
           life: undefined,
@@ -138,7 +138,7 @@ describe("useToast", () => {
       const { addError } = useToast()
       addError(source)
 
-      expect(add).toHaveBeenCalledWith(
+      expect(add).toHaveBeenLastCalledWith(
         expect.objectContaining({
           summary: "Fehler: The fallback message",
         }),
@@ -150,7 +150,7 @@ describe("useToast", () => {
       const { addError } = useToast()
       addError(source)
 
-      expect(add).toHaveBeenCalledWith(
+      expect(add).toHaveBeenLastCalledWith(
         expect.objectContaining({
           summary: "Fehler: The fallback message",
         }),
@@ -162,7 +162,7 @@ describe("useToast", () => {
       const { addError } = useToast()
       addError(source)
 
-      expect(add).toHaveBeenCalledWith(
+      expect(add).toHaveBeenLastCalledWith(
         expect.objectContaining({
           summary: "Fehler: The fallback message",
         }),
@@ -174,7 +174,7 @@ describe("useToast", () => {
       const { addError } = useToast()
       addError(source, { traceId: "4711" })
 
-      expect(add).toHaveBeenCalledWith(
+      expect(add).toHaveBeenLastCalledWith(
         expect.objectContaining({
           detail: expect.objectContaining({ traceId: "4711" }),
         }),
@@ -190,7 +190,7 @@ describe("useToast", () => {
       const { addError } = useToast()
       addError(source)
 
-      expect(add).toHaveBeenCalledWith(
+      expect(add).toHaveBeenLastCalledWith(
         expect.objectContaining({
           detail: expect.objectContaining({
             title: "Bar",
@@ -206,7 +206,7 @@ describe("useToast", () => {
       const { addError } = useToast()
       addError(source, { message: (err) => `Custom message: ${err}` })
 
-      expect(add).toHaveBeenCalledWith(
+      expect(add).toHaveBeenLastCalledWith(
         expect.objectContaining({
           summary: "Custom message: The fallback message",
         }),

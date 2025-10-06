@@ -26,7 +26,7 @@ describe("useApiFetch", () => {
     useApiFetch("foo/bar")
 
     await vi.waitFor(() =>
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/foo/bar",
         expect.objectContaining({
           headers: {
@@ -56,7 +56,7 @@ describe("useApiFetch", () => {
     })
 
     await vi.waitFor(() =>
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/foo/bar",
         expect.objectContaining({
           headers: {
@@ -143,7 +143,7 @@ describe("useApiFetch", () => {
     useApiFetch("foo/bar")
 
     await vi.waitFor(() =>
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/foo/bar",
         expect.objectContaining({
           headers: expect.objectContaining({ Authorization: "Bearer 1234" }),
@@ -162,7 +162,7 @@ describe("useApiFetch", () => {
     useApiFetch("foo/bar")
 
     await vi.waitFor(() =>
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/foo/bar",
         expect.objectContaining({
           headers: expect.not.objectContaining({

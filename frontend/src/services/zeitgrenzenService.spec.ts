@@ -39,7 +39,7 @@ describe("zeitgrenzenService", () => {
 
       expect(data.value).toBe("<div></div>")
 
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten",
         expect.objectContaining({
           headers: expect.objectContaining({ Accept: "text/html" }),
@@ -74,12 +74,14 @@ describe("zeitgrenzenService", () => {
 
       expect(data.value).toBe("<div>2</div>")
 
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledTimes(2)
+      expect(fetchSpy).toHaveBeenNthCalledWith(
+        1,
         "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten",
         expect.anything(),
       )
-
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenNthCalledWith(
+        2,
         "/api/v1/norms/eli/bund/bgbl-1/2022/s12/2022-01-23/1/deu/regelungstext-verkuendung-1/articles?refersTo=geltungszeitregel&refersTo=geltungszeitregel-inkrafttreten&refersTo=geltungszeitregel-ausserkrafttreten",
         expect.anything(),
       )
@@ -111,7 +113,7 @@ describe("zeitgrenzenService", () => {
 
       expect(data.value).toEqual(response)
 
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/zeitgrenzen",
         expect.anything(),
       )
@@ -154,18 +156,22 @@ describe("zeitgrenzenService", () => {
       const { isFinished } = useGetZeitgrenzen(eli)
       await vi.waitUntil(() => isFinished.value)
 
-      expect(fetchSpy).toHaveBeenCalledWith(
-        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/zeitgrenzen",
-        expect.anything(),
-      )
-
       eli.value = NormExpressionEli.fromString(
         "eli/bund/bgbl-1/2023/413/2023-12-30/1/deu",
       )
       await nextTick()
       await flushPromises()
 
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledTimes(2)
+
+      expect(fetchSpy).toHaveBeenNthCalledWith(
+        1,
+        "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/zeitgrenzen",
+        expect.anything(),
+      )
+
+      expect(fetchSpy).toHaveBeenNthCalledWith(
+        2,
         "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-30/1/deu/zeitgrenzen",
         expect.anything(),
       )
@@ -196,7 +202,7 @@ describe("zeitgrenzenService", () => {
       await execute()
       await flushPromises()
 
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/zeitgrenzen",
         expect.objectContaining({
           body: JSON.stringify(payload.value),
@@ -229,7 +235,7 @@ describe("zeitgrenzenService", () => {
       await execute()
       await flushPromises()
 
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/norms/eli/bund/bgbl-1/2023/413/2023-12-29/1/deu/zeitgrenzen",
         expect.objectContaining({
           body: JSON.stringify([]),

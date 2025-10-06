@@ -44,7 +44,9 @@ describe("use404Redirect", () => {
     ])
     use404Redirect(errors)
     await nextTick()
-    expect(replaceMock).toHaveBeenCalledOnce()
+    expect(replaceMock).toHaveBeenCalledExactlyOnceWith({
+      name: "NotFound",
+    })
   })
 
   it("redirects with multiple 404 errors", async () => {
@@ -59,7 +61,9 @@ describe("use404Redirect", () => {
     ])
     use404Redirect(errors)
     await nextTick()
-    expect(replaceMock).toHaveBeenCalledOnce()
+    expect(replaceMock).toHaveBeenCalledExactlyOnceWith({
+      name: "NotFound",
+    })
   })
 
   it("redirects as soon as one error is a 404", async () => {
@@ -76,7 +80,9 @@ describe("use404Redirect", () => {
     ])
     use404Redirect(errors)
     await nextTick()
-    expect(replaceMock).toHaveBeenCalledOnce()
+    expect(replaceMock).toHaveBeenCalledExactlyOnceWith({
+      name: "NotFound",
+    })
   })
 
   it("redirects when the list of errors is changed", async () => {
