@@ -346,9 +346,8 @@ spotless {
             ),
         )
     }
-
     kotlinGradle {
-        ktlint()
+        ktlint("1.5.0") // Spotless major version 8 not compatible with Ktlint default version 1.7.1
     }
 
     format("misc") {
