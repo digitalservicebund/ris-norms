@@ -66,6 +66,6 @@ describe("risToast", () => {
       }),
     )
 
-    expect(spy).toHaveBeenCalledWith("4711")
+    expect(spy).toHaveBeenCalledExactlyOnceWith("4711")
   })
 })

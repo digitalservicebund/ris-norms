@@ -108,7 +108,7 @@ describe("useNormService", () => {
     useNormService(eli, { showMetadata: true })
 
     await vi.waitFor(() =>
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu?showMetadata=true",
         expect.any(Object),
       ),
@@ -128,7 +128,7 @@ describe("useNormService", () => {
     useNormService(eli, { showMetadata: false })
 
     await vi.waitFor(() =>
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu?",
         expect.any(Object),
       ),
@@ -155,7 +155,7 @@ describe("useNormService", () => {
       )
 
       await vi.waitFor(() => {
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu?",
           expect.objectContaining({
             headers: {
@@ -182,7 +182,8 @@ describe("useNormService", () => {
       useGetNorm(eli)
 
       await vi.waitFor(() => {
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenNthCalledWith(
+          1,
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu?",
           expect.objectContaining({
             headers: {
@@ -197,7 +198,8 @@ describe("useNormService", () => {
         "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu",
       )
       await vi.waitFor(() => {
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenNthCalledWith(
+          2,
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu?",
           expect.any(Object),
         )
@@ -228,7 +230,7 @@ describe("useNormService", () => {
       )
 
       await vi.waitFor(() =>
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu?showMetadata=true",
           expect.objectContaining({
             headers: expect.objectContaining({
@@ -256,7 +258,8 @@ describe("useNormService", () => {
       })
 
       await vi.waitFor(() => {
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenNthCalledWith(
+          1,
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu?showMetadata=true",
           expect.objectContaining({
             headers: expect.objectContaining({
@@ -270,7 +273,8 @@ describe("useNormService", () => {
         "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu",
       )
       await vi.waitFor(() => {
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenNthCalledWith(
+          2,
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu?showMetadata=true",
           expect.any(Object),
         )
@@ -302,7 +306,8 @@ describe("useGetNorms", () => {
     useGetNorms(page, size)
 
     await vi.waitFor(() => {
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenNthCalledWith(
+        1,
         "/api/v1/norms?page=0&size=10",
         expect.any(Object),
       )
@@ -310,7 +315,8 @@ describe("useGetNorms", () => {
 
     page.value = 1
     await vi.waitFor(() => {
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenNthCalledWith(
+        2,
         "/api/v1/norms?page=1&size=10",
         expect.any(Object),
       )
@@ -340,7 +346,7 @@ describe("useGetNormWork", () => {
     useGetNormWork(NormWorkEli.fromString("eli/bund/bgbl-1/2017/s419"))
 
     await vi.waitFor(() => {
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419",
         expect.objectContaining({
           headers: {
@@ -366,7 +372,8 @@ describe("useGetNormWork", () => {
     useGetNormWork(workEli)
 
     await vi.waitFor(() => {
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenNthCalledWith(
+        1,
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419",
         expect.any(Object),
       )
@@ -374,7 +381,8 @@ describe("useGetNormWork", () => {
 
     workEli.value = NormWorkEli.fromString("eli/bund/bgbl-1/2017/s420")
     await vi.waitFor(() => {
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenNthCalledWith(
+        2,
         "/api/v1/norms/eli/bund/bgbl-1/2017/s420",
         expect.any(Object),
       )
@@ -406,7 +414,7 @@ describe("useGetNormExpressions", () => {
     useGetNormExpressions(NormWorkEli.fromString("eli/bund/bgbl-1/2017/s419"))
 
     await vi.waitFor(() => {
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/expressions",
         expect.objectContaining({
           headers: {
@@ -430,7 +438,8 @@ describe("useGetNormExpressions", () => {
     useGetNormExpressions(workEli)
 
     await vi.waitFor(() => {
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenNthCalledWith(
+        1,
         "/api/v1/norms/eli/bund/bgbl-1/2017/s419/expressions",
         expect.any(Object),
       )
@@ -438,7 +447,8 @@ describe("useGetNormExpressions", () => {
 
     workEli.value = NormWorkEli.fromString("eli/bund/bgbl-1/2017/s420")
     await vi.waitFor(() => {
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenNthCalledWith(
+        2,
         "/api/v1/norms/eli/bund/bgbl-1/2017/s420/expressions",
         expect.any(Object),
       )

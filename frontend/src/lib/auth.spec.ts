@@ -29,7 +29,7 @@ describe("auth", () => {
       url: "http://test.url",
     })
 
-    expect(Keycloak.default).toHaveBeenCalledWith({
+    expect(Keycloak.default).toHaveBeenCalledExactlyOnceWith({
       clientId: "test-client",
       realm: "test-realm",
       url: "http://test.url",
@@ -54,10 +54,12 @@ describe("auth", () => {
       url: "http://test.url/2",
     })
 
-    expect(Keycloak.default).toHaveBeenCalledWith(
+    expect(Keycloak.default).toHaveBeenNthCalledWith(
+      1,
       expect.objectContaining({ clientId: "test-client-1" }),
     )
-    expect(Keycloak.default).toHaveBeenCalledWith(
+    expect(Keycloak.default).toHaveBeenNthCalledWith(
+      2,
       expect.objectContaining({ clientId: "test-client-2" }),
     )
 

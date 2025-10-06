@@ -54,7 +54,7 @@ describe("useNormGuidService", () => {
     await useNormGuidService("e7abd358-32cb-4fc2-8a1a-b033961f3708")
 
     await vi.waitFor(() =>
-      expect(fetchSpy).toHaveBeenCalledWith(
+      expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
         "/api/v1/norms/e7abd358-32cb-4fc2-8a1a-b033961f3708",
         expect.any(Object),
       ),

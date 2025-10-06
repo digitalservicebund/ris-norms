@@ -125,7 +125,7 @@ describe("proprietaryService", () => {
       )
 
       await vi.waitFor(() =>
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/proprietary/fake_eid",
           expect.any(Object),
         ),
@@ -213,7 +213,7 @@ describe("proprietaryService", () => {
       )
 
       await vi.waitFor(() =>
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/proprietary",
           expect.objectContaining({
             headers: expect.objectContaining({
@@ -239,7 +239,8 @@ describe("proprietaryService", () => {
       useGetRahmenProprietary(eli)
 
       await vi.waitFor(() => {
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenNthCalledWith(
+          1,
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/proprietary",
           expect.objectContaining({
             headers: expect.objectContaining({
@@ -253,9 +254,14 @@ describe("proprietaryService", () => {
         "eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1",
       )
       await vi.waitFor(() => {
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenNthCalledWith(
+          2,
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/2/deu/regelungstext-verkuendung-1/proprietary",
-          expect.any(Object),
+          expect.objectContaining({
+            headers: expect.objectContaining({
+              Accept: "application/json",
+            }),
+          }),
         )
       })
     })
@@ -289,7 +295,7 @@ describe("proprietaryService", () => {
       execute()
 
       await vi.waitFor(() =>
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/proprietary",
           expect.objectContaining({
             headers: expect.objectContaining({ Accept: "application/json" }),
@@ -322,7 +328,7 @@ describe("proprietaryService", () => {
       )
 
       await vi.waitFor(() =>
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/proprietary/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({
@@ -349,7 +355,8 @@ describe("proprietaryService", () => {
       )
 
       await vi.waitFor(() => {
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenNthCalledWith(
+          1,
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/proprietary/fake_eid_1",
           expect.objectContaining({
             headers: expect.objectContaining({
@@ -361,7 +368,8 @@ describe("proprietaryService", () => {
 
       eid.value = "fake_eid_2"
       await vi.waitFor(() => {
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenNthCalledWith(
+          2,
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/proprietary/fake_eid_2",
           expect.any(Object),
         )
@@ -398,7 +406,7 @@ describe("proprietaryService", () => {
       execute()
 
       await vi.waitFor(() =>
-        expect(fetchSpy).toHaveBeenCalledWith(
+        expect(fetchSpy).toHaveBeenCalledExactlyOnceWith(
           "/api/v1/norms/eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/regelungstext-verkuendung-1/proprietary/fake_eid",
           expect.objectContaining({
             headers: expect.objectContaining({ Accept: "application/json" }),
