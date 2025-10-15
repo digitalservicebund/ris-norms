@@ -152,9 +152,9 @@ public final class NormManifestationEli implements NormEli, Comparable<NormManif
       matcher.group("pointInTimeManifestation") == null
         ? null
         : LocalDate.parse(
-          matcher.group("pointInTimeManifestation"),
-          DateTimeFormatter.ISO_LOCAL_DATE
-        )
+            matcher.group("pointInTimeManifestation"),
+            DateTimeFormatter.ISO_LOCAL_DATE
+          )
     );
   }
 

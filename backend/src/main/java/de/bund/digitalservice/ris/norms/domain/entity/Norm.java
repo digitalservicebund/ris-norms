@@ -45,10 +45,10 @@ public class Norm {
       : new HashSet<>();
     this.binaryFiles = norm.getBinaryFiles() != null
       ? norm
-        .getBinaryFiles()
-        .stream()
-        .map(b -> new BinaryFile(b.getDokumentManifestationEli(), b.getContent()))
-        .collect(Collectors.toSet())
+          .getBinaryFiles()
+          .stream()
+          .map(b -> new BinaryFile(b.getDokumentManifestationEli(), b.getContent()))
+          .collect(Collectors.toSet())
       : new HashSet<>();
   }
 
@@ -119,9 +119,9 @@ public class Norm {
     final Set<Dokument> newDokumente = (dokumente == null)
       ? new HashSet<>()
       : dokumente
-        .stream()
-        .filter(d -> !(d instanceof Regelungstext))
-        .collect(Collectors.toSet());
+          .stream()
+          .filter(d -> !(d instanceof Regelungstext))
+          .collect(Collectors.toSet());
     newDokumente.addAll(regelungstexte);
     dokumente = newDokumente;
   }

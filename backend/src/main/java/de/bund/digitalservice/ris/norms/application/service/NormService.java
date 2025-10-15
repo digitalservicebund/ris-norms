@@ -1051,8 +1051,8 @@ This method is applying the algorithm described in ADR 0020
 
     final Optional<Norm> previousNorm = insertionPoint > 0
       ? loadNormPort.loadNorm(
-        new LoadNormPort.Options(sortedExpressionsElis.get(insertionPoint - 1))
-      )
+          new LoadNormPort.Options(sortedExpressionsElis.get(insertionPoint - 1))
+        )
       : Optional.empty();
 
     final Optional<Norm> nextNorm = insertionPoint < sortedExpressionsElis.size()
