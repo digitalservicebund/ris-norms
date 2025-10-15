@@ -33,7 +33,7 @@
   "dependencies": {
     "@codemirror/lang-xml": "~6.1.0",
     "@digitalservicebund/ris-ui": "~3.14.0",
-    "@sentry/vue": "~10.19.0",
+    "@sentry/vue": "~10.20.0",
     "@types/lodash.sortby": "~4.7.9",
     "@types/uuid": "~11.0.0",
     "@vueuse/core": "~13.9.0",
