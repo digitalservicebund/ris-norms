@@ -133,8 +133,8 @@ public class S3MockClient implements S3Client {
     // Resolve the full path to the file, including bucket if present
     final Path filePath = deleteObjectRequest.bucket() != null
       ? localStorageDirectory
-        .resolve(deleteObjectRequest.bucket())
-        .resolve(deleteObjectRequest.key())
+          .resolve(deleteObjectRequest.bucket())
+          .resolve(deleteObjectRequest.key())
       : localStorageDirectory.resolve(deleteObjectRequest.key());
 
     try {
@@ -171,8 +171,8 @@ public class S3MockClient implements S3Client {
       .map(objIdentifier -> {
         Path filePath = deleteObjectsRequest.bucket() != null
           ? localStorageDirectory
-            .resolve(deleteObjectsRequest.bucket())
-            .resolve(objIdentifier.key())
+              .resolve(deleteObjectsRequest.bucket())
+              .resolve(objIdentifier.key())
           : localStorageDirectory.resolve(objIdentifier.key());
 
         try {
