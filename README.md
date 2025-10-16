@@ -4,7 +4,7 @@
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [![Pipeline](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml) | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-frontend) | [![Quality Gate Status Backend](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-backend) |
 
-This repository contains a web app supporting the Federal Documentation of Statutes (DE: ["Normendokumentation"](https://www.bundesjustizamt.de/DE/Themen/Rechtsetzung/Normendokumentation/Normendokumentation_node.html)). It is part of NeuRIS. You can learn more about NeuRIS on our [website](https://digitalservice.bund.de/en/projects/new-legal-information-system).
+This repository contains a web app supporting the Federal Documentation of Norms (DE: ["Normendokumentation"](https://www.bundesjustizamt.de/DE/Themen/Rechtsetzung/Normendokumentation/Normendokumentation_node.html)). It is part of NeuRIS. You can learn more about NeuRIS on our [website](https://digitalservice.bund.de/en/projects/new-legal-information-system).
 
 ## Quickstart
 
@@ -192,3 +192,4 @@ If you would like to contribute, check out [`CONTRIBUTING.md`](./CONTRIBUTING.md
 - 🔒 [RIS Reports](https://github.com/digitalservicebund/ris-reports) (additional documentation, including architecture diagrams and JavaDocs)
 - 🔒 [Infrastructure](https://github.com/digitalservicebund/ris-norms-infra)
 - 🔒 [Importer for migrated data](https://github.com/digitalservicebund/ris-norms-migration-import/)
+- [LDML.de metadata custom namespace](https://github.com/digitalservicebund/ris-norms-ldml-schema-extensions)
