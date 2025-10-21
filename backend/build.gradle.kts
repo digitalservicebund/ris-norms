@@ -336,7 +336,7 @@ spotless {
         prettier(
             mapOf(
                 "prettier" to "3.6.2", // npm dependency
-                "prettier-plugin-java" to "2.7.6", // npm dependency
+                "prettier-plugin-java" to "2.7.7", // npm dependency
             ),
         ).config(
             mapOf(
