@@ -243,7 +243,7 @@ jobs:
             exit 0
           fi
       - name: Upload trivy-results-repo.sarif as an artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         if: ${{ always () }}
         with:
           name: trivy-results-repo.sarif
@@ -307,7 +307,7 @@ jobs:
         run: npm ci
         working-directory: ./frontend
       - name: Download blob reports from artifacts
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           path: ./frontend/all-blob-reports
           pattern: test-results-blob-*
@@ -326,7 +326,7 @@ jobs:
         run: npx playwright merge-reports --reporter html ./all-blob-reports
         working-directory: ./frontend
       - name: Upload html report to artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: html-test-report
           path: ./frontend/playwright-report
@@ -369,7 +369,7 @@ jobs:
 
       # Backend code documentation
       - name: Backend Code Documentation - Download
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: backend-code-documentation
           path: tmp/backend-code-documentation/
@@ -395,7 +395,7 @@ jobs:
 
       # E2E test report
       - name: E2E test reports - Download
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           name: html-test-report
           path: tmp/html-test-report/
@@ -408,7 +408,7 @@ jobs:
 
       # Licence reports
       - name: Licence reports - Download
-        uses: actions/download-artifact@v5
+        uses: actions/download-artifact@v6
         with:
           pattern: licence-reports-*
           path: tmp/licence-reports/
