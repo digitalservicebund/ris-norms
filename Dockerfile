@@ -9,7 +9,7 @@ RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN \
     fi; \
     npm run build
 
-FROM gradle:9.1-jdk21 AS backend
+FROM gradle:9.2-jdk21 AS backend
 
 COPY backend /backend
 COPY LegalDocML.de /LegalDocML.de
