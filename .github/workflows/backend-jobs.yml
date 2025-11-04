@@ -216,7 +216,7 @@ jobs:
         ports:
           - 5432:5432
     steps:
-      - uses: actions/checkout@ff7abcd0c3c05ccf6adc123a8cd1fd4fb30fb493
+      - uses: actions/checkout@71cf2267d89c5cb81562390fa70a37fa40b1305e
       - uses: joshuaavalon/flyway-action@a0c3f735cf6bcd4efe9b2be6482492a19f4155ab
         with:
           url: jdbc:postgresql://postgres:5432/${{ env.POSTGRES_DB }}
