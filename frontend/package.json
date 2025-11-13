@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@codemirror/lang-xml": "~6.1.0",
-    "@digitalservicebund/ris-ui": "~3.16.0",
+    "@digitalservicebund/ris-ui": "~3.17.0",
     "@sentry/vue": "~10.25.0",
     "@types/lodash.sortby": "~4.7.9",
     "@types/uuid": "~11.0.0",
