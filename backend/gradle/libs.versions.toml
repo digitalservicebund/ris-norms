@@ -14,7 +14,7 @@ aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
 # CVE-2025-48924
-commons-lang3 = "org.apache.commons:commons-lang3:3.19.0"
+commons-lang3 = "org.apache.commons:commons-lang3:3.20.0"
 errorprone = "com.google.errorprone:error_prone_core:2.44.0"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
