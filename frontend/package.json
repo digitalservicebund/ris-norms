@@ -28,12 +28,12 @@
   },
   "engines": {
     "node": "24.11.1",
-    "npm": "11.6.2"
+    "npm": "11.6.3"
   },
   "dependencies": {
     "@codemirror/lang-xml": "~6.1.0",
     "@digitalservicebund/ris-ui": "~3.17.0",
-    "@sentry/vue": "~10.25.0",
+    "@sentry/vue": "~10.26.0",
     "@types/lodash.sortby": "~4.7.9",
     "@types/uuid": "~11.0.0",
     "@vueuse/core": "~14.0.0",
