@@ -21,7 +21,7 @@ jobs:
       packages: write # for updating cosign attestation
       security-events: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Run Trivy vulnerability file scanner
         # Third-party action, pin to commit SHA!
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
@@ -68,7 +68,7 @@ jobs:
       packages: write # for updating cosign attestation
       security-events: write
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Run Trivy vulnerability image scanner
         uses: aquasecurity/trivy-action@b6643a29fecd7f34b3597bc6acb0a98b03d33ff8
         env:
