@@ -55,7 +55,7 @@ tika-core = "org.apache.tika:tika-core:3.2.3"
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:3.0.1"
 errorprone = "net.ltgt.errorprone:4.3.0"
-gradle-git-properties = "com.gorylenko.gradle-git-properties:2.5.3"
+gradle-git-properties = "com.gorylenko.gradle-git-properties:2.5.4"
 sentry = "io.sentry.jvm.gradle:5.12.2"
 sonarqube = "org.sonarqube:7.1.0.6387"
 spotless = "com.diffplug.spotless:8.1.0"
