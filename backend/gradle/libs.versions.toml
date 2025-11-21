@@ -48,7 +48,7 @@ spring-security-test = { module = "org.springframework.security:spring-security-
 squareup-okio-jvm = "com.squareup.okio:okio-jvm:3.16.4"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:testcontainers-junit-jupiter", version.ref = "org-testcontainers" }
-testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:3.9.0"
+testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:4.0.0"
 testcontainers-postgres = { module = "org.testcontainers:testcontainers-postgresql", version.ref = "org-testcontainers" }
 tika-core = "org.apache.tika:tika-core:3.2.3"
 
