@@ -17,7 +17,7 @@ jobs:
   check-style-frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
@@ -46,7 +46,7 @@ jobs:
   test-frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
@@ -81,7 +81,7 @@ jobs:
   analyze-frontend-with-sonar-cube:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Setup Node
@@ -126,7 +126,7 @@ jobs:
   audit-licenses-frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - name: Setup Node
         uses: actions/setup-node@v6
         with:
