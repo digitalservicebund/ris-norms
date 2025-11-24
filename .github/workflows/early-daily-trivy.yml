@@ -109,7 +109,7 @@ jobs:
           trivy-config: "./trivy.yaml"
           output: "vuln.json"
       - name: Install cosign
-        uses: sigstore/cosign-installer@dbac2a8edec72ca001e3e9f3e53cd0b98f1eb467
+        uses: sigstore/cosign-installer@29bcfa8619aeb12eaac78d31157172c86183b05c
         with:
           cosign-release: "v2.6.0" # We need to use v2.X.X because of major version GHA v4.X.X and broken image verification of Kyverno
       - name: Log into container registry
