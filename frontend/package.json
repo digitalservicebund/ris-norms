@@ -39,7 +39,7 @@
     "@vueuse/core": "~14.0.0",
     "codemirror": "~6.0.1",
     "dayjs": "~1.11.13",
-    "immer": "~10.2.0",
+    "immer": "~11.0.0",
     "keycloak-js": "~26.2.0",
     "lodash.sortby": "~4.7.0",
     "primevue": "~4.4.0",
