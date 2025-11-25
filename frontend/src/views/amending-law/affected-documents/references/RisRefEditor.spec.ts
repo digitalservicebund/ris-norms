@@ -27,34 +27,6 @@ describe("risRefEditor", () => {
     )
   })
 
-  // currently there is only 1 valid value for refersTo and that is always selected.
-  it.skip("can select a new refersTo value", async () => {
-    const user = userEvent.setup()
-
-    const { emitted } = render(RisRefEditor, {
-      props: {
-        xmlSnippet: `<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml">§4 Abs. 3 StVO</akn:ref>`,
-      },
-    })
-
-    const dropdown = screen.getByRole("combobox", {
-      name: "Typ",
-    })
-
-    await user.click(dropdown)
-
-    const optionElements = screen.getByRole("option", {
-      name: "Zitierung",
-    })
-
-    await user.click(optionElements)
-
-    await expect.poll(() => emitted("update:xmlSnippet")).toHaveLength(1)
-    expect(emitted("update:xmlSnippet")[0]).toEqual([
-      '<akn:ref xmlns:akn="http://Inhaltsdaten.LegalDocML.de/1.8.2/" eId="quot-1_ref-1" href="eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1/hauptteil-1_abschnitt-erster_art-4_abs-3.xml">§4 Abs. 3 StVO</akn:ref>',
-    ])
-  })
-
   it("can change href", async () => {
     const user = userEvent.setup()
 
