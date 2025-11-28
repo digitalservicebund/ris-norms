@@ -1,0 +1,71 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/frontend"
+    schedule:
+      interval: "daily"
+      time: "02:00"
+      timezone: "Europe/Berlin"
+    cooldown:
+      default-days: 3
+    groups:
+      all-frontend-non-major-dependencies:
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # Pin nwsapi to 2.2.20 until CSS selector fix is in place
+      - dependency-name: "nwsapi"
+        versions: [">2.2.20"]
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "02:00"
+      timezone: "Europe/Berlin"
+    cooldown:
+      default-days: 3
+    ignore:
+      - dependency-name: "postgres"
+        update-types:
+          - version-update:semver-major
+
+  - package-ecosystem: "gradle"
+    directory: "/backend"
+    schedule:
+      interval: "daily"
+      time: "02:00"
+      timezone: "Europe/Berlin"
+    cooldown:
+      default-days: 3
+    groups:
+      all-backend-non-major-dependencies:
+        update-types:
+          - minor
+          - patch
+    ignore:
+      # Keep Tomcat embedded dependencies in 10.x series. Pinned due to CVE-2025-48988 fix - remove when Spring Boot/JobRunr naturally update
+      - dependency-name: "org.apache.tomcat.embed:tomcat-embed-core"
+        update-types:
+          - version-update:semver-major
+      - dependency-name: "org.apache.tomcat.embed:tomcat-embed-el"
+        update-types:
+          - version-update:semver-major
+      - dependency-name: "org.apache.tomcat.embed:tomcat-embed-websocket"
+        update-types:
+          - version-update:semver-major
+      # CVE-2025-53864
+      - dependency-name: "com.nimbusds:nimbus-jose-jwt"
+        update-types:
+          - version-update:semver-minor
+          - version-update:semver-major
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "02:00"
+      timezone: "Europe/Berlin"
+    cooldown:
+      default-days: 3
