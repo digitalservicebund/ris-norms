@@ -1,5 +1,5 @@
 [versions]
-flyway = "11.17.1"
+flyway = "11.17.2"
 # @keep
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "7.2.0"
