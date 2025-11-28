@@ -32,7 +32,7 @@ jobs:
           path: /home/runner/.npm
           key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
       - name: Install node modules
-        run: npm ci
+        run: npm ci --ignore-scripts
         working-directory: ./frontend
       - name: Check style
         run: npm run style:check
@@ -61,7 +61,7 @@ jobs:
           path: /home/runner/.npm
           key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
       - name: Install node modules
-        run: npm ci
+        run: npm ci --ignore-scripts
         working-directory: ./frontend
       - name: Run tests
         run: npm run test:report
@@ -98,7 +98,7 @@ jobs:
           path: /home/runner/.npm
           key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
       - name: Install node modules
-        run: npm ci
+        run: npm ci --ignore-scripts
         working-directory: ./frontend
       - name: Install SonarScanner
         uses: digitalservicebund/setup-sonarscanner@3ade23691f865c02dce6b46452947a0e7944196e # v1.0.0
@@ -141,7 +141,7 @@ jobs:
           path: /home/runner/.npm
           key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
       - name: Install node modules
-        run: npm ci
+        run: npm ci --ignore-scripts
         working-directory: ./frontend
       - name: Run license scanner
         run: npm run audit:licences

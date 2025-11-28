@@ -2,7 +2,7 @@ FROM node:24.11.1 AS frontend
 
 WORKDIR /frontend
 COPY frontend .
-RUN npm ci
+RUN npm ci --ignore-scripts
 RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN \
     if [ -f /run/secrets/SENTRY_AUTH_TOKEN ]; then \
         export SENTRY_AUTH_TOKEN=$(cat /run/secrets/SENTRY_AUTH_TOKEN); \

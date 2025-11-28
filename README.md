@@ -50,7 +50,7 @@ docker compose -f docker-compose-services.yaml up -d
 ./gradlew bootRun --args='--spring.profiles.active=local,e2e'
 
 # Install frontend dependencies and run frontend (working dir: `./frontend`)
-npm install
+npm ci --ignore-scripts
 node --run dev
 ```
 

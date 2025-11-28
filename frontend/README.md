@@ -16,7 +16,7 @@ For the most part, the organization follows a standard Vue CLI setup. If you've 
 Make sure your system meets the [prerequisites](../README.md#prerequisites). Then, install the dependencies:
 
 ```sh
-npm install
+npm ci --ignore-scripts
 ```
 
 You can now start the application:
