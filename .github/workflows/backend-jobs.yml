@@ -149,12 +149,14 @@ jobs:
           key: ${{ runner.os }}-sonar
       - name: Scan with SonarQube
         working-directory: ./backend
+        if: ${{  github.actor != 'dependabot[bot]' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: ./gradlew sonar --info
       - name: Check SonarQube Quality Gate
         uses: sonarsource/sonarqube-quality-gate-action@cb3ed20f9fec62b4c3b8ad9e77656c6adaade913
+        if: ${{  github.actor != 'dependabot[bot]' }}
         with:
           scanMetadataReportFile: backend/build/sonar/report-task.txt
         timeout-minutes: 3 # Force to fail step after specific time
