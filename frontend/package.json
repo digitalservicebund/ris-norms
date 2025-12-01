@@ -24,7 +24,8 @@
     "test:e2e": "playwright test",
     "test:browsers": "playwright test --project=chromium --project=firefox",
     "test:smoke": "playwright test --project=smoketest",
-    "audit:licences": "license-checker-rseidelsohn --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./frontend-licence-report.csv"
+    "audit:licences": "license-checker-rseidelsohn --production --excludePrivatePackages --onlyAllow \"$(. ./parseAllowedLicences.sh)\" --csv --out ./frontend-licence-report.csv",
+    "preinstall": "echo 'Please disable script execution: npm config set ignore-scripts true' && exit 1"
   },
   "engines": {
     "node": "24.11.1",
