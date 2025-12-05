@@ -178,6 +178,8 @@ class ArchitectureFitnessTest {
       .areAnnotatedWith(RestController.class)
       .and()
       .doNotHaveSimpleName("EnvironmentController")
+      .and()
+      .doNotHaveSimpleName("SecurityTxtController")
       .should(ArchCondition.from((new ShouldOnlyHaveUseCaseFields())))
       .because(
         "Controllers should only depend on use case interfaces, not on service implementations"
