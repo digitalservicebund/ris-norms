@@ -46,9 +46,8 @@ describe("risRefsEditor", () => {
       useRouter: vi.fn(),
     }))
 
-    const { default: RisModRefsEditor } = await import(
-      "@/views/amending-law/affected-documents/references/RisRefsEditor.vue"
-    )
+    const { default: RisModRefsEditor } =
+      await import("@/views/amending-law/affected-documents/references/RisRefsEditor.vue")
 
     render(RisModRefsEditor, {
       props: {
@@ -87,9 +86,8 @@ describe("risRefsEditor", () => {
       useRouter: vi.fn(),
     }))
 
-    const { default: RisModRefsEditor } = await import(
-      "@/views/amending-law/affected-documents/references/RisRefsEditor.vue"
-    )
+    const { default: RisModRefsEditor } =
+      await import("@/views/amending-law/affected-documents/references/RisRefsEditor.vue")
     const user = userEvent.setup()
 
     const { emitted } = render(RisModRefsEditor, {
@@ -158,9 +156,8 @@ describe("risRefsEditor", () => {
       useRouter: vi.fn(),
     }))
 
-    const { default: RisModRefsEditor } = await import(
-      "@/views/amending-law/affected-documents/references/RisRefsEditor.vue"
-    )
+    const { default: RisModRefsEditor } =
+      await import("@/views/amending-law/affected-documents/references/RisRefsEditor.vue")
     const user = userEvent.setup()
 
     const { emitted } = render(RisModRefsEditor, {
@@ -234,9 +231,8 @@ describe("risRefsEditor", () => {
       }),
     }))
 
-    const { default: RisModRefsEditor } = await import(
-      "@/views/amending-law/affected-documents/references/RisRefsEditor.vue"
-    )
+    const { default: RisModRefsEditor } =
+      await import("@/views/amending-law/affected-documents/references/RisRefsEditor.vue")
     render(RisModRefsEditor, {
       props: {
         normXml: `

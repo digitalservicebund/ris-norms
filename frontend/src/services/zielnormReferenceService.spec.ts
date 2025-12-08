@@ -45,9 +45,8 @@ describe("useZielnormReferencesService", () => {
 
     vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-    const { useZielnormReferencesService } = await import(
-      "./zielnormReferenceService"
-    )
+    const { useZielnormReferencesService } =
+      await import("./zielnormReferenceService")
 
     const result = useZielnormReferencesService(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
@@ -62,9 +61,8 @@ describe("useZielnormReferencesService", () => {
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("[]"))
 
-    const { useZielnormReferencesService } = await import(
-      "./zielnormReferenceService"
-    )
+    const { useZielnormReferencesService } =
+      await import("./zielnormReferenceService")
 
     const eli = ref(undefined)
     useZielnormReferencesService(eli)
@@ -77,9 +75,8 @@ describe("useZielnormReferencesService", () => {
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("[]"))
 
-    const { useZielnormReferencesService } = await import(
-      "./zielnormReferenceService"
-    )
+    const { useZielnormReferencesService } =
+      await import("./zielnormReferenceService")
 
     const eli = ref(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
@@ -126,9 +123,8 @@ describe("useGetZielnormReferences", () => {
 
     vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-    const { useGetZielnormReferences } = await import(
-      "./zielnormReferenceService"
-    )
+    const { useGetZielnormReferences } =
+      await import("./zielnormReferenceService")
 
     const result = useGetZielnormReferences(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
@@ -143,9 +139,8 @@ describe("useGetZielnormReferences", () => {
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("[]"))
 
-    const { useGetZielnormReferences } = await import(
-      "./zielnormReferenceService"
-    )
+    const { useGetZielnormReferences } =
+      await import("./zielnormReferenceService")
 
     const eli = ref(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
@@ -171,9 +166,8 @@ describe("usePostZielnormReferences", () => {
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("{}"))
 
-    const { usePostZielnormReferences } = await import(
-      "./zielnormReferenceService"
-    )
+    const { usePostZielnormReferences } =
+      await import("./zielnormReferenceService")
 
     const data = ref<ZielnormReference[]>([])
     const { execute } = usePostZielnormReferences(
@@ -229,9 +223,8 @@ describe("useDeleteZielnormReferences", async () => {
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("{}"))
 
-    const { useDeleteZielnormReferences } = await import(
-      "./zielnormReferenceService"
-    )
+    const { useDeleteZielnormReferences } =
+      await import("./zielnormReferenceService")
 
     const data = ref<string[]>([])
     const { execute } = useDeleteZielnormReferences(

@@ -64,9 +64,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       render(RisDokumentExplorer, {
         props: {
@@ -93,9 +92,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       render(RisDokumentExplorer, {
         props: {
@@ -121,9 +119,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       render(RisDokumentExplorer, {
         props: {
@@ -147,9 +144,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       render(RisDokumentExplorer, {
         props: {
@@ -199,9 +195,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       const { emitted } = render(RisDokumentExplorer, {
         props: {
@@ -257,9 +252,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       render(RisDokumentExplorer, {
         props: {
@@ -279,9 +273,8 @@ describe("risDokumentExplorer", () => {
         useGetElementHtml: getElementHtml,
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       render(RisDokumentExplorer, {
         props: {
@@ -309,9 +302,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       render(RisDokumentExplorer, {
         props: {
@@ -336,9 +328,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       render(RisDokumentExplorer, {
         props: {
@@ -363,9 +354,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       render(RisDokumentExplorer, {
         props: {
@@ -392,9 +382,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       const { emitted } = render(RisDokumentExplorer, {
         props: {
@@ -428,9 +417,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       render(RisDokumentExplorer, {
         props: {
@@ -467,9 +455,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       const { emitted } = render(RisDokumentExplorer, {
         props: {
@@ -504,9 +491,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       const { emitted } = render(RisDokumentExplorer, {
         props: {
@@ -546,9 +532,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       const { emitted } = render(RisDokumentExplorer, {
         props: {
@@ -588,9 +573,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       const { emitted } = render(RisDokumentExplorer, {
         props: {
@@ -632,9 +616,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       const { emitted } = render(RisDokumentExplorer, {
         props: {
@@ -654,9 +637,8 @@ describe("risDokumentExplorer", () => {
     it("emits an event when selecting an eingebundene Stammform", async () => {
       const user = userEvent.setup()
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       const { emitted } = render(RisDokumentExplorer, {
         props: {
@@ -693,9 +675,8 @@ describe("risDokumentExplorer", () => {
         }),
       }))
 
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       render(RisDokumentExplorer, {
         props: {
@@ -713,9 +694,8 @@ describe("risDokumentExplorer", () => {
     })
 
     it("adds classes for eId highlighting of eingebundene Stammform", async () => {
-      const { default: RisDokumentExplorer } = await import(
-        "./RisDokumentExplorer.vue"
-      )
+      const { default: RisDokumentExplorer } =
+        await import("./RisDokumentExplorer.vue")
 
       render(RisDokumentExplorer, {
         props: {
