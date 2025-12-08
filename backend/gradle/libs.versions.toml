@@ -1,21 +1,21 @@
 [versions]
-flyway = "11.17.1"
+flyway = "11.18.0"
 # @keep
 jacoco = "0.8.11"
-net-javacrumbs-shedlock = "7.2.0"
-org-bouncycastle = "1.82"
+net-javacrumbs-shedlock = "7.2.1"
+org-bouncycastle = "1.83"
 org-testcontainers = "2.0.2"
 spring-boot = "3.5.8"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
-aws-bom = "software.amazon.awssdk:bom:2.39.3"
+aws-bom = "software.amazon.awssdk:bom:2.40.2"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
 # CVE-2025-48924
 commons-lang3 = "org.apache.commons:commons-lang3:3.20.0"
-errorprone = "com.google.errorprone:error_prone_core:2.44.0"
+errorprone = "com.google.errorprone:error_prone_core:2.45.0"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 # CVE-2024-7254
@@ -26,7 +26,7 @@ jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.42"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.20.0"
-nullaway = "com.uber.nullaway:nullaway:0.12.12"
+nullaway = "com.uber.nullaway:nullaway:0.12.14"
 postgresql = "org.postgresql:postgresql:42.7.8"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.16.0"
 saxon-he = "net.sf.saxon:Saxon-HE:12.9"
@@ -57,7 +57,7 @@ dependency-license-report = "com.github.jk1.dependency-license-report:3.0.1"
 errorprone = "net.ltgt.errorprone:4.3.0"
 gradle-git-properties = "com.gorylenko.gradle-git-properties:2.5.4"
 sentry = "io.sentry.jvm.gradle:5.12.2"
-sonarqube = "org.sonarqube:7.1.0.6387"
+sonarqube = "org.sonarqube:7.2.0.6526"
 spotless = "com.diffplug.spotless:8.1.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = "io.spring.dependency-management:1.1.7"
