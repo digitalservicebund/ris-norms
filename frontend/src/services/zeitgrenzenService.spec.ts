@@ -25,9 +25,8 @@ describe("zeitgrenzenService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response("<div></div>"))
 
-      const { useGeltungszeitenHtml } = await import(
-        "@/services/zeitgrenzenService"
-      )
+      const { useGeltungszeitenHtml } =
+        await import("@/services/zeitgrenzenService")
 
       const { data, isFinished } = useGeltungszeitenHtml(
         NormExpressionEli.fromString(
@@ -53,9 +52,8 @@ describe("zeitgrenzenService", () => {
         .mockResolvedValueOnce(new Response("<div>1</div>"))
         .mockResolvedValueOnce(new Response("<div>2</div>"))
 
-      const { useGeltungszeitenHtml } = await import(
-        "@/services/zeitgrenzenService"
-      )
+      const { useGeltungszeitenHtml } =
+        await import("@/services/zeitgrenzenService")
 
       const eli = ref(
         NormExpressionEli.fromString(
@@ -99,9 +97,8 @@ describe("zeitgrenzenService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response(JSON.stringify(response)))
 
-      const { useGetZeitgrenzen } = await import(
-        "@/services/zeitgrenzenService"
-      )
+      const { useGetZeitgrenzen } =
+        await import("@/services/zeitgrenzenService")
 
       const { isFinished, data } = useGetZeitgrenzen(
         NormExpressionEli.fromString(
@@ -124,9 +121,8 @@ describe("zeitgrenzenService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response(JSON.stringify([])))
 
-      const { useGetZeitgrenzen } = await import(
-        "@/services/zeitgrenzenService"
-      )
+      const { useGetZeitgrenzen } =
+        await import("@/services/zeitgrenzenService")
 
       useGetZeitgrenzen(undefined)
       await flushPromises()
@@ -143,9 +139,8 @@ describe("zeitgrenzenService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response(JSON.stringify(response)))
 
-      const { useGetZeitgrenzen } = await import(
-        "@/services/zeitgrenzenService"
-      )
+      const { useGetZeitgrenzen } =
+        await import("@/services/zeitgrenzenService")
 
       const eli = ref(
         NormExpressionEli.fromString(
@@ -184,9 +179,8 @@ describe("zeitgrenzenService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response(JSON.stringify([])))
 
-      const { usePutZeitgrenzen } = await import(
-        "@/services/zeitgrenzenService"
-      )
+      const { usePutZeitgrenzen } =
+        await import("@/services/zeitgrenzenService")
 
       const eli = ref(
         NormExpressionEli.fromString(
@@ -220,9 +214,8 @@ describe("zeitgrenzenService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response(JSON.stringify([])))
 
-      const { usePutZeitgrenzen } = await import(
-        "@/services/zeitgrenzenService"
-      )
+      const { usePutZeitgrenzen } =
+        await import("@/services/zeitgrenzenService")
 
       const eli = ref(
         NormExpressionEli.fromString(
@@ -255,9 +248,8 @@ describe("zeitgrenzenService", () => {
         ),
       )
 
-      const { usePutZeitgrenzen } = await import(
-        "@/services/zeitgrenzenService"
-      )
+      const { usePutZeitgrenzen } =
+        await import("@/services/zeitgrenzenService")
 
       const eli = ref(
         NormExpressionEli.fromString(
@@ -283,9 +275,8 @@ describe("zeitgrenzenService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response(JSON.stringify([])))
 
-      const { usePutZeitgrenzen } = await import(
-        "@/services/zeitgrenzenService"
-      )
+      const { usePutZeitgrenzen } =
+        await import("@/services/zeitgrenzenService")
 
       const eli = ref(
         NormExpressionEli.fromString(
@@ -314,9 +305,8 @@ describe("zeitgrenzenService", () => {
         .spyOn(global, "fetch")
         .mockResolvedValue(new Response(JSON.stringify([])))
 
-      const { usePutZeitgrenzen } = await import(
-        "@/services/zeitgrenzenService"
-      )
+      const { usePutZeitgrenzen } =
+        await import("@/services/zeitgrenzenService")
 
       const eli = ref(undefined)
       const payload = ref([])

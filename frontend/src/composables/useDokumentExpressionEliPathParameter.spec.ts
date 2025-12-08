@@ -26,9 +26,8 @@ describe("useDokumentExpressionEliPathParameter", () => {
       ),
     }))
 
-    const { useDokumentExpressionEliPathParameter } = await import(
-      "./useDokumentExpressionEliPathParameter"
-    )
+    const { useDokumentExpressionEliPathParameter } =
+      await import("./useDokumentExpressionEliPathParameter")
     const eli = useDokumentExpressionEliPathParameter()
 
     expect(eli.value).toEqual(
@@ -56,9 +55,8 @@ describe("useDokumentExpressionEliPathParameter", () => {
       ),
     }))
 
-    const { useDokumentExpressionEliPathParameter } = await import(
-      "./useDokumentExpressionEliPathParameter"
-    )
+    const { useDokumentExpressionEliPathParameter } =
+      await import("./useDokumentExpressionEliPathParameter")
     const eli = useDokumentExpressionEliPathParameter("test")
 
     expect(eli.value).toEqual(
@@ -86,9 +84,8 @@ describe("useDokumentExpressionEliPathParameter", () => {
       useRoute: vi.fn().mockReturnValue(route),
     }))
 
-    const { useDokumentExpressionEliPathParameter } = await import(
-      "./useDokumentExpressionEliPathParameter"
-    )
+    const { useDokumentExpressionEliPathParameter } =
+      await import("./useDokumentExpressionEliPathParameter")
     const eli = useDokumentExpressionEliPathParameter()
 
     expect(eli.value).toEqual(
@@ -126,9 +123,8 @@ describe("useDokumentExpressionEliPathParameter", () => {
       useRoute: vi.fn().mockReturnValue(route),
     }))
 
-    const { useDokumentExpressionEliPathParameter } = await import(
-      "./useDokumentExpressionEliPathParameter"
-    )
+    const { useDokumentExpressionEliPathParameter } =
+      await import("./useDokumentExpressionEliPathParameter")
     const eli = useDokumentExpressionEliPathParameter("test")
 
     expect(eli.value).toEqual(
@@ -157,9 +153,8 @@ describe("useDokumentExpressionEliPathParameter", () => {
       ),
     }))
 
-    const { useDokumentExpressionEliPathParameter } = await import(
-      "./useDokumentExpressionEliPathParameter"
-    )
+    const { useDokumentExpressionEliPathParameter } =
+      await import("./useDokumentExpressionEliPathParameter")
     const eli = useDokumentExpressionEliPathParameter()
 
     expect(() => eli.value).toThrowError(
@@ -176,9 +171,8 @@ describe("useDokumentExpressionEliPathParameter", () => {
       ),
     }))
 
-    const { useDokumentExpressionEliPathParameter } = await import(
-      "./useDokumentExpressionEliPathParameter"
-    )
+    const { useDokumentExpressionEliPathParameter } =
+      await import("./useDokumentExpressionEliPathParameter")
     const eli = useDokumentExpressionEliPathParameter("test")
 
     expect(() => eli.value).toThrowError(
@@ -211,9 +205,8 @@ describe("createDokumentExpressionEliPathParameter", () => {
       getPath,
     }))
 
-    const { createDokumentExpressionEliPathParameter } = await import(
-      "./useDokumentExpressionEliPathParameter"
-    )
+    const { createDokumentExpressionEliPathParameter } =
+      await import("./useDokumentExpressionEliPathParameter")
     const path = createDokumentExpressionEliPathParameter()
 
     const expectedPath =
@@ -247,9 +240,8 @@ describe("createDokumentExpressionEliPathParameter", () => {
       getPath,
     }))
 
-    const { createDokumentExpressionEliPathParameter } = await import(
-      "./useDokumentExpressionEliPathParameter"
-    )
+    const { createDokumentExpressionEliPathParameter } =
+      await import("./useDokumentExpressionEliPathParameter")
     const path = createDokumentExpressionEliPathParameter("test")
 
     const expectedPath =

@@ -44,9 +44,8 @@ describe("verkuendungService", () => {
         }),
       }))
 
-      const { useVerkuendungenService } = await import(
-        "@/services/verkuendungService"
-      )
+      const { useVerkuendungenService } =
+        await import("@/services/verkuendungService")
 
       const result = useVerkuendungenService()
 
@@ -85,9 +84,8 @@ describe("verkuendungService", () => {
 
       vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-      const { useGetVerkuendungService } = await import(
-        "@/services/verkuendungService"
-      )
+      const { useGetVerkuendungService } =
+        await import("@/services/verkuendungService")
 
       const eliString =
         "eli/bund/bgbl-1/1990/s2954/2022-12-19/1/deu/regelungstext-verkuendung-1"
@@ -140,9 +138,8 @@ describe("verkuendungService", () => {
 
       vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-      const { useGetZielnormReferences } = await import(
-        "@/services/verkuendungService"
-      )
+      const { useGetZielnormReferences } =
+        await import("@/services/verkuendungService")
 
       const eli = ref(
         NormExpressionEli.fromString(

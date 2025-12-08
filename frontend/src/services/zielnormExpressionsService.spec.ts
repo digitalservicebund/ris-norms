@@ -53,9 +53,8 @@ describe("useGetZielnormPreview", () => {
 
     vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-    const { useGetZielnormPreview } = await import(
-      "./zielnormExpressionsService"
-    )
+    const { useGetZielnormPreview } =
+      await import("./zielnormExpressionsService")
 
     const result = useGetZielnormPreview(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
@@ -93,9 +92,8 @@ describe("useGetZielnormPreview", () => {
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("[]"))
 
-    const { useGetZielnormPreview } = await import(
-      "./zielnormExpressionsService"
-    )
+    const { useGetZielnormPreview } =
+      await import("./zielnormExpressionsService")
 
     const eli = ref(undefined)
     useGetZielnormPreview(eli)
@@ -108,9 +106,8 @@ describe("useGetZielnormPreview", () => {
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("[]"))
 
-    const { useGetZielnormPreview } = await import(
-      "./zielnormExpressionsService"
-    )
+    const { useGetZielnormPreview } =
+      await import("./zielnormExpressionsService")
 
     const eli = ref(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
@@ -157,9 +154,8 @@ describe("useCreateZielnormExpressions", () => {
 
     vi.doMock("@/services/apiService", () => ({ useApiFetch }))
 
-    const { useCreateZielnormExpressions } = await import(
-      "./zielnormExpressionsService"
-    )
+    const { useCreateZielnormExpressions } =
+      await import("./zielnormExpressionsService")
 
     const { data } = useCreateZielnormExpressions(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
@@ -191,9 +187,8 @@ describe("useCreateZielnormExpressions", () => {
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("[]"))
 
-    const { useCreateZielnormExpressions } = await import(
-      "./zielnormExpressionsService"
-    )
+    const { useCreateZielnormExpressions } =
+      await import("./zielnormExpressionsService")
 
     const expressionEli = ref(undefined)
     const zielnormWorkEli = ref(
@@ -209,9 +204,8 @@ describe("useCreateZielnormExpressions", () => {
       .spyOn(window, "fetch")
       .mockResolvedValue(new Response("[]"))
 
-    const { useCreateZielnormExpressions } = await import(
-      "./zielnormExpressionsService"
-    )
+    const { useCreateZielnormExpressions } =
+      await import("./zielnormExpressionsService")
 
     const expressionEli = ref(
       NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),

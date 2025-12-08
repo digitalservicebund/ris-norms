@@ -22,9 +22,8 @@ describe("useNormWorkEliPathParameter", () => {
       ),
     }))
 
-    const { useNormWorkEliPathParameter } = await import(
-      "./useNormWorkEliPathParameter"
-    )
+    const { useNormWorkEliPathParameter } =
+      await import("./useNormWorkEliPathParameter")
     const eli = useNormWorkEliPathParameter()
 
     expect(eli.value).toEqual(
@@ -46,9 +45,8 @@ describe("useNormWorkEliPathParameter", () => {
       ),
     }))
 
-    const { useNormWorkEliPathParameter } = await import(
-      "./useNormWorkEliPathParameter"
-    )
+    const { useNormWorkEliPathParameter } =
+      await import("./useNormWorkEliPathParameter")
     const eli = useNormWorkEliPathParameter("test")
 
     expect(eli.value).toEqual(
@@ -70,9 +68,8 @@ describe("useNormWorkEliPathParameter", () => {
       useRoute: vi.fn().mockReturnValue(route),
     }))
 
-    const { useNormWorkEliPathParameter } = await import(
-      "./useNormWorkEliPathParameter"
-    )
+    const { useNormWorkEliPathParameter } =
+      await import("./useNormWorkEliPathParameter")
     const eli = useNormWorkEliPathParameter()
 
     expect(eli.value).toEqual(
@@ -100,9 +97,8 @@ describe("useNormWorkEliPathParameter", () => {
       useRoute: vi.fn().mockReturnValue(route),
     }))
 
-    const { useNormWorkEliPathParameter } = await import(
-      "./useNormWorkEliPathParameter"
-    )
+    const { useNormWorkEliPathParameter } =
+      await import("./useNormWorkEliPathParameter")
     const eli = useNormWorkEliPathParameter("test")
 
     expect(eli.value.toString()).toBe("eli/bund/bgbl-1/2017/s419")
@@ -119,9 +115,8 @@ describe("useNormWorkEliPathParameter", () => {
       useRoute: vi.fn().mockReturnValue(reactive({ params: {} })),
     }))
 
-    const { useNormWorkEliPathParameter } = await import(
-      "./useNormWorkEliPathParameter"
-    )
+    const { useNormWorkEliPathParameter } =
+      await import("./useNormWorkEliPathParameter")
 
     const eli = useNormWorkEliPathParameter()
 
@@ -151,9 +146,8 @@ describe("createNormWorkEliPathParameter", () => {
       getPath,
     }))
 
-    const { createNormWorkEliPathParameter } = await import(
-      "./useNormWorkEliPathParameter"
-    )
+    const { createNormWorkEliPathParameter } =
+      await import("./useNormWorkEliPathParameter")
     const path = createNormWorkEliPathParameter()
 
     const expectedPath =
@@ -179,9 +173,8 @@ describe("createNormWorkEliPathParameter", () => {
       getPath,
     }))
 
-    const { createNormWorkEliPathParameter } = await import(
-      "./useNormWorkEliPathParameter"
-    )
+    const { createNormWorkEliPathParameter } =
+      await import("./useNormWorkEliPathParameter")
     const path = createNormWorkEliPathParameter("test")
 
     const expectedPath =

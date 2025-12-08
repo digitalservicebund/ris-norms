@@ -25,9 +25,8 @@ describe("useNormExpressionEliPathParameter", () => {
       ),
     }))
 
-    const { useNormExpressionEliPathParameter } = await import(
-      "./useNormExpressionEliPathParameter"
-    )
+    const { useNormExpressionEliPathParameter } =
+      await import("./useNormExpressionEliPathParameter")
     const eli = useNormExpressionEliPathParameter()
 
     expect(eli.value).toEqual(
@@ -54,9 +53,8 @@ describe("useNormExpressionEliPathParameter", () => {
       ),
     }))
 
-    const { useNormExpressionEliPathParameter } = await import(
-      "./useNormExpressionEliPathParameter"
-    )
+    const { useNormExpressionEliPathParameter } =
+      await import("./useNormExpressionEliPathParameter")
     const eli = useNormExpressionEliPathParameter("test")
 
     expect(eli.value).toEqual(
@@ -83,9 +81,8 @@ describe("useNormExpressionEliPathParameter", () => {
       useRoute: vi.fn().mockReturnValue(route),
     }))
 
-    const { useNormExpressionEliPathParameter } = await import(
-      "./useNormExpressionEliPathParameter"
-    )
+    const { useNormExpressionEliPathParameter } =
+      await import("./useNormExpressionEliPathParameter")
     const eli = useNormExpressionEliPathParameter()
 
     expect(eli.value).toEqual(
@@ -120,9 +117,8 @@ describe("useNormExpressionEliPathParameter", () => {
       useRoute: vi.fn().mockReturnValue(route),
     }))
 
-    const { useNormExpressionEliPathParameter } = await import(
-      "./useNormExpressionEliPathParameter"
-    )
+    const { useNormExpressionEliPathParameter } =
+      await import("./useNormExpressionEliPathParameter")
     const eli = useNormExpressionEliPathParameter("test")
 
     expect(eli.value).toEqual(
@@ -149,9 +145,8 @@ describe("useNormExpressionEliPathParameter", () => {
       ),
     }))
 
-    const { useNormExpressionEliPathParameter } = await import(
-      "./useNormExpressionEliPathParameter"
-    )
+    const { useNormExpressionEliPathParameter } =
+      await import("./useNormExpressionEliPathParameter")
     const eli = useNormExpressionEliPathParameter()
 
     expect(() => eli.value).toThrowError(
@@ -183,9 +178,8 @@ describe("createNormExpressionEliPathParameter", () => {
       getPath,
     }))
 
-    const { createNormExpressionEliPathParameter } = await import(
-      "./useNormExpressionEliPathParameter"
-    )
+    const { createNormExpressionEliPathParameter } =
+      await import("./useNormExpressionEliPathParameter")
     const path = createNormExpressionEliPathParameter()
 
     const expectedPath =
@@ -217,9 +211,8 @@ describe("createNormExpressionEliPathParameter", () => {
       getPath,
     }))
 
-    const { createNormExpressionEliPathParameter } = await import(
-      "./useNormExpressionEliPathParameter"
-    )
+    const { createNormExpressionEliPathParameter } =
+      await import("./useNormExpressionEliPathParameter")
     const path = createNormExpressionEliPathParameter("test")
 
     const expectedPath =

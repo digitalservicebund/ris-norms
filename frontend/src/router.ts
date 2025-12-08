@@ -71,17 +71,13 @@ const routes: readonly RouteRecordRaw[] = [
         path: `/verkuendungen/${createNormExpressionEliPathParameter("verkuendung")}/textkonsolidierung/${createNormExpressionEliPathParameter("expression")}`,
         name: "VerkuendungExpressionTextkonsolidierungEditor",
         component: () =>
-          import(
-            "@/views/verkuendungen/verkuendungDetail/textkonsolidierung/ExpressionTextkonsolidierungEditor.view.vue"
-          ),
+          import("@/views/verkuendungen/verkuendungDetail/textkonsolidierung/ExpressionTextkonsolidierungEditor.view.vue"),
       },
       {
         path: `/verkuendungen/${createNormExpressionEliPathParameter("verkuendung")}/zielnorm/${createNormWorkEliPathParameter("zielnorm")}/abgabe`,
         name: "Abgabe",
         component: () =>
-          import(
-            "@/views/verkuendungen/verkuendungDetail/abgabe/VerkuendungAbgabe.view.vue"
-          ),
+          import("@/views/verkuendungen/verkuendungDetail/abgabe/VerkuendungAbgabe.view.vue"),
       },
       {
         path: "upload",
@@ -93,65 +89,49 @@ const routes: readonly RouteRecordRaw[] = [
         path: `${createNormExpressionEliPathParameter()}`,
         name: "VerkuendungDetail",
         component: () =>
-          import(
-            "@/views/verkuendungen/verkuendungDetail/VerkuendungDetail.view.vue"
-          ),
+          import("@/views/verkuendungen/verkuendungDetail/VerkuendungDetail.view.vue"),
       },
       {
         path: `${createNormExpressionEliPathParameter()}/zeitgrenzen`,
         name: "VerkuendungZeitgrenzen",
         component: () =>
-          import(
-            "@/views/verkuendungen/verkuendungDetail/zeitgrenzen/VerkuendungZeitgrenzen.view.vue"
-          ),
+          import("@/views/verkuendungen/verkuendungDetail/zeitgrenzen/VerkuendungZeitgrenzen.view.vue"),
       },
       {
         path: `${createNormExpressionEliPathParameter()}/zielnormen`,
         name: "VerkuendungZielnormen",
         component: () =>
-          import(
-            "@/views/verkuendungen/verkuendungDetail/zielnormen/VerkuendungZielnormen.view.vue"
-          ),
+          import("@/views/verkuendungen/verkuendungDetail/zielnormen/VerkuendungZielnormen.view.vue"),
       },
       {
         path: `${createNormExpressionEliPathParameter()}/expressionen-erzeugen`,
         name: "VerkuendungExpressionenErzeugen",
         component: () =>
-          import(
-            "@/views/verkuendungen/verkuendungDetail/expressionenErzeugen/VerkuendungExpressionenErzeugen.view.vue"
-          ),
+          import("@/views/verkuendungen/verkuendungDetail/expressionenErzeugen/VerkuendungExpressionenErzeugen.view.vue"),
       },
       {
         path: `${createNormExpressionEliPathParameter("verkuendung")}/metadaten/${createNormExpressionEliPathParameter()}`,
         name: "VerkuendungMetadatenEditor",
         component: () =>
-          import(
-            "@/views/verkuendungen/verkuendungDetail/metadaten/VerkuendungMetadatenEditor.view.vue"
-          ),
+          import("@/views/verkuendungen/verkuendungDetail/metadaten/VerkuendungMetadatenEditor.view.vue"),
         children: [
           {
             path: "",
             name: "VerkuendungMetadatenEditorRahmen",
             component: () =>
-              import(
-                "@/views/verkuendungen/verkuendungDetail/metadaten/rahmen/VerkuendungMetadatenEditorRahmen.view.vue"
-              ),
+              import("@/views/verkuendungen/verkuendungDetail/metadaten/rahmen/VerkuendungMetadatenEditorRahmen.view.vue"),
           },
           {
             path: "element/:eid",
             name: "VerkuendungMetadatenEditorElement",
             component: () =>
-              import(
-                "@/views/verkuendungen/verkuendungDetail/metadaten/element/VerkuendungMetadatenEditorElement.view.vue"
-              ),
+              import("@/views/verkuendungen/verkuendungDetail/metadaten/element/VerkuendungMetadatenEditorElement.view.vue"),
           },
           {
             path: "outline/:eid",
             name: "VerkuendungMetadatenEditorOutlineElement",
             component: () =>
-              import(
-                "@/views/verkuendungen/verkuendungDetail/metadaten/outline-element/VerkuendungMetadatenEditorOutlineElement.view.vue"
-              ),
+              import("@/views/verkuendungen/verkuendungDetail/metadaten/outline-element/VerkuendungMetadatenEditorOutlineElement.view.vue"),
           },
         ],
       },
@@ -207,41 +187,31 @@ const routes: readonly RouteRecordRaw[] = [
         path: `${createNormExpressionEliPathParameter()}/textbearbeitung`,
         name: "DatenbankExpressionTextbearbeitung",
         component: () =>
-          import(
-            "@/views/datenbank/textbearbeitung/DatenbankTextbearbeitungEditor.view.vue"
-          ),
+          import("@/views/datenbank/textbearbeitung/DatenbankTextbearbeitungEditor.view.vue"),
       },
       {
         path: `${createNormExpressionEliPathParameter()}/metadaten`,
         name: "DatenbankMetadatenEditor",
         component: () =>
-          import(
-            "@/views/datenbank/metadaten/DatenbankMetadatenEditor.view.vue"
-          ),
+          import("@/views/datenbank/metadaten/DatenbankMetadatenEditor.view.vue"),
         children: [
           {
             path: "",
             name: "DatenbankMetadatenEditorRahmen",
             component: () =>
-              import(
-                "@/views/datenbank/metadaten/rahmen/DatenbankMetadatenEditorRahmen.view.vue"
-              ),
+              import("@/views/datenbank/metadaten/rahmen/DatenbankMetadatenEditorRahmen.view.vue"),
           },
           {
             path: "element/:eid",
             name: "DatenbankMetadatenEditorElement",
             component: () =>
-              import(
-                "@/views/datenbank/metadaten/element/DatenbankMetadatenEditorElement.view.vue"
-              ),
+              import("@/views/datenbank/metadaten/element/DatenbankMetadatenEditorElement.view.vue"),
           },
           {
             path: "outline/:eid",
             name: "DatenbankMetadatenEditorOutlineElement",
             component: () =>
-              import(
-                "@/views/datenbank/metadaten/outline-element/DatenbankMetadatenEditorOutlineElement.view.vue"
-              ),
+              import("@/views/datenbank/metadaten/outline-element/DatenbankMetadatenEditorOutlineElement.view.vue"),
           },
         ],
       },
@@ -265,9 +235,7 @@ const routes: readonly RouteRecordRaw[] = [
     path: `/amending-laws/${createDokumentExpressionEliPathParameter()}/references/:refEid?`,
     name: "References",
     component: () =>
-      import(
-        "@/views/amending-law/affected-documents/references/References.view.vue"
-      ),
+      import("@/views/amending-law/affected-documents/references/References.view.vue"),
   },
 
   {

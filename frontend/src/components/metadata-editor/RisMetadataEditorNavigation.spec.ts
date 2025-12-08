@@ -105,9 +105,8 @@ describe("risMetadataEditorNavigation", () => {
       }),
     }))
 
-    const { default: RisMetadataEditorNavigation } = await import(
-      "./RisMetadataEditorNavigation.vue"
-    )
+    const { default: RisMetadataEditorNavigation } =
+      await import("./RisMetadataEditorNavigation.vue")
 
     render(RisMetadataEditorNavigation, {
       global,
@@ -161,9 +160,8 @@ describe("risMetadataEditorNavigation", () => {
       }),
     }))
 
-    const { default: RisMetadataEditorNavigation } = await import(
-      "./RisMetadataEditorNavigation.vue"
-    )
+    const { default: RisMetadataEditorNavigation } =
+      await import("./RisMetadataEditorNavigation.vue")
 
     render(RisMetadataEditorNavigation, {
       global,
