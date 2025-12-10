@@ -22,8 +22,8 @@ jobs:
           app: ris-norms-production
           argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
-          github_app_private_key: ${{ secrets.GITOPS_NEURIS_APP_ID }}
-          github_app_id: ${{ secrets.GITOPS_NEURIS_APP_PRIVATE_KEY }}
+          github_app_private_key: ${{ secrets.GITOPS_NEURIS_APP_PRIVATE_KEY }}
+          github_app_id: ${{ secrets.GITOPS_NEURIS_APP_ID }}
       - name: Track deploy
         continue-on-error: true
         uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
