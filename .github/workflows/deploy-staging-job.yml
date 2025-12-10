@@ -13,16 +13,17 @@ jobs:
     steps:
       - uses: chainguard-dev/actions/setup-gitsign@3e8a2a226fad9e1ecbf2d359b8a7697554a4ac6d
       - name: Deploy new images
-        uses: digitalservicebund/argocd-deploy@4fac1bb67c92ed168f6d9b22f8779ce241a9e412 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@faa88406a1d6afa918aad127b19735c6e54d7fb1 # v1.0.0
         with:
           environment: staging
           version: ${{ github.sha }}
           deploying_repo: ris-norms
           infra_repo: ris-norms-infra
-          deploy_key: ${{ secrets.DEPLOY_KEY }}
           app: ris-norms-staging
           argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
           argocd_server: ${{ secrets.ARGOCD_SERVER }}
+          github_app_private_key: ${{ secrets.GITOPS_NEURIS_APP_ID }}
+          github_app_id: ${{ secrets.GITOPS_NEURIS_APP_PRIVATE_KEY }}
       - name: Track deploy
         continue-on-error: true
         uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
