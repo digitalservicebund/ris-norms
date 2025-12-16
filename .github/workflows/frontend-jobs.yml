@@ -25,7 +25,7 @@ jobs:
           cache: npm
           cache-dependency-path: ./frontend/package-lock.json
       - name: Cache npm cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: cache-npm-cache
         with:
           # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
@@ -54,7 +54,7 @@ jobs:
           cache: npm
           cache-dependency-path: ./frontend/package-lock.json
       - name: Cache npm cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: cache-npm-cache
         with:
           # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
@@ -91,7 +91,7 @@ jobs:
           cache: npm
           cache-dependency-path: ./frontend/package-lock.json
       - name: Cache npm cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: cache-npm-cache
         with:
           # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
@@ -136,7 +136,7 @@ jobs:
           cache: npm
           cache-dependency-path: ./frontend/package-lock.json
       - name: Cache npm cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         id: cache-npm-cache
         with:
           # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
