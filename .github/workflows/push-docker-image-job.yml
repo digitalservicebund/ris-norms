@@ -21,7 +21,7 @@ jobs:
       id-token: write # This is used to complete the identity challenge with sigstore/fulcio..
       packages: write
     steps:
-      - uses: actions/cache@v4
+      - uses: actions/cache@v5
         with:
           path: /tmp/images
           key: docker-images-cache-${{ github.run_id }}
