@@ -243,7 +243,7 @@ jobs:
             exit 0
           fi
       - name: Upload trivy-results-repo.sarif as an artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: ${{ always () }}
         with:
           name: trivy-results-repo.sarif
@@ -326,7 +326,7 @@ jobs:
         run: npx playwright merge-reports --reporter html ./all-blob-reports
         working-directory: ./frontend
       - name: Upload html report to artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: html-test-report
           path: ./frontend/playwright-report

@@ -66,7 +66,7 @@ jobs:
           pkill -P $DEV_PID
         working-directory: ./frontend
       - name: Upload screenshots and traces of failed tests
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: ${{ failure() }}
         with:
           name: failed-e2e-tests-${{ inputs.project }}
@@ -74,7 +74,7 @@ jobs:
             ./frontend/test-results/**/*.png
             ./frontend/test-results/**/trace.zip
       - name: Upload test result blobs reports
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: ${{ !cancelled() }}
         with:
           name: test-results-blob-e2e-${{ inputs.project }}

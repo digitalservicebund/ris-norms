@@ -36,14 +36,14 @@ jobs:
           echo "Running smoke tests"
           npm run test:smoke
       - name: Upload screenshots and traces of failed tests
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: ${{ failure() }}
         with:
           name: failed-smoketests
           path: ./frontend/test-results/**/*.png
             ./frontend/test-results/**/trace.zip
       - name: Upload test result blobs reports
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: ${{ !cancelled() }}
         with:
           name: test-results-blob-e2e-smoketest
