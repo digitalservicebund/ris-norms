@@ -49,7 +49,7 @@ jobs:
             exit 0
           fi
       - name: Upload trivy-results.sarif as an artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         if: ${{ always () }}
         with:
           name: trivy-results.sarif
@@ -71,7 +71,7 @@ jobs:
           format: "cosign-vuln"
           output: "vuln.json"
       - name: Upload cosign vulnerability scan record
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: "vuln.json"
           path: "vuln.json"
