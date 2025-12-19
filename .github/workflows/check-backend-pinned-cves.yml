@@ -176,7 +176,7 @@ jobs:
 
       - name: Enable Pull Request Automerge
         if: steps.cpr.outputs.pull-request-operation == 'created'
-        uses: peter-evans/enable-pull-request-automerge@8c0b7b87aebfd89e5ae34de098b546e2029ca896
+        uses: peter-evans/enable-pull-request-automerge@b0744df98c5410966a7251ac276d7eb4c79dd641
         with:
           token: ${{ secrets.GH_PAT_PUSH_TOKEN }}
           pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
