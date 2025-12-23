@@ -1,15 +1,15 @@
 [versions]
-flyway = "11.19.0"
+flyway = "11.19.1"
 # @keep
 jacoco = "0.8.11"
-net-javacrumbs-shedlock = "7.2.2"
+net-javacrumbs-shedlock = "7.4.0"
 org-bouncycastle = "1.83"
-org-testcontainers = "2.0.2"
+org-testcontainers = "2.0.3"
 spring-boot = "3.5.8"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
-aws-bom = "software.amazon.awssdk:bom:2.40.8"
+aws-bom = "software.amazon.awssdk:bom:2.40.12"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
@@ -26,7 +26,7 @@ jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.42"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.21.0"
-nullaway = "com.uber.nullaway:nullaway:0.12.14"
+nullaway = "com.uber.nullaway:nullaway:0.12.15"
 postgresql = "org.postgresql:postgresql:42.7.8"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.16.1"
 saxon-he = "net.sf.saxon:Saxon-HE:12.9"
@@ -57,7 +57,7 @@ dependency-license-report = "com.github.jk1.dependency-license-report:3.0.1"
 errorprone = "net.ltgt.errorprone:4.3.0"
 gradle-git-properties = "com.gorylenko.gradle-git-properties:2.5.4"
 sentry = "io.sentry.jvm.gradle:5.12.2"
-sonarqube = "org.sonarqube:7.2.1.6560"
+sonarqube = "org.sonarqube:7.2.2.6593"
 spotless = "com.diffplug.spotless:8.1.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = "io.spring.dependency-management:1.1.7"
