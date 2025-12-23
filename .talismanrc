@@ -23,7 +23,7 @@ fileignoreconfig:
   - filename: ldml-extension/fixtures/*.xml
     ignore_detectors: [filecontent]
   - filename: doc/adr/0009-renovate.md
-    checksum: 172f8d22a6c8114b91ba4e430349c40599d1afa59fb96f49a651c1eac1e551dc
+    checksum: 8730330b81ae0ead8b42c4c1f22d4065305813c2112c5885bb29d04796aab268
   - filename: LegalDocML.de/*/fixtures/*/*.xml
     ignore_detectors: [filecontent]
   - filename: LegalDocML.de/*/schema-extension-fixtures/*/*.xml
