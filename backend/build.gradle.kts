@@ -79,6 +79,7 @@ dependencies {
     implementation(libs.jspecify)
     implementation(libs.commons.lang3)
     implementation(libs.google.protobuf.java)
+    implementation(libs.netty.codec.http)
 
     errorprone(libs.nullaway)
     errorprone(libs.errorprone)

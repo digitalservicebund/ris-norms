@@ -51,6 +51,8 @@ testcontainers-junit-jupiter = { module = "org.testcontainers:testcontainers-jun
 testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:4.0.1"
 testcontainers-postgres = { module = "org.testcontainers:testcontainers-postgresql", version.ref = "org-testcontainers" }
 tika-core = "org.apache.tika:tika-core:3.2.3"
+# CVE-2025-67735
+netty-codec-http = "io.netty:netty-codec-http:4.1.130.Final"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:3.0.1"
