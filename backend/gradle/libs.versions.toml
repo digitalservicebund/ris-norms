@@ -1,5 +1,5 @@
 [versions]
-flyway = "11.20.0"
+flyway = "11.20.2"
 # @keep
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "7.5.0"
@@ -9,26 +9,26 @@ spring-boot = "3.5.8"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
-aws-bom = "software.amazon.awssdk:bom:2.41.2"
+aws-bom = "software.amazon.awssdk:bom:2.41.10"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
 # CVE-2025-48924
 commons-lang3 = "org.apache.commons:commons-lang3:3.20.0"
-errorprone = "com.google.errorprone:error_prone_core:2.45.0"
+errorprone = "com.google.errorprone:error_prone_core:2.46.0"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 # CVE-2024-7254
-google-protobuf-java = "com.google.protobuf:protobuf-java:4.33.2"
-jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:8.3.1"
+google-protobuf-java = "com.google.protobuf:protobuf-java:4.33.4"
+jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:8.4.0"
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.42"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.21.0"
 nullaway = "com.uber.nullaway:nullaway:0.12.15"
-postgresql = "org.postgresql:postgresql:42.7.8"
-prometheus = "io.micrometer:micrometer-registry-prometheus:1.16.1"
+postgresql = "org.postgresql:postgresql:42.7.9"
+prometheus = "io.micrometer:micrometer-registry-prometheus:1.16.2"
 saxon-he = "net.sf.saxon:Saxon-HE:12.9"
 schxslt = "name.dmaus.schxslt:schxslt:1.10.1"
 shedlock = { module = "net.javacrumbs.shedlock:shedlock-spring", version.ref = "net-javacrumbs-shedlock" }
@@ -48,7 +48,7 @@ spring-security-test = { module = "org.springframework.security:spring-security-
 squareup-okio-jvm = "com.squareup.okio:okio-jvm:3.16.4"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:testcontainers-junit-jupiter", version.ref = "org-testcontainers" }
-testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:4.0.1"
+testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:4.1.1"
 testcontainers-postgres = { module = "org.testcontainers:testcontainers-postgresql", version.ref = "org-testcontainers" }
 tika-core = "org.apache.tika:tika-core:3.2.3"
 # CVE-2025-67735
@@ -56,7 +56,7 @@ netty-codec-http = "io.netty:netty-codec-http:4.2.9.Final"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:3.0.1"
-errorprone = "net.ltgt.errorprone:4.3.0"
+errorprone = "net.ltgt.errorprone:4.4.0"
 gradle-git-properties = "com.gorylenko.gradle-git-properties:2.5.4"
 sentry = "io.sentry.jvm.gradle:5.12.2"
 sonarqube = "org.sonarqube:7.2.2.6593"
