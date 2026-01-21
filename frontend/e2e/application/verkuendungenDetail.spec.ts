@@ -184,6 +184,7 @@ test.describe("shows Zielnormen", { tag: ["@RISDEV-6941"] }, () => {
 
       await expect(textkonTable).toBeVisible()
     })
+
     test("should expand the Zielnorm and Metadaten to show the expression with ELI and date", async ({
       page,
     }) => {
