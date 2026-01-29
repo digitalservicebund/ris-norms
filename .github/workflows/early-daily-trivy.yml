@@ -113,7 +113,7 @@ jobs:
         with:
           cosign-release: "v2.6.0" # We need to use v2.X.X because of major version GHA v4.X.X and broken image verification of Kyverno
       - name: Log into container registry
-        uses: docker/login-action@0567fa5ae8c9a197cb207537dc5cbb43ca3d803f
+        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9
         with:
           registry: ${{ env.CONTAINER_REGISTRY }}
           username: ${{ github.actor }}
