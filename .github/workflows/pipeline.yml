@@ -272,7 +272,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Detect secrets in incoming commits with Talisman
-        uses: digitalservicebund/talisman-secrets-scan-action@6a81110891fac927ce9dabfa31908f3b666b75b6
+        uses: digitalservicebund/talisman-secrets-scan-action@db6cfdbbcf13117b4b181d048cea8db03e7a7433
       - name: Send status to Slack
         # only on failure and if on "main" branch
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
