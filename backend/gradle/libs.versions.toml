@@ -1,5 +1,5 @@
 [versions]
-flyway = "11.20.2"
+flyway = "11.20.3"
 # @keep
 jacoco = "0.8.11"
 net-javacrumbs-shedlock = "7.5.0"
@@ -9,7 +9,7 @@ spring-boot = "3.5.8"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
-aws-bom = "software.amazon.awssdk:bom:2.41.14"
+aws-bom = "software.amazon.awssdk:bom:2.41.15"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
