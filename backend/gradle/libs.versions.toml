@@ -58,7 +58,7 @@ netty-codec-http = "io.netty:netty-codec-http:4.2.9.Final"
 dependency-license-report = "com.github.jk1.dependency-license-report:3.0.1"
 errorprone = "net.ltgt.errorprone:4.4.0"
 gradle-git-properties = "com.gorylenko.gradle-git-properties:2.5.4"
-sentry = "io.sentry.jvm.gradle:5.12.2"
+sentry = "io.sentry.jvm.gradle:6.0.0"
 sonarqube = "org.sonarqube:7.2.2.6593"
 spotless = "com.diffplug.spotless:8.2.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
