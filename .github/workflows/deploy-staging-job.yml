@@ -37,3 +37,21 @@ jobs:
         if: ${{ failure() }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+  deploy-staging-stackit:
+    runs-on: ubuntu-latest
+    concurrency: deploy
+    environment: staging
+    steps:
+      - name: Deploy new images
+        uses: digitalservicebund/argocd-deploy@auth-token # Use the auth-token branch for STACKIT
+        with:
+          environment: staging-stackit
+          version: ${{ github.sha }}
+          deploying_repo: ris-norms
+          infra_repo: ris-norms-infra
+          github_app_private_key: ${{ secrets.GITOPS_NEURIS_APP_PRIVATE_KEY }}
+          github_app_id: ${{ secrets.GITOPS_NEURIS_APP_ID}}
+          app: ris-norms-staging
+          argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
