@@ -2,14 +2,14 @@
 flyway = "11.20.3"
 # @keep
 jacoco = "0.8.11"
-net-javacrumbs-shedlock = "7.5.0"
+net-javacrumbs-shedlock = "7.6.0"
 org-bouncycastle = "1.83"
 org-testcontainers = "2.0.3"
 spring-boot = "3.5.8"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.1"
-aws-bom = "software.amazon.awssdk:bom:2.41.15"
+aws-bom = "software.amazon.awssdk:bom:2.41.20"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
@@ -19,14 +19,14 @@ errorprone = "com.google.errorprone:error_prone_core:2.46.0"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 # CVE-2024-7254
-google-protobuf-java = "com.google.protobuf:protobuf-java:4.33.4"
+google-protobuf-java = "com.google.protobuf:protobuf-java:4.33.5"
 jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:8.4.1"
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.42"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.21.0"
-nullaway = "com.uber.nullaway:nullaway:0.13.0"
+nullaway = "com.uber.nullaway:nullaway:0.13.1"
 postgresql = "org.postgresql:postgresql:42.7.9"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.16.2"
 saxon-he = "net.sf.saxon:Saxon-HE:12.9"
@@ -60,7 +60,7 @@ errorprone = "net.ltgt.errorprone:4.4.0"
 gradle-git-properties = "com.gorylenko.gradle-git-properties:2.5.4"
 sentry = "io.sentry.jvm.gradle:6.0.0"
 sonarqube = "org.sonarqube:7.2.2.6593"
-spotless = "com.diffplug.spotless:8.2.0"
+spotless = "com.diffplug.spotless:8.2.1"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = "io.spring.dependency-management:1.1.7"
 test-logger = "com.adarshr.test-logger:4.0.0"
