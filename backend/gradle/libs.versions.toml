@@ -56,7 +56,7 @@ netty-codec-http = "io.netty:netty-codec-http:4.2.10.Final"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:3.0.1"
-errorprone = "net.ltgt.errorprone:4.4.0"
+errorprone = "net.ltgt.errorprone:5.0.0"
 gradle-git-properties = "com.gorylenko.gradle-git-properties:2.5.4"
 sentry = "io.sentry.jvm.gradle:6.0.0"
 sonarqube = "org.sonarqube:7.2.2.6593"
