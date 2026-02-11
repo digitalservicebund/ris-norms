@@ -58,10 +58,13 @@ public class SecurityConfig {
             "/app/**"
           )
           .permitAll()
-          // First restrict /api/v1/external/** to e-V user
+          // Restrict /api/v1/external/** to e-V user
           .requestMatchers("/api/v1/external/**")
           .hasRole(Roles.EVERKUENDUNG_USER)
-          // Second restrict the rest of /api/v1/** to norms user, excluding /api/v1/external/** because matched before
+          // Allow /api/v1/fonto/** for everyone (just for trying out the integration, do not do this in prod)
+          .requestMatchers("/api/v1/fonto/**")
+          .permitAll()
+          // Restrict the rest of /api/v1/** to norms user, excluding /api/v1/external/** because matched before
           .requestMatchers("/api/v1/**")
           .hasRole(Roles.NORMS_USER)
           .anyRequest() // shall prevent an (authenticated) user to access accidentally available urls
