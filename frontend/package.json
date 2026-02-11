@@ -79,7 +79,7 @@
     "eslint-plugin-vue": "~10.7.0",
     "eslint-plugin-vuejs-accessibility": "~2.4.1",
     "globals": "~17.3.0",
-    "jsdom": "~27.4.0",
+    "jsdom": "~28.0.0",
     "license-checker-rseidelsohn": "~4.4.2",
     "playwright": "~1.58.0",
     "postcss": "~8.5.3",
