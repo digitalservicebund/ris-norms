@@ -46,7 +46,7 @@ jobs:
       - name: Deploy new images
         uses: digitalservicebund/argocd-deploy@auth-token # Use the auth-token branch for STACKIT
         with:
-          environment: staging-uat
+          environment: uat-stackit
           version: ${{ github.sha }}
           deploying_repo: ris-norms
           infra_repo: ris-norms-infra
