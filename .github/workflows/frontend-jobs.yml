@@ -67,7 +67,7 @@ jobs:
         run: npm run test:report
         working-directory: ./frontend
       - name: Upload test report artifact
-        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f
         with:
           name: frontend-unit-test-report
           path: frontend/test-results/unit-tests
@@ -149,7 +149,7 @@ jobs:
         run: npm run audit:licences
         working-directory: ./frontend
       - name: Upload licence report
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: licence-reports-frontend
           retention-days: 3
