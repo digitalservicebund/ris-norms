@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.commons.lang3)
     implementation(libs.google.protobuf.java)
     implementation(libs.netty.codec.http)
+    implementation(libs.jackson.core)
 
     errorprone(libs.nullaway)
     errorprone(libs.errorprone)
