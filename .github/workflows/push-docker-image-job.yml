@@ -38,7 +38,7 @@ jobs:
       - name: Publish container image
         run: docker push ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
       - name: Install cosign
-        uses: sigstore/cosign-installer@a6fdd19182ff7fb86ae39a9329ba29eb602cbabb
+        uses: sigstore/cosign-installer@ba7bc0a3fef59531c69a25acd34668d6d3fe6f22
         with:
           cosign-release: "v2.6.0" # We need to use v2.X.X because of major version GHA v4.X.X and broken image verification of Kyverno
       - name: Sign the published Docker image
