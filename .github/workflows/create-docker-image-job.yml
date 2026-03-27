@@ -20,7 +20,7 @@ jobs:
       contents: read
       security-events: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           submodules: "true"
       - name: Build docker image
@@ -49,7 +49,7 @@ jobs:
             exit 0
           fi
       - name: Upload trivy-results.sarif as an artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         if: ${{ always () }}
         with:
           name: trivy-results.sarif
@@ -71,7 +71,7 @@ jobs:
           format: "cosign-vuln"
           output: "vuln.json"
       - name: Upload cosign vulnerability scan record
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
           name: "vuln.json"
           path: "vuln.json"
@@ -80,7 +80,7 @@ jobs:
         run: |
           mkdir /tmp/images
           docker save -o /tmp/images/fullstack-image.tar ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
-      - uses: actions/cache@v5
+      - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5
         with:
           path: /tmp/images
           key: docker-images-cache-${{ github.run_id }}
