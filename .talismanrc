@@ -62,3 +62,5 @@ fileignoreconfig:
     checksum: a4e1c0eda6ae4318ae7e5a97ab6910bb0655ca0eab9a6c91a17dff8279b67ec1
   - filename: LegalDocML.de/ris-norms-ldml-schema-extensions
     checksum: 4980a355e26c327ce4ddf8cb227c9d5dde01f9fae8931dc89bf3ac9115c19764
+  - filename: backend/gradlew
+    checksum: 545425527eaebebd5da85c4e400a2192291b68ac43bd8dfd0d3b23982bd2bc0b
