@@ -17,7 +17,7 @@ jobs:
   setup-gradle:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5
 
@@ -25,7 +25,7 @@ jobs:
     needs: [setup-gradle]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
@@ -36,7 +36,7 @@ jobs:
         working-directory: ./backend
         run: ./gradlew build --profile -x integrationTest -x test -x spotlessCheck
       - name: Upload build performance report
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
           name: performance-report
           path: backend/build/reports/profile/profile*.html
@@ -50,7 +50,7 @@ jobs:
     needs: [setup-gradle]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           submodules: "true"
       - name: Set up JDK
@@ -78,7 +78,7 @@ jobs:
     needs: [setup-gradle]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           submodules: "true"
       - name: Set up JDK
@@ -106,7 +106,7 @@ jobs:
     needs: [setup-gradle]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
@@ -117,7 +117,7 @@ jobs:
         working-directory: ./backend
         run: ./gradlew checkLicense
       - name: Upload licence report
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
           name: licence-reports-backend
           retention-days: 3
@@ -132,7 +132,7 @@ jobs:
     needs: [setup-gradle]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
           submodules: "true"
@@ -143,7 +143,7 @@ jobs:
           distribution: "temurin"
           cache: gradle
       - name: Cache SonarQube packages
-        uses: actions/cache@v5
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
@@ -172,7 +172,7 @@ jobs:
     needs: [setup-gradle]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Set up JDK
         uses: actions/setup-java@v5
         with:
@@ -183,7 +183,7 @@ jobs:
         working-directory: ./backend
         run: ./gradlew javadoc
       - name: Upload documentation
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
           name: backend-code-documentation
           retention-days: 3
@@ -234,7 +234,7 @@ jobs:
           flags: --debug
           version: 0.12.0
       - name: Upload mermaid ER-diagram
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
           name: erdiagram
           retention-days: 3

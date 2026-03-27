@@ -163,9 +163,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Setup Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
           node-version-file: frontend/.node-version
           cache: npm
@@ -174,7 +174,7 @@ jobs:
         run: npm ci --ignore-scripts
         working-directory: ./frontend
       - name: Cache node_modules
-        uses: actions/cache@v5
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5
         id: cache-node-modules
         with:
           path: ./frontend/node_modules
@@ -184,7 +184,7 @@ jobs:
         run: echo "PLAYWRIGHT_VERSION=$(jq -r '.packages["node_modules/@playwright/test"].version' package-lock.json)" >> $GITHUB_ENV
       - name: Cache Playwright browser binaries
         id: cache-browser-binaries
-        uses: actions/cache@v5
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5
         with:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
@@ -222,7 +222,7 @@ jobs:
       security-events: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Run Trivy vulnerability scanner in repo mode
         uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1
         env:
@@ -245,7 +245,7 @@ jobs:
             exit 0
           fi
       - name: Upload trivy-results-repo.sarif as an artifact
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         if: ${{ always () }}
         with:
           name: trivy-results-repo.sarif
@@ -268,7 +268,7 @@ jobs:
     # Running on main only https://digitalservicebund.slack.com/archives/C046VD44ZEH/p1706516240974409
     if: ${{ github.ref == 'refs/heads/main' }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
       - name: Detect secrets in incoming commits with Talisman
@@ -291,15 +291,15 @@ jobs:
       - deploy-staging-job
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Setup Node
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
         with:
           node-version-file: ./frontend/.node-version
           cache: npm
           cache-dependency-path: ./frontend/package-lock.json
       - name: Cache node_modules
-        uses: actions/cache@v5
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5
         id: cache-npm-cache
         with:
           # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
@@ -309,7 +309,7 @@ jobs:
         run: npm ci --ignore-scripts
         working-directory: ./frontend
       - name: Download blob reports from artifacts
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           path: ./frontend/all-blob-reports
           pattern: test-results-blob-*
@@ -328,7 +328,7 @@ jobs:
         run: npx playwright merge-reports --reporter html ./all-blob-reports
         working-directory: ./frontend
       - name: Upload html report to artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         with:
           name: html-test-report
           path: ./frontend/playwright-report
@@ -344,7 +344,7 @@ jobs:
     steps:
       # First checkout ris-norms because of ADRs
       - name: Checkout ris-norms repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           path: ris-norms
 
@@ -356,7 +356,7 @@ jobs:
           ls -l tmp/adr-source
 
       # Then checkout ris-reports (will override ris-norms check-out)
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           repository: ${{ env.reports-repo }}
           ssh-key: ${{ secrets.REPORTS_DEPLOY_KEY }}
@@ -371,7 +371,7 @@ jobs:
 
       # Backend code documentation
       - name: Backend Code Documentation - Download
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: backend-code-documentation
           path: tmp/backend-code-documentation/
@@ -397,7 +397,7 @@ jobs:
 
       # E2E test report
       - name: E2E test reports - Download
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: html-test-report
           path: tmp/html-test-report/
@@ -410,7 +410,7 @@ jobs:
 
       # Licence reports
       - name: Licence reports - Download
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           pattern: licence-reports-*
           path: tmp/licence-reports/

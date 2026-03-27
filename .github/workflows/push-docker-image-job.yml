@@ -21,7 +21,7 @@ jobs:
       id-token: write # This is used to complete the identity challenge with sigstore/fulcio..
       packages: write
     steps:
-      - uses: actions/cache@v5
+      - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5
         with:
           path: /tmp/images
           key: docker-images-cache-${{ github.run_id }}
@@ -44,7 +44,7 @@ jobs:
       - name: Sign the published Docker image
         run: cosign sign --yes ${{ inputs.container-registry }}/${{ inputs.container-image-name }}:${{ inputs.container-image-version }}
       - name: Download cosign vulnerability scan record
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: "vuln.json"
       - name: Attest vulnerability scan

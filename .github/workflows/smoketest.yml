@@ -7,9 +7,9 @@ jobs:
   smoketest-staging:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - name: Restore node_modules
-        uses: actions/cache@v5
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5
         id: restore-node-modules
         with:
           path: ./frontend/node_modules
@@ -19,7 +19,7 @@ jobs:
         working-directory: ./frontend
         run: echo "PLAYWRIGHT_VERSION=$(jq -r '.packages["node_modules/@playwright/test"].version' package-lock.json)" >> $GITHUB_ENV
       - name: Restore Playwright browser binaries
-        uses: actions/cache@v5
+        uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5
         id: restore-browser-binaries
         with:
           path: ~/.cache/ms-playwright
@@ -36,14 +36,14 @@ jobs:
           echo "Running smoke tests"
           npm run test:smoke
       - name: Upload screenshots and traces of failed tests
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         if: ${{ failure() }}
         with:
           name: failed-smoketests
           path: ./frontend/test-results/**/*.png
             ./frontend/test-results/**/trace.zip
       - name: Upload test result blobs reports
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7
         if: ${{ !cancelled() }}
         with:
           name: test-results-blob-e2e-smoketest
