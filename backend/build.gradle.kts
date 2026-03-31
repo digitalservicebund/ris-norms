@@ -80,6 +80,9 @@ dependencies {
     implementation(libs.commons.lang3)
     implementation(libs.google.protobuf.java)
     implementation(libs.netty.codec.http)
+    implementation(libs.netty.codec.http2)
+    implementation(libs.tomcat.embed.core)
+    implementation(libs.spring.security.web)
     implementation(libs.jackson.core)
 
     errorprone(libs.nullaway)
