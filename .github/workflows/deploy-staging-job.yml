@@ -44,7 +44,7 @@ jobs:
     environment: staging
     steps:
       - name: Deploy new images
-        uses: digitalservicebund/argocd-deploy@6033da861398e0d7fcffe1b195f8d58f10b62c4e # auth-token branch # Use the auth-token branch for STACKIT
+        uses: digitalservicebund/argocd-deploy@f641e07b623c4544d048a302cc16fcb18e7bf190 # auth-token branch # Use the auth-token branch for STACKIT
         with:
           environment: staging-stackit
           version: ${{ github.sha }}
