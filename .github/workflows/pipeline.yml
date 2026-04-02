@@ -252,7 +252,7 @@ jobs:
           path: trivy-results-repo.sarif
       - name: Upload Trivy scan results to GitHub Security tab
         if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
-        uses: github/codeql-action/upload-sarif@v4
+        uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13 # v4.35.1
         with:
           sarif_file: "trivy-results-repo.sarif"
       - name: Send status to Slack
