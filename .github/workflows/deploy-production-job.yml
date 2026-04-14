@@ -8,22 +8,19 @@ jobs:
     runs-on: ubuntu-latest
     concurrency: deploy
     environment: production
-    permissions:
-      id-token: write # Enable OIDC for gitsign
     steps:
-      - uses: chainguard-dev/actions/setup-gitsign@f45211d3e8f9d2676c6b8cdd6a765435e06c819d
       - name: Deploy new images
-        uses: digitalservicebund/argocd-deploy@f641e07b623c4544d048a302cc16fcb18e7bf190 # v1.0.0
+        uses: digitalservicebund/argocd-deploy@6033da861398e0d7fcffe1b195f8d58f10b62c4e # auth-token branch
         with:
-          environment: production
+          environment: production-stackit
           version: ${{ github.sha }}
           deploying_repo: ris-norms
           infra_repo: ris-norms-infra
-          app: ris-norms-production
-          argocd_pipeline_password: ${{ secrets.ARGOCD_PIPELINE_PASSWORD }}
-          argocd_server: ${{ secrets.ARGOCD_SERVER }}
           github_app_private_key: ${{ secrets.GITOPS_NEURIS_APP_PRIVATE_KEY }}
-          github_app_id: ${{ secrets.GITOPS_NEURIS_APP_ID }}
+          github_app_id: ${{ secrets.GITOPS_NEURIS_APP_ID}}
+          app: ris-norms-production
+          argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
+          argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}
       - name: Track deploy
         continue-on-error: true
         uses: digitalservicebund/track-deployment@5a2815e150e1268983aac5ca04c8c046ed1b614a # v1.0.0
@@ -37,21 +34,3 @@ jobs:
         if: ${{ failure() }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  deploy-production-stackit:
-    runs-on: ubuntu-latest
-    concurrency: deploy
-    environment: production
-    steps:
-      - name: Deploy new images
-        uses: digitalservicebund/argocd-deploy@6033da861398e0d7fcffe1b195f8d58f10b62c4e # auth-token branch # Use the auth-token branch for STACKIT
-        with:
-          environment: production-stackit
-          version: ${{ github.sha }}
-          deploying_repo: ris-norms
-          infra_repo: ris-norms-infra
-          github_app_private_key: ${{ secrets.GITOPS_NEURIS_APP_PRIVATE_KEY }}
-          github_app_id: ${{ secrets.GITOPS_NEURIS_APP_ID}}
-          app: ris-norms-production
-          argocd_auth_token: ${{ secrets.ARGOCD_AUTH_TOKEN }}
-          argocd_server: ${{ secrets.ARGOCD_SERVER_STACKIT }}

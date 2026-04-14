@@ -3,6 +3,8 @@ allowed_patterns:
   - https://github.com/jk1/Gradle-License-Report/blob/7cf695c38126b63ef9e907345adab84dfa92ea0e/src/main/resources/default-license-normalizer-bundle.json
   - https://github.com/digitalservicebund/ris-norms/commit/17778285381a674f1a2b742ed573b7d3d542ea24
   - cgr.dev/chainguard/jre@sha256:[a-fA-F0-9]{64}
+  - github_app_private_key
+  - GITOPS_NEURIS_APP_PRIVATE_KEY
 threshold: medium
 version: "1.0"
 scopeconfig:
