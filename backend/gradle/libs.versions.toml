@@ -58,7 +58,7 @@ netty-codec-http2 = "io.netty:netty-codec-http2:4.2.12.Final"
 # CVE-2026-24734
 tomcat-embed-core = "org.apache.tomcat.embed:tomcat-embed-core:10.1.54"
 # CVE-2026-22732
-spring-security-web = "org.springframework.security:spring-security-web:6.5.9"
+spring-security-web = "org.springframework.security:spring-security-web:7.0.4"
 # GHSA-72hv-8253-57qq
 jackson-core = "com.fasterxml.jackson.core:jackson-core:2.21.2"
 
