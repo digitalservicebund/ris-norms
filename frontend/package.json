@@ -44,7 +44,7 @@
     "keycloak-js": "~26.2.3",
     "lodash.sortby": "~4.7.0",
     "primevue": "~4.5.4",
-    "uuid": "~13.0.0",
+    "uuid": "~14.0.0",
     "vue": "~3.5.28",
     "vue-router": "~5.0.2",
     "zod": "~4.3.6"
