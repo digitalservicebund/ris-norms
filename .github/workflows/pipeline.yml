@@ -361,7 +361,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/backend-code-documentation
-          destinationDir: ris-reports/norms-code-documentation/java
+          destinationDir: norms-code-documentation/java
           reportIsDirectory: true
           BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
           BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
@@ -376,7 +376,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/frontend-unit-test-report
-          destinationDir: ris-reports/test-reports/ris-norms/frontend/unit-tests
+          destinationDir: test-reports/ris-norms/frontend/unit-tests
           reportIsDirectory: true
           BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
           BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
@@ -391,7 +391,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/html-test-report/
-          destinationDir: ris-reports/test-reports/ris-norms/frontend/e2e-tests
+          destinationDir: test-reports/ris-norms/frontend/e2e-tests
           reportIsDirectory: true
           BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
           BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
@@ -407,14 +407,14 @@ jobs:
         uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/licence-reports/frontend-licence-report.csv
-          destinationDir: ris-reports/licence-reports/frontend/ris-norms
+          destinationDir: licence-reports/frontend/ris-norms
           BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
           BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
       - name: Backend licence report - git add report
         uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/licence-reports/backend-licence-report.csv
-          destinationDir: ris-reports/licence-reports/backend/ris-norms
+          destinationDir: licence-reports/backend/ris-norms
           BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
           BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
 
@@ -428,7 +428,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/erdiagram-reports/latest.mmd
-          destinationDir: ris-reports/entity-relationship-diagrams/ris-norms
+          destinationDir: entity-relationship-diagrams/ris-norms
           BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
           BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
 
@@ -442,7 +442,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/backend-unit-test-report
-          destinationDir: ris-reports/test-reports/ris-norms/backend/unit-tests
+          destinationDir: test-reports/ris-norms/backend/unit-tests
           reportIsDirectory: true
           BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
           BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
@@ -457,7 +457,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/backend-integration-test-report
-          destinationDir: ris-reports/test-reports/ris-norms/backend/integration-tests
+          destinationDir: test-reports/ris-norms/backend/integration-tests
           reportIsDirectory: true
           BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
           BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
@@ -467,7 +467,7 @@ jobs:
         uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/adr-source
-          destinationDir: ris-reports/adr/ris-norms
+          destinationDir: adr/ris-norms
           reportIsDirectory: true
           keepAllVersions: false # don't need the timestamped snapshots of the whole folder
           BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
