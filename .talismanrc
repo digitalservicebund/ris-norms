@@ -5,6 +5,10 @@ allowed_patterns:
   - cgr.dev/chainguard/jre@sha256:[a-fA-F0-9]{64}
   - github_app_private_key
   - GITOPS_NEURIS_APP_PRIVATE_KEY
+  - "secrets: inherit"
+  - "key: "
+  - BUCKET_ACCESS_KEY_ID
+  - BUCKET_SECRET_ACCESS_KEY
 threshold: medium
 version: "1.0"
 scopeconfig:

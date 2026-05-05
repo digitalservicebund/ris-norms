@@ -333,8 +333,6 @@ jobs:
 
   push-reports:
     runs-on: ubuntu-latest
-    env:
-      reports-repo: digitalservicebund/ris-reports
     needs:
       - generate-test-reports
       - backend-jobs
@@ -353,20 +351,6 @@ jobs:
           find ris-norms/doc/adr/ -type f ! -name '0000-template.md' -exec cp {} tmp/adr-source/ \;
           ls -l tmp/adr-source
 
-      # Then checkout ris-reports (will override ris-norms check-out)
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          repository: ${{ env.reports-repo }}
-          ssh-key: ${{ secrets.REPORTS_DEPLOY_KEY }}
-          path: ris-reports
-
-      - name: Setup git config
-        run: |
-          git config user.name "${{ github.repository }}"
-          # This email identifies the commit as GitHub Actions - see https://github.com/orgs/community/discussions/26560
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        working-directory: ris-reports
-
       # Backend code documentation
       - name: Backend Code Documentation - Download
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
@@ -374,11 +358,13 @@ jobs:
           name: backend-code-documentation
           path: tmp/backend-code-documentation/
       - name: Java - git add report
-        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+        uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/backend-code-documentation
           destinationDir: ris-reports/norms-code-documentation/java
           reportIsDirectory: true
+          BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
+          BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
 
       # Frontend unit test report
       - name: frontend unit test report - download artifact
@@ -387,11 +373,13 @@ jobs:
           name: frontend-unit-test-report
           path: tmp/frontend-unit-test-report
       - name: frontend unit test report - git add report
-        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+        uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/frontend-unit-test-report
           destinationDir: ris-reports/test-reports/ris-norms/frontend/unit-tests
           reportIsDirectory: true
+          BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
+          BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
 
       # E2E test report
       - name: E2E test reports - Download
@@ -400,11 +388,13 @@ jobs:
           name: html-test-report
           path: tmp/html-test-report/
       - name: E2E test reports - git add report
-        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+        uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/html-test-report/
           destinationDir: ris-reports/test-reports/ris-norms/frontend/e2e-tests
           reportIsDirectory: true
+          BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
+          BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
 
       # Licence reports
       - name: Licence reports - Download
@@ -414,15 +404,19 @@ jobs:
           path: tmp/licence-reports/
           merge-multiple: true
       - name: Frontend licence report - git add report
-        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+        uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/licence-reports/frontend-licence-report.csv
           destinationDir: ris-reports/licence-reports/frontend/ris-norms
+          BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
+          BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
       - name: Backend licence report - git add report
-        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+        uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/licence-reports/backend-licence-report.csv
           destinationDir: ris-reports/licence-reports/backend/ris-norms
+          BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
+          BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
 
       # ER diagram
       - name: ER-diagram - Download artifact
@@ -431,10 +425,12 @@ jobs:
           name: erdiagram
           path: tmp/erdiagram-reports
       - name: Java - git add report
-        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+        uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/erdiagram-reports/latest.mmd
           destinationDir: ris-reports/entity-relationship-diagrams/ris-norms
+          BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
+          BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
 
       # backend unit test report
       - name: unit test report - download artifact
@@ -443,11 +439,13 @@ jobs:
           name: backend-unit-test-report
           path: tmp/backend-unit-test-report
       - name: unit test report - git add report
-        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+        uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/backend-unit-test-report
           destinationDir: ris-reports/test-reports/ris-norms/backend/unit-tests
           reportIsDirectory: true
+          BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
+          BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
 
       # backend integration test report
       - name: integration test report - download artifact
@@ -456,31 +454,24 @@ jobs:
           name: backend-integration-test-report
           path: tmp/backend-integration-test-report
       - name: integration test report - git add report
-        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+        uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/backend-integration-test-report
           destinationDir: ris-reports/test-reports/ris-norms/backend/integration-tests
           reportIsDirectory: true
+          BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
+          BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
 
       # ADRs
       - name: add ADRs to report
-        uses: digitalservicebund/add-ris-report@c6c8735d23295c36a271c75e7dedc9b6b9a9ef5e
+        uses: digitalservicebund/add-ris-report@3fafb0fb08714549c748eb44ac69d2099c7cbb47
         with:
           filePath: tmp/adr-source
           destinationDir: ris-reports/adr/ris-norms
           reportIsDirectory: true
           keepAllVersions: false # don't need the timestamped snapshots of the whole folder
-
-      # Push reports
-      - name: Push reports
-        run: |
-          git diff-index --cached --quiet HEAD ||
-            git commit \
-              -m ${{ toJSON(github.event.head_commit.message) }} \
-              -m "From commit: ${{ github.server_url }}/${{ github.repository }}/commit/${{ github.sha }}" &&
-            git push origin main &&
-            echo "Pushed reports to ${{ github.server_url }}/${{ env.reports-repo }}" >> $GITHUB_STEP_SUMMARY
-        working-directory: ris-reports
+          BUCKET_ACCESS_KEY_ID: ${{ secrets.REPORTS_BUCKET_ACCESS_KEY_ID }}
+          BUCKET_SECRET_ACCESS_KEY: ${{ secrets.REPORTS_BUCKET_SECRET_ACCESS_KEY }}
 
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
