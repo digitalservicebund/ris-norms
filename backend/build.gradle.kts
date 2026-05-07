@@ -81,6 +81,7 @@ dependencies {
     implementation(libs.google.protobuf.java)
     implementation(libs.netty.codec.http)
     implementation(libs.netty.codec.http2)
+    implementation(libs.netty.codec)
     implementation(libs.tomcat.embed.core)
     implementation(libs.spring.security.web)
     implementation(libs.jackson.core)

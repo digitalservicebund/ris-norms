@@ -55,6 +55,8 @@ tika-core = "org.apache.tika:tika-core:3.3.0"
 netty-codec-http = "io.netty:netty-codec-http:4.2.13.Final"
 # CVE-2026-33871
 netty-codec-http2 = "io.netty:netty-codec-http2:4.2.12.Final"
+# CVE-2026-42583
+netty-codec = "io.netty:netty-codec:4.1.133.Final"
 # CVE-2026-24734
 tomcat-embed-core = "org.apache.tomcat.embed:tomcat-embed-core:10.1.54"
 # CVE-2026-22732
