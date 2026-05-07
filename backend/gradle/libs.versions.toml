@@ -5,7 +5,7 @@ jacoco = "0.8.11"
 net-javacrumbs-shedlock = "7.7.0"
 org-bouncycastle = "1.84"
 org-testcontainers = "2.0.5"
-spring-boot = "3.5.8"
+spring-boot = "3.5.14"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.2"
@@ -51,8 +51,8 @@ testcontainers-junit-jupiter = { module = "org.testcontainers:testcontainers-jun
 testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:4.2.1"
 testcontainers-postgres = { module = "org.testcontainers:testcontainers-postgresql", version.ref = "org-testcontainers" }
 tika-core = "org.apache.tika:tika-core:3.3.0"
-# CVE-2025-67735
-netty-codec-http = "io.netty:netty-codec-http:4.2.12.Final"
+# CVE-2025-67735, CVE-2026-42583
+netty-codec-http = "io.netty:netty-codec-http:4.2.13.Final"
 # CVE-2026-33871
 netty-codec-http2 = "io.netty:netty-codec-http2:4.2.12.Final"
 # CVE-2026-24734
