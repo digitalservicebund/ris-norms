@@ -40,7 +40,7 @@ public abstract class BaseIntegrationTest {
   protected static final String LOCAL_STORAGE_PATH = ".local-storage-integration-test";
 
   @Container
-  static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:14")
+  static final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:17")
     .withDatabaseName("postgres")
     .withUsername("postgres")
     .withPassword("pass");

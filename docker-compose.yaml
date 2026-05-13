@@ -23,11 +23,11 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres14:5432/risnorms
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/risnorms
       - SPRING_PROFILES_ACTIVE=local,local-docker${RUN_E2E_TESTS:+,e2e}
     network_mode: "service:localhost"
     depends_on:
-      postgres14:
+      postgres17:
         condition: service_healthy
       keycloak:
         condition: service_healthy
@@ -35,10 +35,10 @@ services:
       - ./local-storage:/app/.local-storage
       - ./local/certs:/app/certs:ro
 
-  postgres14:
+  postgres17:
     extends:
       file: docker-compose-services.yaml
-      service: postgres14
+      service: postgres17
 
   keycloak:
     extends:
@@ -48,4 +48,4 @@ services:
     ports: []
 
 volumes:
-  postgres14-data:
+  postgres17-data:
