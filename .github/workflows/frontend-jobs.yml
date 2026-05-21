@@ -66,12 +66,6 @@ jobs:
       - name: Run tests
         run: npm run test:report
         working-directory: ./frontend
-      - name: Upload test report artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: frontend-unit-test-report
-          path: frontend/test-results/unit-tests
-          if-no-files-found: warn
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf # v1.5.0
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
@@ -148,12 +142,6 @@ jobs:
       - name: Run license scanner
         run: npm run audit:licences
         working-directory: ./frontend
-      - name: Upload licence report
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: licence-reports-frontend
-          retention-days: 3
-          path: frontend/frontend-licence-report.csv
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
