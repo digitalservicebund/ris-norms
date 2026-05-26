@@ -148,12 +148,6 @@ jobs:
       - name: Run license scanner
         run: npm run audit:licences
         working-directory: ./frontend
-      - name: Upload licence report
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: licence-reports-frontend
-          retention-days: 3
-          path: frontend/frontend-licence-report.csv
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
