@@ -128,45 +128,46 @@ jobs:
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
-  analyze-backend-with-sonar-cube:
-    needs: [setup-gradle]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-        with:
-          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-          submodules: "true"
-      - name: Set up JDK
-        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
-        with:
-          java-version: "21.0"
-          distribution: "temurin"
-          cache: gradle
-      - name: Cache SonarQube packages
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        with:
-          path: ~/.sonar/cache
-          key: ${{ runner.os }}-sonar
-      - name: Scan with SonarQube
-        working-directory: ./backend
-        if: ${{  github.actor != 'dependabot[bot]' }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./gradlew sonar --info
-      - name: Check SonarQube Quality Gate
-        uses: sonarsource/sonarqube-quality-gate-action@cb3ed20f9fec62b4c3b8ad9e77656c6adaade913
-        if: ${{  github.actor != 'dependabot[bot]' }}
-        with:
-          scanMetadataReportFile: backend/build/sonar/report-task.txt
-        timeout-minutes: 3 # Force to fail step after specific time
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-      - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
-        if: ${{ failure() && github.ref == 'refs/heads/main' }}
-        with:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+# TODO temporarily disabling sonar as long as we are taking over the norms application
+#  analyze-backend-with-sonar-cube:
+#    needs: [setup-gradle]
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+#        with:
+#          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+#          submodules: "true"
+#      - name: Set up JDK
+#        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5
+#        with:
+#          java-version: "21.0"
+#          distribution: "temurin"
+#          cache: gradle
+#      - name: Cache SonarQube packages
+#        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
+#        with:
+#          path: ~/.sonar/cache
+#          key: ${{ runner.os }}-sonar
+#      - name: Scan with SonarQube
+#        working-directory: ./backend
+#        if: ${{  github.actor != 'dependabot[bot]' }}
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#        run: ./gradlew sonar --info
+#      - name: Check SonarQube Quality Gate
+#        uses: sonarsource/sonarqube-quality-gate-action@cb3ed20f9fec62b4c3b8ad9e77656c6adaade913
+#        if: ${{  github.actor != 'dependabot[bot]' }}
+#        with:
+#          scanMetadataReportFile: backend/build/sonar/report-task.txt
+#        timeout-minutes: 3 # Force to fail step after specific time
+#        env:
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#      - name: Send status to Slack
+#        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
+#        if: ${{ failure() && github.ref == 'refs/heads/main' }}
+#        with:
+#          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
   generate-backend-code-documentation:
     needs: [setup-gradle]
