@@ -67,12 +67,6 @@ jobs:
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      - name: Upload unit test report artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: backend-unit-test-report
-          path: backend/build/reports/tests/test
-          if-no-files-found: warn
 
   backend-integration-tests:
     needs: [setup-gradle]
@@ -95,12 +89,6 @@ jobs:
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      - name: Upload integration test report artifact
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
-        with:
-          name: backend-integration-test-report
-          path: backend/build/reports/tests/integrationTest
-          if-no-files-found: warn
 
   audit-licenses-backend:
     needs: [setup-gradle]
@@ -116,12 +104,6 @@ jobs:
       - name: Check licenses
         working-directory: ./backend
         run: ./gradlew checkLicense
-      - name: Upload licence report
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: licence-reports-backend
-          retention-days: 3
-          path: backend/build/reports/dependency-license/backend-licence-report.csv
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main'}}
@@ -183,12 +165,6 @@ jobs:
       - name: Run Javadoc
         working-directory: ./backend
         run: ./gradlew javadoc
-      - name: Upload documentation
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: backend-code-documentation
-          retention-days: 3
-          path: backend/build/docs/javadoc/
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
@@ -234,12 +210,6 @@ jobs:
           outputFile: latest.mmd
           flags: --debug
           version: 0.12.0
-      - name: Upload mermaid ER-diagram
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: erdiagram
-          retention-days: 3
-          path: latest.mmd
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure()}}
