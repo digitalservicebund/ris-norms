@@ -255,7 +255,7 @@ jobs:
         with:
           sarif_file: "trivy-results-repo.sarif"
       - name: Send status to Slack
-        # Third-party action, pin to commit SHA!
+        # Third-party action, pin to commit SHA!`
         # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
         uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf # v1.5.0
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
@@ -278,55 +278,3 @@ jobs:
         uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf # v1.5.0
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  ###################
-  # Generate reports
-  ###################
-
-  generate-test-reports:
-    if: ${{ !cancelled() && github.ref == 'refs/heads/main' }}
-    needs:
-      - deploy-staging-job
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - name: Setup Node
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
-        with:
-          node-version-file: ./frontend/.node-version
-          cache: npm
-          cache-dependency-path: ./frontend/package-lock.json
-      - name: Cache node_modules
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        id: cache-npm-cache
-        with:
-          # The docs discourage caching `node-modules`, cf. https://github.com/actions/cache/blob/main/examples.md#node---npm
-          path: /home/runner/.npm
-          key: npm-cache-${{ hashFiles('./frontend/package-lock.json') }}
-      - name: Install node modules
-        run: npm ci --ignore-scripts
-        working-directory: ./frontend
-      - name: Download blob reports from artifacts
-        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
-        with:
-          path: ./frontend/all-blob-reports
-          pattern: test-results-blob-*
-      - name: Prepare test reports for merge
-        working-directory: ./frontend/all-blob-reports
-        run: |
-          for DIR in test-results-blob-*; do
-            unzip -o "$DIR/test-report.zip" -d "$DIR"
-            rm "$DIR/test-report.zip"
-            ZIP_FILE="../$(basename "$DIR").zip"
-            (cd "$DIR" && zip -r "$ZIP_FILE" ./*.jsonl)
-            rm -rf "$DIR"
-          done
-        shell: bash
-      - name: Merge into html report
-        run: npx playwright merge-reports --reporter html ./all-blob-reports
-        working-directory: ./frontend
-      - name: Upload html report to artifacts
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: html-test-report
-          path: ./frontend/playwright-report
