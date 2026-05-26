@@ -18,7 +18,6 @@ public class BucketException extends StorageException {
   public enum Operation {
     PUT,
     DELETE,
-    GET,
   }
 
   public BucketException(

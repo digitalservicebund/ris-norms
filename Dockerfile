@@ -1,14 +1,3 @@
-FROM node:24.11.1 AS frontend
-
-WORKDIR /frontend
-COPY frontend .
-RUN npm ci --ignore-scripts
-RUN --mount=type=secret,id=SENTRY_AUTH_TOKEN \
-    if [ -f /run/secrets/SENTRY_AUTH_TOKEN ]; then \
-        export SENTRY_AUTH_TOKEN=$(cat /run/secrets/SENTRY_AUTH_TOKEN); \
-    fi; \
-    npm run build
-
 FROM gradle:9.2-jdk21 AS backend
 
 COPY backend /backend
@@ -17,8 +6,6 @@ COPY .git /.git
 
 WORKDIR /backend
 
-RUN mkdir -p src/main/resources/static
-COPY --from=frontend /frontend/dist src/main/resources/static
 RUN --mount=type=secret,id=SENTRY_DSN \
         --mount=type=secret,id=SENTRY_AUTH_TOKEN \
         if [ -f /run/secrets/SENTRY_DSN ] && [ -f /run/secrets/SENTRY_AUTH_TOKEN ]; then \

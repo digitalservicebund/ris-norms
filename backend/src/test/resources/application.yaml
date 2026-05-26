@@ -1,20 +1,9 @@
 spring:
   flyway:
     locations: classpath:db/migration,classpath:db/data
-  security:
-    oauth2:
-      resourceserver:
-        jwt:
-          issuer-uri: http://localhost:8443/realms/ris
 
 local:
   file-storage: .local-storage
-
-frontend:
-  auth:
-    url: http://localhost:8443
-    realm: ris
-    clientId: ris-norms-local
 
 otc:
   obs:
@@ -24,19 +13,10 @@ otc:
       bucket-name: public
     prototype:
       bucket-name: portal-prototype
-    everkuendung:
-      bucket-name: everkuendung
 
 sentry:
   environment: local
 
-everkuendung:
-  certificate:
-    path: classpath:certs/test-certificate.pem
-
 publish:
   enabled: true
   cron: "0 0 0 * * 1-5"
-
-csp:
-  report-uri: ""

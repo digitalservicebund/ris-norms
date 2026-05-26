@@ -11,7 +11,6 @@ import de.bund.digitalservice.ris.norms.application.service.XsdSchemaService;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.NormManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
-import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidDokumentTypeException;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -33,26 +32,9 @@ public class Fixtures {
 
   private static final String LDMLDE_RESOURCE_FOLDER = "/LegalDocML.de/1.8.2";
 
-  private static final String LDMLDE_EXTENSION_RESOURCE_FOLDER =
-    "/LegalDocML.de/ris-norms-ldml-schema-extensions/1.8.2";
-
   private static final String FIXTURES_RESOURCE_FOLDER = LDMLDE_RESOURCE_FOLDER + "/fixtures";
 
   private static final XsdSchemaService xsdSchemaService = new XsdSchemaService(
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(
-          LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-baukasten.xsd"
-        )
-      )
-    ),
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(
-          LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-regelungstextverkuendungsfassung.xsd"
-        )
-      )
-    ),
     new UrlResource(
       Objects.requireNonNull(
         LdmlDeValidator.class.getResource(
@@ -80,41 +62,6 @@ public class Fixtures {
           LDMLDE_RESOURCE_FOLDER + "/legalDocML.de-risnorms-rechtsetzungsdokument.xsd"
         )
       )
-    ),
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(
-          LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-bundesregierung.xsd"
-        )
-      )
-    ),
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(
-          LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-regelungstext.xsd"
-        )
-      )
-    ),
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(
-          LDMLDE_RESOURCE_FOLDER + "/schema/legalDocML.de-metadaten-rechtsetzungsdokument.xsd"
-        )
-      )
-    ),
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(
-          LDMLDE_EXTENSION_RESOURCE_FOLDER + "/legalDocML.de-metadaten-ris.xsd"
-        )
-      )
-    ),
-    new UrlResource(
-      Objects.requireNonNull(
-        LdmlDeValidator.class.getResource(
-          LDMLDE_EXTENSION_RESOURCE_FOLDER + "/norms-application-only-metadata.xsd"
-        )
-      )
     )
   );
 
@@ -129,10 +76,6 @@ public class Fixtures {
 
   public static XsdSchemaService getXsdSchemaService() {
     return xsdSchemaService;
-  }
-
-  public static LdmlDeValidator getLdmlDeValidator() {
-    return ldmlDeValidator;
   }
 
   public static Norm loadNormFromDisk(final String folderName) {
@@ -153,6 +96,23 @@ public class Fixtures {
     boolean validated
   ) {
     return loadNormFromDisk(getResource(clazz, folderName), validated);
+  }
+
+  /**
+   * Find a DokumentType by the name of a file name.
+   * @param fileName the fileName (eg. "regelungstext-verkuendung-1.xml"
+   * @return the dokument type
+   */
+  private static Optional<DokumentType> getDokumentTypeByFilename(String fileName) {
+    var simplifiedFileName = fileName.substring(0, fileName.lastIndexOf("-"));
+
+    for (DokumentType dokumentType : DokumentType.values()) {
+      if (dokumentType.fileName.equals(simplifiedFileName)) {
+        return Optional.of(dokumentType);
+      }
+    }
+
+    return Optional.empty();
   }
 
   private static Norm loadNormFromDisk(final URL folderName, boolean validated) {
@@ -195,8 +155,10 @@ public class Fixtures {
         continue;
       }
 
-      try {
-        switch (DokumentType.getByFileName(file.getName())) {
+      var dokumentType = getDokumentTypeByFilename(file.getName());
+
+      if (dokumentType.isPresent()) {
+        switch (dokumentType.get()) {
           case REGELUNGSTEXT_VERKUENDUNG:
             try {
               dokumente.add(loadRegelungstextFromDisk(file.toURI().toURL(), validated));
@@ -231,7 +193,7 @@ public class Fixtures {
             }
             break;
         }
-      } catch (InvalidDokumentTypeException ignored) {
+      } else {
         try {
           if (normManifestationEli == null) {
             throw new RuntimeException(
@@ -265,25 +227,10 @@ public class Fixtures {
   }
 
   public static Regelungstext loadRegelungstextFromDisk(
-    final Class<?> clazz,
-    final String fileName
-  ) {
-    return loadRegelungstextFromDisk(clazz, fileName, false);
-  }
-
-  public static Regelungstext loadRegelungstextFromDisk(
     final String fileName,
     final boolean validated
   ) {
     return loadRegelungstextFromDisk(getResource(fileName), validated);
-  }
-
-  public static Regelungstext loadRegelungstextFromDisk(
-    final Class<?> clazz,
-    final String fileName,
-    final boolean validated
-  ) {
-    return loadRegelungstextFromDisk(getResource(clazz, fileName), validated);
   }
 
   private static Regelungstext loadRegelungstextFromDisk(
@@ -306,21 +253,6 @@ public class Fixtures {
     final boolean validated
   ) {
     return loadOffeneStrukturFromDisk(getResource(fileName), validated);
-  }
-
-  public static OffeneStruktur loadOffeneStrukturFromDisk(
-    final Class<?> clazz,
-    final String fileName
-  ) {
-    return loadOffeneStrukturFromDisk(clazz, fileName, false);
-  }
-
-  public static OffeneStruktur loadOffeneStrukturFromDisk(
-    final Class<?> clazz,
-    final String fileName,
-    final boolean validated
-  ) {
-    return loadOffeneStrukturFromDisk(getResource(clazz, fileName), validated);
   }
 
   private static OffeneStruktur loadOffeneStrukturFromDisk(
@@ -361,14 +293,6 @@ public class Fixtures {
     DokumentManifestationEli dokumentManifestationEli
   ) {
     return loadBinaryFileFromDisk(getResource(fileName), dokumentManifestationEli);
-  }
-
-  public static BinaryFile loadBinaryFileFromDisk(
-    final Class<?> clazz,
-    final String fileName,
-    DokumentManifestationEli dokumentManifestationEli
-  ) {
-    return loadBinaryFileFromDisk(getResource(clazz, fileName), dokumentManifestationEli);
   }
 
   private static BinaryFile loadBinaryFileFromDisk(
@@ -428,24 +352,6 @@ public class Fixtures {
     NormPublishState publishState
   ) {
     final Norm norm = Fixtures.loadNormFromDisk(folderName);
-    return saveNormFixture(
-      dokumentRepository,
-      binaryFileRepository,
-      normManifestationRepository,
-      norm,
-      publishState
-    );
-  }
-
-  public static Norm loadAndSaveNormFixture(
-    DokumentRepository dokumentRepository,
-    BinaryFileRepository binaryFileRepository,
-    NormManifestationRepository normManifestationRepository,
-    Class<?> clazz,
-    String folderName,
-    NormPublishState publishState
-  ) {
-    final Norm norm = Fixtures.loadNormFromDisk(clazz, folderName);
     return saveNormFixture(
       dokumentRepository,
       binaryFileRepository,

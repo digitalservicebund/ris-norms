@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity.eli;
 
 import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidEliException;
-import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -44,20 +43,6 @@ public final class NormExpressionEli implements NormEli, Comparable<NormExpressi
     );
   }
 
-  @Override
-  public URI toUri() {
-    return URI.create(toString());
-  }
-
-  /**
-   * Create a {@link NormWorkEli} that contains the parts of this eli
-   *
-   * @return a work eli
-   */
-  public NormWorkEli asWorkEli() {
-    return new NormWorkEli(getAgent(), getYear(), getNaturalIdentifier());
-  }
-
   /**
    * Create an expression level eli from a string representation
    *
@@ -80,31 +65,6 @@ public final class NormExpressionEli implements NormEli, Comparable<NormExpressi
       LocalDate.parse(matcher.group("pointInTime"), DateTimeFormatter.ISO_LOCAL_DATE),
       Integer.valueOf(matcher.group("version")),
       matcher.group("language")
-    );
-  }
-
-  /**
-   * Create an expression level eli from an work eli and the additional data for an expression eli.
-   *
-   * @param workEli     the work eli to use as a base
-   * @param pointInTime the date of the verkündung
-   * @param version     the version of the expression (to differentiate between multiple expressions with the same pointInTime)
-   * @param language    the language of the expression
-   * @return the eli
-   */
-  public static NormExpressionEli fromWorkEli(
-    NormWorkEli workEli,
-    LocalDate pointInTime,
-    Integer version,
-    String language
-  ) {
-    return new NormExpressionEli(
-      workEli.getAgent(),
-      workEli.getYear(),
-      workEli.getNaturalIdentifier(),
-      pointInTime,
-      version,
-      language
     );
   }
 

@@ -146,7 +146,8 @@ class ArchitectureFitnessTest {
       .or()
       .areAnnotatedWith(RestController.class)
       .should()
-      .resideOutsideOfPackage(ADAPTER_LAYER_PACKAGES);
+      .resideOutsideOfPackage(ADAPTER_LAYER_PACKAGES)
+      .allowEmptyShould(true);
     rule.check(classes);
   }
 
@@ -163,7 +164,8 @@ class ArchitectureFitnessTest {
       .areAnnotatedWith(Controller.class)
       .andShould()
       .dependOnClassesThat()
-      .areAnnotatedWith(RestController.class);
+      .areAnnotatedWith(RestController.class)
+      .allowEmptyShould(true);
     rule.check(classes);
   }
 
@@ -183,7 +185,8 @@ class ArchitectureFitnessTest {
       .should(ArchCondition.from((new ShouldOnlyHaveUseCaseFields())))
       .because(
         "Controllers should only depend on use case interfaces, not on service implementations"
-      );
+      )
+      .allowEmptyShould(true);
     rule.check(classes);
   }
 

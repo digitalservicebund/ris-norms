@@ -9,15 +9,6 @@ import org.w3c.dom.Document;
 @Getter
 public non-sealed class Bekanntmachung extends Dokument {
 
-  @Override
-  public Dokument copy() {
-    return new Bekanntmachung(this);
-  }
-
-  public Bekanntmachung(Bekanntmachung bekanntmachung) {
-    this((Document) bekanntmachung.getDocument().cloneNode(true));
-  }
-
   public Bekanntmachung(Document document) {
     super(document);
   }

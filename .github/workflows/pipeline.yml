@@ -30,24 +30,6 @@ jobs:
       container-image-version: ${{ github.event.pull_request.head.sha || github.sha }}
     secrets: inherit
 
-  frontend-jobs:
-    permissions:
-      security-events: write
-      packages: write
-      id-token: write
-      contents: read
-    uses: ./.github/workflows/frontend-jobs.yml
-    with:
-      # It would be nicer if we used the env vars defined above (as not to duplicate information),
-      # however, env vars cannot be passed over to a reuseable workflow using "with"
-      # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#limitations
-      # and the workaround is horrible
-      # cf. https://docs.github.com/en/actions/using-workflows/reusing-workflows#using-outputs-from-a-reusable-workflow
-      container-registry: ghcr.io
-      container-image-name: ${{ github.repository }}
-      container-image-version: ${{ github.event.pull_request.head.sha || github.sha }}
-    secrets: inherit
-
   ldml-extension-jobs:
     uses: ./.github/workflows/ldml-extension-jobs.yml
     secrets: inherit
@@ -70,9 +52,7 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'dev-env') || contains(github.event.labeled.labels.*.name, 'dev-env') }}
     needs:
       - backend-jobs
-      - frontend-jobs
       - create-docker-image-job
-      - e2e-tests
     permissions:
       security-events: write
       packages: write
@@ -118,10 +98,8 @@ jobs:
     if: ${{ github.ref == 'refs/heads/main' && needs.check-auto-deploy.outputs.should-auto-deploy == 'true' }}
     needs:
       - check-auto-deploy
-      - frontend-jobs
       - backend-jobs
       - push-docker-image-job
-      - e2e-tests
     permissions:
       id-token: write
     uses: ./.github/workflows/deploy-staging-job.yml
@@ -151,64 +129,6 @@ jobs:
     permissions:
       id-token: write
     uses: ./.github/workflows/deploy-production-job.yml
-    secrets: inherit
-
-  # ########################
-  # e2e test jobs
-  # ########################
-
-  setup-e2e-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - name: Setup Node
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
-        with:
-          node-version-file: frontend/.node-version
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
-      - name: Install node modules
-        run: npm ci --ignore-scripts
-        working-directory: ./frontend
-      - name: Cache node_modules
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        id: cache-node-modules
-        with:
-          path: ./frontend/node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('frontend/package-lock.json') }}
-      - name: Get Playwright version
-        working-directory: ./frontend
-        run: echo "PLAYWRIGHT_VERSION=$(jq -r '.packages["node_modules/@playwright/test"].version' package-lock.json)" >> $GITHUB_ENV
-      - name: Cache Playwright browser binaries
-        id: cache-browser-binaries
-        uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
-        with:
-          path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
-      - name: Install Playwright browsers
-        if: steps.cache-browser-binaries.outputs.cache-hit != 'true'
-        run: |
-          npx playwright install chromium firefox
-        working-directory: ./frontend
-
-  e2e-tests:
-    needs: setup-e2e-tests
-    strategy:
-      fail-fast: false
-      matrix:
-        project: [chromium, firefox, a11y]
-    uses: ./.github/workflows/end-to-end-tests.yml
-    with:
-      project: ${{ matrix.project }}
-    secrets: inherit
-
-  smoketest:
-    if: false # disabled as we never set up the stackit environment in a way that it fully works
-    needs:
-      - setup-e2e-tests
-      - deploy-staging-job
-    uses: ./.github/workflows/smoketest.yml
     secrets: inherit
 
   ################

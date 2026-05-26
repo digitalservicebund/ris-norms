@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity.eli;
 
 import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidEliException;
-import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -77,31 +76,6 @@ public final class NormManifestationEli implements NormEli, Comparable<NormManif
     );
   }
 
-  @Override
-  public URI toUri() {
-    return URI.create(toString());
-  }
-
-  /**
-   * Create a {@link NormManifestationEli} that contains the parts of this eli but no point-in-time-manifestation
-   *
-   * @return a manifestation eli without a point-in-time-manifestation
-   */
-  public NormManifestationEli withoutPointInTimeManifestation() {
-    if (!hasPointInTimeManifestation()) {
-      return this;
-    }
-
-    return new NormManifestationEli(
-      getAgent(),
-      getYear(),
-      getNaturalIdentifier(),
-      getPointInTime(),
-      getVersion(),
-      getLanguage()
-    );
-  }
-
   /**
    * Create an {@link NormExpressionEli} that contains the parts of this eli
    *
@@ -116,15 +90,6 @@ public final class NormManifestationEli implements NormEli, Comparable<NormManif
       getVersion(),
       getLanguage()
     );
-  }
-
-  /**
-   * Create a {@link NormWorkEli} that contains the parts of this eli
-   *
-   * @return a work eli
-   */
-  public NormWorkEli asWorkEli() {
-    return new NormWorkEli(getAgent(), getYear(), getNaturalIdentifier());
   }
 
   /**
@@ -155,28 +120,6 @@ public final class NormManifestationEli implements NormEli, Comparable<NormManif
             matcher.group("pointInTimeManifestation"),
             DateTimeFormatter.ISO_LOCAL_DATE
           )
-    );
-  }
-
-  /**
-   * Create a manifestation level eli from an expression eli and the additional data for a manifestation eli.
-   *
-   * @param expressionEli            the expression eli to use as a base
-   * @param pointInTimeManifestation the date the manifestation was created
-   * @return the eli
-   */
-  public static NormManifestationEli fromExpressionEli(
-    NormExpressionEli expressionEli,
-    LocalDate pointInTimeManifestation
-  ) {
-    return new NormManifestationEli(
-      expressionEli.getAgent(),
-      expressionEli.getYear(),
-      expressionEli.getNaturalIdentifier(),
-      expressionEli.getPointInTime(),
-      expressionEli.getVersion(),
-      expressionEli.getLanguage(),
-      pointInTimeManifestation
     );
   }
 

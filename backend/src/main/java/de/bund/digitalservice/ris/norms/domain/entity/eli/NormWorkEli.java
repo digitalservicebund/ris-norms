@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity.eli;
 
 import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidEliException;
-import java.net.URI;
 import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,11 +51,6 @@ public final class NormWorkEli implements NormEli, Comparable<NormWorkEli> {
   @Override
   public String toString() {
     return "eli/bund/%s/%s/%s".formatted(getAgent(), getYear(), getNaturalIdentifier());
-  }
-
-  @Override
-  public URI toUri() {
-    return URI.create(toString());
   }
 
   @Override

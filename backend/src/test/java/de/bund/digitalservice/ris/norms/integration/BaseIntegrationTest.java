@@ -1,6 +1,5 @@
 package de.bund.digitalservice.ris.norms.integration;
 
-import dasniko.testcontainers.keycloak.KeycloakContainer;
 import org.junit.jupiter.api.Tag;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureDataJpa;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -36,7 +35,6 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Tag("integration")
 public abstract class BaseIntegrationTest {
 
-  protected static final KeycloakContainer keycloak;
   protected static final String LOCAL_STORAGE_PATH = ".local-storage-integration-test";
 
   @Container
@@ -44,13 +42,6 @@ public abstract class BaseIntegrationTest {
     .withDatabaseName("postgres")
     .withUsername("postgres")
     .withPassword("pass");
-
-  static {
-    keycloak = new KeycloakContainer().withRealmImportFile(
-      "de/bund/digitalservice/ris/norms/keycloak/realm-export.json"
-    );
-    keycloak.start();
-  }
 
   @DynamicPropertySource
   static void registerDynamicProperties(DynamicPropertyRegistry registry) {
@@ -61,11 +52,6 @@ public abstract class BaseIntegrationTest {
         postgreSQLContainer.getMappedPort(PostgreSQLContainer.POSTGRESQL_PORT),
         postgreSQLContainer.getDatabaseName()
       )
-    );
-
-    registry.add(
-      "spring.security.oauth2.resourceserver.jwt.issuer-uri",
-      () -> keycloak.getAuthServerUrl() + "/realms/testing"
     );
   }
 }

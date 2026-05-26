@@ -27,7 +27,7 @@ public class ConfidentialDataCleanupService {
   private void removePrivateMetadata(final Proprietary proprietary) {
     // Organisationseinheit
     var matches = NodeParser.getNodesFromExpression(
-      "//organisationsEinheit",
+      "//organisationsEinheit", // TODO use Metadata.ORGANISATIONS_EINHEIT.xpath instead but remove the ./ from the values
       proprietary.getElement()
     );
 

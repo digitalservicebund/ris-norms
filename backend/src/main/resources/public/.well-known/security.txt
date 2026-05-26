@@ -1,9 +1,0 @@
-Contact: mailto:security@digitalservice.bund.de
-Expires: 2026-12-01T23:59:59.000Z
-Preferred-Languages: en, de
-Policy: https://raw.githubusercontent.com/digitalservicebund/ris-norms/main/SECURITY.md
-Canonical: https://norms.ris.prod.ds4g.net/.well-known/security.txt
-Canonical: https://norms.ris-uat.prod.ds4g.net/.well-known/security.txt
-Canonical: https://norms.ris.dev.ds4g.net/.well-known/security.txt
-Hiring: https://digitalservice.bund.de/en/careers
-Encryption: https://raw.githubusercontent.com/digitalservicebund/public-keys/main/pgp-public-key-security-mail.pem

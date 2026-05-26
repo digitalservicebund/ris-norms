@@ -2,7 +2,6 @@ package de.bund.digitalservice.ris.norms.domain.entity.eli;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDate;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -45,24 +44,6 @@ class NormManifestationEliTest {
   }
 
   @Nested
-  class toUri {
-
-    @Test
-    void itShouldBeCorrectWithPointInTimeManifestation() {
-      var eli = NormManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03"
-      );
-      assertThat(eli.toUri()).hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03");
-    }
-
-    @Test
-    void itShouldBeCorrectWithoutPointInTimeManifestation() {
-      var eli = NormManifestationEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu");
-      assertThat(eli.toUri()).hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu");
-    }
-  }
-
-  @Nested
   class fromString {
 
     @Test
@@ -93,20 +74,6 @@ class NormManifestationEliTest {
   }
 
   @Nested
-  class withoutPointInTimeManifestation {
-
-    @Test
-    void itShouldRemovePointInTimeManifestation() {
-      var eli = NormManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03"
-      );
-      assertThat(eli.withoutPointInTimeManifestation()).hasToString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"
-      );
-    }
-  }
-
-  @Nested
   class asExpressionEli {
 
     @Test
@@ -115,31 +82,6 @@ class NormManifestationEliTest {
         "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03"
       );
       assertThat(eli.asExpressionEli()).hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu");
-    }
-  }
-
-  @Nested
-  class asWorkEli {
-
-    @Test
-    void itShouldConvertToAExpressionEli() {
-      var eli = NormManifestationEli.fromString(
-        "eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2021-03-03"
-      );
-      assertThat(eli.asWorkEli()).hasToString("eli/bund/bgbl-1/2021/s4");
-    }
-  }
-
-  @Nested
-  class fromExpressionEli {
-
-    @Test
-    void itShouldCreateFromExpressionEliAndPointInTimeManifestation() {
-      var eli = NormManifestationEli.fromExpressionEli(
-        NormExpressionEli.fromString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu"),
-        LocalDate.parse("2022-01-01")
-      );
-      assertThat(eli).hasToString("eli/bund/bgbl-1/2021/s4/2021-03-01/1/deu/2022-01-01");
     }
   }
 }

@@ -180,21 +180,6 @@ public final class NodeParser {
   }
 
   /**
-   * Get single mandatory node using an XPath expression on an input node. If node not found, throws
-   * a {@link MandatoryNodeNotFoundException}
-   *
-   * @param xPathExpression an XPath expression used for identifying the node that's returned
-   * @param sourceNode the Node we're applying the XPath expression on (may also be a Document, as
-   *     Document extends Node)
-   * @return the Node identified by the <code>xPathExpression</code>
-   */
-  public static Node getMandatoryNodeFromExpression(String xPathExpression, Node sourceNode) {
-    return getNodeFromExpression(xPathExpression, sourceNode).orElseThrow(() ->
-      throwMandatoryNotFoundException(xPathExpression, sourceNode)
-    );
-  }
-
-  /**
    * Get single mandatory element using an XPath expression on an input node. If node not found, throws
    * a {@link MandatoryNodeNotFoundException}
    *
@@ -228,25 +213,6 @@ public final class NodeParser {
     }
 
     return nodes;
-  }
-
-  /**
-   * Determines if a node has no children, ignoring text nodes with no content or containing only whitespace.
-   *
-   * @param node The node that should be checked
-   * @return True if the node is empty or contains only empty text nodes
-   */
-  public static boolean isEmptyIgnoringWhitespace(final Node node) {
-    if (!node.hasChildNodes()) return true;
-
-    final var hasContent = nodeListToList(node.getChildNodes())
-      .stream()
-      .anyMatch(
-        childNode ->
-          childNode.getNodeType() != Node.TEXT_NODE || !childNode.getTextContent().trim().isEmpty()
-      );
-
-    return !hasContent;
   }
 
   private static MandatoryNodeNotFoundException throwMandatoryNotFoundException(

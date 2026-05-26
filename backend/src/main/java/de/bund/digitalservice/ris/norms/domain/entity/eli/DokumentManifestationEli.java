@@ -1,7 +1,6 @@
 package de.bund.digitalservice.ris.norms.domain.entity.eli;
 
 import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidEliException;
-import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
@@ -35,19 +34,6 @@ public final class DokumentManifestationEli
   private LocalDate pointInTimeManifestation;
   private String subtype;
   private String format = "xml";
-
-  public DokumentManifestationEli(
-    String agent,
-    String year,
-    String naturalIdentifier,
-    LocalDate pointInTime,
-    Integer version,
-    String language,
-    String subtype,
-    String format
-  ) {
-    this(agent, year, naturalIdentifier, pointInTime, version, language, null, subtype, format);
-  }
 
   /**
    * Create an eli for a Dokument from the eli for a norm.
@@ -108,32 +94,6 @@ public final class DokumentManifestationEli
   }
 
   /**
-   * Create a manifestation level eli from an expression eli and the additional data for a manifestation eli.
-   *
-   * @param expressionEli            the expression eli to use as a base
-   * @param pointInTimeManifestation the date the manifestation was created
-   * @param format                   the file extension used by this manifestation
-   * @return the eli
-   */
-  public static DokumentManifestationEli fromExpressionEli(
-    DokumentExpressionEli expressionEli,
-    LocalDate pointInTimeManifestation,
-    String format
-  ) {
-    return new DokumentManifestationEli(
-      expressionEli.getAgent(),
-      expressionEli.getYear(),
-      expressionEli.getNaturalIdentifier(),
-      expressionEli.getPointInTime(),
-      expressionEli.getVersion(),
-      expressionEli.getLanguage(),
-      pointInTimeManifestation,
-      expressionEli.getSubtype(),
-      format
-    );
-  }
-
-  /**
    * Does the eli contain a point-in-time-manifestation?
    *
    * @return true if it has a point-in-time-manifestation
@@ -171,63 +131,6 @@ public final class DokumentManifestationEli
   }
 
   /**
-   * The filename a file storing a document of this eli should have.
-   * @return the filename
-   */
-  public String getFileName() {
-    return "%s.%s".formatted(getSubtype(), getFormat());
-  }
-
-  /**
-   * Create the URI for the eli to be used in e.g. href attributes.
-   *
-   * @return the URI for the eli
-   */
-  @Override
-  public URI toUri() {
-    return URI.create(toString());
-  }
-
-  /**
-   * Create a {@link DokumentManifestationEli} that contains the parts of this eli but no point-in-time-manifestation
-   *
-   * @return a manifestation eli without a point-in-time-manifestation
-   */
-  public DokumentManifestationEli withoutPointInTimeManifestation() {
-    if (!hasPointInTimeManifestation()) {
-      return this;
-    }
-
-    return new DokumentManifestationEli(
-      getAgent(),
-      getYear(),
-      getNaturalIdentifier(),
-      getPointInTime(),
-      getVersion(),
-      getLanguage(),
-      getSubtype(),
-      getFormat()
-    );
-  }
-
-  /**
-   * Create an {@link DokumentExpressionEli} that contains the parts of this eli
-   *
-   * @return an expression eli
-   */
-  public DokumentExpressionEli asExpressionEli() {
-    return new DokumentExpressionEli(
-      getAgent(),
-      getYear(),
-      getNaturalIdentifier(),
-      getPointInTime(),
-      getVersion(),
-      getLanguage(),
-      getSubtype()
-    );
-  }
-
-  /**
    * Create a {@link NormManifestationEli} that contains the parts of this eli
    *
    * @return a norm eli
@@ -243,15 +146,6 @@ public final class DokumentManifestationEli
       getLanguage(),
       getPointInTimeManifestation()
     );
-  }
-
-  /**
-   * Create a {@link DokumentWorkEli} that contains the parts of this eli
-   *
-   * @return a work eli
-   */
-  public DokumentWorkEli asWorkEli() {
-    return new DokumentWorkEli(getAgent(), getYear(), getNaturalIdentifier(), getSubtype());
   }
 
   @Override

@@ -1,6 +1,6 @@
 # Backend
 
-The Norms backend is a [Spring Boot](https://docs.spring.io/spring-boot/index.html) application build with Java. We use [Postgres](https://www.postgresql.org/) as our database and [Keycloak](https://www.keycloak.org/) as our identity provider. Both run locally using [Docker](https://www.docker.com/). In a live system (e.g. production), the backend also serves the [frontend](../frontend/).
+The Norms backend is a [Spring Boot](https://docs.spring.io/spring-boot/index.html) application build with Java. We use [Postgres](https://www.postgresql.org/) as our database, which runs locally using [Docker](https://www.docker.com/).
 
 The backend is implemented using [hexagonal architecture](https://github.com/digitalservicebund/ris-norms/blob/main/doc/adr/0005-use-hexagonal-architecture-in-backend.md).
 
@@ -103,18 +103,3 @@ for the startUp probe in the infra repository.
 Database seeds are added using repeatable flyway migrations. These migrations are automatically created by gradle from the xml folders stored in `src/main/resources/db/data/x`. The name of the folder is used
 for the name of the repeatable migration and the folder should contain the xml files (binary files are not currently supported) of the norm to add into the database.
 We have different seed folders for "real" norms (that are very similar to existing norms), "synthetic" norms (created specifically to test certain scenarios) and fixtures for e2e tests.
-
-## Key pair for signing/verifying ZIP
-
-There is an external API developed for the e-Verkündung that accepts a ZIP file. A signature file must also be sent and it's validty will be checked.
-
-For local development the following key pair is used:
-
-```root-project/
-├── local/
-│   └── certs/
-│       └── private-key.pem
-│       └── certificate.pem
-```
-
-For how to create the signature refer to the README of [LegalDocML.de](../LegalDocML.de/1.8.2/README.md)

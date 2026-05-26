@@ -9,15 +9,6 @@ import org.w3c.dom.Document;
 @Getter
 public non-sealed class OffeneStruktur extends Dokument {
 
-  @Override
-  public Dokument copy() {
-    return new OffeneStruktur(this);
-  }
-
-  public OffeneStruktur(OffeneStruktur offeneStruktur) {
-    this((Document) offeneStruktur.getDocument().cloneNode(true));
-  }
-
   public OffeneStruktur(Document document) {
     super(document);
   }

@@ -3,14 +3,10 @@ package de.bund.digitalservice.ris.norms.application.service;
 import static org.assertj.core.api.Assertions.*;
 
 import de.bund.digitalservice.ris.norms.application.exception.LdmlDeNotValidException;
-import de.bund.digitalservice.ris.norms.application.exception.LdmlDeSchematronException;
-import de.bund.digitalservice.ris.norms.domain.entity.Dokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Fixtures;
-import de.bund.digitalservice.ris.norms.domain.entity.Norm;
 import de.bund.digitalservice.ris.norms.domain.entity.Rechtsetzungsdokument;
 import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidDokumentTypeException;
 import java.net.URI;
 import java.util.Objects;
 import org.junit.jupiter.api.Nested;
@@ -137,137 +133,6 @@ class LdmlDeValidatorTest {
       ).isEqualTo(
         "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/rechtsetzungsdokument-1.xml"
       );
-    }
-  }
-
-  @Nested
-  class parseAndValidateDokument {
-
-    @Test
-    void itShouldParseAValidDokument() {
-      // Given
-      String xml = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/rechtsetzungsdokument-1.xml"
-      );
-
-      // When
-      Dokument dokument = ldmlDeValidator.parseAndValidateDokument(
-        "rechtsetzungsdokument-1.xml",
-        xml
-      );
-
-      // Then
-      // we can't use Norm::getEli as it is not yet namespace-aware
-      assertThat(
-        NodeParser.getValueFromMandatoryNodeFromExpression(
-          "//*[local-name()='FRBRManifestation']/*[local-name()='FRBRthis']/@value",
-          dokument.getDocument()
-        )
-      ).isEqualTo(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/rechtsetzungsdokument-1.xml"
-      );
-      assertThat(dokument).isInstanceOf(Rechtsetzungsdokument.class);
-    }
-
-    @Test
-    void itShouldThrowForInvalidDokumentName() {
-      String xml = Fixtures.loadTextFromDisk(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/rechtsetzungsdokument-1.xml"
-      );
-
-      assertThatThrownBy(() ->
-        ldmlDeValidator.parseAndValidateDokument("unknown-dokument-name-1.xml", xml)
-      ).isInstanceOf(InvalidDokumentTypeException.class);
-    }
-  }
-
-  @Nested
-  class validateSchematron {
-
-    @Test
-    void itShouldSuccessfullyValidateNorm() {
-      // Given
-      Norm norm = Fixtures.loadNormFromDisk(
-        "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23",
-        true
-      );
-
-      // When // Then
-      assertThatCode(() -> ldmlDeValidator.validateSchematron(norm)).doesNotThrowAnyException();
-    }
-
-    @Test
-    void itShouldValidateAInvalidNormWithError() {
-      // Given
-      Norm norm = Fixtures.loadNormFromDisk(
-        LdmlDeValidatorTest.class,
-        "vereinsgesetz-schematron-invalid",
-        true
-      );
-
-      // When // Then
-      assertThatThrownBy(() -> ldmlDeValidator.validateSchematron(norm))
-        .isInstanceOf(LdmlDeSchematronException.class)
-        .satisfies(e -> {
-          if (e instanceof LdmlDeSchematronException ldmlDeSchematronException) {
-            assertThat(ldmlDeSchematronException.getErrors())
-              .hasSize(3)
-              .contains(
-                new LdmlDeSchematronException.ValidationError(
-                  "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000",
-                  "/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}temporalData[1]/@Q{}GUID",
-                  "GUIDs müssen einmalig sein; \"0b03ee18-0131-47ec-bd46-519d60209cc7\" kommt jedoch 2-mal im Dokument vor!",
-                  "meta-n1_geltzeiten-n1",
-                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-                )
-              )
-              .contains(
-                new LdmlDeSchematronException.ValidationError(
-                  "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-00460-000",
-                  "/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}temporalData[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}temporalGroup[1]/@Q{}GUID",
-                  "GUIDs müssen einmalig sein; \"0b03ee18-0131-47ec-bd46-519d60209cc7\" kommt jedoch 2-mal im Dokument vor!",
-                  "meta-n1_geltzeiten-n1_geltungszeitgr-n1",
-                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-                )
-              )
-              .contains(
-                new LdmlDeSchematronException.ValidationError(
-                  "/errors/ldml-de-not-schematron-valid/failed-assert/SCH-VERKF-hrefLiterals.expression.FRBRauthor",
-                  "/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}akomaNtoso[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}act[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}meta[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}identification[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}FRBRExpression[1]/Q{http://Inhaltsdaten.LegalDocML.de/1.8.2/}FRBRauthor[1]/@Q{}href",
-                  "In der Verkündungsfassung ist das Literal \"recht.bund.de/institution/bundestag\" an dieser Stelle nicht\n" +
-                    "                                    zulässig. Erlaubt sind ausschließlich \"recht.bund.de/institution/bundesregierung\", \"recht.bund.de/institution/bundeskanzler\" sowie \"recht.bund.de/institution/bundespraesident\".",
-                  "meta-n1_ident-n1_frbrexpression-n1_frbrauthor-n1",
-                  "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-                )
-              );
-          }
-        });
-    }
-
-    @Test
-    void itShouldSuccessfullyValidateANormWithWarnings() {
-      // Given
-      Norm norm = Fixtures.loadNormFromDisk(
-        LdmlDeValidatorTest.class,
-        "vereinsgesetz-schematron-warning",
-        true
-      );
-
-      // When // Then
-      assertThatCode(() -> ldmlDeValidator.validateSchematron(norm)).doesNotThrowAnyException();
-    }
-
-    @Test
-    void itHasNoSchematronErrorsBecauseWithinDisabledList() {
-      // Given
-      Norm norm = Fixtures.loadNormFromDisk(
-        LdmlDeValidatorTest.class,
-        "vereinsgesetz-disabled-rules",
-        true
-      );
-
-      // When // Then
-      assertThatCode(() -> ldmlDeValidator.validateSchematron(norm)).doesNotThrowAnyException();
     }
   }
 }

@@ -37,18 +37,4 @@ public class NormManifestationMapper {
       .publishState(normManifestationDto.getPublishState())
       .build();
   }
-
-  /**
-   * Maps a domain {@link Norm} to {@link NormManifestationDto}.
-   *
-   * @param norm The input {@link Norm} to be mapped.
-   * @return A new {@link NormManifestationDto} mapped from the input {@link Norm}.
-   */
-  public static NormManifestationDto mapToDto(final Norm norm) {
-    return NormManifestationDto.builder()
-      .publishState(norm.getPublishState())
-      .dokumente(norm.getDokumente().stream().map(DokumentMapper::mapToDto).toList())
-      .binaryFiles(norm.getBinaryFiles().stream().map(BinaryFileMapper::mapToDto).toList())
-      .build();
-  }
 }

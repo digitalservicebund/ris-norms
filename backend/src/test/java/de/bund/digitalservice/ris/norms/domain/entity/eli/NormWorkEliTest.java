@@ -19,10 +19,4 @@ class NormWorkEliTest {
     var eli = NormWorkEli.fromString("eli/bund/bgbl-1/2021/s4");
     assertThat(eli).hasToString("eli/bund/bgbl-1/2021/s4");
   }
-
-  @Test
-  void toUri() {
-    var eli = NormWorkEli.fromString("eli/bund/bgbl-1/2021/s4");
-    assertThat(eli.toUri()).hasToString("eli/bund/bgbl-1/2021/s4");
-  }
 }

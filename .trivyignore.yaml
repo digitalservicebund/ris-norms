@@ -1,9 +1,3 @@
-secrets:
-  - id: private-key
-    paths:
-      - "local/certs/private-key.pem"
-    statement: Private key is only used for local & automated testing and can thus be public
-
 vulnerabilities:
   - id: CVE-2025-55163
     statement: Netty is only used via AWS SDK as an HTTP client, not as an HTTP/2 server; CVE not applicable.

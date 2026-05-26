@@ -14,7 +14,7 @@ class ConfidentialDataCleanupServiceTest {
   @Test
   void clean() {
     var norm = Fixtures.loadNormFromDisk("eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05");
-    var proprietary = norm.getRegelungstext1().getMeta().getOrCreateProprietary();
+    var proprietary = norm.getRegelungstext1().getMeta().getProprietary().orElseThrow();
 
     assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).contains(
       "Aktuelle Organisationseinheit"

@@ -1,13 +1,8 @@
 package de.bund.digitalservice.ris.norms.domain.entity.eli;
 
-import de.bund.digitalservice.ris.norms.domain.entity.DokumentType;
-import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidEliException;
-import java.net.URI;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,99 +29,6 @@ public final class DokumentExpressionEli implements DokumentEli, Comparable<Doku
   private String language;
   private String subtype;
 
-  /**
-   * Create an expression level eli from a string representation
-   *
-   * @param expressionEli the string representation of the eli
-   * @return the eli
-   */
-  public static DokumentExpressionEli fromString(String expressionEli) {
-    Matcher matcher = Pattern.compile(
-      "eli/bund/(?<agent>[^/]+)/(?<year>[^/]+)/(?<naturalIdentifier>[^/]+)/(?<pointInTime>[^/]+)/(?<version>[^/]+)/(?<language>[^/]+)/(?<subtype>[^/.]+)"
-    ).matcher(expressionEli);
-
-    if (!matcher.matches()) {
-      throw new InvalidEliException(DokumentExpressionEli.class, expressionEli);
-    }
-
-    return new DokumentExpressionEli(
-      matcher.group("agent"),
-      matcher.group("year"),
-      matcher.group("naturalIdentifier"),
-      LocalDate.parse(matcher.group("pointInTime"), DateTimeFormatter.ISO_LOCAL_DATE),
-      Integer.valueOf(matcher.group("version")),
-      matcher.group("language"),
-      matcher.group("subtype")
-    );
-  }
-
-  /**
-   * Create an expression level eli from an work eli and the additional data for an expression eli.
-   *
-   * @param workEli     the work eli to use as a base
-   * @param pointInTime the date of the verkündung
-   * @param version     the version of the expression (to differentiate between multiple expressions with the same pointInTime)
-   * @param language    the language of the expression
-   * @return the eli
-   */
-  public static DokumentExpressionEli fromWorkEli(
-    DokumentWorkEli workEli,
-    LocalDate pointInTime,
-    Integer version,
-    String language
-  ) {
-    return new DokumentExpressionEli(
-      workEli.getAgent(),
-      workEli.getYear(),
-      workEli.getNaturalIdentifier(),
-      pointInTime,
-      version,
-      language,
-      workEli.getSubtype()
-    );
-  }
-
-  /**
-   * Create an eli for a Dokument from the eli for a norm.
-   * @param normEli the eli for the norm of the Dokument
-   * @param subtype the subtype of the Dokument
-   * @return the eli for the document
-   */
-  public static DokumentExpressionEli fromNormEli(NormExpressionEli normEli, String subtype) {
-    return new DokumentExpressionEli(
-      normEli.getAgent(),
-      normEli.getYear(),
-      normEli.getNaturalIdentifier(),
-      normEli.getPointInTime(),
-      normEli.getVersion(),
-      normEli.getLanguage(),
-      subtype
-    );
-  }
-
-  /**
-   * Create an eli for a Dokument from the eli for a norm.
-   * @param normEli the eli for the norm of the Dokument
-   * @param dokumentType the type of the Dokument
-   * @param subtypeIndex the index of the type
-   * @return the eli for the Dokument
-   */
-  public static DokumentExpressionEli fromNormEli(
-    NormExpressionEli normEli,
-    DokumentType dokumentType,
-    int subtypeIndex
-  ) {
-    return new DokumentExpressionEli(
-      normEli.getAgent(),
-      normEli.getYear(),
-      normEli.getNaturalIdentifier(),
-      normEli.getPointInTime(),
-      normEli.getVersion(),
-      normEli.getLanguage(),
-      "%s-%s".formatted(dokumentType.fileName, subtypeIndex)
-    );
-  }
-
   @Override
   public String toString() {
     return "eli/bund/%s/%s/%s/%s/%d/%s/%s".formatted(
@@ -138,35 +40,6 @@ public final class DokumentExpressionEli implements DokumentEli, Comparable<Doku
       getLanguage(),
       getSubtype()
     );
-  }
-
-  /**
-   * Create the URI for the eli to be used in e.g. href attributes.
-   * <p>The URI does not contain the subtype
-   *
-   * @return the URI for the eli
-   */
-  @Override
-  public URI toUri() {
-    return URI.create(
-      "eli/bund/%s/%s/%s/%s/%d/%s".formatted(
-        getAgent(),
-        getYear(),
-        getNaturalIdentifier(),
-        getPointInTime().format(DateTimeFormatter.ISO_LOCAL_DATE),
-        getVersion(),
-        getLanguage()
-      )
-    );
-  }
-
-  /**
-   * Create a {@link DokumentWorkEli} that contains the parts of this eli
-   *
-   * @return a work eli
-   */
-  public DokumentWorkEli asWorkEli() {
-    return new DokumentWorkEli(getAgent(), getYear(), getNaturalIdentifier(), getSubtype());
   }
 
   /**

@@ -1,8 +1,8 @@
 # RIS Norms
 
-| All modules                                                                                                                                                                             | Frontend                                                                                                                                                                                                                      | Backend                                                                                                                                                                                                                             |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [![Pipeline](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml) | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-frontend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-frontend) | [![Quality Gate Status Backend](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-backend) |
+| All modules                                                                                                                                                                             | Backend                                                                                                                                                                                                                             |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [![Pipeline](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml/badge.svg)](https://github.com/digitalservicebund/ris-norms/actions/workflows/pipeline.yml) | [![Quality Gate Status Backend](https://sonarcloud.io/api/project_badges/measure?project=digitalservicebund_ris-norms-backend&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=digitalservicebund_ris-norms-backend) |
 
 This repository contains a web app supporting the Federal Documentation of Norms (DE: ["Normendokumentation"](https://www.bundesjustizamt.de/DE/Themen/Rechtsetzung/Normendokumentation/Normendokumentation_node.html)). It is part of NeuRIS. You can learn more about NeuRIS on our [website](https://digitalservice.bund.de/en/projects/new-legal-information-system).
 
@@ -37,7 +37,7 @@ When running the application locally, use the following test user credentials:
 - Username: `jane.doe`
 - Password: `test`
 
-### Running backend + frontend separately
+### Running backend
 
 ```sh
 # Run Docker containers (working dir: project root)
@@ -48,27 +48,13 @@ docker compose -f docker-compose-services.yaml up -d
 ./gradlew bootRun
 # 2. For running the E2E tests (including the seeds for them)
 ./gradlew bootRun --args='--spring.profiles.active=local,e2e'
-
-# Install frontend dependencies and run frontend (working dir: `./frontend`)
-npm ci --ignore-scripts
-node --run dev
 ```
-
-You can open the frontend at <http://localhost:5173>.
 
 ### Running a full, containerized build locally
 
 ```sh
 # (working dir: project root)
 docker compose up -d
-```
-
-You can open the frontend at <http://localhost:8080>.
-
-When wanting to run the e2e tests:
-```sh
-# (working dir: project root)
-RUN_E2E_TESTS=true docker compose up -d
 ```
 
 ### Testing
@@ -81,22 +67,6 @@ Backend:
 ./gradlew build           # Build with all checks, including tests and code style
 ```
 
-Frontend:
-
-```sh
-node --run test       # Unit tests (once)
-node --run test:watch # Unit tests (watch mode)
-node --run test:a11y  # Accessibility tests
-```
-
-E2E tests (included in the frontend module, backend and frontend must be [running separately](#running-backend--frontend-separately)):
-
-```sh
-node --run test:browsers                             # E2E tests in Chrome and Firefox
-node --run test:e2e -- --project <chromium|firefox>  # E2E tests for a specific browser
-node --run test:e2e -- --ui                          # Opens the Playwright UI for testing
-```
-
 ### Code style & quality
 
 Backend:
@@ -105,28 +75,12 @@ Backend:
 ./gradlew spotlessApply   # Format code
 ```
 
-Frontend:
-
-```sh
-node --run style:fix    # Check code conventions + formatting, attempt to fix
-node --run typecheck    # Check TypeScript validity
-```
-
 ### Building
 
 Backend:
 
 ```sh
 ./gradlew build
-```
-
-Frontend:
-
-```sh
-node --run build
-
-# Optionally, preview the build output (requires a running backend):
-node --run preview
 ```
 
 ## Navigating the repository
@@ -138,9 +92,7 @@ This is a mono-repository containing:
 | [`.github`](./github)               | GitHub configuration, including automated pipelines                                                                            |
 | [`backend`](./backend/)             | The backend service (Java + Spring Boot)                                                                                       |
 | [`doc`](./doc/)                     | Additional documentation, including [Architecture Decision Records (ADRs)](./doc/adr/) and [API specifications](./backend/)    |
-| [`frontend`](./frontend/)           | A browser-based interface for users (TypeScript + Vue + Tailwind)                                                              |
 | [`LegalDocML.de`](./LegalDocML.de/) | Schemas, examples, test data, and custom extensions to [LegalDocDML.de](https://gitlab.opencode.de/bmi/e-gesetzgebung/ldml_de) |
-| [`local`](./local/)                 | Additional setup for local development                                                                                         |
 | [`regex`](./regex/)                 | Utilities for creating regex schemas                                                                                           |
 
 ## Prerequisites
@@ -149,7 +101,7 @@ To build and run the application, you'll need:
 
 - Docker, for infrastructure or running a containerized version of the entire application locally
 - A Java 21-compatible JDK
-- A recent version of Node (you'll find the exact version we're using [here](./frontend/.node-version))
+- A recent version of Node (you'll find the exact version we're using [here](./.node-version))
 
 If you would like to make changes to the application, you'll also need:
 
@@ -173,15 +125,13 @@ Once you installed the prerequisites, make sure to initialize Git hooks. This wi
 lefthook install
 ```
 
-Finally, there are some environment variables that need to be set locally. As a starting point, copy the `frontend/.env.local.example` file, and rename it to `.env.local`. Learn more about environment variables [here](./frontend/README.md).
-
 ## Learn more
 
-You will find more information about each module in the respective folders. If you're getting started, the READMEs of the [backend](./backend/README.md) and [frontend](./frontend/README.md) will be the most relevant resources.
+You will find more information about each module in the respective folders. If you're getting started, the README of the [backend](./backend/README.md) will be the most relevant resource.
 
 ## License checking
 
-When installing dependencies, make sure they are licensed under one of the [allowed licenses](./allowed-licenses.json). This will be checked in the pipeline for both frontend and backend dependencies. The pipeline will fail if licenses not included in the list are used by any dependency.
+When installing dependencies, make sure they are licensed under one of the [allowed licenses](./allowed-licenses.json). This will be checked in the pipeline for the backend dependencies. The pipeline will fail if licenses not included in the list are used by any dependency.
 
 ## Contributing
 

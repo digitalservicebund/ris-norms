@@ -15,41 +15,10 @@ import lombok.Getter;
  */
 @Getter
 public enum Metadata {
-  // Metadaten Regelungstext
-  TYP(Namespace.METADATEN_REGELUNGSTEXT, "./typ", "typ"),
-  FORM(Namespace.METADATEN_REGELUNGSTEXT, "./form", "form"),
-
-  // Metadaten Rechtsetzungsdokument
-  FNA(Namespace.METADATEN_RECHTSETZUNGSDOKUMENT, "./fna", "fna"),
-  GESTA(Namespace.METADATEN_RECHTSETZUNGSDOKUMENT, "./gesta", "gesta"),
-
-  // MetadatenBund
-  FEDERFUEHRUNG(
-    Namespace.METADATEN_BUNDESREGIERUNG,
-    "./federfuehrung/federfuehrend",
-    "federfuehrend",
-    false
-  ),
-
   // MetadatenDs
-  ART_DER_NORM(Namespace.METADATEN_RIS, "./artDerNorm", "artDerNorm"),
-  STAAT(Namespace.METADATEN_RIS, "./normgeber", "normgeber"),
-  SUBTYP(Namespace.METADATEN_RIS, "./subtyp", "subtyp"),
-  BEZEICHNUNG_IN_VORLAGE(Namespace.METADATEN_RIS, "./bezeichnungInVorlage", "bezeichnungInVorlage"),
-  NORMGEBER(Namespace.METADATEN_RIS, "./normgeber", "normgeber"),
-  BESCHLIESSENDES_ORGAN(Namespace.METADATEN_RIS, "./beschliessendesOrgan", "beschliessendesOrgan"),
-  BESCHLIESSENDES_ORGAN_QUALMEHR(
-    Namespace.METADATEN_RIS,
-    "./beschliessendesOrgan/@qualifizierteMehrheit",
-    "qualifizierteMehrheit",
-    true
-  ),
   ORGANISATIONS_EINHEIT(Namespace.METADATEN_RIS, "./organisationsEinheit", "organisationsEinheit"),
   AUSSERKRAFT(Namespace.METADATEN_RIS, "./ausserkraft/@date", "date", true),
-  INKRAFT(Namespace.METADATEN_RIS, "./inkraft/@date", "date", true),
-  STANDANGABE(Namespace.METADATEN_RIS, "./standangabe", "standangabe"),
-  VOLLZITAT(Namespace.METADATEN_RIS, "./vollzitat", "vollzitat"),
-  STAND(Namespace.METADATEN_RIS, "./stand", "stand");
+  INKRAFT(Namespace.METADATEN_RIS, "./inkraft/@date", "date", true);
 
   private final Namespace namespace;
   private final String xpath;

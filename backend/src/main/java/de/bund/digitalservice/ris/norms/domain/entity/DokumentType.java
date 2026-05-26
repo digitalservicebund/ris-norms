@@ -1,7 +1,5 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.utils.exceptions.InvalidDokumentTypeException;
-
 /**
  * The type of a Dokument
  * See LDML.de Section 2.2 "Fachliche Typen der Teildokumente eines Rechtsetzungsdokuments"
@@ -47,22 +45,5 @@ public enum DokumentType {
     throw new IllegalArgumentException(
       "DokumentType for ontologyUri '" + uri + "' could not be found"
     );
-  }
-
-  /**
-   * Find a DokumentType by the name of a file name.
-   * @param fileName the fileName (eg. "regelungstext-verkuendung-1.xml"
-   * @return the dokument type
-   */
-  public static DokumentType getByFileName(String fileName) {
-    var simplifiedFileName = fileName.substring(0, fileName.lastIndexOf("-"));
-
-    for (DokumentType dokumentType : DokumentType.values()) {
-      if (dokumentType.fileName.equals(simplifiedFileName)) {
-        return dokumentType;
-      }
-    }
-
-    throw new InvalidDokumentTypeException(fileName);
   }
 }

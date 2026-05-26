@@ -88,27 +88,6 @@ class NodeParserTest {
   }
 
   @Nested
-  class getMandatoryNodeFromExpression {
-
-    @Test
-    void returnNodeWhenFound() {
-      Node node = XmlMapper.toDocument("<test>testValue</test>");
-      String expression = "/test/text()";
-      Node result = NodeParser.getMandatoryNodeFromExpression(expression, node);
-      assertThat(result.getNodeValue()).isEqualTo("testValue");
-    }
-
-    @Test
-    void throwWhenNoNodeIsFound() {
-      Node node = XmlMapper.toDocument("<test>testValue</test>");
-      String expression = "/bla";
-      assertThatThrownBy(() ->
-        NodeParser.getMandatoryNodeFromExpression(expression, node)
-      ).isInstanceOf(MandatoryNodeNotFoundException.class);
-    }
-  }
-
-  @Nested
   class getMandatoryElementFromExpression {
 
     @Test
@@ -219,34 +198,6 @@ class NodeParserTest {
       Node node = XmlMapper.toDocument("<foo></foo>").getFirstChild();
       var nodes = NodeParser.nodeListToList(node.getChildNodes());
       assertThat(nodes).isEmpty();
-    }
-  }
-
-  @Nested
-  class isEmptyIgnoringWhitespace {
-
-    @Test
-    void returnTrueIfNodeIsEmpty() {
-      Node node = XmlMapper.toElement("<foo></foo>");
-      assertThat(NodeParser.isEmptyIgnoringWhitespace(node)).isTrue();
-    }
-
-    @Test
-    void returnTrueIfNodeContentIsOnlyWhitespace() {
-      Node node = XmlMapper.toElement("<foo>\n\t  </foo>");
-      assertThat(NodeParser.isEmptyIgnoringWhitespace(node)).isTrue();
-    }
-
-    @Test
-    void returnFalseIfNodeHasTextContent() {
-      Node node = XmlMapper.toElement("<foo>Bar</foo>");
-      assertThat(NodeParser.isEmptyIgnoringWhitespace(node)).isFalse();
-    }
-
-    @Test
-    void returnFalseIfNodeHasChildNode() {
-      Node node = XmlMapper.toElement("<foo><bar></bar></foo>");
-      assertThat(NodeParser.isEmptyIgnoringWhitespace(node)).isFalse();
     }
   }
 

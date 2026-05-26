@@ -1,21 +1,4 @@
 services:
-  # We use a service called localhost to be able to address the keycloak service as "localhost:8443" in the
-  # application.yaml of our application. Using "keycloak:8443" is not possible as spring would then redirect the user to
-  # "keycloak:8443" to login, but that is a host that is not available on the host system. The spring boot oauth
-  # implementation is very restrictive on the issuer and therefore creates errors if the hosts used by it and the user
-  # to connect to keycloak differ.
-  # See also:
-  #  - https://github.com/spring-projects/spring-security/issues/14633
-  #  - https://github.com/keycloak/keycloak/issues/29783
-  #  - https://github.com/keycloak/keycloak/issues/24252
-  #  - https://medium.com/@kostapchuk/integrating-keycloak-with-spring-boot-in-a-dockerized-environment-813eab1f140c
-  localhost:
-    image: alpine:3.22
-    command: sleep infinity
-    ports:
-      - "8443:8443" # Keycloak port
-      - "8080:8080" # Webapp port
-
   webapp:
     image: ris-norms-app:001
     container_name: webapp
@@ -24,28 +7,19 @@ services:
       dockerfile: Dockerfile
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres17:5432/risnorms
-      - SPRING_PROFILES_ACTIVE=local,local-docker${RUN_E2E_TESTS:+,e2e}
-    network_mode: "service:localhost"
+      - SPRING_PROFILES_ACTIVE=local,local-docker
     depends_on:
       postgres17:
         condition: service_healthy
-      keycloak:
-        condition: service_healthy
     volumes:
       - ./local-storage:/app/.local-storage
-      - ./local/certs:/app/certs:ro
+    ports:
+      - "8080:8080"
 
   postgres17:
     extends:
       file: docker-compose-services.yaml
       service: postgres17
-
-  keycloak:
-    extends:
-      file: docker-compose-services.yaml
-      service: keycloak
-    network_mode: "service:localhost"
-    ports: []
 
 volumes:
   postgres17-data:

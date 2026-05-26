@@ -14,7 +14,6 @@ import de.bund.digitalservice.ris.norms.domain.entity.Regelungstext;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
 import de.bund.digitalservice.ris.norms.utils.XmlMapper;
 import java.util.List;
-import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class NormMapperTest {
@@ -82,53 +81,5 @@ class NormMapperTest {
         binaryFileFixture.getContent()
       )
     );
-  }
-
-  @Test
-  void itShouldMapToDtos() {
-    // Given
-    var regelungstext1 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/regelungstext-verkuendung-1.xml"
-    );
-    var regelungstext2 = Fixtures.loadRegelungstextFromDisk(
-      "eli/bund/bgbl-1/2017/s419/2017-03-15/1/deu/2022-08-23/regelungstext-verkuendung-1.xml"
-    );
-    var offeneStruktur = Fixtures.loadOffeneStrukturFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/anlage-regelungstext-1.xml"
-    );
-    var binaryFile = Fixtures.loadBinaryFileFromDisk(
-      "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png",
-      DokumentManifestationEli.fromString(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png"
-      )
-    );
-    var norm = Norm.builder()
-      .dokumente(Set.of(regelungstext1, regelungstext2, offeneStruktur))
-      .binaryFiles(Set.of(binaryFile))
-      .publishState(NormPublishState.PUBLISHED)
-      .build();
-
-    // When
-    final NormManifestationDto normManifestationDto = NormManifestationMapper.mapToDto(norm);
-
-    // Then
-    assertThat(normManifestationDto.getPublishState()).isEqualTo(NormPublishState.PUBLISHED);
-    assertThat(normManifestationDto.getDokumente()).hasSize(3);
-    assertThat(normManifestationDto.getDokumente())
-      .map(DokumentDto::getXml)
-      .containsExactlyInAnyOrder(
-        XmlMapper.toString(regelungstext1.getDocument()),
-        XmlMapper.toString(regelungstext2.getDocument()),
-        XmlMapper.toString(offeneStruktur.getDocument())
-      );
-    assertThat(normManifestationDto.getBinaryFiles()).hasSize(1);
-    assertThat(normManifestationDto.getBinaryFiles())
-      .map(BinaryFileDto::getContent)
-      .containsExactlyInAnyOrder(binaryFile.getContent());
-    assertThat(normManifestationDto.getBinaryFiles())
-      .map(BinaryFileDto::getEliDokumentManifestation)
-      .containsExactlyInAnyOrder(
-        "eli/bund/bgbl-1/1964/s593/1964-08-05/1/deu/1964-08-05/image-1.png"
-      );
   }
 }

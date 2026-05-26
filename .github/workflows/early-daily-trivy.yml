@@ -13,53 +13,6 @@ env:
   CONTAINER_IMAGE_VERSION: ${{ github.sha }} # sha of the last commit of the default branch
 
 jobs:
-  vulnerability-scan-frontend:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      id-token: write # for cosign w/ keyless signing
-      packages: write # for updating cosign attestation
-      security-events: write
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
-      - name: Run Trivy vulnerability file scanner
-        # Third-party action, pin to commit SHA!
-        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
-        uses: aquasecurity/trivy-action@57a97c7e7821a5776cebc9bb87c984fa69cba8f1
-        env:
-          ACTIONS_RUNTIME_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TRIVY_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-db,public.ecr.aws/aquasecurity/trivy-db
-          TRIVY_JAVA_DB_REPOSITORY: ghcr.io/aquasecurity/trivy-java-db,public.ecr.aws/aquasecurity/trivy-java-db
-        with:
-          scan-type: "fs"
-          scan-ref: "./frontend"
-          skip-dirs: "node_modules" # See https://github.com/aquasecurity/trivy/issues/1283
-          trivy-config: "./trivy.yaml"
-          format: "sarif"
-          output: "trivy-results.sarif"
-      - name: Check trivy results
-        run: |
-          if grep -qE 'HIGH|CRITICAL' trivy-results.sarif; then
-            echo "Vulnerabilities found"
-            exit 1
-          else
-            echo "No significant vulnerabilities found"
-            exit 0
-          fi
-      - name: Upload Trivy file scan results to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@e46ed2cbd01164d986452f91f178727624ae40d7 # v4.35.3
-        if: ${{ always() && github.ref == 'refs/heads/main' }} # Bypass non-zero exit code..
-        with:
-          sarif_file: "trivy-results.sarif"
-          category: trivy-fs-scan
-      - name: Send status to Slack
-        # Third-party action, pin to commit SHA!
-        # See https://docs.github.com/en/actions/security-guides/security-hardening-for-github-actions
-        uses: digitalservicebund/notify-on-failure-gha@814d0c4b2ad6a3443e89c991f8657b10126510bf # v1.5.0
-        if: ${{ failure() && github.ref == 'refs/heads/main' }}
-        with:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
   vulnerability-scan-image:
     runs-on: ubuntu-latest
     permissions:

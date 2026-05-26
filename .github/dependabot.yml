@@ -1,23 +1,5 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    directory: "/frontend"
-    schedule:
-      interval: "daily"
-      time: "02:00"
-      timezone: "Europe/Berlin"
-    cooldown:
-      default-days: 3
-    groups:
-      all-frontend-non-major-dependencies:
-        update-types:
-          - minor
-          - patch
-    ignore:
-      # Pin nwsapi to 2.2.20 until CSS selector fix is in place
-      - dependency-name: "nwsapi"
-        versions: [">2.2.20"]
-
   - package-ecosystem: "docker"
     directory: "/"
     schedule:

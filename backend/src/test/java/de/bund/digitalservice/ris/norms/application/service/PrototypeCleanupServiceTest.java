@@ -29,23 +29,9 @@ class PrototypeCleanupServiceTest {
           .getMeta()
           .getProprietary()
           .ifPresent(proprietary -> {
-            assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
-            assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
-            assertThat(proprietary.getMetadataValue(Metadata.ART_DER_NORM)).isEmpty();
-            assertThat(proprietary.getMetadataValue(Metadata.NORMGEBER)).isEmpty();
-            assertThat(proprietary.getMetadataValue(Metadata.SUBTYP)).isEmpty();
-            assertThat(proprietary.getMetadataValue(Metadata.BEZEICHNUNG_IN_VORLAGE)).isEmpty();
-            assertThat(proprietary.getMetadataValue(Metadata.NORMGEBER)).isEmpty();
-            assertThat(proprietary.getMetadataValue(Metadata.BESCHLIESSENDES_ORGAN)).isEmpty();
             assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).isEmpty();
             assertThat(proprietary.getMetadataValue(Metadata.INKRAFT)).isEmpty();
             assertThat(proprietary.getMetadataValue(Metadata.AUSSERKRAFT)).isEmpty();
-            assertThat(proprietary.getMetadataValue(Metadata.STANDANGABE)).contains(
-              "zuletzt geändert durch Art. 2 Abs. 2 G v.7.11.2024 I Nr. 351"
-            );
-            assertThat(proprietary.getMetadataValue(Metadata.VOLLZITAT)).contains(
-              "Gesetz vom 5. August 1964 (BGBl. 1964 I S. 593)"
-            );
           });
       });
   }

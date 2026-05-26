@@ -1,20 +1,12 @@
 package de.bund.digitalservice.ris.norms.domain.entity;
 
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentExpressionEli;
 import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentManifestationEli;
-import de.bund.digitalservice.ris.norms.domain.entity.eli.DokumentWorkEli;
-import de.bund.digitalservice.ris.norms.domain.entity.metadata.rahmen.DokumentRahmenMetadata;
 import de.bund.digitalservice.ris.norms.utils.NodeParser;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.jspecify.annotations.NonNull;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -32,31 +24,6 @@ public abstract sealed class Dokument
   private final Document document;
 
   /**
-   * Returns the work Eli of the {@link Dokument}.
-   *
-   * @return The work Eli
-   */
-  public DokumentWorkEli getWorkEli() {
-    return DokumentWorkEli.fromString(
-      NodeParser.getValueFromMandatoryNodeFromExpression("//FRBRWork/FRBRthis/@value", document)
-    );
-  }
-
-  /**
-   * Returns the expression Eli of the {@link Dokument}.
-   *
-   * @return The expression Eliuuu
-   */
-  public DokumentExpressionEli getExpressionEli() {
-    return DokumentExpressionEli.fromString(
-      NodeParser.getValueFromMandatoryNodeFromExpression(
-        "//FRBRExpression/FRBRthis/@value",
-        document
-      )
-    );
-  }
-
-  /**
    * Returns the manifestation Eli of the {@link Dokument}.
    *
    * @return The manifestation Eli
@@ -71,33 +38,6 @@ public abstract sealed class Dokument
   }
 
   /**
-   * Returns the current version GUID as {@link UUID} from the {@link Dokument}.
-   *
-   * @return An GUID of the norm (of the expression level)
-   */
-  public UUID getGuid() {
-    return getMeta().getFRBRExpression().getFRBRaliasCurrentVersionId();
-  }
-
-  /**
-   * Sets the current version GUID as {@link UUID} in the {@link Dokument}.
-   *
-   * @param guid An GUID of the norm
-   */
-  public void setGuid(UUID guid) {
-    getMeta().getFRBRExpression().setFRBRaliasCurrentVersionId(guid);
-  }
-
-  /**
-   * Sets the übergreifende-id {@link UUID} in the {@link Dokument}.
-   *
-   * @param guid the new value
-   */
-  public void setUebergreifendeGuid(UUID guid) {
-    getMeta().getFRBRWork().setUebergreifendeId(guid);
-  }
-
-  /**
    * Returns a {@link Meta} instance from a {@link Document} in a {@link Dokument}.
    *
    * @return the meta node as {@link Meta}
@@ -107,46 +47,12 @@ public abstract sealed class Dokument
   }
 
   /**
-   * Sets the metadata for a new manifestation based on the eli.
-   * @param manifestationDate the point-in-time-manifestation
-   */
-  public void setManifestationDateTo(@NonNull LocalDate manifestationDate) {
-    var newManifestationEli = DokumentManifestationEli.fromExpressionEli(
-      getExpressionEli(),
-      manifestationDate,
-      this.getManifestationEli().getFormat()
-    );
-    var manifestation = this.getMeta().getFRBRManifestation();
-    manifestation.setEli(newManifestationEli);
-    manifestation.setURI(newManifestationEli.toUri());
-    manifestation.setFBRDate(
-      newManifestationEli.getPointInTimeManifestation().format(DateTimeFormatter.ISO_LOCAL_DATE),
-      "generierung"
-    );
-  }
-
-  /**
-   * Extracts the time boundaries saved under the custom {@link Namespace#METADATEN_NORMS_APPLICATION_MODS} from the document.
-   *
-   * @return a list of {@link Zeitgrenze}
-   */
-  public List<Zeitgrenze> getZeitgrenzen() {
-    return getMeta()
-      .getProprietary()
-      .flatMap(Proprietary::getCustomModsMetadata)
-      .flatMap(CustomModsMetadata::getGeltungszeiten)
-      .stream()
-      .flatMap(Geltungszeiten::stream)
-      .toList();
-  }
-
-  /**
    * Returns the element of the norm identified by the given eId.
    *
    * @param eId the eId of the element to return
    * @return the selected element
    */
-  public Optional<Element> getElementByEId(String eId) {
+  private Optional<Element> getElementByEId(String eId) {
     return NodeParser.getElementFromExpression(
       String.format("//*[@eId='%s']", eId),
       this.getDocument()
@@ -161,44 +67,6 @@ public abstract sealed class Dokument
   public void deleteByEId(String eId) {
     var node = getElementByEId(eId);
     node.ifPresent(n -> n.getParentNode().removeChild(n));
-  }
-
-  /**
-   * Load the filenames of all Dokumente and BinaryFiles references by this Dokument.
-   * @return a List of filenames
-   */
-  public List<String> getReferencedDokumentAndBinaryFileFileNames() {
-    return getReferencedDokumentAndBinaryFileElis()
-      .stream()
-      .map(DokumentManifestationEli::getFileName)
-      .toList();
-  }
-
-  /**
-   * Returns the list of {@link DokumentManifestationEli} of all referenced attachments in the document
-   * @return the list of elis
-   */
-  public List<DokumentManifestationEli> getReferencedDokumentAndBinaryFileElis() {
-    return NodeParser.getNodesFromExpression(
-      "//componentRef/@src|//documentRef/@href|//img/@src",
-      document
-    )
-      .stream()
-      .map(Node::getNodeValue)
-      .map(m -> {
-        if (m.contains("/")) {
-          return DokumentManifestationEli.fromString(m);
-        } else {
-          return DokumentManifestationEli.fromString(
-            this.getManifestationEli().asNormEli() + "/" + m
-          );
-        }
-      })
-      .toList();
-  }
-
-  public DokumentRahmenMetadata getRahmenMetadata() {
-    return new DokumentRahmenMetadata(getMeta());
   }
 
   @Override
@@ -265,11 +133,4 @@ public abstract sealed class Dokument
 
     return Arrays.hashCode(hashes);
   }
-
-  /**
-   * Abstract method so that child classes are forced to implement it, so that the deep-copy code in the Norm object is more readable
-   *
-   * @return a deep copy of this Dokument
-   */
-  public abstract Dokument copy();
 }
