@@ -1,4 +1,4 @@
-FROM gradle:9.2-jdk21 AS backend
+FROM gradle:9.5.1-jdk21 AS backend
 
 COPY backend /backend
 COPY LegalDocML.de /LegalDocML.de
