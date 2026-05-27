@@ -35,11 +35,6 @@ jobs:
       - name: Build backend
         working-directory: ./backend
         run: ./gradlew build --profile -x integrationTest -x test -x spotlessCheck
-      - name: Upload build performance report
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: performance-report
-          path: backend/build/reports/profile/profile*.html
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
@@ -168,50 +163,5 @@ jobs:
       - name: Send status to Slack
         uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
-        with:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-  generate-entity-relationship-diagram:
-    runs-on: ubuntu-latest
-    if: ${{ github.ref == 'refs/heads/main' }}
-    needs: [backend-build]
-    env:
-      POSTGRES_DB: ris-erd
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-    services:
-      postgres:
-        image: postgres:17-alpine
-        env:
-          POSTGRES_DB: ris-erd
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_USER: postgres
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-          --name postgres
-        ports:
-          - 5432:5432
-    steps:
-      - uses: actions/checkout@c2d88d3ecc89a9ef08eebf45d9637801dcee7eb5
-      - uses: joshuaavalon/flyway-action@a0c3f735cf6bcd4efe9b2be6482492a19f4155ab
-        with:
-          url: jdbc:postgresql://postgres:5432/${{ env.POSTGRES_DB }}
-          user: ${{ env.POSTGRES_USER }}
-          password: ${{ env.POSTGRES_PASSWORD }}
-          locations: filesystem:./backend/src/main/resources/db/migration
-      - name: Generate mermaid ER-diagram
-        uses: digitalservicebund/export-entity-relationship-diagram@3bb61526d10138b41f1dc5bf117cf7e4c5b80258
-        with:
-          configFile: ./backend/mermerd.config.yaml
-          connectionString: postgresql://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@localhost:5432/${{ env.POSTGRES_DB }}
-          outputFile: latest.mmd
-          flags: --debug
-          version: 0.12.0
-      - name: Send status to Slack
-        uses: digitalservicebund/notify-on-failure-gha@66c485757701f8d5dbee32f24df38d904ca693ba
-        if: ${{ failure()}}
         with:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
