@@ -1,8 +1,0 @@
-schema:
-  - "public"
-useAllTables: True
-debug: true
-showDescriptions:
-  - notNull
-  - enumValues
-  - columnComments
