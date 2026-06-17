@@ -51,12 +51,11 @@ testcontainers-junit-jupiter = { module = "org.testcontainers:testcontainers-jun
 testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:4.2.1"
 testcontainers-postgres = { module = "org.testcontainers:testcontainers-postgresql", version.ref = "org-testcontainers" }
 tika-core = "org.apache.tika:tika-core:3.3.0"
-# CVE-2025-67735, CVE-2026-42583
-netty-codec-http = "io.netty:netty-codec-http:4.2.13.Final"
-# CVE-2026-33871
-netty-codec-http2 = "io.netty:netty-codec-http2:4.2.13.Final"
-# CVE-2026-42583
-netty-codec = "io.netty:netty-codec:4.2.13.Final"
+# CVE-2026-47244, CVE-2026-44249, CVE-2026-45416
+netty-codec-http = "io.netty:netty-codec-http:4.2.15.Final"
+netty-codec-http2 = "io.netty:netty-codec-http2:4.2.15.Final"
+netty-codec = "io.netty:netty-codec:4.2.15.Final"
+netty-handler = "io.netty:netty-handler:4.2.15.Final"
 # CVE-2026-24734
 tomcat-embed-core = "org.apache.tomcat.embed:tomcat-embed-core:10.1.55"
 # CVE-2026-22732

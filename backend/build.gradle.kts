@@ -82,6 +82,7 @@ dependencies {
     implementation(libs.netty.codec.http)
     implementation(libs.netty.codec.http2)
     implementation(libs.netty.codec)
+    implementation(libs.netty.handler)
     implementation(libs.tomcat.embed.core)
     implementation(libs.spring.security.web)
     implementation(libs.jackson.core)
