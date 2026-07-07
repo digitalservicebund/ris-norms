@@ -17,7 +17,7 @@ import org.w3c.dom.Node;
 @Service
 public class PrototypeCleanupService {
 
-  private static final Set<String> ALLOWED_METADATA = Set.of("standangabe", "vollzitat");
+  private static final Set<String> ALLOWED_METADATA = Set.of("standangabe", "vollzitat", "abkuerzung");
 
   /**
    * Cleans the metadata and lifecycle events of all documents associated with the given {@link

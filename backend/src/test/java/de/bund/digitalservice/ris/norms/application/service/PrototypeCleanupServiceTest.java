@@ -32,6 +32,29 @@ class PrototypeCleanupServiceTest {
             assertThat(proprietary.getMetadataValue(Metadata.ORGANISATIONS_EINHEIT)).isEmpty();
             assertThat(proprietary.getMetadataValue(Metadata.INKRAFT)).isEmpty();
             assertThat(proprietary.getMetadataValue(Metadata.AUSSERKRAFT)).isEmpty();
+
+            proprietary
+              .getMetadataParent(Namespace.METADATEN_RIS)
+              .ifPresent(risMetadaten -> {
+                assertThat(
+                  NodeParser.getValueFromExpression(
+                    "./Q{" + Namespace.METADATEN_RIS.getNamespaceUri() + "}vollzitat",
+                    risMetadaten
+                  )
+                ).isPresent();
+                assertThat(
+                  NodeParser.getValueFromExpression(
+                    "./Q{" + Namespace.METADATEN_RIS.getNamespaceUri() + "}standangabe",
+                    risMetadaten
+                  )
+                ).isPresent();
+              assertThat(
+                NodeParser.getValueFromExpression(
+                  "./Q{" + Namespace.METADATEN_RIS.getNamespaceUri() + "}abkuerzung",
+                  risMetadaten
+                )
+              ).isPresent();
+            });
           });
       });
   }
