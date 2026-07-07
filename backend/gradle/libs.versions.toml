@@ -59,9 +59,9 @@ netty-handler = "io.netty:netty-handler:4.2.15.Final"
 # CVE-2026-24734
 tomcat-embed-core = "org.apache.tomcat.embed:tomcat-embed-core:10.1.55"
 # CVE-2026-22732
-spring-security-web = "org.springframework.security:spring-security-web:6.5.9"
+spring-security-web = "org.springframework.security:spring-security-web:6.5.11"
 # GHSA-72hv-8253-57qq
-jackson-core = "com.fasterxml.jackson.core:jackson-core:2.21.3"
+jackson-core = "com.fasterxml.jackson.core:jackson-core:2.21.4"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:3.1.2"
