@@ -9,27 +9,27 @@ spring-boot = "3.5.16"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.2"
-aws-bom = "software.amazon.awssdk:bom:2.44.6"
+aws-bom = "software.amazon.awssdk:bom:2.47.4"
 aws-s3 = { module = "software.amazon.awssdk:s3" }
 bouncycastle-bcpkix = { module = "org.bouncycastle:bcpkix-jdk18on", version.ref = "org-bouncycastle" }
 bouncycastle-bcprov = { module = "org.bouncycastle:bcprov-jdk18on", version.ref = "org-bouncycastle" }
 # CVE-2025-48924
 commons-lang3 = "org.apache.commons:commons-lang3:3.20.0"
-errorprone = "com.google.errorprone:error_prone_core:2.49.0"
+errorprone = "com.google.errorprone:error_prone_core:2.50.0"
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 flyway-postgres = { module = "org.flywaydb:flyway-database-postgresql", version.ref = "flyway" }
 # CVE-2024-7254
-google-protobuf-java = "com.google.protobuf:protobuf-java:4.34.1"
-jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:8.6.0"
+google-protobuf-java = "com.google.protobuf:protobuf-java:4.35.1"
+jobrunr = "org.jobrunr:jobrunr-spring-boot-3-starter:8.7.1"
 # CVE-2023-51775
 jose4j = "org.bitbucket.b_c:jose4j:0.9.6"
 jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.46"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.23.0"
-nullaway = "com.uber.nullaway:nullaway:0.13.4"
-postgresql = "org.postgresql:postgresql:42.7.11"
-prometheus = "io.micrometer:micrometer-registry-prometheus:1.16.5"
-saxon-he = "net.sf.saxon:Saxon-HE:12.9"
+nullaway = "com.uber.nullaway:nullaway:0.13.7"
+postgresql = "org.postgresql:postgresql:42.7.13"
+prometheus = "io.micrometer:micrometer-registry-prometheus:1.17.0"
+saxon-he = "net.sf.saxon:Saxon-HE:12.10"
 schxslt = "name.dmaus.schxslt:schxslt:1.10.1"
 shedlock = { module = "net.javacrumbs.shedlock:shedlock-spring", version.ref = "net-javacrumbs-shedlock" }
 shedlockJdbc = { module = "net.javacrumbs.shedlock:shedlock-provider-jdbc-template", version.ref = "net-javacrumbs-shedlock" }
@@ -48,28 +48,28 @@ spring-security-test = { module = "org.springframework.security:spring-security-
 squareup-okio-jvm = "com.squareup.okio:okio-jvm:3.17.0"
 testcontainers-core = { module = "org.testcontainers:testcontainers", version.ref = "org-testcontainers" }
 testcontainers-junit-jupiter = { module = "org.testcontainers:testcontainers-junit-jupiter", version.ref = "org-testcontainers" }
-testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:4.2.1"
+testcontainers-keycloak = "com.github.dasniko:testcontainers-keycloak:4.3.0"
 testcontainers-postgres = { module = "org.testcontainers:testcontainers-postgresql", version.ref = "org-testcontainers" }
-tika-core = "org.apache.tika:tika-core:3.3.0"
+tika-core = "org.apache.tika:tika-core:3.3.1"
 # CVE-2026-47244, CVE-2026-44249, CVE-2026-45416
-netty-codec-http = "io.netty:netty-codec-http:4.2.15.Final"
-netty-codec-http2 = "io.netty:netty-codec-http2:4.2.15.Final"
-netty-codec = "io.netty:netty-codec:4.2.15.Final"
-netty-handler = "io.netty:netty-handler:4.2.15.Final"
+netty-codec-http = "io.netty:netty-codec-http:4.2.16.Final"
+netty-codec-http2 = "io.netty:netty-codec-http2:4.2.16.Final"
+netty-codec = "io.netty:netty-codec:4.2.16.Final"
+netty-handler = "io.netty:netty-handler:4.2.16.Final"
 # CVE-2026-24734
-tomcat-embed-core = "org.apache.tomcat.embed:tomcat-embed-core:10.1.55"
+tomcat-embed-core = "org.apache.tomcat.embed:tomcat-embed-core:10.1.57"
 # CVE-2026-22732
 spring-security-web = "org.springframework.security:spring-security-web:6.5.11"
 # GHSA-72hv-8253-57qq
-jackson-core = "com.fasterxml.jackson.core:jackson-core:2.21.4"
+jackson-core = "com.fasterxml.jackson.core:jackson-core:2.22.1"
 
 [plugins]
-dependency-license-report = "com.github.jk1.dependency-license-report:3.1.2"
+dependency-license-report = "com.github.jk1.dependency-license-report:3.1.4"
 errorprone = "net.ltgt.errorprone:5.1.0"
 gradle-git-properties = "com.gorylenko.gradle-git-properties:2.5.7"
-sentry = "io.sentry.jvm.gradle:6.6.0"
-sonarqube = "org.sonarqube:7.3.0.8198"
-spotless = "com.diffplug.spotless:8.4.0"
+sentry = "io.sentry.jvm.gradle:6.14.0"
+sonarqube = "org.sonarqube:7.3.1.8318"
+spotless = "com.diffplug.spotless:8.8.0"
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependency-management = "io.spring.dependency-management:1.1.7"
 test-logger = "com.adarshr.test-logger:4.0.0"
