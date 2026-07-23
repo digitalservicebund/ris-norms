@@ -5,7 +5,7 @@ jacoco = "0.8.11"
 net-javacrumbs-shedlock = "7.7.0"
 org-bouncycastle = "1.84"
 org-testcontainers = "2.0.5"
-spring-boot = "3.5.14"
+spring-boot = "3.5.16"
 
 [libraries]
 archunit-junit5 = "com.tngtech.archunit:archunit-junit5:1.4.2"
@@ -27,7 +27,7 @@ jspecify = "org.jspecify:jspecify:1.0.0"
 lombok = "org.projectlombok:lombok:1.18.46"
 mockito-junit-jupiter = "org.mockito:mockito-junit-jupiter:5.23.0"
 nullaway = "com.uber.nullaway:nullaway:0.13.4"
-postgresql = "org.postgresql:postgresql:42.7.11"
+postgresql = "org.postgresql:postgresql:42.7.13"
 prometheus = "io.micrometer:micrometer-registry-prometheus:1.16.5"
 saxon-he = "net.sf.saxon:Saxon-HE:12.9"
 schxslt = "name.dmaus.schxslt:schxslt:1.10.1"
@@ -59,9 +59,9 @@ netty-handler = "io.netty:netty-handler:4.2.15.Final"
 # CVE-2026-24734
 tomcat-embed-core = "org.apache.tomcat.embed:tomcat-embed-core:10.1.55"
 # CVE-2026-22732
-spring-security-web = "org.springframework.security:spring-security-web:6.5.9"
+spring-security-web = "org.springframework.security:spring-security-web:6.5.11"
 # GHSA-72hv-8253-57qq
-jackson-core = "com.fasterxml.jackson.core:jackson-core:2.21.3"
+jackson-core = "com.fasterxml.jackson.core:jackson-core:2.21.4"
 
 [plugins]
 dependency-license-report = "com.github.jk1.dependency-license-report:3.1.2"

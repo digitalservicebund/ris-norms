@@ -179,6 +179,7 @@
                <ris:einzelelement href="#art-z20">
                   <ris:artDerNorm>SN</ris:artDerNorm>
                </ris:einzelelement>
+               <ris:abkuerzung refersTo="nicht-amtliche-abkuerzung">VereinsG</ris:abkuerzung>
                <ris:inkraft date="1964-08-05"/>
                <ris:ausserkraft date="2030-01-01"/>
                <ris:vollzitat>Gesetz vom 5. August 1964 (BGBl. 1964 I S. 593)</ris:vollzitat>
